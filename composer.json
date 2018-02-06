@@ -1,7 +1,7 @@
 {
     "name": "sylius/plugin-skeleton",
     "type": "sylius-plugin",
-    "description": "Acme example plugin for Sylius.",
+    "description": "Brille24 customer options bundle for Sylius.",
     "license": "MIT",
     "require": {
         "php": "^7.1",
@@ -30,8 +30,8 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Acme\\SyliusExamplePlugin\\": "src/",
-            "Tests\\Acme\\SyliusExamplePlugin\\": "tests/"
+            "Brille24\\CustomerOptionsBundle\\": "src/",
+            "Tests\\Brille24\\CustomerOptionsBundle\\": "tests/"
         }
     },
     "autoload-dev": {
