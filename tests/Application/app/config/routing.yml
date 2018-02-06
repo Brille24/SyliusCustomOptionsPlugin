@@ -4,4 +4,4 @@ sylius:
 # Put your own routes here
 
 acme_sylius_example_shop:
-    resource: "@AcmeSyliusExamplePlugin/Resources/config/app/shop_routing.yml"
+    resource: "@Brille24CustomerOptionsBundle/Resources/config/app/shop_routing.yml"
