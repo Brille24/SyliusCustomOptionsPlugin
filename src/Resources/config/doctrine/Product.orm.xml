@@ -2,5 +2,5 @@
     <mapped-superclass name="Brille24\CustomerOptionsBundle\Entity\Product" table="sylius_product">
         <many-to-one target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroup"
                      field="customerOptionGroup"/>
-    </mapped-superclass>>
+    </mapped-superclass>
 </doctrine-mapping>

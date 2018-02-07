@@ -8,7 +8,6 @@
 
 namespace Brille24\CustomerOptionsBundle\Entity\CustomerOptions;
 
-
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
