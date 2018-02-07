@@ -8,6 +8,8 @@ use Brille24\CustomerOptionsBundle\Entity\CustomerOptionGroup;
 use Brille24\CustomerOptionsBundle\Entity\CustomerOptionGroupInterface;
 use Brille24\CustomerOptionsBundle\Entity\CustomerOptionGroupTranslation;
 use Brille24\CustomerOptionsBundle\Entity\CustomerOptionGroupTranslationInterface;
+use Brille24\CustomerOptionsBundle\Entity\Product;
+use Brille24\CustomerOptionsBundle\Entity\ProductInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -29,6 +31,7 @@ final class Configuration implements ConfigurationInterface
             ->end();
 
         $this->addResourceSection($rootNode);
+        $this->addOverrides($treeBuilder);
 
         return $treeBuilder;
     }
@@ -69,6 +72,29 @@ final class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                     ->end()
+                ->end()
+            ->end();
+    }
+
+    private function addOverrides(TreeBuilder $treeBuilder) {
+        // Overriding the sylius product
+        $treeBuilder->root('sylius_product')
+            ->children()
+                ->arrayNode('resources')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('product')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->variableNode('options')->end()
+                            ->arrayNode('classes')
+                                ->addDefaultsIfNotSet()
+                                ->children()
+                                    ->scalarNode('model')->defaultValue(Product::class)->cannotBeEmpty()->end()
+                                    ->scalarNode('model')->defaultValue(ProductInterface::class)->cannotBeEmpty()->end()
+                                ->end()
+                            ->end()
+                        ->end()
                 ->end()
             ->end();
     }

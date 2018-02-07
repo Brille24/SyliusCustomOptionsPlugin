@@ -3,17 +3,29 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 
 class CustomerOptionGroup implements CustomerOptionGroupInterface
 {
-    use TranslatableTrait;
+    use TranslatableTrait {
+        __construct as protected initializeTranslationsCollection;
+    }
 
     /** @var int */
     private $id;
 
     /** @var string */
     private $code;
+
+    /** @var ArrayCollection */
+    private $customerOptions;
+
+    public function __construct()
+    {
+        $this->customerOptions = new ArrayCollection();
+        $this->initializeTranslationsCollection();
+    }
 
     /**
      * @return CustomerOptionGroupTranslationInterface
@@ -70,5 +82,25 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     public function __toString(): string
     {
         return (string)$this->getName();
+    }
+
+    /**
+     * @return CustomerOption[]
+     */
+    public function getCustomerOptions(): array
+    {
+        return $this->customerOptions->toArray();
+    }
+
+    /**
+     * @param array $customerOptions
+     */
+    public function setCustomerOptions(array $customerOptions): void
+    {
+        $customerOptions = array_filter(
+            $customerOptions,
+            function ($value) { return $value instanceof CustomerOptionInterface; });
+
+        $this->customerOptions = new ArrayCollection($customerOptions);
     }
 }
