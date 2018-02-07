@@ -1,5 +1,5 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
-    <entity name="Brille24\CustomerOptionsBundle\Entity\CustomerOptionValuePrice"
+    <entity name="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionValuePrice"
             table="brille24_customer_option_value_price">
         <id name="id" />
 
@@ -8,6 +8,6 @@
 
         <field name="type" type="string" length="10" />
 
-        <one-to-one field="customerOptionValue" target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptionValue" />
+        <one-to-one field="customerOptionValue" target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionValue" />
     </entity>
 </doctrine-mapping>

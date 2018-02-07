@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsBundle\Traits;
 
 
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptionGroup;
+
+use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroup;
 
 interface CustomerOptionGroupTraitInterface
 {

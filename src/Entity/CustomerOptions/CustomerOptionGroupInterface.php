@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsBundle\Entity;
+namespace Brille24\CustomerOptionsBundle\Entity\CustomerOptions;
 
+use Brille24\CustomerOptionsBundle\Entity\ProductInterface;
 use Sylius\Component\Resource\Model\CodeAwareInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
