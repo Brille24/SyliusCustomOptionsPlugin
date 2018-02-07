@@ -4,11 +4,11 @@
         xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
-    <entity name="Brille24\CustomerOptionsBundle\Entity\CustomerOptionTranslation" table="brille24_customer_option_translation">
+    <entity name="Brille24\CustomerOptionsBundle\Entity\CustomerOptionValueTranslation" table="brille24_customer_option_value_translation">
         <id name="id"/>
 
         <field name="name" type="string" nullable="true"/>
 
-        <many-to-one target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOption" field="translatable" inversed-by="translations"/>
+        <many-to-one target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptionValue" field="translatable" inversed-by="translations"/>
     </entity>
 </doctrine-mapping>
