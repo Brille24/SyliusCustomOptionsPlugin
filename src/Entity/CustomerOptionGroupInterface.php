@@ -19,6 +19,21 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
     public function setName(?string $name): void;
 
     /**
+     * @return CustomerOptionInterface[]
+     */
+    public function getCustomerOptions(): array;
+
+    /**
+     * @param array $customerOptions
+     */
+    public function setCustomerOptions(array $customerOptions): void;
+
+    /**
+     * @return ProductInterface[]
+     */
+    public function getProducts(): array;
+
+    /**
      * @return string
      */
     public function __toString(): string;

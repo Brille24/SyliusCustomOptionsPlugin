@@ -21,9 +21,13 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     /** @var ArrayCollection */
     private $customerOptions;
 
+    /** @var ArrayCollection */
+    private $products;
+
     public function __construct()
     {
         $this->customerOptions = new ArrayCollection();
+        $this->products        = new ArrayCollection();
         $this->initializeTranslationsCollection();
     }
 
@@ -35,17 +39,13 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
         return new CustomerOptionGroupTranslation();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    /** {@inheritdoc} */
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return null|string
-     */
+    /** {@inheritdoc} */
     public function getName(): ?string
     {
         /** @var CustomerOptionGroupTranslationInterface $translation */
@@ -53,6 +53,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
         return $translation->getName();
     }
 
+    /** {@inheritdoc} */
     public function setName(?string $name): void
     {
         /** @var CustomerOptionGroupTranslationInterface $translation */
@@ -60,41 +61,25 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
         $translation->setName($name);
     }
 
-    /**
-     * @return string
-     */
+    /** {@inheritdoc} */
     public function getCode(): ?string
     {
         return $this->code;
     }
 
-    /**
-     * @param string $code
-     */
+    /** {@inheritdoc} */
     public function setCode(?string $code): void
     {
         $this->code = $code;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return (string)$this->getName();
-    }
-
-    /**
-     * @return CustomerOption[]
-     */
+    /** {@inheritdoc} */
     public function getCustomerOptions(): array
     {
         return $this->customerOptions->toArray();
     }
 
-    /**
-     * @param array $customerOptions
-     */
+    /** {@inheritdoc} */
     public function setCustomerOptions(array $customerOptions): void
     {
         $customerOptions = array_filter(
@@ -102,5 +87,28 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
             function ($value) { return $value instanceof CustomerOptionInterface; });
 
         $this->customerOptions = new ArrayCollection($customerOptions);
+    }
+
+    /** {@inheritdoc} */
+    public function getProducts(): array
+    {
+        return $this->products->toArray();
+    }
+
+    /**
+     * @param array $customerOptions
+     */
+    public function setProducts(array $customerOptions): void
+    {
+        $customerOptions = array_filter(
+            $customerOptions,
+            function ($value) { return $value instanceof ProductInterface; });
+
+        $this->products = new ArrayCollection($customerOptions);
+    }
+
+    public function __toString(): string
+    {
+        return (string)$this->getName();
     }
 }
