@@ -1,0 +1,18 @@
+<doctrine-mapping
+        xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                            http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+>
+    <entity name="Brille24\CustomerOptionsBundle\Entity\CustomerOption" table="brille24_customerOption">
+        <id name="id"/>
+
+        <field name="type" type="string" unique="false" nullable="false"/>
+        <field name="code" type="string" unique="true" nullable="false"/>
+        <field name="required" type="boolean"/>
+
+        <!--<one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptionValue" mapped-by="option" field="values"/>-->
+        <one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptionCustomerOptionGroup"
+                     mapped-by="option" field="optionGroups" />
+    </entity>
+</doctrine-mapping>

@@ -12,7 +12,6 @@ namespace Brille24\CustomerOptionsBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
-use Sylius\Component\Resource\Model\TranslationInterface;
 
 class CustomerOption implements CustomerOptionInterface
 {
@@ -29,17 +28,14 @@ class CustomerOption implements CustomerOptionInterface
     /** @var null|string */
     protected $code;
 
-    /** @var null|string */
-    protected $name;
-
     /** @var bool */
     protected $required;
 
-    /** @var Collection */
+    /** @var Collection|CustomerOptionValueInterface[] */
     protected $values;
 
-    /** @var Collection */
-    protected $groups;
+    /** @var Collection|CustomerOptionCustomerOptionGroupInterface[] */
+    protected $optionGroups;
 
 
     public function __construct()
@@ -93,22 +89,6 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function setName(?string $name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function setRequired(bool $required)
     {
         $this->required = $required;
@@ -157,39 +137,39 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function getGroups()
+    public function getOptionGroups()
     {
-        return $this->groups;
+        return $this->optionGroups;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addGroup($group)
+    public function addOptionGroup($optionGroup)
     {
-        $this->groups->add($group);
+        $this->optionGroups->add($optionGroup);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function removeGroup($group)
+    public function removeOptionGroup($optionGroup)
     {
-        $this->groups->removeElement($group);
+        $this->optionGroups->removeElement($optionGroup);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setGroups($groups): void
+    public function setOptionGroups($optionGroups): void
     {
-        $this->groups = $groups;
+        $this->optionGroups = $optionGroups;
     }
 
     /**
-     * {@inheritdoc}
+     * @return CustomerOptionTranslationInterface
      */
-    protected function createTranslation(): TranslationInterface
+    protected function createTranslation(): CustomerOptionTranslationInterface
     {
         return new CustomerOptionTranslation();
     }

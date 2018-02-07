@@ -36,16 +36,6 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     public function getCode() : ?string;
 
     /**
-     * @param null|string $name
-     */
-    public function setName(?string $name);
-
-    /**
-     * @return null|string
-     */
-    public function getName() : ?string;
-
-    /**
      * @param bool $required
      */
     public function setRequired(bool $required);
@@ -56,17 +46,17 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     public function isRequired() : bool;
 
     /**
-     * @param $values
+     * @param Collection $values
      */
     public function setValues($values);
 
     /**
-     * @param $value
+     * @param CustomerOptionValueInterface $value
      */
     public function addValue($value);
 
     /**
-     * @param $value
+     * @param CustomerOptionValueInterface $value
      */
     public function removeValue($value);
 
@@ -76,22 +66,22 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     public function getValues();
 
     /**
-     * @param $groups
+     * @param Collection $groups
      */
-    public function setGroups($groups);
+    public function setOptionGroups($groups);
 
     /**
-     * @param $group
+     * @param CustomerOptionCustomerOptionGroupInterface $group
      */
-    public function addGroup($group);
+    public function addOptionGroup($group);
 
     /**
-     * @param $group
+     * @param CustomerOptionCustomerOptionGroupInterface $group
      */
-    public function removeGroup($group);
+    public function removeOptionGroup($group);
 
     /**
      * @return Collection
      */
-    public function getGroups();
+    public function getOptionGroups();
 }
