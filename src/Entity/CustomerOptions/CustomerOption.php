@@ -6,7 +6,7 @@
  * Time: 10:03
  */
 
-namespace Brille24\CustomerOptionsBundle\Entity;
+namespace Brille24\CustomerOptionsBundle\Entity\CustomerOptions;
 
 
 use Doctrine\Common\Collections\ArrayCollection;

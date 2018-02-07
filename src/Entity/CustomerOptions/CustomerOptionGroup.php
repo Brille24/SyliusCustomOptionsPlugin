@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsBundle\Entity;
+namespace Brille24\CustomerOptionsBundle\Entity\CustomerOptions;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Resource\Model\TranslatableTrait;

@@ -6,7 +6,7 @@
  * Time: 13:15
  */
 
-namespace Brille24\CustomerOptionsBundle\Entity;
+namespace Brille24\CustomerOptionsBundle\Entity\CustomerOptions;
 
 
 use Sylius\Component\Resource\Model\AbstractTranslation;
