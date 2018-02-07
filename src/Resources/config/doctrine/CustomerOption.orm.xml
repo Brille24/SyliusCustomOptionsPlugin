@@ -10,9 +10,5 @@
         <field name="type" type="string" unique="false" nullable="false"/>
         <field name="code" type="string" unique="true" nullable="false"/>
         <field name="required" type="boolean"/>
-
-        <!--<one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptionValue" mapped-by="option" field="values"/>-->
-        <one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptionCustomerOptionGroup"
-                     mapped-by="option" field="optionGroups" />
     </entity>
 </doctrine-mapping>
