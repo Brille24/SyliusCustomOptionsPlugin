@@ -9,7 +9,16 @@
 namespace Brille24\CustomerOptionsBundle\Entity;
 
 
-interface CustomerOptionValueInterface
-{
+use Sylius\Component\Resource\Model\ResourceInterface;
+use Sylius\Component\Resource\Model\TranslatableInterface;
 
+interface CustomerOptionValueInterface extends ResourceInterface, TranslatableInterface
+{
+    public function setCode(string $code);
+
+    public function getCode() : string ;
+
+    public function setValue(string $value);
+
+    public function getValue() : string ;
 }

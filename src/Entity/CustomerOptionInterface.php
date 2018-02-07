@@ -68,20 +68,20 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     /**
      * @param Collection $groups
      */
-    public function setOptionGroups($groups);
+    public function setGroups($groups);
 
     /**
-     * @param CustomerOptionCustomerOptionGroupInterface $group
+     * @param CustomerOptionGroupInterface $group
      */
-    public function addOptionGroup($group);
+    public function addGroup($group);
 
     /**
-     * @param CustomerOptionCustomerOptionGroupInterface $group
+     * @param CustomerOptionGroupInterface $group
      */
-    public function removeOptionGroup($group);
+    public function removeGroup($group);
 
     /**
      * @return Collection
      */
-    public function getOptionGroups();
+    public function getGroups();
 }
