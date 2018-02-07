@@ -7,7 +7,15 @@
     <entity name="Brille24\CustomerOptionsBundle\Entity\CustomerOptionGroup">
         <id name="id"/>
 
-        <field name="code" />
-
+        <field name="code"/>
+        <many-to-many
+                target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOption"
+                mapped-by="groups"
+                field="customerOptions"
+        >
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </many-to-many>
     </entity>
 </doctrine-mapping>
