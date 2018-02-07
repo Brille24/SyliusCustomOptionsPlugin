@@ -25,6 +25,9 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /** @var string */
     protected $value;
 
+    /** @var CustomerOptionValuePriceInterface */
+    protected $price;
+
     /**
      * {@inheritdoc}
      */
@@ -63,6 +66,22 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     public function getValue(): string
     {
         return $this->value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPrice(CustomerOptionValuePriceInterface $price)
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPrice(): CustomerOptionValuePriceInterface
+    {
+        return $this->price;
     }
 
     /**

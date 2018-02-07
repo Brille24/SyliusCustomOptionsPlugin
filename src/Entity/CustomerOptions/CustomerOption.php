@@ -34,8 +34,8 @@ class CustomerOption implements CustomerOptionInterface
     /** @var Collection|CustomerOptionValueInterface[] */
     protected $values;
 
-    /** @var Collection|CustomerOptionGroupInterface[] */
-    protected $groups;
+    /** @var CustomerOptionAssociationInterface */
+    protected $groupAssociation;
 
 
     public function __construct()
@@ -137,33 +137,17 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function getGroups()
+    public function getGroupAssociation()
     {
-        return $this->groups;
+        return $this->groupAssociation;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addGroup($group)
+    public function setGroupAssociation($assoc): void
     {
-        $this->groups->add($group);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeGroup($group)
-    {
-        $this->groups->removeElement($group);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setGroups($groups): void
-    {
-        $this->groups = $groups;
+        $this->groupAssociation = $assoc;
     }
 
     /**

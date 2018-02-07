@@ -13,5 +13,12 @@
 
         <one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionTranslation" mapped-by="translatable"
                      field="translations" />
+
+        <one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionAssociation"
+                     mapped-by="option" field="groupAssociation">
+            <order-by>
+                <order-by-field name="position"/>
+            </order-by>
+        </one-to-many>
     </entity>
 </doctrine-mapping>

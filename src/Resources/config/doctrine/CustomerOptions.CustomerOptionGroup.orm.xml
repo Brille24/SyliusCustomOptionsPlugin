@@ -8,14 +8,15 @@
         <id name="id"/>
 
         <field name="code"/>
-        <many-to-many
-                target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOption"
-                mapped-by="groups"
-                field="customerOptions"
-        >
-            <cascade>
-                <cascade-persist/>
-            </cascade>
-        </many-to-many>
+        
+        <one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroupTranslation" 
+                     mapped-by="translatable" field="translations" />
+        
+        <one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionAssociation"
+                     mapped-by="group" field="customerOptionAssociations">
+            <order-by>
+                <order-by-field name="position"/>
+            </order-by>
+        </one-to-many>
     </entity>
 </doctrine-mapping>

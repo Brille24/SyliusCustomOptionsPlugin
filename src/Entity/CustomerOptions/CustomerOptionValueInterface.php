@@ -22,7 +22,7 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
     /**
      * @return string
      */
-    public function getCode() : string ;
+    public function getCode() : string;
 
     /**
      * @param string $value
@@ -32,5 +32,15 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
     /**
      * @return string
      */
-    public function getValue() : string ;
+    public function getValue() : string;
+
+    /**
+     * @param CustomerOptionValuePriceInterface $price
+     */
+    public function setPrice(CustomerOptionValuePriceInterface $price);
+
+    /**
+     * @return CustomerOptionValuePriceInterface
+     */
+    public function getPrice() : CustomerOptionValuePriceInterface;
 }
