@@ -14,11 +14,23 @@ use Sylius\Component\Resource\Model\TranslatableInterface;
 
 interface CustomerOptionValueInterface extends ResourceInterface, TranslatableInterface
 {
+    /**
+     * @param string $code
+     */
     public function setCode(string $code);
 
+    /**
+     * @return string
+     */
     public function getCode() : string ;
 
+    /**
+     * @param string $value
+     */
     public function setValue(string $value);
 
+    /**
+     * @return string
+     */
     public function getValue() : string ;
 }

@@ -9,7 +9,7 @@
 namespace Brille24\CustomerOptionsBundle\Repository;
 
 
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptionInterface;
+use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 class CustomerOptionRepository extends EntityRepository implements CustomerOptionRepositoryInterface

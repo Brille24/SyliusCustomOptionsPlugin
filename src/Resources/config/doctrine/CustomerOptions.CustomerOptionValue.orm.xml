@@ -10,7 +10,7 @@
         <field name="code" type="string" nullable="false" unique="true" />
         <field name="value" type="string" nullable="false" />
 
-        <one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptionValueTranslation"
+        <one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionValueTranslation"
                      mapped-by="translatable"
                      field="translations" />
     </entity>

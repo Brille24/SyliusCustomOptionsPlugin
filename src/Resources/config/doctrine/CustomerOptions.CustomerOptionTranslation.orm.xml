@@ -9,6 +9,6 @@
 
         <field name="name" type="string" nullable="true"/>
 
-        <many-to-one target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOption" field="translatable" inversed-by="translations"/>
+        <many-to-one target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOption" field="translatable" inversed-by="translations"/>
     </entity>
 </doctrine-mapping>

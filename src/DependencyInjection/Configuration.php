@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsBundle\DependencyInjection;
 
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptionGroup;
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptionGroupInterface;
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptionGroupTranslation;
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptionGroupTranslationInterface;
+use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroup;
+use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroupTranslation;
+use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroupTranslationInterface;
 use Brille24\CustomerOptionsBundle\Entity\Product;
 use Brille24\CustomerOptionsBundle\Entity\ProductInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;

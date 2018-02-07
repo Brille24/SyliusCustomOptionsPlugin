@@ -9,7 +9,7 @@
 
         <field name="code"/>
         <many-to-many
-                target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOption"
+                target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOption"
                 mapped-by="groups"
                 field="customerOptions"
         >

@@ -11,7 +11,7 @@
         <field name="code" type="string" unique="true" nullable="false"/>
         <field name="required" type="boolean"/>
 
-        <one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptionTranslation" mapped-by="translatable"
+        <one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionTranslation" mapped-by="translatable"
                      field="translations" />
     </entity>
 </doctrine-mapping>
