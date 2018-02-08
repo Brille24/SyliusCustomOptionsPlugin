@@ -11,27 +11,25 @@ use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroupTra
 use Brille24\CustomerOptionsBundle\Entity\Product;
 use Brille24\CustomerOptionsBundle\Entity\ProductInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
-use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
+use Sylius\Component\Resource\Factory\Factory;
+use Sylius\Component\Resource\Factory\TranslatableFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
+
     /**
      * {@inheritdoc}
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode    = $treeBuilder->root('brille24_customer_options_bundle');
-        $rootNode->addDefaultChildrenIfNoneSet()
-            ->children()
-                ->scalarNode('driver')->defaultValue(SyliusResourceBundle::DRIVER_DOCTRINE_ORM)->end()
-            ->end();
+        $rootNode    = $treeBuilder->root('brille24_customer_options');
 
+        // Adding new resources
         $this->addResourceSection($rootNode);
-        $this->addOverrides($treeBuilder);
 
         return $treeBuilder;
     }
@@ -43,7 +41,7 @@ final class Configuration implements ConfigurationInterface
                 ->arrayNode('resources')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->arrayNode('customOptionGroup')
+                        ->arrayNode('customer_option_group')
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->variableNode('options')->end()
@@ -52,6 +50,7 @@ final class Configuration implements ConfigurationInterface
                                     ->children()
                                         ->scalarNode('model')->defaultValue(CustomerOptionGroup::class)->cannotBeEmpty()->end()
                                         ->scalarNode('interface')->defaultValue(CustomerOptionGroupInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(TranslatableFactory::class)->cannotBeEmpty()->end()
                                     ->end()
                                 ->end()
                                 ->arrayNode('translation')
@@ -64,6 +63,7 @@ final class Configuration implements ConfigurationInterface
                                                 ->scalarNode('model')->defaultValue(CustomerOptionGroupTranslation::class)->cannotBeEmpty()->end()
                                                 ->scalarNode('interface')->defaultValue(CustomerOptionGroupTranslationInterface::class)->cannotBeEmpty()->end()
                                                 ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
                                                 ->scalarNode('repository')->cannotBeEmpty()->end()
                                             ->end()
                                         ->end()
@@ -72,29 +72,6 @@ final class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                     ->end()
-                ->end()
-            ->end();
-    }
-
-    private function addOverrides(TreeBuilder $treeBuilder) {
-        // Overriding the sylius product
-        $treeBuilder->root('sylius_product')
-            ->children()
-                ->arrayNode('resources')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->arrayNode('product')
-                        ->addDefaultsIfNotSet()
-                        ->children()
-                            ->variableNode('options')->end()
-                            ->arrayNode('classes')
-                                ->addDefaultsIfNotSet()
-                                ->children()
-                                    ->scalarNode('model')->defaultValue(Product::class)->cannotBeEmpty()->end()
-                                    ->scalarNode('model')->defaultValue(ProductInterface::class)->cannotBeEmpty()->end()
-                                ->end()
-                            ->end()
-                        ->end()
                 ->end()
             ->end();
     }
