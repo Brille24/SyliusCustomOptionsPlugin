@@ -27,7 +27,7 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
     /**
      * @param array $customerOptions
      */
-    public function setCustomerOptionAssaciations(array $assocs): void;
+    public function setCustomerOptionAssociations(array $associations): void;
 
     /**
      * @return ProductInterface[]

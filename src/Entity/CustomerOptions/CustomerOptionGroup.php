@@ -81,13 +81,13 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     }
 
     /** {@inheritdoc} */
-    public function setCustomerOptionAssaciations(array $assocs): void
+    public function setCustomerOptionAssociations(array $associations): void
     {
-        $assocs = array_filter(
-            $assocs,
+        $associations = array_filter(
+            $associations,
             function ($value) { return $value instanceof CustomerOptionAssociationInterface; });
 
-        $this->customerOptionAssociations = new ArrayCollection($assocs);
+        $this->customerOptionAssociations = new ArrayCollection($associations);
     }
 
     /** {@inheritdoc} */
