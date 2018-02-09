@@ -1,0 +1,17 @@
+{{ form_errors(form) }}
+
+<div class="ui segment">
+    <div class="three fields">
+        {{ form_row(form.code) }}
+        {{ form_row(form.type) }}
+        {{ form_row(form.required) }}
+    </div>
+</div>
+{% if form.configuration is defined %}
+<div class="ui segment">
+    <h4 class="ui dividing header">{{ 'sylius.ui.configuration'|trans }}</h4>
+    {% for field in form.configuration %}
+        {{ form_row(field) }}
+    {% endfor %}
+</div>
+{% endif %}

@@ -1,0 +1,12 @@
+brille24:
+    menu:
+        admin:
+            customer_options:
+                header: CustomerOptions
+                subheader: Manage your CustomerOptions
+                code: Code
+                type: Type
+                required: Required
+            customer_option_groups:
+                header: CustomerOptionGroups
+                subheader: Manage your CustomerOptionGroups

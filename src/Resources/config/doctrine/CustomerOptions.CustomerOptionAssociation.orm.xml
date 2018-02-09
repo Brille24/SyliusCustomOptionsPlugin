@@ -9,7 +9,10 @@
             <unique-constraint columns="option_id,group_id"/>
         </unique-constraints>
 
-        <id name="id" />
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+
         <field name="position" type="integer" />
 
         <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption" field="option" inversed-by="groupAssociation"/>
