@@ -20,14 +20,14 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     private $code;
 
     /** @var ArrayCollection */
-    private $customerOptionAssociations;
+    private $optionAssociations;
 
     /** @var ArrayCollection */
     private $products;
 
     public function __construct()
     {
-        $this->customerOptionAssociations = new ArrayCollection();
+        $this->optionAssociations = new ArrayCollection();
         $this->products        = new ArrayCollection();
         $this->initializeTranslationsCollection();
     }
@@ -75,19 +75,19 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     }
 
     /** {@inheritdoc} */
-    public function getCustomerOptionAssociations(): array
+    public function getOptionAssociations(): array
     {
-        return $this->customerOptionAssociations->toArray();
+        return $this->optionAssociations->toArray();
     }
 
     /** {@inheritdoc} */
-    public function setCustomerOptionAssociations(array $associations): void
+    public function setOptionAssociations(array $associations): void
     {
         $associations = array_filter(
             $associations,
             function ($value) { return $value instanceof CustomerOptionAssociationInterface; });
 
-        $this->customerOptionAssociations = new ArrayCollection($associations);
+        $this->optionAssociations = new ArrayCollection($associations);
     }
 
     /** {@inheritdoc} */

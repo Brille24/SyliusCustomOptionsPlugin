@@ -7,7 +7,7 @@
     <entity name="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionTranslation" table="brille24_customer_option_translation">
         <id name="id"/>
 
-        <field name="name" type="string" nullable="true"/>
+        <field name="name" nullable="true"/>
 
         <many-to-one target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOption" field="translatable" inversed-by="translations"/>
     </entity>

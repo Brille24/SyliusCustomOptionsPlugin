@@ -22,12 +22,12 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
     /**
      * @return CustomerOptionAssociationInterface[]
      */
-    public function getCustomerOptionAssociations(): array;
+    public function getOptionAssociations(): array;
 
     /**
      * @param array $customerOptions
      */
-    public function setCustomerOptionAssociations(array $associations): void;
+    public function setOptionAssociations(array $associations): void;
 
     /**
      * @return ProductInterface[]

@@ -4,6 +4,8 @@
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
     <entity name="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroupTranslation" table="brille24_customer_option_group_translation">
         <id name="id" />
-        <field name="name" />
+        <field name="name" nullable="true"/>
+
+        <many-to-one target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroup" field="translatable" inversed-by="translations"/>
     </entity>
 </doctrine-mapping>

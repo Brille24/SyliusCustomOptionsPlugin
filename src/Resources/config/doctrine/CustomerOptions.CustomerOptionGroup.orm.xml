@@ -13,7 +13,7 @@
                      mapped-by="translatable" field="translations" />
         
         <one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionAssociation"
-                     mapped-by="group" field="customerOptionAssociations">
+                     mapped-by="group" field="optionAssociations">
             <order-by>
                 <order-by-field name="position"/>
             </order-by>

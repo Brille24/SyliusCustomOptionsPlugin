@@ -12,7 +12,7 @@
         <id name="id" />
         <field name="position" type="integer" />
 
-        <many-to-one target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOption" field="option"/>
-        <many-to-one target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroup" field="group"/>
+        <many-to-one target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOption" field="option" inversed-by="groupAssociation"/>
+        <many-to-one target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroup" field="group" inversed-by="optionAssociations"/>
     </entity>
 </doctrine-mapping>

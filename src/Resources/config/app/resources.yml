@@ -3,4 +3,3 @@ sylius_product:
         product:
             classes:
                 model: Brille24\CustomerOptionsBundle\Entity\Product
-                interface: Brille24\CustomerOptionsBundle\Entity\ProductInterface

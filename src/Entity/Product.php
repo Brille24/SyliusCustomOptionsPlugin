@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsBundle\Entity;
 
 use Brille24\CustomerOptionsBundle\Traits\CustomerOptionGroupTrait;
-use Sylius\Component\Product\Model\Product as BaseProduct;
+use Sylius\Component\Core\Model\Product as BaseProduct;
 
 class Product extends BaseProduct
 {
