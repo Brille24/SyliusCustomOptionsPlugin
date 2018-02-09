@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsBundle\DependencyInjection;
 
+use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOption;
 use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroup;
 use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroupTranslation;
 use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroupTranslationInterface;
+use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionTranslation;
+use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionTranslationInterface;
 use Brille24\CustomerOptionsBundle\Entity\Product;
 use Brille24\CustomerOptionsBundle\Entity\ProductInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Component\Resource\Factory\Factory;
 use Sylius\Component\Resource\Factory\TranslatableFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -41,6 +47,36 @@ final class Configuration implements ConfigurationInterface
                 ->arrayNode('resources')
                     ->addDefaultsIfNotSet()
                     ->children()
+                        ->arrayNode('customer_option')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->variableNode('options')->end()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(CustomerOption::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(CustomerOptionInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(TranslatableFactory::class)->cannotBeEmpty()->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('translation')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->variableNode('options')->end()
+                                        ->arrayNode('classes')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->scalarNode('model')->defaultValue(CustomerOptionTranslation::class)->cannotBeEmpty()->end()
+                                            ->scalarNode('interface')->defaultValue(CustomerOptionTranslationInterface::class)->cannotBeEmpty()->end()
+                                            ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                            ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
+                                            ->scalarNode('repository')->cannotBeEmpty()->end()
+                                            ->end()
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
                         ->arrayNode('customer_option_group')
                             ->addDefaultsIfNotSet()
                             ->children()
