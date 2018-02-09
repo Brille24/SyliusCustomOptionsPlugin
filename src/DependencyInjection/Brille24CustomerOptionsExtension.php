@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsBundle\DependencyInjection;
+namespace Brille24\CustomerOptionsPlugin\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

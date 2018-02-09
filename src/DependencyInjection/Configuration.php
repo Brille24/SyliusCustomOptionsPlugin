@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsBundle\DependencyInjection;
+namespace Brille24\CustomerOptionsPlugin\DependencyInjection;
 
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOption;
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroup;
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroupInterface;
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroupTranslation;
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroupTranslationInterface;
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionTranslation;
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionTranslationInterface;
-use Brille24\CustomerOptionsBundle\Entity\Product;
-use Brille24\CustomerOptionsBundle\Entity\ProductInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTranslation;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTranslationInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionTranslation;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionTranslationInterface;
+use Brille24\CustomerOptionsPlugin\Entity\Product;
+use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Component\Resource\Factory\Factory;
 use Sylius\Component\Resource\Factory\TranslatableFactory;

@@ -6,10 +6,10 @@
  * Time: 10:55
  */
 
-namespace Brille24\CustomerOptionsBundle\Repository;
+namespace Brille24\CustomerOptionsPlugin\Repository;
 
 
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 interface CustomerOptionRepositoryInterface extends RepositoryInterface

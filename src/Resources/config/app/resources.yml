@@ -2,4 +2,4 @@ sylius_product:
     resources:
         product:
             classes:
-                model: Brille24\CustomerOptionsBundle\Entity\Product
+                model: Brille24\CustomerOptionsPlugin\Entity\Product

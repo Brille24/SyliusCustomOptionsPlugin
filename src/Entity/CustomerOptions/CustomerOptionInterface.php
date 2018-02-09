@@ -6,7 +6,7 @@
  * Time: 17:45
  */
 
-namespace Brille24\CustomerOptionsBundle\Entity\CustomerOptions;
+namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 
 use Doctrine\Common\Collections\Collection;

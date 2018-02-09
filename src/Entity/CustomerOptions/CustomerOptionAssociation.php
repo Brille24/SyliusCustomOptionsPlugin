@@ -6,7 +6,7 @@
  * Time: 15:55
  */
 
-namespace Brille24\CustomerOptionsBundle\Entity\CustomerOptions;
+namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 
 class CustomerOptionAssociation implements CustomerOptionAssociationInterface

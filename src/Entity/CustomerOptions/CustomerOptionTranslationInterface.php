@@ -6,7 +6,7 @@
  * Time: 10:28
  */
 
-namespace Brille24\CustomerOptionsBundle\Entity\CustomerOptions;
+namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 
 use Sylius\Component\Resource\Model\ResourceInterface;

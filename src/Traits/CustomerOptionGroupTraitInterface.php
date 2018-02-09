@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsBundle\Traits;
+namespace Brille24\CustomerOptionsPlugin\Traits;
 
 
 
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroup;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
 
 interface CustomerOptionGroupTraitInterface
 {

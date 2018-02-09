@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsBundle\Entity\CustomerOptions;
+namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;

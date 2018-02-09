@@ -4,15 +4,15 @@
         xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
-    <entity name="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroup" table="brille24_customer_option_group">
+    <entity name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup" table="brille24_customer_option_group">
         <id name="id"/>
 
         <field name="code"/>
         
-        <one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionGroupTranslation" 
+        <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTranslation"
                      mapped-by="translatable" field="translations" />
         
-        <one-to-many target-entity="Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionAssociation"
+        <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation"
                      mapped-by="group" field="optionAssociations">
             <order-by>
                 <order-by-field name="position"/>

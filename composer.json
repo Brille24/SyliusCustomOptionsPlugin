@@ -30,8 +30,8 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Brille24\\CustomerOptionsBundle\\": "src/",
-            "Tests\\Brille24\\CustomerOptionsBundle\\": "tests/"
+            "Brille24\\CustomerOptionsPlugin\\": "src/",
+            "Tests\\Brille24\\CustomerOptionsPlugin\\": "tests/"
         }
     },
     "autoload-dev": {

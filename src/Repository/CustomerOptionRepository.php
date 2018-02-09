@@ -6,10 +6,10 @@
  * Time: 10:58
  */
 
-namespace Brille24\CustomerOptionsBundle\Repository;
+namespace Brille24\CustomerOptionsPlugin\Repository;
 
 
-use Brille24\CustomerOptionsBundle\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 class CustomerOptionRepository extends EntityRepository implements CustomerOptionRepositoryInterface

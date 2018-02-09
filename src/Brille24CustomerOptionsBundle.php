@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsBundle;
+namespace Brille24\CustomerOptionsPlugin;
 
-use Brille24\CustomerOptionsBundle\DependencyInjection\Brille24CustomerOptionsExtension;
+use Brille24\CustomerOptionsPlugin\DependencyInjection\Brille24CustomerOptionsExtension;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
