@@ -28,7 +28,7 @@ class CustomerOption implements CustomerOptionInterface
     /** @var null|string */
     protected $code;
 
-    /** @var bool */
+    /** @var null|bool */
     protected $required;
 
     /** @var Collection|CustomerOptionValueInterface[] */
@@ -97,7 +97,7 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function isRequired(): bool
+    public function isRequired(): ?bool
     {
         return $this->required;
     }

@@ -1,0 +1,5 @@
+brille24_customer_options_admin:
+    resource: "@Brille24CustomerOptionsPlugin/Resources/config/app/routing/admin/customer_options.yml"
+
+brille24_customer_option_groups_admin:
+    resource: "@Brille24CustomerOptionsPlugin/Resources/config/app/routing/admin/customer_option_groups.yml"

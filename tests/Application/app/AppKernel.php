@@ -19,7 +19,7 @@ final class AppKernel extends Kernel
             new \FOS\OAuthServerBundle\FOSOAuthServerBundle(), // Required by SyliusApiBundle
             new \Sylius\Bundle\AdminApiBundle\SyliusAdminApiBundle(),
 
-            new \Brille24\CustomerOptionsPlugin\Brille24CustomerOptionsBundle(),
+            new \Brille24\CustomerOptionsPlugin\Brille24CustomerOptionsPlugin(),
         ]);
     }
 

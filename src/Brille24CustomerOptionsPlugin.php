@@ -8,7 +8,7 @@ use Brille24\CustomerOptionsPlugin\DependencyInjection\Brille24CustomerOptionsEx
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-final class Brille24CustomerOptionsBundle extends Bundle
+final class Brille24CustomerOptionsPlugin extends Bundle
 {
     use SyliusPluginTrait;
 

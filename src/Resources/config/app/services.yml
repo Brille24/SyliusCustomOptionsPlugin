@@ -1,0 +1,5 @@
+services:
+    app.listener.admin.menu_builder:
+        class: Brille24\CustomerOptionsPlugin\Menu\AdminMenuListener
+        tags:
+            - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }

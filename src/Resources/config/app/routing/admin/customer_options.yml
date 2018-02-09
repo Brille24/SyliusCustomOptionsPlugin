@@ -1,0 +1,16 @@
+brille24_customer_options_admin:
+    resource: |
+        alias: brille24.customer_option
+        section: admin
+        templates: SyliusAdminBundle:Crud
+        except: ['show']
+        redirect: update
+        grid: brille24_admin_customer_option_grid
+        permission: true
+        vars:
+            all:
+                templates:
+                    form: Brille24CustomerOptionsPlugin:CustomerOption:_form.html.twig
+            index:
+                icon: cube
+    type: sylius.resource

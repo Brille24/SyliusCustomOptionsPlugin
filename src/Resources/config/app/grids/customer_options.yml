@@ -1,0 +1,24 @@
+sylius_grid:
+    grids:
+        brille24_admin_customer_option_grid:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption
+            fields:
+                code:
+                    type: string
+                    label: Code
+                type:
+                    type: string
+                    label: Type
+                required:
+                    type: boolean
+                    label: Required
+            actions:
+                main:
+                    create:
+                        type: create
+                item:
+                    update:
+                        type: update

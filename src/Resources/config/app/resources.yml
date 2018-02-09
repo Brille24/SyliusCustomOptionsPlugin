@@ -3,3 +3,12 @@ sylius_product:
         product:
             classes:
                 model: Brille24\CustomerOptionsPlugin\Entity\Product
+
+sylius_resource:
+    resources:
+        brille24.customer_option:
+            classes:
+                model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption
+        brille24.customer_option_group:
+            classes:
+                model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup

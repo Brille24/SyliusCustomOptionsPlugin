@@ -1,0 +1,4 @@
+imports:
+    - { resource: "resources.yml" }
+    - { resource: "services.yml" }
+    - { resource: "grids/customer_options.yml" }
