@@ -13,6 +13,7 @@ sylius_resource:
                 model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption
                 interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface
                 repository: Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepository
+                form: Brille24\CustomerOptionsPlugin\Form\CustomerOptionType
         brille24.customer_option_group:
             classes:
                 model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup
