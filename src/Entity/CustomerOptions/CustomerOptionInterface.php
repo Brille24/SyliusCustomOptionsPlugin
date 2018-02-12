@@ -36,6 +36,18 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     public function getCode() : ?string;
 
     /**
+     * @param null|string $name
+     *
+     * @return void
+     */
+    public function setName(?string $name): void;
+
+    /**
+     * @return null|string
+     */
+    public function getName(): ?string;
+
+    /**
      * @param bool $required
      */
     public function setRequired(bool $required);

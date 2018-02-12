@@ -4,15 +4,16 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Form;
 
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\
-{
-    ChoiceType, TextType, CheckboxType
+use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
+use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
+use Symfony\Component\Form\Extension\Core\Type\{
+    CheckboxType, ChoiceType, TextType
 };
 use Symfony\Component\Form\FormBuilderInterface;
 
-class CustomerOptionType extends AbstractType
+final class CustomerOptionType extends AbstractResourceType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // Array keys are the constants and the values are the translations
@@ -28,6 +29,16 @@ class CustomerOptionType extends AbstractType
             ])
             ->add('required', CheckboxType::class, [
                 'label' => 'brille24.ui.required'
-            ]);
+            ])
+            ->add('translations', ResourceTranslationsType::class, [
+                'entry_type' => CustomerOptionTranslationType::class,
+                'label'      => 'brille24.form.customer_options.translations',
+            ])
+        ;
+    }
+
+    public function getBlockPrefix(): string
+    {
+        return 'brille24_customer_option';
     }
 }

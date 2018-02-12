@@ -30,7 +30,7 @@ class CustomerOptionTranslation extends AbstractTranslation implements CustomerO
     /**
      * {@inheritdoc}
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -38,7 +38,7 @@ class CustomerOptionTranslation extends AbstractTranslation implements CustomerO
     /**
      * {@inheritdoc}
      */
-    public function setName(string $name)
+    public function setName(?string $name)
     {
         $this->name = $name;
     }

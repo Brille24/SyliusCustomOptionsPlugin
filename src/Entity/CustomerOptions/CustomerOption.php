@@ -12,11 +12,13 @@ namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
+use Sylius\Component\Resource\Model\TranslationInterface;
 
 class CustomerOption implements CustomerOptionInterface
 {
     use TranslatableTrait{
         __construct as protected initializeTranslationsCollection;
+        getTranslation as private doGetTranslation;
     }
 
     /** @var null|int */
@@ -148,6 +150,30 @@ class CustomerOption implements CustomerOptionInterface
     public function setGroupAssociation($assoc): void
     {
         $this->groupAssociation = $assoc;
+    }
+
+    public function setName(?string $name): void
+    {
+        $this->getTranslation()->setName($name);
+    }
+
+    public function getName():?string
+    {
+        return $this->getTranslation()->getName();
+    }
+
+
+    /**
+     * @param string|null $locale
+     *
+     * @return CustomerOptionTranslationInterface
+     */
+    public function getTranslation(?string $locale = null): TranslationInterface
+    {
+        /** @var CustomerOptionTranslationInterface $translation */
+        $translation = $this->doGetTranslation($locale);
+
+        return $translation;
     }
 
     /**

@@ -1,0 +1,18 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionType"
+                 id="brille24.customer_options_plugin.form.customer_option_type">
+            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption</argument>
+            <argument>%sylius.form.type.product.validation_groups%</argument>
+            <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionType" name="form.type"/>
+        </service>
+
+        <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionTranslationType"
+                 id="brille24.customer_options_plugin.form.customer_option_translation_type">
+            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionTranslation</argument>
+            <argument>%sylius.form.type.product.validation_groups%</argument>
+            <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionTranslationType" name="form.type"/>
+        </service>
+
+    </services>
+</container>

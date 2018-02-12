@@ -14,7 +14,15 @@ sylius_resource:
                 interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface
                 repository: Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepository
                 form: Brille24\CustomerOptionsPlugin\Form\CustomerOptionType
+            translation:
+                classes:
+                    model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionTranslation
+                    interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionTranslationInterface
         brille24.customer_option_group:
             classes:
                 model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup
                 interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface
+            translation:
+                classes:
+                    model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTranslation
+                    interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTranslationInterface

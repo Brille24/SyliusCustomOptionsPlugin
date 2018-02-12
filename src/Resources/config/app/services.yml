@@ -1,3 +1,6 @@
+imports:
+  - { resource: "services/forms.xml"}
+
 services:
     app.listener.admin.menu_builder:
         class: Brille24\CustomerOptionsPlugin\Menu\AdminMenuListener

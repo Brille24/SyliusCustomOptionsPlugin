@@ -17,10 +17,10 @@ interface CustomerOptionTranslationInterface extends ResourceInterface, Translat
     /**
      * @return string
      */
-    public function getName() : string;
+    public function getName(): ?string;
 
     /**
      * @param string $name
      */
-    public function setName(string $name);
+    public function setName(?string $name);
 }
