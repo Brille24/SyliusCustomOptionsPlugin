@@ -19,7 +19,8 @@ final class AdminMenuListener
         $newSubmenu = $menu
             ->getChild('catalog')
             ->addChild('new-subitem', ['route' => 'brille24_admin_customer_option_index'])
-            ->setLabel('Customer Options')
+            ->setLabel('sylius.menu.admin.main.catalog.customer_options')
+            ->setLabelAttribute('icon', 'options')
         ;
     }
 }
