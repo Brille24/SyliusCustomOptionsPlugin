@@ -1,12 +1,22 @@
+# Message for the menu entry
+sylius:
+    menu:
+        admin:
+            main:
+                catalog:
+                    customer_options: Customer Options
+
+# Brille24
 brille24:
     menu:
         admin:
             customer_options:
-                header: CustomerOptions
-                subheader: Manage your CustomerOptions
+                header: Customer Options
+                subheader: Manage your Customer Options
                 code: Code
-                type: Type
-                required: Required
             customer_option_groups:
-                header: CustomerOptionGroups
-                subheader: Manage your CustomerOptionGroups
+                header: Customer Option Groups
+                subheader: Manage your Customer Option Groups
+    ui:
+        customer_options: Customer Options
+        required: Required

@@ -13,8 +13,14 @@ class CustomerOptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('code', TextType::class)
-            ->add('type', ChoiceType::class)
-            ->add('required', CheckboxType::class);
+            ->add('code', TextType::class,[
+                'label' => 'sylius.ui.code'
+            ])
+            ->add('type', ChoiceType::class,[
+                'label' => 'sylius.ui.type'
+            ])
+            ->add('required', CheckboxType::class, [
+                'label' => 'brille24.ui.required'
+            ]);
     }
 }
