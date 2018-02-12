@@ -19,7 +19,7 @@
         <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation"
                      mapped-by="option" field="groupAssociation">
             <order-by>
-                <order-by-field name="position"/>
+                <order-by-field name="position" direction="ASC" />
             </order-by>
         </one-to-many>
     </entity>
