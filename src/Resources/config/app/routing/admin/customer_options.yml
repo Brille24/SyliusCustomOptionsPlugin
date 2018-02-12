@@ -9,8 +9,8 @@ brille24_customer_options_admin:
         permission: true
         vars:
             all:
-                header: brille24.ui.customer_options.name
-                subheader: brille24.menu.admin.customer_options.subheader
+                header: brille24.ui.customer_options
+                subheader: brille24.form.customer_options.subheader
                 templates:
                     form: Brille24CustomerOptionsPlugin:CustomerOption:_form.html.twig
             index:

@@ -10,15 +10,13 @@ sylius:
 
 # Brille24
 brille24:
-    menu:
-        admin:
-            customer_options:
-                subheader: Manage your Customer Options
-            customer_option_groups:
-                subheader: Manage your Customer Option Groups
     ui:
+        customer_options: Customer Options
+        customer_option_groups: Customer Option Groups
+        required: Required
+    form:
         customer_options:
-            name: Customer Options
+            subheader: Manage your Customer Options
             type:
                 text: Text
                 select: Select
@@ -29,6 +27,5 @@ brille24:
                 number: Number
                 boolean: Boolean
         customer_option_groups:
-            name: Customer Option Groups
-        required: Required
+            subheader: Manage your Customer Option Groups
 

@@ -9,7 +9,8 @@ brille24_customer_option_groups_admin:
         permission: true
         vars:
             all:
-                header: brille24.ui.customer_option_groups.name
+                header: brille24.ui.customer_option_groups
+                subheader: brille24.form.customer_option_groups.subheader
                 templates:
                       form: Brille24CustomerOptionsPlugin:CustomerOptionGroup:_form.html.twig
             index:
