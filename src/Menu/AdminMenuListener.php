@@ -16,10 +16,17 @@ final class AdminMenuListener
     public function addAdminMenuItems(MenuBuilderEvent $event){
         $menu = $event->getMenu();
 
-        $newSubmenu = $menu
+        $menu
             ->getChild('catalog')
-            ->addChild('new-subitem', ['route' => 'brille24_admin_customer_option_index'])
+            ->addChild('customer_options', ['route' => 'brille24_admin_customer_option_index'])
             ->setLabel('sylius.menu.admin.main.catalog.customer_options')
+            ->setLabelAttribute('icon', 'options')
+        ;
+
+        $menu
+            ->getChild('catalog')
+            ->addChild('customer_option_groups', ['route' => 'brille24_admin_customer_option_group_index'])
+            ->setLabel('sylius.menu.admin.main.catalog.customer_option_groups')
             ->setLabelAttribute('icon', 'options')
         ;
     }

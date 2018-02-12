@@ -1,4 +1,6 @@
 imports:
     - { resource: "resources.yml" }
     - { resource: "services.yml" }
+    # Adding grids
     - { resource: "grids/customer_options.yml" }
+    - { resource: "grids/customer_option_groups.yml" }

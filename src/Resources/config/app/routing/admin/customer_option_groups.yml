@@ -5,13 +5,11 @@ brille24_customer_option_groups_admin:
         templates: SyliusAdminBundle:Crud
         except: ['show']
         redirect: update
-        grid: brille24_admin_customer_options
+        grid: brille24_admin_customer_option_group_grid
         permission: true
         vars:
             all:
                 header: brille24.ui.customer_option_groups.name
-                templates:
-                    form: Brille24CustomerOptionsPlugin:CustomerOption:_form.html.twig
             index:
                 icon: cube
     type: sylius.resource

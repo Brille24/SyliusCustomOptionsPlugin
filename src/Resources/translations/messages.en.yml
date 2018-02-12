@@ -5,6 +5,8 @@ sylius:
             main:
                 catalog:
                     customer_options: Customer Options
+                    customer_option_groups: Customer Option Groups
+
 
 # Brille24
 brille24:

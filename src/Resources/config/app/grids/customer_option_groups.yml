@@ -1,0 +1,24 @@
+sylius_grid:
+    grids:
+        brille24_admin_customer_option_group_grid:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup
+            fields:
+                code:
+                    type: string
+                    label: sylius.ui.code
+            filters:
+                code:
+                    type: string
+                    label: sylius.ui.code
+            actions:
+                main:
+                    create:
+                        type: create
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete
