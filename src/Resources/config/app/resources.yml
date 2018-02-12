@@ -1,14 +1,19 @@
+# Overriding the Sylius resources
 sylius_product:
     resources:
         product:
             classes:
                 model: Brille24\CustomerOptionsPlugin\Entity\Product
 
+# Defining new resources
 sylius_resource:
     resources:
         brille24.customer_option:
             classes:
                 model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption
+                interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface
+                repository: Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepository
         brille24.customer_option_group:
             classes:
                 model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup
+                interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface
