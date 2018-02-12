@@ -6,8 +6,9 @@ namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Sylius\Component\Resource\Model\CodeAwareInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Sylius\Component\Resource\Model\TranslatableInterface;
 
-interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInterface
+interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInterface, TranslatableInterface
 {
     /**
      * @return null|string

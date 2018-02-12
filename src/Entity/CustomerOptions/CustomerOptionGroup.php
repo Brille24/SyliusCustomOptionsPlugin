@@ -6,11 +6,13 @@ namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
+use Sylius\Component\Resource\Model\TranslationInterface;
 
 class CustomerOptionGroup implements CustomerOptionGroupInterface
 {
     use TranslatableTrait {
         __construct as protected initializeTranslationsCollection;
+        getTranslation as private doGetTranslation;
     }
 
     /** @var int */
@@ -28,38 +30,14 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     public function __construct()
     {
         $this->optionAssociations = new ArrayCollection();
-        $this->products        = new ArrayCollection();
+        $this->products           = new ArrayCollection();
         $this->initializeTranslationsCollection();
-    }
-
-    /**
-     * @return CustomerOptionGroupTranslationInterface
-     */
-    public function createTranslation(): CustomerOptionGroupTranslationInterface
-    {
-        return new CustomerOptionGroupTranslation();
     }
 
     /** {@inheritdoc} */
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /** {@inheritdoc} */
-    public function getName(): ?string
-    {
-        /** @var CustomerOptionGroupTranslationInterface $translation */
-        $translation = $this->getTranslation();
-        return $translation->getName();
-    }
-
-    /** {@inheritdoc} */
-    public function setName(?string $name): void
-    {
-        /** @var CustomerOptionGroupTranslationInterface $translation */
-        $translation = $this->getTranslation();
-        $translation->setName($name);
     }
 
     /** {@inheritdoc} */
@@ -72,6 +50,18 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     public function setCode(?string $code): void
     {
         $this->code = $code;
+    }
+
+    /** {@inheritdoc} */
+    public function getName(): ?string
+    {
+        return $this->getTranslation()->getName();
+    }
+
+    /** {@inheritdoc} */
+    public function setName(?string $name): void
+    {
+        $this->getTranslation()->setName($name);
     }
 
     /** {@inheritdoc} */
@@ -108,6 +98,29 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
         $this->products = new ArrayCollection($customerOptions);
     }
 
+    //<editor-fold "Translations">
+
+    /**
+     * @param null|string $locale
+     *
+     * @return CustomerOptionTranslationInterface
+     */
+    public function getTranslation(?string $locale = null): TranslationInterface
+    {
+        $translation = $this->doGetTranslation($locale);
+
+        return $translation;
+    }
+
+    /**
+     * @return CustomerOptionGroupTranslationInterface
+     */
+    public function createTranslation(): CustomerOptionGroupTranslationInterface
+    {
+        return new CustomerOptionGroupTranslation();
+    }
+
+    //</editor-fold>
     public function __toString(): string
     {
         return (string)$this->getName();

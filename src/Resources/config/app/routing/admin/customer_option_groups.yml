@@ -10,6 +10,8 @@ brille24_customer_option_groups_admin:
         vars:
             all:
                 header: brille24.ui.customer_option_groups.name
+                templates:
+                      form: Brille24CustomerOptionsPlugin:CustomerOptionGroup:_form.html.twig
             index:
                 icon: cube
     type: sylius.resource

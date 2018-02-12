@@ -11,9 +11,6 @@
 
         <field name="code"/>
         
-        <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTranslation"
-                     mapped-by="translatable" field="translations" />
-        
         <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation"
                      mapped-by="group" field="optionAssociations">
             <order-by>
