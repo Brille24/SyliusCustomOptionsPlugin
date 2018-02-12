@@ -22,4 +22,11 @@ interface EnumInterface
      * @return bool
      */
     public static function isValid($value): bool;
+
+    /**
+     * Returns an associative array with the values as key and the labels as values
+     *
+     * @return array
+     */
+    public static function getTranslateArray(): array;
 }

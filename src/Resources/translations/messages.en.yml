@@ -11,12 +11,22 @@ brille24:
     menu:
         admin:
             customer_options:
-                header: Customer Options
                 subheader: Manage your Customer Options
-                code: Code
             customer_option_groups:
-                header: Customer Option Groups
                 subheader: Manage your Customer Option Groups
     ui:
-        customer_options: Customer Options
+        customer_options:
+            name: Customer Options
+            type:
+                text: Text
+                select: Select
+                multi_select: Multi Select
+                file: File
+                date: Date
+                datetime: Datetime
+                number: Number
+                boolean: Boolean
+        customer_option_groups:
+            name: Customer Option Groups
         required: Required
+

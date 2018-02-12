@@ -15,15 +15,16 @@ class CustomerOptionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // Array keys are the constants and the values are the translations
+        $possibleTypes = CustomerOptionTypeEnum::getTranslateArray();
+
         $builder
             ->add('code', TextType::class, [
                 'label' => 'sylius.ui.code'
             ])
             ->add('type', ChoiceType::class, [
-                'label'        => 'sylius.ui.type',
-                'choices'      => CustomerOptionTypeEnum::getConstList(),
-                'choice_label' => function (string $choice) { return $choice; },
-                'choice_value' => function (?string $choice) { return $choice; },
+                'label'   => 'sylius.ui.type',
+                'choices' => array_flip($possibleTypes),
             ])
             ->add('required', CheckboxType::class, [
                 'label' => 'brille24.ui.required'

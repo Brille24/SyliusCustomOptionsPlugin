@@ -8,19 +8,21 @@ sylius_grid:
             fields:
                 code:
                     type: string
-                    label: brille24.menu.admin.customer_options.code
+                    label: sylius.ui.code
                 type:
-                    type: string
-                    label: brille24.menu.admin.customer_options.type
+                    type: twig
+                    label: sylius.ui.type
+                    options:
+                        template: SyliusUiBundle:Grid/Field:rawLabel.html.twig
                 required:
                     type: twig
-                    label: brille24.menu.admin.customer_options.required
+                    label: brille24.ui.required
                     options:
                         template: SyliusUiBundle:Grid/Field:enabled.html.twig
             filters:
                 code:
                     type: string
-                    label: brille24.menu.admin.customer_options.code
+                    label: sylius.ui.code
             actions:
                 main:
                     create:
