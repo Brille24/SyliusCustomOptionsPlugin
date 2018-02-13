@@ -14,7 +14,10 @@ use Sylius\Component\Resource\Model\TranslationInterface;
 
 class CustomerOptionValue implements CustomerOptionValueInterface
 {
-    use TranslatableTrait;
+    use TranslatableTrait{
+        __construct as private initializeTranslations();
+        getTranslation as private doGetTranslation();
+    }
 
     /** @var int */
     protected $id;
@@ -27,6 +30,10 @@ class CustomerOptionValue implements CustomerOptionValueInterface
 
     /** @var CustomerOptionValuePriceInterface */
     protected $price;
+
+    public function __construct() {
+        $this->initializeTranslations();
+    }
 
     /**
      * {@inheritdoc}
@@ -50,6 +57,22 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     public function getCode(): string
     {
         return $this->code;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName(): string
+    {
+        return $this->getTranslation()->getName();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setName(string $name):void
+    {
+        $this->getTranslation()->setName($name);
     }
 
     /**
@@ -82,6 +105,16 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     public function getPrice(): CustomerOptionValuePriceInterface
     {
         return $this->price;
+    }
+
+    /**
+     * @param null|string $locale
+     *
+     * @return CustomerOptionValueTranslationInterface
+     */
+    public function getTranslation(?string $locale = null): TranslationInterface
+    {
+        return $this->doGetTranslation();
     }
 
     /**
