@@ -28,5 +28,18 @@
             <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionGroupTranslationType" name="form.type"/>
         </service>
 
+        <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionChoiceType"
+                id="brille24.customer_options_plugin.form.customer_option_choice_type">
+            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option" />
+            <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionChoiceType" name="form.type"/>
+        </service>
+
+        <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionAssociationType"
+                id="brille24.customer_options_plugin.form.customer_option_association_type">
+            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation</argument>
+            <argument>%sylius.form.type.product.validation_groups%</argument>
+            <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionAssociationType" name="form.type" />
+        </service>
+
     </services>
 </container>

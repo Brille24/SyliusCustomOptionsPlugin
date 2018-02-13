@@ -150,6 +150,7 @@ class CustomerOption implements CustomerOptionInterface
     public function setGroupAssociation($assoc): void
     {
         $this->groupAssociation = $assoc;
+        $assoc->setOption($this);
     }
 
     public function setName(?string $name): void

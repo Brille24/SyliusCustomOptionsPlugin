@@ -5,6 +5,8 @@ namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
@@ -65,9 +67,23 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     }
 
     /** {@inheritdoc} */
-    public function getOptionAssociations(): array
+    public function getOptionAssociations(): Collection
     {
-        return $this->optionAssociations->toArray();
+        return $this->optionAssociations;
+    }
+
+    public function addOptionAssociation(CustomerOptionAssociationInterface $association){
+        $this->optionAssociations->add($association);
+
+        $association->setGroup($this);
+    }
+
+    public function removeOptionAssociation(CustomerOptionAssociationInterface $association){
+        $this->optionAssociations->removeElement($association);
+    }
+
+    public function hasOptionAssociation(){
+        return !$this->optionAssociations->isEmpty();
     }
 
     /** {@inheritdoc} */
@@ -78,12 +94,16 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
             function ($value) { return $value instanceof CustomerOptionAssociationInterface; });
 
         $this->optionAssociations = new ArrayCollection($associations);
+
+        foreach ($this->optionAssociations as $assoc){
+            $assoc->setGroup($this);
+        }
     }
 
     /** {@inheritdoc} */
     public function getProducts(): array
     {
-        return $this->products->toArray();
+        return $this->products->getValues();
     }
 
     /**

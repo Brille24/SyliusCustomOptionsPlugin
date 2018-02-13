@@ -28,4 +28,6 @@ brille24:
                 boolean: Boolean
         customer_option_groups:
             subheader: Manage your Customer Option Groups
+            customer_options: Customer Options
+            select: Select
 

@@ -5,7 +5,9 @@
                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
     <entity name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
-            table="brille24_customer_option">
+            table="brille24_customer_option"
+            repository-class="Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepository"
+    >
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
@@ -16,6 +18,7 @@
 
         <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation"
                      mapped-by="option" field="groupAssociation">
+            <cascade><cascade-persist/></cascade>
             <order-by>
                 <order-by-field name="position" direction="ASC"/>
             </order-by>
