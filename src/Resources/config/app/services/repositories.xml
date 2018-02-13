@@ -1,0 +1,9 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service class="Doctrine\ORM\EntityRepository"
+                 id="brille24.customer_options_plugin.repository.customer_option" >
+            <factory service="doctrine.orm.default_entity_manager" method="getRepository" />
+            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption</argument>
+        </service>
+    </services>
+</container>

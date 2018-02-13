@@ -80,10 +80,10 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     /**
      * @param CustomerOptionAssociationInterface $assoc
      */
-    public function setGroupAssociation($assoc);
+    public function setGroupAssociations(CustomerOptionAssociationInterface $assoc);
 
     /**
      * @return CustomerOptionAssociationInterface
      */
-    public function getGroupAssociation();
+    public function getGroupAssociations();
 }

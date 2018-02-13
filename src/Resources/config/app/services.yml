@@ -1,3 +1,4 @@
 imports:
-  - { resource: "services/forms.xml" }
   - { resource: "services/menuListener.xml" }
+  - { resource: "services/repositories.xml" }
+  - { resource: "services/forms.xml"}
