@@ -1,0 +1,17 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+
+        <!-- Main admin menu -->
+        <service class="Brille24\CustomerOptionsPlugin\Menu\AdminMenuListener" id="brille24.customer_options_plugin.menu.admin_menu_listener">
+            <tag name="kernel.event_listener" event="sylius.menu.admin.main" method="addAdminMenuItems" />
+        </service>
+
+        <!-- Product form -->
+        <service class="Brille24\CustomerOptionsPlugin\Menu\AdminProductVariantFormMenuListener"
+                 id="brille24.customer_options_plugin.menu.admin_product_variant_form_menu_listener"
+        >
+            <tag name="kernel.event_listener" event="sylius.menu.admin.product.form" method="addItems" />
+        </service>
+
+    </services>
+</container>
