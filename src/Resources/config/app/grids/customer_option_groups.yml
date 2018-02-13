@@ -9,6 +9,20 @@ sylius_grid:
                 code:
                     type: string
                     label: sylius.ui.code
+                name:
+                    type: string
+                    label: sylius.ui.name
+                options:
+                    type: twig
+                    label: brille24.ui.customer_options
+                    options:
+                        template: Brille24CustomerOptionsPlugin:CustomerOptionGroup:_first_element_codes.html.twig
+                products:
+                    type: twig
+                    label: sylius.ui.products
+                    options:
+                        template: Brille24CustomerOptionsPlugin:CustomerOptionGroup:_first_element_codes.html.twig
+
             filters:
                 code:
                     type: string

@@ -98,6 +98,21 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
         $this->products = new ArrayCollection($customerOptions);
     }
 
+    /**
+     * Returns the first $count options of the group
+     *
+     * @param int $count (default: 5)
+     *
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->optionAssociations
+            ->map(function (CustomerOptionAssociationInterface $association) {
+                return $association->getOption();
+            })->toArray();
+    }
+
     //<editor-fold "Translations">
 
     /**

@@ -28,4 +28,7 @@ brille24:
                 boolean: Boolean
         customer_option_groups:
             subheader: Manage your Customer Option Groups
+    grid:
+        options_remaining: "{0} |]0,Inf]and %count% more"
+        options_empty: Nothing to display
 
