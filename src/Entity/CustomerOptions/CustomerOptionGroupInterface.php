@@ -31,12 +31,7 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
 
     public function removeOptionAssociation(CustomerOptionAssociationInterface $association);
 
-    public function hasOptionAssociation();
-
-    /**
-     * @param array $associations
-     */
-    public function setOptionAssociations(array $associations): void;
+    public function hasOptionAssociations();
 
     /**
      * @return ProductInterface[]

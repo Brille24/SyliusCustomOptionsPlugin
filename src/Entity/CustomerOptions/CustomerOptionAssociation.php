@@ -12,16 +12,21 @@ namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 class CustomerOptionAssociation implements CustomerOptionAssociationInterface
 {
     /** @var int */
-    protected $id;
+    private $id;
 
     /** @var int */
-    protected $position;
+    private $position;
 
     /** @var CustomerOptionGroupInterface */
-    protected $group;
+    private $group;
 
     /** @var CustomerOptionInterface */
-    protected $option;
+    private $option;
+
+    public function __construct(int $position = 0)
+    {
+        $this->position = 0;
+    }
 
     /**
      * @return int|mixed
@@ -50,7 +55,7 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     /**
      * @return CustomerOptionGroupInterface
      */
-    public function getGroup(): CustomerOptionGroupInterface
+    public function getGroup(): ?CustomerOptionGroupInterface
     {
         return $this->group;
     }
@@ -66,7 +71,7 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     /**
      * @return CustomerOptionInterface
      */
-    public function getOption(): CustomerOptionInterface
+    public function getOption(): ?CustomerOptionInterface
     {
         return $this->option;
     }

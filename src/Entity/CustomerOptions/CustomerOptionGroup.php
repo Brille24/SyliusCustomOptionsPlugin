@@ -7,6 +7,7 @@ use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\PersistentCollection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
@@ -23,7 +24,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     /** @var string */
     private $code;
 
-    /** @var ArrayCollection */
+    /** @var PersistentCollection */
     private $optionAssociations;
 
     /** @var ArrayCollection */
@@ -72,6 +73,11 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
         return $this->optionAssociations;
     }
 
+    public function addoption_association($p){
+        echo 'nooot';
+        die();
+    }
+
     public function addOptionAssociation(CustomerOptionAssociationInterface $association){
         $this->optionAssociations->add($association);
 
@@ -81,23 +87,9 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     public function removeOptionAssociation(CustomerOptionAssociationInterface $association){
         $this->optionAssociations->removeElement($association);
     }
-
-    public function hasOptionAssociation(){
+    
+    public function hasOptionAssociations(){
         return !$this->optionAssociations->isEmpty();
-    }
-
-    /** {@inheritdoc} */
-    public function setOptionAssociations(array $associations): void
-    {
-        $associations = array_filter(
-            $associations,
-            function ($value) { return $value instanceof CustomerOptionAssociationInterface; });
-
-        $this->optionAssociations = new ArrayCollection($associations);
-
-        foreach ($this->optionAssociations as $assoc){
-            $assoc->setGroup($this);
-        }
     }
 
     /** {@inheritdoc} */

@@ -16,7 +16,7 @@ use Sylius\Component\Resource\Model\TranslationInterface;
 
 class CustomerOption implements CustomerOptionInterface
 {
-    use TranslatableTrait{
+    use TranslatableTrait {
         __construct as protected initializeTranslationsCollection;
         getTranslation as private doGetTranslation;
     }
@@ -36,16 +36,16 @@ class CustomerOption implements CustomerOptionInterface
     /** @var Collection|CustomerOptionValueInterface[] */
     protected $values;
 
-    /** @var CustomerOptionAssociationInterface */
-    protected $groupAssociation;
+    /** @var ArrayCollection */
+    protected $groupAssociations;
 
 
     public function __construct()
     {
         $this->initializeTranslationsCollection();
 
-        $this->values = new ArrayCollection();
-        $this->groups = new ArrayCollection();
+        $this->values            = new ArrayCollection();
+        $this->groupAssociations = new ArrayCollection();
     }
 
     /**
@@ -139,17 +139,17 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function getGroupAssociation()
+    public function getGroupAssociations()
     {
-        return $this->groupAssociation;
+        return $this->groupAssociations;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setGroupAssociation($assoc): void
+    public function setGroupAssociations(CustomerOptionAssociationInterface $assoc): void
     {
-        $this->groupAssociation = $assoc;
+        $this->groupAssociations = $assoc;
         $assoc->setOption($this);
     }
 
@@ -158,7 +158,7 @@ class CustomerOption implements CustomerOptionInterface
         $this->getTranslation()->setName($name);
     }
 
-    public function getName():?string
+    public function getName(): ?string
     {
         return $this->getTranslation()->getName();
     }

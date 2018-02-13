@@ -25,7 +25,7 @@ interface CustomerOptionAssociationInterface extends ResourceInterface
     /**
      * @return CustomerOptionGroupInterface
      */
-    public function getGroup(): CustomerOptionGroupInterface;
+    public function getGroup(): ?CustomerOptionGroupInterface;
 
     /**
      * @param CustomerOptionGroupInterface $group
@@ -35,7 +35,7 @@ interface CustomerOptionAssociationInterface extends ResourceInterface
     /**
      * @return CustomerOptionInterface
      */
-    public function getOption(): CustomerOptionInterface;
+    public function getOption(): ?CustomerOptionInterface;
 
     /**
      * @param CustomerOptionInterface $option

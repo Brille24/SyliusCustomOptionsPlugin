@@ -12,8 +12,10 @@
         <field name="code"/>
         
         <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation"
-                     mapped-by="group" field="optionAssociations">
-            <cascade><cascade-persist/></cascade>
+                     mapped-by="group" field="optionAssociations" orphan-removal="true">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
             <order-by>
                 <order-by-field name="position" direction="ASC" />
             </order-by>

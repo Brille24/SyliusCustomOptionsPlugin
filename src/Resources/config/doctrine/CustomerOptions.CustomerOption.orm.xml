@@ -17,8 +17,10 @@
         <field name="required" type="boolean"/>
 
         <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation"
-                     mapped-by="option" field="groupAssociation">
-            <cascade><cascade-persist/></cascade>
+                     mapped-by="option" field="groupAssociations" orphan-removal="true">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
             <order-by>
                 <order-by-field name="position" direction="ASC"/>
             </order-by>
