@@ -1,0 +1,7 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service class="Brille24\CustomerOptionsPlugin\Validator\Constraints\CustomerOptionAssociationConstraintValidator" id="brille24.customer_options_plugin.validator.constraints.customer_option_association_constraint_validator">
+            <tag name="validator.constraint_validator"/>
+        </service>
+    </services>
+</container>

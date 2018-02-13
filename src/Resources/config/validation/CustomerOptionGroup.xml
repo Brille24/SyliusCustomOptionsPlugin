@@ -4,13 +4,19 @@
             <option name="fields">
                 <value>code</value>
             </option>
-            <option name="message">brille24.customer_options.unique</option>
+            <option name="message">brille24.form.customer_option_groups.unique</option>
             <option name="groups">sylius</option>
         </constraint>
 
         <property name="code">
             <constraint name="NotNull">
                 <option name="groups">sylius</option>
+            </constraint>
+        </property>
+
+        <property name="optionAssociations">
+            <constraint name="Brille24\CustomerOptionsPlugin\Validator\Constraints\CustomerOptionAssociationConstraint">
+                <option name="message">brille24.form.customer_option_groups.duplicate_option</option>
             </constraint>
         </property>
 
