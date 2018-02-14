@@ -8,6 +8,7 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterfac
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\CustomerOptionsPlugin\Form\Product\CustomerOptionType;
+use Brille24\CustomerOptionsPlugin\Form\Product\CustomerOptionValuePriceType;
 use Brille24\CustomerOptionsPlugin\Form\Product\CustomerOptionValueType;
 use Sylius\Bundle\ProductBundle\Form\Type\ProductType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -31,6 +32,8 @@ final class ProductTypeExtension extends AbstractTypeExtension
             $customerOptions[] = $optionAssociation->getOption();
         }
 
+        $prices = $product->getCustomerOptionPrices();
+
         $builder
             ->add('customerOptionGroup', EntityType::class, [
                 'class' => CustomerOptionGroup::class,
@@ -40,8 +43,8 @@ final class ProductTypeExtension extends AbstractTypeExtension
             ])
         ;
 
-        $builder->add('customerOptions', CollectionType::class, [
-            'entry_type' => CustomerOptionType::class,
+        $builder->add('customerOptionPrices', CollectionType::class, [
+            'entry_type' => CustomerOptionValuePriceType::class,
             'label' => 'Customer Option Value Prices',
         ]);
     }

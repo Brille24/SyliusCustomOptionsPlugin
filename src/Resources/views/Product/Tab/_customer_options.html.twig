@@ -2,22 +2,31 @@
     {{ form_row(form.customerOptionGroup) }}
 
     <div class="field">
-        {{ form_label(form.customerOptions) }}
+        {{ form_row(form.customerOptionPrices) }}
+        {#{{ form_label(form.customerOptions) }}#}
 
-        {% for customerOption in form.customerOptions %}
-            {% set option = customerOption.vars.value %}
+        {#{% for customerOption in form.customerOptions %}#}
+            {#{% set option = customerOption.vars.value %}#}
 
-            {% if option.type == 'select' or option.type == 'multi_select' %}
-            <div class="ui segment">
-                <div class="two fields">
-                    <div class="field">
-                    {{ form_row(customerOption.name) }}
-                    </div>
-                    {{ form_row(customerOption.values) }}
-                </div>
-            </div>
-            {% endif %}
+            {#{% if option.type == 'select' or option.type == 'multi_select' %}#}
+            {#<div class="ui segment">#}
+                    {#<div class="field">#}
+                        {#{{ form_row(customerOption.name) }}#}
+                    {#</div>#}
+                    {#<div class="ui segment">#}
+                        {#{% for value in customerOption.values %}#}
+                            {#{{ form_widget(value.name) }}#}
+                            {#<div class="three fields">#}
+                                {#{{ form_row(value.price.percent) }}#}
+                                {#{{ form_row(value.price.amount) }}#}
+                                {#{{ form_row(value.price.type) }}#}
+                            {#</div>#}
+                        {#{% endfor %}#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+            {#{% endif %}#}
 
-        {% endfor %}
+        {#{% endfor %}#}
     </div>
 </div>
