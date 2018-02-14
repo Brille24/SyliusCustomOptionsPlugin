@@ -42,6 +42,7 @@ brille24:
                 file_size: Maximum size
                 date: Maximum date
                 number: Maximum number
+            invalid_min_max: The configurations minimum value is greater then the maximum
 
     grid:
         options_remaining: "{0} |]0,Inf]and %count% more"
