@@ -29,4 +29,6 @@ interface EnumInterface
      * @return array
      */
     public static function getTranslateArray(): array;
+
+    public static function getFormTypeArray(): array;
 }
