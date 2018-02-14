@@ -11,6 +11,8 @@
 
         <field name="name" type="string" nullable="true"/>
 
-        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue" field="translatable" inversed-by="translations"/>
+        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue" field="translatable" inversed-by="translations">
+            <join-column on-delete="CASCADE" />
+        </many-to-one>
     </entity>
 </doctrine-mapping>

@@ -9,9 +9,7 @@
 namespace Brille24\CustomerOptionsPlugin\Form\Extensions;
 
 
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\CustomerOptionsPlugin\Form\ProductCustomerOptionType;
+use Brille24\CustomerOptionsPlugin\Form\Product\ShopCustomerOptionType;
 use Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,7 +18,7 @@ class AddToCartTypeExtension extends AbstractTypeExtension
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('customerOptions', ProductCustomerOptionType::class, [
+        $builder->add('customerOptions', ShopCustomerOptionType::class, [
             'product' => $options['product'],
         ]);
     }

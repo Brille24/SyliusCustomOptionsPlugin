@@ -6,7 +6,7 @@
  * Time: 10:16
  */
 
-namespace Brille24\CustomerOptionsPlugin\Form;
+namespace Brille24\CustomerOptionsPlugin\Form\Product;
 
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
@@ -16,7 +16,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductCustomerOptionType extends AbstractType
+class ShopCustomerOptionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -55,6 +55,6 @@ class ProductCustomerOptionType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'brille24_product_customer_option';
+        return 'brille24_product_shop_customer_option';
     }
 }

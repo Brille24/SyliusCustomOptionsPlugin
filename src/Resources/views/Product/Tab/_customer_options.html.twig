@@ -1,3 +1,18 @@
 <div class="ui tab" data-tab="customer_options">
     {{ form_row(form.customerOptionGroup) }}
+
+    <div class="field">
+        {{ form_label(form.customerOptions) }}
+
+        {% for customerOption in form.customerOptions %}
+            <div class="ui segment">
+                <div class="two fields">
+                    <div class="field">
+                    {{ form_row(customerOption.name) }}
+                    </div>
+                    {{ form_row(customerOption.values) }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>

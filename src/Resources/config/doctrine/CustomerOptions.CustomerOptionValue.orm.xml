@@ -12,8 +12,12 @@
         <field name="code" type="string" nullable="false" unique="true" />
         <field name="value" type="string" nullable="false"/>
 
-        <one-to-one field="price" target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice" />
+        <one-to-one field="price" target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice">
+            <join-column on-delete="SET NULL" />
+        </one-to-one>
 
-        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption" field="customerOption" />
+        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption" field="customerOption">
+            <join-column on-delete="SET NULL" />
+        </many-to-one>
     </entity>
 </doctrine-mapping>
