@@ -9,7 +9,7 @@
 namespace Brille24\CustomerOptionsPlugin\Form;
 
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Sylius\Component\Core\Model\ProductInterface;
 use Symfony\Component\Form\AbstractType;
@@ -23,38 +23,63 @@ class ProductCustomerOptionType extends AbstractType
         /** @var \Brille24\CustomerOptionsPlugin\Entity\ProductInterface $product */
         $product = $options['product'];
 
-        if($product !== null && $product->getCustomerOptionGroup() instanceof CustomerOptionGroupInterface){
-            foreach ($product->getCustomerOptionGroup()->getOptionAssociations() as $customerOptionAssociation)
-            {
-                $customerOption = $customerOptionAssociation->getOption();
-                $builder->add(
-                    'customer_option_' . $customerOption->getCode(),
-                    CustomerOptionTypeEnum::getFormTypeArray()[$customerOption->getType()][0],
-                    array_merge(
-                        CustomerOptionTypeEnum::getFormTypeArray()[$customerOption->getType()][1],
-                        [
-                            'mapped' => false,
-                            'required' => $customerOption->isRequired(),
-                        ]
-                    )
-                );
-            }
+        if (!$product instanceof ProductInterface) {
+            return;
         }
+
+        // Add a form field for every customer option
+        foreach ($product->getCustomerOptions() as $customerOption) {
+            $customerOptionType = $customerOption->getType();
+            $fieldName          = $this->generateFieldName($customerOption);
+
+            list($class, $formOptions) = CustomerOptionTypeEnum::getFormTypeArray()[$customerOptionType];
+
+            $builder->add($fieldName, $class, $this->getFormConfiguration($formOptions, $customerOption));
+
+        }
+    }
+
+    private function generateFieldName(CustomerOptionInterface $customerOption): string
+    {
+        return 'customer_option_' . $customerOption->getCode();
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefined([
-                'product',
-            ])
+            ->setDefined(['product'])
             ->setAllowedTypes('product', ProductInterface::class)
-            ->setDefault('mapped', false)
-        ;
+            ->setDefault('mapped', false);
     }
 
     public function getBlockPrefix()
     {
         return 'brille24_product_customer_option';
+    }
+
+    /**
+     * @param $formOptions
+     * @param $customerOption
+     *
+     * @return array
+     */
+    private function getFormConfiguration(array $formOptions, CustomerOptionInterface $customerOption): array
+    {
+        $defaultOptions = [
+            'mapped'   => false,
+            'required' => $customerOption->isRequired(),
+        ];
+
+        // Adding choices if it is a select (or multi-select)
+        $choices = [];
+        if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
+          $choices = [
+              'choices' => $customerOption->getValues()->toArray(),
+              'choice_label' => 'name',
+              'choice_value' => 'code',
+          ];
+        }
+
+        return array_merge($formOptions, $defaultOptions, $choices);
     }
 }

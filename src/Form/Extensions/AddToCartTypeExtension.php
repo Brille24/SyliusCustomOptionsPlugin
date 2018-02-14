@@ -16,7 +16,7 @@ use Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class AddToCartTypeExtension extends AbstractTypeExtension
+final class AddToCartTypeExtension extends AbstractTypeExtension
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

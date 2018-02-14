@@ -14,6 +14,7 @@ brille24:
         customer_options: Customer Options
         customer_option_groups: Customer Option Groups
         required: Required
+        product_customization: Product customization
     form:
         customer_options:
             subheader: Manage your Customer Options

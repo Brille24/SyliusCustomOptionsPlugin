@@ -131,4 +131,9 @@ final class CustomerOptionTypeEnum implements EnumInterface
             ],
         ];
     }
+
+    public static function isSelect(string $type): bool
+    {
+        return in_array($type, [self::SELECT, self::MULTI_SELECT]);
+    }
 }
