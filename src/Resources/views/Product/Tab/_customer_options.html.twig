@@ -5,6 +5,9 @@
         {{ form_label(form.customerOptions) }}
 
         {% for customerOption in form.customerOptions %}
+            {% set option = customerOption.vars.value %}
+
+            {% if option.type == 'select' or option.type == 'multi_select' %}
             <div class="ui segment">
                 <div class="two fields">
                     <div class="field">
@@ -13,6 +16,8 @@
                     {{ form_row(customerOption.values) }}
                 </div>
             </div>
+            {% endif %}
+
         {% endfor %}
     </div>
 </div>

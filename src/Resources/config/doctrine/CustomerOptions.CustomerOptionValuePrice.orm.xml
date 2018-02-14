@@ -5,10 +5,10 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="percent" type="decimal" />
+        <field name="percent" type="float" />
         <field name="amount" type="integer" />
 
-        <field name="type" type="string" length="10" />
+        <field name="type" type="string" length="12" />
 
         <one-to-one field="customerOptionValue" target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue">
             <join-column on-delete="CASCADE" />
