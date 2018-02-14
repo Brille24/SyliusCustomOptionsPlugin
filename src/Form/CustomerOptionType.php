@@ -16,6 +16,8 @@ final class CustomerOptionType extends AbstractResourceType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $customerOption = $options['data'];
+
         // Array keys are the constants and the values are the translations
         $possibleTypes = CustomerOptionTypeEnum::getTranslateArray();
 
@@ -40,6 +42,11 @@ final class CustomerOptionType extends AbstractResourceType
                 'allow_delete' => true,
                 'label'        => false,
                 'by_reference' => false
+            ])
+            ->add('prices', CollectionType::class, [
+                'entry_type' => CustomerOptionValuePriceType::class,
+                'label' => false,
+                'by_reference' => false,
             ])
         ;
     }

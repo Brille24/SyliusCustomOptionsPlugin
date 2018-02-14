@@ -98,7 +98,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setPrice(CustomerOptionValuePriceInterface $price)
+    public function setPrice(?CustomerOptionValuePriceInterface $price)
     {
         $this->price = $price;
     }
@@ -106,7 +106,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function getPrice(): CustomerOptionValuePriceInterface
+    public function getPrice(): ?CustomerOptionValuePriceInterface
     {
         return $this->price;
     }
