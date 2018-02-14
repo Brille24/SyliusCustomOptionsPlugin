@@ -4,6 +4,11 @@
                  id="brille24.customer_options_plugin.form.extensions.product_type_extension">
             <tag name="form.type_extension" extended_type="Sylius\Bundle\ProductBundle\Form\Type\ProductType"/>
         </service>
+        
+        <service class="Brille24\CustomerOptionsPlugin\Form\Extensions\AddToCartTypeExtension"
+                 id="brille24.customer_options_plugin.form.extension.add_to_cart_type_extension">
+            <tag name="form.type_extension" extended_type="Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType" />
+        </service>
 
         <!-- Translation Type -->
         <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionValueType"
