@@ -1,7 +1,0 @@
-<container xmlns="http://symfony.com/schema/dic/services">
-    <services>
-        <service class="Brille24\CustomerOptionsPlugin\Twig\CustomerOptionTypeExtension" id="brille24.twig.extension.customer_option_type">
-            <tag name="twig.extension" />
-        </service>
-    </services>
-</container>

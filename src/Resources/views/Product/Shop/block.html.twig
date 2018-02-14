@@ -1,22 +1,5 @@
 <div class="ui segment">
-{% if(settings.product.customerOptionGroup != null) %}
 
-    {% for optionAssoc in settings.product.customerOptionGroup.optionAssociations %}
+    {{ form_row(form.customerOptions) }}
 
-        {{ optionAssoc.option.name }}
-        {% set type = optionAssoc.option.type|type %}
-
-        {% if (type == 'select' or type == 'select multiple') %}
-            <{{ type }}>
-                <option value="aosnetu" class="{{ optionAssoc.option.required }}">asoentuh</option>
-            </{{ type }}>
-        {% else %}
-            <input type="{{ type }}" class="{{ optionAssoc.option.required }}"/>
-        {% endif %}
-        <br>
-
-    {% endfor %}
-    </form>
-
-{% endif %}
 </div>
