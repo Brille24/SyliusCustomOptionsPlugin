@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Enumerations;
 
 // TODO: Wait to see if sylius has something like this.
-use Faker\Provider\Text;
+use DateTime;
+use Exception;
 use Sonata\CoreBundle\Form\Type\BooleanType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -62,29 +63,71 @@ final class CustomerOptionTypeEnum implements EnumInterface
     public static function getFormTypeArray(): array
     {
         return [
-            self::TEXT => [
-                TextType::class, [],
+            self::TEXT         => [
+                TextType::class,
+                [],
             ],
-            self::SELECT => [
-                ChoiceType::class, [],
+            self::SELECT       => [
+                ChoiceType::class,
+                [],
             ],
             self::MULTI_SELECT => [
-                ChoiceType::class, ['multiple' => true],
+                ChoiceType::class,
+                ['multiple' => true],
             ],
-            self::FILE => [
-                FileType::class, [],
+            self::FILE         => [
+                FileType::class,
+                [],
             ],
-            self::DATE => [
-                DateType::class, [],
+            self::DATE         => [
+                DateType::class,
+                [],
+            ],
+            self::DATETIME     => [
+                DateTimeType::class,
+                [],
+            ],
+            self::NUMBER       => [
+                NumberType::class,
+                [],
+            ],
+            self::BOOLEAN      => [
+                BooleanType::class,
+                [],
+            ],
+        ];
+    }
+
+    /**
+     * Gets the default configuration options of the types
+     *
+     * @param string $type
+     *
+     * @return array
+     * @throws Exception
+     */
+    public static function getConfigurationArray(): array
+    {
+        return [
+            self::TEXT     => [
+                "brille24.form.config.min.length" => ["type" => "integer", "value" => 0],
+                "brille24.form.config.max.length" => ["type" => "integer", "value" => 255],
+            ],
+            self::FILE     => [
+                "brille24.form.config.min.file_size" => ["type" => "integer", "value" => 0],
+                "brille24.form.config.max.file_size" => ["type" => "integer", "value" => 1000],
+            ],
+            self::DATE     => [
+                "brille24.form.config.min.date" => ["type" => "date", "value" => new DateTime("1900-01-01")],
+                "brille24.form.config.max.date" => ["type" => "date", "value" => new DateTime("3000-12-31")],
             ],
             self::DATETIME => [
-                DateTimeType::class, [],
+                "brille24.form.config.min.date" => ["type" => "datetime", "value" => new DateTime("1900-01-01")],
+                "brille24.form.config.max.date" => ["type" => "datetime", "value" => new DateTime("3000-12-31")],
             ],
-            self::NUMBER => [
-                NumberType::class, [],
-            ],
-            self::BOOLEAN => [
-                BooleanType::class, [],
+            self::NUMBER   => [
+                "brille24.form.config.min.number" => ["type" => "number", "value" => 0],
+                "brille24.form.config.max.number" => ["type" => "integer", "value" => 1000],
             ],
         ];
     }

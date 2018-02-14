@@ -1,13 +1,11 @@
 {% from '@SyliusAdmin/Macro/translationForm.html.twig' import translationForm %}
 
-<div class="ui segment">
-    <h4 class="ui dividing header">{{ 'sylius.ui.values'|trans }}</h4>
-    {% for valueObject in form %}
-        {{ form_row(valueObject.code) }}
+<h4 class="ui dividing header">{{ 'sylius.ui.values'|trans }}</h4>
+{% for valueObject in form %}
+    {{ form_row(valueObject.code) }}
 
-        {{ translationForm(valueObject.translations) }}
+    {{ translationForm(valueObject.translations) }}
 
-        {{ form_row(valueObject.value) }}
-    {% endfor %}
-    {{ form_row(form) }}
-</div>
+    {{ form_row(valueObject.value) }}
+{% endfor %}
+{{ form_row(form) }}

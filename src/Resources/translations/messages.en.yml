@@ -31,6 +31,18 @@ brille24:
             subheader: Manage your Customer Option Groups
             select: Select
             duplicate_option: A group can not have an option twice
+        config:
+            min:
+                length: Minimum Length
+                file_size: Minimum size
+                date: Minimum date
+                number: Minimum number
+            max:
+                length: Maximum length
+                file_size: Maximum size
+                date: Maximum date
+                number: Maximum number
+
     grid:
         options_remaining: "{0} |]0,Inf]and %count% more"
         options_empty: Nothing to display

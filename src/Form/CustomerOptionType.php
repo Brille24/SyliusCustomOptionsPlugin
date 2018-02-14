@@ -40,7 +40,11 @@ final class CustomerOptionType extends AbstractResourceType
                 'allow_delete' => true,
                 'label'        => false,
                 'by_reference' => false
-            ]);
+            ])
+            ->add('configuration', CustomerOptionConfigurationType::class, [
+                'label' => false
+            ])
+        ;
     }
 
     public function getBlockPrefix(): string

@@ -37,6 +37,9 @@ class CustomerOption implements CustomerOptionInterface
     /** @var Collection|CustomerOptionValueInterface[] */
     private $values;
 
+    /** @var array */
+    private $configuration = [];
+
     /** @var ArrayCollection */
     private $groupAssociations;
 
@@ -63,6 +66,10 @@ class CustomerOption implements CustomerOptionInterface
     public function setType(?string $type)
     {
         $this->type = $type;
+
+        if (!$this->isSelectType()) {
+            $this->configuration = CustomerOptionTypeEnum::getConfigurationArray()[$type];
+        }
     }
 
     /**
@@ -143,6 +150,27 @@ class CustomerOption implements CustomerOptionInterface
     public function setValues(array $values): void
     {
         $this->values = new ArrayCollection($values);
+    }
+
+    public function getConfiguration(): array
+    {
+        return $this->configuration;
+    }
+
+    public function setConfiguration(array $configuration): void
+    {
+        // Setting the new values
+        foreach ($configuration as $key => $value) {
+            $optionKey                                = str_replace('_', '.', $key);
+            $this->configuration[$optionKey]['value'] = $value;
+        }
+
+        // Removing the configs of the previous type
+        foreach ($this->configuration as $key => $configOption) {
+            if (!isset($configOption['type'])) {
+                unset($this->configuration[$key]);
+            }
+        }
     }
 
     /**
