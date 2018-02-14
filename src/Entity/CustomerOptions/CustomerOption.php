@@ -67,9 +67,9 @@ class CustomerOption implements CustomerOptionInterface
     {
         $this->type = $type;
 
-        if (!$this->isSelectType()) {
+        if (CustomerOptionTypeEnum::isSelect($type)) {
             $this->configuration = CustomerOptionTypeEnum::getConfigurationArray()[$type];
-        }else{
+        } else {
             $this->configuration = [];
         }
     }
@@ -80,13 +80,6 @@ class CustomerOption implements CustomerOptionInterface
     public function getType(): ?string
     {
         return $this->type;
-    }
-
-    public function isSelectType(): bool
-    {
-        $selectTypes = [CustomerOptionTypeEnum::SELECT, CustomerOptionTypeEnum::MULTI_SELECT];
-
-        return in_array($this->type, $selectTypes);
     }
 
     /**

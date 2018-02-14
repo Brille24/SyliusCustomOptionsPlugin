@@ -75,7 +75,7 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     /**
      * @return Collection
      */
-    public function getValues();
+    public function getValues(): Collection;
 
     /**
      * @param CustomerOptionAssociationInterface $assoc
