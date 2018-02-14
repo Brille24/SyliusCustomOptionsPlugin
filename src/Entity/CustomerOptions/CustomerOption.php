@@ -69,6 +69,8 @@ class CustomerOption implements CustomerOptionInterface
 
         if (!$this->isSelectType()) {
             $this->configuration = CustomerOptionTypeEnum::getConfigurationArray()[$type];
+        }else{
+            $this->configuration = [];
         }
     }
 

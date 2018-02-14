@@ -1,94 +1,39 @@
-<p align="center">
-    <a href="http://sylius.org" target="_blank">
-        <img src="http://demo.sylius.org/assets/shop/img/logo.png" />
-    </a>
-</p>
-<h1 align="center">Plugin Skeleton</h1>
-<p align="center">
-    <a href="https://packagist.org/packages/sylius/plugin-skeleton" title="License">
-        <img src="https://img.shields.io/packagist/l/sylius/plugin-skeleton.svg" />
-    </a>
-    <a href="https://packagist.org/packages/sylius/plugin-skeleton" title="Version">
-        <img src="https://img.shields.io/packagist/v/sylius/plugin-skeleton.svg" />
-    </a>
-    <a href="http://travis-ci.org/Sylius/PluginSkeleton" title="Build status">
-        <img src="https://img.shields.io/travis/Sylius/PluginSkeleton/master.svg" />
-    </a>
-    <a href="https://scrutinizer-ci.com/g/Sylius/PluginSkeleton/" title="Scrutinizer">
-        <img src="https://img.shields.io/scrutinizer/g/Sylius/PluginSkeleton.svg" />
-    </a>
-</p>
+<h1 align="center">Customer Options</h1>
+This bundle provides the customer to ability to customize the product to his/her liking. This is a different from Sylius internal product variant structure, as it is more flexible and allows to use them without pre-generating a lot of data.
 
 ## Installation
 
-1. Run `composer create-project sylius/plugin-skeleton ProjectName`.
+* Run `composer require brille24/customer-options`.
 
-2. From the plugin skeleton root directory, run the following commands:
+* Register the Plugin in your `AppKernel` file:
 
-    ```bash
-    $ (cd tests/Application && yarn install)
-    $ (cd tests/Application && yarn run gulp)
-    $ (cd tests/Application && bin/console assets:install web -e test)
-    
-    $ (cd tests/Application && bin/console doctrine:database:create -e test)
-    $ (cd tests/Application && bin/console doctrine:schema:create -e test)
-    ```
+```php
+public function registerBundles()
+{
+    return array_merge(parent::registerBundles(), [
+        ...
+
+        new \Brille24\CustomerOptionsPlugin\Brille24CustomerOptionsPlugin(),
+    ]);
+}
+```
+* Add the `config.yml` to your local `app/config/config.yml`:
+```yaml
+imports:
+    ...
+    - { resource: "@Brille24CustomerOptionsPlugin/Resources/config/app/config.yml" }
+```
+
+* Finally update the database and update the translations:
+```bash
+bin/console doctrine:schema:update --force
+bin/console translation:update
+```
 
 ## Usage
+* Create a customer option group in the admin panel
+* Create customer option
+* Assign a customer option to the customer option group
+* In the product, assign it a customer option
 
-### Running plugin tests
-
-  - PHPUnit
-
-    ```bash
-    $ bin/phpunit
-    ```
-
-  - PHPSpec
-
-    ```bash
-    $ bin/phpspec run
-    ```
-
-  - Behat (non-JS scenarios)
-
-    ```bash
-    $ bin/behat --tags="~@javascript"
-    ```
-
-  - Behat (JS scenarios)
- 
-    1. Download [Chromedriver](https://sites.google.com/a/chromium.org/chromedriver/)
-    
-    2. Run Selenium server with previously downloaded Chromedriver:
-    
-        ```bash
-        $ bin/selenium-server-standalone -Dwebdriver.chrome.driver=chromedriver
-        ```
-    3. Run test application's webserver on `localhost:8080`:
-    
-        ```bash
-        $ (cd tests/Application && bin/console server:run 127.0.0.1:8080 -d web -e test)
-        ```
-    
-    4. Run Behat:
-    
-        ```bash
-        $ bin/behat --tags="@javascript"
-        ```
-
-### Opening Sylius with your plugin
-
-- Using `test` environment:
-
-    ```bash
-    $ (cd tests/Application && bin/console sylius:fixtures:load -e test)
-    $ (cd tests/Application && bin/console server:run -d web -e test)
-    ```
-    
-- Using `dev` environment:
-
-    ```bash
-    $ (cd tests/Application && bin/console sylius:fixtures:load -e dev)
-    $ (cd tests/Application && bin/console server:run -d web -e dev)
-    ```
+Now you should see in the frontend that upon opening the product you will see that there are customer options to be configured when adding the product to the cart.
