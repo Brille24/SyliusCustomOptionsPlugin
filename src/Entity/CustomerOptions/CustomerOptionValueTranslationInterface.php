@@ -16,7 +16,7 @@ interface CustomerOptionValueTranslationInterface extends ResourceInterface, Tra
     /**
      * @return string
      */
-    public function getName(): string;
+    public function getName(): ?string;
 
     /**
      * @param string $name

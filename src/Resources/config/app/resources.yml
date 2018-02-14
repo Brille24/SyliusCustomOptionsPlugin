@@ -29,3 +29,13 @@ sylius_resource:
                     model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTranslation
                     interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTranslationInterface
                     form: Brille24\CustomerOptionsPlugin\Form\CustomerOptionGroupTranslationType
+        brille24.customer_option_value:
+            classes:
+                model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue
+                interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface
+                form: Brille24\CustomerOptionsPlugin\Form\CustomerOptionValueType
+            translation:
+                classes:
+                    model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueTranslation
+                    interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueTranslationInterface
+                    form: Brille24\CustomerOptionsPlugin\Form\CustomerOptionValueTranslationType

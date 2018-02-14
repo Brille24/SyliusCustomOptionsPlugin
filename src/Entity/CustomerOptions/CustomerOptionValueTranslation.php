@@ -30,7 +30,7 @@ class CustomerOptionValueTranslation extends AbstractTranslation implements Cust
     /**
      * {@inheritdoc}
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }

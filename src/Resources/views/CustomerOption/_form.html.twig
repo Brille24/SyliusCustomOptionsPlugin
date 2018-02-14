@@ -13,10 +13,12 @@
 </div>
 
 {% if form.configuration is defined %}
-<div class="ui segment">
-    <h4 class="ui dividing header">{{ 'sylius.ui.configuration'|trans }}</h4>
-    {% for field in form.configuration %}
-        {{ form_row(field) }}
-    {% endfor %}
-</div>
+    <div class="ui segment">
+        <h4 class="ui dividing header">{{ 'sylius.ui.configuration'|trans }}</h4>
+        {% for field in form.configuration %}
+            {{ form_row(field) }}
+        {% endfor %}
+    </div>
+{% elseif form.vars.value.isSelectType() %}
+    {% include '@Brille24CustomerOptionsPlugin/CustomerOption/_values.html.twig' with {'form': form.values} only %}
 {% endif %}

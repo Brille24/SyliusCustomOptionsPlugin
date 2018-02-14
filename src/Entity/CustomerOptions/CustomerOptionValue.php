@@ -14,9 +14,9 @@ use Sylius\Component\Resource\Model\TranslationInterface;
 
 class CustomerOptionValue implements CustomerOptionValueInterface
 {
-    use TranslatableTrait{
-        __construct as private initializeTranslations();
-        getTranslation as private doGetTranslation();
+    use TranslatableTrait {
+        __construct as protected initializeTranslationsCollection;
+        getTranslation as private doGetTranslation;
     }
 
     /** @var int */
@@ -31,8 +31,12 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /** @var CustomerOptionValuePriceInterface */
     protected $price;
 
-    public function __construct() {
-        $this->initializeTranslations();
+    /** @var CustomerOptionInterface|null */
+    private $customerOption;
+
+    public function __construct()
+    {
+        $this->initializeTranslationsCollection();
     }
 
     /**
@@ -56,7 +60,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
      */
     public function getCode(): string
     {
-        return $this->code;
+        return $this->code ?? '';
     }
 
     /**
@@ -70,7 +74,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setName(string $name):void
+    public function setName(string $name): void
     {
         $this->getTranslation()->setName($name);
     }
@@ -86,7 +90,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function getValue(): string
+    public function getValue(): ?string
     {
         return $this->value;
     }
@@ -105,6 +109,22 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     public function getPrice(): CustomerOptionValuePriceInterface
     {
         return $this->price;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomerOption(): ?CustomerOptionInterface
+    {
+        return $this->customerOption;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCustomerOption(?CustomerOptionInterface $customerOption): void
+    {
+        $this->customerOption = $customerOption;
     }
 
     /**

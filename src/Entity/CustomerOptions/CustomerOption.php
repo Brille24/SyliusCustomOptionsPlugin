@@ -9,6 +9,7 @@
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 
+use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
@@ -22,22 +23,22 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /** @var null|int */
-    protected $id;
+    private $id;
 
     /** @var null|string */
-    protected $type;
+    private $type;
 
     /** @var null|string */
-    protected $code;
+    private $code;
 
     /** @var null|bool */
-    protected $required;
+    private $required;
 
     /** @var Collection|CustomerOptionValueInterface[] */
-    protected $values;
+    private $values;
 
     /** @var ArrayCollection */
-    protected $groupAssociations;
+    private $groupAssociations;
 
 
     public function __construct()
@@ -72,6 +73,13 @@ class CustomerOption implements CustomerOptionInterface
         return $this->type;
     }
 
+    public function isSelectType(): bool
+    {
+        $selectTypes = [CustomerOptionTypeEnum::SELECT, CustomerOptionTypeEnum::MULTI_SELECT];
+
+        return in_array($this->type, $selectTypes);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -91,7 +99,7 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function setRequired(bool $required)
+    public function setRequired(bool $required): void
     {
         $this->required = $required;
     }
@@ -107,7 +115,7 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function getValues()
+    public function getValues(): Collection
     {
         return $this->values;
     }
@@ -115,15 +123,16 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function addValue($value)
+    public function addValue(CustomerOptionValueInterface $value): void
     {
         $this->values->add($value);
+        $value->setCustomerOption($this);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function removeValue($value)
+    public function removeValue(CustomerOptionValueInterface $value): void
     {
         $this->values->removeElement($value);
     }
@@ -131,15 +140,15 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function setValues($values): void
+    public function setValues(array $values): void
     {
-        $this->values = $values;
+        $this->values = new ArrayCollection($values);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getGroupAssociations()
+    public function getGroupAssociations(): ArrayCollection
     {
         return $this->groupAssociations;
     }

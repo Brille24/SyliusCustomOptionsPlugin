@@ -25,5 +25,12 @@
                 <order-by-field name="position" direction="ASC"/>
             </order-by>
         </one-to-many>
+
+        <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+                     mapped-by="customerOption" field="values">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
     </entity>
 </doctrine-mapping>

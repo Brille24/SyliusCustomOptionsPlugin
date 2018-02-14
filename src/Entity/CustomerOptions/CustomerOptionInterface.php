@@ -60,17 +60,17 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     /**
      * @param Collection $values
      */
-    public function setValues($values);
+    public function setValues(array $values);
 
     /**
      * @param CustomerOptionValueInterface $value
      */
-    public function addValue($value);
+    public function addValue(CustomerOptionValueInterface $value);
 
     /**
      * @param CustomerOptionValueInterface $value
      */
-    public function removeValue($value);
+    public function removeValue(CustomerOptionValueInterface $value);
 
     /**
      * @return Collection

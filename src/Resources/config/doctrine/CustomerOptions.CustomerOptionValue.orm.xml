@@ -13,8 +13,7 @@
         <field name="value" type="string" nullable="false"/>
 
         <one-to-one field="price" target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice" />
-        <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueTranslation"
-                     mapped-by="translatable"
-                     field="translations" />
+
+        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption" field="customerOption" />
     </entity>
 </doctrine-mapping>

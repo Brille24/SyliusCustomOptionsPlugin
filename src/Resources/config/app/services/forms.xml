@@ -5,6 +5,21 @@
             <tag name="form.type_extension" extended_type="Sylius\Bundle\ProductBundle\Form\Type\ProductType"/>
         </service>
 
+        <!-- Translation Type -->
+        <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionValueType"
+                 id="brille24.customer_options_plugin.form.customer_option_value_type">
+            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue</argument>
+            <argument>%sylius.form.type.product.validation_groups%</argument>
+            <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionValueType" name="form.type"/>
+        </service>
+
+        <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionValueTranslationType"
+                 id="brille24.customer_options_plugin.form.customer_option_value_translation_type">
+            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueTranslation</argument>
+            <argument>%sylius.form.type.product.validation_groups%</argument>
+            <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionValueTranslationType" name="form.type"/>
+        </service>
+
         <!-- Customer Options -->
         <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionType"
                  id="brille24.customer_options_plugin.form.customer_option_type">
