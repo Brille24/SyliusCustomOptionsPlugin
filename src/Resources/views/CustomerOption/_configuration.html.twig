@@ -1,6 +1,6 @@
 {% include 'Brille24CustomerOptionsPlugin:all:_date.html.twig' only %}
 
-<h4 class="ui dividing header">{{ 'sylius.ui.configuration'|trans }}</h4>
+<h3 class="ui dividing header" style="margin-top: 0">{{- 'sylius.ui.configuration' |trans -}}</h3>
 {% for element in form %}
     {{ form_row(element) }}
 {% endfor %}
