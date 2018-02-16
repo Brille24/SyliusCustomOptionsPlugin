@@ -91,4 +91,12 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     {
         $this->customerOptionValue = $customerOptionValue;
     }
+
+    public function __toString(): string
+    {
+        if ($this->getType() === CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT) {
+            return "{$this->getAmount()} EUR";
+        }
+        return "{$this->getPercent()}%";
+    }
 }

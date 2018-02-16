@@ -10,6 +10,7 @@ namespace Brille24\CustomerOptionsPlugin\Form;
 
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Sylius\Component\Core\Model\ProductInterface;
 use Symfony\Component\Form\AbstractType;
@@ -73,11 +74,11 @@ class ProductCustomerOptionType extends AbstractType
         // Adding choices if it is a select (or multi-select)
         $choices = [];
         if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
-          $choices = [
-              'choices' => $customerOption->getValues()->toArray(),
-              'choice_label' => 'name',
-              'choice_value' => 'code',
-          ];
+            $choices = [
+                'choices'      => $customerOption->getValues()->toArray(),
+                'choice_label' => function (CustomerOptionValueInterface $value) { return (string)$value; },
+                'choice_value' => 'code',
+            ];
         }
 
         return array_merge($formOptions, $defaultOptions, $choices);

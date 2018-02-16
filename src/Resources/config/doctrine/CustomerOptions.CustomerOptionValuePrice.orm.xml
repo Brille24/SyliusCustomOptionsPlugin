@@ -5,7 +5,7 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="percent" type="decimal" />
+        <field name="percent" type="float" />
         <field name="amount" type="integer" />
 
         <field name="type" type="string" length="10" />
