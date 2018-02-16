@@ -16,6 +16,11 @@ use Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Class AddToCartTypeExtension extends the add to cart action in the front-end and adds customerOptions
+ *
+ * @package Brille24\CustomerOptionsPlugin\Form\Extensions
+ */
 final class AddToCartTypeExtension extends AbstractTypeExtension
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

@@ -5,6 +5,7 @@ namespace Brille24\CustomerOptionsPlugin\Traits;
 
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 
 interface CustomerOptionableTraitInterface
 {
@@ -21,7 +22,7 @@ interface CustomerOptionableTraitInterface
     /**
      * Returns all customer options and an empty array if there are none associated
      *
-     * @return array
+     * @return CustomerOptionInterface[]
      */
     public function getCustomerOptions(): array;
 }
