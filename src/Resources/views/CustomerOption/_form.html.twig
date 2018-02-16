@@ -12,7 +12,7 @@
     {{ translationForm(form.translations) }}
 </div>
 <div class="ui segment">
-    {% if form.vars.value.isSelectType() %}
+    {% if form.configuration |length == 0 %}
         {% include 'Brille24CustomerOptionsPlugin:CustomerOption:_values.html.twig' with {'form': form.values} only %}
     {% else %}
         {% include 'Brille24CustomerOptionsPlugin:CustomerOption:_configuration.html.twig' with {'form': form.configuration} only %}

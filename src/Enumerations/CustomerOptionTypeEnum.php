@@ -110,25 +110,28 @@ final class CustomerOptionTypeEnum implements EnumInterface
     {
         return [
             self::TEXT     => [
-                "brille24.form.config.min.length" => ["type" => "integer", "value" => 0],
-                "brille24.form.config.max.length" => ["type" => "integer", "value" => 255],
+                'brille24.form.config.min.length' => ['type' => 'integer', 'value' => 0],
+                'brille24.form.config.max.length' => ['type' => 'integer', 'value' => 255],
             ],
             self::FILE     => [
-                "brille24.form.config.min.file_size" => ["type" => "integer", "value" => 0],
-                "brille24.form.config.max.file_size" => ["type" => "integer", "value" => 1000],
+                'brille24.form.config.min.file_size' => ['type' => 'integer', 'value' => 0],
+                'brille24.form.config.max.file_size' => ['type' => 'integer', 'value' => 1000],
             ],
             self::DATE     => [
-                "brille24.form.config.min.date" => ["type" => "date", "value" => new DateTime("1900-01-01")],
-                "brille24.form.config.max.date" => ["type" => "date", "value" => new DateTime("3000-12-31")],
+                'brille24.form.config.min.date' => ['type' => 'date', 'value' => new DateTime('1900-01-01')],
+                'brille24.form.config.max.date' => ['type' => 'date', 'value' => new DateTime('3000-12-31')],
             ],
             self::DATETIME => [
-                "brille24.form.config.min.date" => ["type" => "datetime", "value" => new DateTime("1900-01-01")],
-                "brille24.form.config.max.date" => ["type" => "datetime", "value" => new DateTime("3000-12-31")],
+                'brille24.form.config.min.date' => ['type' => 'datetime', 'value' => new DateTime('1900-01-01')],
+                'brille24.form.config.max.date' => ['type' => 'datetime', 'value' => new DateTime('3000-12-31')],
             ],
             self::NUMBER   => [
-                "brille24.form.config.min.number" => ["type" => "number", "value" => 0],
-                "brille24.form.config.max.number" => ["type" => "integer", "value" => 1000],
+                'brille24.form.config.min.number' => ['type' => 'number', 'value' => 0],
+                'brille24.form.config.max.number' => ['type' => 'integer', 'value' => 1000],
             ],
+            self::BOOLEAN => [
+                'brille24.form.config.default_value' => ['type' => 'boolean', 'value' => true],
+            ]
         ];
     }
 

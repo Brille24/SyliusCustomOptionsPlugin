@@ -44,6 +44,7 @@ brille24:
                 date: Maximum date
                 number: Maximum number
             invalid_min_max: The configurations minimum value is greater then the maximum
+            default_value: Default value
 
     grid:
         options_remaining: "{0} |]0,Inf]and %count% more"
