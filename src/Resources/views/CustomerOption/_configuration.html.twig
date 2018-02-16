@@ -1,25 +1,7 @@
+{% include 'Brille24CustomerOptionsPlugin:all:_date.html.twig' only %}
+
 <h4 class="ui dividing header">{{ 'sylius.ui.configuration'|trans }}</h4>
+
 {% for element in form %}
-    {% if element.vars.value.year is defined %}
-        {{ form_label(element) }}
-        <div class="tree fields">
-            {% for datePart in element %}
-                {{ form_widget(datePart, {"attr": {"syle": "display: inline"}}) }}
-            {% endfor %}
-        </div>
-    {% elseif element.vars.value.date is defined %}
-        {{ form_label(element) }}
-        <div class="tree fields">
-            {% for datePart in element.date %}
-                {{ form_widget(datePart, {"attr": {"syle": "display: inline"}}) }}
-            {% endfor %}
-        </div>
-        <div class="two fields">
-            {% for timePart in element.time %}
-                {{ form_widget(timePart, {"attr": {"syle": "display: inline"}}) }}
-            {% endfor %}
-        </div>
-    {% else %}
-        {{ form_row(element) }}
-    {% endif %}
+    {{ form_row(element) }}
 {% endfor %}

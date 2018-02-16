@@ -59,4 +59,9 @@ class CustomerOptionConfigurationType extends AbstractType
                 return TextType::class;
         }
     }
+
+    public function getBlockPrefix()
+    {
+        return 'brille24_customer_option_configuration';
+    }
 }
