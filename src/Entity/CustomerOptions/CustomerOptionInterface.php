@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -78,12 +79,12 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     /**
      * @param CustomerOptionValueInterface $value
      */
-    public function addValue(CustomerOptionValueInterface $value);
+    public function addValue(CustomerOptionValueInterface $value): void;
 
     /**
      * @param CustomerOptionValueInterface $value
      */
-    public function removeValue(CustomerOptionValueInterface $value);
+    public function removeValue(CustomerOptionValueInterface $value): void;
 
     /**
      * @return Collection

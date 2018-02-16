@@ -18,7 +18,7 @@ final class ProductTypeExtension extends AbstractTypeExtension
 {
     public function __construct() { }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('customerOptionGroup', EntityType::class, [
             'class'       => CustomerOptionGroup::class,
@@ -33,7 +33,7 @@ final class ProductTypeExtension extends AbstractTypeExtension
      *
      * @return string The name of the type being extended
      */
-    public function getExtendedType()
+    public function getExtendedType(): string
     {
         return ProductType::class;
     }

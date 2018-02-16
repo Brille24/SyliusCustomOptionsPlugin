@@ -27,11 +27,24 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
      */
     public function getOptionAssociations(): Collection;
 
-    public function addOptionAssociation(CustomerOptionAssociationInterface $association);
+    /**
+     * @param CustomerOptionAssociationInterface $association
+     *
+     * @return void
+     */
+    public function addOptionAssociation(CustomerOptionAssociationInterface $association): void;
 
-    public function removeOptionAssociation(CustomerOptionAssociationInterface $association);
+    /**
+     * @param CustomerOptionAssociationInterface $association
+     *
+     * @return void
+     */
+    public function removeOptionAssociation(CustomerOptionAssociationInterface $association): void;
 
-    public function hasOptionAssociations();
+    /**
+     * @return bool
+     */
+    public function hasOptionAssociations(): bool;
 
     /**
      * @return ProductInterface[]

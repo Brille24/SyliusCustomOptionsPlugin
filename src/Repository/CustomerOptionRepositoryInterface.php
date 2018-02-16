@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -16,19 +17,22 @@ interface CustomerOptionRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param string $code
+     *
      * @return null|CustomerOptionInterface
      */
-    public function findOneByCode(string $code) : ?CustomerOptionInterface;
+    public function findOneByCode(string $code): ?CustomerOptionInterface;
 
     /**
      * @param string $type
-     * @return array
+     *
+     * @return CustomerOptionInterface[]
      */
-    public function findByType(string $type) : array;
+    public function findByType(string $type): array;
 
     /**
      * @param bool $required
-     * @return array
+     *
+     * @return CustomerOptionInterface[]
      */
-    public function findByRequired(bool $required) : array;
+    public function findByRequired(bool $required): array;
 }

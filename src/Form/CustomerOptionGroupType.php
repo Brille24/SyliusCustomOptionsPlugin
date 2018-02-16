@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class CustomerOptionGroupType extends AbstractResourceType
 {
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $builder

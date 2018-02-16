@@ -10,12 +10,12 @@ class CustomerOptionConfigurationConstraint extends Constraint
 {
     public $message= '';
 
-    public function getTargets()
+    public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
     }
 
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return CustomerOptionConfigurationConstraintValidator::class;
     }

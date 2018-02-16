@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -19,7 +20,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductCustomerOptionType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var \Brille24\CustomerOptionsPlugin\Entity\ProductInterface $product */
         $product = $options['product'];
@@ -45,7 +46,7 @@ class ProductCustomerOptionType extends AbstractType
         return 'customer_option_' . $customerOption->getCode();
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefined(['product'])
@@ -53,12 +54,14 @@ class ProductCustomerOptionType extends AbstractType
             ->setDefault('mapped', false);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'brille24_product_customer_option';
     }
 
     /**
+     * Gets the settings for the form type based on the type that the form field is for
+     *
      * @param $formOptions
      * @param $customerOption
      *
