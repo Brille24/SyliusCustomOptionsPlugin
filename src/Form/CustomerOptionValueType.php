@@ -20,8 +20,7 @@ class CustomerOptionValueType extends AbstractResourceType
         $builder->add('code', TextType::class)
             ->add('translations', ResourceTranslationsType::class, [
                 'entry_type' => CustomerOptionValueTranslationType::class
-            ])
-            ->add('value', TextType::class);
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

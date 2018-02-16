@@ -10,7 +10,7 @@
             <generator strategy="AUTO"/>
         </id>
 
-        <field name="code" type="string" unique="true"/>
+        <field name="code"/>
 
         <one-to-one
                 field="price"
@@ -27,10 +27,12 @@
         <many-to-one
                 target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
                 field="customerOption"
-        >
-            <cascade>
-                <cascade-remove/>
-            </cascade>
-        </many-to-one>
+                inversed-by="values"
+        />
+
+        <!-- Constraints -->
+        <unique-constraints>
+            <unique-constraint columns="customerOption_id,code"/>
+        </unique-constraints>
     </entity>
 </doctrine-mapping>

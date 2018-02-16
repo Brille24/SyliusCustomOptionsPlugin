@@ -6,13 +6,15 @@
  * Time: 10:03
  */
 
+declare(strict_types=1);
+
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Proxies\__CG__\Sylius\Component\Core\Model\Customer;
+use Doctrine\ORM\PersistentCollection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
@@ -35,7 +37,7 @@ class CustomerOption implements CustomerOptionInterface
     /** @var null|bool */
     private $required = false;
 
-    /** @var Collection|CustomerOptionValueInterface[] */
+    /** @var PersistentCollection|CustomerOptionValueInterface[] */
     private $values;
 
     /** @var array */
@@ -66,7 +68,7 @@ class CustomerOption implements CustomerOptionInterface
      */
     public function setType(?string $type): void
     {
-        if(!CustomerOptionTypeEnum::isValid($type)){
+        if (!CustomerOptionTypeEnum::isValid($type)) {
             throw new \Exception('Invalid type');
         }
 
@@ -119,6 +121,9 @@ class CustomerOption implements CustomerOptionInterface
         return $this->required;
     }
 
+
+    //region Getter and setter for value
+
     /**
      * {@inheritdoc}
      */
@@ -151,6 +156,7 @@ class CustomerOption implements CustomerOptionInterface
     {
         $this->values = new ArrayCollection($values);
     }
+    //endregion
 
     /**
      * {@inheritdoc}
