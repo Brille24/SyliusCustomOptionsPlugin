@@ -12,13 +12,13 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     private $id;
 
     /** @var float */
-    private $percent;
+    private $percent = 0;
 
     /** @var int */
-    private $amount;
+    private $amount = 0;
 
     /** @var string */
-    private $type;
+    private $type = CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT;
 
     /** @var CustomerOptionValueInterface|null */
     private $customerOptionValue;

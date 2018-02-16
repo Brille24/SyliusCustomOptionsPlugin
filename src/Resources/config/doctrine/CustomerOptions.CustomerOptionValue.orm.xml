@@ -4,16 +4,33 @@
         xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
-    <entity name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue" table="brille24_customer_option_value">
+    <entity name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+            table="brille24_customer_option_value">
         <id name="id" type="integer">
-            <generator strategy="AUTO" />
+            <generator strategy="AUTO"/>
         </id>
 
-        <field name="code" type="string" nullable="false" unique="true" />
-        <field name="value" type="string" nullable="false"/>
+        <field name="code" type="string" unique="true"/>
 
-        <one-to-one field="price" target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice" />
+        <one-to-one
+                field="price"
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
+                inversed-by="customerOptionValue"
+                orphan-removal="true"
+        >
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+        </one-to-one>
 
-        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption" field="customerOption" />
+        <many-to-one
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
+                field="customerOption"
+        >
+            <cascade>
+                <cascade-remove/>
+            </cascade>
+        </many-to-one>
     </entity>
 </doctrine-mapping>
