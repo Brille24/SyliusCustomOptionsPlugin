@@ -12,6 +12,7 @@ namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Proxies\__CG__\Sylius\Component\Core\Model\Customer;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
@@ -26,13 +27,13 @@ class CustomerOption implements CustomerOptionInterface
     private $id;
 
     /** @var null|string */
-    private $type;
+    private $type = CustomerOptionTypeEnum::SELECT;
 
     /** @var null|string */
-    private $code;
+    private $code = '';
 
     /** @var null|bool */
-    private $required;
+    private $required = false;
 
     /** @var Collection|CustomerOptionValueInterface[] */
     private $values;
@@ -63,8 +64,12 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function setType(?string $type)
+    public function setType(?string $type): void
     {
+        if(!CustomerOptionTypeEnum::isValid($type)){
+            throw new \Exception('Invalid type');
+        }
+
         $this->type = $type;
 
         if (CustomerOptionTypeEnum::isSelect($type)) {
@@ -85,7 +90,7 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function setCode(?string $code)
+    public function setCode(?string $code): void
     {
         $this->code = $code;
     }
@@ -93,7 +98,7 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function getCode(): ?string
+    public function getCode(): string
     {
         return $this->code;
     }
@@ -147,11 +152,17 @@ class CustomerOption implements CustomerOptionInterface
         $this->values = new ArrayCollection($values);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getConfiguration(): array
     {
         return $this->configuration;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setConfiguration(array $configuration): void
     {
         // Setting the new values

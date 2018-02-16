@@ -84,22 +84,6 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setValue(string $value)
-    {
-        $this->value = $value;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getValue(): ?string
-    {
-        return $this->value;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function setPrice(CustomerOptionValuePriceInterface $price)
     {
         $this->price = $price;

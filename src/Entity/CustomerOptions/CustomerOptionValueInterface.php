@@ -35,16 +35,6 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
     public function getName(): string;
 
     /**
-     * @param string $value
-     */
-    public function setValue(string $value);
-
-    /**
-     * @return string
-     */
-    public function getValue(): ?string;
-
-    /**
      * @param CustomerOptionValuePriceInterface $price
      */
     public function setPrice(CustomerOptionValuePriceInterface $price);
