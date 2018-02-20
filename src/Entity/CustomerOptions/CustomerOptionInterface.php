@@ -92,6 +92,17 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     public function getValues(): Collection;
 
     /**
+     * @return Collection|CustomerOptionValuePriceInterface[]
+     */
+    public function getPrices();
+
+    /**
+     * @param array $prices
+     * @return mixed
+     */
+    public function setPrices(array $prices);
+
+    /**
      * @param CustomerOptionAssociationInterface $assoc
      */
     public function setGroupAssociations(CustomerOptionAssociationInterface $assoc): void;

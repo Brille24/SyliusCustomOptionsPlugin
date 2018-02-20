@@ -38,8 +38,8 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     public function __construct()
     {
         $this->initializeTranslationsCollection();
-
         $this->price = new CustomerOptionValuePrice();
+        $this->price->setCustomerOptionValue($this);
     }
 
     /**
@@ -88,12 +88,14 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     public function setPrice(CustomerOptionValuePriceInterface $price): void
     {
         $this->price = $price;
+
+        $price->setCustomerOptionValue($this);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPrice(): CustomerOptionValuePriceInterface
+    public function getPrice(): ?CustomerOptionValuePriceInterface
     {
         return $this->price;
     }

@@ -212,6 +212,24 @@ class CustomerOption implements CustomerOptionInterface
         return $this->getTranslation()->getName();
     }
 
+    public function getPrices()
+    {
+        $prices = [];
+
+        foreach ($this->values as $value){
+            $prices[] = $value->getPrice();
+        }
+
+        return $prices;
+    }
+
+    public function setPrices(array $prices)
+    {
+        foreach ($prices as $price){
+            $price->getCustomerOptionValue()->setPrice($price);
+        }
+    }
+
 
     /**
      * @param string|null $locale

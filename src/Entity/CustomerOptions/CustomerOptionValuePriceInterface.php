@@ -39,7 +39,7 @@ interface CustomerOptionValuePriceInterface
     /**
      * @return string
      */
-    public function getType(): string;
+    public function getType(): ?string;
 
     /**
      * @param string $type
@@ -51,7 +51,7 @@ interface CustomerOptionValuePriceInterface
      *
      * @return array
      */
-    public function getAllTypes(): array;
+    public static function getAllTypes(): array;
 
     /**
      * @return CustomerOptionValueInterface|null
@@ -62,4 +62,9 @@ interface CustomerOptionValuePriceInterface
      * @param CustomerOptionValueInterface|null $customerOptionValue
      */
     public function setCustomerOptionValue(?CustomerOptionValueInterface $customerOptionValue): void;
+
+    /**
+     * @return null|string
+     */
+    public function getCustomerOptionValueName(): ?string;
 }

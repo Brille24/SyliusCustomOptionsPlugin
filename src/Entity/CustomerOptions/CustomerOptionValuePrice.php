@@ -23,6 +23,13 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     /** @var CustomerOptionValueInterface|null */
     private $customerOptionValue;
 
+    public function __construct()
+    {
+        $this->percent = 0;
+        $this->amount = 0;
+        $this->type = self::getAllTypes()[0];
+    }
+
     /** {@inheritdoc} */
     public function getId(): ?int
     {
@@ -54,7 +61,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     }
 
     /** {@inheritdoc} */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
@@ -72,7 +79,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     }
 
     /** {@inheritdoc} */
-    public function getAllTypes(): array
+    public static function getAllTypes(): array
     {
         return [
             CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT,
@@ -98,5 +105,10 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
             return "{$this->getAmount()} EUR";
         }
         return "{$this->getPercent()}%";
+    }
+
+    public function getCustomerOptionValueName(): ?string
+    {
+        return $this->customerOptionValue->getName();
     }
 }

@@ -43,7 +43,7 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
     /**
      * @return CustomerOptionValuePriceInterface
      */
-    public function getPrice(): CustomerOptionValuePriceInterface;
+    public function getPrice(): ?CustomerOptionValuePriceInterface;
 
     /**
      * @param CustomerOptionInterface|null $customerOption
