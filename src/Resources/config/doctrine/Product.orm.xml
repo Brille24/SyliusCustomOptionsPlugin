@@ -1,11 +1,20 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
     <mapped-superclass name="Brille24\CustomerOptionsPlugin\Entity\Product" table="sylius_product">
 
-        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup"
-                     field="customerOptionGroup"/>
+        <many-to-one
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup"
+                field="customerOptionGroup"
+                inversed-by="products"
+        />
 
-        <many-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
-                      field="customerOptionPrices">
+        <many-to-many
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
+                field="customerOptionPrices"
+        >
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+
             <join-table name="brille24_product_value_prices">
                 <join-columns>
                     <join-column name="product_id" referenced-column-name="id" />

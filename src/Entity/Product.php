@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Entity;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Brille24\CustomerOptionsPlugin\Traits\CustomerOptionableTrait;
 use Sylius\Component\Core\Model\Product as BaseProduct;
@@ -34,9 +33,9 @@ class Product extends BaseProduct implements ProductInterface
         $this->customerOptionPrices = $prices;
     }
 
-    public function getCustomerOptions(): Collection
+    public function getCustomerOptions(): array
     {
-        $options = new ArrayCollection();
+        $options = [];
 
         if($this->customerOptionGroup !== null) {
             foreach ($this->customerOptionGroup->getOptionAssociations() as $assoc) {

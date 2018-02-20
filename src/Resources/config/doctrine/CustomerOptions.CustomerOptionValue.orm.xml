@@ -15,7 +15,7 @@
         <one-to-one
                 field="price"
                 target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
-                inversed-by="customerOptionValue"
+
                 orphan-removal="true"
         >
             <cascade>

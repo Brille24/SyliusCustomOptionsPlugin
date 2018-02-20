@@ -6,10 +6,7 @@ namespace Brille24\CustomerOptionsPlugin\Form\Extensions;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\CustomerOptionsPlugin\Form\Product\CustomerOptionType;
 use Brille24\CustomerOptionsPlugin\Form\Product\CustomerOptionValuePriceType;
-use Brille24\CustomerOptionsPlugin\Form\Product\CustomerOptionValueType;
 use Sylius\Bundle\ProductBundle\Form\Type\ProductType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractTypeExtension;
@@ -50,7 +47,13 @@ final class ProductTypeExtension extends AbstractTypeExtension
 
         $builder->add('customerOptionPrices', CollectionType::class, [
             'entry_type' => CustomerOptionValuePriceType::class,
+            'entry_options' => [
+                'product' => $product,
+            ],
             'label' => 'Customer Option Value Prices',
+            'by_reference' => false,
+            'allow_add' => true,
+            'allow_delete' => true,
         ]);
     }
 
