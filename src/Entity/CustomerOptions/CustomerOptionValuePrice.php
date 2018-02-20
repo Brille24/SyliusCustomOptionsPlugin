@@ -107,6 +107,9 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         return "{$this->getPercent()}%";
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCustomerOptionValueName(): ?string
     {
         return $this->customerOptionValue->getName();

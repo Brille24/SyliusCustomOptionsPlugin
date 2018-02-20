@@ -14,6 +14,14 @@
     {{ translationForm(form.translations) }}
 </div>
 
+    <div class="ui segment">
+        {% if form.configuration |length == 0 %}
+            {% include 'Brille24CustomerOptionsPlugin:CustomerOption:_values.html.twig' with {'form': form.values} only %}
+        {% else %}
+            {% include 'Brille24CustomerOptionsPlugin:CustomerOption:_configuration.html.twig' with {'form': form.configuration} only %}
+        {% endif %}
+    </div>
+
 {% if form.configuration is defined %}
     <div class="ui segment">
         <h4 class="ui dividing header">{{ 'sylius.ui.configuration'|trans }}</h4>

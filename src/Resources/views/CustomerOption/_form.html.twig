@@ -1,24 +1,2 @@
-{#<<<<<<< HEAD#}
-{#{% from '@SyliusAdmin/Macro/translationForm.html.twig' import translationForm %}#}
-
-{#{{ form_errors(form) }}#}
-
-{#<div class="ui segment">#}
-    {#<h3 class="ui dividing header">{{ 'sylius.ui.details'|trans }}</h3>#}
-    {#<div class="three fields">#}
-        {#{{ form_row(form.code) }}#}
-        {#{{ form_row(form.type) }}#}
-        {#{{ form_row(form.required) }}#}
-    {#</div>#}
-    {#{{ translationForm(form.translations) }}#}
-{#</div>#}
-{#<div class="ui segment">#}
-    {#{% if form.configuration |length == 0 %}#}
-        {#{% include 'Brille24CustomerOptionsPlugin:CustomerOption:_values.html.twig' with {'form': form.values} only %}#}
-    {#{% else %}#}
-        {#{% include 'Brille24CustomerOptionsPlugin:CustomerOption:_configuration.html.twig' with {'form': form.configuration} only %}#}
-    {#{% endif %}#}
-{#</div>#}
-{#=======#}
 {% set menu = knp_menu_get('brille24.admin.customer_option_form', [], {'customer_option': customer_option}) %}
 {{ knp_menu_render(menu, {'template': 'Brille24CustomerOptionsPlugin:CustomerOption:_menu.html.twig', 'form': form, 'customer_option': customer_option}) }}
