@@ -27,6 +27,7 @@ class CustomerOptionValuePriceType extends AbstractType
                 'attr' => [
                     'readonly' => true,
                 ],
+                'label' => false,
             ])
             ->add('percent', NumberType::class, [
                 'empty_data' => 0,
