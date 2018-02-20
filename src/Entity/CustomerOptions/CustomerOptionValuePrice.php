@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 
+use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 
 class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
@@ -22,6 +24,9 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
 
     /** @var CustomerOptionValueInterface|null */
     private $customerOptionValue;
+
+    /** @var Collection */
+    private $product;
 
     public function __construct()
     {
@@ -114,4 +119,15 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     {
         return $this->customerOptionValue->getName();
     }
+
+    public function getProducts(): ?Collection
+    {
+        return $this->product;
+    }
+
+    public function setProducts(?Collection $product): void
+    {
+        $this->product = $product;
+    }
+
 }

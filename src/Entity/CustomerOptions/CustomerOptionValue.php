@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
@@ -29,8 +31,8 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /** @var string */
     protected $value;
 
-    /** @var CustomerOptionValuePriceInterface */
-    protected $price;
+    /** @var Collection */
+    protected $prices;
 
     /** @var CustomerOptionInterface|null */
     private $customerOption;
@@ -38,8 +40,8 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     public function __construct()
     {
         $this->initializeTranslationsCollection();
-        $this->price = new CustomerOptionValuePrice();
-        $this->price->setCustomerOptionValue($this);
+        $this->prices = new ArrayCollection([new CustomerOptionValuePrice()]);
+        $this->prices[0]->setCustomerOptionValue($this);
     }
 
     /**
@@ -85,19 +87,21 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setPrice(CustomerOptionValuePriceInterface $price): void
+    public function setPrices(Collection $prices): void
     {
-        $this->price = $price;
+        $this->prices = $prices;
 
-        $price->setCustomerOptionValue($this);
+        foreach($prices as $price) {
+            $price->setCustomerOptionValue($this);
+        }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPrice(): ?CustomerOptionValuePriceInterface
+    public function getPrices(): ?Collection
     {
-        return $this->price;
+        return $this->prices;
     }
 
     /**
@@ -136,6 +140,6 @@ class CustomerOptionValue implements CustomerOptionValueInterface
 
     public function __toString(): string
     {
-        return "{$this->getName()} ({$this->price})";
+        return "{$this->getName()} ({$this->prices})";
     }
 }

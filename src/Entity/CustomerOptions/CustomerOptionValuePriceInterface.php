@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
+use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
+use Doctrine\Common\Collections\Collection;
+
 interface CustomerOptionValuePriceInterface
 {
     const TYPE_FIXED_AMOUNT = 'FIXED_AMOUNT';
@@ -67,4 +70,14 @@ interface CustomerOptionValuePriceInterface
      * @return null|string
      */
     public function getCustomerOptionValueName(): ?string;
+
+    /**
+     * @return ProductInterface|null
+     */
+    public function getProducts(): ?Collection;
+
+    /**
+     * @param ProductInterface|null $product
+     */
+    public function setProducts(?Collection $product): void;
 }

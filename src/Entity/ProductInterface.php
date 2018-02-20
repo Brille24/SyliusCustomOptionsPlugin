@@ -9,7 +9,13 @@ use Brille24\CustomerOptionsPlugin\Traits\CustomerOptionableTraitInterface;
 
 interface ProductInterface extends BaseProductInterface, CustomerOptionableTraitInterface
 {
-    public function getCustomerOptionPrices(): Collection;
+    /**
+     * @return Collection|null
+     */
+    public function getCustomerOptionPrices(): ?Collection;
 
-    public function setCustomerOptionPrices(Collection $prices);
+    /**
+     * @param Collection|null $prices
+     */
+    public function setCustomerOptionPrices(?Collection $prices);
 }

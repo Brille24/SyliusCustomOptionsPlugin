@@ -30,19 +30,6 @@ class CustomerOptionType extends AbstractType
                 'label' => false,
             ])
         ;
-
-//        /** @var CustomerOptionInterface[] $customerOptions */
-//        $customerOptions = $options['data'];
-//
-//        foreach ($customerOptions as $option){
-//            if($option->getType() === CustomerOptionTypeEnum::SELECT || $option->getType() === CustomerOptionTypeEnum::MULTI_SELECT){
-//                $builder
-//                    ->add('customerOptionValues' . $option->getCode(), CollectionType::class, [
-//                        'entry_type' => CustomerOptionValueType::class,
-//                    ])
-//                ;
-//            }
-//        }
     }
 
     public function configureOptions(OptionsResolver $resolver)

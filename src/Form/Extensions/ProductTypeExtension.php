@@ -30,11 +30,13 @@ final class ProductTypeExtension extends AbstractTypeExtension
         /** @var CustomerOptionInterface[] $customerOptions */
         $customerOptions = [];
 
-        foreach ($product->getCustomerOptionGroup()->getOptionAssociations() as $optionAssociation){
-            $customerOptions[] = $optionAssociation->getOption();
+        if($product->getCustomerOptionGroup() !== null) {
+            foreach ($product->getCustomerOptionGroup()->getOptionAssociations() as $optionAssociation) {
+                $customerOptions[] = $optionAssociation->getOption();
+            }
         }
 
-        $prices = $product->getCustomerOptionPrices();
+//        $prices = $product->getCustomerOptionPrices();
 
         $builder
             ->add('customerOptionGroup', EntityType::class, [

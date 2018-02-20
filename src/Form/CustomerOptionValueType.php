@@ -21,11 +21,6 @@ class CustomerOptionValueType extends AbstractResourceType
             ->add('translations', ResourceTranslationsType::class, [
                 'entry_type' => CustomerOptionValueTranslationType::class
             ]);
-//=======
-//            ])
-//            ->add('value', TextType::class)
-//        ;
-//>>>>>>> customer_option_pricing
     }
 
     public function configureOptions(OptionsResolver $resolver): void
