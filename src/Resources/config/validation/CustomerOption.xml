@@ -20,5 +20,12 @@
                 <option name="groups">sylius</option>
             </constraint>
         </property>
+        
+        <property name="configuration">
+            <constraint name="Brille24\CustomerOptionsPlugin\Validator\Constraints\CustomerOptionConfigurationConstraint">
+                <option name="message">brille24.form.config.invalid_min_max</option>
+                <option name="groups">sylius</option>
+            </constraint>
+        </property>
     </class>
 </constraint-mapping>

@@ -1,13 +1,4 @@
-{% from '@SyliusAdmin/Macro/translationForm.html.twig' import translationForm %}
+{% form_theme form 'Brille24CustomerOptionsPlugin:CustomerOption:_customerOption_value.html.twig' %}
 
-<div class="ui segment">
-    <h4 class="ui dividing header">{{ 'sylius.ui.values'|trans }}</h4>
-    {% for valueObject in form %}
-        {{ form_row(valueObject.code) }}
-
-        {{ translationForm(valueObject.translations) }}
-
-        {{ form_row(valueObject.value) }}
-    {% endfor %}
-    {{ form_row(form) }}
-</div>
+<h3 class="ui dividing header">{{ 'sylius.ui.values'|trans }}</h3>
+{{ form_row(form) }}

@@ -2,16 +2,20 @@
     <entity name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
             table="brille24_customer_option_value_price">
         <id name="id" type="integer">
-            <generator strategy="AUTO" />
+            <generator strategy="AUTO"/>
         </id>
 
-        <field name="percent" type="float" />
-        <field name="amount" type="integer" />
+        <field name="percent" type="float"/>
+        <field name="amount" type="integer"/>
 
-        <field name="type" type="string" length="12" />
+        <field name="type" type="string" length="12"/>
 
-        <one-to-one field="customerOptionValue" target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue">
-            <join-column on-delete="CASCADE" />
+        <one-to-one field="customerOptionValue"
+                    target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+                    mapped-by="price">
+            <cascade>
+                <cascade-remove/>
+            </cascade>
         </one-to-one>
     </entity>
 </doctrine-mapping>

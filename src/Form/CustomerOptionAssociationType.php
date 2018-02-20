@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -20,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class CustomerOptionAssociationType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('option', EntityType::class, [
@@ -43,7 +44,7 @@ final class CustomerOptionAssociationType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'brille24_customer_option_association_choice';
     }

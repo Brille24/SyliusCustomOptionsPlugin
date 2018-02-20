@@ -14,6 +14,9 @@ interface CustomerOptionValuePriceInterface
     public function getId(): ?int;
 
     /**
+     * Returns the amount of percent it reduces. So 10.3% will be 10.3 in the field. Getting the decimal representation
+     * you need to divide by 100 first.
+     *
      * @return float
      */
     public function getPercent(): float;
@@ -59,4 +62,9 @@ interface CustomerOptionValuePriceInterface
      * @param CustomerOptionValueInterface|null $customerOptionValue
      */
     public function setCustomerOptionValue(?CustomerOptionValueInterface $customerOptionValue): void;
+
+    /**
+     * @return null|string
+     */
+    public function getCustomerOptionValueName(): ?string;
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -22,7 +23,7 @@ class CustomerOptionValueTranslation extends AbstractTranslation implements Cust
     /**
      * {@inheritdoc}
      */
-    public function getId()
+    public function getId():?int
     {
         return $this->id;
     }

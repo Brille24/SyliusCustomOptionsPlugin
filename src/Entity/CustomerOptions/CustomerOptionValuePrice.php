@@ -12,13 +12,13 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     private $id;
 
     /** @var float */
-    private $percent;
+    private $percent = 0;
 
     /** @var int */
-    private $amount;
+    private $amount = 0;
 
     /** @var string */
-    private $type;
+    private $type = CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT;
 
     /** @var CustomerOptionValueInterface|null */
     private $customerOptionValue;
@@ -27,6 +27,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     {
         $this->percent = 0;
         $this->amount = 0;
+        $this->type = self::getAllTypes()[0];
     }
 
     /** {@inheritdoc} */
@@ -96,5 +97,21 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     public function setCustomerOptionValue(?CustomerOptionValueInterface $customerOptionValue): void
     {
         $this->customerOptionValue = $customerOptionValue;
+    }
+
+    public function __toString(): string
+    {
+        if ($this->getType() === CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT) {
+            return "{$this->getAmount()} EUR";
+        }
+        return "{$this->getPercent()}%";
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomerOptionValueName(): ?string
+    {
+        return $this->customerOptionValue->getName();
     }
 }

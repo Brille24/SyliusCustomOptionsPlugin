@@ -6,12 +6,15 @@
  * Time: 10:03
  */
 
+declare(strict_types=1);
+
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\PersistentCollection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
@@ -26,16 +29,19 @@ class CustomerOption implements CustomerOptionInterface
     private $id;
 
     /** @var null|string */
-    private $type;
+    private $type = CustomerOptionTypeEnum::SELECT;
 
     /** @var null|string */
-    private $code;
+    private $code = '';
 
     /** @var null|bool */
-    private $required;
+    private $required = false;
 
-    /** @var Collection|CustomerOptionValueInterface[] */
+    /** @var PersistentCollection|CustomerOptionValueInterface[] */
     private $values;
+
+    /** @var array */
+    private $configuration = [];
 
     /** @var ArrayCollection */
     private $groupAssociations;
@@ -60,9 +66,19 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function setType(?string $type)
+    public function setType(?string $type): void
     {
+        if (!CustomerOptionTypeEnum::isValid($type)) {
+            throw new \Exception('Invalid type');
+        }
+
         $this->type = $type;
+
+        if (CustomerOptionTypeEnum::isSelect($type)) {
+            $this->configuration = [];
+        } else {
+            $this->configuration = CustomerOptionTypeEnum::getConfigurationArray()[$type];
+        }
     }
 
     /**
@@ -73,17 +89,10 @@ class CustomerOption implements CustomerOptionInterface
         return $this->type;
     }
 
-    public function isSelectType(): bool
-    {
-        $selectTypes = [CustomerOptionTypeEnum::SELECT, CustomerOptionTypeEnum::MULTI_SELECT];
-
-        return in_array($this->type, $selectTypes);
-    }
-
     /**
      * {@inheritdoc}
      */
-    public function setCode(?string $code)
+    public function setCode(?string $code): void
     {
         $this->code = $code;
     }
@@ -91,7 +100,7 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function getCode(): ?string
+    public function getCode(): string
     {
         return $this->code;
     }
@@ -111,6 +120,9 @@ class CustomerOption implements CustomerOptionInterface
     {
         return $this->required;
     }
+
+
+    //region Getter and setter for value
 
     /**
      * {@inheritdoc}
@@ -144,6 +156,34 @@ class CustomerOption implements CustomerOptionInterface
     {
         $this->values = new ArrayCollection($values);
     }
+    //endregion
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConfiguration(): array
+    {
+        return $this->configuration;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setConfiguration(array $configuration): void
+    {
+        // Setting the new values
+        foreach ($configuration as $key => $value) {
+            $optionKey                                = str_replace('_', '.', $key);
+            $this->configuration[$optionKey]['value'] = $value;
+        }
+
+        // Removing the configs of the previous type
+        foreach ($this->configuration as $key => $configOption) {
+            if (!isset($configOption['type'])) {
+                unset($this->configuration[$key]);
+            }
+        }
+    }
 
     /**
      * {@inheritdoc}
@@ -170,6 +210,24 @@ class CustomerOption implements CustomerOptionInterface
     public function getName(): ?string
     {
         return $this->getTranslation()->getName();
+    }
+
+    public function getPrices()
+    {
+        $prices = [];
+
+        foreach ($this->values as $value){
+            $prices[] = $value->getPrice();
+        }
+
+        return $prices;
+    }
+
+    public function setPrices(array $prices)
+    {
+        foreach ($prices as $price){
+            $price->getCustomerOptionValue()->setPrice($price);
+        }
     }
 
 
