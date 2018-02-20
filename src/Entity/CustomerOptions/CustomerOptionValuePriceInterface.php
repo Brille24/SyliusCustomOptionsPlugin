@@ -59,4 +59,9 @@ interface CustomerOptionValuePriceInterface
      * @param CustomerOptionValueInterface|null $customerOptionValue
      */
     public function setCustomerOptionValue(?CustomerOptionValueInterface $customerOptionValue): void;
+
+    /**
+     * @return null|string
+     */
+    public function getCustomerOptionValueName(): ?string;
 }

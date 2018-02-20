@@ -185,15 +185,8 @@ class CustomerOption implements CustomerOptionInterface
 
     public function setPrices(array $prices)
     {
-        /** @var CustomerOptionValuePriceInterface $price */
         foreach ($prices as $price){
-            /** @var CustomerOptionValueInterface $value */
-            foreach ($this->values as $value){
-                if($price->getCustomerOptionValue() === $value){
-                    $value->setPrice($price);
-                    break;
-                }
-            }
+            $price->getCustomerOptionValue()->setPrice($price);
         }
     }
 

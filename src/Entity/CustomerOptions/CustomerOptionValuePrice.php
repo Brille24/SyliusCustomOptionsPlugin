@@ -27,6 +27,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     {
         $this->percent = 0;
         $this->amount = 0;
+        $this->type = self::getAllTypes()[0];
     }
 
     /** {@inheritdoc} */
@@ -96,5 +97,10 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     public function setCustomerOptionValue(?CustomerOptionValueInterface $customerOptionValue): void
     {
         $this->customerOptionValue = $customerOptionValue;
+    }
+
+    public function getCustomerOptionValueName(): ?string
+    {
+        return $this->customerOptionValue->getName();
     }
 }
