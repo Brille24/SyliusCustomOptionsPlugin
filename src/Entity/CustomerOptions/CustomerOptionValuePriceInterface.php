@@ -1,7 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
+
+use Sylius\Component\Core\Model\ChannelInterface;
 
 interface CustomerOptionValuePriceInterface
 {
@@ -64,7 +67,17 @@ interface CustomerOptionValuePriceInterface
     public function setCustomerOptionValue(?CustomerOptionValueInterface $customerOptionValue): void;
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getCustomerOptionValueName(): ?string;
+
+    /**
+     * @param ChannelInterface $channel
+     */
+    public function setChannel(?ChannelInterface $channel): void;
+
+    /**
+     * @return ChannelInterface
+     */
+    public function getChannel(): ?ChannelInterface;
 }

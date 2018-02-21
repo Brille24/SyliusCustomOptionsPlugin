@@ -1,18 +1,17 @@
 <div class="ui tab" data-tab="pricing">
 
     {% for price in form.prices %}
-
         <div class="ui segment two fields">
-            {{ form_row(price.customerOptionValueName) }}
+            <div class="ui field">
+                {{ form_row(price.customerOptionValueName) }}
+                {{ form_row(price.channel) }}
+            </div>
             <div class="ui field">
                 {{ form_row(price.percent) }}
                 {{ form_row(price.amount) }}
                 {{ form_row(price.type) }}
             </div>
         </div>
-
     {% endfor %}
-
-    {#{{ form_row(form.prices) }}#}
 
 </div>

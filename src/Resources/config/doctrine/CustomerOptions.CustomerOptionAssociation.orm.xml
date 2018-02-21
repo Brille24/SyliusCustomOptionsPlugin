@@ -15,7 +15,7 @@
 
         <field name="position" type="integer" />
 
-        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption" field="option" inversed-by="groupAssociation">
+        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption" field="option" inversed-by="groupAssociations">
             <join-column nullable="false" on-delete="CASCADE"/>
         </many-to-one>
         <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup" field="group" inversed-by="optionAssociations">

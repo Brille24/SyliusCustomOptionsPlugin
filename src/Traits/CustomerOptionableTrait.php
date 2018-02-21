@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Traits;
@@ -6,13 +7,11 @@ namespace Brille24\CustomerOptionsPlugin\Traits;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociationInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 
-
 /**
  * Trait CustomerOptionTrait
  *
  * This is a trait to attach customer options to an object
  *
- * @package Brille24\CustomerOptionsBundle\Traits
  * @see     CustomerOptionGroupInterface
  */
 trait CustomerOptionableTrait
@@ -20,7 +19,9 @@ trait CustomerOptionableTrait
     /** @var CustomerOptionGroupInterface|null */
     private $customerOptionGroup;
 
-    public function __construct() { }
+    public function __construct()
+    {
+    }
 
     /** {@inheritdoc} */
     public function getCustomerOptionGroup(): ?CustomerOptionGroupInterface
@@ -37,7 +38,7 @@ trait CustomerOptionableTrait
     /** {@inheritdoc} */
     public function getCustomerOptions(): array
     {
-        if (is_null($this->customerOptionGroup)) {
+        if (null === $this->customerOptionGroup) {
             return [];
         }
 

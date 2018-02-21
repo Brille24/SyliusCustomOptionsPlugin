@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Created by PhpStorm.
@@ -8,7 +9,6 @@ declare(strict_types=1);
  */
 
 namespace Brille24\CustomerOptionsPlugin\Form;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
@@ -32,12 +32,11 @@ class ProductCustomerOptionType extends AbstractType
         // Add a form field for every customer option
         foreach ($product->getCustomerOptions() as $customerOption) {
             $customerOptionType = $customerOption->getType();
-            $fieldName          = $this->generateFieldName($customerOption);
+            $fieldName = $this->generateFieldName($customerOption);
 
-            list($class, $formOptions) = CustomerOptionTypeEnum::getFormTypeArray()[$customerOptionType];
+            [$class, $formOptions] = CustomerOptionTypeEnum::getFormTypeArray()[$customerOptionType];
 
             $builder->add($fieldName, $class, $this->getFormConfiguration($formOptions, $customerOption));
-
         }
     }
 
@@ -70,7 +69,7 @@ class ProductCustomerOptionType extends AbstractType
     private function getFormConfiguration(array $formOptions, CustomerOptionInterface $customerOption): array
     {
         $defaultOptions = [
-            'mapped'   => false,
+            'mapped' => false,
             'required' => $customerOption->isRequired(),
         ];
 
@@ -78,8 +77,8 @@ class ProductCustomerOptionType extends AbstractType
         $choices = [];
         if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
             $choices = [
-                'choices'      => $customerOption->getValues()->toArray(),
-                'choice_label' => function (CustomerOptionValueInterface $value) { return (string)$value; },
+                'choices' => $customerOption->getValues()->toArray(),
+                'choice_label' => function (CustomerOptionValueInterface $value) { return (string) $value; },
                 'choice_value' => 'code',
             ];
         }

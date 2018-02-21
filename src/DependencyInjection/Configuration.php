@@ -12,27 +12,22 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTra
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionTranslation;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionTranslationInterface;
-use Brille24\CustomerOptionsPlugin\Entity\Product;
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Component\Resource\Factory\Factory;
 use Sylius\Component\Resource\Factory\TranslatableFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Symfony\Component\Config\Definition\Builder\NodeBuilder;
-use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
-
     /**
      * {@inheritdoc}
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode    = $treeBuilder->root('brille24_customer_options');
+        $rootNode = $treeBuilder->root('brille24_customer_options');
 
         // Adding new resources
         $this->addResourceSection($rootNode);

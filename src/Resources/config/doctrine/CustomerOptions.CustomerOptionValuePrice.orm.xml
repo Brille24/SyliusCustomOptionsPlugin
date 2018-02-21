@@ -10,12 +10,22 @@
 
         <field name="type" type="string" length="12"/>
 
-        <one-to-one field="customerOptionValue"
-                    target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
-                    mapped-by="price">
+        <many-to-one
+                field="customerOptionValue"
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+                inversed-by="prices"
+        >
             <cascade>
+                <cascade-persist/>
                 <cascade-remove/>
             </cascade>
-        </one-to-one>
+        </many-to-one>
+
+        <many-to-one
+                target-entity="Sylius\Component\Core\Model\Channel"
+                field="channel"
+        >
+            
+        </many-to-one>
     </entity>
 </doctrine-mapping>

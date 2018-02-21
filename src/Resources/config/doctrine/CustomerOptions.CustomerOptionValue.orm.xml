@@ -12,17 +12,16 @@
 
         <field name="code"/>
 
-        <one-to-one
-                field="price"
+        <one-to-many
+                field="prices"
                 target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
-                inversed-by="customerOptionValue"
-                orphan-removal="true"
+                mapped-by="customerOptionValue"
         >
             <cascade>
                 <cascade-persist/>
                 <cascade-remove/>
             </cascade>
-        </one-to-one>
+        </one-to-many>
 
         <many-to-one
                 target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"

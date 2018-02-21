@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Validator\Constraints;
-
 
 use Symfony\Component\Validator\Constraint;
 

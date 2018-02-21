@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Created by PhpStorm.
@@ -8,7 +9,6 @@ declare(strict_types=1);
  */
 
 namespace Brille24\CustomerOptionsPlugin\Menu;
-
 
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 

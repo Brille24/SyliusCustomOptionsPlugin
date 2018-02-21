@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Created by PhpStorm.
@@ -9,10 +10,8 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Form;
 
-
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -25,9 +24,9 @@ final class CustomerOptionAssociationType extends AbstractType
     {
         $builder
             ->add('option', EntityType::class, [
-                'class'        => CustomerOption::class,
-                'placeholder'  => 'brille24.form.customer_option_groups.select',
-                'required'     => true,
+                'class' => CustomerOption::class,
+                'placeholder' => 'brille24.form.customer_option_groups.select',
+                'required' => true,
                 'choice_label' => 'name',
             ])
             ->add('position', IntegerType::class);
@@ -37,7 +36,7 @@ final class CustomerOptionAssociationType extends AbstractType
     {
         $resolver->setDefaults([
                                    'error_bubbling' => true,
-                                   'data_class'     => CustomerOptionAssociation::class,
+                                   'data_class' => CustomerOptionAssociation::class,
                                ]);
     }
 

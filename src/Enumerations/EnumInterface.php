@@ -1,12 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Enumerations;
 
-
 interface EnumInterface
 {
-
     /**
      * Get a list of all available constants for the enumeration
      *

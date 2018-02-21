@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Created by PhpStorm.
@@ -9,7 +10,6 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\ResourceInterface;
@@ -18,34 +18,32 @@ use Sylius\Component\Resource\Model\TranslatableInterface;
 interface CustomerOptionInterface extends ResourceInterface, TranslatableInterface
 {
     /**
-     * @param null|string $type
+     * @param string|null $type
      */
     public function setType(?string $type): void;
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getType(): ?string;
 
     /**
-     * @param null|string $code
+     * @param string|null $code
      */
     public function setCode(?string $code): void;
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getCode(): ?string;
 
     /**
-     * @param null|string $name
-     *
-     * @return void
+     * @param string|null $name
      */
     public function setName(?string $name): void;
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getName(): ?string;
 
@@ -55,7 +53,7 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     public function setRequired(bool $required): void;
 
     /**
-     * @return null|bool
+     * @return bool|null
      */
     public function isRequired(): ?bool;
 
@@ -66,8 +64,6 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
 
     /**
      * @param array $configuration
-     *
-     * @return void
      */
     public function setConfiguration(array $configuration): void;
 
@@ -92,12 +88,13 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     public function getValues(): Collection;
 
     /**
-     * @return Collection|CustomerOptionValuePriceInterface[]
+     * @return Collection|Collection[]
      */
     public function getPrices();
 
     /**
      * @param array $prices
+     *
      * @return mixed
      */
     public function setPrices(array $prices);
