@@ -73,10 +73,10 @@ interface CustomerOptionValuePriceInterface
     /**
      * @param ChannelInterface $channel
      */
-    public function setChannel(ChannelInterface $channel): void;
+    public function setChannel(?ChannelInterface $channel): void;
 
     /**
      * @return ChannelInterface
      */
-    public function getChannel(): ChannelInterface;
+    public function getChannel(): ?ChannelInterface;
 }

@@ -47,6 +47,16 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
     public function getPrices(): ?Collection;
 
     /**
+     * @param CustomerOptionValuePriceInterface $price
+     */
+    public function addPrice(CustomerOptionValuePriceInterface $price): void;
+
+    /**
+     * @param CustomerOptionValuePriceInterface $price
+     */
+    public function removePrice(CustomerOptionValuePriceInterface $price): void;
+
+    /**
      * @param CustomerOptionInterface|null $customerOption
      */
     public function setCustomerOption(?CustomerOptionInterface $customerOption):void;

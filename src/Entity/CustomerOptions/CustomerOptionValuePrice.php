@@ -120,13 +120,13 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     }
 
     /** {@inheritdoc} */
-    public function setChannel(ChannelInterface $channel): void
+    public function setChannel(?ChannelInterface $channel): void
     {
         $this->channel = $channel;
     }
 
     /** {@inheritdoc} */
-    public function getChannel(): ChannelInterface
+    public function getChannel(): ?ChannelInterface
     {
         return $this->channel;
     }

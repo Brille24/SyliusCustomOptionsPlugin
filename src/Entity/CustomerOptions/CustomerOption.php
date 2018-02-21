@@ -217,7 +217,9 @@ class CustomerOption implements CustomerOptionInterface
         $prices = [];
 
         foreach ($this->values as $value){
-            $prices[] = $value->getPrices();
+            foreach ($value->getPrices() as $price) {
+                $prices[] = $price;
+            }
         }
 
         return $prices;
@@ -225,9 +227,7 @@ class CustomerOption implements CustomerOptionInterface
 
     public function setPrices(array $prices)
     {
-        foreach ($prices as $price){
-            $price->getCustomerOptionValue()->setPrice($price);
-        }
+
     }
 
 

@@ -12,6 +12,7 @@ namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
@@ -40,11 +41,11 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     public function __construct()
     {
         $this->initializeTranslationsCollection();
-//        $this->prices = new ArrayCollection([
-//            new CustomerOptionValuePrice()
-//        ]);
-//        $this->prices->first()->setCustomerOptionValue($this);
-        $this->prices = new ArrayCollection();
+        $this->prices = new ArrayCollection([
+            new CustomerOptionValuePrice()
+        ]);
+        $this->prices->first()->setCustomerOptionValue($this);
+//        $this->prices = new ArrayCollection();
     }
 
     /**
@@ -105,6 +106,16 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     public function getPrices(): ?Collection
     {
         return $this->prices;
+    }
+
+    public function addPrice(CustomerOptionValuePriceInterface $price): void
+    {
+        $this->prices->add($price);
+    }
+
+    public function removePrice(CustomerOptionValuePriceInterface $price): void
+    {
+        $this->prices->removeElement($price);
     }
 
     /**

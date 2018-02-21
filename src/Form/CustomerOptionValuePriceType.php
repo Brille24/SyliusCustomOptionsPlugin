@@ -10,6 +10,7 @@ namespace Brille24\CustomerOptionsPlugin\Form;
 
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Sylius\Bundle\ChannelBundle\Form\Type\ChannelType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -28,6 +29,12 @@ class CustomerOptionValuePriceType extends AbstractType
                     'readonly' => true,
                 ],
                 'label' => false,
+            ])
+            ->add('channel', CustomerOptionValuePriceChannelType::class, [
+                'required' => false,
+                'attr' => [
+                    'readonly' => true,
+                ],
             ])
             ->add('percent', NumberType::class, [
                 'empty_data' => 0,
