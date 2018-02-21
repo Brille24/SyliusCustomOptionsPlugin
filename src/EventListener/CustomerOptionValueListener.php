@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -8,7 +10,6 @@
 
 namespace Brille24\CustomerOptionsPlugin\EventListener;
 
-
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -16,11 +17,12 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 class CustomerOptionValueListener
 {
-    /** @var EntityRepository  */
+    /** @var EntityRepository */
     private $channelRepository;
 
     /**
      * CustomerOptionValueListener constructor.
+     *
      * @param EntityRepository $channelRepository
      */
     public function __construct(EntityRepository $channelRepository)
@@ -30,16 +32,18 @@ class CustomerOptionValueListener
 
     /**
      * @param LifecycleEventArgs $args
+     *
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function postLoad(LifecycleEventArgs $args){
+    public function postLoad(LifecycleEventArgs $args)
+    {
         $entity = $args->getEntity();
 
-        if($entity instanceof CustomerOptionValueInterface){
+        if ($entity instanceof CustomerOptionValueInterface) {
             $prices = $entity->getPrices();
 
             $existingChannels = [];
-            foreach ($prices as $price){
+            foreach ($prices as $price) {
                 $existingChannels[] = $price->getChannel();
             }
 
@@ -47,8 +51,8 @@ class CustomerOptionValueListener
 
             $dirty = false;
 
-            foreach($channels as $channel){
-                if(!in_array($channel, $existingChannels)){
+            foreach ($channels as $channel) {
+                if (!in_array($channel, $existingChannels)) {
                     $newPrice = new CustomerOptionValuePrice();
                     $newPrice->setChannel($channel);
                     $entity->addPrice($newPrice);
@@ -57,7 +61,7 @@ class CustomerOptionValueListener
                 }
             }
 
-            if($dirty){
+            if ($dirty) {
                 $args->getEntityManager()->flush($entity);
             }
         }

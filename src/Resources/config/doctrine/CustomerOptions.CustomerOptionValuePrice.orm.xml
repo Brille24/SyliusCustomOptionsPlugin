@@ -25,7 +25,6 @@
                 target-entity="Sylius\Component\Core\Model\Channel"
                 field="channel"
         >
-            
         </many-to-one>
     </entity>
 </doctrine-mapping>
