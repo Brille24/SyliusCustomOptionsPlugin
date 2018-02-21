@@ -159,6 +159,6 @@ class CustomerOptionValue implements CustomerOptionValueInterface
 
     public function __toString(): string
     {
-        return "{$this->getName()} ({$this->prices})";
+        return "{$this->getName()}";
     }
 }

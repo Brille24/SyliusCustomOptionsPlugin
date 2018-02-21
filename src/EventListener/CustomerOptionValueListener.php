@@ -35,7 +35,7 @@ class CustomerOptionValueListener
      *
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function postLoad(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
 
@@ -49,20 +49,12 @@ class CustomerOptionValueListener
 
             $channels = $this->channelRepository->findAll();
 
-            $dirty = false;
-
             foreach ($channels as $channel) {
                 if (!in_array($channel, $existingChannels)) {
                     $newPrice = new CustomerOptionValuePrice();
                     $newPrice->setChannel($channel);
                     $entity->addPrice($newPrice);
-
-                    $dirty = true;
                 }
-            }
-
-            if ($dirty) {
-                $args->getEntityManager()->flush($entity);
             }
         }
     }

@@ -5,7 +5,7 @@
             id="brille24.customer_options_plugin.event_listener.customer_option_value"
         >
             <argument type="service" id="sylius.repository.channel" />
-            <tag name="doctrine.event_listener" event="postLoad" />
+            <tag name="doctrine.event_listener" event="prePersist" />
         </service>
     </services>
 </container>
