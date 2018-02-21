@@ -9,7 +9,6 @@ use Brille24\CustomerOptionsPlugin\Entity\OrderItemOption;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\CustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use function League\Uri\resolve;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -33,18 +32,23 @@ final class AddToCartListener
         RequestStack $requestStack,
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionValueResolverInterface $valueResolver,
-    EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager
     ) {
         $this->requestStack             = $requestStack;
         $this->customerOptionRepository = $customerOptionRepository;
         $this->valueResolver            = $valueResolver;
-        $this->entityManager = $entityManager;
+        $this->entityManager            = $entityManager;
     }
 
     public function addItemToCart(ResourceControllerEvent $event): void
     {
         /** @var OrderItemInterface $orderItem */
         $orderItem = $event->getSubject();
+
+        // If the order is null, it's an old order item with an existing reference in the database
+        if ($orderItem->getOrder() === null) {
+            return;
+        }
 
         list($customerOptions, $customerOptionValues) = $this->getCustomerOptionsFromRequest($this->requestStack->getCurrentRequest());
 
@@ -79,13 +83,13 @@ final class AddToCartListener
         $addToCart = $request->request->get('sylius_add_to_cart');
 
         if (isset($addToCart['customerOptions'])) {
-            $result = [];
+            $result               = [];
             $customerOptions      = [];
             $customerOptionValues = [];
 
             foreach ($addToCart['customerOptions'] as $code => $value) {
                 $customerOption = $this->customerOptionRepository->findOneByCode($code);
-                $optionData = [];
+                $optionData     = [];
                 if ($customerOption !== null) {
                     $optionData['option'] = $customerOption;
                     $optionData['value']  = $this->valueResolver->resolve($customerOption, $value) ?? $value;
