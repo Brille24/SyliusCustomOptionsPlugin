@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Created by PhpStorm.
@@ -9,7 +10,7 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
-
+use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
@@ -37,11 +38,17 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /** @var CustomerOptionInterface|null */
     private $customerOption;
 
+    /** @var OrderItemOptionInterface[] */
+    private $orders;
+
     public function __construct()
     {
         $this->initializeTranslationsCollection();
-        $this->prices = new ArrayCollection([new CustomerOptionValuePrice()]);
-        $this->prices[0]->setCustomerOptionValue($this);
+//        $this->prices = new ArrayCollection([
+//            new CustomerOptionValuePrice(),
+//        ]);
+//        $this->prices->first()->setCustomerOptionValue($this);
+        $this->prices = new ArrayCollection();
     }
 
     /**
@@ -87,11 +94,11 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setPrices(Collection $prices): void
+    public function setPrices(?Collection $prices): void
     {
         $this->prices = $prices;
 
-        foreach($prices as $price) {
+        foreach ($prices as $price) {
             $price->setCustomerOptionValue($this);
         }
     }
@@ -102,6 +109,18 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     public function getPrices(): ?Collection
     {
         return $this->prices;
+    }
+
+    public function addPrice(CustomerOptionValuePriceInterface $price): void
+    {
+        $this->prices->add($price);
+
+        $price->setCustomerOptionValue($this);
+    }
+
+    public function removePrice(CustomerOptionValuePriceInterface $price): void
+    {
+        $this->prices->removeElement($price);
     }
 
     /**
@@ -121,7 +140,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     }
 
     /**
-     * @param null|string $locale
+     * @param string|null $locale
      *
      * @return CustomerOptionValueTranslationInterface
      */
@@ -140,6 +159,6 @@ class CustomerOptionValue implements CustomerOptionValueInterface
 
     public function __toString(): string
     {
-        return "{$this->getName()} ({$this->prices})";
+        return "{$this->getName()}";
     }
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -7,7 +9,6 @@
  */
 
 namespace Brille24\CustomerOptionsPlugin\Event;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Knp\Menu\FactoryInterface;
@@ -25,7 +26,8 @@ class CustomerOptionMenuBuilderEvent extends MenuBuilderEvent
         $this->customerOption = $customerOption;
     }
 
-    public function getCustomerOption(): CustomerOptionInterface{
+    public function getCustomerOption(): CustomerOptionInterface
+    {
         return $this->customerOption;
     }
 }

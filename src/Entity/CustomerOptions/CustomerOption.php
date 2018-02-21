@@ -5,12 +5,11 @@
  * Date: 07.02.18
  * Time: 10:03
  */
-
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
-
+use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -25,16 +24,16 @@ class CustomerOption implements CustomerOptionInterface
         getTranslation as private doGetTranslation;
     }
 
-    /** @var null|int */
+    /** @var int|null */
     private $id;
 
-    /** @var null|string */
+    /** @var string|null */
     private $type = CustomerOptionTypeEnum::SELECT;
 
-    /** @var null|string */
+    /** @var string|null */
     private $code = '';
 
-    /** @var null|bool */
+    /** @var bool|null */
     private $required = false;
 
     /** @var PersistentCollection|CustomerOptionValueInterface[] */
@@ -46,12 +45,14 @@ class CustomerOption implements CustomerOptionInterface
     /** @var ArrayCollection */
     private $groupAssociations;
 
+    /** @var OrderItemOptionInterface */
+    private $orders;
 
     public function __construct()
     {
         $this->initializeTranslationsCollection();
 
-        $this->values            = new ArrayCollection();
+        $this->values = new ArrayCollection();
         $this->groupAssociations = new ArrayCollection();
     }
 
@@ -121,7 +122,6 @@ class CustomerOption implements CustomerOptionInterface
         return $this->required;
     }
 
-
     //region Getter and setter for value
 
     /**
@@ -156,6 +156,7 @@ class CustomerOption implements CustomerOptionInterface
     {
         $this->values = new ArrayCollection($values);
     }
+
     //endregion
 
     /**
@@ -173,7 +174,7 @@ class CustomerOption implements CustomerOptionInterface
     {
         // Setting the new values
         foreach ($configuration as $key => $value) {
-            $optionKey                                = str_replace('_', '.', $key);
+            $optionKey = str_replace('_', '.', $key);
             $this->configuration[$optionKey]['value'] = $value;
         }
 
@@ -216,8 +217,10 @@ class CustomerOption implements CustomerOptionInterface
     {
         $prices = [];
 
-        foreach ($this->values as $value){
-            $prices[] = $value->getPrices();
+        foreach ($this->values as $value) {
+            foreach ($value->getPrices() as $price) {
+                $prices[] = $price;
+            }
         }
 
         return $prices;
@@ -225,9 +228,7 @@ class CustomerOption implements CustomerOptionInterface
 
     public function setPrices(array $prices)
     {
-
     }
-
 
     /**
      * @param string|null $locale

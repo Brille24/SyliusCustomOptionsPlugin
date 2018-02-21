@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -8,13 +10,13 @@
 
 namespace Brille24\CustomerOptionsPlugin\Controller;
 
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 class TestController extends Controller
 {
-    public function testAction(){
+    public function testAction()
+    {
         return new Response('TEST!');
     }
 }

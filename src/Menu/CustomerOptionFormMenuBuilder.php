@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -7,7 +9,6 @@
  */
 
 namespace Brille24\CustomerOptionsPlugin\Menu;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Event\CustomerOptionMenuBuilderEvent;
@@ -29,10 +30,11 @@ class CustomerOptionFormMenuBuilder
         $this->eventDispatcher = $dispatcher;
     }
 
-    public function createMenu(array $options = []): ItemInterface{
+    public function createMenu(array $options = []): ItemInterface
+    {
         $menu = $this->factory->createItem('root');
 
-        if (!array_key_exists('customer_option', $options) || !$options['customer_option'] instanceof CustomerOptionInterface){
+        if (!array_key_exists('customer_option', $options) || !$options['customer_option'] instanceof CustomerOptionInterface) {
             return $menu;
         }
 

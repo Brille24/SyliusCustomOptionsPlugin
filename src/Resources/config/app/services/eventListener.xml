@@ -1,0 +1,11 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service
+            class="Brille24\CustomerOptionsPlugin\EventListener\CustomerOptionValueListener"
+            id="brille24.customer_options_plugin.event_listener.customer_option_value"
+        >
+            <argument type="service" id="sylius.repository.channel" />
+            <tag name="doctrine.event_listener" event="prePersist" />
+        </service>
+    </services>
+</container>

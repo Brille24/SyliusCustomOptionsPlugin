@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
-
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
-use Doctrine\Common\Collections\Collection;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 
 class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
@@ -25,8 +25,11 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     /** @var CustomerOptionValueInterface|null */
     private $customerOptionValue;
 
-    /** @var Collection */
+    /** @var ProductInterface */
     private $product;
+
+    /** @var ChannelInterface */
+    private $channel;
 
     public function __construct()
     {
@@ -79,7 +82,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         if (in_array($type, $allTypes)) {
             $this->type = $type;
         } else {
-            throw new InvalidTypeException('Invalid type. Possible types are ' . join(', ', $allTypes));
+            throw new InvalidTypeException('Invalid type. Possible types are ' . implode(', ', $allTypes));
         }
     }
 
@@ -87,8 +90,8 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     public static function getAllTypes(): array
     {
         return [
-            CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT,
-            CustomerOptionValuePriceInterface::TYPE_PERCENT,
+            self::TYPE_FIXED_AMOUNT,
+            self::TYPE_PERCENT,
         ];
     }
 
@@ -109,6 +112,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         if ($this->getType() === CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT) {
             return "{$this->getAmount()} EUR";
         }
+
         return "{$this->getPercent()}%";
     }
 
@@ -120,14 +124,25 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         return $this->customerOptionValue->getName();
     }
 
-    public function getProducts(): ?Collection
+    public function getProduct(): ?ProductInterface
     {
         return $this->product;
     }
 
-    public function setProducts(?Collection $product): void
+    public function setProduct(?ProductInterface $product): void
     {
         $this->product = $product;
     }
 
+    /** {@inheritdoc} */
+    public function setChannel(?ChannelInterface $channel): void
+    {
+        $this->channel = $channel;
+    }
+
+    /** {@inheritdoc} */
+    public function getChannel(): ?ChannelInterface
+    {
+        return $this->channel;
+    }
 }

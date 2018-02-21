@@ -10,39 +10,21 @@
 
         <field name="type" type="string" length="12"/>
 
-        <many-to-one field="customerOptionValue"
-                    target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
-                    inversed-by="prices"
+        <many-to-one
+                field="customerOptionValue"
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+                inversed-by="prices"
         >
-            <cascade>
-                <cascade-remove/>
-            </cascade>
-        </many-to-one>
-
-        <!--<many-to-one-->
-                <!--target-entity="Brille24\CustomerOptionsPlugin\Entity\Product"-->
-                <!--field="product"-->
-                <!--inversed-by="customerOptionPrices"-->
-        <!--&gt;-->
-            <!--<cascade>-->
-                <!--<cascade-remove/>-->
-            <!--</cascade>-->
-        <!--</many-to-one>-->
-
-        <many-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\Product" field="product" inversed-by="customerOptionPrices">
             <cascade>
                 <cascade-persist/>
                 <cascade-remove/>
             </cascade>
-            <join-table name="brille24_customer_option_value_price_product">
-                <join-columns>
-                    <join-column name="price_id" unique="true"/>
-                </join-columns>
-                <inverse-join-columns>
-                    <join-column name="product_id"/>
-                </inverse-join-columns>
-            </join-table>
-        </many-to-many>
+        </many-to-one>
 
+        <many-to-one
+                target-entity="Sylius\Component\Core\Model\Channel"
+                field="channel"
+        >
+        </many-to-one>
     </entity>
 </doctrine-mapping>

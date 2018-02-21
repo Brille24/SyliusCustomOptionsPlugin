@@ -40,6 +40,12 @@
             <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionTranslationType" name="form.type"/>
         </service>
 
+        <service class="Brille24\CustomerOptionsPlugin\Form\ProductCustomerOptionType"
+                 id="brille24.customer_options_plugin.form.product_customer_option_type">
+            <argument type="service" id="sylius.context.channel" />
+            <tag alias="Brille24\CustomerOptionsPlugin\Form\ProductCustomerOptionType" name="form.type" />
+        </service>
+
         <!-- Customer Option Group -->
         <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionGroupType"
                  id="brille24.customer_options_plugin.form.customer_option_group_type">

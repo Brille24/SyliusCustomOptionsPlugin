@@ -16,7 +16,6 @@
                 field="prices"
                 target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
                 mapped-by="customerOptionValue"
-                orphan-removal="true"
         >
             <cascade>
                 <cascade-persist/>
