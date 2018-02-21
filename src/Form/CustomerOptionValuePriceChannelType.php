@@ -21,6 +21,12 @@ class CustomerOptionValuePriceChannelType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('code', TextType::class, [
+                'attr' => [
+                    'readonly' => true,
+                ],
+                'label' => false,
+            ])
             ->add('name', TextType::class, [
                 'attr' => [
                     'readonly' => true,
