@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 
+use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
@@ -34,6 +35,9 @@ class CustomerOptionValue implements CustomerOptionValueInterface
 
     /** @var CustomerOptionInterface|null */
     private $customerOption;
+
+    /** @var OrderItemOptionInterface[] */
+    private $orders;
 
     public function __construct()
     {

@@ -29,11 +29,11 @@
 {% if configuration|length > 0 %}
     <h4>Customer Options</h4>
     <div class="ui list sylius-product-options">
-        {% for code, customerOption in configuration %}
-            <div class="item" data-sylius-option-name="{{ customerOption }}">
-                {{ code }}:
-                {% if customerOption is defined %}
-                    {{ customerOption }}
+        {% for customerOption in configuration %}
+            <div class="item" data-sylius-option-name="{{ customerOption.customerOptionCode }}">
+                {{ customerOption.customerOptionCode }}:
+                {% if customerOption.customerOptionValueCode is defined %}
+                    {{ customerOption.customerOptionValueCode }}
                 {% endif %}
             </div>
         {% endfor %}

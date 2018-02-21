@@ -1,0 +1,19 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <entity name="Brille24\CustomerOptionsPlugin\Entity\OrderItemOption" table="brille24_customer_option_order_item_option">
+        <id name="id">
+            <generator />
+        </id>
+
+        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\OrderItem" field="orderItem" />
+
+        <field name="customerOptionCode" />
+
+        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
+                     field="customerOption" />
+
+        <field name="customerOptionValueCode" />
+
+        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+                     field="customerOptionValue" />
+    </entity>
+</doctrine-mapping>
