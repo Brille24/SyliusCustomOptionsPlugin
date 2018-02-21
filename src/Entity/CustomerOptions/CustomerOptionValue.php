@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -21,7 +22,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
         getTranslation as private doGetTranslation;
     }
 
-    /** @var int */
+    /** @var int|null */
     protected $id;
 
     /** @var string */
@@ -49,7 +50,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -57,7 +58,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setCode(string $code)
+    public function setCode(string $code): void
     {
         $this->code = $code;
     }
@@ -89,23 +90,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setValue(string $value)
-    {
-        $this->value = $value;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getValue(): ?string
-    {
-        return $this->value;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setPrices(?Collection $prices)
+    public function setPrices(?Collection $prices): void
     {
         $this->prices = $prices;
 
@@ -154,5 +139,10 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     protected function createTranslation(): TranslationInterface
     {
         return new CustomerOptionValueTranslation();
+    }
+
+    public function __toString(): string
+    {
+        return "{$this->getName()} ({$this->prices})";
     }
 }

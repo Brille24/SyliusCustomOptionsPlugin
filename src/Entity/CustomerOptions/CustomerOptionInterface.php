@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -9,6 +10,7 @@
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TranslatableInterface;
@@ -18,22 +20,22 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     /**
      * @param null|string $type
      */
-    public function setType(?string $type);
+    public function setType(?string $type): void;
 
     /**
      * @return null|string
      */
-    public function getType() : ?string;
+    public function getType(): ?string;
 
     /**
      * @param null|string $code
      */
-    public function setCode(?string $code);
+    public function setCode(?string $code): void;
 
     /**
      * @return null|string
      */
-    public function getCode() : ?string;
+    public function getCode(): ?string;
 
     /**
      * @param null|string $name
@@ -50,32 +52,44 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     /**
      * @param bool $required
      */
-    public function setRequired(bool $required);
+    public function setRequired(bool $required): void;
 
     /**
      * @return null|bool
      */
-    public function isRequired() : ?bool;
+    public function isRequired(): ?bool;
+
+    /**
+     * @return array
+     */
+    public function getConfiguration(): array;
+
+    /**
+     * @param array $configuration
+     *
+     * @return void
+     */
+    public function setConfiguration(array $configuration): void;
 
     /**
      * @param Collection $values
      */
-    public function setValues(array $values);
+    public function setValues(array $values): void;
 
     /**
      * @param CustomerOptionValueInterface $value
      */
-    public function addValue(CustomerOptionValueInterface $value);
+    public function addValue(CustomerOptionValueInterface $value): void;
 
     /**
      * @param CustomerOptionValueInterface $value
      */
-    public function removeValue(CustomerOptionValueInterface $value);
+    public function removeValue(CustomerOptionValueInterface $value): void;
 
     /**
      * @return Collection
      */
-    public function getValues();
+    public function getValues(): Collection;
 
     /**
      * @return Collection|Collection[]
@@ -91,10 +105,10 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     /**
      * @param CustomerOptionAssociationInterface $assoc
      */
-    public function setGroupAssociations(CustomerOptionAssociationInterface $assoc);
+    public function setGroupAssociations(CustomerOptionAssociationInterface $assoc): void;
 
     /**
-     * @return CustomerOptionAssociationInterface
+     * @return CustomerOptionAssociationInterface[]
      */
-    public function getGroupAssociations();
+    public function getGroupAssociations(): ArrayCollection;
 }

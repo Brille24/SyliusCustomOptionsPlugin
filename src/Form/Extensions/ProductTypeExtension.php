@@ -9,17 +9,22 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Class ProductTypeExtension used for the product form in the backend to add customer option groups
+ *
+ * @package Brille24\CustomerOptionsPlugin\Form\Extensions
+ */
 final class ProductTypeExtension extends AbstractTypeExtension
 {
     public function __construct() { }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('customerOptionGroup', EntityType::class, [
-            'class' => CustomerOptionGroup::class,
+            'class'       => CustomerOptionGroup::class,
             'placeholder' => 'Please choose',
-            'empty_data' => null,
-            'required' => false
+            'empty_data'  => null,
+            'required'    => false
         ]);
     }
 
@@ -28,7 +33,7 @@ final class ProductTypeExtension extends AbstractTypeExtension
      *
      * @return string The name of the type being extended
      */
-    public function getExtendedType()
+    public function getExtendedType(): string
     {
         return ProductType::class;
     }

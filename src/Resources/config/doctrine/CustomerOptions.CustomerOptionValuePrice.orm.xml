@@ -2,13 +2,13 @@
     <entity name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
             table="brille24_customer_option_value_price">
         <id name="id" type="integer">
-            <generator strategy="AUTO" />
+            <generator strategy="AUTO"/>
         </id>
 
-        <field name="percent" type="float" />
-        <field name="amount" type="integer" />
+        <field name="percent" type="float"/>
+        <field name="amount" type="integer"/>
 
-        <field name="type" type="string" length="12" />
+        <field name="type" type="string" length="12"/>
 
         <many-to-one
                 field="customerOptionValue"

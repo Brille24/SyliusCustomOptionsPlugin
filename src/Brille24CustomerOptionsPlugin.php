@@ -18,7 +18,7 @@ final class Brille24CustomerOptionsPlugin extends Bundle
         return new $class();
     }
 
-    public function getContainerExtensionClass()
+    public function getContainerExtensionClass(): string
     {
         return Brille24CustomerOptionsExtension::class;
     }

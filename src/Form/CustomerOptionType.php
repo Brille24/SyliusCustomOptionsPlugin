@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 final class CustomerOptionType extends AbstractResourceType
 {
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         // Array keys are the constants and the values are the translations
         $possibleTypes = CustomerOptionTypeEnum::getTranslateArray();
@@ -40,6 +40,9 @@ final class CustomerOptionType extends AbstractResourceType
                 'allow_delete' => true,
                 'label'        => false,
                 'by_reference' => false
+            ])
+            ->add('configuration', CustomerOptionConfigurationType::class, [
+                'label' => false,
             ])
             ->add('prices', CollectionType::class, [
                 'entry_type' => CollectionType::class,

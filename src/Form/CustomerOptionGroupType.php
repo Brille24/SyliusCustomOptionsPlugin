@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class CustomerOptionGroupType extends AbstractResourceType
 {
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $builder
@@ -29,20 +29,20 @@ final class CustomerOptionGroupType extends AbstractResourceType
                 'label'      => 'brille24.form.customer_option_groups.translations',
             ])
             ->add('option_associations', CollectionType::class, [
-                'required'     => false,
-                'label'        => false,
                 'entry_type'   => CustomerOptionAssociationType::class,
                 'allow_add'    => true,
                 'allow_delete' => true,
+                'label'        => false,
                 'by_reference' => false,
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-                                   'data_class' => CustomerOptionGroup::class,
-                               ]);
+        $defaults = [
+            'data_class' => CustomerOptionGroup::class,
+        ];
+        $resolver->setDefaults($defaults);
     }
 
     public function getBlockPrefix(): string

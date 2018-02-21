@@ -13,11 +13,16 @@
         </id>
 
         <field name="type" type="string" unique="false" nullable="false"/>
+        <field name="configuration" type="json_array"/>
         <field name="code" type="string" unique="true" nullable="false"/>
         <field name="required" type="boolean"/>
 
-        <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation"
-                     mapped-by="option" field="groupAssociations" orphan-removal="true">
+        <one-to-many
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation"
+                mapped-by="option"
+                field="groupAssociations"
+                orphan-removal="true"
+        >
             <cascade>
                 <cascade-persist/>
             </cascade>
@@ -26,10 +31,15 @@
             </order-by>
         </one-to-many>
 
-        <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
-                     mapped-by="customerOption" field="values">
+        <one-to-many
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+                mapped-by="customerOption"
+                field="values"
+                orphan-removal="true"
+        >
             <cascade>
                 <cascade-persist/>
+                <cascade-remove/>
             </cascade>
         </one-to-many>
     </entity>

@@ -14,13 +14,13 @@ class CustomerOptionAssociationConstraint extends Constraint
     public $message = 'sylius.ui.code';
 
     /** {@inheritdoc} */
-    public function getTargets()
+    public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
     }
 
     /** {@inheritdoc} */
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return CustomerOptionAssociationConstraintValidator::class;
     }

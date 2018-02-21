@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -36,17 +37,7 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
     public function getName(): string;
 
     /**
-     * @param string $value
-     */
-    public function setValue(string $value);
-
-    /**
-     * @return string
-     */
-    public function getValue(): ?string;
-
-    /**
-     * @param Collection $prices
+     * @param Collection|null $prices
      */
     public function setPrices(?Collection $prices);
 

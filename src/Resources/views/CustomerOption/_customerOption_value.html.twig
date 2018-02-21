@@ -1,0 +1,8 @@
+{% block brille24_customer_option_value_widget %}
+    {% from '@SyliusAdmin/Macro/translationForm.html.twig' import translationForm %}
+
+    {{ form_row(form.code) }}
+
+    {{ translationForm(form.translations) }}
+    <br />
+{% endblock %}

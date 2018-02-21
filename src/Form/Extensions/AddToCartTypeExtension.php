@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -8,24 +9,26 @@
 
 namespace Brille24\CustomerOptionsPlugin\Form\Extensions;
 
-
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\CustomerOptionsPlugin\Form\ProductCustomerOptionType;
 use Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class AddToCartTypeExtension extends AbstractTypeExtension
+/**
+ * Class AddToCartTypeExtension extends the add to cart action in the front-end and adds customerOptions
+ *
+ * @package Brille24\CustomerOptionsPlugin\Form\Extensions
+ */
+final class AddToCartTypeExtension extends AbstractTypeExtension
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('customerOptions', ProductCustomerOptionType::class, [
             'product' => $options['product'],
         ]);
     }
 
-    public function getExtendedType()
+    public function getExtendedType(): string
     {
         return AddToCartType::class;
     }

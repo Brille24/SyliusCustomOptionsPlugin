@@ -3,13 +3,9 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\CustomerOptionsPlugin\Traits\CustomerOptionableTraitInterface;
 use Sylius\Component\Core\Model\ProductInterface as BaseProductInterface;
 
-interface ProductInterface extends BaseProductInterface, CustomerOptionInterface
+interface ProductInterface extends BaseProductInterface, CustomerOptionableTraitInterface
 {
-    public function getCustomerOptionGroup(): ?CustomerOptionGroupInterface;
-
-    public function setCustomerOptionGroup(?CustomerOptionGroupInterface $customerOptionGroup);
 }
