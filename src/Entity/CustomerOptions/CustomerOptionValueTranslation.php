@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Created by PhpStorm.
@@ -8,7 +9,6 @@ declare(strict_types=1);
  */
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
-
 
 use Sylius\Component\Resource\Model\AbstractTranslation;
 
@@ -23,7 +23,7 @@ class CustomerOptionValueTranslation extends AbstractTranslation implements Cust
     /**
      * {@inheritdoc}
      */
-    public function getId():?int
+    public function getId(): ?int
     {
         return $this->id;
     }

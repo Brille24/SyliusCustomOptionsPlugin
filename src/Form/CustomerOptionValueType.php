@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Form;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
@@ -13,15 +13,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerOptionValueType extends AbstractResourceType
 {
-
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('code', TextType::class)
             ->add('translations', ResourceTranslationsType::class, [
-                'entry_type' => CustomerOptionValueTranslationType::class
+                'entry_type' => CustomerOptionValueTranslationType::class,
             ]);
-//=======
+        //=======
 //            ])
 //            ->add('value', TextType::class)
 //        ;
@@ -32,7 +30,7 @@ class CustomerOptionValueType extends AbstractResourceType
     {
         $defaults = [
             'error_bubbling' => true,
-            'data_class'     => CustomerOptionValue::class
+            'data_class' => CustomerOptionValue::class,
         ];
         $resolver->setDefaults($defaults);
     }

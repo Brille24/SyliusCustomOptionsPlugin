@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Created by PhpStorm.
@@ -9,7 +10,7 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
-
+use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TranslatableInterface;
 
@@ -36,19 +37,29 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
     public function getName(): string;
 
     /**
-     * @param CustomerOptionValuePriceInterface $price
+     * @param Collection|null $prices
      */
-    public function setPrice(CustomerOptionValuePriceInterface $price);
+    public function setPrices(?Collection $prices);
 
     /**
-     * @return CustomerOptionValuePriceInterface
+     * @return Collection
      */
-    public function getPrice(): ?CustomerOptionValuePriceInterface;
+    public function getPrices(): ?Collection;
+
+    /**
+     * @param CustomerOptionValuePriceInterface $price
+     */
+    public function addPrice(CustomerOptionValuePriceInterface $price): void;
+
+    /**
+     * @param CustomerOptionValuePriceInterface $price
+     */
+    public function removePrice(CustomerOptionValuePriceInterface $price): void;
 
     /**
      * @param CustomerOptionInterface|null $customerOption
      */
-    public function setCustomerOption(?CustomerOptionInterface $customerOption):void;
+    public function setCustomerOption(?CustomerOptionInterface $customerOption): void;
 
     /**
      * @return CustomerOptionInterface|null

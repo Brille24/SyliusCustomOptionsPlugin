@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -7,7 +9,6 @@
  */
 
 namespace Brille24\CustomerOptionsPlugin\Form;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Symfony\Component\Form\AbstractType;
@@ -29,6 +30,12 @@ class CustomerOptionValuePriceType extends AbstractType
                 ],
                 'label' => false,
             ])
+            ->add('channel', CustomerOptionValuePriceChannelType::class, [
+                'required' => false,
+                'attr' => [
+                    'readonly' => true,
+                ],
+            ])
             ->add('percent', NumberType::class, [
                 'empty_data' => 0,
             ])
@@ -37,7 +44,7 @@ class CustomerOptionValuePriceType extends AbstractType
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => CustomerOptionValuePrice::getAllTypes(),
-                'choice_label' => function($option){
+                'choice_label' => function ($option) {
                     return $option;
                 },
             ])

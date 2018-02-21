@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Created by PhpStorm.
@@ -9,7 +10,6 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Repository;
 
-
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
@@ -18,7 +18,7 @@ interface CustomerOptionRepositoryInterface extends RepositoryInterface
     /**
      * @param string $code
      *
-     * @return null|CustomerOptionInterface
+     * @return CustomerOptionInterface|null
      */
     public function findOneByCode(string $code): ?CustomerOptionInterface;
 

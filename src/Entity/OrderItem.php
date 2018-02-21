@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity;
@@ -10,17 +11,17 @@ use Sylius\Component\Core\Model\OrderItem as BaseOrderItem;
 class OrderItem extends BaseOrderItem implements OrderItemInterface
 {
     /** @var Collection */
-	protected $configuration;
+    protected $configuration;
 
-	/** {@inheritdoc} */
-	public function setCustomerOptionConfiguration(array $configuration): void
-	{
-		$this->configuration = new ArrayCollection($configuration);
-	}
+    /** {@inheritdoc} */
+    public function setCustomerOptionConfiguration(array $configuration): void
+    {
+        $this->configuration = new ArrayCollection($configuration);
+    }
 
-	/** {@inheritdoc} */
-	public function getCustomerOptionConfiguration(): array
-	{
-		return $this->configuration->toArray();
-	}
+    /** {@inheritdoc} */
+    public function getCustomerOptionConfiguration(): array
+    {
+        return $this->configuration->toArray();
+    }
 }

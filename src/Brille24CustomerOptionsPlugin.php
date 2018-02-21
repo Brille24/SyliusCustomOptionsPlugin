@@ -15,6 +15,7 @@ final class Brille24CustomerOptionsPlugin extends Bundle
     public function getContainerExtension()
     {
         $class = $this->getContainerExtensionClass();
+
         return new $class();
     }
 

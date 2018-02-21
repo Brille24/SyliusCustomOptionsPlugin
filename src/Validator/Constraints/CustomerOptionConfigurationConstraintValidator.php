@@ -1,15 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Validator\Constraints;
-
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 class CustomerOptionConfigurationConstraintValidator extends ConstraintValidator
 {
-
     /**
      * {@inheritdoc}
      */
@@ -27,7 +26,7 @@ class CustomerOptionConfigurationConstraintValidator extends ConstraintValidator
         $minKeys = array_filter(array_keys($value), function (string $key) { return is_int(strpos($key, 'min')); });
         $maxKeys = array_filter(array_keys($value), function (string $key) { return is_int(strpos($key, 'max')); });
 
-        if(count($minKeys) === 0 || count($maxKeys) === 0){
+        if (count($minKeys) === 0 || count($maxKeys) === 0) {
             return;
         }
 

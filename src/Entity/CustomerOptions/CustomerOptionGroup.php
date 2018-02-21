@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
@@ -32,7 +33,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     public function __construct()
     {
         $this->optionAssociations = new ArrayCollection();
-        $this->products           = new ArrayCollection();
+        $this->products = new ArrayCollection();
         $this->initializeTranslationsCollection();
     }
 
@@ -125,7 +126,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     //<editor-fold "Translations">
 
     /**
-     * @param null|string $locale
+     * @param string|null $locale
      *
      * @return CustomerOptionTranslationInterface
      */
@@ -147,6 +148,6 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     //</editor-fold>
     public function __toString(): string
     {
-        return (string)$this->getName();
+        return (string) $this->getName();
     }
 }

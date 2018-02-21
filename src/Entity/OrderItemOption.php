@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity;
@@ -32,11 +33,11 @@ class OrderItemOption implements OrderItemOptionInterface
     /** @var string */
     private $customerOptionValueName;
 
-    /** @var integer */
-    private $fixedPrice = 0;
-
     /** @var string */
     private $optionValue;
+
+    /** @var int */
+    private $fixedPrice = 0;
 
     public function __construct(
         CustomerOptionInterface $customerOption,

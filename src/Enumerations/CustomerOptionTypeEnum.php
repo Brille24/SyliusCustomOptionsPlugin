@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Enumerations;
@@ -18,14 +19,14 @@ final class CustomerOptionTypeEnum implements EnumInterface
 {
     const __default = null;
 
-    const TEXT         = 'text';
-    const SELECT       = 'select';
+    const TEXT = 'text';
+    const SELECT = 'select';
     const MULTI_SELECT = 'multi_select';
-    const FILE         = 'file';
-    const DATE         = 'date';
-    const DATETIME     = 'datetime';
-    const NUMBER       = 'number';
-    const BOOLEAN      = 'boolean';
+    const FILE = 'file';
+    const DATE = 'date';
+    const DATETIME = 'datetime';
+    const NUMBER = 'number';
+    const BOOLEAN = 'boolean';
 
     public static function getConstList(): array
     {
@@ -49,25 +50,25 @@ final class CustomerOptionTypeEnum implements EnumInterface
     public static function getTranslateArray(): array
     {
         return [
-            self::TEXT         => 'brille24.form.customer_options.type.text',
-            self::SELECT       => 'brille24.form.customer_options.type.select',
+            self::TEXT => 'brille24.form.customer_options.type.text',
+            self::SELECT => 'brille24.form.customer_options.type.select',
             self::MULTI_SELECT => 'brille24.form.customer_options.type.multi_select',
-            self::FILE         => 'brille24.form.customer_options.type.file',
-            self::DATE         => 'brille24.form.customer_options.type.date',
-            self::DATETIME     => 'brille24.form.customer_options.type.datetime',
-            self::NUMBER       => 'brille24.form.customer_options.type.number',
-            self::BOOLEAN      => 'brille24.form.customer_options.type.boolean',
+            self::FILE => 'brille24.form.customer_options.type.file',
+            self::DATE => 'brille24.form.customer_options.type.date',
+            self::DATETIME => 'brille24.form.customer_options.type.datetime',
+            self::NUMBER => 'brille24.form.customer_options.type.number',
+            self::BOOLEAN => 'brille24.form.customer_options.type.boolean',
         ];
     }
 
     public static function getFormTypeArray(): array
     {
         return [
-            self::TEXT         => [
+            self::TEXT => [
                 TextType::class,
                 [],
             ],
-            self::SELECT       => [
+            self::SELECT => [
                 ChoiceType::class,
                 [],
             ],
@@ -75,23 +76,23 @@ final class CustomerOptionTypeEnum implements EnumInterface
                 ChoiceType::class,
                 ['multiple' => true],
             ],
-            self::FILE         => [
+            self::FILE => [
                 FileType::class,
                 [],
             ],
-            self::DATE         => [
+            self::DATE => [
                 DateType::class,
                 [],
             ],
-            self::DATETIME     => [
+            self::DATETIME => [
                 DateTimeType::class,
                 [],
             ],
-            self::NUMBER       => [
+            self::NUMBER => [
                 NumberType::class,
                 [],
             ],
-            self::BOOLEAN      => [
+            self::BOOLEAN => [
                 BooleanType::class,
                 [],
             ],
@@ -104,20 +105,21 @@ final class CustomerOptionTypeEnum implements EnumInterface
      * @param string $type
      *
      * @return array
+     *
      * @throws Exception
      */
     public static function getConfigurationArray(): array
     {
         return [
-            self::TEXT     => [
+            self::TEXT => [
                 'brille24.form.config.min.length' => ['type' => 'integer', 'value' => 0],
                 'brille24.form.config.max.length' => ['type' => 'integer', 'value' => 255],
             ],
-            self::FILE     => [
+            self::FILE => [
                 'brille24.form.config.min.file_size' => ['type' => 'integer', 'value' => 0],
                 'brille24.form.config.max.file_size' => ['type' => 'integer', 'value' => 1000],
             ],
-            self::DATE     => [
+            self::DATE => [
                 'brille24.form.config.min.date' => ['type' => 'date', 'value' => new DateTime('1900-01-01')],
                 'brille24.form.config.max.date' => ['type' => 'date', 'value' => new DateTime('3000-12-31')],
             ],
@@ -125,13 +127,13 @@ final class CustomerOptionTypeEnum implements EnumInterface
                 'brille24.form.config.min.date' => ['type' => 'datetime', 'value' => new DateTime('1900-01-01')],
                 'brille24.form.config.max.date' => ['type' => 'datetime', 'value' => new DateTime('3000-12-31')],
             ],
-            self::NUMBER   => [
+            self::NUMBER => [
                 'brille24.form.config.min.number' => ['type' => 'number', 'value' => 0],
                 'brille24.form.config.max.number' => ['type' => 'integer', 'value' => 1000],
             ],
             self::BOOLEAN => [
                 'brille24.form.config.default_value' => ['type' => 'boolean', 'value' => true],
-            ]
+            ],
         ];
     }
 

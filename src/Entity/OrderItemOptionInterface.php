@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity;
@@ -93,6 +94,9 @@ interface OrderItemOptionInterface
      */
     public function getFixedPrice(): int;
 
-
+    /**
+     * @return mixed
+     */
     public function getScalarValue();
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Created by PhpStorm.
@@ -9,10 +10,10 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Form;
 
-
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,6 +21,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductCustomerOptionType extends AbstractType
 {
+    private $channelContext;
+
+    public function __construct(ChannelContextInterface $channelContext)
+    {
+        $this->channelContext = $channelContext;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var \Brille24\CustomerOptionsPlugin\Entity\ProductInterface $product */
@@ -34,10 +42,9 @@ class ProductCustomerOptionType extends AbstractType
             $customerOptionType = $customerOption->getType();
             $fieldName          = $customerOption->getCode();
 
-            list($class, $formOptions) = CustomerOptionTypeEnum::getFormTypeArray()[$customerOptionType];
+            [$class, $formOptions] = CustomerOptionTypeEnum::getFormTypeArray()[$customerOptionType];
 
             $builder->add($fieldName, $class, $this->getFormConfiguration($formOptions, $customerOption));
-
         }
     }
 
@@ -65,7 +72,7 @@ class ProductCustomerOptionType extends AbstractType
     private function getFormConfiguration(array $formOptions, CustomerOptionInterface $customerOption): array
     {
         $defaultOptions = [
-            'mapped'   => false,
+            'mapped' => false,
             'required' => $customerOption->isRequired(),
         ];
 
@@ -73,12 +80,24 @@ class ProductCustomerOptionType extends AbstractType
         $choices = [];
         if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
             $choices = [
-                'choices'      => $customerOption->getValues()->toArray(),
-                'choice_label' => function (CustomerOptionValueInterface $value) { return (string)$value; },
+                'choices' => $customerOption->getValues()->toArray(),
+                'choice_label' => function (CustomerOptionValueInterface $value) { return $this->buildValueString($value); },
                 'choice_value' => 'code',
             ];
         }
 
         return array_merge($formOptions, $defaultOptions, $choices);
+    }
+
+    private function buildValueString(CustomerOptionValueInterface $value){
+        $prices = $value->getPrices();
+
+        foreach ($prices as $price){
+            if($price->getChannel() === $this->channelContext->getChannel()){
+                return "{$value} ({$price})";
+            }
+        }
+
+        return (string) $value;
     }
 }
