@@ -92,4 +92,7 @@ interface OrderItemOptionInterface
      * @return int
      */
     public function getFixedPrice(): int;
+
+
+    public function getScalarValue();
 }

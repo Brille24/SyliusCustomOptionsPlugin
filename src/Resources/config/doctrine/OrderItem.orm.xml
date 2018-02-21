@@ -1,6 +1,11 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
-    <mapped-superclass name="Brille24\CustomerOptionsPlugin\Entity\OrderItem" table="sylius_order_item">
+    <entity name="Brille24\CustomerOptionsPlugin\Entity\OrderItem" table="sylius_order_item">
 
-        <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\OrderItemOption" mapped-by="orderItem" field="configuration" />
-    </mapped-superclass>
+        <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\OrderItemOption" mapped-by="orderItem" field="configuration">
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+        </one-to-many>
+    </entity>
 </doctrine-mapping>

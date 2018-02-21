@@ -1,5 +1,7 @@
 imports:
   - { resource: "services/menu.xml" }
   - { resource: "services/menuListener.xml" }
+  - { resource: "services/eventListener.xml" }
   - { resource: "services/repositories.xml" }
   - { resource: "services/forms.xml"}
+  - { resource: "services/services.xml" }

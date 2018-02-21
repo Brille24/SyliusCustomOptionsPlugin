@@ -32,18 +32,13 @@ class ProductCustomerOptionType extends AbstractType
         // Add a form field for every customer option
         foreach ($product->getCustomerOptions() as $customerOption) {
             $customerOptionType = $customerOption->getType();
-            $fieldName          = $this->generateFieldName($customerOption);
+            $fieldName          = $customerOption->getCode();
 
             list($class, $formOptions) = CustomerOptionTypeEnum::getFormTypeArray()[$customerOptionType];
 
             $builder->add($fieldName, $class, $this->getFormConfiguration($formOptions, $customerOption));
 
         }
-    }
-
-    private function generateFieldName(CustomerOptionInterface $customerOption): string
-    {
-        return 'customer_option_' . $customerOption->getCode();
     }
 
     public function configureOptions(OptionsResolver $resolver): void

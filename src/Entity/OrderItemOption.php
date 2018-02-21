@@ -8,112 +8,148 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInt
 
 class OrderItemOption implements OrderItemOptionInterface
 {
-	/** @var int|null */
-	private $id;
+    /** @var int|null */
+    private $id;
 
-	/** @var OrderItemInterface */
-	private $orderItem;
+    /** @var OrderItemInterface */
+    private $orderItem;
 
-	/** @var CustomerOptionInterface|null */
-	private $customerOption;
+    /** @var CustomerOptionInterface|null */
+    private $customerOption;
 
-	/** @var string */
-	private $customerOptionCode;
+    /** @var string */
+    private $customerOptionCode;
 
-	/** @var string */
-	private $customerOptionName;
+    /** @var string */
+    private $customerOptionName;
 
-	/** @var CustomerOptionValueInterface|null */
-	private $customerOptionValue;
+    /** @var CustomerOptionValueInterface|null */
+    private $customerOptionValue;
 
-	/** @var string */
-	private $customerOptionValueCode;
+    /** @var string */
+    private $customerOptionValueCode;
 
-	/** @var string */
-	private $customerOptionValueName;
+    /** @var string */
+    private $customerOptionValueName;
 
-	/** @var string */
-	private $optionValue;
+    /** @var integer */
+    private $fixedPrice = 0;
 
-	/** @var integer */
-	private $fixedPrice;
+    /** @var string */
+    private $optionValue;
 
-	/** {@inheritdoc} */
-	public function getId(): ?int
-	{
-		return $this->id;
-	}
+    public function __construct(
+        CustomerOptionInterface $customerOption,
+        $customerOptionValue
+    ) {
+        // Copying the customer Option
+        $this->customerOption     = $customerOption;
+        $this->customerOptionCode = $customerOption->getCode();
+        $this->customerOptionName = $customerOption->getName();
 
-	/** {@inheritdoc} */
-	public function getCustomerOption(): ?CustomerOptionInterface
-	{
-		return $this->customerOption;
-	}
+        // Copying the customer option value
+        if (is_scalar($customerOptionValue)) {
+            $this->optionValue = $customerOptionValue;
+        } elseif ($customerOptionValue instanceof CustomerOptionValueInterface) {
+            $this->customerOptionValue     = $customerOptionValue;
+            $this->customerOptionValueCode = $customerOptionValue->getCode();
+            $this->customerOptionValueName = $customerOptionValue->getName();
+            $this->fixedPrice              = $customerOptionValue->getPrice()->getAmount() ?? 0;
+        }
+    }
 
-	/** {@inheritdoc} */
-	public function setCustomerOption(?CustomerOptionInterface $customerOption): void
-	{
-		$this->customerOption = $customerOption;
-	}
+    /** {@inheritdoc} */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-	/** {@inheritdoc} */
-	public function getOptionValue(): string
-	{
-		return $this->optionValue;
-	}
+    /**
+     * @return OrderItemInterface
+     */
+    public function getOrderItem(): OrderItemInterface
+    {
+        return $this->orderItem;
+    }
 
-	/** {@inheritdoc} */
-	public function setOptionValue(string $optionValue): void
-	{
-		$this->optionValue = $optionValue;
-	}
+    /**
+     * @param OrderItemInterface $orderItem
+     */
+    public function setOrderItem(OrderItemInterface $orderItem): void
+    {
+        $this->orderItem = $orderItem;
+    }
 
-	/** {@inheritdoc} */
-	public function getCustomerOptionCode(): string
-	{
-		return $this->customerOptionCode;
-	}
+    /** {@inheritdoc} */
+    public function getCustomerOption(): ?CustomerOptionInterface
+    {
+        return $this->customerOption;
+    }
 
-	/** {@inheritdoc} */
-	public function setCustomerOptionCode(string $customerOptionCode): void
-	{
-		$this->customerOptionCode = $customerOptionCode;
-	}
+    /** {@inheritdoc} */
+    public function setCustomerOption(?CustomerOptionInterface $customerOption): void
+    {
+        $this->customerOption = $customerOption;
+    }
 
-	/** {@inheritdoc} */
-	public function getCustomerOptionValue(): ?CustomerOptionValueInterface
-	{
-		return $this->customerOptionValue;
-	}
+    /** {@inheritdoc} */
+    public function getOptionValue(): string
+    {
+        return $this->optionValue;
+    }
 
-	/** {@inheritdoc} */
-	public function setCustomerOptionValue(?CustomerOptionValueInterface $customerOptionValue): void
-	{
-		$this->customerOptionValue = $customerOptionValue;
-	}
+    /** {@inheritdoc} */
+    public function setOptionValue(string $optionValue): void
+    {
+        $this->optionValue = $optionValue;
+    }
 
-	/** {@inheritdoc} */
-	public function getCustomerOptionValueCode(): string
-	{
-		return $this->customerOptionValueCode;
-	}
+    /** {@inheritdoc} */
+    public function getCustomerOptionCode(): string
+    {
+        return $this->customerOptionCode;
+    }
 
-	/** {@inheritdoc} */
-	public function setCustomerOptionValueCode(string $customerOptionValueCode): void
-	{
-		$this->customerOptionValueCode = $customerOptionValueCode;
-	}
+    /** {@inheritdoc} */
+    public function setCustomerOptionCode(string $customerOptionCode): void
+    {
+        $this->customerOptionCode = $customerOptionCode;
+    }
+
+    /** {@inheritdoc} */
+    public function getCustomerOptionValue(): ?CustomerOptionValueInterface
+    {
+        return $this->customerOptionValue;
+    }
+
+    /** {@inheritdoc} */
+    public function setCustomerOptionValue(?CustomerOptionValueInterface $customerOptionValue): void
+    {
+        $this->customerOptionValue = $customerOptionValue;
+    }
+
+    /** {@inheritdoc} */
+    public function getCustomerOptionValueCode(): string
+    {
+        return $this->customerOptionValueCode;
+    }
+
+    /** {@inheritdoc} */
+    public function setCustomerOptionValueCode(string $customerOptionValueCode): void
+    {
+        $this->customerOptionValueCode = $customerOptionValueCode;
+    }
 
     /** {@inheritdoc} */
     public function getCustomerOptionName(): string
     {
         return $this->customerOptionName;
-	}
+    }
 
     /** {@inheritdoc} */
-	public function getCustomerOptionValueName(): string
+    public function getCustomerOptionValueName(): string
     {
-        return $this->customerOptionValueName;
+        return $this->customerOptionValueName ?? $this->optionValue;
     }
 
     /** {@inheritdoc} */
@@ -138,6 +174,16 @@ class OrderItemOption implements OrderItemOptionInterface
     public function setCustomerOptionValueName(string $customerOptionValueName): void
     {
         $this->customerOptionValueName = $customerOptionValueName;
+    }
+
+    /** {@inheritdoc} */
+    public function getScalarValue()
+    {
+        if (is_null($this->optionValue)) {
+            return $this->optionValue;
+        } else {
+            return $this->customerOptionValueCode;
+        }
     }
 
 }
