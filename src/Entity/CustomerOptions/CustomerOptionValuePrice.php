@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 
+use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 
 class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
@@ -22,6 +23,9 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
 
     /** @var CustomerOptionValueInterface|null */
     private $customerOptionValue;
+
+    /** @var ChannelInterface */
+    private $channel;
 
     public function __construct()
     {
@@ -82,8 +86,8 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     public static function getAllTypes(): array
     {
         return [
-            CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT,
-            CustomerOptionValuePriceInterface::TYPE_PERCENT,
+            CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
+            CustomerOptionValuePrice::TYPE_PERCENT,
         ];
     }
 
@@ -99,8 +103,22 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         $this->customerOptionValue = $customerOptionValue;
     }
 
+    /** {@inheritdoc} */
     public function getCustomerOptionValueName(): ?string
     {
         return $this->customerOptionValue->getName();
     }
+
+    /** {@inheritdoc} */
+    public function setChannel(ChannelInterface $channel): void
+    {
+        $this->channel = $channel;
+    }
+
+    /** {@inheritdoc} */
+    public function getChannel(): ChannelInterface
+    {
+        return $this->channel;
+    }
+
 }

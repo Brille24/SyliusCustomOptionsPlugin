@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
+use Sylius\Component\Core\Model\ChannelInterface;
+
 interface CustomerOptionValuePriceInterface
 {
     const TYPE_FIXED_AMOUNT = 'FIXED_AMOUNT';
@@ -64,4 +66,14 @@ interface CustomerOptionValuePriceInterface
      * @return null|string
      */
     public function getCustomerOptionValueName(): ?string;
+
+    /**
+     * @param ChannelInterface $channel
+     */
+    public function setChannel(ChannelInterface $channel): void;
+
+    /**
+     * @return ChannelInterface
+     */
+    public function getChannel(): ChannelInterface;
 }

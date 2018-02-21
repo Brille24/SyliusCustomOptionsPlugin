@@ -42,9 +42,12 @@ final class CustomerOptionType extends AbstractResourceType
                 'by_reference' => false
             ])
             ->add('prices', CollectionType::class, [
-                'entry_type' => CustomerOptionValuePriceType::class,
-                'label' => false,
-                'by_reference' => false,
+                'entry_type' => CollectionType::class,
+                'entry_options' => [
+                    'entry_type' => CustomerOptionValuePriceType::class,
+                    'label' => false,
+                    'by_reference' => false,
+                ]
             ])
         ;
     }

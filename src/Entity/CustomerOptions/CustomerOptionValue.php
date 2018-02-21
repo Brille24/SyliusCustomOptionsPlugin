@@ -9,6 +9,8 @@
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
@@ -28,8 +30,8 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /** @var string */
     protected $value;
 
-    /** @var CustomerOptionValuePriceInterface */
-    protected $price;
+    /** @var Collection */
+    protected $prices;
 
     /** @var CustomerOptionInterface|null */
     private $customerOption;
@@ -37,8 +39,11 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     public function __construct()
     {
         $this->initializeTranslationsCollection();
-        $this->price = new CustomerOptionValuePrice();
-        $this->price->setCustomerOptionValue($this);
+//        $this->prices = new ArrayCollection([
+//            new CustomerOptionValuePrice()
+//        ]);
+//        $this->prices->first()->setCustomerOptionValue($this);
+        $this->prices = new ArrayCollection();
     }
 
     /**
@@ -100,19 +105,21 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setPrice(?CustomerOptionValuePriceInterface $price)
+    public function setPrices(?Collection $prices)
     {
-        $this->price = $price;
+        $this->prices = $prices;
 
-        $price->setCustomerOptionValue($this);
+        foreach ($prices as $price) {
+            $price->setCustomerOptionValue($this);
+        }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPrice(): ?CustomerOptionValuePriceInterface
+    public function getPrices(): ?Collection
     {
-        return $this->price;
+        return $this->prices;
     }
 
     /**

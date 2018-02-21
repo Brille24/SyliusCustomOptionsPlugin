@@ -12,14 +12,21 @@
         <field name="code" type="string" nullable="false" unique="true" />
         <field name="value" type="string" nullable="false"/>
 
-        <one-to-one field="price" target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice">
+        <one-to-many
+                field="prices"
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
+                mapped-by="customerOptionValue"
+        >
             <cascade>
                 <cascade-persist/>
             </cascade>
-            <join-column on-delete="RESTRICT" />
-        </one-to-one>
+        </one-to-many>
 
-        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption" field="customerOption">
+        <many-to-one
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
+                field="customerOption"
+                inversed-by="values"
+        >
             <cascade>
                 <cascade-persist/>
             </cascade>

@@ -78,7 +78,7 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     public function getValues();
 
     /**
-     * @return Collection|CustomerOptionValuePriceInterface[]
+     * @return Collection|Collection[]
      */
     public function getPrices();
 
