@@ -62,4 +62,34 @@ interface OrderItemOptionInterface
      * @param string $customerOptionValueCode
      */
     public function setCustomerOptionValueCode(string $customerOptionValueCode): void;
+
+    /**
+     * @return string
+     */
+    public function getCustomerOptionName(): string;
+
+    /**
+     * @param string $customerOptionName
+     */
+    public function setCustomerOptionName(string $customerOptionName): void;
+
+    /**
+     * @return string
+     */
+    public function getCustomerOptionValueName(): string;
+
+    /**
+     * @param string $customerOptionValueName
+     */
+    public function setCustomerOptionValueName(string $customerOptionValueName): void;
+
+    /**
+     * @param int $price
+     */
+    public function setFixedPrice(int $price): void;
+
+    /**
+     * @return int
+     */
+    public function getFixedPrice(): int;
 }

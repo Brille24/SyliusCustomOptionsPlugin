@@ -7,13 +7,17 @@
         <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\OrderItem" field="orderItem" />
 
         <field name="customerOptionCode" />
+        <field name="customerOptionName" />
 
         <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
                      field="customerOption" />
 
         <field name="customerOptionValueCode" />
+        <field name="customerOptionValueName" />
 
         <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
                      field="customerOptionValue" />
+
+        <field name="fixedPrice" type="integer" />
     </entity>
 </doctrine-mapping>

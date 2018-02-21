@@ -20,6 +20,9 @@ class OrderItemOption implements OrderItemOptionInterface
 	/** @var string */
 	private $customerOptionCode;
 
+	/** @var string */
+	private $customerOptionName;
+
 	/** @var CustomerOptionValueInterface|null */
 	private $customerOptionValue;
 
@@ -27,7 +30,13 @@ class OrderItemOption implements OrderItemOptionInterface
 	private $customerOptionValueCode;
 
 	/** @var string */
+	private $customerOptionValueName;
+
+	/** @var string */
 	private $optionValue;
+
+	/** @var integer */
+	private $fixedPrice;
 
 	/** {@inheritdoc} */
 	public function getId(): ?int
@@ -95,21 +104,40 @@ class OrderItemOption implements OrderItemOptionInterface
 		$this->customerOptionValueCode = $customerOptionValueCode;
 	}
 
+    /** {@inheritdoc} */
     public function getCustomerOptionName(): string
     {
-        if($this->customerOption === null){
-            return $this->customerOptionCode;
-        }
-
-        return $this->customerOption->getName();
+        return $this->customerOptionName;
 	}
 
+    /** {@inheritdoc} */
 	public function getCustomerOptionValueName(): string
     {
-        if($this->customerOptionValue === null){
-            return $this->customerOptionValueCode;
-        }
-
-        return $this->customerOptionValue->getName();
+        return $this->customerOptionValueName;
     }
+
+    /** {@inheritdoc} */
+    public function setFixedPrice(int $price): void
+    {
+        $this->fixedPrice = $price;
+    }
+
+    /** {@inheritdoc} */
+    public function getFixedPrice(): int
+    {
+        return $this->fixedPrice;
+    }
+
+    /** {@inheritdoc} */
+    public function setCustomerOptionName(string $customerOptionName): void
+    {
+        $this->customerOptionName = $customerOptionName;
+    }
+
+    /** {@inheritdoc} */
+    public function setCustomerOptionValueName(string $customerOptionValueName): void
+    {
+        $this->customerOptionValueName = $customerOptionValueName;
+    }
+
 }
