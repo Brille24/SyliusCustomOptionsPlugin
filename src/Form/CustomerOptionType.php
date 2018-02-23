@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Form;
 
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -49,6 +50,11 @@ final class CustomerOptionType extends AbstractResourceType
                 'entry_type' => CustomerOptionValuePriceType::class,
                 'label' => false,
                 'by_reference' => false,
+//                'query_builder' => function(EntityRepository $repository){
+//                    $qb = $repository->createQueryBuilder('p');
+//
+//                    return $qb->where($qb->expr()->neq('p.product', null));
+//                },
             ])
         ;
     }
