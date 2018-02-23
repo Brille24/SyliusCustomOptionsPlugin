@@ -43,6 +43,9 @@
         <service class="Brille24\CustomerOptionsPlugin\Form\Product\ShopCustomerOptionType"
                  id="brille24.customer_options_plugin.form.product.shop_customer_option_type">
             <argument type="service" id="sylius.context.channel" />
+            <argument type="service" id="sylius.context.currency" />
+            <argument type="service" id="sylius.money_formatter" />
+            <argument type="service" id="sylius.context.locale" />
             <tag alias="Brille24\CustomerOptionsPlugin\Form\Product\ShopCustomerOptionType" name="form.type" />
         </service>
 

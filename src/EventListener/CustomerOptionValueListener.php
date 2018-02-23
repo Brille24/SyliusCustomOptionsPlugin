@@ -14,6 +14,7 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInt
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Sylius\Component\Core\Model\ChannelInterface;
 
 class CustomerOptionValueListener
 {
@@ -25,36 +26,40 @@ class CustomerOptionValueListener
      *
      * @param EntityRepository $channelRepository
      */
-    public function __construct(EntityRepository $channelRepository)
+    public function __construct(
+        EntityRepository $channelRepository
+    )
     {
         $this->channelRepository = $channelRepository;
     }
 
     /**
      * @param LifecycleEventArgs $args
-     *
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
 
         if ($entity instanceof CustomerOptionValueInterface) {
-            $prices = $entity->getPrices();
+            $this->addChannelPricesToNewValue($entity);
+        }
+    }
 
-            $existingChannels = [];
-            foreach ($prices as $price) {
-                $existingChannels[] = $price->getChannel();
-            }
+    private function addChannelPricesToNewValue(CustomerOptionValueInterface $value){
+        $prices = $value->getPrices();
 
-            $channels = $this->channelRepository->findAll();
+        $existingChannels = [];
+        foreach ($prices as $price) {
+            $existingChannels[] = $price->getChannel();
+        }
 
-            foreach ($channels as $channel) {
-                if (!in_array($channel, $existingChannels)) {
-                    $newPrice = new CustomerOptionValuePrice();
-                    $newPrice->setChannel($channel);
-                    $entity->addPrice($newPrice);
-                }
+        $channels = $this->channelRepository->findAll();
+
+        foreach ($channels as $channel) {
+            if (!in_array($channel, $existingChannels)) {
+                $newPrice = new CustomerOptionValuePrice();
+                $newPrice->setChannel($channel);
+                $value->addPrice($newPrice);
             }
         }
     }

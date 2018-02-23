@@ -24,7 +24,9 @@
         <many-to-one
                 target-entity="Sylius\Component\Core\Model\Channel"
                 field="channel"
-        />
+        >
+            <join-column on-delete="CASCADE" />
+        </many-to-one>
 
         <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\Product"
                      field="product" inversed-by="customerOptionValuePrices"

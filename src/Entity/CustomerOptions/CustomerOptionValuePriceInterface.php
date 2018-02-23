@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
+use Sylius\Bundle\CurrencyBundle\Templating\Helper\CurrencyHelperInterface;
+use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Currency\Model\CurrencyInterface;
 
 interface CustomerOptionValuePriceInterface
 {
@@ -91,4 +94,6 @@ interface CustomerOptionValuePriceInterface
      * @return ChannelInterface
      */
     public function getChannel(): ?ChannelInterface;
+
+    public function getValueString(string $currencyCode, string $locale, MoneyFormatterInterface $formatter): string;
 }

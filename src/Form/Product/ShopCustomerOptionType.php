@@ -15,7 +15,11 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInt
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Sylius\Bundle\CurrencyBundle\Templating\Helper\CurrencyHelperInterface;
+use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Currency\Context\CurrencyContextInterface;
+use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,9 +28,23 @@ class ShopCustomerOptionType extends AbstractType
 {
     private $channelContext;
 
-    public function __construct(ChannelContextInterface $channelContext)
+    private $currencyContext;
+
+    private $moneyFormatter;
+
+    private $localeContext;
+
+    public function __construct(
+        ChannelContextInterface $channelContext,
+        CurrencyContextInterface $currencyContext,
+        MoneyFormatterInterface $moneyFormatter,
+        LocaleContextInterface $localeContext
+    )
     {
         $this->channelContext = $channelContext;
+        $this->currencyContext = $currencyContext;
+        $this->moneyFormatter = $moneyFormatter;
+        $this->localeContext = $localeContext;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -92,6 +110,12 @@ class ShopCustomerOptionType extends AbstractType
         return array_merge($formOptions, $defaultOptions, $choices);
     }
 
+    /**
+     * @param CustomerOptionValueInterface $value
+     * @param ProductInterface $product
+     * @return string
+     * @throws \Exception
+     */
     private function buildValueString(CustomerOptionValueInterface $value, ProductInterface $product){
         /** @var CustomerOptionValuePriceInterface $price */
         $price = null;
@@ -118,6 +142,20 @@ class ShopCustomerOptionType extends AbstractType
             }
         }
 
-        return "{$value} ({$price})";
+        // No price was found for the current channel, probably because the values weren't updated after adding a new channel
+        if($price === null){
+            throw new \Exception(
+                sprintf(
+                    "CustomerOptionValue (%s) has no price defined for Channel (%s)",
+                    $value->getCode(),
+                    $this->channelContext->getChannel()->getCode()
+                )
+            );
+        }
+
+        return
+            "{$value} ({$price->getValueString(
+                $this->currencyContext->getCurrencyCode(), $this->localeContext->getLocaleCode(), $this->moneyFormatter
+            )})";
     }
 }
