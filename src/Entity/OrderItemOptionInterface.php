@@ -95,6 +95,26 @@ interface OrderItemOptionInterface
     public function getFixedPrice(): int;
 
     /**
+     * @param float $percent
+     */
+    public function setPercent(float $percent): void;
+
+    /**
+     * @return float
+     */
+    public function getPercent(): float;
+
+    /**
+     * @param string $type
+     */
+    public function setPricingType(string $type): void;
+
+    /**
+     * @return string
+     */
+    public function getPricingType(): string;
+
+    /**
      * @return mixed
      */
     public function getScalarValue();
