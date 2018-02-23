@@ -41,6 +41,12 @@ class OrderItemOption implements OrderItemOptionInterface
     /** @var int */
     private $fixedPrice = 0;
 
+    /** @var string */
+    private $pricingType;
+
+    /** @var float */
+    private $percent;
+
     public function __construct(
         CustomerOptionInterface $customerOption,
         $customerOptionValue,
@@ -85,7 +91,9 @@ class OrderItemOption implements OrderItemOptionInterface
                 }
             }
 
+            $this->pricingType             = $price->getType();
             $this->fixedPrice              = $price->getAmount() ?? 0;
+            $this->percent                 = $price->getPercent() ?? 0;
         }
     }
 
@@ -194,6 +202,31 @@ class OrderItemOption implements OrderItemOptionInterface
     {
         return $this->fixedPrice;
     }
+
+    /** {@inheritdoc} */
+    public function setPercent(float $percent): void
+    {
+        $this->percent = $percent;
+    }
+
+    /** {@inheritdoc} */
+    public function getPercent(): float
+    {
+        return $this->percent;
+    }
+
+    /** {@inheritdoc} */
+    public function setPricingType(string $type): void
+    {
+        $this->pricingType = $type;
+    }
+
+    /** {@inheritdoc} */
+    public function getPricingType(): string
+    {
+        return $this->pricingType;
+    }
+
 
     /** {@inheritdoc} */
     public function setCustomerOptionName(string $customerOptionName): void

@@ -21,5 +21,7 @@
                      field="customerOptionValue" optional="true"/>
 
         <field name="fixedPrice" type="integer"/>
+        <field name="percent" type="float" />
+        <field name="pricingType" type="string" />
     </entity>
 </doctrine-mapping>
