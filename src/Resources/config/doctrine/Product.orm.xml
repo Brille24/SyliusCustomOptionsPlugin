@@ -1,6 +1,15 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
     <mapped-superclass name="Brille24\CustomerOptionsPlugin\Entity\Product" table="sylius_product">
 
+        <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
+                     mapped-by="product" field="customerOptionValuePrices"
+        >
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+        </one-to-many>
+
         <many-to-one
                 target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup"
                 field="customerOptionGroup"

@@ -48,7 +48,7 @@ final class ProductTypeExtension extends AbstractTypeExtension
             ])
         ;
 
-        $builder->add('customerOptionPrices', CollectionType::class, [
+        $builder->add('customerOptionValuePrices', CollectionType::class, [
             'entry_type' => CustomerOptionValuePriceType::class,
             'entry_options' => [
                 'product' => $product,

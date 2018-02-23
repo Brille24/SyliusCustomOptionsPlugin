@@ -1,7 +1,7 @@
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping">
 
     <class name="Brille24\CustomerOptionsPlugin\Entity\Product">
-        <getter property="customerOptionPrices">
+        <getter property="customerOptionValuePrices">
             <constraint name="Brille24\CustomerOptionsPlugin\Validator\Constraints\ProductCustomerOptionValuePriceConstraint">
                 <option name="message">brille24.customer_options.unique</option>
                 <option name="groups">sylius</option>

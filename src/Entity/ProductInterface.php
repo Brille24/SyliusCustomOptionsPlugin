@@ -13,10 +13,10 @@ interface ProductInterface extends BaseProductInterface, CustomerOptionableTrait
     /**
      * @return Collection|null
      */
-    public function getCustomerOptionPrices(): ?Collection;
+    public function getCustomerOptionValuePrices(): ?Collection;
 
     /**
      * @param Collection|null $prices
      */
-    public function setCustomerOptionPrices(?Collection $prices);
+    public function setCustomerOptionValuePrices(?Collection $prices);
 }

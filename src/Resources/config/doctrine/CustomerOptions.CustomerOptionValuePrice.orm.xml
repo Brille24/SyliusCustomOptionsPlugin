@@ -24,6 +24,10 @@
         <many-to-one
                 target-entity="Sylius\Component\Core\Model\Channel"
                 field="channel"
+        />
+
+        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\Product"
+                     field="product" inversed-by="customerOptionValuePrices"
         >
         </many-to-one>
     </entity>

@@ -16,30 +16,39 @@ class Product extends BaseProduct implements ProductInterface
         __construct as protected initializeCustomerOptionGroup;
     }
 
+    /** @var Collection|CustomerOptionValuePriceInterface[] */
+    protected $customerOptionValuePrices;
+
     public function __construct()
     {
         parent::__construct();
         $this->initializeCustomerOptionGroup();
-        $this->customerOptionPrices = new ArrayCollection();
+        $this->customerOptionValuePrices = new ArrayCollection();
     }
 
-    /** @var Collection|CustomerOptionValuePriceInterface[] */
-    protected $customerOptionPrices;
-
-    public function getCustomerOptionPrices(): ?Collection
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomerOptionValuePrices(): ?Collection
     {
-        return $this->customerOptionPrices;
+        return $this->customerOptionValuePrices;
     }
 
-    public function setCustomerOptionPrices(?Collection $prices)
+    /**
+     * {@inheritdoc}
+     */
+    public function setCustomerOptionValuePrices(?Collection $prices)
     {
-        $this->customerOptionPrices = $prices;
+        $this->customerOptionValuePrices = $prices;
 
         foreach ($prices as $price){
-            $price->setProducts(new ArrayCollection([$this]));
+            $price->setProduct($this);
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCustomerOptions(): array
     {
         $options = [];

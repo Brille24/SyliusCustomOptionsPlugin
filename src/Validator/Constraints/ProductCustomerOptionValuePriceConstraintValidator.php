@@ -34,14 +34,35 @@ class ProductCustomerOptionValuePriceConstraintValidator extends ConstraintValid
             throw new \InvalidArgumentException('Collection does not contain CustomerOptionValuePrices.');
         }
 
-        $existingTypes = [];
+
+
+//        $existingValues = [];
+//
+//        /** @var CustomerOptionValuePriceInterface $price */
+//        foreach ($value->getValues() as $price){
+//            if($existingValues[$price->getChannel()->getCode()] === $price->getCustomerOptionValue()){
+//                $this->context->addViolation($constraint->message);
+//            }else{
+//                $existingValues[$price->getChannel()->getCode()] = $price->getCustomerOptionValue();
+//            }
+//        }
+
+        $existingValues = [];
 
         /** @var CustomerOptionValuePriceInterface $price */
-        foreach ($value->getValues() as $price){
-            if(in_array($price->getCustomerOptionValue(), $existingTypes)){
+        foreach($value->getValues() as $price){
+            $channelCode = $price->getChannel()->getCode();
+
+            if(
+                !isset($existingValues[$channelCode])
+            ){
+                $existingValues[$channelCode] = [];
+            }
+
+            if(in_array($price->getCustomerOptionValue(), $existingValues[$channelCode])){
                 $this->context->addViolation($constraint->message);
             }else{
-                $existingTypes[] = $price->getCustomerOptionValue();
+                $existingValues[$channelCode][] = $price->getCustomerOptionValue();
             }
         }
     }

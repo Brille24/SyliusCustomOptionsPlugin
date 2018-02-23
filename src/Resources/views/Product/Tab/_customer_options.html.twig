@@ -1,8 +1,6 @@
 <div class="ui tab" data-tab="customer_options">
     {{ form_row(form.customerOptionGroup) }}
 
-    <div class="field">
-        {{ form_errors(form.customerOptionPrices) }}
-        {{ form_row(form.customerOptionPrices) }}
-    </div>
+    {{ form_row(form.customerOptionValuePrices) }}
+    {{ form_errors(form.customerOptionValuePrices) }}
 </div>

@@ -15,6 +15,7 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePri
 use Brille24\CustomerOptionsPlugin\Entity\Product;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -44,6 +45,9 @@ class CustomerOptionValuePriceType extends AbstractType
                 'choice_label' => function(CustomerOptionValueInterface $option){
                     return $option->getName();
                 },
+            ])
+            ->add('channel', ChannelChoiceType::class, [
+
             ])
             ->add('percent', NumberType::class, [
                 'empty_data' => 0,
