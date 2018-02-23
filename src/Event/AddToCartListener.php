@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Event;
 
 
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemOption;
 use Brille24\CustomerOptionsPlugin\Entity\Product;
@@ -103,19 +104,47 @@ final class AddToCartListener
 
             foreach ($addToCart['customerOptions'] as $code => $value) {
                 $customerOption = $this->customerOptionRepository->findOneByCode($code);
-                $optionData     = [];
                 if ($customerOption !== null) {
-                    $optionData['option'] = $customerOption;
-                    $optionData['value']  = $this->valueResolver->resolve($customerOption, $value) ?? $value;
 
-                    $result[] = $optionData;
+                    if(is_array($value)){
+                        foreach ($value as $val){
+                            $result[] = $this->resolveValue(
+                                $customerOptions,
+                                $customerOptionValues,
+                                $customerOption,
+                                $val
+                            );
+                        }
+                    }else {
+                        $result[] = $this->resolveValue(
+                            $customerOptions,
+                            $customerOptionValues,
+                            $customerOption,
+                            $value
+                        );
+                    }
 
-                    $customerOptions[]      = $customerOption;
-                    $customerOptionValues[] = $this->valueResolver->resolve($customerOption, $value) ?? $value;
                 }
             }
             return [$customerOptions, $customerOptionValues];
         }
         return [[], []];
+    }
+
+    private function resolveValue(
+        array &$customerOptions,
+        array &$customerOptionValues,
+        CustomerOptionInterface $customerOption,
+        $value
+    ){
+        $optionData = [];
+
+        $optionData['option'] = $customerOption;
+        $optionData['value'] = $this->valueResolver->resolve($customerOption, $value) ?? $value;
+
+        $customerOptions[] = $customerOption;
+        $customerOptionValues[] = $this->valueResolver->resolve($customerOption, $value) ?? $value;
+
+        return $optionData;
     }
 }
