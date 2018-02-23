@@ -44,7 +44,8 @@ class OrderItemOption implements OrderItemOptionInterface
     public function __construct(
         CustomerOptionInterface $customerOption,
         $customerOptionValue,
-        ChannelInterface $channel
+        ChannelInterface $channel,
+        \Sylius\Component\Core\Model\ProductInterface $product
     ) {
         // Copying the customer Option
         $this->customerOption     = $customerOption;
@@ -59,13 +60,28 @@ class OrderItemOption implements OrderItemOptionInterface
             $this->customerOptionValueCode = $customerOptionValue->getCode();
             $this->customerOptionValueName = $customerOptionValue->getName();
 
-            //Getting the right price based on channel
+            // Getting the right price based on channel and product
             $price = null;
 
-            /** @var CustomerOptionValuePriceInterface $price */
-            foreach ($customerOptionValue->getPrices() as $price){
-                if($price->getChannel() === $channel){
-                    break;
+            if($product instanceof ProductInterface) {
+                // Try to find a product specific price
+                /** @var CustomerOptionValuePriceInterface $productPrice */
+                foreach ($product->getCustomerOptionValuePrices() as $productPrice) {
+                    if ($productPrice->getCustomerOptionValue() === $customerOptionValue && $productPrice->getChannel() === $channel) {
+                        $price = $productPrice;
+                        break;
+                    }
+                }
+            }
+
+            // If the product had no matching price configured, get the default price
+            if($price === null) {
+                /** @var CustomerOptionValuePriceInterface $price */
+                foreach ($customerOptionValue->getPrices() as $defaultPrice) {
+                    if ($defaultPrice->getChannel() === $channel) {
+                        $price = $defaultPrice;
+                        break;
+                    }
                 }
             }
 

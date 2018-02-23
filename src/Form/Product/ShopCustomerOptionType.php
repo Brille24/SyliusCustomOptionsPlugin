@@ -12,9 +12,10 @@ namespace Brille24\CustomerOptionsPlugin\Form\Product;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
-use Sylius\Component\Core\Model\ProductInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -44,7 +45,7 @@ class ShopCustomerOptionType extends AbstractType
 
             [$class, $formOptions] = CustomerOptionTypeEnum::getFormTypeArray()[$customerOptionType];
 
-            $builder->add($fieldName, $class, $this->getFormConfiguration($formOptions, $customerOption));
+            $builder->add($fieldName, $class, $this->getFormConfiguration($formOptions, $customerOption, $product));
         }
     }
 
@@ -69,7 +70,7 @@ class ShopCustomerOptionType extends AbstractType
      *
      * @return array
      */
-    private function getFormConfiguration(array $formOptions, CustomerOptionInterface $customerOption): array
+    private function getFormConfiguration(array $formOptions, CustomerOptionInterface $customerOption, ProductInterface $product): array
     {
         $defaultOptions = [
             'mapped' => false,
@@ -81,7 +82,9 @@ class ShopCustomerOptionType extends AbstractType
         if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
             $choices = [
                 'choices' => $customerOption->getValues()->toArray(),
-                'choice_label' => function (CustomerOptionValueInterface $value) { return $this->buildValueString($value); },
+                'choice_label' => function (CustomerOptionValueInterface $value) use ($product) {
+                    return $this->buildValueString($value, $product);
+                },
                 'choice_value' => 'code',
             ];
         }
@@ -89,15 +92,32 @@ class ShopCustomerOptionType extends AbstractType
         return array_merge($formOptions, $defaultOptions, $choices);
     }
 
-    private function buildValueString(CustomerOptionValueInterface $value){
-        $prices = $value->getPrices();
+    private function buildValueString(CustomerOptionValueInterface $value, ProductInterface $product){
+        /** @var CustomerOptionValuePriceInterface $price */
+        $price = null;
 
-        foreach ($prices as $price){
-            if($price->getChannel() === $this->channelContext->getChannel()){
-                return "{$value} ({$price})";
+        /** @var CustomerOptionValuePriceInterface $productPrice */
+        foreach ($product->getCustomerOptionValuePrices() as $productPrice){
+            if(
+                $productPrice->getCustomerOptionValue() === $value &&
+                $productPrice->getChannel() === $this->channelContext->getChannel()
+            ){
+                $price = $productPrice;
+                break;
             }
         }
 
-        return (string) $value;
+        if($price === null) {
+            $prices = $value->getPrices();
+
+            foreach ($prices as $defaultPrice) {
+                if ($defaultPrice->getChannel() === $this->channelContext->getChannel()) {
+                    $price = $defaultPrice;
+                    break;
+                }
+            }
+        }
+
+        return "{$value} ({$price})";
     }
 }

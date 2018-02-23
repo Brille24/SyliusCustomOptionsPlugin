@@ -5,7 +5,7 @@
             <generator strategy="AUTO"/>
         </id>
 
-        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\OrderItem" field="orderItem"/>
+        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\OrderItem" field="orderItem" inversed-by="configuration"/>
 
         <field name="customerOptionCode"/>
         <field name="customerOptionName"/>

@@ -6,6 +6,7 @@ namespace Brille24\CustomerOptionsPlugin\Event;
 
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemOption;
+use Brille24\CustomerOptionsPlugin\Entity\Product;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\CustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -70,7 +71,8 @@ final class AddToCartListener
             $salesOrderConfiguration = new OrderItemOption(
                 $customerOptions[$i],
                 $customerOptionValues[$i],
-                $this->channelContext->getChannel()
+                $this->channelContext->getChannel(),
+                $orderItem->getProduct()
             );
             $salesOrderConfiguration->setOrderItem($orderItem);
             $salesOrderConfigurations[] = $salesOrderConfiguration;
