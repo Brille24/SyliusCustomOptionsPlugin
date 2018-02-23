@@ -35,7 +35,6 @@
             <div class="{{ class }}" data-tab="{{ channel[0].channel.code.vars.value }}">
                 {% for price in channel %}
                     <div class="ui segment two fields">
-                        {{ dump(price) }}
                         {{ form_row(price.customerOptionValueName) }}
                         <div class="ui field">
                             {{ form_row(price.percent) }}
