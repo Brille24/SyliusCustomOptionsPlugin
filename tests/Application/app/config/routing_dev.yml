@@ -1,0 +1,6 @@
+sylius:
+    resource: "../../../../vendor/sylius/sylius/app/config/routing_dev.yml"
+
+imports:
+    resource: "routing.yml"
+
