@@ -6,6 +6,8 @@ namespace Brille24\CustomerOptionsPlugin\Entity;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Sylius\Component\Channel\Model\ChannelInterface;
 
 class OrderItemOption implements OrderItemOptionInterface
 {
@@ -41,7 +43,8 @@ class OrderItemOption implements OrderItemOptionInterface
 
     public function __construct(
         CustomerOptionInterface $customerOption,
-        $customerOptionValue
+        $customerOptionValue,
+        ChannelInterface $channel
     ) {
         // Copying the customer Option
         $this->customerOption     = $customerOption;
@@ -55,7 +58,18 @@ class OrderItemOption implements OrderItemOptionInterface
             $this->customerOptionValue     = $customerOptionValue;
             $this->customerOptionValueCode = $customerOptionValue->getCode();
             $this->customerOptionValueName = $customerOptionValue->getName();
-            $this->fixedPrice              = $customerOptionValue->getPrice()->getAmount() ?? 0;
+
+            //Getting the right price based on channel
+            $price = null;
+
+            /** @var CustomerOptionValuePriceInterface $price */
+            foreach ($customerOptionValue->getPrices() as $price){
+                if($price->getChannel() === $channel){
+                    break;
+                }
+            }
+
+            $this->fixedPrice              = $price->getAmount() ?? 0;
         }
     }
 

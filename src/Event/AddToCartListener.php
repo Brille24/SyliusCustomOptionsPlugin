@@ -10,6 +10,7 @@ use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\CustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -28,16 +29,23 @@ final class AddToCartListener
      */
     private $entityManager;
 
+    /**
+     * @var ChannelContextInterface
+     */
+    private $channelContext;
+
     public function __construct(
         RequestStack $requestStack,
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionValueResolverInterface $valueResolver,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        ChannelContextInterface $channelContext
     ) {
         $this->requestStack             = $requestStack;
         $this->customerOptionRepository = $customerOptionRepository;
         $this->valueResolver            = $valueResolver;
         $this->entityManager            = $entityManager;
+        $this->channelContext           = $channelContext;
     }
 
     public function addItemToCart(ResourceControllerEvent $event): void
@@ -59,7 +67,11 @@ final class AddToCartListener
         $salesOrderConfigurations = [];
 
         for ($i = 0; $i < count($customerOptions); $i++) {
-            $salesOrderConfiguration = new OrderItemOption($customerOptions[$i], $customerOptionValues[$i]);
+            $salesOrderConfiguration = new OrderItemOption(
+                $customerOptions[$i],
+                $customerOptionValues[$i],
+                $this->channelContext->getChannel()
+            );
             $salesOrderConfiguration->setOrderItem($orderItem);
             $salesOrderConfigurations[] = $salesOrderConfiguration;
             $this->entityManager->persist($salesOrderConfiguration);
