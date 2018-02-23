@@ -6,6 +6,8 @@ namespace Brille24\CustomerOptionsPlugin\Entity;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Sylius\Component\Channel\Model\ChannelInterface;
 
 class OrderItemOption implements OrderItemOptionInterface
 {
@@ -37,12 +39,60 @@ class OrderItemOption implements OrderItemOptionInterface
     private $optionValue;
 
     /** @var int */
-    private $fixedPrice;
+    private $fixedPrice = 0;
+
+    public function __construct(
+        CustomerOptionInterface $customerOption,
+        $customerOptionValue,
+        ChannelInterface $channel
+    ) {
+        // Copying the customer Option
+        $this->customerOption     = $customerOption;
+        $this->customerOptionCode = $customerOption->getCode();
+        $this->customerOptionName = $customerOption->getName();
+
+        // Copying the customer option value
+        if (is_scalar($customerOptionValue)) {
+            $this->optionValue = $customerOptionValue;
+        } elseif ($customerOptionValue instanceof CustomerOptionValueInterface) {
+            $this->customerOptionValue     = $customerOptionValue;
+            $this->customerOptionValueCode = $customerOptionValue->getCode();
+            $this->customerOptionValueName = $customerOptionValue->getName();
+
+            //Getting the right price based on channel
+            $price = null;
+
+            /** @var CustomerOptionValuePriceInterface $price */
+            foreach ($customerOptionValue->getPrices() as $price){
+                if($price->getChannel() === $channel){
+                    break;
+                }
+            }
+
+            $this->fixedPrice              = $price->getAmount() ?? 0;
+        }
+    }
 
     /** {@inheritdoc} */
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return OrderItemInterface
+     */
+    public function getOrderItem(): OrderItemInterface
+    {
+        return $this->orderItem;
+    }
+
+    /**
+     * @param OrderItemInterface $orderItem
+     */
+    public function setOrderItem(OrderItemInterface $orderItem): void
+    {
+        $this->orderItem = $orderItem;
     }
 
     /** {@inheritdoc} */
@@ -114,7 +164,7 @@ class OrderItemOption implements OrderItemOptionInterface
     /** {@inheritdoc} */
     public function getCustomerOptionValueName(): string
     {
-        return $this->customerOptionValueName;
+        return $this->customerOptionValueName ?? $this->optionValue;
     }
 
     /** {@inheritdoc} */
@@ -140,4 +190,15 @@ class OrderItemOption implements OrderItemOptionInterface
     {
         $this->customerOptionValueName = $customerOptionValueName;
     }
+
+    /** {@inheritdoc} */
+    public function getScalarValue()
+    {
+        if (is_null($this->optionValue)) {
+            return $this->optionValue;
+        } else {
+            return $this->customerOptionValueCode;
+        }
+    }
+
 }

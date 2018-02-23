@@ -1,5 +1,15 @@
 <container xmlns="http://symfony.com/schema/dic/services">
     <services>
+
+       <service class="Brille24\CustomerOptionsPlugin\Event\AddToCartListener" id="brille24.customer_options_plugin.event.add_to_cart_listener">
+           <tag name="kernel.event_listener" event="sylius.order_item.post_add" method="addItemToCart"/>
+           <argument type="service" id="request_stack"/>
+           <argument type="service" id="brille24.repository.customer_option"/>
+           <argument type="service" id="brille24.customer_options_plugin.services.customer_option_value_resolver"/>
+           <argument type="service" id="doctrine.orm.default_entity_manager"/>
+           <argument type="service" id="sylius.context.channel" />
+       </service>
+
         <service
             class="Brille24\CustomerOptionsPlugin\EventListener\CustomerOptionValueListener"
             id="brille24.customer_options_plugin.event_listener.customer_option_value"

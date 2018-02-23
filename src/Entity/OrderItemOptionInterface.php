@@ -93,4 +93,10 @@ interface OrderItemOptionInterface
      * @return int
      */
     public function getFixedPrice(): int;
+
+    /**
+     * @return mixed
+     */
+    public function getScalarValue();
+
 }

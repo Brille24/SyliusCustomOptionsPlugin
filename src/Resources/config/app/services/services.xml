@@ -1,0 +1,7 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service
+                class="Brille24\CustomerOptionsPlugin\Services\CustomerOptionValueResolver"
+                id="brille24.customer_options_plugin.services.customer_option_value_resolver"/>
+    </services>
+</container>
