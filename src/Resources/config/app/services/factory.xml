@@ -2,6 +2,9 @@
     <services>
         <service class="Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactory" id="brille24.customer_options_plugin.factory.order_item_option_factory">
             <argument type="expression">service('sylius.context.channel').getChannel()</argument>
+
+            <argument type="service" id="brille24.repository.customer_option"/>
+            <argument type="service" id="brille24.customer_options_plugin.services.customer_option_value_resolver"/>
         </service>
     </services>
 </container>

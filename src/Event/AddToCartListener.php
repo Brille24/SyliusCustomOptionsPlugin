@@ -22,10 +22,7 @@ final class AddToCartListener
      * @var RequestStack
      */
     private $requestStack;
-    /**
-     * @var CustomerOptionRepositoryInterface
-     */
-    private $customerOptionRepository;
+
     /**
      * @var EntityManagerInterface
      */
@@ -36,14 +33,10 @@ final class AddToCartListener
 
     public function __construct(
         RequestStack $requestStack,
-        CustomerOptionRepositoryInterface $customerOptionRepository,
-        CustomerOptionValueResolverInterface $valueResolver,
         EntityManagerInterface $entityManager,
         OrderItemOptionFactoryInterface $itemOptionFactory
     ) {
         $this->requestStack             = $requestStack;
-        $this->customerOptionRepository = $customerOptionRepository;
-        $this->valueResolver            = $valueResolver;
         $this->entityManager            = $entityManager;
         $this->orderItemOptionFactory   = $itemOptionFactory;
     }
@@ -60,18 +53,14 @@ final class AddToCartListener
 
         $customerOptionConfiguration = $this->getCustomerOptionsFromRequest($this->requestStack->getCurrentRequest());
 
-        if (count($customerOptionConfiguration) === 0) {
-            return;
-        }
-
         $salesOrderConfigurations = [];
-
-        foreach ($customerOptionConfiguration as $configuration) {
+        foreach ($customerOptionConfiguration as $customerOptionCode => $value) {
             // Creating the item
-            $salesOrderConfiguration = $this->orderItemOptionFactory->createNew(
-                $configuration['option'],
-                $configuration['value']
+            $salesOrderConfiguration = $this->orderItemOptionFactory->createNewFromStrings(
+                $customerOptionCode,
+                $value
             );
+
             $salesOrderConfiguration->setOrderItem($orderItem);
 
             $this->entityManager->persist($salesOrderConfiguration);
@@ -100,17 +89,6 @@ final class AddToCartListener
             return [];
         }
 
-        $result = [];
-        foreach ($addToCart['customerOptions'] as $code => $value) {
-            $customerOption = $this->customerOptionRepository->findOneByCode($code);
-
-            if ($customerOption !== null) {
-                $result[] = [
-                    'option' => $customerOption,
-                    'value'  => $this->valueResolver->resolve($customerOption, $value) ?? $value,
-                ];
-            }
-        }
-        return $result;
+        return $addToCart['customerOptions'];
     }
 }

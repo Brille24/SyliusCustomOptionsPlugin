@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Brille24\Test\Service;
+namespace Test\Brille24\CustomerOptionsPlugin\Service;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
@@ -42,8 +42,10 @@ class CustomerOptionValueResolverTest extends TestCase
         $customerOption = self::createMock(CustomerOptionInterface::class);
         $customerOption->method('getType')->willReturn($type);
 
-        $result = $this->valueResolver->resolve($customerOption, $value);
-        self::assertNull($result);
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('Can not resolve non-select values');
+
+        $this->valueResolver->resolve($customerOption, $value);
     }
 
     public function dataResolveWithNonSelect(): array

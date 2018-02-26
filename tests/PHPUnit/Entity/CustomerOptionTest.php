@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Brille24\Test\Entity;
+namespace Test\Brille24\CustomerOptionsPlugin\Entity;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
