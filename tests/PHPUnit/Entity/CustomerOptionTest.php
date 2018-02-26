@@ -1,14 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace PHPUnit\Entity;
+namespace Brille24\Test\Entity;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use PHPUnit\Framework\TestCase;
 
-class CustomerOptionTest extends \PHPUnit_Framework_TestCase
+class CustomerOptionTest extends TestCase
 {
     /** @var CustomerOptionInterface */
     private $customerOption;
