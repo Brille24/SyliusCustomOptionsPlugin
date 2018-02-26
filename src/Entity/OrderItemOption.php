@@ -69,17 +69,13 @@ class OrderItemOption implements OrderItemOptionInterface
         return $this->id;
     }
 
-    /**
-     * @return OrderItemInterface
-     */
+    /** {@inheritdoc} */
     public function getOrderItem(): OrderItemInterface
     {
         return $this->orderItem;
     }
 
-    /**
-     * @param OrderItemInterface $orderItem
-     */
+    /** {@inheritdoc} */
     public function setOrderItem(OrderItemInterface $orderItem): void
     {
         $this->orderItem = $orderItem;

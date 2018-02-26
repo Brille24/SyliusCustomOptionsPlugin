@@ -15,6 +15,16 @@ interface OrderItemOptionInterface
     public function getId(): ?int;
 
     /**
+     * @return OrderItemInterface
+     */
+    public function getOrderItem(): OrderItemInterface;
+
+    /**
+     * @param OrderItemInterface $orderItem
+     */
+    public function setOrderItem(OrderItemInterface $orderItem): void;
+
+    /**
      * @return CustomerOptionInterface|null
      */
     public function getCustomerOption(): ?CustomerOptionInterface;
@@ -99,6 +109,7 @@ interface OrderItemOptionInterface
      */
     public function getScalarValue();
 
+    /** {@inheritdoc} */
     public function equals(self $orderItemOption): bool;
 
 }

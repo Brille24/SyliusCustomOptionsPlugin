@@ -6,6 +6,8 @@ namespace Brille24\CustomerOptionsPlugin\Event;
 
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemOption;
+use Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactory;
+use Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\CustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,16 +31,21 @@ final class AddToCartListener
      */
     private $entityManager;
 
+    /** @var OrderItemOptionFactoryInterface */
+    private $orderItemOptionFactory;
+
     public function __construct(
         RequestStack $requestStack,
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionValueResolverInterface $valueResolver,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        OrderItemOptionFactoryInterface $itemOptionFactory
     ) {
         $this->requestStack             = $requestStack;
         $this->customerOptionRepository = $customerOptionRepository;
         $this->valueResolver            = $valueResolver;
         $this->entityManager            = $entityManager;
+        $this->orderItemOptionFactory   = $itemOptionFactory;
     }
 
     public function addItemToCart(ResourceControllerEvent $event): void
@@ -59,9 +66,12 @@ final class AddToCartListener
 
         $salesOrderConfigurations = [];
 
-        $channel = new Channel();
         foreach ($customerOptionConfiguration as $configuration) {
-            $salesOrderConfiguration = new OrderItemOption($channel, $configuration['option'], $configuration['value']);
+            // Creating the item
+            $salesOrderConfiguration = $this->orderItemOptionFactory->createNew(
+                $configuration['option'],
+                $configuration['value']
+            );
             $salesOrderConfiguration->setOrderItem($orderItem);
 
             $this->entityManager->persist($salesOrderConfiguration);
