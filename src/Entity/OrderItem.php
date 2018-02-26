@@ -42,7 +42,7 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         }
 
         $product = $item->getProduct();
-        return !$product->hasCustomerOptions();
+        return ($product instanceof Product) ? !$product->hasCustomerOptions() : true;
     }
 
 }
