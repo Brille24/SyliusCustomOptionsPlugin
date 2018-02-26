@@ -6,7 +6,7 @@
     <td class="single line">
         {% include '@SyliusShop/Product/_info.html.twig' with {
             'variant': product_variant,
-            'configuration': item.getCustomerOptionConfiguration|default([])
+            'configuration': item.customerOptionConfiguration
         } %}
     </td>
     <td class="right aligned">
