@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Doctrine\Common\Collections\Collection;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TranslatableInterface;
 
@@ -45,6 +46,13 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
      * @return Collection
      */
     public function getPrices(): ?Collection;
+
+    /**
+     * @param ChannelInterface $channel
+     *
+     * @return CustomerOptionValuePriceInterface
+     */
+    public function getPriceForChannel(ChannelInterface $channel): ?CustomerOptionValuePriceInterface;
 
     /**
      * @param CustomerOptionValuePriceInterface $price

@@ -9,12 +9,12 @@ use Sylius\Component\Core\Model\OrderItemInterface as BaseOrderItemInterface;
 interface OrderItemInterface extends BaseOrderItemInterface
 {
     /**
-     * @param array $customerOptionConfiguration
+     * @param OrderItemOptionInterface[] $customerOptionConfiguration
      */
     public function setCustomerOptionConfiguration(array $customerOptionConfiguration): void;
 
     /**
-     * @return array
+     * @return OrderItemOptionInterface[]
      */
     public function getCustomerOptionConfiguration(): array;
 }

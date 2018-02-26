@@ -13,6 +13,7 @@ namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
@@ -109,6 +110,20 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     public function getPrices(): ?Collection
     {
         return $this->prices;
+    }
+
+    /** {@inheritdoc} */
+    public function getPriceForChannel(ChannelInterface $channel): ?CustomerOptionValuePriceInterface
+    {
+        $this->prices->filter(function (CustomerOptionValuePriceInterface $price) use ($channel){
+            return $price->getChannel() === $channel;
+        });
+
+        if($this->prices->count() > 0) {
+            return $this->prices->first();
+        }
+
+        return null;
     }
 
     public function addPrice(CustomerOptionValuePriceInterface $price): void

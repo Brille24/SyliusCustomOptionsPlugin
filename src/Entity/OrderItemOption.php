@@ -6,6 +6,7 @@ namespace Brille24\CustomerOptionsPlugin\Entity;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 
 class OrderItemOption implements OrderItemOptionInterface
 {
@@ -40,6 +41,7 @@ class OrderItemOption implements OrderItemOptionInterface
     private $fixedPrice = 0;
 
     public function __construct(
+        ChannelInterface $channel,
         CustomerOptionInterface $customerOption,
         $customerOptionValue
     ) {
@@ -55,7 +57,9 @@ class OrderItemOption implements OrderItemOptionInterface
             $this->customerOptionValue     = $customerOptionValue;
             $this->customerOptionValueCode = $customerOptionValue->getCode();
             $this->customerOptionValueName = $customerOptionValue->getName();
-            $this->fixedPrice              = $customerOptionValue->getPrice()->getAmount() ?? 0;
+
+            $price            = $customerOptionValue->getPriceForChannel($channel);
+            $this->fixedPrice = $price === null ? 0 : ($price->getAmount() ?? 0);
         }
     }
 
@@ -94,13 +98,13 @@ class OrderItemOption implements OrderItemOptionInterface
     }
 
     /** {@inheritdoc} */
-    public function getOptionValue(): string
+    public function getOptionValue(): ?string
     {
         return $this->optionValue;
     }
 
     /** {@inheritdoc} */
-    public function setOptionValue(string $optionValue): void
+    public function setOptionValue(?string $optionValue): void
     {
         $this->optionValue = $optionValue;
     }
@@ -130,13 +134,13 @@ class OrderItemOption implements OrderItemOptionInterface
     }
 
     /** {@inheritdoc} */
-    public function getCustomerOptionValueCode(): string
+    public function getCustomerOptionValueCode(): ?string
     {
         return $this->customerOptionValueCode;
     }
 
     /** {@inheritdoc} */
-    public function setCustomerOptionValueCode(string $customerOptionValueCode): void
+    public function setCustomerOptionValueCode(?string $customerOptionValueCode): void
     {
         $this->customerOptionValueCode = $customerOptionValueCode;
     }
@@ -187,4 +191,19 @@ class OrderItemOption implements OrderItemOptionInterface
         }
     }
 
+    /** {@inheritdoc} */
+    public function equals(OrderItemOptionInterface $orderItemOption): bool
+    {
+        $equals = $this->getCustomerOption() === $orderItemOption->getCustomerOption();
+        $equals &= $this->getCustomerOptionValue() === $orderItemOption->getCustomerOptionValue();
+        $equals &= $this->getOptionValue() === $orderItemOption->getOptionValue();
+
+
+        return boolval($equals);
+    }
+
+    public function __toString()
+    {
+        return $this->customerOptionCode . ': ' . $this->getCustomerOptionValueName();
+    }
 }

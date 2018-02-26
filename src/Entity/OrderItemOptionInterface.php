@@ -27,17 +27,17 @@ interface OrderItemOptionInterface
     /**
      * @return string
      */
-    public function getOptionValue(): string;
+    public function getOptionValue(): ?string;
 
     /**
      * @param string $optionValue
      */
-    public function setOptionValue(string $optionValue): void;
+    public function setOptionValue(?string $optionValue): void;
 
     /**
      * @return string
      */
-    public function getCustomerOptionCode(): string;
+    public function getCustomerOptionCode(): ?string;
 
     /**
      * @param string $customerOptionCode
@@ -57,12 +57,12 @@ interface OrderItemOptionInterface
     /**
      * @return string
      */
-    public function getCustomerOptionValueCode(): string;
+    public function getCustomerOptionValueCode(): ?string;
 
     /**
      * @param string $customerOptionValueCode
      */
-    public function setCustomerOptionValueCode(string $customerOptionValueCode): void;
+    public function setCustomerOptionValueCode(?string $customerOptionValueCode): void;
 
     /**
      * @return string
@@ -98,5 +98,7 @@ interface OrderItemOptionInterface
      * @return mixed
      */
     public function getScalarValue();
+
+    public function equals(self $orderItemOption): bool;
 
 }

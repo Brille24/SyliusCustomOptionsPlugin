@@ -10,6 +10,7 @@ use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\CustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
+use Sylius\Component\Core\Model\Channel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -50,19 +51,22 @@ final class AddToCartListener
             return;
         }
 
-        list($customerOptions, $customerOptionValues) = $this->getCustomerOptionsFromRequest($this->requestStack->getCurrentRequest());
+        $customerOptionConfiguration = $this->getCustomerOptionsFromRequest($this->requestStack->getCurrentRequest());
 
-        if (count($customerOptions) === 0) {
+        if (count($customerOptionConfiguration) === 0) {
             return;
         }
 
         $salesOrderConfigurations = [];
 
-        for ($i = 0; $i < count($customerOptions); $i++) {
-            $salesOrderConfiguration = new OrderItemOption($customerOptions[$i], $customerOptionValues[$i]);
+        $channel = new Channel();
+        foreach ($customerOptionConfiguration as $configuration) {
+            $salesOrderConfiguration = new OrderItemOption($channel, $configuration['option'], $configuration['value']);
             $salesOrderConfiguration->setOrderItem($orderItem);
-            $salesOrderConfigurations[] = $salesOrderConfiguration;
+
             $this->entityManager->persist($salesOrderConfiguration);
+
+            $salesOrderConfigurations[] = $salesOrderConfiguration;
         }
 
         $orderItem->setCustomerOptionConfiguration($salesOrderConfigurations);
@@ -82,26 +86,21 @@ final class AddToCartListener
     {
         $addToCart = $request->request->get('sylius_add_to_cart');
 
-        if (isset($addToCart['customerOptions'])) {
-            $result               = [];
-            $customerOptions      = [];
-            $customerOptionValues = [];
-
-            foreach ($addToCart['customerOptions'] as $code => $value) {
-                $customerOption = $this->customerOptionRepository->findOneByCode($code);
-                $optionData     = [];
-                if ($customerOption !== null) {
-                    $optionData['option'] = $customerOption;
-                    $optionData['value']  = $this->valueResolver->resolve($customerOption, $value) ?? $value;
-
-                    $result[] = $optionData;
-
-                    $customerOptions[]      = $customerOption;
-                    $customerOptionValues[] = $this->valueResolver->resolve($customerOption, $value) ?? $value;
-                }
-            }
-            return [$customerOptions, $customerOptionValues];
+        if (!isset($addToCart['customerOptions'])) {
+            return [];
         }
-        return [[], []];
+
+        $result = [];
+        foreach ($addToCart['customerOptions'] as $code => $value) {
+            $customerOption = $this->customerOptionRepository->findOneByCode($code);
+
+            if ($customerOption !== null) {
+                $result[] = [
+                    'option' => $customerOption,
+                    'value'  => $this->valueResolver->resolve($customerOption, $value) ?? $value,
+                ];
+            }
+        }
+        return $result;
     }
 }
