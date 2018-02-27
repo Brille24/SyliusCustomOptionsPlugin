@@ -9,11 +9,19 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePri
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\OrderItem as BaseOrderItem;
+use Sylius\Component\Order\Model\OrderItemInterface as BaseOrderItemInterface;
+use Sylius\Component\Core\Model\OrderItemInterface as BaseCoreOrderItemInterface;
 
 class OrderItem extends BaseOrderItem implements OrderItemInterface
 {
     /** @var Collection */
     protected $configuration;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->configuration = new ArrayCollection();
+    }
 
     /** {@inheritdoc} */
     public function setCustomerOptionConfiguration(array $configuration): void
@@ -27,26 +35,18 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         return $this->configuration->toArray();
     }
 
-    public function getSubtotal(): int
+    public function equals(BaseOrderItemInterface $item): bool
     {
-        $basePrice = parent::getSubtotal();
+        $parentEquals = parent::equals($item);
 
-        $result = $basePrice;
-
-        /** @var OrderItemOptionInterface $value */
-        foreach ($this->configuration as $value){
-            if($value->getPricingType() === CustomerOptionValuePrice::TYPE_PERCENT){
-                $result += $basePrice * $value->getPercent();
-            }else{
-                $result += $value->getFixedPrice();
-            }
+        if (!$parentEquals && !$item instanceof BaseCoreOrderItemInterface) {
+            return $parentEquals;
         }
 
-        return (int) $result;
+        $product = $item->getProduct();
+        return ($product instanceof Product) ? !$product->hasCustomerOptions() : true;
     }
 
-    public function getTotal(): int
-    {
-
-    }
 }
+
+

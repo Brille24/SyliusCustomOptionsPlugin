@@ -25,4 +25,9 @@ interface CustomerOptionableTraitInterface
      * @return CustomerOptionInterface[]
      */
     public function getCustomerOptions(): array;
+
+    /**
+     * @return bool
+     */
+    public function hasCustomerOptions(): bool;
 }

@@ -38,7 +38,7 @@ trait CustomerOptionableTrait
     /** {@inheritdoc} */
     public function getCustomerOptions(): array
     {
-        if (null === $this->customerOptionGroup) {
+        if (!$this->hasCustomerOptions()) {
             return [];
         }
 
@@ -47,5 +47,11 @@ trait CustomerOptionableTrait
         ) {
             return $association->getOption();
         })->toArray();
+    }
+
+    /** {@inheritdoc} */
+    public function hasCustomerOptions(): bool
+    {
+        return $this->customerOptionGroup !== null;
     }
 }
