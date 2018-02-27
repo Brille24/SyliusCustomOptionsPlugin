@@ -35,6 +35,7 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         return $this->configuration->toArray();
     }
 
+    /** {@inheritdoc} */
     public function getSubtotal(): int
     {
         $basePrice = parent::getSubtotal();
@@ -42,6 +43,7 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         return (int)$this->applyConfigurationPrices($basePrice, $this->getQuantity());
     }
 
+    /** {@inheritdoc} */
     public function equals(BaseOrderItemInterface $item): bool
     {
         $parentEquals = parent::equals($item);
@@ -54,6 +56,7 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         return ($product instanceof Product) ? !$product->hasCustomerOptions() : true;
     }
 
+    /** {@inheritdoc} */
     public function recalculateUnitsTotal(): void
     {
         $this->unitsTotal = 0;
@@ -65,14 +68,22 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         $this->recalculateTotal();
     }
 
-    protected function applyConfigurationPrices(int $price, int $quantity = 1): int
+    /**
+     * Applies the configuration pricing and returns the new price.
+     *
+     * @param int $basePrice
+     * @param int $quantity
+     *
+     * @return int
+     */
+    protected function applyConfigurationPrices(int $basePrice, int $quantity = 1): int
     {
-        $result = $price;
+        $result = $basePrice;
 
         /** @var OrderItemOptionInterface $value */
         foreach ($this->configuration as $value) {
             if ($value->getPricingType() === CustomerOptionValuePrice::TYPE_PERCENT) {
-                $result += $price * $value->getPercent() / 100;
+                $result += $basePrice * $value->getPercent() / 100;
             } else {
                 $result += $value->getFixedPrice() * $quantity;
             }
