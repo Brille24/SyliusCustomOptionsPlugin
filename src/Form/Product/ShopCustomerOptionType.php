@@ -24,14 +24,18 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ShopCustomerOptionType extends AbstractType
+final class ShopCustomerOptionType extends AbstractType
 {
+    /** @var ChannelContextInterface */
     private $channelContext;
 
+    /** @var CurrencyContextInterface */
     private $currencyContext;
 
+    /** @var MoneyFormatterInterface */
     private $moneyFormatter;
 
+    /** @var LocaleContextInterface */
     private $localeContext;
 
     public function __construct(
@@ -83,8 +87,9 @@ class ShopCustomerOptionType extends AbstractType
     /**
      * Gets the settings for the form type based on the type that the form field is for
      *
-     * @param $formOptions
-     * @param $customerOption
+     * @param array                   $formOptions
+     * @param CustomerOptionInterface $customerOption
+     * @param ProductInterface        $product
      *
      * @return array
      */

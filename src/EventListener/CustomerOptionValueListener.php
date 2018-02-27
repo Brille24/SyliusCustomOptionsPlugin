@@ -16,7 +16,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ChannelInterface;
 
-class CustomerOptionValueListener
+final class CustomerOptionValueListener
 {
     /** @var EntityRepository */
     private $channelRepository;

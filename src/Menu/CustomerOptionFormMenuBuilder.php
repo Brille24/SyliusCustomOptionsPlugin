@@ -16,7 +16,7 @@ use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class CustomerOptionFormMenuBuilder
+final class CustomerOptionFormMenuBuilder
 {
     public const EVENT_NAME = 'brille24.menu.admin.customer_option.form';
 

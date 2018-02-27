@@ -8,7 +8,7 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterfac
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 
-class CustomerOptionValueResolver implements CustomerOptionValueResolverInterface
+final class CustomerOptionValueResolver implements CustomerOptionValueResolverInterface
 {
     /** {@inheritdoc} */
     public function resolve(CustomerOptionInterface $customerOption, string $value): ?CustomerOptionValueInterface

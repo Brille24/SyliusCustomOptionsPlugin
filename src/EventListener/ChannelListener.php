@@ -17,7 +17,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ChannelInterface;
 
-class ChannelListener
+final class ChannelListener
 {
     public function prePersist(LifecycleEventArgs $args){
         $entity = $args->getEntity();
