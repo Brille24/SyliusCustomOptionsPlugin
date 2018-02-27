@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Brille24\CustomerOptionsPlugin\Validator;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\CustomerOptionsPlugin\Validator\Constraints\ProductCustomerOptionValuePriceConstraintValidator;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
@@ -37,9 +38,34 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
         $this->productCustomerOptionPriceValidator->initialize($context);
     }
 
-    private function createCustomerOptionValue(array $configuration): CustomerOptionValueInterface
-    {
+    private function createPrice(
+        string $channelCode,
+        string $customerOptionValueCode
+    ): CustomerOptionValuePriceInterface {
+        $price = self::createMock(CustomerOptionValuePriceInterface::class);
 
+        if (isset($this->channel[$channelCode])) {
+            $channel = $this->channel[$channelCode];
+        } else {
+            $channel = self::createMock(ChannelInterface::class);
+            $channel->method('getCode')->willReturn($channelCode);
+
+            $this->channel[$channelCode] = $channel;
+        }
+        $price->method('getChannel')->willReturn($channel);
+
+        if (isset($this->customerOptionValues[$customerOptionValueCode])) {
+            $customerOptionValue = $this->customerOptionValues[$customerOptionValueCode];
+        } else {
+            $customerOptionValue = self::createMock(CustomerOptionValueInterface::class);
+            $customerOptionValue->method('getCode')->willReturn($customerOptionValueCode);
+
+            $this->customerOptionValues[$customerOptionValueCode] = $customerOptionValue;
+        }
+
+        $price->method('getCustomerOptionValue')->willReturn($customerOptionValue);
+
+        return $price;
     }
     //</editor-fold>
 
@@ -66,7 +92,7 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
             ];
     }
 
-    public function testEmptyCollection()
+    public function testEmptyCollection():void
     {
         $constraint = self::createMock(Constraint::class);
         $this->productCustomerOptionPriceValidator->validate(new ArrayCollection(), $constraint);
@@ -74,5 +100,34 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
         self::assertEquals(0, count($this->violations));
     }
 
-    //todo: add more tests
+    public function testWithPricesInDifferentChannels():void
+    {
+        $prices =
+            [
+                $this->createPrice('de_DE', 'value1'),
+                $this->createPrice('en_DE', 'value1'),
+                $this->createPrice('de_DE', 'value2'),
+                $this->createPrice('en_DE', 'value2'),
+            ];
+
+        $constraint = self::createMock(Constraint::class);
+        $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
+
+        self::assertEquals(0, count($this->violations));
+    }
+
+    public function testWithPricesInSameChannel():void
+    {
+        $prices =
+            [
+                $this->createPrice('de_DE', 'value1'),
+                $this->createPrice('en_DE', 'value1'),
+                $this->createPrice('en_DE', 'value1'),
+            ];
+
+        $constraint = self::createMock(Constraint::class);
+        $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
+
+        self::assertEquals(1, count($this->violations));
+    }
 }

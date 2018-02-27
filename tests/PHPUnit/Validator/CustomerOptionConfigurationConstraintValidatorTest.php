@@ -80,8 +80,6 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
 
         $this->customerOptionConfigurationValidator->validate($input, $constraint);
 
-        var_dump($min);
-        var_dump($max);
         self::assertEquals(1, count($this->violations));
     }
 
