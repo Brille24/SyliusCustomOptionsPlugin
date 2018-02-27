@@ -29,24 +29,14 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
         $this->customerOptionConfigurationValidator->initialize($context);
     }
 
-    /** @dataProvider dataValidateWithInvalidDataStructures */
-    public function testValidateWithInvalidDataStructures($input): void
+    public function testValidateWithInvalidDataStructures(): void
     {
         $constraint = self::createMock(Constraint::class);
 
         self::expectException(\InvalidArgumentException::class);
         self::expectExceptionMessage('Can not validate configuration');
 
-        $this->customerOptionConfigurationValidator->validate($input, $constraint);
-    }
-
-    public function dataValidateWithInvalidDataStructures(): array
-    {
-        return [
-            'no array'              => ['something'],
-            'array too short'       => [[]],
-            'array still too short' => [['something' => 'value']],
-        ];
+        $this->customerOptionConfigurationValidator->validate('something', $constraint);
     }
 
     public function testWithInvalidKeys()

@@ -14,7 +14,7 @@ class CustomerOptionConfigurationConstraintValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint): void
     {
-        if (!is_array($value) || count($value) < 2) {
+        if (!is_array($value)) {
             throw new \InvalidArgumentException('Can not validate configurations.');
         }
 
