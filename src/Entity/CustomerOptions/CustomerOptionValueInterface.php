@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
-
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;

@@ -189,11 +189,11 @@ class OrderItemOption implements OrderItemOptionInterface
     /** {@inheritdoc} */
     public function getScalarValue()
     {
-        if (is_null($this->optionValue)) {
+        if (null === $this->optionValue) {
             return $this->optionValue;
-        } else {
-            return $this->customerOptionValueCode;
         }
+
+        return $this->customerOptionValueCode;
     }
 
     /** {@inheritdoc} */
@@ -203,8 +203,7 @@ class OrderItemOption implements OrderItemOptionInterface
         $equals &= $this->getCustomerOptionValue() === $orderItemOption->getCustomerOptionValue();
         $equals &= $this->getOptionValue() === $orderItemOption->getOptionValue();
 
-
-        return boolval($equals);
+        return (bool) $equals;
     }
 
     public function __toString()

@@ -6,3 +6,4 @@ imports:
   - { resource: "services/menuListener.xml" }
   - { resource: "services/repositories.xml" }
   - { resource: "services/services.xml" }
+  - { resource: "services/fixtures.xml" }

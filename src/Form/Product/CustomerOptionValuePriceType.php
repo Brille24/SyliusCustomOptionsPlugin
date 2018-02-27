@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -7,7 +9,6 @@
  */
 
 namespace Brille24\CustomerOptionsPlugin\Form\Product;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
@@ -33,8 +34,8 @@ final class CustomerOptionValuePriceType extends AbstractType
         $values = [];
 
         /** @var CustomerOptionInterface $customerOption */
-        foreach($product->getCustomerOptions() as $customerOption){
-            if(CustomerOptionTypeEnum::isSelect($customerOption->getType())){
+        foreach ($product->getCustomerOptions() as $customerOption) {
+            if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
                 $values = array_merge($values, $customerOption->getValues()->getValues());
             }
         }
@@ -42,12 +43,11 @@ final class CustomerOptionValuePriceType extends AbstractType
         $builder
             ->add('customerOptionValue', ChoiceType::class, [
                 'choices' => $values,
-                'choice_label' => function(CustomerOptionValueInterface $option){
+                'choice_label' => function (CustomerOptionValueInterface $option) {
                     return $option->getName();
                 },
             ])
             ->add('channel', ChannelChoiceType::class, [
-
             ])
             ->add('percent', NumberType::class, [
                 'empty_data' => 0,
@@ -57,7 +57,7 @@ final class CustomerOptionValuePriceType extends AbstractType
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => CustomerOptionValuePrice::getAllTypes(),
-                'choice_label' => function($option){
+                'choice_label' => function ($option) {
                     return $option;
                 },
             ])

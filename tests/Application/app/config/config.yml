@@ -10,6 +10,7 @@ imports:
     - { resource: "@Brille24CustomerOptionsPlugin/Resources/config/app/config.yml" }
 
     - { resource: "../../../../vendor/sylius/sylius/app/config/security.yml" }
+    - { resource: "fixtures.yml" }
 
 framework:
     translator: { fallbacks: ["%locale%", "en"] }

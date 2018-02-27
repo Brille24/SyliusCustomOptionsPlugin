@@ -1,0 +1,55 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service
+                class="Brille24\CustomerOptionsPlugin\Fixture\CustomerOptionFixture"
+                id="brille24.fixture.customer_option"
+        >
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_value" />
+            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_group" />
+            <argument type="service" id="sylius.repository.channel" />
+            <tag name="sylius_fixtures.fixture" />
+        </service>
+
+        <service
+                class="Brille24\CustomerOptionsPlugin\Fixture\CustomerOptionGroupFixture"
+                id="brille24.fixture.customer_option_group"
+        >
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option" />
+            <argument type="service" id="sylius.repository.product" />
+            <tag name="sylius_fixtures.fixture" />
+        </service>
+
+        <service
+                class="Brille24\CustomerOptionsPlugin\Fixture\ProductFixture"
+                id="sylius.fixture.product"
+        >
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="brille24.fixture.factory.product"/>
+            <tag name="sylius_fixtures.fixture" />
+        </service>
+
+        <service
+                class="Brille24\CustomerOptionsPlugin\Fixture\Factory\ProductFactory"
+                id="brille24.fixture.factory.product"
+        >
+            <argument type="service" id="sylius.custom_factory.product"/>
+            <argument type="service" id="sylius.custom_factory.product_variant"/>
+            <argument type="service" id="sylius.factory.channel_pricing"/>
+            <argument type="service" id="sylius.generator.product_variant"/>
+            <argument type="service" id="sylius.factory.product_attribute_value"/>
+            <argument type="service" id="sylius.factory.product_image"/>
+            <argument type="service" id="sylius.factory.product_taxon"/>
+            <argument type="service" id="sylius.image_uploader"/>
+            <argument type="service" id="sylius.generator.slug"/>
+            <argument type="service" id="sylius.repository.taxon"/>
+            <argument type="service" id="sylius.repository.product_attribute"/>
+            <argument type="service" id="sylius.repository.product_option"/>
+            <argument type="service" id="sylius.repository.channel"/>
+            <argument type="service" id="sylius.repository.locale"/>
+            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_group" />
+            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_value" />
+        </service>
+    </services>
+</container>

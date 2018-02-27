@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -7,7 +9,6 @@
  */
 
 namespace Brille24\CustomerOptionsPlugin\Validator\Constraints;
-
 
 use Symfony\Component\Validator\Constraint;
 

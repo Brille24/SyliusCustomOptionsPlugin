@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Services;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
@@ -17,8 +17,8 @@ final class CustomerOptionValueResolver implements CustomerOptionValueResolverIn
             throw new \Exception('Can not resolve non-select values');
         }
 
-        foreach($customerOption->getValues() as $valueObject){
-            if($valueObject->getCustomerOption() === $customerOption && $valueObject->getCode() === $value){
+        foreach ($customerOption->getValues() as $valueObject) {
+            if ($valueObject->getCustomerOption() === $customerOption && $valueObject->getCode() === $value) {
                 return $valueObject;
             }
         }

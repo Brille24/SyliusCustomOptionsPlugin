@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\OrderItem as BaseOrderItem;
-use Sylius\Component\Order\Model\OrderItemInterface as BaseOrderItemInterface;
 use Sylius\Component\Core\Model\OrderItemInterface as BaseCoreOrderItemInterface;
+use Sylius\Component\Order\Model\OrderItemInterface as BaseOrderItemInterface;
 
 class OrderItem extends BaseOrderItem implements OrderItemInterface
 {
@@ -53,6 +52,7 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         }
 
         $product = $item->getProduct();
+
         return ($product instanceof Product) ? !$product->hasCustomerOptions() : true;
     }
 
@@ -92,5 +92,3 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         return (int) round($result, 0);
     }
 }
-
-
