@@ -1,0 +1,26 @@
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping">
+    <class name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation">
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+            <option name="fields">
+                <value>option,position</value>
+            </option>
+            <option name="message">brille24.form.customer_option_groups.unique</option>
+            <option name="groups">sylius</option>
+        </constraint>
+
+        <property name="option">
+            <constraint name="NotNull">
+                <option name="groups">sylius</option>
+            </constraint>
+        </property>
+
+        <property name="position">
+            <constraint name="Type">
+                <option name="type">integer</option>
+                <option name="message">brille24.form.customer_option_groups.duplicate_option</option>
+                <option name="groups">sylius</option>
+            </constraint>
+        </property>
+
+    </class>
+</constraint-mapping>
