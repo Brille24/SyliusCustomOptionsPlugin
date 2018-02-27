@@ -35,6 +35,13 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         return $this->configuration->toArray();
     }
 
+    public function getSubtotal(): int
+    {
+        $basePrice = parent::getSubtotal();
+
+        return (int) $this->applyConfigurationPrices($basePrice, $this->getQuantity());
+    }
+
     public function equals(BaseOrderItemInterface $item): bool
     {
         $parentEquals = parent::equals($item);
@@ -47,6 +54,34 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         return ($product instanceof Product) ? !$product->hasCustomerOptions() : true;
     }
 
+    public function recalculateUnitsTotal(): void
+    {
+        $this->unitsTotal = 0;
+
+        foreach ($this->units as $unit) {
+            $this->unitsTotal += $this->applyConfigurationPrices($unit->getTotal());
+        }
+
+        $this->recalculateTotal();
+    }
+
+    protected function applyConfigurationPrices(int $price, int $quantity = 1): int
+    {
+        $result = $price;
+
+        /** @var OrderItemOptionInterface $value */
+        foreach ($this->configuration as $value){
+            if($value->getPricingType() === CustomerOptionValuePrice::TYPE_PERCENT){
+                $result += $price * $value->getPercent();
+            }else{
+                for($i = 0; $i < $quantity; $i++) {
+                    $result += $value->getFixedPrice();
+                }
+            }
+        }
+
+        return (int) $result;
+    }
 }
 
 

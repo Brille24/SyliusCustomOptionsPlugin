@@ -66,6 +66,9 @@ class OrderItemOption implements OrderItemOptionInterface
 
             $price            = $customerOptionValue->getPriceForChannel($channel);
             $this->fixedPrice = $price === null ? 0 : ($price->getAmount() ?? 0);
+            $this->percent    = $price === null ? 0 : ($price->getPercent() ?? 0);
+
+            $this->pricingType = $price->getType();
         }
     }
 

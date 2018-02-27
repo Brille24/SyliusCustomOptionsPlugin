@@ -3,5 +3,9 @@
         <service
                 class="Brille24\CustomerOptionsPlugin\Services\CustomerOptionValueResolver"
                 id="brille24.customer_options_plugin.services.customer_option_value_resolver"/>
+
+        <service class="Brille24\CustomerOptionsPlugin\Services\ProductVariantPriceCalculator"
+                id="brille24.customer_options_plugin.services.product_variant_price_calculator">
+        </service>
     </services>
 </container>

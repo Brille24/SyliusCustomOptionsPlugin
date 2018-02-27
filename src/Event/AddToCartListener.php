@@ -55,21 +55,28 @@ final class AddToCartListener
         $customerOptionConfiguration = $this->getCustomerOptionsFromRequest($this->requestStack->getCurrentRequest());
 
         $salesOrderConfigurations = [];
-        foreach ($customerOptionConfiguration as $customerOptionCode => $value) {
-            // Creating the item
-            $salesOrderConfiguration = $this->orderItemOptionFactory->createNewFromStrings(
-                $customerOptionCode,
-                $value
-            );
+        foreach ($customerOptionConfiguration as $customerOptionCode => $valueArray) {
+            if(!is_array($valueArray)){
+                $valueArray = [$valueArray];
+            }
 
-            $salesOrderConfiguration->setOrderItem($orderItem);
+            foreach ($valueArray as $value) {
+                // Creating the item
+                $salesOrderConfiguration = $this->orderItemOptionFactory->createNewFromStrings(
+                    $customerOptionCode,
+                    $value
+                );
 
-            $this->entityManager->persist($salesOrderConfiguration);
+                $salesOrderConfiguration->setOrderItem($orderItem);
 
-            $salesOrderConfigurations[] = $salesOrderConfiguration;
+                $this->entityManager->persist($salesOrderConfiguration);
+
+                $salesOrderConfigurations[] = $salesOrderConfiguration;
+            }
         }
 
         $orderItem->setCustomerOptionConfiguration($salesOrderConfigurations);
+        $orderItem->recalculateUnitsTotal();
 
         $this->entityManager->persist($orderItem);
         $this->entityManager->flush();
@@ -91,22 +98,5 @@ final class AddToCartListener
         }
 
         return $addToCart['customerOptions'];
-    }
-
-    private function resolveValue(
-        array &$customerOptions,
-        array &$customerOptionValues,
-        CustomerOptionInterface $customerOption,
-        $value
-    ){
-        $optionData = [];
-
-        $optionData['option'] = $customerOption;
-        $optionData['value'] = $this->valueResolver->resolve($customerOption, $value) ?? $value;
-
-        $customerOptions[] = $customerOption;
-        $customerOptionValues[] = $this->valueResolver->resolve($customerOption, $value) ?? $value;
-
-        return $optionData;
     }
 }
