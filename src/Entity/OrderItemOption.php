@@ -52,18 +52,13 @@ class OrderItemOption implements OrderItemOptionInterface
         CustomerOptionInterface $customerOption,
         $customerOptionValue
     ) {
-        // Copying the customer Option
-        $this->customerOption     = $customerOption;
-        $this->customerOptionCode = $customerOption->getCode();
-        $this->customerOptionName = $customerOption->getName();
+        $this->setCustomerOption($customerOption);
 
         // Copying the customer option value
         if (is_scalar($customerOptionValue)) {
             $this->optionValue = $customerOptionValue;
         } elseif ($customerOptionValue instanceof CustomerOptionValueInterface) {
-            $this->customerOptionValue     = $customerOptionValue;
-            $this->customerOptionValueCode = $customerOptionValue->getCode();
-            $this->customerOptionValueName = $customerOptionValue->getName();
+            $this->setCustomerOptionValue($customerOptionValue);
 
             $price = $customerOptionValue->getPriceForChannel($channel);
             $this->setPrice($price ?? new CustomerOptionValuePrice());
@@ -88,28 +83,22 @@ class OrderItemOption implements OrderItemOptionInterface
         $this->orderItem = $orderItem;
     }
 
-    /** {@inheritdoc} */
-    public function getCustomerOption(): ?CustomerOptionInterface
-    {
-        return $this->customerOption;
-    }
+    //<editor-fold desc="CustomerOptions">
 
     /** {@inheritdoc} */
     public function setCustomerOption(?CustomerOptionInterface $customerOption): void
     {
         $this->customerOption = $customerOption;
+        if ($customerOption !== null) {
+            $this->customerOptionCode = $customerOption->getCode();
+            $this->customerOptionName = $customerOption->getName();
+        }
     }
 
     /** {@inheritdoc} */
-    public function getOptionValue(): ?string
+    public function getCustomerOption(): ?CustomerOptionInterface
     {
-        return $this->optionValue;
-    }
-
-    /** {@inheritdoc} */
-    public function setOptionValue(?string $optionValue): void
-    {
-        $this->optionValue = $optionValue;
+        return $this->customerOption;
     }
 
     /** {@inheritdoc} */
@@ -119,9 +108,20 @@ class OrderItemOption implements OrderItemOptionInterface
     }
 
     /** {@inheritdoc} */
-    public function setCustomerOptionCode(string $customerOptionCode): void
+    public function getCustomerOptionName(): string
     {
-        $this->customerOptionCode = $customerOptionCode;
+        return $this->customerOptionName;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="CustomerOptionValue">
+    public function setCustomerOptionValue(?CustomerOptionValueInterface $value): void
+    {
+        $this->customerOptionValue = $value;
+        if ($value !== null) {
+            $this->customerOptionValueCode = $value->getCode();
+            $this->customerOptionValueName = $value->getName();
+        }
     }
 
     /** {@inheritdoc} */
@@ -131,27 +131,9 @@ class OrderItemOption implements OrderItemOptionInterface
     }
 
     /** {@inheritdoc} */
-    public function setCustomerOptionValue(?CustomerOptionValueInterface $customerOptionValue): void
-    {
-        $this->customerOptionValue = $customerOptionValue;
-    }
-
-    /** {@inheritdoc} */
     public function getCustomerOptionValueCode(): ?string
     {
         return $this->customerOptionValueCode;
-    }
-
-    /** {@inheritdoc} */
-    public function setCustomerOptionValueCode(?string $customerOptionValueCode): void
-    {
-        $this->customerOptionValueCode = $customerOptionValueCode;
-    }
-
-    /** {@inheritdoc} */
-    public function getCustomerOptionName(): string
-    {
-        return $this->customerOptionName;
     }
 
     /** {@inheritdoc} */
@@ -159,6 +141,13 @@ class OrderItemOption implements OrderItemOptionInterface
     {
         return $this->customerOptionValueName ?? $this->optionValue;
     }
+
+    /** {@inheritdoc} */
+    public function getOptionValue(): ?string
+    {
+        return $this->optionValue;
+    }
+    //</editor-fold>
 
     /** {@inheritdoc} */
     public function setPrice(CustomerOptionValuePriceInterface $price): void
@@ -195,19 +184,6 @@ class OrderItemOption implements OrderItemOptionInterface
     public function getPricingType(): string
     {
         return $this->pricingType;
-    }
-
-
-    /** {@inheritdoc} */
-    public function setCustomerOptionName(string $customerOptionName): void
-    {
-        $this->customerOptionName = $customerOptionName;
-    }
-
-    /** {@inheritdoc} */
-    public function setCustomerOptionValueName(string $customerOptionValueName): void
-    {
-        $this->customerOptionValueName = $customerOptionValueName;
     }
 
     /** {@inheritdoc} */

@@ -26,24 +26,14 @@ interface OrderItemOptionInterface
     public function setOrderItem(OrderItemInterface $orderItem): void;
 
     /**
-     * @return CustomerOptionInterface|null
-     */
-    public function getCustomerOption(): ?CustomerOptionInterface;
-
-    /**
      * @param CustomerOptionInterface|null $customerOption
      */
     public function setCustomerOption(?CustomerOptionInterface $customerOption): void;
 
     /**
-     * @return string
+     * @return CustomerOptionInterface|null
      */
-    public function getOptionValue(): ?string;
-
-    /**
-     * @param string $optionValue
-     */
-    public function setOptionValue(?string $optionValue): void;
+    public function getCustomerOption(): ?CustomerOptionInterface;
 
     /**
      * @return string
@@ -51,14 +41,14 @@ interface OrderItemOptionInterface
     public function getCustomerOptionCode(): ?string;
 
     /**
-     * @param string $customerOptionCode
+     * @return string
      */
-    public function setCustomerOptionCode(string $customerOptionCode): void;
+    public function getCustomerOptionName(): string;
 
     /**
-     * @return CustomerOptionValueInterface|null
+     * @return string
      */
-    public function getCustomerOptionValue(): ?CustomerOptionValueInterface;
+    public function getOptionValue(): ?string;
 
     /**
      * @param CustomerOptionValueInterface|null $customerOptionValue
@@ -66,24 +56,14 @@ interface OrderItemOptionInterface
     public function setCustomerOptionValue(?CustomerOptionValueInterface $customerOptionValue): void;
 
     /**
+     * @return CustomerOptionValueInterface|null
+     */
+    public function getCustomerOptionValue(): ?CustomerOptionValueInterface;
+
+    /**
      * @return string
      */
     public function getCustomerOptionValueCode(): ?string;
-
-    /**
-     * @param string $customerOptionValueCode
-     */
-    public function setCustomerOptionValueCode(?string $customerOptionValueCode): void;
-
-    /**
-     * @return string
-     */
-    public function getCustomerOptionName(): string;
-
-    /**
-     * @param string $customerOptionName
-     */
-    public function setCustomerOptionName(string $customerOptionName): void;
 
     /**
      * @return string
@@ -91,15 +71,13 @@ interface OrderItemOptionInterface
     public function getCustomerOptionValueName(): string;
 
     /**
-     * @param string $customerOptionValueName
-     */
-    public function setCustomerOptionValueName(string $customerOptionValueName): void;
-
-    /**
      * @param CustomerOptionValuePriceInterface $price
      */
     public function setPrice(CustomerOptionValuePriceInterface $price): void;
 
+    /**
+     * @param int $price
+     */
     public function setFixedPrice(int $price): void;
 
     /**
