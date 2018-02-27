@@ -41,6 +41,7 @@ class AddToCartListenerTest extends TestCase
         $this->channel = self::createMock(ChannelInterface::class);
     }
 
+    //<editor-fold desc="Setup">
     public function setUp()
     {
         // Aliasing variables for use in testing
@@ -97,6 +98,7 @@ class AddToCartListenerTest extends TestCase
 
         return $request;
     }
+    //</editor-fold>
 
     public function testWithIncreasedProduct(): void
     {
