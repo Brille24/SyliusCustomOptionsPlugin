@@ -4,7 +4,10 @@
 {% set product_variant = item.variant %}
 <tr>
     <td class="single line">
-        {% include '@SyliusShop/Product/_info.html.twig' with {'variant': product_variant, 'configuration': item.getCustomerOptionConfiguration|default([]) } %}
+        {% include '@SyliusShop/Product/_info.html.twig' with {
+            'variant': product_variant,
+            'configuration': item.customerOptionConfiguration
+        } %}
     </td>
     <td class="right aligned">
         {% if item.unitPrice != item.discountedUnitPrice %}

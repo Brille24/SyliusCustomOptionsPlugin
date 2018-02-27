@@ -10,11 +10,11 @@ use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 
 class CustomerOptionValueResolver implements CustomerOptionValueResolverInterface
 {
+    /** {@inheritdoc} */
     public function resolve(CustomerOptionInterface $customerOption, string $value): ?CustomerOptionValueInterface
     {
-        $type = $customerOption->getType();
-        if (!CustomerOptionTypeEnum::isSelect($type)) {
-            return null;
+        if (!CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
+            throw new \Exception('Can not resolve non-select values');
         }
 
         foreach($customerOption->getValues() as $valueObject){
