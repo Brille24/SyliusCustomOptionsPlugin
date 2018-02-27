@@ -107,7 +107,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     {
         if ($this->getType() === CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT) {
 
-            return "{$this->getAmount()} EUR";
+            return "\$ {$this->getAmount()}";
         }
 
         return "{$this->getPercent()}%";
@@ -119,8 +119,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
             return $formatter->format($this->getAmount(), $currencyCode, $locale);
         }
 
-        $percent = $this->percent * 100;
-        return "{$percent}%";
+        return "{$this->getPercent()}%";
     }
 
     /**
