@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\{
+    CustomerOptionInterface, CustomerOptionValueInterface, CustomerOptionValuePrice, CustomerOptionValuePriceInterface
+};
 use Sylius\Component\Core\Model\ChannelInterface;
 
 class OrderItemOption implements OrderItemOptionInterface
@@ -64,11 +65,8 @@ class OrderItemOption implements OrderItemOptionInterface
             $this->customerOptionValueCode = $customerOptionValue->getCode();
             $this->customerOptionValueName = $customerOptionValue->getName();
 
-            $price            = $customerOptionValue->getPriceForChannel($channel);
-            $this->fixedPrice = $price === null ? 0 : ($price->getAmount() ?? 0);
-            $this->percent    = $price === null ? 0 : ($price->getPercent() ?? 0);
-
-            $this->pricingType = $price->getType();
+            $price = $customerOptionValue->getPriceForChannel($channel);
+            $this->setPrice($price ?? new CustomerOptionValuePrice());
         }
     }
 
@@ -163,6 +161,13 @@ class OrderItemOption implements OrderItemOptionInterface
     }
 
     /** {@inheritdoc} */
+    public function setPrice(CustomerOptionValuePriceInterface $price): void
+    {
+        $this->fixedPrice  = $price->getAmount();
+        $this->percent     = $price->getPercent();
+        $this->pricingType = $price->getType();
+    }
+
     public function setFixedPrice(int $price): void
     {
         $this->fixedPrice = $price;
@@ -184,12 +189,6 @@ class OrderItemOption implements OrderItemOptionInterface
     public function getPercent(): float
     {
         return $this->percent;
-    }
-
-    /** {@inheritdoc} */
-    public function setPricingType(string $type): void
-    {
-        $this->pricingType = $type;
     }
 
     /** {@inheritdoc} */

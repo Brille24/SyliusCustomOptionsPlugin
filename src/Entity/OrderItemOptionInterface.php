@@ -6,6 +6,7 @@ namespace Brille24\CustomerOptionsPlugin\Entity;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 
 interface OrderItemOptionInterface
 {
@@ -95,8 +96,10 @@ interface OrderItemOptionInterface
     public function setCustomerOptionValueName(string $customerOptionValueName): void;
 
     /**
-     * @param int $price
+     * @param CustomerOptionValuePriceInterface $price
      */
+    public function setPrice(CustomerOptionValuePriceInterface $price): void;
+
     public function setFixedPrice(int $price): void;
 
     /**
@@ -113,11 +116,6 @@ interface OrderItemOptionInterface
      * @return float
      */
     public function getPercent(): float;
-
-    /**
-     * @param string $type
-     */
-    public function setPricingType(string $type): void;
 
     /**
      * @return string

@@ -34,13 +34,6 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     /** @var ChannelInterface */
     private $channel;
 
-    public function __construct()
-    {
-        $this->percent = 0;
-        $this->amount = 0;
-        $this->type = self::getAllTypes()[0];
-    }
-
     /** {@inheritdoc} */
     public function getId(): ?int
     {
