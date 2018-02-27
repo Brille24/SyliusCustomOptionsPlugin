@@ -1,53 +1,52 @@
 sylius_fixtures:
     suites:
-        test:
+        default:
             fixtures:
-#                brille24_customer_option:
-#                    options:
-#                        customer_options:
-#                            -   code: some_option
-#                                translations:
-#                                    en_US: Some Option
-#                                type: select
-#                                values:
-#                                    -   code: val_1
-#                                        translations:
-#                                            en_US: Value 1
-#                                        prices:
-#                                            - type: fixed
-#                                              amount: 100
-#                                              percent: 0
-#                                              channel: default
-#
-#                                    -   code: val_2
-#                                        translations:
-#                                            en_US: Value 2
-#                                        prices:
-#                                            - type: percent
-#                                              amount: 0
-#                                              percent: 0.2
-#                                              channel: default
-#                                required: false
-#                                groups: ~
-#
-#                            -   code: another_option
-#                                translations:
-#                                    en_US: Another Option
-#                                type: boolean
-#                                values: ~
-#                                required: false
-#                                groups: ~
-#
-#                brille24_customer_option_group:
-#                    options:
-#                        customer_option_groups:
-#                            -   code: some_group
-#                                translations:
-#                                    en_US: Some Option
-#                                options:
-#                                    - some_option
-#                                    - another_option
-#                                products: ~
+                brille24_customer_option:
+                    options:
+                        customer_options:
+                            -   code: some_option
+                                translations:
+                                    en_US: Some Option
+                                type: select
+                                values:
+                                    -   code: val_1
+                                        translations:
+                                            en_US: Value 1
+                                        prices:
+                                            - type: fixed
+                                              amount: 100
+                                              percent: 0
+                                              channel: default
+
+                                    -   code: val_2
+                                        translations:
+                                            en_US: Value 2
+                                        prices:
+                                            - type: percent
+                                              amount: 0
+                                              percent: 0.2
+                                              channel: default
+                                required: false
+                                groups: ~
+
+                            -   code: another_option
+                                translations:
+                                    en_US: Another Option
+                                type: boolean
+                                values: ~
+                                required: false
+                                groups: ~
+
+                brille24_customer_option_group:
+                    options:
+                        customer_option_groups:
+                            -   code: some_group
+                                translations:
+                                    en_US: Some Group
+                                options:
+                                    - some_option
+                                products: ~
 
                 product:
                     options:
@@ -61,4 +60,4 @@ sylius_fixtures:
                                         type: fixed
                                         amount: 200
                                         percent: 0
-                                        channel: default
+                                        channel: US_WEB

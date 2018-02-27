@@ -36,6 +36,9 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
      */
     private $customerOptionGroupRepository;
 
+    /**
+     * @var EntityRepository
+     */
     private $channelRepository;
 
     public function __construct(
@@ -96,6 +99,11 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
 
                         /** @var ChannelInterface $channel */
                         $channel = $this->channelRepository->findOneBy(['code' => $priceConfig['channel']]);
+
+                        if($channel === null){
+                            $channels = new ArrayCollection($this->channelRepository->findAll());
+                            $channel = $channels->first();
+                        }
 
                         $price->setChannel($channel);
 

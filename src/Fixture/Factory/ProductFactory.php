@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Fixture\Factory;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\ProductExampleFactory as BaseFactory;
 use Sylius\Bundle\CoreBundle\Fixture\OptionsResolver\LazyOption;
-use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Uploader\ImageUploaderInterface;
 use Sylius\Component\Product\Generator\ProductVariantGeneratorInterface;
 use Sylius\Component\Product\Generator\SlugGeneratorInterface;
@@ -19,6 +22,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ProductFactory extends BaseFactory
 {
     private $customerOptionGroupRepository;
+
+    private $customerOptionValueRepository;
+
+    private $channelRepository;
 
     public function __construct(
         FactoryInterface $productFactory,
@@ -35,10 +42,13 @@ class ProductFactory extends BaseFactory
         RepositoryInterface $productOptionRepository,
         RepositoryInterface $channelRepository,
         RepositoryInterface $localeRepository,
-        RepositoryInterface $customerOptionGroupRepository
+        RepositoryInterface $customerOptionGroupRepository,
+        RepositoryInterface $customerOptionValueRepository
     )
     {
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;
+        $this->customerOptionValueRepository = $customerOptionValueRepository;
+        $this->channelRepository = $channelRepository;
 
         parent::__construct(
             $productFactory,
@@ -67,7 +77,7 @@ class ProductFactory extends BaseFactory
                 'customer_option_group',
                 LazyOption::randomOneOrNull($this->customerOptionGroupRepository, 5)
             )
-            ->setAllowedTypes('customer_option_group', ['string', CustomerOptionGroupInterface::class, null])
+            ->setAllowedTypes('customer_option_group', ['string', CustomerOptionGroupInterface::class, 'null'])
             ->setNormalizer(
                 'customer_option_group',
                 LazyOption::findOneBy($this->customerOptionGroupRepository, 'code')
@@ -75,16 +85,60 @@ class ProductFactory extends BaseFactory
 
             ->setDefault('customer_option_value_prices', [])
             ->setAllowedTypes('customer_option_value_prices', 'array')
-            ->setNormalizer('customer_option_value_prices', function(Options $options, array $valuePrices): array{
-
-            })
         ;
     }
 
-    public function create(array $options = []): ProductInterface
+    /**
+     * @param array $options
+     * @return ProductInterface
+     * @throws \Exception
+     */
+    public function create(array $options = []): \Sylius\Component\Core\Model\ProductInterface
     {
+        /** @var ProductInterface $product */
         $product = parent::create($options);
 
-//        return $product;
+        if(isset($options['customer_option_group'])){
+            $product->setCustomerOptionGroup(
+                $this->customerOptionGroupRepository->findOneBy(['code' => $options['customer_option_group']])
+            );
+
+            $prices = new ArrayCollection();
+
+            foreach ($options['customer_option_value_prices'] as $valuePriceConfig){
+                $valuePrice = new CustomerOptionValuePrice();
+                $valuePrice->setCustomerOptionValue(
+                    $this->customerOptionValueRepository->findOneBy(['code' => $valuePriceConfig['value_code']])
+                );
+
+                if ($valuePriceConfig['type'] === 'fixed') {
+                    $valuePrice->setType(CustomerOptionValuePrice::TYPE_FIXED_AMOUNT);
+                } elseif ($valuePriceConfig['type'] === 'percent') {
+                    $valuePrice->setType(CustomerOptionValuePrice::TYPE_PERCENT);
+                } else {
+                    throw new \Exception(sprintf("Value price type '%s' does not exist!", $valuePriceConfig['type']));
+                }
+
+                $valuePrice->setAmount($valuePriceConfig['amount']);
+                $valuePrice->setPercent($valuePriceConfig['percent']);
+
+                /** @var ChannelInterface $channel */
+                $channel = $this->channelRepository->findOneBy(['code' => $valuePriceConfig['channel']]);
+
+                if($channel === null){
+                    $channels = new ArrayCollection($this->channelRepository->findAll());
+                    $channel = $channels->first();
+                }
+
+                $valuePrice->setChannel($channel);
+
+                $valuePrice->setProduct($product);
+
+                $prices[] = $valuePrice;
+            }
+            $product->setCustomerOptionValuePrices($prices);
+        }
+
+        return $product;
     }
 }
