@@ -14,12 +14,8 @@ class CustomerOptionConfigurationConstraintValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint): void
     {
-        if (!is_array($value)) {
+        if (!is_array($value) || count($value) < 2) {
             throw new \InvalidArgumentException('Can not validate configurations.');
-        }
-
-        if (count($value) === 0) {
-            return;
         }
 
         // Get the array key that contains min and max
@@ -30,6 +26,7 @@ class CustomerOptionConfigurationConstraintValidator extends ConstraintValidator
             return;
         }
 
+        // Get the value by getting the first element with the min and max keyword respectively
         $minValue = $value[reset($minKeys)]['value'];
         $maxValue = $value[reset($maxKeys)]['value'];
 

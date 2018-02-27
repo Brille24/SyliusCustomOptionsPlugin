@@ -29,7 +29,6 @@ class CustomerOptionAssociationConstraintValidatorTest extends \PHPUnit_Framewor
 
         $context = self::createMock(ExecutionContextInterface::class);
         $context->method('addViolation')->willReturnCallback(function (?string $message): void {
-            var_dump($message);
             $this->violations[] = $message;
         });
         $this->customerOptionAssociationConstraintValidator->initialize($context);
