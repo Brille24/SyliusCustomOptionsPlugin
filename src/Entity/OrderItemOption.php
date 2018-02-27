@@ -52,7 +52,7 @@ class OrderItemOption implements OrderItemOptionInterface
         $customerOptionValue
     ) {
         // Copying the customer Option
-        $this->customerOption     = $customerOption;
+        $this->customerOption = $customerOption;
         $this->customerOptionCode = $customerOption->getCode();
         $this->customerOptionName = $customerOption->getName();
 
@@ -60,13 +60,13 @@ class OrderItemOption implements OrderItemOptionInterface
         if (is_scalar($customerOptionValue)) {
             $this->optionValue = $customerOptionValue;
         } elseif ($customerOptionValue instanceof CustomerOptionValueInterface) {
-            $this->customerOptionValue     = $customerOptionValue;
+            $this->customerOptionValue = $customerOptionValue;
             $this->customerOptionValueCode = $customerOptionValue->getCode();
             $this->customerOptionValueName = $customerOptionValue->getName();
 
-            $price            = $customerOptionValue->getPriceForChannel($channel);
+            $price = $customerOptionValue->getPriceForChannel($channel);
             $this->fixedPrice = $price === null ? 0 : ($price->getAmount() ?? 0);
-            $this->percent    = $price === null ? 0 : ($price->getPercent() ?? 0);
+            $this->percent = $price === null ? 0 : ($price->getPercent() ?? 0);
 
             $this->pricingType = $price->getType();
         }
@@ -198,7 +198,6 @@ class OrderItemOption implements OrderItemOptionInterface
         return $this->pricingType;
     }
 
-
     /** {@inheritdoc} */
     public function setCustomerOptionName(string $customerOptionName): void
     {
@@ -214,11 +213,11 @@ class OrderItemOption implements OrderItemOptionInterface
     /** {@inheritdoc} */
     public function getScalarValue()
     {
-        if (is_null($this->optionValue)) {
+        if (null === $this->optionValue) {
             return $this->optionValue;
-        } else {
-            return $this->customerOptionValueCode;
         }
+
+        return $this->customerOptionValueCode;
     }
 
     /** {@inheritdoc} */
@@ -228,8 +227,7 @@ class OrderItemOption implements OrderItemOptionInterface
         $equals &= $this->getCustomerOptionValue() === $orderItemOption->getCustomerOptionValue();
         $equals &= $this->getOptionValue() === $orderItemOption->getOptionValue();
 
-
-        return boolval($equals);
+        return (bool) $equals;
     }
 
     public function __toString()

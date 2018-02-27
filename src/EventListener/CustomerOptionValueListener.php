@@ -14,7 +14,6 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInt
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Sylius\Component\Core\Model\ChannelInterface;
 
 class CustomerOptionValueListener
 {
@@ -28,8 +27,7 @@ class CustomerOptionValueListener
      */
     public function __construct(
         EntityRepository $channelRepository
-    )
-    {
+    ) {
         $this->channelRepository = $channelRepository;
     }
 
@@ -45,7 +43,8 @@ class CustomerOptionValueListener
         }
     }
 
-    private function addChannelPricesToNewValue(CustomerOptionValueInterface $value){
+    private function addChannelPricesToNewValue(CustomerOptionValueInterface $value)
+    {
         $prices = $value->getPrices();
 
         $existingChannels = [];

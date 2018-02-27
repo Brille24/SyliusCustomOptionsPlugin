@@ -31,7 +31,7 @@ final class ProductTypeExtension extends AbstractTypeExtension
         /** @var CustomerOptionInterface[] $customerOptions */
         $customerOptions = [];
 
-        if($product->getCustomerOptionGroup() !== null) {
+        if ($product->getCustomerOptionGroup() !== null) {
             foreach ($product->getCustomerOptionGroup()->getOptionAssociations() as $optionAssociation) {
                 $customerOptions[] = $optionAssociation->getOption();
             }
@@ -44,7 +44,7 @@ final class ProductTypeExtension extends AbstractTypeExtension
                 'class' => CustomerOptionGroup::class,
                 'placeholder' => 'Please choose',
                 'empty_data' => null,
-                'required' => false
+                'required' => false,
             ])
         ;
 

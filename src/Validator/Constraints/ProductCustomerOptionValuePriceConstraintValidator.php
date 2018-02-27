@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -7,7 +9,6 @@
  */
 
 namespace Brille24\CustomerOptionsPlugin\Validator\Constraints;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Doctrine\Common\Collections\Collection;
@@ -21,20 +22,18 @@ class ProductCustomerOptionValuePriceConstraintValidator extends ConstraintValid
      */
     public function validate($value, Constraint $constraint): void
     {
-        if(!is_a($value, Collection::class)){
+        if (!is_a($value, Collection::class)) {
             throw new \InvalidArgumentException('Value is not a Collection.');
         }
 
         /** @var Collection $value */
-        if($value->isEmpty()){
+        if ($value->isEmpty()) {
             return;
         }
 
-        if(!is_a($value[0], CustomerOptionValuePriceInterface::class)){
+        if (!is_a($value[0], CustomerOptionValuePriceInterface::class)) {
             throw new \InvalidArgumentException('Collection does not contain CustomerOptionValuePrices.');
         }
-
-
 
 //        $existingValues = [];
 //
@@ -50,18 +49,18 @@ class ProductCustomerOptionValuePriceConstraintValidator extends ConstraintValid
         $existingValues = [];
 
         /** @var CustomerOptionValuePriceInterface $price */
-        foreach($value->getValues() as $price){
+        foreach ($value->getValues() as $price) {
             $channelCode = $price->getChannel()->getCode();
 
-            if(
+            if (
                 !isset($existingValues[$channelCode])
-            ){
+            ) {
                 $existingValues[$channelCode] = [];
             }
 
-            if(in_array($price->getCustomerOptionValue(), $existingValues[$channelCode])){
+            if (in_array($price->getCustomerOptionValue(), $existingValues[$channelCode])) {
                 $this->context->addViolation($constraint->message);
-            }else{
+            } else {
                 $existingValues[$channelCode][] = $price->getCustomerOptionValue();
             }
         }

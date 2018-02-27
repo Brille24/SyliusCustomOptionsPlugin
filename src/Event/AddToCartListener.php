@@ -1,19 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Event;
 
-
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemOption;
-use Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactory;
 use Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
-use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
-use Brille24\CustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
-use Sylius\Component\Core\Model\Channel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -37,9 +31,9 @@ final class AddToCartListener
         EntityManagerInterface $entityManager,
         OrderItemOptionFactoryInterface $itemOptionFactory
     ) {
-        $this->requestStack             = $requestStack;
-        $this->entityManager            = $entityManager;
-        $this->orderItemOptionFactory   = $itemOptionFactory;
+        $this->requestStack = $requestStack;
+        $this->entityManager = $entityManager;
+        $this->orderItemOptionFactory = $itemOptionFactory;
     }
 
     public function addItemToCart(ResourceControllerEvent $event): void
@@ -56,7 +50,7 @@ final class AddToCartListener
 
         $salesOrderConfigurations = [];
         foreach ($customerOptionConfiguration as $customerOptionCode => $valueArray) {
-            if(!is_array($valueArray)){
+            if (!is_array($valueArray)) {
                 $valueArray = [$valueArray];
             }
 

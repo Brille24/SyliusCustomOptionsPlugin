@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -7,7 +9,6 @@
  */
 
 namespace Brille24\CustomerOptionsPlugin\Form\Product;
-
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,12 +19,10 @@ class CustomerOptionValueChoiceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-
     }
 
     public function getBlockPrefix()
@@ -35,5 +34,4 @@ class CustomerOptionValueChoiceType extends AbstractType
     {
         return ChoiceType::class;
     }
-
 }

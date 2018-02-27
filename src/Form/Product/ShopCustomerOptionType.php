@@ -15,7 +15,6 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInt
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Sylius\Bundle\CurrencyBundle\Templating\Helper\CurrencyHelperInterface;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
@@ -39,8 +38,7 @@ class ShopCustomerOptionType extends AbstractType
         CurrencyContextInterface $currencyContext,
         MoneyFormatterInterface $moneyFormatter,
         LocaleContextInterface $localeContext
-    )
-    {
+    ) {
         $this->channelContext = $channelContext;
         $this->currencyContext = $currencyContext;
         $this->moneyFormatter = $moneyFormatter;
@@ -59,7 +57,7 @@ class ShopCustomerOptionType extends AbstractType
         // Add a form field for every customer option
         foreach ($product->getCustomerOptions() as $customerOption) {
             $customerOptionType = $customerOption->getType();
-            $fieldName          = $customerOption->getCode();
+            $fieldName = $customerOption->getCode();
 
             [$class, $formOptions] = CustomerOptionTypeEnum::getFormTypeArray()[$customerOptionType];
 
@@ -113,40 +111,45 @@ class ShopCustomerOptionType extends AbstractType
     /**
      * @param CustomerOptionValueInterface $value
      * @param ProductInterface $product
+     *
      * @return string
+     *
      * @throws \Exception
      */
-    private function buildValueString(CustomerOptionValueInterface $value, ProductInterface $product){
+    private function buildValueString(CustomerOptionValueInterface $value, ProductInterface $product)
+    {
         /** @var CustomerOptionValuePriceInterface $price */
         $price = null;
 
         /** @var CustomerOptionValuePriceInterface $productPrice */
-        foreach ($product->getCustomerOptionValuePrices() as $productPrice){
-            if(
+        foreach ($product->getCustomerOptionValuePrices() as $productPrice) {
+            if (
                 $productPrice->getCustomerOptionValue() === $value &&
                 $productPrice->getChannel() === $this->channelContext->getChannel()
-            ){
+            ) {
                 $price = $productPrice;
+
                 break;
             }
         }
 
-        if($price === null) {
+        if ($price === null) {
             $prices = $value->getPrices();
 
             foreach ($prices as $defaultPrice) {
                 if ($defaultPrice->getChannel() === $this->channelContext->getChannel()) {
                     $price = $defaultPrice;
+
                     break;
                 }
             }
         }
 
         // No price was found for the current channel, probably because the values weren't updated after adding a new channel
-        if($price === null){
+        if ($price === null) {
             throw new \Exception(
                 sprintf(
-                    "CustomerOptionValue (%s) has no price defined for Channel (%s)",
+                    'CustomerOptionValue (%s) has no price defined for Channel (%s)',
                     $value->getCode(),
                     $this->channelContext->getChannel()->getCode()
                 )

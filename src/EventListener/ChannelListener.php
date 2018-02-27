@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -8,36 +10,36 @@
 
 namespace Brille24\CustomerOptionsPlugin\EventListener;
 
-
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ChannelInterface;
 
 class ChannelListener
 {
-    public function prePersist(LifecycleEventArgs $args){
+    public function prePersist(LifecycleEventArgs $args)
+    {
         $entity = $args->getEntity();
 
-        if($entity instanceof ChannelInterface){
+        if ($entity instanceof ChannelInterface) {
             $this->addNewChannelToAllValues($entity, $args->getEntityManager());
         }
     }
 
-    private function addNewChannelToAllValues(ChannelInterface $channel, EntityManagerInterface $em){
+    private function addNewChannelToAllValues(ChannelInterface $channel, EntityManagerInterface $em)
+    {
         /** @var CustomerOptionValueInterface[] $values */
         $values = $em->getRepository(CustomerOptionValue::class)->findAll();
 
-        foreach ($values as $value){
+        foreach ($values as $value) {
             $existingChannels = [];
-            foreach ($value->getPrices() as $price){
+            foreach ($value->getPrices() as $price) {
                 $existingChannels[] = $price->getChannel();
             }
 
-            if(!in_array($channel, $existingChannels)) {
+            if (!in_array($channel, $existingChannels)) {
                 $newPrice = new CustomerOptionValuePrice();
                 $newPrice->setChannel($channel);
                 $value->addPrice($newPrice);

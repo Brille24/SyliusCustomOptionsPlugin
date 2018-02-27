@@ -30,9 +30,6 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /** @var string */
     protected $code;
 
-    /** @var string */
-    protected $value;
-
     /** @var Collection */
     protected $prices;
 
@@ -108,8 +105,8 @@ class CustomerOptionValue implements CustomerOptionValueInterface
         $prices = new ArrayCollection();
 
         /** @var CustomerOptionValuePriceInterface $price */
-        foreach($this->prices as $price){
-            if($price->getProduct() === null){
+        foreach ($this->prices as $price) {
+            if ($price->getProduct() === null) {
                 $prices[] = $price;
             }
         }
@@ -120,11 +117,11 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /** {@inheritdoc} */
     public function getPriceForChannel(ChannelInterface $channel): ?CustomerOptionValuePriceInterface
     {
-        $this->prices->filter(function (CustomerOptionValuePriceInterface $price) use ($channel){
+        $this->prices->filter(function (CustomerOptionValuePriceInterface $price) use ($channel) {
             return $price->getChannel() === $channel;
         });
 
-        if($this->prices->count() > 0) {
+        if ($this->prices->count() > 0) {
             return $this->prices->first();
         }
 
