@@ -6,7 +6,7 @@ namespace Test\Brille24\CustomerOptionsPlugin\EventListener;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemOption;
-use Brille24\CustomerOptionsPlugin\Event\AddToCartListener;
+use Brille24\CustomerOptionsPlugin\EventListener\AddToCartListener;
 use Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
