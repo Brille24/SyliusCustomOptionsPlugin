@@ -44,8 +44,6 @@ class AddToCartListenerTest extends TestCase
     public function setUp()
     {
         // Aliasing variables for use in testing
-//        $request           = &$this->request;
-        $customerOptions   = &$this->customerOptions;
         $entitiesPersisted = &$this->entitiesPersisted;
 
         $requestStack = self::createMock(RequestStack::class);

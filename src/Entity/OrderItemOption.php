@@ -49,8 +49,7 @@ class OrderItemOption implements OrderItemOptionInterface
     public function __construct(
         ChannelInterface $channel,
         CustomerOptionInterface $customerOption,
-        $customerOptionValue,
-        \Sylius\Component\Core\Model\ProductInterface $product
+        $customerOptionValue
     ) {
         // Copying the customer Option
         $this->customerOption     = $customerOption;

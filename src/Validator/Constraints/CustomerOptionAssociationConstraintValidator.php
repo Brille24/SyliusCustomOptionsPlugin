@@ -19,15 +19,15 @@ class CustomerOptionAssociationConstraintValidator extends ConstraintValidator
         }
 
         $optionsSoFar = [];
-
         foreach ($value->toArray() as $uniqueValue) {
             /** @var CustomerOptionAssociationInterface $uniqueValue */
             $this->checkElementType($uniqueValue);
 
-            if (in_array($uniqueValue->getOption(), $optionsSoFar)) {
+            $customerOption = $uniqueValue->getOption();
+            if (in_array($customerOption, $optionsSoFar)) {
                 $this->context->addViolation($constraint->message);
             } else {
-                $optionsSoFar[] = $uniqueValue->getOption();
+                $optionsSoFar[] = $customerOption;
             }
         }
     }
