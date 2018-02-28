@@ -42,10 +42,10 @@ class OrderItemOption implements OrderItemOptionInterface
     private $fixedPrice = 0;
 
     /** @var string */
-    private $pricingType;
+    private $pricingType = '';
 
     /** @var float */
-    private $percent;
+    private $percent = 0;
 
     public function __construct(
         ChannelInterface $channel,

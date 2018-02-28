@@ -24,6 +24,12 @@ imports:
     - { resource: "@Brille24CustomerOptionsPlugin/Resources/config/app/config.yml" }
 ```
 
+* Add the `routing.yml` to your local `app/config/routing.yml`:
+```yaml
+brille24_customer_options:
+    resource: "@Brille24CustomerOptionsPlugin/Resources/config/app/routing.yml"
+```
+
 * Copy the template overrides from the plugin directory
 ```
 From: [shop_dir]/vendor/brille24/customer-options/test/Application/app/Resources
