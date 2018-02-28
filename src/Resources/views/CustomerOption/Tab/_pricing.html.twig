@@ -1,6 +1,4 @@
 <div class="ui tab" data-tab="pricing">
-    <h3>{{ 'brille24.ui.pricing.prices_in_channels_basecurrency'|trans }}</h3>
-
     {% set channels = {} %}
 
     {% for price in form.prices %}
@@ -39,7 +37,7 @@
                         {{ form_row(price.customerOptionValueName) }}
                         <div class="ui field">
                             {{ form_row(price.percent) }}
-                            {{ form_row(price.amount, {'currency': 'USD'}) }}
+                            {{ form_row(price.amount, {'currency': price.channel.baseCurrency.vars.value }) }}
                             {{ form_row(price.type) }}
                         </div>
                     </div>

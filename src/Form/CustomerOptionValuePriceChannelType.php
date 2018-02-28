@@ -12,6 +12,7 @@ namespace Brille24\CustomerOptionsPlugin\Form;
 
 use Sylius\Component\Core\Model\Channel;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,6 +34,7 @@ final class CustomerOptionValuePriceChannelType extends AbstractType
                 ],
                 'label' => false,
             ])
+            ->add('baseCurrency', HiddenType::class)
         ;
     }
 

@@ -18,6 +18,7 @@ use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Sylius\Bundle\MoneyBundle\Form\Type\MoneyType;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
@@ -26,6 +27,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class CustomerOptionValuePriceType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /** @var ProductInterface $product */
@@ -42,25 +44,31 @@ final class CustomerOptionValuePriceType extends AbstractType
 
         $builder
             ->add('customerOptionValue', ChoiceType::class, [
-                'choices' => $values,
+                'choices'      => $values,
                 'choice_label' => function (CustomerOptionValueInterface $option) {
                     return $option->getName();
                 },
             ])
             ->add('channel', ChannelChoiceType::class, [
+                'choice_attr' => function (?ChannelInterface $channel) {
+                    if ($channel !== null) {
+                        return ['data-attribute' => $channel->getBaseCurrency()->getCode()];
+                    }
+                    return '';
+                },
             ])
             ->add('percent', PercentType::class, [
                 'empty_data' => 0,
-                'scale' => 5
+                'scale'      => 5,
             ])
             ->add('amount', MoneyType::class, [
                 'empty_data' => 0,
-                'currency' => 'USD'
+                'currency'   => 'USD',
             ])
             ->add('type', ChoiceType::class, [
-                'choices' => CustomerOptionValuePrice::getAllTypes(),
+                'choices'      => CustomerOptionValuePrice::getAllTypes(),
                 'choice_label' => function ($option) {
-                    return 'brille24.ui.pricing.'.strtolower($option);
+                    return 'brille24.ui.pricing.' . strtolower($option);
                 },
             ])
         ;
@@ -70,8 +78,8 @@ final class CustomerOptionValuePriceType extends AbstractType
     {
         $resolver
             ->setDefaults([
-                'data_class' => CustomerOptionValuePrice::class,
-            ])
+                              'data_class' => CustomerOptionValuePrice::class,
+                          ])
             ->setDefined('product')
             ->setAllowedTypes('product', Product::class)
         ;
