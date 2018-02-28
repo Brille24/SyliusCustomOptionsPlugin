@@ -187,7 +187,7 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
 
                 if($channel === null){
                     $channels = new ArrayCollection($this->channelRepository->findAll());
-                    $channel = $channels->first();
+                    $channel = $channels->first() ? $channels->first() : null;
                 }
 
                 $price->setChannel($channel);

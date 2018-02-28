@@ -63,3 +63,7 @@ sylius_fixtures:
 #                                        amount: 200
 #                                        percent: 0
 #                                        channel: US_WEB
+                order:
+                    priority: -1
+                    options:
+                        amount: 20

@@ -16,9 +16,7 @@
         {% endif %}
     {% endif %}
 
-    {% if product.customerOptionGroup != null %}
-        {% include '@Brille24CustomerOptionsPlugin/Product/Shop/block.html.twig' %}
-    {% endif %}
+    {% include '@Brille24CustomerOptionsPlugin/Product/Shop/_customerOptions.html.twig' %}
 
     {{ form_row(form.cartItem.quantity) }}
 

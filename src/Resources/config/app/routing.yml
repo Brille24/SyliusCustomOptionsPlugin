@@ -1,17 +1,3 @@
 brille24_customer_options_admin:
     resource: "@Brille24CustomerOptionsPlugin/Resources/config/app/routing/admin.yml"
     prefix: /admin
-
-sylius_shop_product_show:
-    path: /products/{slug}
-    methods: [GET]
-    defaults:
-        _controller: sylius.controller.product:showAction
-        _sylius:
-            template: "@Brille24CustomerOptionsPlugin/Product/Shop/show.html.twig"
-            repository:
-                method: findOneByChannelAndSlug
-                arguments:
-                    - "expr:service('sylius.context.channel').getChannel()"
-                    - "expr:service('sylius.context.locale').getLocaleCode()"
-                    - $slug
