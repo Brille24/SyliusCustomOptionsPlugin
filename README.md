@@ -30,6 +30,12 @@ brille24_customer_options:
     resource: "@Brille24CustomerOptionsPlugin/Resources/config/app/routing.yml"
 ```
 
+* Copy the template overrides from the plugin directory
+```
+From: [shop_dir]/vendor/brille24/customer-options/test/Application/app/Resources
+To: [shop_dir]/app/Resources
+```
+
 * Finally update the database and update the translations:
 ```bash
 bin/console doctrine:schema:update --force
