@@ -41,14 +41,14 @@ final class CustomerOptionFormMenuBuilder
         $menu
             ->addChild('details')
             ->setAttribute('template', '@Brille24CustomerOptionsPlugin/CustomerOption/Tab/_details.html.twig')
-            ->setLabel('brille24.ui.details')
+            ->setLabel('sylius.ui.details')
             ->setCurrent(true)
         ;
 
         $menu
             ->addChild('pricing')
             ->setAttribute('template', '@Brille24CustomerOptionsPlugin/CustomerOption/Tab/_pricing.html.twig')
-            ->setLabel('brille24.ui.pricing')
+            ->setLabel('sylius.ui.pricing')
         ;
 
         $this->eventDispatcher->dispatch(

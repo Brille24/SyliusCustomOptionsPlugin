@@ -1,0 +1,55 @@
+# Message for the menu entry
+sylius:
+    menu:
+        admin:
+            main:
+                catalog:
+                    customer_options: Kunden Optionen
+                    customer_option_groups: Kunden Option Gruppen
+
+
+# Brille24
+brille24:
+    ui:
+        customer_options: Kunden Optionen
+        customer_option_groups: Kunden Option Gruppen
+        required: Erforderlich
+        product_customization: Produkt Anpassung
+        pricing:
+            prices_in_channels_basecurrency: Alle Preise sind in der Basiswährung angegeben
+            fixed_amount: Feste Menge
+            percent: Prozent
+    form:
+        customer_options:
+            subheader: Verwalten der Kunden Optionen
+            unique: Der Code muss einzigartig sein
+            type:
+                text: Text
+                select: Auswahlfeld
+                multi_select: Mehrfaches Auswählen
+                file: Datei
+                date: Datum
+                datetime: Datum und Zeit
+                number: Zahl
+                boolean: Wahrheitswert
+        customer_option_groups:
+            subheader: Verwalten der Kunden Option Gruppen
+            select: Auswahl
+            duplicate_option: A group can not have an option twice
+        config:
+            min:
+                length: Minimum Länge
+                file_size: Minimum Größe
+                date: Minimum Datum
+                number: Minimum Zahl
+            max:
+                length: Maximum Länge
+                file_size: Maximum Größe
+                date: Maximum Datum
+                number: Maximum Zahl
+            invalid_min_max: Das konfigurierte Minimum ist größer als das Maximum
+            default_value: Standard-Wert
+
+    grid:
+        options_remaining: "{0} |]0,Inf]and %count% more"
+        options_empty: Nothing to display
