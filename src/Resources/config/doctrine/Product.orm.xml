@@ -14,7 +14,9 @@
                 target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup"
                 field="customerOptionGroup"
                 inversed-by="products"
-        />
+        >
+            <join-column on-delete="SET NULL" />
+        </many-to-one>
 
     </mapped-superclass>
 </doctrine-mapping>
