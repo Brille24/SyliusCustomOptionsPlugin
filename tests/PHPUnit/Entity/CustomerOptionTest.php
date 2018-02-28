@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Test\Brille24\CustomerOptionsPlugin\Entity;
@@ -39,15 +40,15 @@ class CustomerOptionTest extends TestCase
     public function dataSetTypeToSelect(): array
     {
         return [
-            'select'       => [CustomerOptionTypeEnum::SELECT, []],
+            'select' => [CustomerOptionTypeEnum::SELECT, []],
             'multi-select' => [CustomerOptionTypeEnum::MULTI_SELECT, []],
-            'boolean'      => [
+            'boolean' => [
                 CustomerOptionTypeEnum::BOOLEAN,
-                CustomerOptionTypeEnum::getConfigurationArray()['boolean']
+                CustomerOptionTypeEnum::getConfigurationArray()['boolean'],
             ],
-            'number'       => [
+            'number' => [
                 CustomerOptionTypeEnum::NUMBER,
-                CustomerOptionTypeEnum::getConfigurationArray()['number']
+                CustomerOptionTypeEnum::getConfigurationArray()['number'],
             ],
         ];
     }
@@ -69,7 +70,7 @@ class CustomerOptionTest extends TestCase
         $this->customerOption->addValue($value);
 
         // Assert
-        $result= $this->customerOption->getValues();
+        $result = $this->customerOption->getValues();
         self::assertEquals(1, $result->count());
         self::assertContains($value, $result);
     }
@@ -84,7 +85,7 @@ class CustomerOptionTest extends TestCase
         $this->customerOption->removeValue($value);
 
         // Assert
-        $result= $this->customerOption->getValues();
+        $result = $this->customerOption->getValues();
         self::assertEquals(0, $result->count());
         self::assertNotContains($value, $result);
     }

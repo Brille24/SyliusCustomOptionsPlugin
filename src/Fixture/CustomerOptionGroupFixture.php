@@ -4,14 +4,7 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Fixture;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Fixture\Factory\CustomerOptionGroupFactory;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 

@@ -39,7 +39,7 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
     {
         $basePrice = parent::getSubtotal();
 
-        return (int)$this->applyConfigurationPrices($basePrice, $this->getQuantity());
+        return (int) $this->applyConfigurationPrices($basePrice, $this->getQuantity());
     }
 
     /** {@inheritdoc} */
@@ -82,7 +82,7 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
 
         /** @var OrderItemOptionInterface $value */
         foreach ($this->configuration as $value) {
-            if($value->getCustomerOptionValue() !== null) {
+            if ($value->getCustomerOptionValue() !== null) {
                 if ($value->getPricingType() === CustomerOptionValuePrice::TYPE_PERCENT) {
                     $result += $basePrice * $value->getPercent() / 100;
                 } else {

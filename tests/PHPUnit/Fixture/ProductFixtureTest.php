@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Fixture;
-
 
 use Brille24\CustomerOptionsPlugin\Fixture\Factory\ProductFactory;
 use Brille24\CustomerOptionsPlugin\Fixture\ProductFixture;
@@ -17,81 +17,88 @@ class ProductFixtureTest extends TestCase
     /**
      * @test
      */
-    public function customer_option_group_is_optional(){
+    public function customer_option_group_is_optional()
+    {
         $this->assertConfigurationIsValid([[
-            'custom' => [[]]
+            'custom' => [[]],
         ]], 'custom.*.customer_option_group');
     }
 
     /**
      * @test
      */
-    public function customer_option_value_prices_are_optional(){
+    public function customer_option_value_prices_are_optional()
+    {
         $this->assertConfigurationIsValid([[
-            'custom' => [[]]
+            'custom' => [[]],
         ]], 'custom.*.customer_option_value_prices');
     }
 
     /**
      * @test
      */
-    public function value_price_value_code_is_required(){
+    public function value_price_value_code_is_required()
+    {
         $this->assertPartialConfigurationIsInvalid([[
             'custom' => [[
-                'customer_option_value_prices' => [[]]
-            ]]
+                'customer_option_value_prices' => [[]],
+            ]],
         ]], 'custom.*.customer_option_value_prices.*.value_code');
 
         $this->assertPartialConfigurationIsInvalid([[
             'custom' => [[
                 'customer_option_value_prices' => [[
-                    'value_code' => ''
-                ]]
-            ]]
+                    'value_code' => '',
+                ]],
+            ]],
         ]], 'custom.*.customer_option_value_prices.*.value_code');
     }
 
     /**
      * @test
      */
-    public function value_price_type_is_optional(){
+    public function value_price_type_is_optional()
+    {
         $this->assertConfigurationIsValid([[
             'custom' => [[
-                'customer_option_value_prices' => [[]]
-            ]]
+                'customer_option_value_prices' => [[]],
+            ]],
         ]], 'custom.*.customer_option_value_prices.*.type');
     }
 
     /**
      * @test
      */
-    public function value_price_amount_is_optional(){
+    public function value_price_amount_is_optional()
+    {
         $this->assertConfigurationIsValid([[
             'custom' => [[
-                'customer_option_value_prices' => [[]]
-            ]]
+                'customer_option_value_prices' => [[]],
+            ]],
         ]], 'custom.*.customer_option_value_prices.*.amount');
     }
 
     /**
      * @test
      */
-    public function value_price_percent_is_optional(){
+    public function value_price_percent_is_optional()
+    {
         $this->assertConfigurationIsValid([[
             'custom' => [[
-                'customer_option_value_prices' => [[]]
-            ]]
+                'customer_option_value_prices' => [[]],
+            ]],
         ]], 'custom.*.customer_option_value_prices.*.percent');
     }
 
     /**
      * @test
      */
-    public function value_price_channel_is_optional(){
+    public function value_price_channel_is_optional()
+    {
         $this->assertConfigurationIsValid([[
             'custom' => [[
-                'customer_option_value_prices' => [[]]
-            ]]
+                'customer_option_value_prices' => [[]],
+            ]],
         ]], 'custom.*.customer_option_value_prices.*.channel');
     }
 

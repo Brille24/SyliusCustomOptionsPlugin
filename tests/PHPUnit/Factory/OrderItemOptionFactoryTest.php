@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\Factory;
@@ -6,9 +7,8 @@ namespace Tests\Brille24\CustomerOptionsPlugin\Factory;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\CustomerOptionsPlugin\Factory\{
-    OrderItemOptionFactory, OrderItemOptionFactoryInterface
-};
+use Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactory;
+use Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\CustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,12 +25,13 @@ class OrderItemOptionFactoryTest extends TestCase
 
     public function setUp()
     {
-        $channel            = self::createMock(ChannelInterface::class);
+        $channel = self::createMock(ChannelInterface::class);
         $customerOptionRepo = self::createMock(CustomerOptionRepositoryInterface::class);
         $customerOptionRepo->method('findOneByCode')->willReturnCallback(function (string $code) {
             if (array_key_exists($code, $this->customerOptions)) {
                 return $this->customerOptions[$code];
             }
+
             return null;
         });
 
@@ -67,7 +68,7 @@ class OrderItemOptionFactoryTest extends TestCase
     public function testCreateNew(): void
     {
         $customerOption = self::createMock(CustomerOptionInterface::class);
-        $value          = 'something';
+        $value = 'something';
 
         $this->orderItemOptionFactory->createNew($customerOption, $value);
     }

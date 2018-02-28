@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\EventListener;
@@ -9,8 +10,8 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInt
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\CustomerOptionsPlugin\EventListener\CustomerOptionValueListener;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -40,7 +41,7 @@ class CustomerOptionValueListenerTest extends TestCase
     {
         $entityManger = self::createMock(EntityManagerInterface::class);
         $entityManger->method('persist')->willReturnCallback(function ($entity) {
-            $this->pricesAdded++;
+            ++$this->pricesAdded;
         });
 
         $arguments = self::createMock(LifecycleEventArgs::class);
@@ -55,7 +56,7 @@ class CustomerOptionValueListenerTest extends TestCase
         $entity = self::createMock(CustomerOptionValueInterface::class);
         $entity->method('getPrices')->willReturn(new ArrayCollection($prices));
         $entity->method('addPrice')->willReturnCallback(function ($price) {
-            $this->pricesAdded++;
+            ++$this->pricesAdded;
         });
 
         return $entity;
@@ -82,8 +83,8 @@ class CustomerOptionValueListenerTest extends TestCase
     public function testPrePersist()
     {
         $customerOptionValue = $this->createEntity([]);
-        $arguments           = $this->createArguments($customerOptionValue);
-        $this->channels      = [self::createMock(ChannelInterface::class)];
+        $arguments = $this->createArguments($customerOptionValue);
+        $this->channels = [self::createMock(ChannelInterface::class)];
 
         $this->customerOptionValueListener->prePersist($arguments);
 
@@ -97,8 +98,8 @@ class CustomerOptionValueListenerTest extends TestCase
         $price->method('getChannel')->willReturn($channel);
 
         $customerOptionValue = $this->createEntity([$price]);
-        $arguments           = $this->createArguments($customerOptionValue);
-        $this->channels      = [$channel];
+        $arguments = $this->createArguments($customerOptionValue);
+        $this->channels = [$channel];
 
         $this->customerOptionValueListener->prePersist($arguments);
 

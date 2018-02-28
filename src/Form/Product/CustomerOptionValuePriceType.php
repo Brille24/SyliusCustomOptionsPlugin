@@ -51,16 +51,16 @@ final class CustomerOptionValuePriceType extends AbstractType
             ])
             ->add('percent', PercentType::class, [
                 'empty_data' => 0,
-                'scale' => 5
+                'scale' => 5,
             ])
             ->add('amount', MoneyType::class, [
                 'empty_data' => 0,
-                'currency' => 'USD'
+                'currency' => 'USD',
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => CustomerOptionValuePrice::getAllTypes(),
                 'choice_label' => function ($option) {
-                    return 'brille24.ui.pricing.'.strtolower($option);
+                    return 'brille24.ui.pricing.' . strtolower($option);
                 },
             ])
         ;

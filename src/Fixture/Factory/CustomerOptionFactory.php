@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Fixture\Factory;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
@@ -12,11 +12,9 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePri
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Sylius\Bundle\CoreBundle\Fixture\Factory\AbstractExampleFactory;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerOptionFactory
 {
@@ -54,6 +52,7 @@ class CustomerOptionFactory
 
     /**
      * @param array $options
+     *
      * @throws \Exception
      */
     public function create(array $options = [])
@@ -99,7 +98,7 @@ class CustomerOptionFactory
                 /** @var ChannelInterface $channel */
                 $channel = $this->channelRepository->findOneBy(['code' => $priceConfig['channel']]);
 
-                if($channel === null){
+                if ($channel === null) {
                     $channels = new ArrayCollection($this->channelRepository->findAll());
                     $channel = $channels->first() ? $channels->first() : null;
                 }
@@ -133,14 +132,13 @@ class CustomerOptionFactory
         $this->em->persist($customerOption);
     }
 
-
     public function generateRandom(int $amount)
     {
         $types = CustomerOptionTypeEnum::getConstList();
 
         $names = $this->getUniqueNames($amount);
 
-        for ($i = 0; $i < $amount; $i++){
+        for ($i = 0; $i < $amount; ++$i) {
             $options = [];
 
             $options['code'] = $this->faker->uuid;
@@ -148,12 +146,12 @@ class CustomerOptionFactory
             $options['type'] = $this->faker->randomElement($types);
             $options['required'] = $this->faker->boolean;
 
-            if(CustomerOptionTypeEnum::isSelect($options['type'])) {
+            if (CustomerOptionTypeEnum::isSelect($options['type'])) {
                 $values = [];
                 $numValues = $this->faker->numberBetween(2, 4);
                 $valueNames = $this->getUniqueNames($numValues);
 
-                for ($j = 0; $j < $numValues; $j++){
+                for ($j = 0; $j < $numValues; ++$j) {
                     $value = [];
 
                     $value['code'] = $this->faker->uuid;
@@ -177,11 +175,11 @@ class CustomerOptionFactory
             $groups = $this->customerOptionGroupRepository->findAll();
             $groupCodes = [];
 
-            foreach ($groups as $group){
+            foreach ($groups as $group) {
                 $groupCodes[] = $group->getCode();
             }
 
-            if(count($groupCodes) > 0) {
+            if (count($groupCodes) > 0) {
                 $options['groups'] = $this->faker->randomElements($groupCodes);
             }
 
@@ -212,7 +210,6 @@ class CustomerOptionFactory
 
         return $names;
     }
-
 
     private function getOptionsPrototype(): array
     {

@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\Validator;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\{
-    CustomerOptionAssociationInterface, CustomerOptionInterface
-};
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociationInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Validator\Constraints\CustomerOptionAssociationConstraintValidator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraint;
@@ -85,7 +85,7 @@ class CustomerOptionAssociationConstraintValidatorTest extends \PHPUnit_Framewor
         $collection = new ArrayCollection(
             [
                 $this->createCustomerOptionAssociation('customerOption1'),
-                $this->createCustomerOptionAssociation('customerOption1')
+                $this->createCustomerOptionAssociation('customerOption1'),
             ]);
         $constraint = self::createMock(Constraint::class);
 
@@ -99,7 +99,7 @@ class CustomerOptionAssociationConstraintValidatorTest extends \PHPUnit_Framewor
         $collection = new ArrayCollection(
             [
                 $this->createCustomerOptionAssociation('customerOption1'),
-                $this->createCustomerOptionAssociation('customerOption2')
+                $this->createCustomerOptionAssociation('customerOption2'),
             ]);
         $constraint = self::createMock(Constraint::class);
 

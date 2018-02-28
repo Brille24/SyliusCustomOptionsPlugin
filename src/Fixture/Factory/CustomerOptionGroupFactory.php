@@ -1,12 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Fixture\Factory;
 
-
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,20 +38,20 @@ class CustomerOptionGroupFactory
         $customerOptionsCodes = [];
 
         /** @var CustomerOptionInterface $customerOption */
-        foreach ($this->customerOptionRepository->findAll() as $customerOption){
+        foreach ($this->customerOptionRepository->findAll() as $customerOption) {
             $customerOptionsCodes[] = $customerOption->getCode();
         }
 
         $productCodes = [];
 
         /** @var ProductInterface $product */
-        foreach ($this->productRepository->findAll() as $product){
+        foreach ($this->productRepository->findAll() as $product) {
             $productCodes[] = $product->getCode();
         }
 
         $names = $this->getUniqueNames($amount);
 
-        for($i = 0; $i < $amount; $i++) {
+        for ($i = 0; $i < $amount; ++$i) {
             $options = [];
 
             $options['code'] = $this->faker->uuid;
@@ -66,9 +65,9 @@ class CustomerOptionGroupFactory
                 $options['products'] = $this->faker->randomElements($productCodes);
             }
 
-            try{
+            try {
                 $this->create($options);
-            }catch (\Throwable $e){
+            } catch (\Throwable $e) {
                 dump($e->getMessage());
             }
         }
@@ -126,7 +125,8 @@ class CustomerOptionGroupFactory
         return $names;
     }
 
-    private function getOptionsPrototype(){
+    private function getOptionsPrototype()
+    {
         return [
             'code' => null,
             'translations' => [],

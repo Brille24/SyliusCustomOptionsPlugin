@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Repository;
@@ -10,7 +11,9 @@ interface CustomerOptionGroupRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param string $code
+     *
      * @return CustomerOptionGroupInterface
+     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findOneByCode(string $code): CustomerOptionGroupInterface;

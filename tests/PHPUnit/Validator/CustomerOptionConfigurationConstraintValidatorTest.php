@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\Validator;
@@ -75,14 +76,13 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
 
     public function dataWithValidKeysAndInvalidOrder(): array
     {
-        $dateTime      = new DateTime('now');
-        $dateTimeLater = clone($dateTime);
+        $dateTime = new DateTime('now');
+        $dateTimeLater = clone $dateTime;
         $dateTimeLater->add(new DateInterval('P10D')); // 10 days later
         return
             [
-                'int'      => [0, 23],
-                'datetime' => [$dateTime, $dateTimeLater]
+                'int' => [0, 23],
+                'datetime' => [$dateTime, $dateTimeLater],
             ];
     }
-
 }

@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Fixture;
-
 
 use Brille24\CustomerOptionsPlugin\Fixture\CustomerOptionGroupFixture;
 use Brille24\CustomerOptionsPlugin\Fixture\Factory\CustomerOptionGroupFactory;
@@ -16,102 +16,107 @@ class CustomerOptionGroupFixtureTest extends TestCase
     /**
      * @test
      */
-    public function customer_option_groups_are_optional(){
+    public function customer_option_groups_are_optional()
+    {
         $this->assertConfigurationIsValid([[]], 'custom');
     }
 
     /**
      * @test
      */
-    public function can_be_randomly_generated(){
+    public function can_be_randomly_generated()
+    {
         $this->assertConfigurationIsValid([['amount' => 4]], 'amount');
     }
 
     /**
      * @test
      */
-    public function code_is_required(){
+    public function code_is_required()
+    {
         $this->assertConfigurationIsValid([[
             'custom' => [[
-                'code' => 'group'
-            ]]
+                'code' => 'group',
+            ]],
         ]], 'custom.*.code');
 
         $this->assertPartialConfigurationIsInvalid([[
             'custom' => [[
-
-            ]]
+            ]],
         ]], 'custom.*.code');
     }
 
     /**
      * @test
      */
-    public function needs_at_least_one_translation(){
+    public function needs_at_least_one_translation()
+    {
         $this->assertConfigurationIsValid([[
             'custom' => [[
                 'translations' => [
-                    'en_US' => 'Group'
-                ]
-            ]]
+                    'en_US' => 'Group',
+                ],
+            ]],
         ]], 'custom.*.translations.*');
 
         $this->assertPartialConfigurationIsInvalid([[
             'custom' => [[
-                'translations' => []
-            ]]
+                'translations' => [],
+            ]],
         ]], 'custom.*.translations.*');
 
         $this->assertPartialConfigurationIsInvalid([[
-            'custom' => [[]]
+            'custom' => [[]],
         ]], 'custom.*.translations');
     }
 
     /**
      * @test
      */
-    public function options_are_optional(){
+    public function options_are_optional()
+    {
         $this->assertConfigurationIsValid([[
             'custom' => [[
                 'options' => [
                     'option_1',
-                    'option_2'
-                ]
-            ]]
+                    'option_2',
+                ],
+            ]],
         ]], 'custom.*.options');
 
         $this->assertConfigurationIsValid([[
             'custom' => [[
-                'options' => []
-            ]]
+                'options' => [],
+            ]],
         ]], 'custom.*.options');
 
         $this->assertConfigurationIsValid([[
-            'custom' => [[]]
+            'custom' => [[]],
         ]], 'custom.*.options');
     }
 
     /**
      * @test
      */
-    public function products_are_optional(){
+    public function products_are_optional()
+    {
         $this->assertConfigurationIsValid([[
             'custom' => [[
                 'products' => [
                     'prod_1',
-                    'prod_2'
-                ]
-            ]]
+                    'prod_2',
+                ],
+            ]],
         ]], 'custom.*.products');
 
         $this->assertConfigurationIsValid([[
             'custom' => [[
-                'products' => []
-            ]]
+                'products' => [],
+            ]],
         ]], 'custom.*.products');
 
         $this->assertConfigurationIsValid([[
-            'custom' => [[]]
+            'custom' => [[]],
         ]], 'custom.*.products');
     }
 

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\{
-    CustomerOptionInterface, CustomerOptionValueInterface, CustomerOptionValuePrice, CustomerOptionValuePriceInterface
-};
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 
 class OrderItemOption implements OrderItemOptionInterface
@@ -112,6 +113,7 @@ class OrderItemOption implements OrderItemOptionInterface
     {
         return $this->customerOptionName;
     }
+
     //</editor-fold>
 
     //<editor-fold desc="CustomerOptionValue">
@@ -147,13 +149,14 @@ class OrderItemOption implements OrderItemOptionInterface
     {
         return $this->optionValue;
     }
+
     //</editor-fold>
 
     /** {@inheritdoc} */
     public function setPrice(CustomerOptionValuePriceInterface $price): void
     {
-        $this->fixedPrice  = $price->getAmount();
-        $this->percent     = $price->getPercent();
+        $this->fixedPrice = $price->getAmount();
+        $this->percent = $price->getPercent();
         $this->pricingType = $price->getType();
     }
 

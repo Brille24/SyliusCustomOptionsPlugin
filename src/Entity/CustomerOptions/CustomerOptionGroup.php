@@ -108,7 +108,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
         $this->products = new ArrayCollection($products);
 
         /** @var ProductInterface $product */
-        foreach ($products as $product){
+        foreach ($products as $product) {
             $product->setCustomerOptionGroup($this);
         }
     }
