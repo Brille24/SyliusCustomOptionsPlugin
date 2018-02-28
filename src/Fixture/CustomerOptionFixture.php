@@ -57,7 +57,7 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
                 ->integerNode('amount')
                     ->min(0)
                 ->end()
-                ->arrayNode('customer_options')
+                ->arrayNode('custom')
                     ->requiresAtLeastOneElement()
                     ->arrayPrototype()
                         ->children()

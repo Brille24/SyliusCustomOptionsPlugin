@@ -17,7 +17,7 @@ class CustomerOptionGroupFixtureTest extends TestCase
      * @test
      */
     public function customer_option_groups_are_optional(){
-        $this->assertConfigurationIsValid([[]], 'customer_option_groups');
+        $this->assertConfigurationIsValid([[]], 'custom');
     }
 
     /**
@@ -32,16 +32,16 @@ class CustomerOptionGroupFixtureTest extends TestCase
      */
     public function code_is_required(){
         $this->assertConfigurationIsValid([[
-            'customer_option_groups' => [[
+            'custom' => [[
                 'code' => 'group'
             ]]
-        ]], 'customer_option_groups.*.code');
+        ]], 'custom.*.code');
 
         $this->assertPartialConfigurationIsInvalid([[
-            'customer_option_groups' => [[
+            'custom' => [[
 
             ]]
-        ]], 'customer_option_groups.*.code');
+        ]], 'custom.*.code');
     }
 
     /**
@@ -49,22 +49,22 @@ class CustomerOptionGroupFixtureTest extends TestCase
      */
     public function needs_at_least_one_translation(){
         $this->assertConfigurationIsValid([[
-            'customer_option_groups' => [[
+            'custom' => [[
                 'translations' => [
                     'en_US' => 'Group'
                 ]
             ]]
-        ]], 'customer_option_groups.*.translations.*');
+        ]], 'custom.*.translations.*');
 
         $this->assertPartialConfigurationIsInvalid([[
-            'customer_option_groups' => [[
+            'custom' => [[
                 'translations' => []
             ]]
-        ]], 'customer_option_groups.*.translations.*');
+        ]], 'custom.*.translations.*');
 
         $this->assertPartialConfigurationIsInvalid([[
-            'customer_option_groups' => [[]]
-        ]], 'customer_option_groups.*.translations');
+            'custom' => [[]]
+        ]], 'custom.*.translations');
     }
 
     /**
@@ -72,23 +72,23 @@ class CustomerOptionGroupFixtureTest extends TestCase
      */
     public function options_are_optional(){
         $this->assertConfigurationIsValid([[
-            'customer_option_groups' => [[
+            'custom' => [[
                 'options' => [
                     'option_1',
                     'option_2'
                 ]
             ]]
-        ]], 'customer_option_groups.*.options');
+        ]], 'custom.*.options');
 
         $this->assertConfigurationIsValid([[
-            'customer_option_groups' => [[
+            'custom' => [[
                 'options' => []
             ]]
-        ]], 'customer_option_groups.*.options');
+        ]], 'custom.*.options');
 
         $this->assertConfigurationIsValid([[
-            'customer_option_groups' => [[]]
-        ]], 'customer_option_groups.*.options');
+            'custom' => [[]]
+        ]], 'custom.*.options');
     }
 
     /**
@@ -96,23 +96,23 @@ class CustomerOptionGroupFixtureTest extends TestCase
      */
     public function products_are_optional(){
         $this->assertConfigurationIsValid([[
-            'customer_option_groups' => [[
+            'custom' => [[
                 'products' => [
                     'prod_1',
                     'prod_2'
                 ]
             ]]
-        ]], 'customer_option_groups.*.products');
+        ]], 'custom.*.products');
 
         $this->assertConfigurationIsValid([[
-            'customer_option_groups' => [[
+            'custom' => [[
                 'products' => []
             ]]
-        ]], 'customer_option_groups.*.products');
+        ]], 'custom.*.products');
 
         $this->assertConfigurationIsValid([[
-            'customer_option_groups' => [[]]
-        ]], 'customer_option_groups.*.products');
+            'custom' => [[]]
+        ]], 'custom.*.products');
     }
 
     /**

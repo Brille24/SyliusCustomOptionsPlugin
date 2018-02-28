@@ -51,7 +51,7 @@ class CustomerOptionGroupFixture extends AbstractFixture
                 ->integerNode('amount')
                     ->min(0)
                 ->end()
-                ->arrayNode('customer_option_groups')
+                ->arrayNode('custom')
                     ->requiresAtLeastOneElement()
                     ->arrayPrototype()
                         ->children()
