@@ -28,6 +28,7 @@
         >
             <cascade>
                 <cascade-persist/>
+                <cascade-remove/>
             </cascade>
             <order-by>
                 <order-by-field name="position" direction="ASC" />
