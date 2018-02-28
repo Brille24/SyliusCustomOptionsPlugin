@@ -17,10 +17,10 @@ use Brille24\CustomerOptionsPlugin\Entity\Product;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
+use Sylius\Bundle\MoneyBundle\Form\Type\MoneyType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -49,16 +49,18 @@ final class CustomerOptionValuePriceType extends AbstractType
             ])
             ->add('channel', ChannelChoiceType::class, [
             ])
-            ->add('percent', NumberType::class, [
+            ->add('percent', PercentType::class, [
                 'empty_data' => 0,
+                'scale' => 5
             ])
-            ->add('amount', IntegerType::class, [
+            ->add('amount', MoneyType::class, [
                 'empty_data' => 0,
+                'currency' => 'USD'
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => CustomerOptionValuePrice::getAllTypes(),
                 'choice_label' => function ($option) {
-                    return $option;
+                    return 'brille24.ui.pricing.'.strtolower($option);
                 },
             ])
         ;

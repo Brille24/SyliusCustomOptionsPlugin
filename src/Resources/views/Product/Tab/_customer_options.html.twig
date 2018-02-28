@@ -1,6 +1,10 @@
 <div class="ui tab" data-tab="customer_options">
     {{ form_row(form.customerOptionGroup) }}
 
-    {{ form_row(form.customerOptionValuePrices) }}
-    {{ form_errors(form.customerOptionValuePrices) }}
+    <div class="ui segment">
+        <h3>{{ 'brille24.ui.pricing.prices_in_channels_basecurrency'|trans }}</h3>
+
+        {{ form_widget(form.customerOptionValuePrices) }}
+        {{ form_errors(form.customerOptionValuePrices) }}
+    </div>
 </div>
