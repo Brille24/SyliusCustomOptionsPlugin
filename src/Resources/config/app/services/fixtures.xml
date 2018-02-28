@@ -5,7 +5,6 @@
                 id="brille24.fixture.customer_option"
         >
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_value" />
             <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_group" />
             <argument type="service" id="sylius.repository.channel" />
             <tag name="sylius_fixtures.fixture" />

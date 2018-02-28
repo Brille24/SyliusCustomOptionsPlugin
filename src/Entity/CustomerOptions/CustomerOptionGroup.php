@@ -106,6 +106,11 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
             function ($value) { return $value instanceof ProductInterface; });
 
         $this->products = new ArrayCollection($products);
+
+        /** @var ProductInterface $product */
+        foreach ($products as $product){
+            $product->setCustomerOptionGroup($this);
+        }
     }
 
     /**

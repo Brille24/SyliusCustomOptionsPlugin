@@ -4,60 +4,62 @@ sylius_fixtures:
             fixtures:
                 brille24_customer_option:
                     options:
-                        customer_options:
-                            -   code: some_option
-                                translations:
-                                    en_US: Some Option
-                                type: select
-                                values:
-                                    -   code: val_1
-                                        translations:
-                                            en_US: Value 1
-                                        prices:
-                                            - type: fixed
-                                              amount: 100
-                                              percent: 0
-                                              channel: default
-
-                                    -   code: val_2
-                                        translations:
-                                            en_US: Value 2
-                                        prices:
-                                            - type: percent
-                                              amount: 0
-                                              percent: 20
-                                              channel: default
-                                required: false
-                                groups: ~
-
-                            -   code: another_option
-                                translations:
-                                    en_US: Another Option
-                                type: boolean
-                                values: ~
-                                required: false
-                                groups: ~
+                        amount: 10
+#                        customer_options:
+#                            -   code: some_option
+#                                translations:
+#                                    en_US: Some Option
+#                                type: select
+#                                values:
+#                                    -   code: val_1
+#                                        translations:
+#                                            en_US: Value 1
+#                                        prices:
+#                                            - type: fixed
+#                                              amount: 100
+#                                              percent: 0
+#                                              channel: default
+#
+#                                    -   code: val_2
+#                                        translations:
+#                                            en_US: Value 2
+#                                        prices:
+#                                            - type: percent
+#                                              amount: 0
+#                                              percent: 20
+#                                              channel: default
+#                                required: false
+#                                groups: ~
+#
+#                            -   code: another_option
+#                                translations:
+#                                    en_US: Another Option
+#                                type: boolean
+#                                values: ~
+#                                required: false
+#                                groups: ~
 
                 brille24_customer_option_group:
                     options:
-                        customer_option_groups:
-                            -   code: some_group
-                                translations:
-                                    en_US: Some Group
-                                options:
-                                    - some_option
-                                products: ~
+                        amount: 5
+#                        customer_option_groups:
+#                            -   code: some_group
+#                                translations:
+#                                    en_US: Some Group
+#                                options:
+#                                    - some_option
+#                                products: ~
 
-                product:
-                    options:
-                        custom:
-                            -   name: Some Product
-                                code: some_product
-
-                                customer_option_group: some_group
-                                customer_option_value_prices:
-                                    -   value_code: val_1
-                                        type: fixed
-                                        amount: 200
-                                        percent: 0
-                                        channel: US_WEB
+#                product:
+#                    options:
+#                        custom:
+#                            -   name: Some Product
+#                                code: some_product
+#
+#                                customer_option_group: some_group
+#                                customer_option_value_prices:
+#                                    -   value_code: val_1
+#                                        type: fixed
+#                                        amount: 200
+#                                        percent: 0
+#                                        channel: US_WEB
