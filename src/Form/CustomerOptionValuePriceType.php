@@ -47,7 +47,7 @@ final class CustomerOptionValuePriceType extends AbstractType
             ->add('type', ChoiceType::class, [
                 'choices' => CustomerOptionValuePrice::getAllTypes(),
                 'choice_label' => function ($option) {
-                    return $option;
+                    return 'brille24.ui.pricing.'.strtolower($option);
                 },
             ])
         ;

@@ -17,6 +17,8 @@ brille24:
         product_customization: Produkt Anpassung
         pricing:
             prices_in_channels_basecurrency: Alle Preise sind in der Basiswährung angegeben
+            fixed_amount: Feste Menge
+            percent: Prozent
     form:
         customer_options:
             subheader: Verwalten der Kunden Optionen

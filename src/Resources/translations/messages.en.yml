@@ -17,6 +17,8 @@ brille24:
         product_customization: Product customization
         pricing:
             prices_in_channels_basecurrency: All prices are given in the channels base currency
+            fixed_amount: Fixed amount
+            percent: Percent
     form:
         customer_options:
             subheader: Manage your Customer Options
