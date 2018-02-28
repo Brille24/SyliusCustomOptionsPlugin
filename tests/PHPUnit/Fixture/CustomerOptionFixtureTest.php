@@ -172,6 +172,58 @@ class CustomerOptionFixtureTest extends TestCase
     /**
      * @test
      */
+    public function value_prices_type_is_optional(){
+        $this->assertConfigurationIsValid([[
+            'custom' => [[
+                'values' => [[
+                    'prices' => [[]]
+                ]]
+            ]]
+        ]], 'custom.*.values.*.prices.*.type');
+    }
+
+    /**
+     * @test
+     */
+    public function value_prices_amount_is_optional(){
+        $this->assertConfigurationIsValid([[
+            'custom' => [[
+                'values' => [[
+                    'prices' => [[]]
+                ]]
+            ]]
+        ]], 'custom.*.values.*.prices.*.amount');
+    }
+
+    /**
+     * @test
+     */
+    public function value_prices_percent_is_optional(){
+        $this->assertConfigurationIsValid([[
+            'custom' => [[
+                'values' => [[
+                    'prices' => [[]]
+                ]]
+            ]]
+        ]], 'custom.*.values.*.prices.*.percent');
+    }
+
+    /**
+     * @test
+     */
+    public function value_prices_channel_is_optional(){
+        $this->assertConfigurationIsValid([[
+            'custom' => [[
+                'values' => [[
+                    'prices' => [[]]
+                ]]
+            ]]
+        ]], 'custom.*.values.*.prices.*.channel');
+    }
+
+    /**
+     * @test
+     */
     public function customer_option_groups_are_optional(){
         $this->assertConfigurationIsValid([[
             'custom' => [[

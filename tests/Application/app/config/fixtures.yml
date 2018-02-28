@@ -5,7 +5,7 @@ sylius_fixtures:
                 brille24_customer_option:
                     options:
                         amount: 10
-#                        customer_options:
+#                        custom:
 #                            -   code: some_option
 #                                translations:
 #                                    en_US: Some Option
@@ -42,7 +42,7 @@ sylius_fixtures:
                 brille24_customer_option_group:
                     options:
                         amount: 5
-#                        customer_option_groups:
+#                        custom:
 #                            -   code: some_group
 #                                translations:
 #                                    en_US: Some Group
