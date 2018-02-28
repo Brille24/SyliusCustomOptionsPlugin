@@ -11,10 +11,10 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Form;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Sylius\Bundle\MoneyBundle\Form\Type\MoneyType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -37,10 +37,10 @@ final class CustomerOptionValuePriceType extends AbstractType
                 ],
                 'disabled' => true,
             ])
-            ->add('percent', NumberType::class, [
+            ->add('percent', PercentType::class, [
                 'empty_data' => 0,
             ])
-            ->add('amount', IntegerType::class, [
+            ->add('amount', MoneyType::class, [
                 'empty_data' => 0,
             ])
             ->add('type', ChoiceType::class, [

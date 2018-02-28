@@ -38,7 +38,7 @@
                         {{ form_row(price.customerOptionValueName) }}
                         <div class="ui field">
                             {{ form_row(price.percent) }}
-                            {{ form_row(price.amount) }}
+                            {{ form_row(price.amount, {'currency': channel.baseCurrency|default('USD')}) }}
                             {{ form_row(price.type) }}
                         </div>
                     </div>
