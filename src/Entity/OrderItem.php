@@ -82,10 +82,12 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
 
         /** @var OrderItemOptionInterface $value */
         foreach ($this->configuration as $value) {
-            if ($value->getPricingType() === CustomerOptionValuePrice::TYPE_PERCENT) {
-                $result += $basePrice * $value->getPercent() / 100;
-            } else {
-                $result += $value->getFixedPrice() * $quantity;
+            if($value->getCustomerOptionValue() !== null) {
+                if ($value->getPricingType() === CustomerOptionValuePrice::TYPE_PERCENT) {
+                    $result += $basePrice * $value->getPercent() / 100;
+                } else {
+                    $result += $value->getFixedPrice() * $quantity;
+                }
             }
         }
 
