@@ -97,15 +97,20 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     }
 
     /**
-     * @param array $customerOptions
+     * @param array $products
      */
-    public function setProducts(array $customerOptions): void
+    public function setProducts(array $products): void
     {
-        $customerOptions = array_filter(
-            $customerOptions,
+        $products = array_filter(
+            $products,
             function ($value) { return $value instanceof ProductInterface; });
 
-        $this->products = new ArrayCollection($customerOptions);
+        $this->products = new ArrayCollection($products);
+
+        /** @var ProductInterface $product */
+        foreach ($products as $product){
+            $product->setCustomerOptionGroup($this);
+        }
     }
 
     /**

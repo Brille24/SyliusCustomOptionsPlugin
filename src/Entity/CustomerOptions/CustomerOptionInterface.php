@@ -108,4 +108,8 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
      * @return CustomerOptionAssociationInterface[]
      */
     public function getGroupAssociations(): ArrayCollection;
+
+    public function addGroupAssociation(CustomerOptionAssociationInterface $assoc): void;
+
+    public function removeGroupAssociation(CustomerOptionAssociationInterface $assoc): void;
 }

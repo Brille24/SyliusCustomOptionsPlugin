@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: jtolkemit
@@ -8,7 +10,6 @@
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Validator\Constraints;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Doctrine\Common\Collections\Collection;

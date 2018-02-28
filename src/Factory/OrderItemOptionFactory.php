@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Factory;
@@ -9,7 +10,6 @@ use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\CustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
-use Doctrine\ORM\EntityNotFoundException;
 use Exception;
 use Sylius\Component\Core\Model\ChannelInterface;
 
@@ -35,9 +35,9 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionValueResolverInterface $valueResolver
     ) {
-        $this->channel                  = $channel;
+        $this->channel = $channel;
         $this->customerOptionRepository = $customerOptionRepository;
-        $this->valueResolver            = $valueResolver;
+        $this->valueResolver = $valueResolver;
     }
 
     /** {@inheritdoc} */
@@ -51,7 +51,6 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface
         string $customerOptionCode,
         string $customerOptionValue
     ): OrderItemOptionInterface {
-
         $customerOption = $this->customerOptionRepository->findOneByCode($customerOptionCode);
         if ($customerOption === null) {
             throw new Exception('Could not find customer option with code');

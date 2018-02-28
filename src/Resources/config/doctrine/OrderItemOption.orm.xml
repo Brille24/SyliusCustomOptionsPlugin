@@ -11,14 +11,20 @@
         <field name="customerOptionName"/>
 
         <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
-                     field="customerOption" optional="true"/>
+                     field="customerOption" optional="true"
+        >
+            <join-column on-delete="SET NULL" nullable="true"/>
+        </many-to-one>
 
         <field name="customerOptionValueCode" nullable="true"/>
         <field name="customerOptionValueName" nullable="true"/>
         <field name="optionValue" nullable="true"/>
 
         <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
-                     field="customerOptionValue" optional="true"/>
+                     field="customerOptionValue" optional="true"
+        >
+            <join-column on-delete="SET NULL" nullable="true"/>
+        </many-to-one>
 
         <field name="fixedPrice" type="integer"/>
         <field name="percent" type="float" />

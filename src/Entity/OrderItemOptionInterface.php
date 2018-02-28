@@ -105,7 +105,5 @@ interface OrderItemOptionInterface
      */
     public function getScalarValue();
 
-    /** {@inheritdoc} */
     public function equals(self $orderItemOption): bool;
-
 }

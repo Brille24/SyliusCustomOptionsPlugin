@@ -203,6 +203,18 @@ class CustomerOption implements CustomerOptionInterface
         $assoc->setOption($this);
     }
 
+    public function addGroupAssociation(CustomerOptionAssociationInterface $assoc): void
+    {
+        $this->groupAssociations->add($assoc);
+        $assoc->setOption($this);
+    }
+
+    public function removeGroupAssociation(CustomerOptionAssociationInterface $assoc): void
+    {
+        $this->groupAssociations->removeElement($assoc);
+        $assoc->setOption(null);
+    }
+
     public function setName(?string $name): void
     {
         $this->getTranslation()->setName($name);
