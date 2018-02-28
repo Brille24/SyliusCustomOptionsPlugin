@@ -26,9 +26,8 @@ imports:
 
 * Add the `routing.yml` to your local `app/config/routing.yml`:
 ```yaml
-imports:
-    ...
-    - { resource: "@Brille24CustomerOptionsPlugin/Resources/config/app/routing.yml" }
+brille24_customer_options:
+    resource: "@Brille24CustomerOptionsPlugin/Resources/config/app/routing.yml"
 ```
 
 * Finally update the database and update the translations:
