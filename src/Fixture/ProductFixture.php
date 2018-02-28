@@ -29,6 +29,7 @@ class ProductFixture extends BaseProductFixture
                     ->arrayPrototype()
                         ->children()
                             ->scalarNode('value_code')
+                                ->isRequired()
                                 ->cannotBeEmpty()
                             ->end()
                             ->scalarNode('type')
