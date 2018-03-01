@@ -16,7 +16,6 @@ use Sylius\Component\Product\Generator\ProductVariantGeneratorInterface;
 use Sylius\Component\Product\Generator\SlugGeneratorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductFactory extends BaseFactory
@@ -44,8 +43,7 @@ class ProductFactory extends BaseFactory
         RepositoryInterface $localeRepository,
         RepositoryInterface $customerOptionGroupRepository,
         RepositoryInterface $customerOptionValueRepository
-    )
-    {
+    ) {
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;
         $this->customerOptionValueRepository = $customerOptionValueRepository;
         $this->channelRepository = $channelRepository;
@@ -90,7 +88,9 @@ class ProductFactory extends BaseFactory
 
     /**
      * @param array $options
+     *
      * @return ProductInterface
+     *
      * @throws \Exception
      */
     public function create(array $options = []): \Sylius\Component\Core\Model\ProductInterface
@@ -98,14 +98,14 @@ class ProductFactory extends BaseFactory
         /** @var ProductInterface $product */
         $product = parent::create($options);
 
-        if(isset($options['customer_option_group'])){
+        if (isset($options['customer_option_group'])) {
             $product->setCustomerOptionGroup(
                 $this->customerOptionGroupRepository->findOneBy(['code' => $options['customer_option_group']])
             );
 
             $prices = new ArrayCollection();
 
-            foreach ($options['customer_option_value_prices'] as $valuePriceConfig){
+            foreach ($options['customer_option_value_prices'] as $valuePriceConfig) {
                 $valuePrice = new CustomerOptionValuePrice();
                 $valuePrice->setCustomerOptionValue(
                     $this->customerOptionValueRepository->findOneBy(['code' => $valuePriceConfig['value_code']])
@@ -125,7 +125,7 @@ class ProductFactory extends BaseFactory
                 /** @var ChannelInterface $channel */
                 $channel = $this->channelRepository->findOneBy(['code' => $valuePriceConfig['channel']]);
 
-                if($channel === null){
+                if ($channel === null) {
                     $channels = new ArrayCollection($this->channelRepository->findAll());
                     $channel = $channels->first();
                 }

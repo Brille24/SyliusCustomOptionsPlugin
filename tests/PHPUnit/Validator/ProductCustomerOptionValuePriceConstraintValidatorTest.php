@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\Validator;
@@ -67,8 +68,8 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
 
         return $price;
     }
-    //</editor-fold>
 
+    //</editor-fold>
 
     /** @dataProvider dataInvalidData */
     public function testInvalidData($value, string $message): void
@@ -85,14 +86,14 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
         return
             [
                 'not a collection' => [12, 'Value is not a Collection.'],
-                'invalid entry'    => [
+                'invalid entry' => [
                     new ArrayCollection([12]),
-                    'Collection does not contain CustomerOptionValuePrices.'
-                ]
+                    'Collection does not contain CustomerOptionValuePrices.',
+                ],
             ];
     }
 
-    public function testEmptyCollection():void
+    public function testEmptyCollection(): void
     {
         $constraint = self::createMock(Constraint::class);
         $this->productCustomerOptionPriceValidator->validate(new ArrayCollection(), $constraint);
@@ -100,7 +101,7 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
         self::assertEquals(0, count($this->violations));
     }
 
-    public function testWithPricesInDifferentChannels():void
+    public function testWithPricesInDifferentChannels(): void
     {
         $prices =
             [
@@ -116,7 +117,7 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
         self::assertEquals(0, count($this->violations));
     }
 
-    public function testWithPricesInSameChannel():void
+    public function testWithPricesInSameChannel(): void
     {
         $prices =
             [

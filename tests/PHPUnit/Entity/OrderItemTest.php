@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Entity;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\CustomerOptionsPlugin\Entity\{
-    OrderItem, OrderItemInterface, OrderItemOptionInterface
-};
+use Brille24\CustomerOptionsPlugin\Entity\OrderItem;
+use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
+use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
@@ -36,13 +37,16 @@ class OrderItemTest extends TestCase
         switch ($type) {
             case CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT:
                 $orderItemOption->method('getFixedPrice')->willReturn($amount);
+
                 break;
             case CustomerOptionValuePriceInterface::TYPE_PERCENT:
                 $orderItemOption->method('getPercent')->willReturn($amount);
+
                 break;
             default:
                 throw new Exception();
         }
+
         return $orderItemOption;
     }
 
@@ -59,12 +63,12 @@ class OrderItemTest extends TestCase
     {
         $this->orderItem->setUnitPrice(10);
 
-        for ($i = 0; $i < $amount; $i++) {
+        for ($i = 0; $i < $amount; ++$i) {
             $this->orderItem->addUnit($this->createOrderItemUnit($this->orderItem));
         }
 
         $configuration = [
-            $this->createCustomerOptionConfiguration(CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT, 100)
+            $this->createCustomerOptionConfiguration(CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT, 100),
         ];
 
         $this->orderItem->setCustomerOptionConfiguration($configuration);
@@ -76,8 +80,8 @@ class OrderItemTest extends TestCase
     {
         return
             [
-                'one item'  => [1, 110],
-                'two items' => [2, 220]
+                'one item' => [1, 110],
+                'two items' => [2, 220],
             ];
     }
 

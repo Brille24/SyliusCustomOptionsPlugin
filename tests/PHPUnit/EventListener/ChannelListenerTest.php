@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\EventListener;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\{
-    CustomerOption, CustomerOptionValue, CustomerOptionValueInterface
-};
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\EventListener\ChannelListener;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,7 +34,7 @@ class ChannelListenerTest extends TestCase
     {
         $entityManger = self::createMock(EntityManagerInterface::class);
         $entityManger->method('persist')->willReturnCallback(function ($entity) {
-            $this->persistCount++;
+            ++$this->persistCount;
         });
 
         $customerOptionValueRepository = self::createMock(EntityRepository::class);
@@ -44,6 +45,7 @@ class ChannelListenerTest extends TestCase
         $entityManger->method('getRepository')->willReturnCallback(
             function (string $entityClass) use ($customerOptionValueRepository) {
                 self::assertEquals(CustomerOptionValue::class, $entityClass);
+
                 return $customerOptionValueRepository;
             });
 
@@ -57,7 +59,7 @@ class ChannelListenerTest extends TestCase
     private function createValue(): CustomerOptionValueInterface
     {
         $prices = new ArrayCollection();
-        $value  = self::createMock(CustomerOptionValueInterface::class);
+        $value = self::createMock(CustomerOptionValueInterface::class);
         $value->method('getPrices')->willReturnCallback(function () use ($prices) {
             return $prices;
         });
@@ -67,6 +69,7 @@ class ChannelListenerTest extends TestCase
 
         return $value;
     }
+
     //</editor-fold>
 
     /** @dataProvider dataPrePersistWithWrongEntity */
@@ -82,8 +85,8 @@ class ChannelListenerTest extends TestCase
     public function dataPrePersistWithWrongEntity(): array
     {
         return [
-            'non entity'   => ['hello'],
-            'wrong entity' => [new CustomerOption()]
+            'non entity' => ['hello'],
+            'wrong entity' => [new CustomerOption()],
         ];
     }
 
@@ -100,7 +103,7 @@ class ChannelListenerTest extends TestCase
     {
         $this->customerOptionValue = [$this->createValue()];
 
-        $channel    = new Channel();
+        $channel = new Channel();
         $arguments = $this->createArguments($channel);
 
         $this->channelCreateListener->prePersist($arguments);
@@ -118,7 +121,7 @@ class ChannelListenerTest extends TestCase
         $this->channelCreateListener->prePersist($arguments);
 
         self::assertEquals(2, $this->persistCount);
-        foreach($this->customerOptionValue as $customerOptionValue){
+        foreach ($this->customerOptionValue as $customerOptionValue) {
             self::assertEquals(1, count($customerOptionValue->getPrices()));
         }
     }

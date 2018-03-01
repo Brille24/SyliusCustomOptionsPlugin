@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Test\Brille24\CustomerOptionsPlugin\EventListener;
@@ -8,15 +9,14 @@ use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemOption;
 use Brille24\CustomerOptionsPlugin\EventListener\AddToCartListener;
 use Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
-use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Symfony\Component\HttpFoundation\{
-    ParameterBag, Request, RequestStack
-};
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class AddToCartListenerTest extends TestCase
 {
@@ -58,8 +58,8 @@ class AddToCartListenerTest extends TestCase
         });
 
         $orderItemOptionFactory = self::createMock(OrderItemOptionFactoryInterface::class);
-        $orderItemOptionFactory->method('createNewFromStrings')->willReturnCallback(function ($customerOptionCode, $value){
-            if(!array_key_exists($customerOptionCode, $this->customerOptions)){
+        $orderItemOptionFactory->method('createNewFromStrings')->willReturnCallback(function ($customerOptionCode, $value) {
+            if (!array_key_exists($customerOptionCode, $this->customerOptions)) {
                 throw new \Exception('Not found');
             }
 
@@ -93,64 +93,65 @@ class AddToCartListenerTest extends TestCase
         $request->request = self::createMock(ParameterBag::class);
         $request->request->method('get')->willReturnCallback(function ($key) use ($customerOptions) {
             self::assertEquals('sylius_add_to_cart', $key);
+
             return $customerOptions;
         });
 
         return $request;
     }
+
     //</editor-fold>
 
     public function testWithIncreasedProduct(): void
     {
-        # SETUP
+        // SETUP
         $event = $this->createEvent(false);
 
-        # EXECUTE
+        // EXECUTE
         $this->addToCartListener->addItemToCart($event);
 
-        # ASSERT
+        // ASSERT
         self::assertEquals(0, count($this->entitiesPersisted));
     }
 
     public function testWithEmptyCustomerOptions(): void
     {
-        # SETUP
-        $event         = $this->createEvent(true);
+        // SETUP
+        $event = $this->createEvent(true);
         $this->request = $this->createRequest([]);
 
-        # EXECUTE
+        // EXECUTE
         $this->addToCartListener->addItemToCart($event);
 
-        # ASSERT
+        // ASSERT
         self::assertEquals(1, count($this->entitiesPersisted));
     }
 
     public function testInvalidCustomerOptionCode(): void
     {
-        # SETUP
-        $event         = $this->createEvent(true);
+        // SETUP
+        $event = $this->createEvent(true);
         $this->request = $this->createRequest(['customerOptions' => ['customerOptionCode' => 'value']]);
 
         self::expectException(\Exception::class);
         self::expectExceptionMessage('Not found');
 
-        # EXECUTE
+        // EXECUTE
         $this->addToCartListener->addItemToCart($event);
     }
 
     public function testValidCustomerOptionCode(): void
     {
-        # SETUP
+        // SETUP
         $this->customerOptions['customerOptionCode'] = self::createMock(CustomerOptionInterface::class);
 
-        $event         = $this->createEvent(true);
+        $event = $this->createEvent(true);
         $this->request = $this->createRequest(['customerOptions' => ['customerOptionCode' => 'value']]);
 
-        # EXECUTE
+        // EXECUTE
         $this->addToCartListener->addItemToCart($event);
 
-        # ASSERT
+        // ASSERT
         self::assertEquals(2, count($this->entitiesPersisted));
     }
 }
-

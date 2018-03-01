@@ -104,7 +104,6 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     public function __toString(): string
     {
         if ($this->getType() === CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT) {
-
             return "\$ {$this->getAmount()}";
         }
 
