@@ -2,7 +2,7 @@
     <mapped-superclass name="Brille24\CustomerOptionsPlugin\Entity\Product" table="sylius_product">
 
         <one-to-many target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
-                     mapped-by="product" field="customerOptionValuePrices"
+                     mapped-by="product" field="customerOptionValuePrices" orphan-removal="true"
         >
             <cascade>
                 <cascade-persist/>
