@@ -63,10 +63,12 @@ final class CustomerOptionValuePriceType extends AbstractType
             ->add('percent', PercentType::class, [
                 'empty_data' => 0,
                 'scale'      => 5,
+                'required' => false
             ])
             ->add('amount', MoneyType::class, [
                 'empty_data' => 0,
                 'currency'   => 'USD',
+                'required' => false
             ])
             ->add('type', ChoiceType::class, [
                 'choices'      => CustomerOptionValuePrice::getAllTypes(),
