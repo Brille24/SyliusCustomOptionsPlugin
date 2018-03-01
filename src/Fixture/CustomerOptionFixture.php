@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Fixture;
 
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\CustomerOptionsPlugin\Fixture\Factory\CustomerOptionFactory;
+use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionFactory;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;

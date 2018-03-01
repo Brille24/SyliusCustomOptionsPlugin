@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Fixture\Factory;
+namespace Brille24\CustomerOptionsPlugin\Factory;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;

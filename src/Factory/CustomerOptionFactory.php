@@ -11,17 +11,18 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Fixture\Factory;
+namespace Brille24\CustomerOptionsPlugin\Factory;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\{
+    CustomerOption, CustomerOptionAssociation, CustomerOptionGroupInterface, CustomerOptionValue, CustomerOptionValuePrice
+};
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Faker\Factory;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
@@ -49,14 +50,14 @@ class CustomerOptionFactory
 
     public function __construct(
         EntityManagerInterface $em,
-        EntityRepository $customerOptionGroupRepository,
-        EntityRepository $channelRepository
+        CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
+        ChannelRepositoryInterface $channelRepository
     ) {
         $this->em = $em;
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;
         $this->channelRepository = $channelRepository;
 
-        $this->faker = \Faker\Factory::create();
+        $this->faker = Factory::create();
     }
 
     /**

@@ -11,15 +11,17 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Fixture\Factory;
+namespace Brille24\CustomerOptionsPlugin\Factory;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\{
+    CustomerOptionAssociation, CustomerOptionGroup, CustomerOptionInterface
+};
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Faker\Factory;
+use Sylius\Component\Core\Repository\ProductRepositoryInterface;
+use Throwable;
 
 class CustomerOptionGroupFactory
 {
@@ -29,7 +31,7 @@ class CustomerOptionGroupFactory
     /** @var CustomerOptionRepositoryInterface  */
     private $customerOptionRepository;
 
-    /** @var EntityRepository  */
+    /** @var ProductRepositoryInterface  */
     private $productRepository;
 
     /** @var \Faker\Generator */
@@ -38,13 +40,13 @@ class CustomerOptionGroupFactory
     public function __construct(
         EntityManagerInterface $em,
         CustomerOptionRepositoryInterface $customerOptionRepository,
-        EntityRepository $productRepository
+        ProductRepositoryInterface $productRepository
     ) {
         $this->em = $em;
         $this->customerOptionRepository = $customerOptionRepository;
         $this->productRepository = $productRepository;
 
-        $this->faker = \Faker\Factory::create();
+        $this->faker = Factory::create();
     }
 
     public function generateRandom(int $amount): void
@@ -81,7 +83,7 @@ class CustomerOptionGroupFactory
 
             try {
                 $this->create($options);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 dump($e->getMessage());
             }
         }

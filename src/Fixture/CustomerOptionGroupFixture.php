@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Fixture;
 
-use Brille24\CustomerOptionsPlugin\Fixture\Factory\CustomerOptionGroupFactory;
+use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionGroupFactory;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 

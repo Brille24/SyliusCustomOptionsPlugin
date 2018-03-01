@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Fixture;
 
-use Brille24\CustomerOptionsPlugin\Fixture\Factory\ProductFactory;
+use Brille24\CustomerOptionsPlugin\Factory\ProductFactory;
 use Brille24\CustomerOptionsPlugin\Fixture\ProductFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
