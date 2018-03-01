@@ -209,12 +209,9 @@ class CustomerOptionFactory
     {
         $names = [];
 
+        $this->faker->unique($reset=true);
         for ($i = 0; $i < $amount; ++$i) {
-            $name = $this->faker->word;
-            while (in_array($name, $names)) {
-                $name = $this->faker->word;
-            }
-            $names[] = $name;
+            $names[] = $this->faker->unique()->word;
         }
 
         return $names;

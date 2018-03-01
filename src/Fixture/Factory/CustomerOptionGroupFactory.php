@@ -17,6 +17,7 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociat
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
@@ -25,7 +26,7 @@ class CustomerOptionGroupFactory
     /** @var EntityManagerInterface  */
     private $em;
 
-    /** @var EntityRepository  */
+    /** @var CustomerOptionRepositoryInterface  */
     private $customerOptionRepository;
 
     /** @var EntityRepository  */
@@ -36,7 +37,7 @@ class CustomerOptionGroupFactory
 
     public function __construct(
         EntityManagerInterface $em,
-        EntityRepository $customerOptionRepository,
+        CustomerOptionRepositoryInterface $customerOptionRepository,
         EntityRepository $productRepository
     ) {
         $this->em = $em;
@@ -101,7 +102,7 @@ class CustomerOptionGroupFactory
 
         foreach ($options['options'] as $optionCode) {
             /** @var CustomerOptionInterface $option */
-            $option = $this->customerOptionRepository->findOneBy(['code' => $optionCode]);
+            $option = $this->customerOptionRepository->findOneByCode($optionCode);
 
             $optionAssoc = new CustomerOptionAssociation();
 
@@ -128,11 +129,7 @@ class CustomerOptionGroupFactory
         $names = [];
 
         for ($i = 0; $i < $amount; ++$i) {
-            $name = $this->faker->word;
-            while (in_array($name, $names)) {
-                $name = $this->faker->word;
-            }
-            $names[] = $name;
+            $names[] = $this->faker->unique()->word;
         }
 
         return $names;
