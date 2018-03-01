@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Entity;
 
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItem;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
@@ -34,6 +35,9 @@ class OrderItemTest extends TestCase
     {
         $orderItemOption = self::createMock(OrderItemOptionInterface::class);
         $orderItemOption->method('getPricingType')->willReturn($type);
+
+        $customerOptionValue = self::createMock(CustomerOptionValueInterface::class);
+        $orderItemOption->method('getCustomerOptionValue')->willReturn($customerOptionValue);
         switch ($type) {
             case CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT:
                 $orderItemOption->method('getFixedPrice')->willReturn($amount);
