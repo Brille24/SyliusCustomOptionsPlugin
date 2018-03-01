@@ -1,15 +1,27 @@
 <?php
 
-declare(strict_types=1);
 /**
- * Created by PhpStorm.
- * User: jtolkemit
- * Date: 07.02.18
- * Time: 15:55
+ * This file is part of the Brille24 customer options plugin.
+ *
+ * (c) Brille24 GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
+/**
+ * Class CustomerOptionAssociation
+ * This class is used as an association between the Customer Option Group and the customer option ordering them by
+ * their position
+ *
+ * @package Brille24\CustomerOptionsPlugin\Entity\CustomerOptions
+ * @see CustomerOption
+ * @see CustomerOptionGroup
+ */
 class CustomerOptionAssociation implements CustomerOptionAssociationInterface
 {
     /** @var int */
@@ -32,7 +44,7 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     /**
      * @return int|mixed
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }

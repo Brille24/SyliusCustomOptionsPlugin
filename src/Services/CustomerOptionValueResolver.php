@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Brille24 customer options plugin.
+ *
+ * (c) Brille24 GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Services;
@@ -8,6 +17,13 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterfac
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 
+/**
+ * Class CustomerOptionValueResolver
+ *
+ * This class is used to turn a value string of a Customer Option with Values into the value object
+ *
+ * @package Brille24\CustomerOptionsPlugin\Services
+ */
 final class CustomerOptionValueResolver implements CustomerOptionValueResolverInterface
 {
     /** {@inheritdoc} */
