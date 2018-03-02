@@ -17,7 +17,6 @@
         >
             <cascade>
                 <cascade-persist/>
-                <cascade-remove/>
             </cascade>
         </many-to-one>
 

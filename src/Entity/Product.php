@@ -55,6 +55,18 @@ class Product extends BaseProduct implements ProductInterface
         }
     }
 
+    public function addCustomerOptionValuePrice(CustomerOptionValuePriceInterface $price): void
+    {
+        $this->customerOptionValuePrices->add($price);
+        $price->setProduct($this);
+    }
+
+    public function removeCustomerOptionValuePrice(CustomerOptionValuePriceInterface $price): void
+    {
+        $this->customerOptionValuePrices->removeElement($price);
+        $price->setProduct(null);
+    }
+
     /**
      * {@inheritdoc}
      */
