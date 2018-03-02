@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Factory;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -119,9 +120,17 @@ class ProductFactory extends BaseFactory
 
             foreach ($options['customer_option_value_prices'] as $valuePriceConfig) {
                 $valuePrice = new CustomerOptionValuePrice();
-                $valuePrice->setCustomerOptionValue(
-                    $this->customerOptionValueRepository->findOneBy(['code' => $valuePriceConfig['value_code']])
-                );
+
+                /** @var CustomerOptionValueInterface $value */
+                $value = $this->customerOptionValueRepository->findOneBy(['code' => $valuePriceConfig['value_code']]);
+
+                if($value === null ||
+                    ($value !== null && !in_array($value->getCustomerOption(), $product->getCustomerOptionGroup()->getOptions())
+                    )){
+                    continue;
+                }
+
+                $valuePrice->setCustomerOptionValue($value);
 
                 if ($valuePriceConfig['type'] === 'fixed') {
                     $valuePrice->setType(CustomerOptionValuePrice::TYPE_FIXED_AMOUNT);

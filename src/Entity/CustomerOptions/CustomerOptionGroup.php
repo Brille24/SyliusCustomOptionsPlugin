@@ -125,8 +125,6 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     /**
      * Returns the first $count options of the group
      *
-     * @param int $count (default: 5)
-     *
      * @return array
      */
     public function getOptions(): array

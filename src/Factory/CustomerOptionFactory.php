@@ -79,48 +79,51 @@ class CustomerOptionFactory
         }
         $customerOption->setType($options['type']);
 
-        foreach ($options['values'] as $valueConfig) {
-            $value = new CustomerOptionValue();
-            $value->setCode($valueConfig['code']);
+        if(CustomerOptionTypeEnum::isSelect($options['type'])) {
 
-            foreach ($valueConfig['translations'] as $locale => $name) {
-                $value->setCurrentLocale($locale);
-                $value->setName($name);
-            }
+            foreach ($options['values'] as $valueConfig) {
+                $value = new CustomerOptionValue();
+                $value->setCode($valueConfig['code']);
 
-            $prices = new ArrayCollection();
-
-            foreach ($valueConfig['prices'] as $priceConfig) {
-                $price = new CustomerOptionValuePrice();
-
-                if ($priceConfig['type'] === 'fixed') {
-                    $price->setType(CustomerOptionValuePrice::TYPE_FIXED_AMOUNT);
-                } elseif ($priceConfig['type'] === 'percent') {
-                    $price->setType(CustomerOptionValuePrice::TYPE_PERCENT);
-                } else {
-                    throw new \Exception(sprintf("Value price type '%s' does not exist!", $priceConfig['type']));
+                foreach ($valueConfig['translations'] as $locale => $name) {
+                    $value->setCurrentLocale($locale);
+                    $value->setName($name);
                 }
 
-                $price->setAmount($priceConfig['amount']);
-                $price->setPercent($priceConfig['percent']);
-                $price->setCustomerOptionValue($value);
+                $prices = new ArrayCollection();
 
-                /** @var ChannelInterface $channel */
-                $channel = $this->channelRepository->findOneBy(['code' => $priceConfig['channel']]);
+                foreach ($valueConfig['prices'] as $priceConfig) {
+                    $price = new CustomerOptionValuePrice();
 
-                if ($channel === null) {
-                    $channels = new ArrayCollection($this->channelRepository->findAll());
-                    $channel = $channels->first() ? $channels->first() : null;
+                    if ($priceConfig['type'] === 'fixed') {
+                        $price->setType(CustomerOptionValuePrice::TYPE_FIXED_AMOUNT);
+                    } elseif ($priceConfig['type'] === 'percent') {
+                        $price->setType(CustomerOptionValuePrice::TYPE_PERCENT);
+                    } else {
+                        throw new \Exception(sprintf("Value price type '%s' does not exist!", $priceConfig['type']));
+                    }
+
+                    $price->setAmount($priceConfig['amount']);
+                    $price->setPercent($priceConfig['percent']);
+                    $price->setCustomerOptionValue($value);
+
+                    /** @var ChannelInterface $channel */
+                    $channel = $this->channelRepository->findOneBy(['code' => $priceConfig['channel']]);
+
+                    if ($channel === null) {
+                        $channels = new ArrayCollection($this->channelRepository->findAll());
+                        $channel = $channels->first() ? $channels->first() : null;
+                    }
+
+                    $price->setChannel($channel);
+
+                    $prices[] = $price;
                 }
 
-                $price->setChannel($channel);
+                $value->setPrices($prices);
 
-                $prices[] = $price;
+                $customerOption->addValue($value);
             }
-
-            $value->setPrices($prices);
-
-            $customerOption->addValue($value);
         }
 
         $customerOption->setRequired($options['required']);

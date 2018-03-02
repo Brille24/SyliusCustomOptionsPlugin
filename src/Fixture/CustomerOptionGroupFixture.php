@@ -32,7 +32,7 @@ class CustomerOptionGroupFixture extends AbstractFixture
             $this->factory->generateRandom($options['amount']);
         }
 
-        foreach ($options['customer_option_groups'] as $groupConfig) {
+        foreach ($options['custom'] as $groupConfig) {
             try {
                 $this->factory->create($groupConfig);
             } catch (\Throwable $e) {
