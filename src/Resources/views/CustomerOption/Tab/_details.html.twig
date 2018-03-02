@@ -7,14 +7,15 @@
         <h3 class="ui dividing header">{{ 'sylius.ui.details'|trans }}</h3>
         <div class="three fields">
             {{ form_row(form.code) }}
-            {{ form_row(form.type) }}
+            {{ form_row(form.type, {'attr': {'onChange': "form.submit()"}}) }}
             {{ form_row(form.required) }}
         </div>
         {{ translationForm(form.translations) }}
     </div>
 
     <div class="ui segment">
-        {% if form.configuration |length == 0 %}
+        {% set customerOptionType = form.type.vars.value %}
+        {% if customerOptionType == 'select' or customerOptionType == 'multi_select' %}
             {% include 'Brille24CustomerOptionsPlugin:CustomerOption:_values.html.twig' with {'form': form.values} only %}
         {% else %}
             {% include 'Brille24CustomerOptionsPlugin:CustomerOption:_configuration.html.twig' with {'form': form.configuration} only %}
