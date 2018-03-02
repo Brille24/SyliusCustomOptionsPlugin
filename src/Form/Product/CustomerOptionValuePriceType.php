@@ -26,11 +26,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Intl\Intl;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class CustomerOptionValuePriceType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /** @var ProductInterface $product */
@@ -55,20 +55,23 @@ final class CustomerOptionValuePriceType extends AbstractType
             ->add('channel', ChannelChoiceType::class, [
                 'choice_attr' => function (?ChannelInterface $channel) {
                     if ($channel !== null) {
-                        return ['data-attribute' => $channel->getBaseCurrency()->getCode()];
+                        $currency = $channel->getBaseCurrency()->getCode();
+                        $symbol   = Intl::getCurrencyBundle()->getCurrencySymbol($currency, 'en');
+                        return ['data-attribute' => $symbol];
                     }
                     return '';
                 },
+                'attr'        => ['onChange' => 'customerOptions.changeCustomerAmountCurrencyOnChannelChange(this);'],
             ])
             ->add('percent', PercentType::class, [
                 'empty_data' => 0,
                 'scale'      => 5,
-                'required' => false
+                'required'   => false,
             ])
             ->add('amount', MoneyType::class, [
                 'empty_data' => 0,
                 'currency'   => 'USD',
-                'required' => false
+                'required'   => false,
             ])
             ->add('type', ChoiceType::class, [
                 'choices'      => CustomerOptionValuePrice::getAllTypes(),

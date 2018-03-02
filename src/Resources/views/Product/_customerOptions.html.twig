@@ -1,10 +1,13 @@
 {% if configuration|length > 0 %}
+    {% from 'Brille24CustomerOptionsPlugin:all:_orderItem.html.twig' import renderPrice %}
+
     <h4>Customer Options</h4>
     <div class="ui list sylius-product-options">
-        {% for customerOption in configuration %}
-            <div class="item" data-sylius-option-name="{{ customerOption.customerOptionCode }}">
-                {{ customerOption.customerOptionName }}:
-                {{ customerOption.customerOptionValueName }}
+        {% for orderItemOption in configuration %}
+            <div class="item" data-sylius-option-name="{{ orderItemOption.customerOptionCode }}">
+                {{ orderItemOption.customerOptionName }}:
+                {{ orderItemOption.customerOptionValueName }}
+                {{ renderPrice(orderItemOption) }}
             </div>
         {% endfor %}
     </div>
