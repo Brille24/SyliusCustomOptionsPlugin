@@ -57,7 +57,7 @@ don't have to generate all the possible configurations beforehand.
 customer to enter text that will be displayed in the order. Currently those Customer Options can not be priced.
 
 The workflow of is that you provide a code and a type and save the Customer Option. Then the appropriate fields will be shown.
-in case 1 you will have the option to add values for the customer to choose from (which then can be priced in the pricing tab). 
+In case 1 you will have the option to add values for the customer to choose from (which then can be priced in the pricing tab). 
 In case 2 you can set some validation options for the entered value. Those are however not priced.
 
 After you have created all the Customer Options, you can arrange them in Customer Option Groups where every Customer Option gets ordered

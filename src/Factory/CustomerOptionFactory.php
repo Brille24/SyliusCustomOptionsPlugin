@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Factory;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\{
-    CustomerOption, CustomerOptionAssociation, CustomerOptionGroupInterface, CustomerOptionValue, CustomerOptionValuePrice
+    CustomerOption, CustomerOptionAssociation, CustomerOptionGroupInterface, CustomerOptionInterface, CustomerOptionValue, CustomerOptionValuePrice
 };
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
@@ -60,14 +60,34 @@ class CustomerOptionFactory
         $this->faker = Factory::create();
     }
 
+    private function validateOptions(array $options, string &$message = ''): bool
+    {
+        if(count($options['translations']) == 0){
+            $message = sprintf('At least one translation is required.');
+            return false;
+        }
+
+        if(!CustomerOptionTypeEnum::isValid($options['type'])){
+            $message = sprintf('Customer Option Type "%s" is not valid.', $options['type']);
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * @param array $options
-     *
+     * @return CustomerOptionInterface
      * @throws \Exception
      */
-    public function create(array $options = [])
+    public function create(array $options = []): CustomerOptionInterface
     {
         $options = array_merge($this->getOptionsPrototype(), $options);
+
+        $error_msg = '';
+        if($this->validateOptions($options, $error_msg) === false){
+            throw new \Exception($error_msg);
+        }
 
         $customerOption = new CustomerOption();
 
@@ -77,6 +97,7 @@ class CustomerOptionFactory
             $customerOption->setCurrentLocale($locale);
             $customerOption->setName($name);
         }
+
         $customerOption->setType($options['type']);
 
         if(CustomerOptionTypeEnum::isSelect($options['type'])) {
@@ -124,6 +145,7 @@ class CustomerOptionFactory
 
                 $customerOption->addValue($value);
             }
+
         }
 
         $customerOption->setRequired($options['required']);
@@ -143,13 +165,17 @@ class CustomerOptionFactory
         }
 
         $this->em->persist($customerOption);
+
+        return $customerOption;
     }
 
-    public function generateRandom(int $amount)
+    public function generateRandom(int $amount): array
     {
         $types = CustomerOptionTypeEnum::getConstList();
 
         $names = $this->getUniqueNames($amount);
+
+        $customerOptions = [];
 
         for ($i = 0; $i < $amount; ++$i) {
             $options = [];
@@ -197,11 +223,13 @@ class CustomerOptionFactory
             }
 
             try {
-                $this->create($options);
+                $customerOptions[] = $this->create($options);
             } catch (\Throwable $e) {
                 dump($e->getMessage());
             }
         }
+
+        return $customerOptions;
     }
 
     /**
