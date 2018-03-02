@@ -34,7 +34,7 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
             $this->factory->generateRandom($options['amount']);
         }
 
-        foreach ($options['customer_options'] as $optionConfig) {
+        foreach ($options['custom'] as $optionConfig) {
             try {
                 $this->factory->create($optionConfig);
             } catch (\Throwable $e) {

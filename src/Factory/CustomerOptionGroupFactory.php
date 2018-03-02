@@ -106,14 +106,17 @@ class CustomerOptionGroupFactory
             /** @var CustomerOptionInterface $option */
             $option = $this->customerOptionRepository->findOneByCode($optionCode);
 
-            $optionAssoc = new CustomerOptionAssociation();
+            if ($option !== null) {
+                $optionAssoc = new CustomerOptionAssociation();
 
-            $option->addGroupAssociation($optionAssoc);
-            $customerOptionGroup->addOptionAssociation($optionAssoc);
+                $option->addGroupAssociation($optionAssoc);
+                $customerOptionGroup->addOptionAssociation($optionAssoc);
 
-            $this->em->persist($optionAssoc);
-            $this->em->persist($option);
+                $this->em->persist($optionAssoc);
+                $this->em->persist($option);
+            }
         }
+
 
         $products = $this->productRepository->findBy(['code' => $options['products']]);
         $customerOptionGroup->setProducts($products);
