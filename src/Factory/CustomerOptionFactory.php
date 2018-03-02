@@ -173,8 +173,8 @@ class CustomerOptionFactory
                     $price = [];
 
                     $price['type'] = $this->faker->randomElement(['fixed', 'percent']);
-                    $price['amount'] = $this->faker->numberBetween(100, 100000);
-                    $price['percent'] = $this->faker->randomFloat(0, 1, 100);
+                    $price['amount'] = $this->faker->numberBetween(50, 10000);
+                    $price['percent'] = $this->faker->randomFloat(4, 0.01, 0.5);
                     $price['channel'] = $this->faker->randomElement($this->channelRepository->findAll());
 
                     $value['prices'][] = $price;
