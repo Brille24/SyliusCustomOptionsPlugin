@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Factory;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\{
-    CustomerOptionAssociation, CustomerOptionGroup, CustomerOptionInterface
+    CustomerOptionAssociation, CustomerOptionGroup, CustomerOptionGroupInterface, CustomerOptionInterface
 };
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
@@ -49,7 +49,15 @@ class CustomerOptionGroupFactory
         $this->faker = Factory::create();
     }
 
-    public function generateRandom(int $amount): void
+    private function validateOptions(array $options){
+        if(count($options['translations']) === 0){
+            return false;
+        }
+
+        return true;
+    }
+
+    public function generateRandom(int $amount): array
     {
         $customerOptionsCodes = [];
 
@@ -67,6 +75,8 @@ class CustomerOptionGroupFactory
 
         $names = $this->getUniqueNames($amount);
 
+        $customerOptionGroups = [];
+
         for ($i = 0; $i < $amount; ++$i) {
             $options = [];
 
@@ -82,16 +92,27 @@ class CustomerOptionGroupFactory
             }
 
             try {
-                $this->create($options);
+                $customerOptionGroups[] = $this->create($options);
             } catch (Throwable $e) {
                 dump($e->getMessage());
             }
         }
+
+        return $customerOptionGroups;
     }
 
-    public function create(array $options)
+    /**
+     * @param array $options
+     * @return CustomerOptionGroupInterface
+     * @throws \Exception
+     */
+    public function create(array $options): CustomerOptionGroupInterface
     {
         $options = array_merge($this->getOptionsPrototype(), $options);
+
+        if($this->validateOptions($options) === false){
+            throw new \Exception('Invalid options,');
+        }
 
         $customerOptionGroup = new CustomerOptionGroup();
 
@@ -122,6 +143,8 @@ class CustomerOptionGroupFactory
         $customerOptionGroup->setProducts($products);
 
         $this->em->persist($customerOptionGroup);
+
+        return $customerOptionGroup;
     }
 
     /**
