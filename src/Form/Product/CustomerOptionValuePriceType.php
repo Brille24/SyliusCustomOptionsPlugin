@@ -64,12 +64,12 @@ final class CustomerOptionValuePriceType extends AbstractType
                 'attr'        => ['onChange' => 'customerOptions.changeCustomerAmountCurrencyOnChannelChange(this);'],
             ])
             ->add('percent', PercentType::class, [
-                'empty_data' => 0,
+                'empty_data' => '0.00',
                 'scale'      => 5,
                 'required'   => false,
             ])
             ->add('amount', MoneyType::class, [
-                'empty_data' => 0,
+                'empty_data' => '0.00',
                 'currency'   => 'USD',
                 'required'   => false,
             ])
