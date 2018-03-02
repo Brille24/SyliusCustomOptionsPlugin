@@ -153,7 +153,7 @@ class OrderItemOption implements OrderItemOptionInterface
     /** {@inheritdoc} */
     public function getCustomerOptionValueName(): string
     {
-        return $this->customerOptionValueName ?? $this->getOptionValue();
+        return $this->customerOptionValueName ?? ($this->optionValue ?? '');
     }
 
     /** {@inheritdoc} */
