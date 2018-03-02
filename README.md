@@ -163,5 +163,7 @@ You can also assign a group and override value prices in the product fixture.
                         channel: US_WEB #Defaults to 'default'.
 ```
 
+When you finished defining all your fixtures, run `bin/console sylius:fixtures:load` to load your fixtures.
+
 ## Things to consider
 * This plugin does not take the [tier price plugin](https://packagist.org/packages/brille24/tierprice-plugin) into account. The tier prices will override the pricing model that is implemented here (if you use the default implementation that comes with the plugin)
