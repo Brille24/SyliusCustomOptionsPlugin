@@ -136,6 +136,11 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         return $this->customerOptionValue->getName();
     }
 
+    public function setCustomerOptionValueName(string $name): void
+    {
+        $this->customerOptionValue->setName($name);
+    }
+
     public function getProduct(): ?ProductInterface
     {
         return $this->product;
