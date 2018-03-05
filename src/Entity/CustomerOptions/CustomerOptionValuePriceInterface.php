@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\CustomerOptionsPlugin\Entity\Tools\DateRange;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 
@@ -97,5 +98,29 @@ interface CustomerOptionValuePriceInterface
      */
     public function getChannel(): ?ChannelInterface;
 
+    /**
+     * Returns a string representing the value of the object
+     *
+     * @param string                  $currencyCode
+     * @param string                  $locale
+     * @param MoneyFormatterInterface $formatter
+     *
+     * @return string
+     */
     public function getValueString(string $currencyCode, string $locale, MoneyFormatterInterface $formatter): string;
+
+    /**
+     * @return DateRange|null
+     */
+    public function getDateValid(): ?DateRange;
+
+    /**
+     * @param DateRange|null $dateRange
+     */
+    public function setDateValid(?DateRange $dateRange): void;
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool;
 }

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\CustomerOptionsPlugin\Entity\Tools\DateRange;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatter;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -41,6 +42,9 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
 
     /** @var ChannelInterface */
     private $channel;
+
+    /** @var DateRange|null */
+    private $dateValid;
 
     /** {@inheritdoc} */
     public function getId(): ?int
@@ -147,5 +151,24 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     public function getChannel(): ?ChannelInterface
     {
         return $this->channel;
+    }
+
+    public function getDateValid(): ?DateRange
+    {
+        return $this->dateValid;
+    }
+
+    public function setDateValid(?DateRange $dateRange): void
+    {
+        $this->dateValid = $dateRange;
+    }
+
+    public function isActive(): bool
+    {
+        if($this->dateValid === null){
+            return true;
+        }
+
+        return $this->dateValid->contains(new \DateTime('now'));
     }
 }
