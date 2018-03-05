@@ -78,11 +78,6 @@ interface CustomerOptionValuePriceInterface
     public function setCustomerOptionValue(?CustomerOptionValueInterface $customerOptionValue): void;
 
     /**
-     * @return string|null
-     */
-    public function getCustomerOptionValueName(): ?string;
-
-    /**
      * @return ProductInterface|null
      */
     public function getProduct(): ?ProductInterface;
