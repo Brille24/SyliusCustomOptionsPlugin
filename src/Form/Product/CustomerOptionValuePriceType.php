@@ -23,6 +23,7 @@ use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Sylius\Bundle\MoneyBundle\Form\Type\MoneyType;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -61,7 +62,7 @@ final class CustomerOptionValuePriceType extends AbstractType
                     }
                     return '';
                 },
-                'attr'        => ['onChange' => 'customerOptions.changeCustomerAmountCurrencyOnChannelChange(this);'],
+                'attr'        => [ 'onChange' => 'customerOptions.changeCustomerAmountCurrencyOnChannelChange(this);' ],
             ])
             ->add('percent', PercentType::class, [
                 'empty_data' => '0.00',
@@ -80,6 +81,13 @@ final class CustomerOptionValuePriceType extends AbstractType
                 },
             ])
         ;
+
+        $builder->get('percent')->addModelTransformer(
+            new CallbackTransformer(
+                function ($percent) { return $percent / 100; },
+                function ($decimal) { return $decimal * 100; }
+            )
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver)

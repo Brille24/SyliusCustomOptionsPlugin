@@ -2,14 +2,8 @@
     {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
     {% set priceType = orderItem.pricingType %}
     {% if priceType == 'FIXED_AMOUNT' and orderItem.fixedPrice != 0 %}
-        (
-        {{ orderItem.fixedPrice >= 0 ? '+' : '-' }}
-        {{ money.convertAndFormat(orderItem.fixedPrice) }}
-        )
+        ( {{ money.convertAndFormat(orderItem.fixedPrice) }} )
     {% elseif priceType == 'PERCENT' and orderItem.percent != 0 %}
-        (
-        {{ orderItem.percent > 0 ? '+' : '-' }}
-        {{ orderItem.percent }} %
-        )
+        ( {{ orderItem.percent }} % )
     {% endif %}
 {% endmacro %}

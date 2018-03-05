@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
+use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatter;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
@@ -112,11 +113,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
 
     public function __toString(): string
     {
-        if ($this->getType() === CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT) {
-            return "\$ {$this->getAmount()}";
-        }
-
-        return "{$this->getPercent()}%";
+        return $this->getValueString('USD', 'en_US', new MoneyFormatter());
     }
 
     public function getValueString(string $currencyCode, string $locale, MoneyFormatterInterface $formatter): string
