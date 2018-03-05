@@ -6,11 +6,20 @@ namespace Brille24\CustomerOptionsPlugin\Services;
 
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Order\Model\OrderInterface;
+use Sylius\Component\Core\Model\OrderInterface as CoreOrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 
 final class OrderPricesRecalculator implements OrderProcessorInterface
 {
+    /** @var ChannelInterface */
+    private $currentChannel;
+
+    public function __construct(ChannelInterface $currentChannel)
+    {
+        $this->currentChannel = $currentChannel;
+    }
 
     /**
      * @param OrderInterface $order
@@ -29,13 +38,17 @@ final class OrderPricesRecalculator implements OrderProcessorInterface
     /**
      * @param OrderItemOptionInterface[] $orderItemConfiguration
      */
-    public function updateOrderItemConfiguration(array $orderItemConfiguration): void
+    protected function updateOrderItemConfiguration(array $orderItemConfiguration): void
     {
         foreach ($orderItemConfiguration as $configuration) {
             $customerOptionValue = $configuration->getCustomerOptionValue();
-            if ($customerOptionValue !== null) {
-                $configuration->setCustomerOptionValue($customerOptionValue);
+            if ($customerOptionValue === null) {
+                continue;
             }
+
+            $configuration->setCustomerOptionValue($customerOptionValue);
+            $price = $customerOptionValue->getPriceForChannel($this->currentChannel);
+            $configuration->setPrice($price);
         }
     }
 

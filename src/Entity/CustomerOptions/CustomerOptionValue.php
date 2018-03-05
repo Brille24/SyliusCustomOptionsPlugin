@@ -19,6 +19,7 @@ use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface as COValuePriceInterface;
 
 class CustomerOptionValue implements CustomerOptionValueInterface
 {
@@ -120,12 +121,19 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /** {@inheritdoc} */
     public function getPriceForChannel(ChannelInterface $channel): ?CustomerOptionValuePriceInterface
     {
-        $this->prices->filter(function (CustomerOptionValuePriceInterface $price) use ($channel) {
-            return $price->getChannel() === $channel;
-        });
+        $prices = $this->prices
+            ->filter(function (CustomerOptionValuePriceInterface $price) use ($channel) {
+                return $price->getChannel()->getId() === $channel->getId();
+            })->toArray();
 
-        if ($this->prices->count() > 0) {
-            return $this->prices->first();
+        if (count($prices) > 1) {
+            // Get the prices with product references first
+            return array_reduce($prices, function ($accumulator, COValuePriceInterface $price): COValuePriceInterface {
+                return $price->getProduct() !== null ? $price : $accumulator;
+            }, reset($prices));
+
+        } elseif (count($prices) === 1) {
+            return reset($prices);
         }
 
         return null;

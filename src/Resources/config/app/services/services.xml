@@ -4,8 +4,20 @@
                 class="Brille24\CustomerOptionsPlugin\Services\CustomerOptionValueResolver"
                 id="brille24.customer_options_plugin.services.customer_option_value_resolver"/>
 
-        <service class="Brille24\CustomerOptionsPlugin\Services\ProductVariantPriceCalculator"
-                id="brille24.customer_options_plugin.services.product_variant_price_calculator">
+        <service class="Brille24\CustomerOptionsPlugin\Services\OrderPricesRecalculator"
+                 id="brille24.customer_options_plugin.services.order_prices_recalculator">
+            <!-- Pass the current channel -->
+            <argument type="expression">service('sylius.context.channel').getChannel()</argument>
+
+            <tag name="sylius.order_processor"/>
+        </service>
+
+        <!-- Overriding the Sylius default order processor -->
+        <service class="Brille24\CustomerOptionsPlugin\Services\OrderPricesRecalculator"
+                 id="sylius.order_processing.order_prices_recalculator">
+            <argument type="expression">service('sylius.context.channel').getChannel()</argument>
+
+            <tag name="sylius.order_processor"/>
         </service>
     </services>
 </container>
