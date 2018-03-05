@@ -118,22 +118,35 @@ class CustomerOptionValue implements CustomerOptionValueInterface
         return $prices;
     }
 
-    /** {@inheritdoc} */
-    public function getPriceForChannel(ChannelInterface $channel): ?CustomerOptionValuePriceInterface
+    public function getPricesForChannel(ChannelInterface $channel): Collection
     {
-        $prices = $this->prices
-            ->filter(function (CustomerOptionValuePriceInterface $price) use ($channel) {
+        return $this->prices
+            ->filter(function (COValuePriceInterface $price) use ($channel) {
                 return $price->getChannel()->getId() === $channel->getId();
-            })->toArray();
+            });
+    }
+
+    /** {@inheritdoc} */
+    public function getPriceForChannel(
+        ChannelInterface $channel,
+        bool $ignoreActive = false
+    ): ?CustomerOptionValuePriceInterface {
+
+        $prices = $this->getPricesForChannel($channel);
+
+        if (!$ignoreActive) {
+            $prices = $prices->filter(function (COValuePriceInterface $price) { return $price->isActive(); });
+        }
 
         if (count($prices) > 1) {
-            // Get the prices with product references first
+            // Get the prices with product references (aka. overrides) first
+            $prices = $prices->toArray();
             return array_reduce($prices, function ($accumulator, COValuePriceInterface $price): COValuePriceInterface {
                 return $price->getProduct() !== null ? $price : $accumulator;
             }, reset($prices));
 
         } elseif (count($prices) === 1) {
-            return reset($prices);
+            return $prices->first();
         }
 
         return null;

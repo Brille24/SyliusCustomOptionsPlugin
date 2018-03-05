@@ -45,4 +45,20 @@ class DateRange implements DateRangeInterface
         $beforeEnd = $this->end >= $current;
         return $afterStart && $beforeEnd;
     }
+
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function getStart(): ?DateTimeInterface
+    {
+        return $this->start;
+    }
+
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function getEnd(): ?DateTimeInterface
+    {
+        return $this->end;
+    }
 }

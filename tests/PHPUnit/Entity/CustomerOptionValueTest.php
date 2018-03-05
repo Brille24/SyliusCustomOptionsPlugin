@@ -4,12 +4,10 @@ declare(strict_types=1);
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Entity;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface as PriceInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
-use Proxies\__CG__\Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Core\Model\ChannelInterface;
 
 class CustomerOptionValueTest extends TestCase
@@ -25,7 +23,7 @@ class CustomerOptionValueTest extends TestCase
     //<editor-fold desc="Helper">
     private function createPrice(ChannelInterface $channel, int $price, ?ProductInterface $product = null)
     {
-        $priceObject = self::createMock(CustomerOptionValuePriceInterface::class);
+        $priceObject = self::createMock(PriceInterface::class);
         $priceObject->method('getAmount')->willReturn($price);
         $priceObject->method('getChannel')->willReturn($channel);
         $priceObject->method('getProduct')->willReturn($product);
@@ -39,6 +37,16 @@ class CustomerOptionValueTest extends TestCase
         $channel->method('getCode')->willReturn($code);
         return $channel;
     }
+
+    private function createDatedPrice(bool $isActive, ChannelInterface $channel): PriceInterface
+    {
+        $priceObject = self::createMock(PriceInterface::class);
+        $priceObject->method('isActive')->willReturn($isActive);
+        $priceObject->method('getChannel')->willReturn($channel);
+        $priceObject->method('getProduct')->willReturn(self::createMock(ProductInterface::class));
+
+        return $priceObject;
+    }
     //</editor-fold>
 
     /** @dataProvider dataGetPriceForChannel */
@@ -46,7 +54,7 @@ class CustomerOptionValueTest extends TestCase
     {
         $this->customerOptionValue->setPrices(new ArrayCollection($prices));
 
-        $priceObject = $this->customerOptionValue->getPriceForChannel($channel);
+        $priceObject = $this->customerOptionValue->getPriceForChannel($channel, true);
 
         self::assertEquals($channel, $priceObject->getChannel());
         self::assertEquals($price, $priceObject->getAmount());
@@ -97,7 +105,7 @@ class CustomerOptionValueTest extends TestCase
     {
         $this->customerOptionValue->setPrices(new ArrayCollection($prices));
 
-        $priceObject = $this->customerOptionValue->getPriceForChannel($channel);
+        $priceObject = $this->customerOptionValue->getPriceForChannel($channel, true);;
 
         self::assertEquals($price, $priceObject->getAmount());
     }
@@ -113,6 +121,35 @@ class CustomerOptionValueTest extends TestCase
                 [$this->createPrice($channel, 10), $this->createPrice($channel, 20, $product)],
                 $channel,
                 20,
+            ],
+        ];
+    }
+
+    /** @dataProvider dataActive */
+    public function testActive(array $prices, ChannelInterface $channel, ?PriceInterface $price): void
+    {
+        $this->customerOptionValue->setPrices(new ArrayCollection($prices));
+
+        $priceObject = $this->customerOptionValue->getPriceForChannel($channel);
+
+        self::assertEquals($price, $priceObject);
+    }
+
+    public function dataActive(): array
+    {
+        $channel = $this->createChannel(1, 'en_us');
+
+        $activePrice = $this->createDatedPrice(true, $channel);
+        return [
+            'no active price'  => [[$this->createDatedPrice(false, $channel)], $channel, null],
+            'one active price' => [[$activePrice], $channel, $activePrice],
+            'multiple prices'  => [
+                [
+                    $this->createDatedPrice(false, $channel),
+                    $activePrice,
+                ],
+                $channel,
+                $activePrice,
             ],
         ];
     }
