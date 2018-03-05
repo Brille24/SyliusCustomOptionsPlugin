@@ -76,7 +76,6 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         $this->amount = $amount;
     }
 
-    //<editor-fold desc="Setter and getter for types">
     /** {@inheritdoc} */
     public function getType(): ?string
     {
@@ -103,7 +102,6 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
             self::TYPE_PERCENT,
         ];
     }
-    //</editor-fold>
 
     /** {@inheritdoc} */
     public function getCustomerOptionValue(): ?CustomerOptionValueInterface
@@ -129,6 +127,19 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         }
 
         return "{$this->getPercent()}%";
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomerOptionValueName(): ?string
+    {
+        return $this->customerOptionValue->getName();
+    }
+
+    public function setCustomerOptionValueName(string $name): void
+    {
+        $this->customerOptionValue->setName($name);
     }
 
     public function getProduct(): ?ProductInterface
