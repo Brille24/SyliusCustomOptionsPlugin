@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
@@ -176,7 +175,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
 
     public function isActive(): bool
     {
-        if($this->dateValid === null){
+        if ($this->dateValid === null) {
             return true;
         }
 

@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Factory;
@@ -30,13 +29,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductFactory extends BaseFactory
 {
-    /** @var RepositoryInterface  */
+    /** @var RepositoryInterface */
     private $customerOptionGroupRepository;
 
-    /** @var RepositoryInterface  */
+    /** @var RepositoryInterface */
     private $customerOptionValueRepository;
 
-    /** @var RepositoryInterface  */
+    /** @var RepositoryInterface */
     private $channelRepository;
 
     public function __construct(
@@ -117,7 +116,7 @@ class ProductFactory extends BaseFactory
             /** @var CustomerOptionGroupInterface $customerOptionGroup */
             $customerOptionGroup = $this->customerOptionGroupRepository->findOneBy(['code' => $options['customer_option_group']]);
 
-            if($customerOptionGroup === null){
+            if ($customerOptionGroup === null) {
                 throw new \Exception(sprintf("CustomerOptionGroup with code '%s' does not exist!", $options['customer_option_group']));
             }
 
@@ -133,9 +132,9 @@ class ProductFactory extends BaseFactory
                 /** @var CustomerOptionValueInterface $value */
                 $value = $this->customerOptionValueRepository->findOneBy(['code' => $valuePriceConfig['value_code']]);
 
-                if($value === null ||
+                if ($value === null ||
                     ($value !== null && !in_array($value->getCustomerOption(), $product->getCustomerOptionGroup()->getOptions())
-                    )){
+                    )) {
                     continue;
                 }
 

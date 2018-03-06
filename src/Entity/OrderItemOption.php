@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity;
@@ -132,7 +131,7 @@ class OrderItemOption implements OrderItemOptionInterface
         if ($value !== null) {
             $this->customerOptionValueCode = $value->getCode();
             $this->customerOptionValueName = $value->getName();
-            $this->optionValue             = null;
+            $this->optionValue = null;
         } else {
             $this->optionValue = $value ?? '';
         }
@@ -167,8 +166,8 @@ class OrderItemOption implements OrderItemOptionInterface
     /** {@inheritdoc} */
     public function setPrice(CustomerOptionValuePriceInterface $price): void
     {
-        $this->fixedPrice  = $price->getAmount();
-        $this->percent     = $price->getPercent();
+        $this->fixedPrice = $price->getAmount();
+        $this->percent = $price->getPercent();
         $this->pricingType = $price->getType();
     }
 
@@ -218,7 +217,7 @@ class OrderItemOption implements OrderItemOptionInterface
         $equals &= $this->getCustomerOptionValue() === $orderItemOption->getCustomerOptionValue();
         $equals &= $this->getOptionValue() === $orderItemOption->getOptionValue();
 
-        return (bool)$equals;
+        return (bool) $equals;
     }
 
     public function __toString()

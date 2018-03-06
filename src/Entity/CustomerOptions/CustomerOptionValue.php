@@ -8,18 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface as COValuePriceInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface as COValuePriceInterface;
 
 class CustomerOptionValue implements CustomerOptionValueInterface
 {
@@ -131,7 +130,6 @@ class CustomerOptionValue implements CustomerOptionValueInterface
         ChannelInterface $channel,
         bool $ignoreActive = false
     ): ?CustomerOptionValuePriceInterface {
-
         $prices = $this->getPricesForChannel($channel);
 
         if (!$ignoreActive) {
@@ -141,10 +139,10 @@ class CustomerOptionValue implements CustomerOptionValueInterface
         if (count($prices) > 1) {
             // Get the prices with product references (aka. overrides) first
             $prices = $prices->toArray();
+
             return array_reduce($prices, function ($accumulator, COValuePriceInterface $price): COValuePriceInterface {
                 return $price->getProduct() !== null ? $price : $accumulator;
             }, reset($prices));
-
         } elseif (count($prices) === 1) {
             return $prices->first();
         }

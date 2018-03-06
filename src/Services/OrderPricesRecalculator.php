@@ -1,14 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Services;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Order\Model\OrderInterface;
-use Sylius\Component\Core\Model\OrderInterface as CoreOrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 
 final class OrderPricesRecalculator implements OrderProcessorInterface
@@ -38,7 +37,7 @@ final class OrderPricesRecalculator implements OrderProcessorInterface
     /**
      * @param OrderItemOptionInterface[] $orderItemConfiguration
      */
-    protected function updateOrderItemConfiguration(array $orderItemConfiguration): void
+    private function updateOrderItemConfiguration(array $orderItemConfiguration): void
     {
         foreach ($orderItemConfiguration as $configuration) {
             $customerOptionValue = $configuration->getCustomerOptionValue();
@@ -51,6 +50,4 @@ final class OrderPricesRecalculator implements OrderProcessorInterface
             $configuration->setPrice($price);
         }
     }
-
-
 }

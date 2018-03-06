@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Form;
@@ -43,11 +42,11 @@ final class CustomerOptionValuePriceType extends AbstractType
             ->add('percent', PercentType::class, [
                 'empty_data' => '0.00',
                 'scale' => 5,
-                'required' => false
+                'required' => false,
             ])
             ->add('amount', MoneyType::class, [
                 'empty_data' => '0.00',
-                'required' => false
+                'required' => false,
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => CustomerOptionValuePrice::getAllTypes(),

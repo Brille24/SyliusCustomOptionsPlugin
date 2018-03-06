@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Factory;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
@@ -42,7 +42,8 @@ class CustomerOptionGroupFactoryTest extends TestCase
     /**
      * @test
      */
-    public function testGenerateRandom(){
+    public function testGenerateRandom()
+    {
         $this->productRepositoryMock
             ->expects($this->any())
             ->method('findBy')
@@ -59,9 +60,11 @@ class CustomerOptionGroupFactoryTest extends TestCase
 
     /**
      * @test
+     *
      * @throws \Exception
      */
-    public function testCreateWithValidOptions(){
+    public function testCreateWithValidOptions()
+    {
         $this->productRepositoryMock
             ->expects($this->any())
             ->method('findBy')
@@ -75,7 +78,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
                 'en_US' => 'Some Group',
             ],
             'options' => [],
-            'products' => []
+            'products' => [],
         ];
 
         $customerOptionGroup = $this->customerOptionGroupFactory->create($options);
@@ -85,9 +88,11 @@ class CustomerOptionGroupFactoryTest extends TestCase
 
     /**
      * @test
+     *
      * @throws \Exception
      */
-    public function testCreateWithoutCode(){
+    public function testCreateWithoutCode()
+    {
         $this->productRepositoryMock
             ->expects($this->any())
             ->method('findBy')
@@ -108,9 +113,11 @@ class CustomerOptionGroupFactoryTest extends TestCase
 
     /**
      * @test
+     *
      * @throws \Exception
      */
-    public function testCreateWithoutTranslations(){
+    public function testCreateWithoutTranslations()
+    {
         $this->productRepositoryMock
             ->expects($this->any())
             ->method('findBy')
@@ -131,9 +138,11 @@ class CustomerOptionGroupFactoryTest extends TestCase
 
     /**
      * @test
+     *
      * @throws \Exception
      */
-    public function testCreateWithOptions(){
+    public function testCreateWithOptions()
+    {
         $this->productRepositoryMock
             ->expects($this->any())
             ->method('findBy')
@@ -147,7 +156,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
             'option_3',
         ];
 
-        foreach ($optionCodes as $index => $code){
+        foreach ($optionCodes as $index => $code) {
             $option = new CustomerOption();
             $option->setCode($code);
 
@@ -174,9 +183,11 @@ class CustomerOptionGroupFactoryTest extends TestCase
 
     /**
      * @test
+     *
      * @throws \Exception
      */
-    public function testCreateWithProducts(){
+    public function testCreateWithProducts()
+    {
         $productCodes = [
             'product_1',
             'product_2',
@@ -184,7 +195,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
         ];
 
         $mockProducts = [];
-        foreach ($productCodes as $code){
+        foreach ($productCodes as $code) {
             $product = new Product();
             $product->setCode($code);
             $mockProducts[] = $product;

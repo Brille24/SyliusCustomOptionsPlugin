@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Form\Product;
@@ -17,9 +16,8 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterfac
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\CustomerOptionsPlugin\Entity\Product;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\CustomerOptionsPlugin\Entity\Tools\DateRange;
-use DateTime;
+use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Sonata\CoreBundle\Form\Type\DateTimeRangeType;
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Sylius\Bundle\MoneyBundle\Form\Type\MoneyType;
@@ -50,39 +48,41 @@ final class CustomerOptionValuePriceType extends AbstractType
 
         $builder
             ->add('customerOptionValue', ChoiceType::class, [
-                'choices'      => $values,
+                'choices' => $values,
                 'choice_label' => 'name',
             ])
             ->add('channel', ChannelChoiceType::class, [
                 'choice_attr' => function (?ChannelInterface $channel) {
                     if ($channel !== null) {
                         $currency = $channel->getBaseCurrency()->getCode();
-                        $symbol   = Intl::getCurrencyBundle()->getCurrencySymbol($currency, 'en');
+                        $symbol = Intl::getCurrencyBundle()->getCurrencySymbol($currency, 'en');
+
                         return ['data-attribute' => $symbol];
                     }
+
                     return '';
                 },
-                'attr'        => ['onChange' => 'customerOptions.changeCustomerAmountCurrencyOnChannelChange(this);'],
+                'attr' => ['onChange' => 'customerOptions.changeCustomerAmountCurrencyOnChannelChange(this);'],
             ])
             ->add('percent', PercentType::class, [
                 'empty_data' => '0.00',
-                'scale'      => 5,
-                'required'   => false,
+                'scale' => 5,
+                'required' => false,
             ])
             ->add('amount', MoneyType::class, [
                 'empty_data' => '0.00',
-                'currency'   => 'USD',
-                'required'   => false,
+                'currency' => 'USD',
+                'required' => false,
             ])
             ->add('type', ChoiceType::class, [
-                'choices'      => CustomerOptionValuePrice::getAllTypes(),
+                'choices' => CustomerOptionValuePrice::getAllTypes(),
                 'choice_label' => function ($option) {
                     return 'brille24.ui.pricing.' . strtolower($option);
                 },
             ])
             ->add('dateValid', DateTimeRangeType::class, [
                 'required' => false,
-                'label'    => 'Active range',
+                'label' => 'Active range',
             ]);
 
         $this->addModelTransformer($builder);
@@ -103,15 +103,17 @@ final class CustomerOptionValuePriceType extends AbstractType
                     if ($dateRange === null) {
                         return [];
                     }
+
                     return [
                         'start' => $dateRange->getStart(),
-                        'end'   => $dateRange->getEnd(),
+                        'end' => $dateRange->getEnd(),
                     ];
                 },
                 function (array $dateTime) {
                     if ($dateTime['start'] === null || $dateTime['end'] === null) {
                         return null;
                     }
+
                     return new DateRange($dateTime['start'], $dateTime['end']);
                 }
             )

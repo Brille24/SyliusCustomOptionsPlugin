@@ -1,14 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\Service;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\{
-    CustomerOption, CustomerOptionInterface, CustomerOptionValueInterface, CustomerOptionValuePriceInterface
-};
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface as Brille24OrderItem;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\CustomerOptionsPlugin\Services\OrderPricesRecalculator;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface as Brille24OrderItem;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -28,12 +30,12 @@ class OrderPricesRecalculatorTest extends TestCase
 
     private $nameUpdate = 'no-update';
 
-    private $priceUpdate = null;
+    private $priceUpdate;
 
     //<editor-fold desc="Helper function for setup">
     public function setUp()
     {
-        $channel                 = self::createMock(ChannelInterface::class);
+        $channel = self::createMock(ChannelInterface::class);
         $this->priceRecalculator = new OrderPricesRecalculator($channel);
     }
 
@@ -60,13 +62,13 @@ class OrderPricesRecalculatorTest extends TestCase
         $orderItemOption->method('setCustomerOptionValue')->willReturnCallback(
             function (CustomerOptionValueInterface $value) {
                 $this->nameUpdate = $value->getName();
-                $this->updateCount++;
+                ++$this->updateCount;
             });
 
         $orderItemOption->method('setPrice')->willReturnCallback(
             function (CustomerOptionValuePriceInterface $price) {
                 $this->priceUpdate = $price->getAmount();
-                $this->updateCount++;
+                ++$this->updateCount;
             }
         );
 
@@ -75,11 +77,11 @@ class OrderPricesRecalculatorTest extends TestCase
 
     private function createCustomerOptionValue(array $config): CustomerOptionValueInterface
     {
-        $price = isset($config['price']) ? $config['price'] : 0;
+        $price = $config['price'] ?? 0;
 
         $customerOptionValue = self::createMock(CustomerOptionValueInterface::class);
         $customerOptionValue->method('getCode')->willReturn($config['code']);
-        $customerOptionValue->method('getName')->willReturn(isset($config['name']) ? $config['name'] : null);
+        $customerOptionValue->method('getName')->willReturn($config['name'] ?? null);
 
         $customerOptionValue->method('getPriceForChannel')->willReturnCallback(
             function (ChannelInterface $channel) use ($price) {
@@ -109,6 +111,7 @@ class OrderPricesRecalculatorTest extends TestCase
 
         return $orderItem;
     }
+
     //</editor-fold>
 
     /** @dataProvider dataItemsDontNeedProcessing */
@@ -124,7 +127,7 @@ class OrderPricesRecalculatorTest extends TestCase
     public function dataItemsDontNeedProcessing(): array
     {
         return [
-            'no items'         => [[]],
+            'no items' => [[]],
             'sylius base item' => [[new OrderItem()]],
         ];
     }
@@ -151,7 +154,7 @@ class OrderPricesRecalculatorTest extends TestCase
         $orderItemOption =
             $this->createOrderItemOption(
                 new CustomerOption(),
-                $this->createCustomerOptionValue(['code' => 'hello',]),
+                $this->createCustomerOptionValue(['code' => 'hello']),
                 false
             );
 

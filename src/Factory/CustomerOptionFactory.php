@@ -8,14 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Factory;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\{
-    CustomerOption, CustomerOptionAssociation, CustomerOptionGroupInterface, CustomerOptionInterface, CustomerOptionValue, CustomerOptionValuePrice
-};
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -62,13 +64,15 @@ class CustomerOptionFactory
 
     private function validateOptions(array $options, string &$message = ''): bool
     {
-        if(count($options['translations']) == 0){
+        if (count($options['translations']) == 0) {
             $message = sprintf('At least one translation is required.');
+
             return false;
         }
 
-        if(!CustomerOptionTypeEnum::isValid($options['type'])){
+        if (!CustomerOptionTypeEnum::isValid($options['type'])) {
             $message = sprintf('Customer Option Type "%s" is not valid.', $options['type']);
+
             return false;
         }
 
@@ -77,7 +81,9 @@ class CustomerOptionFactory
 
     /**
      * @param array $options
+     *
      * @return CustomerOptionInterface
+     *
      * @throws \Exception
      */
     public function create(array $options = []): CustomerOptionInterface
@@ -85,7 +91,7 @@ class CustomerOptionFactory
         $options = array_merge($this->getOptionsPrototype(), $options);
 
         $error_msg = '';
-        if($this->validateOptions($options, $error_msg) === false){
+        if ($this->validateOptions($options, $error_msg) === false) {
             throw new \Exception($error_msg);
         }
 
@@ -100,8 +106,7 @@ class CustomerOptionFactory
 
         $customerOption->setType($options['type']);
 
-        if(CustomerOptionTypeEnum::isSelect($options['type'])) {
-
+        if (CustomerOptionTypeEnum::isSelect($options['type'])) {
             foreach ($options['values'] as $valueConfig) {
                 $value = new CustomerOptionValue();
                 $value->setCode($valueConfig['code']);
@@ -145,7 +150,6 @@ class CustomerOptionFactory
 
                 $customerOption->addValue($value);
             }
-
         }
 
         $customerOption->setRequired($options['required']);
@@ -241,7 +245,7 @@ class CustomerOptionFactory
     {
         $names = [];
 
-        $this->faker->unique($reset=true);
+        $this->faker->unique($reset = true);
         for ($i = 0; $i < $amount; ++$i) {
             $names[] = $this->faker->unique()->word;
         }

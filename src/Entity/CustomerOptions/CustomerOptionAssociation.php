@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
@@ -18,7 +17,6 @@ namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
  * This class is used as an association between the Customer Option Group and the customer option ordering them by
  * their position
  *
- * @package Brille24\CustomerOptionsPlugin\Entity\CustomerOptions
  * @see CustomerOption
  * @see CustomerOptionGroup
  */

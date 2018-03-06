@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Entity\Tools;
@@ -7,8 +8,6 @@ use Brille24\CustomerOptionsPlugin\Entity\Tools\DateRange;
 use DateTime;
 use DateTimeInterface;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Form\Tests\Extension\DataCollector\DataCollectorExtensionTest;
-use Symfony\Component\Validator\Constraints\Date;
 
 class DateRangeTest extends TestCase
 {
@@ -18,7 +17,7 @@ class DateRangeTest extends TestCase
         self::expectExceptionMessage('End can\'t be greater than start');
 
         $start = new DateTime('2010-11-01 12:00:00');
-        $end   = new DateTime('2010-01-01 12:00:00');
+        $end = new DateTime('2010-01-01 12:00:00');
 
         new DateRange($start, $end);
     }

@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Factory;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionFactory;
@@ -36,7 +36,8 @@ class CustomerOptionFactoryTest extends TestCase
     /**
      * @test
      */
-    public function testGenerateRandom(){
+    public function testGenerateRandom()
+    {
         $amount = 5;
 
         $customerOptions = $this->customerOptionFactory->generateRandom($amount);
@@ -47,7 +48,8 @@ class CustomerOptionFactoryTest extends TestCase
     /**
      * @test
      */
-    public function testCreateWithValidOptions(){
+    public function testCreateWithValidOptions()
+    {
         $options = [
             'code' => 'some_option',
             'translations' => [
@@ -61,7 +63,7 @@ class CustomerOptionFactoryTest extends TestCase
 
         try {
             $customerOption = $this->customerOptionFactory->create($options);
-        }catch (\Throwable $e){
+        } catch (\Throwable $e) {
         }
 
         $this->assertNotNull($customerOption);
@@ -70,9 +72,11 @@ class CustomerOptionFactoryTest extends TestCase
 
     /**
      * @test
+     *
      * @throws \Exception
      */
-    public function testCreateWithoutTranslation(){
+    public function testCreateWithoutTranslation()
+    {
         $options = [
             'code' => 'some_option',
             'type' => 'select',
@@ -87,9 +91,11 @@ class CustomerOptionFactoryTest extends TestCase
 
     /**
      * @test
+     *
      * @throws \Exception
      */
-    public function testCreateWithInvalidType(){
+    public function testCreateWithInvalidType()
+    {
         $options = [
             'code' => 'some_option',
             'translations' => [
@@ -107,9 +113,11 @@ class CustomerOptionFactoryTest extends TestCase
 
     /**
      * @test
+     *
      * @throws \Exception
      */
-    public function testCreateWithOptionValues(){
+    public function testCreateWithOptionValues()
+    {
         $options = [
             'code' => 'some_option',
             'translations' => [
@@ -131,7 +139,7 @@ class CustomerOptionFactoryTest extends TestCase
                     ],
                     'prices' => [],
                 ],
-            ]
+            ],
         ];
 
         $customerOption = $this->customerOptionFactory->create($options);

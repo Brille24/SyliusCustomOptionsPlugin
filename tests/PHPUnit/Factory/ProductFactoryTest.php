@@ -1,34 +1,28 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Factory;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\CustomerOptionsPlugin\Entity\Product;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\CustomerOptionsPlugin\Factory\ProductFactory;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\Channel;
-use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductTaxon;
 use Sylius\Component\Core\Model\Taxon;
-use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Core\Uploader\ImageUploaderInterface;
 use Sylius\Component\Locale\Model\Locale;
-use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Product\Generator\ProductVariantGeneratorInterface;
 use Sylius\Component\Product\Generator\SlugGeneratorInterface;
 use Sylius\Component\Product\Model\ProductAttribute;
-use Sylius\Component\Product\Model\ProductAttributeInterface;
 use Sylius\Component\Product\Model\ProductOption;
-use Sylius\Component\Product\Model\ProductOptionInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
@@ -124,9 +118,11 @@ class ProductFactoryTest extends TestCase
 
     /**
      * @test
+     *
      * @throws \Exception
      */
-    public function testCreateWithoutCustomerOptionGroup(){
+    public function testCreateWithoutCustomerOptionGroup()
+    {
         $options = [
             'code' => 'some_product',
             'name' => 'Some Product',
@@ -139,9 +135,11 @@ class ProductFactoryTest extends TestCase
 
     /**
      * @test
+     *
      * @throws \Exception
      */
-    public function testCreateWithCustomerOptionGroup(){
+    public function testCreateWithCustomerOptionGroup()
+    {
         $this->customerOptionGroupRepositoryMock
             ->expects($this->any())
             ->method('findOneBy')->with(['code' => $this->customerOptionGroup->getCode()])
@@ -161,9 +159,11 @@ class ProductFactoryTest extends TestCase
 
     /**
      * @test
+     *
      * @throws \Exception
      */
-    public function testCreateWithValuePrices(){
+    public function testCreateWithValuePrices()
+    {
         $this->customerOptionGroupRepositoryMock
             ->expects($this->any())
             ->method('findOneBy')->with(['code' => $this->customerOptionGroup->getCode()])
@@ -171,9 +171,9 @@ class ProductFactoryTest extends TestCase
         ;
 
         $customerOptionValues = [];
-        for($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; ++$i) {
             $customerOptionValue = new CustomerOptionValue();
-            $customerOptionValue->setCode('val_' .  $i);
+            $customerOptionValue->setCode('val_' . $i);
             $customerOptionValue->setCustomerOption($this->customerOption);
             $customerOptionValues[] = $customerOptionValue;
 
@@ -224,9 +224,11 @@ class ProductFactoryTest extends TestCase
 
     /**
      * @test
+     *
      * @throws \Exception
      */
-    public function testCreateWithNonExistentGroup(){
+    public function testCreateWithNonExistentGroup()
+    {
         $options = [
             'code' => 'some_product',
             'name' => 'Some Product',

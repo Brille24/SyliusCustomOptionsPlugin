@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\Tools;
-
 
 use DateTimeInterface;
 use InvalidArgumentException;
@@ -13,17 +13,18 @@ class DateRange implements DateRangeInterface
     private $id;
 
     /**
-     * @var DateTimeInterface $start
+     * @var DateTimeInterface
      * @var DateTimeInterface $end
      */
-    private $start, $end;
+    private $start;
+    private $end;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(?int $id):void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
@@ -35,7 +36,7 @@ class DateRange implements DateRangeInterface
         }
 
         $this->start = $start;
-        $this->end   = $end;
+        $this->end = $end;
     }
 
     /** {@inheritdoc} */
@@ -43,6 +44,7 @@ class DateRange implements DateRangeInterface
     {
         $afterStart = $this->start <= $current;
         $beforeEnd = $this->end >= $current;
+
         return $afterStart && $beforeEnd;
     }
 

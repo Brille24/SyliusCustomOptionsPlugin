@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Factory;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\{
-    CustomerOptionAssociation, CustomerOptionGroup, CustomerOptionGroupInterface, CustomerOptionInterface
-};
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,13 +25,13 @@ use Throwable;
 
 class CustomerOptionGroupFactory
 {
-    /** @var EntityManagerInterface  */
+    /** @var EntityManagerInterface */
     private $em;
 
-    /** @var CustomerOptionRepositoryInterface  */
+    /** @var CustomerOptionRepositoryInterface */
     private $customerOptionRepository;
 
-    /** @var ProductRepositoryInterface  */
+    /** @var ProductRepositoryInterface */
     private $productRepository;
 
     /** @var \Faker\Generator */
@@ -49,8 +49,9 @@ class CustomerOptionGroupFactory
         $this->faker = Factory::create();
     }
 
-    private function validateOptions(array $options){
-        if(count($options['translations']) === 0){
+    private function validateOptions(array $options)
+    {
+        if (count($options['translations']) === 0) {
             return false;
         }
 
@@ -103,14 +104,16 @@ class CustomerOptionGroupFactory
 
     /**
      * @param array $options
+     *
      * @return CustomerOptionGroupInterface
+     *
      * @throws \Exception
      */
     public function create(array $options): CustomerOptionGroupInterface
     {
         $options = array_merge($this->getOptionsPrototype(), $options);
 
-        if($this->validateOptions($options) === false){
+        if ($this->validateOptions($options) === false) {
             throw new \Exception('Invalid options,');
         }
 
@@ -137,7 +140,6 @@ class CustomerOptionGroupFactory
                 $this->em->persist($option);
             }
         }
-
 
         $products = $this->productRepository->findBy(['code' => $options['products']]);
         $customerOptionGroup->setProducts($products);
