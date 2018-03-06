@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\CustomerOptionsPlugin\Entity\Tools\DateRange;
+use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatter;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
@@ -40,6 +42,9 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
 
     /** @var ChannelInterface */
     private $channel;
+
+    /** @var DateRange|null */
+    private $dateValid;
 
     /** {@inheritdoc} */
     public function getId(): ?int
@@ -112,11 +117,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
 
     public function __toString(): string
     {
-        if ($this->getType() === CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT) {
-            return "\$ {$this->getAmount()}";
-        }
-
-        return "{$this->getPercent()}%";
+        return $this->getValueString('USD', 'en_US', new MoneyFormatter());
     }
 
     public function getValueString(string $currencyCode, string $locale, MoneyFormatterInterface $formatter): string
@@ -134,6 +135,11 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     public function getCustomerOptionValueName(): ?string
     {
         return $this->customerOptionValue->getName();
+    }
+
+    public function setCustomerOptionValueName(string $name): void
+    {
+        $this->customerOptionValue->setName($name);
     }
 
     public function getProduct(): ?ProductInterface
@@ -156,5 +162,24 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     public function getChannel(): ?ChannelInterface
     {
         return $this->channel;
+    }
+
+    public function getDateValid(): ?DateRange
+    {
+        return $this->dateValid;
+    }
+
+    public function setDateValid(?DateRange $dateRange): void
+    {
+        $this->dateValid = $dateRange;
+    }
+
+    public function isActive(): bool
+    {
+        if($this->dateValid === null){
+            return true;
+        }
+
+        return $this->dateValid->contains(new \DateTime('now'));
     }
 }

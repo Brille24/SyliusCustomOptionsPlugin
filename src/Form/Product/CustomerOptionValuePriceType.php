@@ -14,15 +14,18 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Form\Product;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\CustomerOptionsPlugin\Entity\Product;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\CustomerOptionsPlugin\Entity\Tools\DateRange;
+use DateTime;
+use Sonata\CoreBundle\Form\Type\DateTimeRangeType;
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Sylius\Bundle\MoneyBundle\Form\Type\MoneyType;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -48,9 +51,7 @@ final class CustomerOptionValuePriceType extends AbstractType
         $builder
             ->add('customerOptionValue', ChoiceType::class, [
                 'choices'      => $values,
-                'choice_label' => function (CustomerOptionValueInterface $option) {
-                    return $option->getName();
-                },
+                'choice_label' => 'name',
             ])
             ->add('channel', ChannelChoiceType::class, [
                 'choice_attr' => function (?ChannelInterface $channel) {
@@ -79,7 +80,42 @@ final class CustomerOptionValuePriceType extends AbstractType
                     return 'brille24.ui.pricing.' . strtolower($option);
                 },
             ])
-        ;
+            ->add('dateValid', DateTimeRangeType::class, [
+                'required' => false,
+                'label'    => 'Active range',
+            ]);
+
+        $this->addModelTransformer($builder);
+    }
+
+    private function addModelTransformer(FormBuilderInterface $builder): void
+    {
+        $builder->get('percent')->addModelTransformer(
+            new CallbackTransformer(
+                function ($percent) { return $percent / 100; },
+                function ($decimal) { return $decimal * 100; }
+            )
+        );
+
+        $builder->get('dateValid')->addModelTransformer(
+            new CallbackTransformer(
+                function (?DateRange $dateRange) {
+                    if ($dateRange === null) {
+                        return [];
+                    }
+                    return [
+                        'start' => $dateRange->getStart(),
+                        'end'   => $dateRange->getEnd(),
+                    ];
+                },
+                function (array $dateTime) {
+                    if ($dateTime['start'] === null || $dateTime['end'] === null) {
+                        return null;
+                    }
+                    return new DateRange($dateTime['start'], $dateTime['end']);
+                }
+            )
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -89,8 +125,7 @@ final class CustomerOptionValuePriceType extends AbstractType
                               'data_class' => CustomerOptionValuePrice::class,
                           ])
             ->setDefined('product')
-            ->setAllowedTypes('product', Product::class)
-        ;
+            ->setAllowedTypes('product', Product::class);
     }
 
     public function getBlockPrefix()

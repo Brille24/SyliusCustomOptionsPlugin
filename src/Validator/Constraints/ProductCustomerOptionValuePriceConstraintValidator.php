@@ -26,7 +26,7 @@ class ProductCustomerOptionValuePriceConstraintValidator extends ConstraintValid
      */
     public function validate($collection, Constraint $constraint): void
     {
-        if (!is_a($collection, Collection::class)) {
+        if (!$collection instanceof Collection) {
             throw new InvalidArgumentException('Value is not a Collection.');
         }
 
@@ -35,7 +35,7 @@ class ProductCustomerOptionValuePriceConstraintValidator extends ConstraintValid
             return;
         }
 
-        if (!is_a($collection[0], CustomerOptionValuePriceInterface::class)) {
+        if (!$collection->first() instanceof CustomerOptionValuePriceInterface) {
             throw new InvalidArgumentException('Collection does not contain CustomerOptionValuePrices.');
         }
 

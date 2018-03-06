@@ -52,10 +52,14 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
 
     /**
      * @param ChannelInterface $channel
+     * @param bool             $ignoreActive
      *
      * @return CustomerOptionValuePriceInterface
      */
-    public function getPriceForChannel(ChannelInterface $channel): ?CustomerOptionValuePriceInterface;
+    public function getPriceForChannel(
+        ChannelInterface $channel,
+        bool $ignoreActive = false
+    ): ?CustomerOptionValuePriceInterface;
 
     /**
      * @param CustomerOptionValuePriceInterface $price

@@ -132,6 +132,9 @@ class OrderItemOption implements OrderItemOptionInterface
         if ($value !== null) {
             $this->customerOptionValueCode = $value->getCode();
             $this->customerOptionValueName = $value->getName();
+            $this->optionValue             = null;
+        } else {
+            $this->optionValue = $value ?? '';
         }
     }
 
@@ -150,7 +153,7 @@ class OrderItemOption implements OrderItemOptionInterface
     /** {@inheritdoc} */
     public function getCustomerOptionValueName(): string
     {
-        return $this->customerOptionValueName ?? $this->optionValue;
+        return $this->customerOptionValueName ?? ($this->optionValue ?? '');
     }
 
     /** {@inheritdoc} */
@@ -164,8 +167,8 @@ class OrderItemOption implements OrderItemOptionInterface
     /** {@inheritdoc} */
     public function setPrice(CustomerOptionValuePriceInterface $price): void
     {
-        $this->fixedPrice = $price->getAmount();
-        $this->percent = $price->getPercent();
+        $this->fixedPrice  = $price->getAmount();
+        $this->percent     = $price->getPercent();
         $this->pricingType = $price->getType();
     }
 
@@ -215,7 +218,7 @@ class OrderItemOption implements OrderItemOptionInterface
         $equals &= $this->getCustomerOptionValue() === $orderItemOption->getCustomerOptionValue();
         $equals &= $this->getOptionValue() === $orderItemOption->getOptionValue();
 
-        return (bool) $equals;
+        return (bool)$equals;
     }
 
     public function __toString()

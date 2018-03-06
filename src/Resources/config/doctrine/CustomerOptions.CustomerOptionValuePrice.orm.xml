@@ -31,5 +31,12 @@
                      field="product" inversed-by="customerOptionValuePrices"
         >
         </many-to-one>
+
+        <one-to-one field="dateValid" target-entity="Brille24\CustomerOptionsPlugin\Entity\Tools\DateRange">
+            <cascade>
+                <cascade-all />
+            </cascade>
+            <join-column nullable="true" />
+        </one-to-one>
     </entity>
 </doctrine-mapping>

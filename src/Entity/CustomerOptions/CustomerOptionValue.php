@@ -19,6 +19,7 @@ use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface as COValuePriceInterface;
 
 class CustomerOptionValue implements CustomerOptionValueInterface
 {
@@ -117,15 +118,35 @@ class CustomerOptionValue implements CustomerOptionValueInterface
         return $prices;
     }
 
-    /** {@inheritdoc} */
-    public function getPriceForChannel(ChannelInterface $channel): ?CustomerOptionValuePriceInterface
+    public function getPricesForChannel(ChannelInterface $channel): Collection
     {
-        $this->prices->filter(function (CustomerOptionValuePriceInterface $price) use ($channel) {
-            return $price->getChannel() === $channel;
-        });
+        return $this->prices
+            ->filter(function (COValuePriceInterface $price) use ($channel) {
+                return $price->getChannel()->getId() === $channel->getId();
+            });
+    }
 
-        if ($this->prices->count() > 0) {
-            return $this->prices->first();
+    /** {@inheritdoc} */
+    public function getPriceForChannel(
+        ChannelInterface $channel,
+        bool $ignoreActive = false
+    ): ?CustomerOptionValuePriceInterface {
+
+        $prices = $this->getPricesForChannel($channel);
+
+        if (!$ignoreActive) {
+            $prices = $prices->filter(function (COValuePriceInterface $price) { return $price->isActive(); });
+        }
+
+        if (count($prices) > 1) {
+            // Get the prices with product references (aka. overrides) first
+            $prices = $prices->toArray();
+            return array_reduce($prices, function ($accumulator, COValuePriceInterface $price): COValuePriceInterface {
+                return $price->getProduct() !== null ? $price : $accumulator;
+            }, reset($prices));
+
+        } elseif (count($prices) === 1) {
+            return $prices->first();
         }
 
         return null;
