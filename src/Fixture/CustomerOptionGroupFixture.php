@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Fixture;
 
 use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionGroupFactory;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
@@ -20,24 +21,35 @@ class CustomerOptionGroupFixture extends AbstractFixture
 {
     private $factory;
 
-    public function __construct(CustomerOptionGroupFactory $factory)
+    private $em;
+
+    public function __construct(CustomerOptionGroupFactory $factory, EntityManagerInterface $em)
     {
         $this->factory = $factory;
+        $this->em = $em;
     }
 
     public function load(array $options): void
     {
+        $customerOptionsGroups = [];
+
         if (array_key_exists('amount', $options)) {
-            $this->factory->generateRandom($options['amount']);
+            $customerOptionsGroups = $this->factory->generateRandom($options['amount']);
         }
 
         foreach ($options['custom'] as $groupConfig) {
             try {
-                $this->factory->create($groupConfig);
+                $customerOptionsGroups[] = $this->factory->create($groupConfig);
             } catch (\Throwable $e) {
                 echo $e->getMessage();
             }
         }
+
+        foreach ($customerOptionsGroups as $group) {
+            $this->em->persist($group);
+        }
+
+        $this->em->flush();
     }
 
     public function getName(): string

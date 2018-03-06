@@ -7,7 +7,6 @@ namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Factory;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionFactory;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 
@@ -27,7 +26,6 @@ class CustomerOptionFactoryTest extends TestCase
         $channelRepositoryMock->expects($this->any())->method('findAll')->willReturn([]);
 
         $this->customerOptionFactory = new CustomerOptionFactory(
-            $this->createMock(EntityManagerInterface::class),
             $groupRepositoryMock,
             $channelRepositoryMock
         );

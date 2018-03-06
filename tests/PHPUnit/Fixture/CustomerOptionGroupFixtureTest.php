@@ -6,6 +6,7 @@ namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Fixture;
 
 use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionGroupFactory;
 use Brille24\CustomerOptionsPlugin\Fixture\CustomerOptionGroupFixture;
+use Doctrine\ORM\EntityManagerInterface;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 
@@ -126,7 +127,8 @@ class CustomerOptionGroupFixtureTest extends TestCase
     protected function getConfiguration()
     {
         return new CustomerOptionGroupFixture(
-            $this->createMock(CustomerOptionGroupFactory::class)
+            $this->createMock(CustomerOptionGroupFactory::class),
+            $this->createMock(EntityManagerInterface::class)
         );
     }
 }

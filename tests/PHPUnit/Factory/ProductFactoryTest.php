@@ -13,17 +13,9 @@ use Brille24\CustomerOptionsPlugin\Entity\Product;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\CustomerOptionsPlugin\Factory\ProductFactory;
 use PHPUnit\Framework\TestCase;
+use Sylius\Bundle\CoreBundle\Fixture\Factory\ProductExampleFactory;
 use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Core\Model\ProductInterface;
-use Sylius\Component\Core\Model\ProductTaxon;
-use Sylius\Component\Core\Model\Taxon;
-use Sylius\Component\Core\Uploader\ImageUploaderInterface;
-use Sylius\Component\Locale\Model\Locale;
-use Sylius\Component\Product\Generator\ProductVariantGeneratorInterface;
-use Sylius\Component\Product\Generator\SlugGeneratorInterface;
-use Sylius\Component\Product\Model\ProductAttribute;
-use Sylius\Component\Product\Model\ProductOption;
-use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 class ProductFactoryTest extends TestCase
@@ -31,9 +23,7 @@ class ProductFactoryTest extends TestCase
     /** @var ProductFactory */
     private $factory;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $customerOptionValueRepositoryMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -50,67 +40,18 @@ class ProductFactoryTest extends TestCase
      */
     public function setUp()
     {
-        $generalRepositoryMock = $this->createMock(RepositoryInterface::class);
-        $generalRepositoryMock->expects($this->any())->method('findAll')->willReturn([]);
-
-        $taxonRepositoryMock = $this->createMock(RepositoryInterface::class);
-        $taxonRepositoryMock->expects($this->any())->method('findAll')->willReturn([new Taxon()]);
-
-        $productAttributeRepositoryMock = $this->createMock(RepositoryInterface::class);
-        $productAttributeRepositoryMock->expects($this->any())->method('findAll')->willReturn([new ProductAttribute()]);
-
-        $productOptionRepositoryMock = $this->createMock(RepositoryInterface::class);
-        $productOptionRepositoryMock->expects($this->any())->method('findAll')->willReturn([new ProductOption()]);
-
         $channelRepositoryMock = $this->createMock(RepositoryInterface::class);
         $channelRepositoryMock->expects($this->any())->method('findAll')->willReturn([new Channel()]);
 
-        $locale = new Locale();
-        $locale->setCode('en_US');
-
-        $localeRepositoryMock = $this->createMock(RepositoryInterface::class);
-        $localeRepositoryMock->expects($this->any())->method('findAll')->willReturn([$locale]);
-
-        $productFactoryMock = $this->createMock(FactoryInterface::class);
-        $productFactoryMock->expects($this->any())->method('createNew')->willReturn(new Product());
-
-        $productTaxonFactoryMock = $this->createMock(FactoryInterface::class);
-        $productTaxonFactoryMock->expects($this->any())->method('createNew')->willReturn(new ProductTaxon());
-
-        $customerOption = new CustomerOption();
-        $this->customerOption = $customerOption;
-        $customerOption->setCode('some_option');
-        $customerOption->setType(CustomerOptionTypeEnum::SELECT);
-
-        $this->customerOptionGroup = new CustomerOptionGroup();
-        $this->customerOptionGroup->setCode('some_group');
-
-        $optionAssoc = new CustomerOptionAssociation();
-        $optionAssoc->setOption($customerOption);
-        $optionAssoc->setGroup($this->customerOptionGroup);
-
-        $this->customerOptionGroup->addOptionAssociation($optionAssoc);
-        $customerOption->addGroupAssociation($optionAssoc);
+        $productFactoryMock = $this->createMock(ProductExampleFactory::class);
+        $productFactoryMock->expects($this->any())->method('create')->willReturn(new Product());
 
         $this->customerOptionValueRepositoryMock = $this->createMock(RepositoryInterface::class);
-
         $this->customerOptionGroupRepositoryMock = $this->createMock(RepositoryInterface::class);
 
         $this->factory = new ProductFactory(
             $productFactoryMock,
-            $this->createMock(FactoryInterface::class),
-            $this->createMock(FactoryInterface::class),
-            $this->createMock(ProductVariantGeneratorInterface::class),
-            $this->createMock(FactoryInterface::class),
-            $this->createMock(FactoryInterface::class),
-            $productTaxonFactoryMock,
-            $this->createMock(ImageUploaderInterface::class),
-            $this->createMock(SlugGeneratorInterface::class),
-            $taxonRepositoryMock,
-            $productAttributeRepositoryMock,
-            $productOptionRepositoryMock,
             $channelRepositoryMock,
-            $localeRepositoryMock,
             $this->customerOptionGroupRepositoryMock,
             $this->customerOptionValueRepositoryMock
         );
@@ -140,6 +81,8 @@ class ProductFactoryTest extends TestCase
      */
     public function testCreateWithCustomerOptionGroup()
     {
+        $this->setUpCustomerOptionGroupRepository();
+
         $this->customerOptionGroupRepositoryMock
             ->expects($this->any())
             ->method('findOneBy')->with(['code' => $this->customerOptionGroup->getCode()])
@@ -164,6 +107,8 @@ class ProductFactoryTest extends TestCase
      */
     public function testCreateWithValuePrices()
     {
+        $this->setUpCustomerOptionGroupRepository();
+
         $this->customerOptionGroupRepositoryMock
             ->expects($this->any())
             ->method('findOneBy')->with(['code' => $this->customerOptionGroup->getCode()])
@@ -238,5 +183,26 @@ class ProductFactoryTest extends TestCase
         $this->expectException(\Exception::class);
 
         $product = $this->factory->create($options);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function setUpCustomerOptionGroupRepository()
+    {
+        $customerOption = new CustomerOption();
+        $this->customerOption = $customerOption;
+        $customerOption->setCode('some_option');
+        $customerOption->setType(CustomerOptionTypeEnum::SELECT);
+
+        $this->customerOptionGroup = new CustomerOptionGroup();
+        $this->customerOptionGroup->setCode('some_group');
+
+        $optionAssoc = new CustomerOptionAssociation();
+        $optionAssoc->setOption($customerOption);
+        $optionAssoc->setGroup($this->customerOptionGroup);
+
+        $this->customerOptionGroup->addOptionAssociation($optionAssoc);
+        $customerOption->addGroupAssociation($optionAssoc);
     }
 }

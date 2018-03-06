@@ -5,6 +5,7 @@
                 id="brille24.fixture.customer_option"
         >
             <argument type="service" id="brille24.fixture.factory.customer_option" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
             <tag name="sylius_fixtures.fixture" />
         </service>
 
@@ -13,6 +14,7 @@
                 id="brille24.fixture.customer_option_group"
         >
             <argument type="service" id="brille24.fixture.factory.customer_option_group" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
             <tag name="sylius_fixtures.fixture" />
         </service>
 

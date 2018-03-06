@@ -15,7 +15,6 @@
                 class="Brille24\CustomerOptionsPlugin\Factory\CustomerOptionFactory"
                 id="brille24.fixture.factory.customer_option"
         >
-            <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_group" />
             <argument type="service" id="sylius.repository.channel" />
         </service>
@@ -24,7 +23,6 @@
                 class="Brille24\CustomerOptionsPlugin\Factory\CustomerOptionGroupFactory"
                 id="brille24.fixture.factory.customer_option_group"
         >
-            <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="brille24.customer_options_plugin.repository.customer_option" />
             <argument type="service" id="sylius.repository.product" />
         </service>
@@ -33,20 +31,8 @@
                 class="Brille24\CustomerOptionsPlugin\Factory\ProductFactory"
                 id="brille24.fixture.factory.product"
         >
-            <argument type="service" id="sylius.custom_factory.product"/>
-            <argument type="service" id="sylius.custom_factory.product_variant"/>
-            <argument type="service" id="sylius.factory.channel_pricing"/>
-            <argument type="service" id="sylius.generator.product_variant"/>
-            <argument type="service" id="sylius.factory.product_attribute_value"/>
-            <argument type="service" id="sylius.factory.product_image"/>
-            <argument type="service" id="sylius.factory.product_taxon"/>
-            <argument type="service" id="sylius.image_uploader"/>
-            <argument type="service" id="sylius.generator.slug"/>
-            <argument type="service" id="sylius.repository.taxon"/>
-            <argument type="service" id="sylius.repository.product_attribute"/>
-            <argument type="service" id="sylius.repository.product_option"/>
+            <argument type="service" id="sylius.fixture.example_factory.product"/>
             <argument type="service" id="sylius.repository.channel"/>
-            <argument type="service" id="sylius.repository.locale"/>
             <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_group" />
             <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_value" />
         </service>

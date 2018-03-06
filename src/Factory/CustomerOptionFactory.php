@@ -21,7 +21,6 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePri
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
@@ -30,11 +29,6 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 class CustomerOptionFactory
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
     /**
      * @var RepositoryInterface
      */
@@ -51,11 +45,9 @@ class CustomerOptionFactory
     private $faker;
 
     public function __construct(
-        EntityManagerInterface $em,
         CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
         ChannelRepositoryInterface $channelRepository
     ) {
-        $this->em = $em;
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;
         $this->channelRepository = $channelRepository;
 
@@ -163,12 +155,8 @@ class CustomerOptionFactory
 
                 $group->addOptionAssociation($groupAssoc);
                 $customerOption->addGroupAssociation($groupAssoc);
-
-                $this->em->persist($groupAssoc);
             }
         }
-
-        $this->em->persist($customerOption);
 
         return $customerOption;
     }

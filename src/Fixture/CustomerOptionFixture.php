@@ -14,6 +14,7 @@ namespace Brille24\CustomerOptionsPlugin\Fixture;
 
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionFactory;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -22,24 +23,35 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
 {
     private $factory;
 
-    public function __construct(CustomerOptionFactory $factory)
+    private $em;
+
+    public function __construct(CustomerOptionFactory $factory, EntityManagerInterface $em)
     {
         $this->factory = $factory;
+        $this->em = $em;
     }
 
     public function load(array $options): void
     {
+        $customerOptions = [];
+
         if (array_key_exists('amount', $options)) {
-            $this->factory->generateRandom($options['amount']);
+            $customerOptions = $this->factory->generateRandom($options['amount']);
         }
 
         foreach ($options['custom'] as $optionConfig) {
             try {
-                $this->factory->create($optionConfig);
+                $customerOptions[] = $this->factory->create($optionConfig);
             } catch (\Throwable $e) {
                 dump($e->getMessage());
             }
         }
+
+        foreach ($customerOptions as $option) {
+            $this->em->persist($option);
+        }
+
+        $this->em->flush();
     }
 
     public function getName(): string

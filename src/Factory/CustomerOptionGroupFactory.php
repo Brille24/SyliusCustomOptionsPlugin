@@ -18,16 +18,12 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInt
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Throwable;
 
 class CustomerOptionGroupFactory
 {
-    /** @var EntityManagerInterface */
-    private $em;
-
     /** @var CustomerOptionRepositoryInterface */
     private $customerOptionRepository;
 
@@ -38,11 +34,9 @@ class CustomerOptionGroupFactory
     private $faker;
 
     public function __construct(
-        EntityManagerInterface $em,
         CustomerOptionRepositoryInterface $customerOptionRepository,
         ProductRepositoryInterface $productRepository
     ) {
-        $this->em = $em;
         $this->customerOptionRepository = $customerOptionRepository;
         $this->productRepository = $productRepository;
 
@@ -135,16 +129,11 @@ class CustomerOptionGroupFactory
 
                 $option->addGroupAssociation($optionAssoc);
                 $customerOptionGroup->addOptionAssociation($optionAssoc);
-
-                $this->em->persist($optionAssoc);
-                $this->em->persist($option);
             }
         }
 
         $products = $this->productRepository->findBy(['code' => $options['products']]);
         $customerOptionGroup->setProducts($products);
-
-        $this->em->persist($customerOptionGroup);
 
         return $customerOptionGroup;
     }

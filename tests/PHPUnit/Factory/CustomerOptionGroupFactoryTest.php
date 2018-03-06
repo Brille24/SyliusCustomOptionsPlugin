@@ -9,7 +9,6 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
 use Brille24\CustomerOptionsPlugin\Entity\Product;
 use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionGroupFactory;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 
@@ -33,7 +32,6 @@ class CustomerOptionGroupFactoryTest extends TestCase
         $this->productRepositoryMock->method('findAll')->willReturn([]);
 
         $this->customerOptionGroupFactory = new CustomerOptionGroupFactory(
-            $this->createMock(EntityManagerInterface::class),
             $this->customerOptionRepositoryMock,
             $this->productRepositoryMock
         );
