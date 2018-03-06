@@ -34,6 +34,24 @@ class CustomerOptionRepository extends EntityRepository implements CustomerOptio
 
     /**
      * {@inheritdoc}
+     *
+     * @return CustomerOptionInterface|null
+     */
+    public function findByName(string $name, string $locale): array
+    {
+        return $this->createQueryBuilder('o')
+            ->innerJoin('o.translations', 'translation')
+            ->andWhere('translation.name = :name')
+            ->andWhere('translation.locale = :locale')
+            ->setParameter('name', $name)
+            ->setParameter('locale', $locale)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function findByType(string $type): array
     {

@@ -9,6 +9,9 @@ sylius_grid:
                 code:
                     type: string
                     label: sylius.ui.code
+                name:
+                    type: string
+                    label: sylius.ui.name
                 type:
                     type: twig
                     label: sylius.ui.type

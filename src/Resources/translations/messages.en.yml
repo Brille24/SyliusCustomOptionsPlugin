@@ -37,7 +37,7 @@ brille24:
             duplicate_option: A group can not have an option twice
         config:
             min:
-                length: Minimum Length
+                length: Minimum length
                 file_size: Minimum size
                 date: Minimum date
                 number: Minimum number

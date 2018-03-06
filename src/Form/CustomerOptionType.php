@@ -58,11 +58,6 @@ final class CustomerOptionType extends AbstractResourceType
                 'entry_type' => CustomerOptionValuePriceType::class,
                 'label' => false,
                 'by_reference' => false,
-//                'query_builder' => function(EntityRepository $repository){
-//                    $qb = $repository->createQueryBuilder('p');
-//
-//                    return $qb->where($qb->expr()->neq('p.product', null));
-//                },
             ])
         ;
     }

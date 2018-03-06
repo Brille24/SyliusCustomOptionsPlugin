@@ -1,4 +1,17 @@
 # Put your Behat suites definitions here
 
 default:
-    suites: ~
+    suites:
+        ui_creating_customer_options:
+            contexts_services:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.setup.admin_security
+                - sylius.behat.context.setup.channel
+
+                - sylius.behat.context.ui.admin.notification
+
+                - brille24.behat.context.customer_options
+
+            filters:
+                tags: "@managing_customer_options && @ui"

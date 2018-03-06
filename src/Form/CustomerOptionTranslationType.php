@@ -21,7 +21,8 @@ final class CustomerOptionTranslationType extends AbstractResourceType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, ['label' => 'sylius.form.product.name']);
+            ->add('name', TextType::class, ['label' => 'sylius.form.product.name'])
+        ;
     }
 
     public function getBlockPrefix(): string

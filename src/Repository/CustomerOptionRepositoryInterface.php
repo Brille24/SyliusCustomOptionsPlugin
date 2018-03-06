@@ -25,6 +25,14 @@ interface CustomerOptionRepositoryInterface extends RepositoryInterface
     public function findOneByCode(string $code): ?CustomerOptionInterface;
 
     /**
+     * @param string $name
+     * @param string $locale
+     *
+     * @return array
+     */
+    public function findByName(string $name, string $locale): array;
+
+    /**
      * @param string $type
      *
      * @return CustomerOptionInterface[]

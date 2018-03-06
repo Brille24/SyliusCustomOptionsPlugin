@@ -37,9 +37,9 @@ final class CustomerOptionAssociationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-                                   'error_bubbling' => true,
-                                   'data_class' => CustomerOptionAssociation::class,
-                               ]);
+            'error_bubbling' => true,
+            'data_class' => CustomerOptionAssociation::class,
+        ]);
     }
 
     /**

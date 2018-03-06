@@ -27,10 +27,6 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 final class ProductTypeExtension extends AbstractTypeExtension
 {
-    public function __construct()
-    {
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var ProductInterface $product */
@@ -44,8 +40,6 @@ final class ProductTypeExtension extends AbstractTypeExtension
                 $customerOptions[] = $optionAssociation->getOption();
             }
         }
-
-//        $prices = $product->getCustomerOptionPrices();
 
         $builder
             ->add('customerOptionGroup', EntityType::class, [
