@@ -201,34 +201,48 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function setGroupAssociations(CustomerOptionAssociationInterface $assoc): void
+    public function setGroupAssociations(ArrayCollection $assoc): void
     {
         $this->groupAssociations = $assoc;
-        $assoc->setOption($this);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function addGroupAssociation(CustomerOptionAssociationInterface $assoc): void
     {
         $this->groupAssociations->add($assoc);
         $assoc->setOption($this);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function removeGroupAssociation(CustomerOptionAssociationInterface $assoc): void
     {
         $this->groupAssociations->removeElement($assoc);
         $assoc->setOption(null);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setName(?string $name): void
     {
         $this->getTranslation()->setName($name);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName(): ?string
     {
         return $this->getTranslation()->getName();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPrices()
     {
         $prices = [];
@@ -242,6 +256,9 @@ class CustomerOption implements CustomerOptionInterface
         return $prices;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setPrices(array $prices)
     {
     }

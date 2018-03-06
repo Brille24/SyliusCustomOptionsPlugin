@@ -103,16 +103,22 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     public function setPrices(array $prices);
 
     /**
-     * @param CustomerOptionAssociationInterface $assoc
+     * @param ArrayCollection $assoc
      */
-    public function setGroupAssociations(CustomerOptionAssociationInterface $assoc): void;
+    public function setGroupAssociations(ArrayCollection $assoc): void;
 
     /**
-     * @return CustomerOptionAssociationInterface[]
+     * @return ArrayCollection
      */
     public function getGroupAssociations(): ArrayCollection;
 
+    /**
+     * @param CustomerOptionAssociationInterface $assoc
+     */
     public function addGroupAssociation(CustomerOptionAssociationInterface $assoc): void;
 
+    /**
+     * @param CustomerOptionAssociationInterface $assoc
+     */
     public function removeGroupAssociation(CustomerOptionAssociationInterface $assoc): void;
 }

@@ -108,12 +108,21 @@ class ProductFactory extends BaseFactory
      */
     public function create(array $options = []): \Sylius\Component\Core\Model\ProductInterface
     {
+        $options = array_merge(['customer_option_value_prices' => []], $options);
+
         /** @var ProductInterface $product */
         $product = parent::create($options);
 
         if (isset($options['customer_option_group'])) {
+            /** @var CustomerOptionGroupInterface $customerOptionGroup */
+            $customerOptionGroup = $this->customerOptionGroupRepository->findOneBy(['code' => $options['customer_option_group']]);
+
+            if($customerOptionGroup === null){
+                throw new \Exception(sprintf("CustomerOptionGroup with code '%s' does not exist!", $options['customer_option_group']));
+            }
+
             $product->setCustomerOptionGroup(
-                $this->customerOptionGroupRepository->findOneBy(['code' => $options['customer_option_group']])
+                $customerOptionGroup
             );
 
             $prices = new ArrayCollection();
