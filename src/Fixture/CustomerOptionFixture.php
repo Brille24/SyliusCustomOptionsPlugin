@@ -21,25 +21,29 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
 {
+    /** @var CustomerOptionFactory  */
     private $factory;
 
+    /** @var EntityManagerInterface  */
     private $em;
 
     public function __construct(CustomerOptionFactory $factory, EntityManagerInterface $em)
     {
         $this->factory = $factory;
-        $this->em = $em;
+        $this->em      = $em;
     }
 
     public function load(array $options): void
     {
+        // Getting the configured options
+        $customConfiguration = array_key_exists('custom', $options) ? $options['custom'] : [];
+
+        // When amount is given, generate config
+        $autoConfiguration   = array_key_exists('amount', $options)
+            ? $this->factory->generateRandomConfiguration($options['amount']) : [];
+
         $customerOptions = [];
-
-        if (array_key_exists('amount', $options)) {
-            $customerOptions = $this->factory->generateRandom($options['amount']);
-        }
-
-        foreach ($options['custom'] as $optionConfig) {
+        foreach (array_merge($customConfiguration, $autoConfiguration) as $optionConfig) {
             try {
                 $customerOptions[] = $this->factory->create($optionConfig);
             } catch (\Throwable $e) {
@@ -119,7 +123,7 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
                                                         ->defaultValue(0)
                                                     ->end()
                                                     ->scalarNode('channel')
-                                                        ->defaultValue('default')
+                                                        ->cannotBeEmpty()
                                                     ->end()
                                                 ->end()
                                             ->end()

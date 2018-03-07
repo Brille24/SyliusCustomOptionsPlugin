@@ -19,5 +19,6 @@
 
             <tag name="sylius.order_processor"/>
         </service>
+
     </services>
 </container>

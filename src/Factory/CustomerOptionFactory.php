@@ -17,8 +17,10 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociat
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\CustomerOptionsPlugin\Exceptions\ConfigurationException;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
@@ -28,7 +30,7 @@ use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
-class CustomerOptionFactory
+class CustomerOptionFactory implements CustomerOptionFactoryInterface
 {
     /**
      * @var RepositoryInterface
@@ -44,13 +46,17 @@ class CustomerOptionFactory
      * @var \Faker\Generator
      */
     private $faker;
+    /**
+     * @var CustomerOptionFactoryInterface
+     */
+    private $customerOptionValueFactory;
 
     public function __construct(
         CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
-        ChannelRepositoryInterface $channelRepository
+        CustomerOptionFactoryInterface $customerOptionValueFactory
     ) {
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;
-        $this->channelRepository             = $channelRepository;
+        $this->customerOptionValueFactory    = $customerOptionValueFactory;
 
         $this->faker = Factory::create();
     }
@@ -58,93 +64,64 @@ class CustomerOptionFactory
     /**
      * Validates the option array and throws an error if it is not valid
      *
-     * @param array $options
+     * @param array $configuration
      *
      * @throws \Exception
      */
-    private function validateOptions(array $options): void
+    public function validateConfiguration(array $configuration): void
     {
-        if (count($options['translations']) == 0) {
-            throw new \Exception('At least one translation is required.');
+        ConfigurationException::createFromMissingArrayKey('code', $configuration);
+
+        ConfigurationException::createFromMissingArrayKey('translations', $configuration);
+        if (!is_array($configuration['translations'])) {
+            throw new ConfigurationException('The translations have to be an array');
+        }
+        ConfigurationException::createFromMinimumLength(1, $configuration['translations']);
+
+        ConfigurationException::createFromMissingArrayKey('type', $configuration);
+        ConfigurationException::createFromArrayContains($configuration['type'], CustomerOptionTypeEnum::getConstList());
+        if(CustomerOptionTypeEnum::isSelect($configuration['type'])){
+            ConfigurationException::createFromMissingArrayKey('values', $configuration);
         }
 
-        if (!CustomerOptionTypeEnum::isValid($options['type'])) {
-            throw new \Exception(sprintf('Customer Option Type "%s" is not valid.', $options['type']));
-        }
+        ConfigurationException::createFromMissingArrayKey('groups', $configuration);
     }
 
     /**
-     * @param array $options
+     * @param array $configuration
      *
      * @return CustomerOptionInterface
      *
      * @throws \Exception
      */
-    public function create(array $options = []): CustomerOptionInterface
+    public function create(array $configuration): CustomerOptionInterface
     {
-        $options = array_merge($this->getOptionsPrototype(), $options);
-        $this->validateOptions($options);
+        $this->validateConfiguration($configuration);
 
         $customerOption = new CustomerOption();
-        $customerOption->setCode($options['code']);
+        $customerOption->setCode($configuration['code']);
 
-        foreach ($options['translations'] as $locale => $name) {
+        foreach ($configuration['translations'] as $locale => $name) {
             $customerOption->setCurrentLocale($locale);
             $customerOption->setName($name);
         }
 
-        $customerOption->setType($options['type']);
+        $customerOption->setType($configuration['type']);
 
-        if (CustomerOptionTypeEnum::isSelect($options['type'])) {
-            foreach ($options['values'] as $valueConfig) {
-                $value = new CustomerOptionValue();
-                $value->setCode($valueConfig['code']);
-
-                foreach ($valueConfig['translations'] as $locale => $name) {
-                    $value->setCurrentLocale($locale);
-                    $value->setName($name);
-                }
-
-                $prices = new ArrayCollection();
-
-                foreach ($valueConfig['prices'] as $priceConfig) {
-                    $price = new CustomerOptionValuePrice();
-
-                    if ($priceConfig['type'] === 'fixed') {
-                        $price->setType(CustomerOptionValuePrice::TYPE_FIXED_AMOUNT);
-                    } elseif ($priceConfig['type'] === 'percent') {
-                        $price->setType(CustomerOptionValuePrice::TYPE_PERCENT);
-                    } else {
-                        throw new \Exception(sprintf("Value price type '%s' does not exist!", $priceConfig['type']));
-                    }
-
-                    $price->setAmount($priceConfig['amount']);
-                    $price->setPercent($priceConfig['percent']);
-                    $price->setCustomerOptionValue($value);
-
-                    /** @var ChannelInterface $channel */
-                    $channel = $this->channelRepository->findOneByCode($priceConfig['channel']);
-
-                    if ($channel === null) {
-                        throw new EntityNotFoundException('Could not find Channel with code ' . $priceConfig['channel']);
-                    }
-
-                    $price->setChannel($channel);
-
-                    $prices[] = $price;
-                }
-
-                $value->setPrices($prices);
+        if (CustomerOptionTypeEnum::isSelect($configuration['type'])) {
+            foreach ($configuration['values'] as $valueConfig) {
+                /** @var CustomerOptionValueInterface $value */
+                $value = $this->customerOptionValueFactory->create($valueConfig);
 
                 $customerOption->addValue($value);
             }
         }
 
-        $customerOption->setRequired($options['required']);
+        $customerOption->setRequired(isset($configuration['required']) ? boolval($configuration['required']) : false);
 
-        foreach ($options['groups'] as $groupCode) {
+        foreach ($configuration['groups'] as $groupCode) {
             /** @var CustomerOptionGroupInterface $group */
-            $group = $this->customerOptionGroupRepository->findOneBy(['code' => $groupCode]);
+            $group = $this->customerOptionGroupRepository->findOneByCode($groupCode);
 
             if ($group !== null) {
                 $groupAssoc = new CustomerOptionAssociation();
@@ -164,89 +141,38 @@ class CustomerOptionFactory
      *
      * @return CustomerOptionInterface[]
      */
-    public function generateRandom(int $amount): array
+    public function generateRandomConfiguration(int $amount): array
     {
         $types = CustomerOptionTypeEnum::getConstList();
 
-        $names = $this->getUniqueNames($amount);
+        $this->faker->unique($reset=true);
 
-        $customerOptions = [];
-
+        $result = [];
         for ($i = 0; $i < $amount; ++$i) {
             $options = [];
 
             $options['code']                  = $this->faker->uuid;
-            $options['translations']['en_US'] = sprintf('CustomerOption "%s"', $names[$i]);
+            $options['translations']['en_US'] = sprintf('CustomerOption "%s"', $this->faker->unique()->word);
             $options['type']                  = $this->faker->randomElement($types);
             $options['required']              = $this->faker->boolean;
 
             if (CustomerOptionTypeEnum::isSelect($options['type'])) {
-                $values     = [];
-                $numValues  = $this->faker->numberBetween(2, 4);
-                $valueNames = $this->getUniqueNames($numValues);
-
-                for ($j = 0; $j < $numValues; ++$j) {
-                    $value = [];
-
-                    $value['code']                  = $this->faker->uuid;
-                    $value['translations']['en_US'] = sprintf('Value "%s"', $valueNames[$j]);
-
-                    $price = [];
-
-                    $price['type']    = $this->faker->randomElement(['fixed', 'percent']);
-                    $price['amount']  = $this->faker->numberBetween(50, 10000);
-                    $price['percent'] = $this->faker->randomFloat(4, 0.01, 0.5);
-                    $price['channel'] = $this->faker->randomElement($this->channelRepository->findAll())->getCode();
-
-                    $value['prices'][] = $price;
-                    $values[]          = $value;
-                }
-
-                $options['values'] = $values;
+                $numValues         = $this->faker->numberBetween(2, 4);
+                $options['values'] = $this->customerOptionValueFactory->generateRandomConfiguration($numValues);
             }
 
             /** @var CustomerOptionGroupInterface[] $groups */
             $groups     = $this->customerOptionGroupRepository->findAll();
-            $groupCodes = array_map(function ($group) { return $group->getCode(); }, $groups);
+            $groupCodes = array_map(function (CustomerOptionGroupInterface $group) { return $group->getCode(); },
+                $groups);
 
+            $options['groups'] = [];
             if (count($groupCodes) > 0) {
                 $options['groups'] = $this->faker->randomElements($groupCodes);
             }
-
-            try {
-                $customerOptions[] = $this->create($options);
-            } catch (\Throwable $e) {
-                sprintf(STDOUT, "ERROR on line " . $e->getLine() . ": " . $e->getMessage());
-            }
+            $result[] = $options;
         }
 
-        return $customerOptions;
-    }
-
-    /**
-     * Gets a list of unique names
-     *
-     * @param int $amount
-     *
-     * @return array
-     */
-    private function getUniqueNames(int $amount): array
-    {
-        $this->faker->unique($reset = true);
-        $names = array_fill(0, $amount, $this->faker->unique()->word);
-
-        return $names;
-    }
-
-    private function getOptionsPrototype(): array
-    {
-        return [
-            'code'         => null,
-            'translations' => [],
-            'type'         => null,
-            'values'       => [],
-            'required'     => false,
-            'groups'       => [],
-        ];
+        return $result;
     }
 }
