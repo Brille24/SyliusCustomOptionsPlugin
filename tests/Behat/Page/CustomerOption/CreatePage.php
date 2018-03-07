@@ -5,9 +5,7 @@ namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOption;
 
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ElementNotFoundException;
-use Behat\Mink\Session;
 use Sylius\Behat\Page\Admin\Crud\CreatePage as BaseCreatePage;
-use Symfony\Component\Routing\RouterInterface;
 
 class CreatePage extends BaseCreatePage
 {
@@ -51,7 +49,17 @@ class CreatePage extends BaseCreatePage
         $result = $this->getDocument()->hasField($config);
 
         if(!$result){
-            // Look for group of fields
+            $requiredFields = $this->getDocument()->findAll('css', '.field');
+
+            /** @var NodeElement $requiredField */
+            foreach ($requiredFields as $requiredField){
+                $label = $requiredField->find('css', 'label');
+
+                if($label !== null && $label->getText() === $config){
+                    $result = $requiredField->has('css', 'div[id^="brille24_customer_option_configuration"]');
+                    break;
+                }
+            }
         }
 
         return $result;
@@ -87,5 +95,12 @@ class CreatePage extends BaseCreatePage
 
         $lastValueItem->fillField('Code', $code);
         $lastValueItem->fillField('Name', $name);
+    }
+
+    protected function getDefinedElements()
+    {
+        return [
+            'code' => '#brille24_customer_option_code',
+        ];
     }
 }

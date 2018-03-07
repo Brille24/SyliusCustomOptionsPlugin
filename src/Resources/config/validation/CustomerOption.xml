@@ -11,6 +11,7 @@
 
         <property name="code">
             <constraint name="NotNull">
+                <option name="message">brille24.customer_option.not_null</option>
                 <option name="groups">sylius</option>
             </constraint>
         </property>

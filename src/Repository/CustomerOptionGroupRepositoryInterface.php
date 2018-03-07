@@ -25,4 +25,6 @@ interface CustomerOptionGroupRepositoryInterface extends RepositoryInterface
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findOneByCode(string $code): CustomerOptionGroupInterface;
+
+    public function findByName(string $name, string $locale): array;
 }

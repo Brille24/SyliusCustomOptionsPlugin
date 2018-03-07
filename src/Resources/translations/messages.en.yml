@@ -22,6 +22,7 @@ brille24:
         customer_options:
             subheader: Manage your Customer Options
             unique: The code has to be unique
+            not_null: The value cannot be blank
             type:
                 text: Text
                 select: Select

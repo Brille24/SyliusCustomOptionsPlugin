@@ -2,7 +2,7 @@
 
 default:
     suites:
-        ui_creating_customer_options:
+        ui_admin_customer_options:
             contexts_services:
                 - sylius.behat.context.hook.doctrine_orm
 
@@ -11,7 +11,59 @@ default:
 
                 - sylius.behat.context.ui.admin.notification
 
-                - brille24.behat.context.customer_options
+                - brille24.behat.context.setup
+                - brille24.behat.context.transform
+
+                - brille24.behat.context.admin.customer_options
 
             filters:
-                tags: "@managing_customer_options && @ui"
+                tags: "@admin && @customer_options && @ui"
+
+        ui_admin_customer_option_groups:
+            contexts_services:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.setup.admin_security
+                - sylius.behat.context.setup.channel
+
+                - sylius.behat.context.ui.admin.notification
+
+                - brille24.behat.context.setup
+                - brille24.behat.context.transform
+
+                - brille24.behat.context.admin.customer_option_groups
+
+            filters:
+                tags: "@admin && @customer_option_groups && @ui"
+
+        ui_admin_products_with_customer_options:
+            contexts_services:
+                - sylius.behat.context.hook.doctrine_orm
+                - sylius.behat.context.setup.admin_security
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.product
+
+                - sylius.behat.context.transform.product
+
+                - sylius.behat.context.ui.admin.notification
+
+                - brille24.behat.context.setup
+                - brille24.behat.context.transform
+
+                - brille24.behat.context.admin.product
+
+            filters:
+                tags: "@admin && @products && @ui"
+
+        ui_shop_products_with_customer_options:
+            contexts_services:
+                - sylius.behat.context.hook.doctrine_orm
+                - sylius.behat.context.setup.product
+                - sylius.behat.context.setup.channel
+
+                - sylius.behat.context.transform.product
+
+                - brille24.behat.context.setup
+                - brille24.behat.context.transform
+
+                - brille24.behat.context.shop.customer_options

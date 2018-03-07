@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Context;
+namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Admin;
 
 
 use Behat\Behat\Tester\Exception\PendingException;
@@ -12,12 +12,12 @@ use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Sylius\Behat\Page\Admin\Crud\CreatePageInterface;
 use Sylius\Behat\Page\Admin\Crud\IndexPageInterface;
 use Sylius\Behat\Page\Admin\Crud\UpdatePageInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Sylius\Behat\Service\Resolver\CurrentPageResolverInterface;
 use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOption\CreatePage;
 use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOption\UpdatePage;
 use Webmozart\Assert\Assert;
 
-class ManagingCustomerOptionsContext implements Context
+class CustomerOptionsContext implements Context
 {
     /** @var IndexPageInterface  */
     private $indexPage;
@@ -28,20 +28,20 @@ class ManagingCustomerOptionsContext implements Context
     /** @var UpdatePage  */
     private $updatePage;
 
-    /** @var CustomerOptionRepositoryInterface */
-    private $customerOptionRepository;
+    /** @var CurrentPageResolverInterface  */
+    private $currentPageResolver;
 
     public function __construct(
         IndexPageInterface $indexPage,
         CreatePageInterface $createPage,
         UpdatePageInterface $updatePage,
-        CustomerOptionRepositoryInterface $customerOptionRepository
+        CurrentPageResolverInterface $currentPageResolver
     )
     {
         $this->indexPage = $indexPage;
         $this->createPage = $createPage;
         $this->updatePage = $updatePage;
-        $this->customerOptionRepository = $customerOptionRepository;
+        $this->currentPageResolver = $currentPageResolver;
     }
 
     /**
@@ -73,7 +73,10 @@ class ManagingCustomerOptionsContext implements Context
      */
     public function iSpecifyItsCodeAs($code)
     {
-        $this->createPage->setCode($code);
+        /** @var CreatePage|UpdatePage $currentPage */
+        $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
+
+        $currentPage->setCode($code);
     }
 
     /**
@@ -81,7 +84,10 @@ class ManagingCustomerOptionsContext implements Context
      */
     public function iNameIt($name)
     {
-        $this->createPage->setName($name);
+        /** @var CreatePage|UpdatePage $currentPage */
+        $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
+
+        $currentPage->setName($name);
     }
 
     /**
@@ -89,7 +95,10 @@ class ManagingCustomerOptionsContext implements Context
      */
     public function iSpecifyItsTypeAs($type)
     {
-        $this->createPage->chooseType($type);
+        /** @var CreatePage|UpdatePage $currentPage */
+        $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
+
+        $currentPage->chooseType($type);
     }
 
     /**
@@ -115,7 +124,10 @@ class ManagingCustomerOptionsContext implements Context
      */
     public function iSetItRequired()
     {
-        $this->createPage->setRequired();
+        /** @var CreatePage|UpdatePage $currentPage */
+        $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
+
+        $currentPage->setRequired();
     }
 
     /**
@@ -123,7 +135,10 @@ class ManagingCustomerOptionsContext implements Context
      */
     public function iShouldSeeConfigurationFor($config)
     {
-        Assert::true($this->createPage->hasConfiguration($config));
+        /** @var CreatePage|UpdatePage $currentPage */
+        $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
+
+        Assert::true($currentPage->hasConfiguration($config));
     }
 
     /**
@@ -134,18 +149,6 @@ class ManagingCustomerOptionsContext implements Context
         $this->iWantToModifyCustomerOption($customerOption);
 
         Assert::true($this->updatePage->hasConfiguration($config));
-    }
-
-    /**
-     * @Transform :customerOption
-     */
-    public function getCustomerOptionByName(string $name): CustomerOptionInterface
-    {
-        $customerOption = $this->customerOptionRepository->findByName($name, 'en_US');
-
-        Assert::true(count($customerOption) > 0);
-
-        return $customerOption[0];
     }
 
     /**
@@ -186,5 +189,50 @@ class ManagingCustomerOptionsContext implements Context
     public function iShouldSeePriceConfigurationForValue($arg1)
     {
         throw new PendingException();
+    }
+
+    /**
+     * @When I delete customer option :name
+     */
+    public function iDeleteCustomerOption($name)
+    {
+        $this->indexPage->deleteResourceOnPage(['name' => $name]);
+    }
+
+    /**
+     * @Then the customer option :name should not appear in the registry
+     */
+    public function theCustomerOptionShouldNotAppearInTheRegistry($name)
+    {
+        $this->iWantToBrowseCustomerOptions();
+        Assert::false($this->indexPage->isSingleResourceOnPage(['name' => $name]));
+    }
+
+    /**
+     * @Then I should be notified that code is required
+     */
+    public function iShouldBeNotifiedThatCodeIsRequired()
+    {
+        /** @var CreatePageInterface|UpdatePageInterface $currentPage */
+        $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
+
+        Assert::same(
+            $currentPage->getValidationMessage('code'),
+            'brille24.customer_option.not_null'
+        );
+    }
+
+    /**
+     * @Then I should be notified that code has to be unique
+     */
+    public function iShouldBeNotifiedThatCodeHasToBeUnique()
+    {
+        /** @var CreatePageInterface|UpdatePageInterface $currentPage */
+        $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
+
+        Assert::same(
+            $currentPage->getValidationMessage('code'),
+            'brille24.customer_options.unique'
+        );
     }
 }

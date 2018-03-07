@@ -1,37 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <imports>
+        <import resource="pages.xml"/>
+    </imports>
+    
     <services>
-        <!-- Put your Behat services here -->
         <service
-                id="brille24.behat.page.admin.customer_options.create"
-                class="Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOption\CreatePage"
-                parent="sylius.behat.page.admin.crud.create"
+                id="brille24.behat.context.setup"
+                class="Tests\Brille24\CustomerOptionsPlugin\Behat\Context\SetupContext"
         >
-            <argument>brille24_admin_customer_option_create</argument>
-        </service>
-        <service
-                id="brille24.behat.page.admin.customer_options.update"
-                class="Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOption\UpdatePage"
-                parent="sylius.behat.page.admin.crud.update"
-        >
-            <argument>brille24_admin_customer_option_update</argument>
-        </service>
-        <service
-                id="brille24.behat.page.admin.customer_options.index"
-                parent="sylius.behat.page.admin.crud.index"
-        >
-            <argument>brille24_admin_customer_option_index</argument>
+            <argument type="service" id="__symfony__.brille24.customer_options_plugin.repository.customer_option" />
+            <argument type="service" id="__symfony__.brille24.customer_options_plugin.repository.customer_option_group" />
+            <!--<argument type="service" id="" />-->
+            <tag name="fob.context_service" />
         </service>
 
         <service
-            id="brille24.behat.context.customer_options"
-            class="Tests\Brille24\CustomerOptionsPlugin\Behat\Context\ManagingCustomerOptionsContext"
+                id="brille24.behat.context.transform"
+                class="Tests\Brille24\CustomerOptionsPlugin\Behat\Context\TransformContext"
+        >
+            <argument type="service" id="__symfony__.brille24.customer_options_plugin.repository.customer_option" />
+            <argument type="service" id="__symfony__.brille24.customer_options_plugin.repository.customer_option_group" />
+            <tag name="fob.context_service" />
+        </service>
+
+        <!-- Admin -->
+        <service
+            id="brille24.behat.context.admin.customer_options"
+            class="Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Admin\CustomerOptionsContext"
         >
             <argument type="service" id="brille24.behat.page.admin.customer_options.index" />
             <argument type="service" id="brille24.behat.page.admin.customer_options.create" />
             <argument type="service" id="brille24.behat.page.admin.customer_options.update" />
-            <argument type="service" id="__symfony__.brille24.customer_options_plugin.repository.customer_option" />
+            <argument type="service" id="sylius.behat.current_page_resolver" />
+            <tag name="fob.context_service" />
+        </service>
+
+        <service
+            id="brille24.behat.context.admin.customer_option_groups"
+            class="Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Admin\CustomerOptionGroupsContext"
+        >
+            <argument type="service" id="brille24.behat.page.admin.customer_option_groups.create" />
+            <argument type="service" id="brille24.behat.page.admin.customer_option_groups.update" />
+            <argument type="service" id="brille24.behat.page.admin.customer_option_groups.index" />
+            <argument type="service" id="sylius.behat.current_page_resolver" />
+            <tag name="fob.context_service" />
+        </service>
+
+        <service
+            id="brille24.behat.context.admin.product"
+            class="Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Admin\ProductsContext"
+        >
+            <argument type="service" id="brille24.behat.page.admin.product.update_simple" />
+            <argument type="service" id="brille24.behat.page.admin.product.update_configurable" />
+            <argument type="service" id="sylius.behat.current_page_resolver" />
+            <tag name="fob.context_service" />
+        </service>
+
+        <!-- Shop -->
+        <service
+            id="brille24.behat.context.shop.customer_options"
+            class="Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Shop\CustomerOptionContext"
+        >
             <tag name="fob.context_service" />
         </service>
     </services>
