@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Factory;
 
+use Behat\Behat\Context\Exception\UnknownTranslationResourceException;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
@@ -46,7 +47,7 @@ class CustomerOptionGroupFactory
     private function validateOptions(array $options)
     {
         if (count($options['translations']) === 0) {
-            return false;
+            throw new \Exception('There has to be at least one translation');
         }
 
         return true;
@@ -106,10 +107,7 @@ class CustomerOptionGroupFactory
     public function create(array $options): CustomerOptionGroupInterface
     {
         $options = array_merge($this->getOptionsPrototype(), $options);
-
-        if ($this->validateOptions($options) === false) {
-            throw new \Exception('Invalid options,');
-        }
+        $this->validateOptions($options);
 
         $customerOptionGroup = new CustomerOptionGroup();
 
