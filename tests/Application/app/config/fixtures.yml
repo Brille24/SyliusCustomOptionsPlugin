@@ -18,7 +18,7 @@ sylius_fixtures:
                                             - type: fixed
                                               amount: 100
                                               percent: 0
-                                              channel: default
+                                              channel: US_WEB
 
                                     -   code: val_2
                                         translations:
@@ -27,7 +27,7 @@ sylius_fixtures:
                                             - type: percent
                                               amount: 0
                                               percent: 20
-                                              channel: default
+                                              channel: US_WEB
                                 required: false
                                 groups: ~
 

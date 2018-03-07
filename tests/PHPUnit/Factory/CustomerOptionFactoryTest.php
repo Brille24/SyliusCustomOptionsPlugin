@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Factory;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\CustomerOptionsPlugin\Exceptions\ConfigurationException;
 use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionFactory;
+use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionValueFactory;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
 use PHPUnit\Framework\TestCase;
-use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 class CustomerOptionFactoryTest extends TestCase
 {
@@ -20,157 +20,190 @@ class CustomerOptionFactoryTest extends TestCase
      */
     private $customerOptionFactory;
 
+    /** @var CustomerOptionGroupRepositoryInterface */
+    private $customerOptionGroupRepository = [];
+
     public function setUp()
     {
-        $groupRepositoryMock = $this->createMock(CustomerOptionGroupRepositoryInterface::class);
-        $groupRepositoryMock->method('findAll')->willReturn([]);
+        $customerOptionValueFactory = self::createMock(CustomerOptionValueFactory::class);
 
-        $channel = $this->createMock(ChannelInterface::class);
-        $channel->method('getCode')->willReturn('en_US');
-
-        $channelRepositoryMock = $this->createMock(ChannelRepositoryInterface::class);
-        $channelRepositoryMock->method('findAll')->willReturn([$channel]);
-        $channelRepositoryMock->method('findOneByCode')->willReturnCallback(function (string $code) use ($channel) {
-            if ($code === 'en_US') {
-                return $channel;
+        $customerOptionGroupRepository = self::createMock(CustomerOptionGroupRepositoryInterface::class);
+        $customerOptionGroupRepository->method('findAll')->willReturnCallback(
+            function () { return $this->customerOptionGroupRepository; }
+        );
+        $customerOptionGroupRepository->method('findOneByCode')->willReturnCallback(function (string $code) {
+            foreach ($this->customerOptionGroupRepository as $group) {
+                if ($group->getCode() === $code) {
+                    return $group;
+                }
             }
             return null;
         });
 
         $this->customerOptionFactory = new CustomerOptionFactory(
-            $groupRepositoryMock,
-            $channelRepositoryMock
+            $customerOptionGroupRepository,
+            $customerOptionValueFactory
         );
     }
 
-    public function assertCustomerOption(CustomerOptionInterface $customerOption): void
+    /** @dataProvider dataValidateInvalidConfiguration */
+    public function testValidateWithInvalidConfiguration(array $configuration, string $errorMessage): void
     {
-        /** @var CustomerOption $customerOption */
-        $this->assertInstanceOf(CustomerOptionInterface::class, $customerOption);
-        $this->assertNotNull($customerOption->getCode());
-        $this->assertArrayHasKey('en_US', $customerOption->getTranslations()->toArray());
+        self::expectException(ConfigurationException::class);
+        self::expectExceptionMessage($errorMessage);
+
+        $this->customerOptionFactory->validateConfiguration($configuration);
+    }
+
+    public function dataValidateInvalidConfiguration(): array
+    {
+        return [
+            'missing code'          => [
+                [],
+                'The configuration does not contain key: "code"',
+            ],
+            'missing translations'  => [
+                ['code' => 'something'],
+                'The configuration does not contain key: "translations"',
+            ],
+            'no translations'       => [
+                ['code' => 'something', 'translations' => []],
+                'The array has to be at least 1 element(s) long',
+            ],
+            'type missing'          => [
+                ['code' => 'something', 'translations' => ['en']],
+                'The configuration does not contain key: "type"',
+            ],
+            'type invalid'          => [
+                ['code' => 'something', 'translations' => ['en'], 'type' => 'something'],
+                '\'something\' should be in array text,select,multi_select,file,date,datetime,number,boolean',
+            ],
+            'select missing values' => [
+                ['code' => 'something', 'translations' => ['en'], 'type' => 'multi_select'],
+                'The configuration does not contain key: "values"',
+            ],
+            'missing group'         => [
+                ['code' => 'something', 'translations' => ['en'], 'type' => 'file'],
+                'The configuration does not contain key: "groups"',
+            ],
+        ];
     }
 
     /**
-     * @test
+     * @dataProvider dataCreateWithSelect
+     * @throws \Exception
      */
-    public function testGenerateRandom()
+    public function testCreateWithSelect(array $config, int $configCount, bool $required): void
     {
-        $amount = 5;
+        $customerOption = $this->customerOptionFactory->create($config);
 
-        $customerOptions = $this->customerOptionFactory->generateRandom($amount);
+        self::assertInstanceOf(CustomerOptionInterface::class, $customerOption);
+        self::assertCount($configCount, $customerOption->getValues());
+        self::assertEquals($required, $customerOption->isRequired());
+    }
 
-        $this->assertEquals($amount, count($customerOptions));
-        foreach ($customerOptions as $customerOption) {
-            $this->assertCustomerOption($customerOption);
+    public function dataCreateWithSelect(): array
+    {
+        return [
+            'empty object'           => [
+                [
+                    'code'         => 'something',
+                    'translations' => ['de_DE' => 'Etwas'],
+                    'type'         => 'select',
+                    'values'       => [],
+                    'groups'       => [],
+                ],
+                0,
+                false,
+            ],
+            'empty object required'  => [
+                [
+                    'code'         => 'something',
+                    'translations' => ['de_DE' => 'Etwas'],
+                    'type'         => 'select',
+                    'values'       => [],
+                    'groups'       => [],
+                    'required'     => true,
+                ],
+                0,
+                true,
+            ],
+            'values object required' => [
+                [
+                    'code'         => 'something',
+                    'translations' => ['de_DE' => 'Etwas'],
+                    'type'         => 'select',
+                    'values'       => [[], []],
+                    'groups'       => [],
+                    'required'     => true,
+                ],
+                2,
+                true,
+            ],
+        ];
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testCreateWithConfiguredOptions(): void
+    {
+        $option = [
+            'code'         => 'something',
+            'translations' => ['de_DE' => 'Etwas'],
+            'type'         => 'file',
+            'groups'       => [],
+            'required'     => true,
+        ];
+
+        $customerOption = $this->customerOptionFactory->create($option);
+
+        self::assertInstanceOf(CustomerOptionInterface::class, $customerOption);
+        self::assertEquals(true, $customerOption->isRequired());
+    }
+
+    /**
+     * @dataProvider dataGenerateConfiguration
+     *
+     * @param int $count
+     *
+     * @throws \Exception
+     */
+    public function testGenerateRandomConfiguration(int $count): void
+    {
+        $configuration = $this->customerOptionFactory->generateRandomConfiguration($count);
+
+        self::assertCount($count, $configuration);
+        foreach ($configuration as $config) {
+            $this->customerOptionFactory->validateConfiguration($config);
         }
     }
 
-    /**
-     * @test
-     * @throws \Exception
-     */
-    public function testCreateWithValidOptions()
+    public function dataGenerateConfiguration(): array
     {
-        $options = [
-            'code'         => 'some_option',
-            'translations' => [
-                'en_US' => 'Some Option',
-            ],
-            'type'         => 'text',
-            'required'     => false,
-        ];
-
-        $customerOption = null;
-
-        $customerOption = $this->customerOptionFactory->create($options);
-
-        $this->assertNotNull($customerOption);
-        $this->assertInstanceOf(CustomerOption::class, $customerOption);
-        $this->assertCustomerOption($customerOption);
+        return ['one' => [1], 'many' => [5]];
     }
 
-    /**
-     * @test
-     *
-     * @throws \Exception
-     */
-    public function testCreateWithoutTranslation()
+    public function testGroupAssociation(): void
     {
-        $options = [
-            'code' => 'some_option',
-            'type' => 'select',
+        $associated = null;
+        $group = self::createConfiguredMock(CustomerOptionGroupInterface::class, ['getCode' => 'en_US']);
+        $group->method('addOptionAssociation')->willReturnCallback(function (CustomerOptionAssociation $option) use (&$associated) {
+            $associated = 'hello';
+        });
+        $this->customerOptionGroupRepository = [$group];
+
+        $option = [
+            'code'         => 'something',
+            'translations' => ['de_DE' => 'Etwas'],
+            'type'         => 'file',
+            'groups'       => ['en_US'],
+            'required'     => true,
         ];
 
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('At least one translation is required.');
+        $customerOption = $this->customerOptionFactory->create($option);
 
-        $customerOption = $this->customerOptionFactory->create($options);
-
-        $this->assertNull($customerOption);
-        $this->assertCustomerOption($customerOption);
-    }
-
-    /**
-     * @test
-     *
-     * @throws \Exception
-     */
-    public function testCreateWithInvalidType()
-    {
-        $options = [
-            'code'         => 'some_option',
-            'translations' => [
-                'en_US' => 'Some Option',
-            ],
-            'type'         => 'abc',
-        ];
-
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Customer Option Type "abc" is not valid.');
-
-        $customerOption = $this->customerOptionFactory->create($options);
-
-        $this->assertNull($customerOption);
-        $this->assertCustomerOption($customerOption);
-    }
-
-    /**
-     * @test
-     *
-     * @throws \Exception
-     */
-    public function testCreateWithOptionValues()
-    {
-        $options = [
-            'code'         => 'some_option',
-            'translations' => [
-                'en_US' => 'Some Option',
-            ],
-            'type'         => 'select',
-            'values'       => [
-                [
-                    'code'         => 'val_1',
-                    'translations' => [
-                        'en_US' => 'Value 1',
-                    ],
-                    'prices'       => [],
-                ],
-                [
-                    'code'         => 'val_2',
-                    'translations' => [
-                        'en_US' => 'Value 2',
-                    ],
-                    'prices'       => [],
-                ],
-            ],
-        ];
-
-        $customerOption = $this->customerOptionFactory->create($options);
-
-        $this->assertCount(2, $customerOption->getValues());
-        $this->assertEquals('val_1', $customerOption->getValues()[0]->getCode());
-        $this->assertEquals('val_2', $customerOption->getValues()[1]->getCode());
-        $this->assertCustomerOption($customerOption);
+        self::assertEquals(1, $customerOption->getGroupAssociations()->count());
+        self::assertEquals('hello', $associated);
     }
 }

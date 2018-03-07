@@ -1,5 +1,6 @@
 <container xmlns="http://symfony.com/schema/dic/services">
     <services>
+
         <service
                 class="Brille24\CustomerOptionsPlugin\Fixture\CustomerOptionFixture"
                 id="brille24.fixture.customer_option"
