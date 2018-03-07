@@ -10,6 +10,7 @@
                 id="brille24.behat.context.setup"
                 class="Tests\Brille24\CustomerOptionsPlugin\Behat\Context\SetupContext"
         >
+            <argument type="service" id="__symfony__.doctrine.orm.default_entity_manager" />
             <argument type="service" id="__symfony__.brille24.customer_options_plugin.repository.customer_option" />
             <argument type="service" id="__symfony__.brille24.customer_options_plugin.repository.customer_option_group" />
             <!--<argument type="service" id="" />-->
@@ -60,9 +61,10 @@
 
         <!-- Shop -->
         <service
-            id="brille24.behat.context.shop.customer_options"
-            class="Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Shop\CustomerOptionContext"
+            id="brille24.behat.context.shop.product"
+            class="Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Shop\ProductContext"
         >
+            <argument type="service" id="brille24.behat.page.shop.product.show" />
             <tag name="fob.context_service" />
         </service>
     </services>

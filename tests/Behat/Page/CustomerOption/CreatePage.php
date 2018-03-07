@@ -49,10 +49,10 @@ class CreatePage extends BaseCreatePage
         $result = $this->getDocument()->hasField($config);
 
         if(!$result){
-            $requiredFields = $this->getDocument()->findAll('css', '.field');
+            $fields = $this->getDocument()->findAll('css', '.field');
 
             /** @var NodeElement $requiredField */
-            foreach ($requiredFields as $requiredField){
+            foreach ($fields as $requiredField){
                 $label = $requiredField->find('css', 'label');
 
                 if($label !== null && $label->getText() === $config){
@@ -88,7 +88,7 @@ class CreatePage extends BaseCreatePage
 
         $valuesNode = $this->getDocument()->find('css', '#brille24_customer_option_values');
 
-        $valueItems = $valuesNode->findAll('css', 'div');
+        $valueItems = $valuesNode->findAll('css', 'div[data-form-collection="item"]');
 
         /** @var NodeElement $lastValueItem */
         $lastValueItem = end($valueItems);

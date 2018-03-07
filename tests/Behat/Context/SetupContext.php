@@ -10,14 +10,19 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociat
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
 class SetupContext implements Context
 {
+    /** @var EntityManagerInterface  */
+    private $em;
+
     /** @var CustomerOptionRepositoryInterface  */
     private $customerOptionRepository;
 
@@ -25,10 +30,12 @@ class SetupContext implements Context
     private $customerOptionGroupRepository;
 
     public function __construct(
+        EntityManagerInterface $em,
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository
     )
     {
+        $this->em = $em;
         $this->customerOptionRepository = $customerOptionRepository;
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;
     }
@@ -36,15 +43,33 @@ class SetupContext implements Context
     /**
      * @Given I have a customer option :code named :name
      * @Given I have a customer option :code named :name in :locale
+     * @Given I have a customer option :code named :name with type :type
+     * @Given I have a customer option :code named :name in :locale with type :type
      */
-    public function iHaveACustomerOptionNamed($code, $name, $locale = 'en_US')
+    public function iHaveACustomerOptionNamed(string $code, string $name, string $locale = 'en_US', string $type)
     {
         $customerOption = new CustomerOption();
         $customerOption->setCode($code);
         $customerOption->setCurrentLocale($locale);
         $customerOption->setName($name);
+        $customerOption->setType($type);
 
         $this->customerOptionRepository->add($customerOption);
+    }
+
+
+    /**
+     * @Given customer option :customerOption has a value :valueName
+     * @Given customer option :customerOption has a value named :valueName in :locale
+     */
+    public function customerOptionHasAValue(CustomerOptionInterface $customerOption, string $valueName, string $locale = 'en_US')
+    {
+        $value = new CustomerOptionValue();
+        $value->setCode(strtolower(str_replace(' ', '_', $valueName)));
+        $value->setCurrentLocale($locale);
+        $value->setName($valueName);
+
+        $customerOption->addValue($value);
     }
 
     /**
@@ -84,5 +109,34 @@ class SetupContext implements Context
     )
     {
         $product->setCustomerOptionGroup($customerOptionGroup);
+        $customerOptionGroup->addProduct($product);
+
+        $this->em->persist($product);
+        $this->em->persist($customerOptionGroup);
+
+        $this->em->flush();
     }
+
+    /**
+     * @Given customer option :customerOption is required
+     */
+    public function customerOptionIsRequired(CustomerOptionInterface $customerOption)
+    {
+        $customerOption->setRequired(true);
+
+        $this->em->persist($customerOption);
+        $this->em->flush();
+    }
+
+    /**
+     * @Given customer option :customerOption is not required
+     */
+    public function customerOptionIsNotRequired(CustomerOptionInterface $customerOption)
+    {
+        $customerOption->setRequired(false);
+
+        $this->em->persist($customerOption);
+        $this->em->flush();
+    }
+
 }

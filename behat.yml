@@ -22,7 +22,7 @@ default:
 
         Behat\MinkExtension:
                     files_path: "%paths.base%/src/Sylius/Behat/Resources/fixtures/"
-                    base_url: "http://localhost:8080/"
+                    base_url: "http://127.0.0.1:8000"
                     default_session: symfony
                     javascript_session: chrome
                     sessions:
@@ -39,7 +39,7 @@ default:
                                     chrome:
                                         switches:
 #                                            - "start-fullscreen"
-#                                            - "start-maximized"
+                                            - "start-maximized"
                                             - "no-sandbox"
                         firefox:
                             selenium2:

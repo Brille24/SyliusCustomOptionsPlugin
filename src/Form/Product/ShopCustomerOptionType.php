@@ -96,6 +96,7 @@ final class ShopCustomerOptionType extends AbstractType
     private function getFormConfiguration(array $formOptions, CustomerOptionInterface $customerOption, ProductInterface $product): array
     {
         $defaultOptions = [
+            'label' => $customerOption->getName(),
             'mapped' => false,
             'required' => $customerOption->isRequired(),
         ];

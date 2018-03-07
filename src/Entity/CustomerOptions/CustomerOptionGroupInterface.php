@@ -55,6 +55,10 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
      */
     public function getProducts(): array;
 
+    public function setProducts(array $products): void;
+
+    public function addProduct(ProductInterface $product): void;
+
     /**
      * @return CustomerOptionInterface[]
      */

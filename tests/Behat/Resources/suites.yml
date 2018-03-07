@@ -63,7 +63,9 @@ default:
 
                 - sylius.behat.context.transform.product
 
+                - sylius.behat.context.ui.shop.cart
+
                 - brille24.behat.context.setup
                 - brille24.behat.context.transform
 
-                - brille24.behat.context.shop.customer_options
+                - brille24.behat.context.shop.product

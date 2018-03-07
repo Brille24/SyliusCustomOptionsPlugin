@@ -149,4 +149,9 @@ final class CustomerOptionTypeEnum implements EnumInterface
     {
         return in_array($type, [self::SELECT, self::MULTI_SELECT]);
     }
+
+    public static function isDate(string $type): bool
+    {
+        return in_array($type, [self::DATE, self::DATETIME]);
+    }
 }

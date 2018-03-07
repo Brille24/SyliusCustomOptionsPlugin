@@ -57,5 +57,11 @@
         >
         </service>
 
+        <service
+            id="brille24.behat.page.shop.product.show"
+            class="Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\ShowPage"
+            parent="sylius.behat.page.shop.product.show"
+        />
+
     </services>
 </container>

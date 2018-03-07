@@ -131,14 +131,15 @@ class CustomerOptionGroupsContext implements Context
 
     /**
      * @When I add a customer option :customerOptionName
+     * @When I add a customer option :customerOptionName with position :position
      */
-    public function iAddACustomerOption($customerOptionName)
+    public function iAddACustomerOption(string $customerOptionName, int $position = 0)
     {
         /** @var CreatePage|UpdatePage $currentPage */
         $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
 
         $currentPage->addOption();
-        $currentPage->chooseOption($customerOptionName);
+        $currentPage->chooseOption($customerOptionName, $position);
     }
 
     /**

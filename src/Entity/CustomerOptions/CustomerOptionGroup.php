@@ -121,6 +121,12 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
         }
     }
 
+    public function addProduct(ProductInterface $product): void
+    {
+        $this->products->add($product);
+        $product->setCustomerOptionGroup($this);
+    }
+
     /**
      * Returns the first $count options of the group
      *
