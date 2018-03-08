@@ -1,8 +1,11 @@
-<div class="ui tab" data-tab="customer_options">
-    {{ form_row(form.customerOptionGroup) }}
+{% include 'Brille24CustomerOptionsPlugin:all:_date.html.twig' %}
 
-    <div class="ui segment">
-        {{ form_widget(form.customerOptionValuePrices) }}
-        {{ form_errors(form.customerOptionValuePrices) }}
-    </div>
+<div class="ui tab" data-tab="customer_options">
+    {{ form_row(form.customer_option_group) }}
+
+    <h3 class="ui dividing header">{{ 'brille24.ui.customer_options'|trans }}</h3>
+    <br />
+    {{ form_widget(form.customer_option_value_prices) }}
+    {{ form_errors(form.customer_option_value_prices) }}
+
 </div>

@@ -42,7 +42,7 @@ final class ProductTypeExtension extends AbstractTypeExtension
         }
 
         $builder
-            ->add('customerOptionGroup', EntityType::class, [
+            ->add('customer_option_group', EntityType::class, [
                 'class' => CustomerOptionGroup::class,
                 'placeholder' => 'Please choose',
                 'empty_data' => null,
@@ -50,12 +50,12 @@ final class ProductTypeExtension extends AbstractTypeExtension
             ])
         ;
 
-        $builder->add('customerOptionValuePrices', CollectionType::class, [
+        $builder->add('customer_option_value_prices', CollectionType::class, [
             'entry_type' => CustomerOptionValuePriceType::class,
             'entry_options' => [
                 'product' => $product,
             ],
-            'label' => 'Customer Option Value Prices',
+            'label' => false,
             'by_reference' => false,
             'allow_add' => true,
             'allow_delete' => true,
