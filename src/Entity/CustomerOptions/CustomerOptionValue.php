@@ -127,7 +127,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
 
     /** {@inheritdoc} */
     public function getPriceForChannel(
-        ChannelInterface $channel,
+        $channel,
         bool $ignoreActive = false
     ): ?CustomerOptionValuePriceInterface {
         $prices = $this->getPricesForChannel($channel);

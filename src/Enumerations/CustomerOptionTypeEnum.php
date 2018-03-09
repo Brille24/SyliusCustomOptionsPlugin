@@ -124,7 +124,6 @@ final class CustomerOptionTypeEnum implements EnumInterface
                 'brille24.form.config.max.length' => ['type' => 'integer', 'value' => 255],
             ],
             self::FILE => [
-                'brille24.form.config.min.file_size' => ['type' => 'integer', 'value' => 0],
                 'brille24.form.config.max.file_size' => ['type' => 'integer', 'value' => 1000],
             ],
             self::DATE => [
