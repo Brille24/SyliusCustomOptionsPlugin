@@ -26,14 +26,29 @@ class ConstraintCreatorTest extends TestCase
         self::assertNull($constraint);
     }
 
-    public function testMissingConfigurationOptions(): void
+    /** @dataProvider dataMissingConfigurationOptions */
+    public function testMissingConfigurationOptions(string $type, string $message): void
     {
         self::expectException(MissingOptionsException::class);
-        self::expectExceptionMessage('Either option "min" or "max" must be given for constraint Symfony\Component\Validator\Constraints\Range');
+        self::expectExceptionMessage($message);
 
-        $constraint = ConstraintCreator::createFromConfiguration(CustomerOptionTypeEnum::NUMBER, []);
+        $constraint = ConstraintCreator::createFromConfiguration($type, []);
 
         self::assertNull($constraint);
+    }
+
+    public function dataMissingConfigurationOptions(): array
+    {
+        return [
+            'integer' => [
+                CustomerOptionTypeEnum::NUMBER,
+                'Either option "min" or "max" must be given for constraint Symfony\Component\Validator\Constraints\Range',
+            ],
+            'string'  => [
+                CustomerOptionTypeEnum::TEXT,
+                'Either option "min" or "max" must be given for constraint Symfony\Component\Validator\Constraints\Length',
+            ],
+        ];
     }
 
     /** @dataProvider dataCreateSuccessful */
@@ -48,12 +63,12 @@ class ConstraintCreatorTest extends TestCase
     {
         return [
             // STRING
-            'string only min'     => [
+            'string only min'         => [
                 CustomerOptionTypeEnum::TEXT,
                 $this->createValue('brille24.form.config.min.length', 10),
                 new Length(['min' => 10]),
             ],
-            'string min, max'     => [
+            'string min, max'         => [
                 CustomerOptionTypeEnum::TEXT,
                 array_merge(
                     $this->createValue('brille24.form.config.min.length', 10),
@@ -62,12 +77,12 @@ class ConstraintCreatorTest extends TestCase
                 new Length(['min' => 10, 'max' => 50]),
             ],
             // INTEGER
-            'integer min only'    => [
+            'integer min only'        => [
                 CustomerOptionTypeEnum::NUMBER,
                 $this->createValue('brille24.form.config.min.number', -1),
                 new Range(['min' => -1]),
             ],
-            'integer min, max'    => [
+            'integer min, max'        => [
                 CustomerOptionTypeEnum::NUMBER,
                 array_merge(
                     $this->createValue('brille24.form.config.min.number', 10),
@@ -76,18 +91,18 @@ class ConstraintCreatorTest extends TestCase
                 new Range(['min' => 10, 'max' => 25]),
             ],
             // FILES
-            'file with file size' => [
+            'file with file size'     => [
                 CustomerOptionTypeEnum::FILE,
                 $this->createValue('brille24.form.config.max.file_size', 10),
                 new File(['maxSize' => 10]),
             ],
             //DATE
-            'date with min'       => [
+            'date with min'           => [
                 CustomerOptionTypeEnum::DATE,
                 $this->createValue('brille24.form.config.min.date', ['date' => '2000-01-17']),
                 new Range(['min' => '2000-01-17']),
             ],
-            'date with min, max'       => [
+            'date with min, max'      => [
                 CustomerOptionTypeEnum::DATE,
                 array_merge(
                     $this->createValue('brille24.form.config.min.date', ['date' => '2000-01-17']),
@@ -96,12 +111,12 @@ class ConstraintCreatorTest extends TestCase
                 new Range(['min' => '2000-01-17', 'max' => '2010-01-18']),
             ],
             //DATE TIME
-            'date time with min'       => [
+            'date time with min'      => [
                 CustomerOptionTypeEnum::DATETIME,
                 $this->createValue('brille24.form.config.min.date', ['date' => '2001-17-01 17:00:21']),
                 new Range(['min' => '2001-17-01 17:00:21']),
             ],
-            'date time with min, max'       => [
+            'date time with min, max' => [
                 CustomerOptionTypeEnum::DATETIME,
                 array_merge(
                     $this->createValue('brille24.form.config.min.date', ['date' => '2001-17-01 17:00:21']),
@@ -111,4 +126,5 @@ class ConstraintCreatorTest extends TestCase
             ],
         ];
     }
+
 }
