@@ -110,11 +110,7 @@ final class CustomerOptionTypeEnum implements EnumInterface
     /**
      * Gets the default configuration options of the types
      *
-     * @param string $type
-     *
      * @return array
-     *
-     * @throws Exception
      */
     public static function getConfigurationArray(): array
     {
@@ -137,7 +133,7 @@ final class CustomerOptionTypeEnum implements EnumInterface
             ],
             self::NUMBER => [
                 'brille24.form.config.min.number' => ['type' => 'number', 'value' => 0],
-                'brille24.form.config.max.number' => ['type' => 'integer', 'value' => 1000],
+                'brille24.form.config.max.number' => ['type' => 'number', 'value' => 1000],
             ],
             self::BOOLEAN => [
                 'brille24.form.config.default_value' => ['type' => 'boolean', 'value' => true],
