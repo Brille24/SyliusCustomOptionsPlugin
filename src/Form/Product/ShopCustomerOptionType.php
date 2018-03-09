@@ -17,6 +17,7 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInt
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\CustomerOptionsPlugin\Services\ConstraintCreator;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
@@ -109,7 +110,8 @@ final class ShopCustomerOptionType extends AbstractType
         ];
 
         // Adding choices if it is a select (or multi-select)
-        if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
+        $customerOptionType = $customerOption->getType();
+        if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
             $configuration = [
                 'choices'      => $customerOption->getValues()->toArray(),
                 'choice_label' => function (CustomerOptionValueInterface $value) use ($product) {
@@ -117,29 +119,14 @@ final class ShopCustomerOptionType extends AbstractType
                 },
                 'choice_value' => 'code',
             ];
-        } elseif ($customerOption->getType() === CustomerOptionTypeEnum::FILE) {
-            $constraintConfiguration =
-                [
-                    'groups'  => ['sylius'],
-                    'maxSize' => $customerOption->getConfiguration()['brille24.form.config.max.file_size']['value'],
-                ];
+        } else{
+            $constraint = ConstraintCreator::createFromConfiguration(
+                $customerOptionType,
+                $customerOption->getConfiguration()
+            );
+            $constraint->setGroups(['sylius']);
 
-            $configuration = ['constraints' => [new File($constraintConfiguration)]];
-        } else {
-            $constraintConfiguration = ['groups' => ['sylius']];
-            foreach ($customerOption->getConfiguration() as $name => $value) {
-                if (is_int(strpos($name, 'min'))) {
-                    $value                          = is_array($value['value']) ? $value['value']['date'] : $value['value'];
-                    $constraintConfiguration['min'] = $value;
-                } elseif (is_int(strpos($name, 'max'))) {
-                    $value                          = is_array($value['value']) ? $value['value']['date'] : $value['value'];
-                    $constraintConfiguration['max'] = $value;
-                } else {
-                    $constraintConfiguration[$name] = 'value';
-                }
-            }
-
-            $configuration = ['constraints' => [new Range($constraintConfiguration)]];
+            $configuration = ['constraints' => [$constraint]];
         }
 
         return array_merge($formOptions, $defaultOptions, $configuration);
