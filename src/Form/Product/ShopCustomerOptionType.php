@@ -17,6 +17,7 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInt
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\CustomerOptionsPlugin\Services\ConstraintCreator;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
@@ -24,6 +25,8 @@ use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Range;
 
 final class ShopCustomerOptionType extends AbstractType
 {
@@ -45,10 +48,10 @@ final class ShopCustomerOptionType extends AbstractType
         MoneyFormatterInterface $moneyFormatter,
         LocaleContextInterface $localeContext
     ) {
-        $this->channelContext = $channelContext;
+        $this->channelContext  = $channelContext;
         $this->currencyContext = $currencyContext;
-        $this->moneyFormatter = $moneyFormatter;
-        $this->localeContext = $localeContext;
+        $this->moneyFormatter  = $moneyFormatter;
+        $this->localeContext   = $localeContext;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -61,9 +64,11 @@ final class ShopCustomerOptionType extends AbstractType
         }
 
         // Add a form field for every customer option
-        foreach ($product->getCustomerOptions() as $customerOption) {
+        $customerOptions = $product->getCustomerOptions();
+        dump($customerOptions);
+        foreach ($customerOptions as $customerOption) {
             $customerOptionType = $customerOption->getType();
-            $fieldName = $customerOption->getCode();
+            $fieldName          = $customerOption->getCode();
 
             [$class, $formOptions] = CustomerOptionTypeEnum::getFormTypeArray()[$customerOptionType];
 
@@ -93,32 +98,43 @@ final class ShopCustomerOptionType extends AbstractType
      *
      * @return array
      */
-    private function getFormConfiguration(array $formOptions, CustomerOptionInterface $customerOption, ProductInterface $product): array
-    {
+    private function getFormConfiguration(
+        array $formOptions,
+        CustomerOptionInterface $customerOption,
+        ProductInterface $product
+    ): array {
         $defaultOptions = [
-            'label' => $customerOption->getName(),
-            'mapped' => false,
+            'label'    => $customerOption->getName(),
+            'mapped'   => false,
             'required' => $customerOption->isRequired(),
         ];
 
         // Adding choices if it is a select (or multi-select)
-        $choices = [];
-        if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
-            $choices = [
-                'choices' => $customerOption->getValues()->toArray(),
+        $customerOptionType = $customerOption->getType();
+        if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
+            $configuration = [
+                'choices'      => $customerOption->getValues()->toArray(),
                 'choice_label' => function (CustomerOptionValueInterface $value) use ($product) {
                     return $this->buildValueString($value, $product);
                 },
                 'choice_value' => 'code',
             ];
+        } else{
+            $constraint = ConstraintCreator::createFromConfiguration(
+                $customerOptionType,
+                $customerOption->getConfiguration()
+            );
+            $constraint->setGroups(['sylius']);
+
+            $configuration = ['constraints' => [$constraint]];
         }
 
-        return array_merge($formOptions, $defaultOptions, $choices);
+        return array_merge($formOptions, $defaultOptions, $configuration);
     }
 
     /**
      * @param CustomerOptionValueInterface $value
-     * @param ProductInterface $product
+     * @param ProductInterface             $product
      *
      * @return string
      *
@@ -141,17 +157,7 @@ final class ShopCustomerOptionType extends AbstractType
             }
         }
 
-        if ($price === null) {
-            $prices = $value->getPrices();
-
-            foreach ($prices as $defaultPrice) {
-                if ($defaultPrice->getChannel() === $this->channelContext->getChannel()) {
-                    $price = $defaultPrice;
-
-                    break;
-                }
-            }
-        }
+        $price = $price ?? $value->getPriceForChannel($this->channelContext->getChannel());
 
         // No price was found for the current channel, probably because the values weren't updated after adding a new channel
         if ($price === null) {

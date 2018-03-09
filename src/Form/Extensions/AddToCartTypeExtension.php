@@ -24,7 +24,7 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('customerOptions', ShopCustomerOptionType::class, [
+        $builder->add('customer_options', ShopCustomerOptionType::class, [
             'product' => $options['product'],
         ]);
     }
