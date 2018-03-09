@@ -62,10 +62,16 @@ default:
                 - sylius.behat.context.setup.channel
 
                 - sylius.behat.context.transform.product
+                - sylius.behat.context.transform.lexical
 
                 - sylius.behat.context.ui.shop.cart
+
+                - mink.behat.context.mink
 
                 - brille24.behat.context.setup
                 - brille24.behat.context.transform
 
                 - brille24.behat.context.shop.product
+
+            filters:
+                tags: "@shop && @customer_options && @ui"

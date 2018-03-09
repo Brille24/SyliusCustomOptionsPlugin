@@ -49,4 +49,45 @@ class ProductContext implements Context
     {
         $this->showPage->fillCustomerOption($customerOption, '');
     }
+
+    /**
+     * @When I select value :value for customer option :customerOption
+     * @When I enter value :value for customer option :customerOption
+     */
+    public function iEnterValueForCustomerOption(string $value, CustomerOptionInterface $customerOption)
+    {
+        $this->showPage->fillCustomerOption($customerOption, $value);
+    }
+
+    /**
+     * @When I add it to the cart
+     */
+    public function iAddItToTheCart()
+    {
+        $this->showPage->addToCart();
+    }
+
+    /**
+     * @Then I should be notified that an option is required
+     */
+    public function iShouldBeNotifiedThatAnOptionIsRequired()
+    {
+        Assert::true($this->showPage->hasRequiredCustomerOptionValidationMessage());
+    }
+
+    /**
+     * @Then I should be notified that an option is invalid
+     */
+    public function iShouldBeNotifiedThatAnOptionIsInvalid()
+    {
+        Assert::true($this->showPage->hasInvalidCustomerOptionValidationMessage());
+    }
+
+    /**
+     * @Then I should be notified that an option does not meet a constraint
+     */
+    public function iShouldBeNotifiedThatAnOptionDoesNotMeetAConstraint()
+    {
+        Assert::true($this->showPage->hasOptionOutOfBoundsValidationMessage());
+    }
 }

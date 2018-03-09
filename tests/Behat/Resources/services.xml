@@ -13,6 +13,9 @@
             <argument type="service" id="__symfony__.doctrine.orm.default_entity_manager" />
             <argument type="service" id="__symfony__.brille24.customer_options_plugin.repository.customer_option" />
             <argument type="service" id="__symfony__.brille24.customer_options_plugin.repository.customer_option_group" />
+            <argument type="service" id="__symfony__.sylius.repository.order_item" />
+            <argument type="service" id="__symfony__.sylius.context.channel" />
+            <argument type="service" id="__symfony__.sylius.repository.channel" />
             <!--<argument type="service" id="" />-->
             <tag name="fob.context_service" />
         </service>
@@ -65,6 +68,14 @@
             class="Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Shop\ProductContext"
         >
             <argument type="service" id="brille24.behat.page.shop.product.show" />
+            <tag name="fob.context_service" />
+        </service>
+
+        <!-- Mink -->
+        <service
+            id="mink.behat.context.mink"
+            class="Behat\MinkExtension\Context\MinkContext"
+        >
             <tag name="fob.context_service" />
         </service>
     </services>

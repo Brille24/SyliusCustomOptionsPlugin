@@ -1,14 +1,14 @@
 @shop
 @customer_options
-Feature: Viewing products with customer options
-    In order to configure a product
+Feature: Viewing product with customer options in cart
+    In order to know what options I chose and how they affect the price
     As a customer
-    I want to see the available customer options
+    I want to see the chosen options and their pricing in the cart summary
 
     Background:
         Given the store operates on a single channel in "United States"
         And I have a customer option "select_option" named "Select Option" with type "select"
-        And customer option "Select Option" has a value "Value 1"
+        And customer option "Select Option" has a value named "Value 1" in "en_US" priced 15
         And customer option "Select Option" has a value "Value 2"
         And customer option "Select Option" has a value "Value 3"
 
@@ -27,9 +27,17 @@ Feature: Viewing products with customer options
 
     @ui
     @javascript
-    Scenario: Viewing a product with customer options
-        When I view product "Cool Product"
-        And I should see customization for "Text Option"
-        Then I should see customization for "Select Option"
-        And I should see customization for "Date Option"
-        And I should see customization for "Number Option"
+        @test
+    Scenario: Having a product with select option in the cart
+        Given I have 1 products "Cool Product" in the cart
+        And I chose value "Value 1" for option "Select Option" for this order
+        And I entered value "Custom text" for option "Text Option" for this order
+        And I entered value "2018-06-18" for option "Date Option" for this order
+        And I entered value "42" for option "Number Option" for this order
+        When I see the summary of my cart
+        Then I should see "Select Option: Value 1"
+        And I should see "Text Option: Custom text"
+        And I should see "Date Option: 18"
+        And I should see "Date Option: 06"
+        And I should see "Date Option: 2018"
+        And I should see "Number Option: 42"
