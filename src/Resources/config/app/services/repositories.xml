@@ -12,6 +12,14 @@
             <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue</argument>
         </service>
 
+        <service
+                class="Sylius\Component\Resource\Repository\RepositoryInterface"
+                 id="brille24.customer_options_plugin.repository.customer_option_value_price"
+        >
+            <factory service="doctrine.orm.default_entity_manager" method="getRepository" />
+            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice</argument>
+        </service>
+
         <service class="Brille24\CustomerOptionsPlugin\Repository\CustomerOptionGroupRepository"
                  id="brille24.customer_options_plugin.repository.customer_option_group" >
             <factory service="doctrine.orm.default_entity_manager" method="getRepository" />

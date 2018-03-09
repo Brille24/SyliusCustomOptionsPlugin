@@ -26,7 +26,6 @@ Feature: Adding products with customer options to cart
         And product "Cool Product" has the customer option group "Some Group"
 
     @ui
-    @javascript
     Scenario: Adding a product without required customer options to the cart
         Given I view product "Cool Product"
         When I enter value "some text" for customer option "Text Option"
@@ -37,7 +36,6 @@ Feature: Adding products with customer options to cart
         And I should see "Cool Product" with quantity 1 in my cart
 
     @ui
-    @javascript
     Scenario: Trying to add a product with unfilled required customer options to the cart
         Given customer option "Number Option" is required
         And I view product "Cool Product"
@@ -67,7 +65,6 @@ Feature: Adding products with customer options to cart
 
     @ui
     @javascript
-        @todo
     Scenario: Trying to add a product with customer option value not meeting constraint
         Given customer option "Number Option" has constraint 0 to 10
         And I view product "Cool Product"

@@ -59,6 +59,7 @@
             <argument type="service" id="brille24.behat.page.admin.product.update_simple" />
             <argument type="service" id="brille24.behat.page.admin.product.update_configurable" />
             <argument type="service" id="sylius.behat.current_page_resolver" />
+            <argument type="service" id="__symfony__.brille24.customer_options_plugin.repository.customer_option_value_price" />
             <tag name="fob.context_service" />
         </service>
 
