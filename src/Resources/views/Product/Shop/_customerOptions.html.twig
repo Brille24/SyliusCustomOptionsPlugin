@@ -4,7 +4,7 @@
 
     <div class="ui segment">
         <h4>{{ 'brille24.ui.product_customization'|trans }}</h4>
-        {% for customerOption in form.customerOptions %}
+        {% for customerOption in form.customer_options %}
             {{ form_row(customerOption) }}
         {% endfor %}
     </div>
