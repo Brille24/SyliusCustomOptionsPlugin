@@ -124,7 +124,7 @@ final class ShopCustomerOptionType extends AbstractType
                 $customerOptionType,
                 $customerOption->getConfiguration()
             );
-            $constraint->setGroups(['sylius']);
+            $constraint->groups =['sylius'];
 
             $configuration = ['constraints' => [$constraint]];
         }
