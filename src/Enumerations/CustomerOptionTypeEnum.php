@@ -42,7 +42,6 @@ final class CustomerOptionTypeEnum implements EnumInterface
             self::TEXT,
             self::SELECT,
             self::MULTI_SELECT,
-            self::FILE,
             self::DATE,
             self::DATETIME,
             self::NUMBER,
@@ -61,7 +60,6 @@ final class CustomerOptionTypeEnum implements EnumInterface
             self::TEXT => 'brille24.form.customer_options.type.text',
             self::SELECT => 'brille24.form.customer_options.type.select',
             self::MULTI_SELECT => 'brille24.form.customer_options.type.multi_select',
-            self::FILE => 'brille24.form.customer_options.type.file',
             self::DATE => 'brille24.form.customer_options.type.date',
             self::DATETIME => 'brille24.form.customer_options.type.datetime',
             self::NUMBER => 'brille24.form.customer_options.type.number',
@@ -83,10 +81,6 @@ final class CustomerOptionTypeEnum implements EnumInterface
             self::MULTI_SELECT => [
                 ChoiceType::class,
                 ['multiple' => true],
-            ],
-            self::FILE => [
-                FileType::class,
-                [],
             ],
             self::DATE => [
                 DateType::class,
@@ -122,9 +116,6 @@ final class CustomerOptionTypeEnum implements EnumInterface
             self::TEXT => [
                 'brille24.form.config.min.length' => ['type' => 'integer', 'value' => 0],
                 'brille24.form.config.max.length' => ['type' => 'integer', 'value' => 255],
-            ],
-            self::FILE => [
-                'brille24.form.config.max.file_size' => ['type' => 'integer', 'value' => 1000],
             ],
             self::DATE => [
                 'brille24.form.config.min.date' => ['type' => 'date', 'value' => new DateTime('1900-01-01')],

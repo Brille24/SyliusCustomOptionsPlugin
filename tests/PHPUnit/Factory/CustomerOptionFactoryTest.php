@@ -7,6 +7,7 @@ namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Factory;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\CustomerOptionsPlugin\Exceptions\ConfigurationException;
 use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionFactory;
 use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionValueFactory;
@@ -76,14 +77,14 @@ class CustomerOptionFactoryTest extends TestCase
             ],
             'type invalid'          => [
                 ['code' => 'something', 'translations' => ['en'], 'type' => 'something'],
-                '\'something\' should be in array text,select,multi_select,file,date,datetime,number,boolean',
+                '\'something\' should be in array text,select,multi_select,date,datetime,number,boolean',
             ],
             'select missing values' => [
-                ['code' => 'something', 'translations' => ['en'], 'type' => 'multi_select'],
+                ['code' => 'something', 'translations' => ['en'], 'type' => CustomerOptionTypeEnum::MULTI_SELECT],
                 'The configuration does not contain key: "values"',
             ],
             'missing group'         => [
-                ['code' => 'something', 'translations' => ['en'], 'type' => 'file'],
+                ['code' => 'something', 'translations' => ['en'], 'type' => CustomerOptionTypeEnum::BOOLEAN],
                 'The configuration does not contain key: "groups"',
             ],
         ];
@@ -151,7 +152,7 @@ class CustomerOptionFactoryTest extends TestCase
         $option = [
             'code'         => 'something',
             'translations' => ['de_DE' => 'Etwas'],
-            'type'         => 'file',
+            'type'         => CustomerOptionTypeEnum::TEXT,
             'groups'       => [],
             'required'     => true,
         ];
@@ -196,7 +197,7 @@ class CustomerOptionFactoryTest extends TestCase
         $option = [
             'code'         => 'something',
             'translations' => ['de_DE' => 'Etwas'],
-            'type'         => 'file',
+            'type'         => CustomerOptionTypeEnum::NUMBER,
             'groups'       => ['en_US'],
             'required'     => true,
         ];

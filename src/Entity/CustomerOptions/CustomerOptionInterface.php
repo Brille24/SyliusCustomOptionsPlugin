@@ -90,9 +90,9 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     public function getValues(): Collection;
 
     /**
-     * @return Collection|Collection[]
+     * @return array
      */
-    public function getPrices();
+    public function getPrices(): array;
 
     /**
      * @param array $prices
