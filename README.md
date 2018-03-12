@@ -58,7 +58,7 @@ customer to enter text that will be displayed in the order. Currently those Cust
 
 The workflow of is that you provide a code and a type and save the Customer Option. Then the appropriate fields will be shown.
 In case 1 you will have the option to add values for the customer to choose from (which then can be priced in the pricing tab). 
-In case 2 you can set some validation options for the entered value. Those are however not priced.
+In case 2 you can set some validation options for the entered value. **Those are however not priced.**
 
 After you have created all the Customer Options, you can arrange them in Customer Option Groups where every Customer Option gets ordered
 in a list with distinct positions. This Customer Option Group can now be assigned to the product. 
