@@ -75,7 +75,7 @@ class ProductFactory implements ExampleFactoryInterface
      *
      * @throws \Exception
      */
-    public function create(array $options = []): \Sylius\Component\Core\Model\ProductInterface
+    public function create(array $options = []): ProductInterface
     {
         $options = array_merge([
             'customer_option_group' => null,
