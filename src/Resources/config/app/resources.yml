@@ -19,6 +19,7 @@ sylius_resource:
                 interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface
                 repository: Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepository
                 form: Brille24\CustomerOptionsPlugin\Form\CustomerOptionType
+                factory: Brille24\CustomerOptionsPlugin\Factory\CustomerOptionFactory
             translation:
                 classes:
                     model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionTranslation
@@ -29,6 +30,7 @@ sylius_resource:
                 model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup
                 interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface
                 form: Brille24\CustomerOptionsPlugin\Form\CustomerOptionGroupType
+                factory: Brille24\CustomerOptionsPlugin\Factory\CustomerOptionGroupFactory
             translation:
                 classes:
                     model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTranslation
@@ -39,8 +41,14 @@ sylius_resource:
                 model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue
                 interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface
                 form: Brille24\CustomerOptionsPlugin\Form\CustomerOptionValueType
+                factory: Brille24\CustomerOptionsPlugin\Factory\CustomerOptionValueFactory
             translation:
                 classes:
                     model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueTranslation
                     interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueTranslationInterface
                     form: Brille24\CustomerOptionsPlugin\Form\CustomerOptionValueTranslationType
+        brille24.order_item_option:
+            classes:
+                model: Brille24\CustomerOptionsPlugin\Entity\OrderItemOption
+                interface: Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface
+                factory: Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactory
