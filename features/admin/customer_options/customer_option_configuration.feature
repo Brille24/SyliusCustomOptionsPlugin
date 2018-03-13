@@ -20,13 +20,6 @@ Feature: Checking if configuration is available
         And I should see configuration for "Minimum length"
 
     @ui
-    Scenario: Creating a new file option
-        Given I specify its type as "File"
-        And I add it
-        Then I should see configuration for "Maximum size"
-        And I should see configuration for "Minimum size"
-
-    @ui
     Scenario: Creating a new date option
         Given I specify its type as "Date"
         And I add it
@@ -61,7 +54,6 @@ Feature: Checking if configuration is available
 
     @ui
     @javascript
-    @todo
     Scenario: Creating a new select option with values
         Given I specify its type as "Select"
         And I add it

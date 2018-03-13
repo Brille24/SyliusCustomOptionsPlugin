@@ -91,7 +91,7 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         /** @var OrderItemOptionInterface $value */
         foreach ($this->configuration as $value) {
             if ($value->getCustomerOptionValue() === null) {
-                break; // Skip all values where the value is not an object (value objects can be priced)
+                continue; // Skip all values where the value is not an object (value objects can be priced)
             }
 
             if ($value->getPricingType() === CustomerOptionValuePrice::TYPE_PERCENT) {

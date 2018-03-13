@@ -6,7 +6,9 @@ namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Admin;
 
 use Behat\Behat\Context\Context;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
+use Doctrine\ORM\EntityRepository;
 use Sylius\Behat\Page\Admin\Product\UpdateConfigurableProductPageInterface;
 use Sylius\Behat\Page\Admin\Product\UpdateSimpleProductPageInterface;
 use Sylius\Behat\Page\SymfonyPageInterface;
@@ -26,15 +28,20 @@ class ProductsContext implements Context
     /** @var CurrentPageResolverInterface  */
     private $currentPageResolver;
 
+    /** @var EntityRepository  */
+    private $customerOptionValuePriceRepository;
+
     public function __construct(
         UpdateSimpleProductPageInterface $updateSimpleProductPage,
         UpdateConfigurableProductPageInterface $updateConfigurableProductPage,
-        CurrentPageResolverInterface $currentPageResolver
+        CurrentPageResolverInterface $currentPageResolver,
+        EntityRepository $customerOptionValuePriceRepository
     )
     {
         $this->updatePageSimple = $updateSimpleProductPage;
         $this->updatePageConfigurable = $updateConfigurableProductPage;
         $this->currentPageResolver = $currentPageResolver;
+        $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
     }
 
     /**
@@ -50,10 +57,21 @@ class ProductsContext implements Context
     }
 
     /**
+     * @When I open the customer options tab
+     */
+    public function iOpenTheCustomerOptionsTab(){
+        $currentPage = $this->resolveCurrentPage();
+
+        $currentPage->openCustomerOptionsTab();
+    }
+
+    /**
      * @When I choose customer option group :customerOptionGroupName
      */
     public function iChooseCustomerOptionGroup(string $customerOptionGroupName)
     {
+        $this->iOpenTheCustomerOptionsTab();
+
         $currentPage = $this->resolveCurrentPage();
 
         $currentPage->selectCustomerOptionGroup($customerOptionGroupName);
@@ -88,4 +106,70 @@ class ProductsContext implements Context
         Assert::same($product->getCustomerOptionGroup(), $customerOptionGroup);
     }
 
+    /**
+     * @When I add a new customer option value price
+     */
+    public function iAddANewCustomerOptionValuePrice()
+    {
+        $this->iOpenTheCustomerOptionsTab();
+
+        $currentPage = $this->resolveCurrentPage();
+
+        $currentPage->addCustomerOptionValuePrice();
+    }
+
+    /**
+     * @When I select customer option value :valueName
+     */
+    public function iSelectCustomerOptionValue(string $valueName)
+    {
+        $this->iOpenTheCustomerOptionsTab();
+
+        $currentPage = $this->resolveCurrentPage();
+
+        $currentPage->chooseOptionValue($valueName);
+    }
+
+    /**
+     * @When I set amount to :amount
+     */
+    public function iSetAmountTo(int $amount)
+    {
+        $this->iOpenTheCustomerOptionsTab();
+
+        $currentPage = $this->resolveCurrentPage();
+
+        $currentPage->setValuePriceAmount($amount);
+    }
+
+    /**
+     * @When I set type to :type
+     */
+    public function iSetTypeTo(string $type)
+    {
+        $this->iOpenTheCustomerOptionsTab();
+
+        $currentPage = $this->resolveCurrentPage();
+
+        $currentPage->setValuePriceType($type);
+    }
+
+    /**
+     * @Then product :product should have a customer option value price with amount :amount
+     */
+    public function productShouldHaveACustomerOptionValuePriceWithAmount(ProductInterface $product, int $amount)
+    {
+        $valuePrices = $this->customerOptionValuePriceRepository->findBy(['product' => $product]);
+
+        $result = false;
+
+        /** @var CustomerOptionValuePriceInterface $valuePrice */
+        foreach ($valuePrices as $valuePrice){
+            if($valuePrice->getAmount() === $amount * 100){
+                $result = true;
+            }
+        }
+
+        Assert::true($result);
+    }
 }

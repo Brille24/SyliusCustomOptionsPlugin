@@ -95,10 +95,10 @@ final class AddToCartListener
     {
         $addToCart = $request->request->get('sylius_add_to_cart');
 
-        if (!isset($addToCart['customerOptions'])) {
+        if (!isset($addToCart['customer_options'])) {
             return [];
         }
 
-        return $addToCart['customerOptions'];
+        return $addToCart['customer_options'];
     }
 }

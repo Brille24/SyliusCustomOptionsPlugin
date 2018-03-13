@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product;
 
+use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Sylius\Behat\Page\Admin\Product\UpdateSimpleProductPage as BaseUpdatePage;
 
@@ -33,5 +34,74 @@ class UpdateSimpleProductPage extends BaseUpdatePage
     public function addCustomerOptionValuePrice(){
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
         $customerOptionsTab->clickLink('Add');
+    }
+
+    /**
+     * @param string $valueName
+     * @throws ElementNotFoundException
+     */
+    public function chooseOptionValue(string $valueName){
+        $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
+
+        /** @var NodeElement[] $valuePrices */
+        $valuePrices = $customerOptionsTab->findAll('css',
+            'div[data-form-collection="item"]'
+        );
+
+        $lastValuePrice = end($valuePrices);
+
+        if(false === $lastValuePrice){
+            throw new ElementNotFoundException($this->getSession(), 'div', 'css', 'div[id^="sylius_product_customer_option_value_prices"]');
+        }
+
+        $lastValuePrice->selectFieldOption('Customer option value', $valueName);
+    }
+
+    /**
+     * @param int $amount
+     * @throws ElementNotFoundException
+     */
+    public function setValuePriceAmount(int $amount){
+        $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
+
+        /** @var NodeElement[] $valuePrices */
+        $valuePrices = $customerOptionsTab->findAll('css',
+            'div[data-form-collection="item"]'
+        );
+
+        $lastValuePrice = end($valuePrices);
+
+        if(false === $lastValuePrice){
+            throw new ElementNotFoundException($this->getSession(), 'div', 'css', 'div[id^="sylius_product_customer_option_value_prices"]');
+        }
+
+        $lastValuePrice->fillField('Amount', $amount);
+    }
+
+    /**
+     * @param string $type
+     * @throws ElementNotFoundException
+     */
+    public function setValuePriceType(string $type){
+        $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
+
+        /** @var NodeElement[] $valuePrices */
+        $valuePrices = $customerOptionsTab->findAll('css',
+            'div[data-form-collection="item"]'
+        );
+
+        $lastValuePrice = end($valuePrices);
+
+        if(false === $lastValuePrice){
+            throw new ElementNotFoundException($this->getSession(), 'div', 'css', 'div[id^="sylius_product_customer_option_value_prices"]');
+        }
+
+        $lastValuePrice->selectFieldOption('Type', $type);
+    }
+
+    public function openCustomerOptionsTab(){
+        $customerOptionsTab = $this->getDocument()->find('css', 'a[data-tab="customer_options"]');
+
+        $customerOptionsTab->click();
     }
 }

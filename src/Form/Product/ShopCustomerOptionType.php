@@ -26,7 +26,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Constraints\Required;
 
 final class ShopCustomerOptionType extends AbstractType
 {
@@ -65,7 +67,7 @@ final class ShopCustomerOptionType extends AbstractType
 
         // Add a form field for every customer option
         $customerOptions = $product->getCustomerOptions();
-        dump($customerOptions);
+//        dump($customerOptions);
         foreach ($customerOptions as $customerOption) {
             $customerOptionType = $customerOption->getType();
             $fieldName          = $customerOption->getCode();
@@ -109,6 +111,8 @@ final class ShopCustomerOptionType extends AbstractType
             'required' => $customerOption->isRequired(),
         ];
 
+        $configuration = [];
+
         // Adding choices if it is a select (or multi-select)
         $customerOptionType = $customerOption->getType();
         if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
@@ -124,9 +128,18 @@ final class ShopCustomerOptionType extends AbstractType
                 $customerOptionType,
                 $customerOption->getConfiguration()
             );
-            $constraint->groups =['sylius'];
 
-            $configuration = ['constraints' => [$constraint]];
+            if($constraint !== null) {
+                $constraint->groups = ['sylius'];
+                $configuration = ['constraints' => [$constraint]];
+            }
+
+
+            if($customerOption->isRequired()){
+                $requiredConstraint = ConstraintCreator::createRequiredConstraint();
+                $requiredConstraint->groups = ['sylius'];
+                $configuration['constraints'][] = $requiredConstraint;
+            }
         }
 
         return array_merge($formOptions, $defaultOptions, $configuration);

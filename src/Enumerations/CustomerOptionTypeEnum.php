@@ -16,6 +16,7 @@ namespace Brille24\CustomerOptionsPlugin\Enumerations;
 use DateTime;
 use Exception;
 use Sonata\CoreBundle\Form\Type\BooleanType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -95,7 +96,7 @@ final class CustomerOptionTypeEnum implements EnumInterface
                 [],
             ],
             self::BOOLEAN => [
-                BooleanType::class,
+                CheckboxType::class,
                 [],
             ],
         ];
@@ -104,11 +105,7 @@ final class CustomerOptionTypeEnum implements EnumInterface
     /**
      * Gets the default configuration options of the types
      *
-     * @param string $type
-     *
      * @return array
-     *
-     * @throws Exception
      */
     public static function getConfigurationArray(): array
     {

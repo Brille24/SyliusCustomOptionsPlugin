@@ -66,6 +66,19 @@ class CreatePage extends BaseCreatePage
     }
 
     /**
+     * @param $valueName
+     * @param $channelName
+     * @return bool
+     */
+    public function hasPriceConfiguration($valueName, $channelName){
+        $pricingTab = $this->getDocument()->find('css', 'div[data-tab="pricing"]');
+
+        $channelTab = $pricingTab->find('css', sprintf('div[data-tab="%s"]', $channelName));
+
+        return $channelTab->has('css', sprintf('input[value="%s"][readonly="readonly"]', $valueName));
+    }
+
+    /**
      * @param $field
      * @param $value
      * @throws \Behat\Mink\Exception\ElementNotFoundException

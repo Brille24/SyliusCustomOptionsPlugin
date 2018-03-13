@@ -14,7 +14,7 @@
 
         <!-- Overriding the Sylius default order processor -->
         <service class="Brille24\CustomerOptionsPlugin\Services\OrderPricesRecalculator"
-                 id="sylius.order_processing.order_prices_recalculator">
+                 id="brille24.order_processing.order_prices_recalculator">
             <argument type="expression">service('sylius.context.channel').getChannel()</argument>
 
             <tag name="sylius.order_processor"/>

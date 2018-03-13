@@ -156,6 +156,12 @@ class OrderItemOption implements OrderItemOptionInterface
     }
 
     /** {@inheritdoc} */
+    public function setOptionValue(?string $value): void
+    {
+        $this->optionValue = $value;
+    }
+
+    /** {@inheritdoc} */
     public function getOptionValue(): ?string
     {
         return $this->optionValue;
