@@ -104,11 +104,7 @@ final class CustomerOptionTypeEnum implements EnumInterface
     /**
      * Gets the default configuration options of the types
      *
-     * @param string $type
-     *
      * @return array
-     *
-     * @throws Exception
      */
     public static function getConfigurationArray(): array
     {
