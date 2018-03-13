@@ -8,13 +8,14 @@ use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Range;
 
 class ConstraintCreator
 {
     public static function getValueFromConfiguration(array $configuration, string $key)
     {
-        if(!isset($configuration[$key]['value'])){
+        if (!isset($configuration[$key]['value'])) {
             return null;
         }
         return $configuration[$key]['value'];
@@ -22,7 +23,9 @@ class ConstraintCreator
 
     public static function createFromConfiguration(string $type, array $configuration): ?Constraint
     {
-        $getFromConfiguration = function ($key) use ($configuration) { return self::getValueFromConfiguration($configuration, $key); };
+        $getFromConfiguration = function ($key) use ($configuration) {
+            return self::getValueFromConfiguration($configuration, $key);
+        };
 
         switch ($type) {
             case CustomerOptionTypeEnum::TEXT:
@@ -51,5 +54,10 @@ class ConstraintCreator
                 return new Range($dateRange);
         }
         return null;
+    }
+
+    public static function createRequiredConstraint(): Constraint
+    {
+        return new NotBlank();
     }
 }
