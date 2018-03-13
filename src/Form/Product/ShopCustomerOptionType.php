@@ -137,6 +137,8 @@ final class ShopCustomerOptionType extends AbstractType
 
             if($customerOption->isRequired()){
                 $requiredConstraint = ConstraintCreator::createRequiredConstraint();
+                $requiredConstraint->message = "brille24.form.customer_options.required";
+
                 $requiredConstraint->groups = ['sylius'];
                 $configuration['constraints'][] = $requiredConstraint;
             }

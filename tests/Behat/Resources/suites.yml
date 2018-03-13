@@ -75,6 +75,7 @@ default:
                 - sylius.behat.context.ui.shop.checkout.complete
                 - sylius.behat.context.ui.shop.checkout.payment
                 - sylius.behat.context.ui.shop.checkout.shipping
+                - sylius.behat.context.ui.shop.account
 
                 - mink.behat.context.mink
 
@@ -84,4 +85,4 @@ default:
                 - brille24.behat.context.shop.product
 
             filters:
-                tags: "@shop && @customer_options && @ui"
+                tags: "@shop && @customer_options"
