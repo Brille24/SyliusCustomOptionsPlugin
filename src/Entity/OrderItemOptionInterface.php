@@ -15,8 +15,9 @@ namespace Brille24\CustomerOptionsPlugin\Entity;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Sylius\Component\Resource\Model\ResourceInterface;
 
-interface OrderItemOptionInterface
+interface OrderItemOptionInterface extends ResourceInterface
 {
     /**
      * @return int|null
