@@ -15,7 +15,6 @@ Feature: Viewing products after completed checkout
         And I have a customer option "text_option" named "Text Option" with type "text"
         And I have a customer option "date_option" named "Date Option" with type "date"
         And I have a customer option "number_option" named "Number Option" with type "number"
-        And I have a customer option "file_option" named "File Option" with type "file"
         And I have a customer option "boolean_option" named "Boolean Option" with type "boolean"
 
         And I have a customer option group "some_group" named "Some Group"
@@ -23,7 +22,6 @@ Feature: Viewing products after completed checkout
         And customer option group "Some Group" has option "Text Option"
         And customer option group "Some Group" has option "Date Option"
         And customer option group "Some Group" has option "Number Option"
-#        And customer option group "Some Group" has option "File Option"
         And customer option group "Some Group" has option "Boolean Option"
 
         And the store has a product "Cool Product"
@@ -43,7 +41,6 @@ Feature: Viewing products after completed checkout
         And I entered value "My text" for option "Text Option" for this order
         And I entered value "1990-08-05" for option "Date Option" for this order
         And I entered value "123" for option "Number Option" for this order
-#        And I entered value "images/my_image.jpg" for option "File Option" for this order
         And I entered value "true" for option "Boolean Option" for this order
 
         And I am at the checkout addressing step
@@ -60,5 +57,4 @@ Feature: Viewing products after completed checkout
         And I should see "Date Option: 08"
         And I should see "Date Option: 1990"
         And I should see "Number Option: 123"
-#        And I should see "File Option: images/my_image.jpg"
         And I should see "Boolean Option: true"
