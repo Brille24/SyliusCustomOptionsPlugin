@@ -13,6 +13,7 @@ use Sylius\Behat\Page\Admin\Crud\CreatePageInterface;
 use Sylius\Behat\Page\Admin\Crud\IndexPageInterface;
 use Sylius\Behat\Page\Admin\Crud\UpdatePageInterface;
 use Sylius\Behat\Service\Resolver\CurrentPageResolverInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOption\CreatePage;
 use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOption\UpdatePage;
 use Webmozart\Assert\Assert;
@@ -184,11 +185,15 @@ class CustomerOptionsContext implements Context
     }
 
     /**
-     * @Then I should see price configuration for value :arg1
+     * @Then I should see price configuration for value :valueName in channel :channelName
+     * @Then I should see price configuration for value :valueName
      */
-    public function iShouldSeePriceConfigurationForValue($arg1)
+    public function iShouldSeePriceConfigurationForValue(string $valueName, string $channelName = "WEB-US")
     {
-        throw new PendingException();
+        /** @var CreatePage|UpdatePage $currentPage */
+        $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
+
+        Assert::true($currentPage->hasPriceConfiguration($valueName, $channelName));
     }
 
     /**

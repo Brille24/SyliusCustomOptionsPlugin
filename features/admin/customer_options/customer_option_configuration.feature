@@ -54,7 +54,6 @@ Feature: Checking if configuration is available
 
     @ui
     @javascript
-    @todo
     Scenario: Creating a new select option with values
         Given I specify its type as "Select"
         And I add it

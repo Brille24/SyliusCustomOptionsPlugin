@@ -25,6 +25,8 @@ Feature: Adding products with customer options to cart
         And the store has a product "Cool Product"
         And product "Cool Product" has the customer option group "Some Group"
 
+        And the store has a product "Test Product"
+
     @ui
     Scenario: Adding a product without required customer options to the cart
         Given I view product "Cool Product"
@@ -45,7 +47,7 @@ Feature: Adding products with customer options to cart
         And my cart should be empty
 
     @ui
-    @javascript
+    @javascript @test
     Scenario: Trying to add a product with filled required customer options to the cart
         Given customer option "Number Option" is required
         And I view product "Cool Product"

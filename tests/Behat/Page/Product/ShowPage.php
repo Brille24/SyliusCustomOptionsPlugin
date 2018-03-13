@@ -26,7 +26,7 @@ class ShowPage extends BaseShowPage
                 $label = $field->find('css', 'label');
 
                 if($label !== null && $label->getText() === $customerOption->getName()){
-                    $result = $field->has('css', 'div[id^="sylius_add_to_cart_customerOptions"]');
+                    $result = $field->has('css', 'div[id^="sylius_add_to_cart_customer_options"]');
                     break;
                 }
             }
