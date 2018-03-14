@@ -22,13 +22,24 @@ Feature: Managing CustomerOption on Products
         And I am logged in as an administrator
 
     @ui
-    @javascript
-    Scenario: Assigning a group to a product
+    @javascript @test
+    Scenario: Assigning a group to an existing product
         Given I want to modify the "Some Product" product
         When I choose customer option group "Some Group"
         And I save my changes
         Then I should be notified that it has been successfully edited
         And product "Some Product" should have customer option group "Some Group"
+
+    @ui
+    @javascript @test
+    Scenario: Assigning a group to a new product
+        Given I want to create a new simple product
+        When I specify its code as "new_product"
+        And I name it "New Product" in "en_US"
+        And I choose customer option group "Some Group"
+        And I add it
+        Then I should be notified that it has been successfully created
+        And product "New Product" should have customer option group "Some Group"
 
     @ui
     @javascript

@@ -9,10 +9,15 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInt
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\ORM\EntityRepository;
+use Sylius\Behat\Page\Admin\Crud\CreatePageInterface;
+use Sylius\Behat\Page\Admin\Product\CreateConfigurableProductPageInterface;
+use Sylius\Behat\Page\Admin\Product\CreateSimpleProductPageInterface;
 use Sylius\Behat\Page\Admin\Product\UpdateConfigurableProductPageInterface;
 use Sylius\Behat\Page\Admin\Product\UpdateSimpleProductPageInterface;
 use Sylius\Behat\Page\SymfonyPageInterface;
 use Sylius\Behat\Service\Resolver\CurrentPageResolverInterface;
+use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\CreateConfigurableProductPage;
+use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\CreateSimpleProductPage;
 use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\UpdateConfigurableProductPage;
 use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\UpdateSimpleProductPage;
 use Webmozart\Assert\Assert;
@@ -25,6 +30,12 @@ class ProductsContext implements Context
     /** @var UpdateConfigurableProductPageInterface  */
     private $updatePageConfigurable;
 
+    /** @var CreateSimpleProductPageInterface */
+    private $createPageSimple;
+
+    /** @var CreateConfigurableProductPageInterface */
+    private $createPageConfigurable;
+
     /** @var CurrentPageResolverInterface  */
     private $currentPageResolver;
 
@@ -34,14 +45,68 @@ class ProductsContext implements Context
     public function __construct(
         UpdateSimpleProductPageInterface $updateSimpleProductPage,
         UpdateConfigurableProductPageInterface $updateConfigurableProductPage,
+        CreateSimpleProductPageInterface $createPageSimple,
+        CreateConfigurableProductPageInterface $createPageConfigurable,
         CurrentPageResolverInterface $currentPageResolver,
         EntityRepository $customerOptionValuePriceRepository
     )
     {
         $this->updatePageSimple = $updateSimpleProductPage;
         $this->updatePageConfigurable = $updateConfigurableProductPage;
+        $this->createPageSimple = $createPageSimple;
+        $this->createPageConfigurable = $createPageConfigurable;
         $this->currentPageResolver = $currentPageResolver;
         $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
+    }
+
+    /**
+     * @Given I want to create a new simple product
+     */
+    public function iWantToCreateANewSimpleProduct()
+    {
+        $this->createPageSimple->open();
+    }
+
+    /**
+     * @Given I want to create a new configurable product
+     */
+    public function iWantToCreateANewConfigurableProduct()
+    {
+        $this->createPageConfigurable->open();
+    }
+
+    /**
+     * @When I specify its code as :code
+     * @When I do not specify its code
+     */
+    public function iSpecifyItsCodeAs($code = null)
+    {
+        $currentPage = $this->resolveCurrentPage();
+
+        $currentPage->specifyCode($code);
+    }
+
+    /**
+     * @When I add it
+     * @When I try to add it
+     */
+    public function iAddIt()
+    {
+        /** @var CreatePageInterface $currentPage */
+        $currentPage = $this->resolveCurrentPage();
+
+        $currentPage->create();
+    }
+
+    /**
+     * @When I name it :name in :language
+     * @When I rename it to :name in :language
+     */
+    public function iRenameItToIn($name, $language)
+    {
+        $currentPage = $this->resolveCurrentPage();
+
+        $currentPage->nameItIn($name, $language);
     }
 
     /**
@@ -88,13 +153,15 @@ class ProductsContext implements Context
     }
 
     /**
-     * @return UpdateConfigurableProductPage|UpdateSimpleProductPage|SymfonyPageInterface
+     * @return CreateConfigurableProductPage|CreateSimpleProductPage|UpdateConfigurableProductPage|UpdateSimpleProductPage|SymfonyPageInterface
      */
     private function resolveCurrentPage()
     {
         return $this->currentPageResolver->getCurrentPageWithForm([
             $this->updatePageSimple,
             $this->updatePageConfigurable,
+            $this->createPageSimple,
+            $this->createPageConfigurable,
         ]);
     }
 

@@ -37,7 +37,7 @@ Feature: Managing CustomerOptionGroups
         And the customer option group "Group 1" should not appear in the registry
 
     @ui
-    @javascript
+    @javascript @test
     Scenario: Adding options to a new group
         Given I want to create a new customer option group
         When I specify its code as "some_group"
@@ -51,7 +51,7 @@ Feature: Managing CustomerOptionGroups
         And the customer option group "Some Group" should have option "Option 2"
 
     @ui
-    @javascript
+    @javascript @test
     Scenario: Adding options to an existing group
         Given I want to edit customer option group "Group 1"
         When I add a customer option "Option 3"
