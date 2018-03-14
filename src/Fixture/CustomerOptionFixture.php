@@ -45,7 +45,7 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
         $customerOptions = [];
         foreach (array_merge($customConfiguration, $autoConfiguration) as $optionConfig) {
             try {
-                $customerOptions[] = $this->factory->create($optionConfig);
+                $customerOptions[] = $this->factory->createFromConfig($optionConfig);
             } catch (\Throwable $e) {
                 dump($e->getMessage());
             }

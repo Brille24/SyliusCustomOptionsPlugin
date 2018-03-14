@@ -6,15 +6,8 @@ namespace Brille24\CustomerOptionsPlugin\Factory;
 
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
-interface CustomerOptionFactoryInterface extends FactoryInterface
+interface CustomerOptionGroupFactoryInterface extends FactoryInterface
 {
-    /**
-     * @param array $configuration
-     *
-     * @throws \Exception
-     */
-    public function validateConfiguration(array $configuration): void;
-
     /**
      * Creates an array of items based on the configuration
      *
@@ -29,5 +22,5 @@ interface CustomerOptionFactoryInterface extends FactoryInterface
      *
      * @return array
      */
-    public function generateRandomConfiguration(int $amount): array;
+    public function generateRandom(int $amount): array;
 }

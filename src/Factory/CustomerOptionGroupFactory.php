@@ -23,7 +23,7 @@ use Faker\Factory;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Throwable;
 
-class CustomerOptionGroupFactory
+class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 {
     /** @var CustomerOptionRepositoryInterface */
     private $customerOptionRepository;
@@ -88,7 +88,7 @@ class CustomerOptionGroupFactory
             }
 
             try {
-                $customerOptionGroups[] = $this->create($options);
+                $customerOptionGroups[] = $this->createFromConfig($options);
             } catch (Throwable $e) {
                 dump($e->getMessage());
             }
@@ -104,7 +104,7 @@ class CustomerOptionGroupFactory
      *
      * @throws \Exception
      */
-    public function create(array $options): CustomerOptionGroupInterface
+    public function createFromConfig(array $options): CustomerOptionGroupInterface
     {
         $options = array_merge($this->getOptionsPrototype(), $options);
         $this->validateOptions($options);
@@ -160,5 +160,10 @@ class CustomerOptionGroupFactory
             'options' => [],
             'products' => [],
         ];
+    }
+
+    public function createNew()
+    {
+        return new CustomerOptionGroup();
     }
 }

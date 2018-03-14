@@ -13,7 +13,7 @@
 
         <service
                 class="Brille24\CustomerOptionsPlugin\Factory\CustomerOptionFactory"
-                id="brille24.fixture.factory.customer_option"
+                id="brille24.factory.customer_option"
         >
             <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_group"/>
             <argument type="service" id="brille24.customer_options_plugin.factory.customer_option_value_factory"/>
@@ -31,7 +31,7 @@
 
         <service
                 class="Brille24\CustomerOptionsPlugin\Factory\CustomerOptionGroupFactory"
-                id="brille24.fixture.factory.customer_option_group"
+                id="brille24.factory.customer_option_group"
         >
             <argument type="service" id="brille24.customer_options_plugin.repository.customer_option"/>
             <argument type="service" id="sylius.repository.product"/>
@@ -39,7 +39,7 @@
 
         <service
                 class="Brille24\CustomerOptionsPlugin\Factory\ProductFactory"
-                id="brille24.fixture.factory.product"
+                id="brille24.factory.product"
         >
             <argument type="service" id="sylius.fixture.example_factory.product"/>
             <argument type="service" id="sylius.repository.channel"/>

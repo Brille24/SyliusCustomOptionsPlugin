@@ -17,7 +17,7 @@ use Brille24\CustomerOptionsPlugin\Exceptions\ConfigurationException;
 use Brille24\CustomerOptionsPlugin\Services\FakerFactoryWrapper;
 use Faker\Factory;
 
-class CustomerOptionValueFactory implements CustomerOptionFactoryInterface
+class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
 {
 
     /**
@@ -30,7 +30,7 @@ class CustomerOptionValueFactory implements CustomerOptionFactoryInterface
      */
     private $faker;
 
-    public function __construct(CustomerOptionValuePriceFactory $valuePriceFactory)
+    public function __construct(CustomerOptionValuePriceFactoryInterface $valuePriceFactory)
     {
         $this->valuePriceFactory = $valuePriceFactory;
         $this->faker             = Factory::create();
@@ -58,7 +58,7 @@ class CustomerOptionValueFactory implements CustomerOptionFactoryInterface
     }
 
     /** {@inheritdoc} */
-    public function create(array $configuration): CustomerOptionValueInterface
+    public function createFromConfig(array $configuration): CustomerOptionValueInterface
     {
         $value = new CustomerOptionValue();
         $value->setCode($configuration['code']);
@@ -70,7 +70,7 @@ class CustomerOptionValueFactory implements CustomerOptionFactoryInterface
 
         // Creating prices
         foreach ($configuration['prices'] as $priceConfig) {
-            $price = $this->valuePriceFactory->create($priceConfig);
+            $price = $this->valuePriceFactory->createFromConfig($priceConfig);
 
             $value->addPrice($price);
         }
@@ -80,21 +80,26 @@ class CustomerOptionValueFactory implements CustomerOptionFactoryInterface
     /** {@inheritdoc} */
     public function generateRandomConfiguration(int $amount): array
     {
-        $values = [];
+        $result = [];
         $this->faker->unique($reset=true);
 
         for ($j = 0; $j < $amount; ++$j) {
             $priceAmount = $this->faker->numberBetween(0, 2);
 
-            $value = [
+            $config = [
                 'code'         => $this->faker->uuid,
                 'translations' => ['en_US' => sprintf('Value "%s"', $this->faker->word)],
                 'prices'       => $this->valuePriceFactory->generateRandomConfiguration($priceAmount),
             ];
 
-            $values[] = $value;
+            $result[] = $config;
         }
 
-        return $values;
+        return $result;
+    }
+
+    public function createNew()
+    {
+        return new CustomerOptionValue();
     }
 }

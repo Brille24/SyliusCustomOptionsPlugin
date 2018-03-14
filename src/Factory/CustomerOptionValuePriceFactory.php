@@ -21,7 +21,7 @@ use Faker\Factory;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 
-class CustomerOptionValuePriceFactory implements CustomerOptionFactoryInterface
+class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactoryInterface
 {
     /**
      * @var ChannelRepositoryInterface
@@ -54,7 +54,7 @@ class CustomerOptionValuePriceFactory implements CustomerOptionFactoryInterface
     }
 
     /** {@inheritdoc} */
-    public function create(array $configuration): CustomerOptionValuePriceInterface
+    public function createFromConfig(array $configuration): CustomerOptionValuePriceInterface
     {
         $this->validateConfiguration($configuration);
 
@@ -93,16 +93,21 @@ class CustomerOptionValuePriceFactory implements CustomerOptionFactoryInterface
         );
 
         foreach (range(1, $amount) as $i) {
-            $price = [
+            $config = [
                 'type'    => $this->faker->randomElement(['fixed', 'percent']),
                 'amount'  => $this->faker->numberBetween(50, 10000),
                 'percent' => $this->faker->randomFloat(4, 0.01, 0.5),
                 'channel' => $this->faker->randomElement($allChannelCodes),
             ];
 
-            $prices[] = $price;
+            $prices[] = $config;
         }
 
         return $prices;
+    }
+
+    public function createNew()
+    {
+        return new CustomerOptionValuePrice();
     }
 }
