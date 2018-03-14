@@ -128,7 +128,7 @@ class ShowPage extends BaseShowPage
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
     public function hasOptionOutOfBoundsValidationMessage(){
-        $message = "This value should be";
+        $message = "This value";
 
         if(!$this->hasElement('validation_errors')){
             return false;
@@ -136,7 +136,7 @@ class ShowPage extends BaseShowPage
 
         $errors = $this->getElement('validation_errors')->getText();
 
-        return strpos($this->getElement('validation_errors')->getText(), $message) !== false;
+        return strpos($errors, $message) !== false;
     }
 
     /**
