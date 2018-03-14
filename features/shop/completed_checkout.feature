@@ -34,7 +34,7 @@ Feature: Viewing products after completed checkout
 
         And I am a logged in customer
 
-    @ui @javascript @test
+    @ui @javascript
     Scenario: Completing checkout with product with customer options
         Given I view product "Cool Product"
         When I select value "Value 3" for customer option "Select Option"
@@ -51,9 +51,9 @@ Feature: Viewing products after completed checkout
         And I should see "Customer Options"
         And I should see "Select Option: Value 3"
         And I should see "Text Option: My text"
-        And I should see "Date Option: 05"
-        And I should see "Date Option: 08"
-        And I should see "Date Option: 1990"
+        And I should see "Date Option: 5"
+        And I should see "Date Option: 8"
+        And I should see "Date Option: 2013"
         And I should see "Number Option: 123"
         And I should see "Boolean Option: 1"
         And I should not see "Other Boolean Option"

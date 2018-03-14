@@ -9,6 +9,7 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterfac
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Sylius\Behat\Page\Shop\Product\ShowPage as BaseShowPage;
 use Symfony\Component\Routing\RouterInterface;
+use WebDriver\Key;
 
 class ShowPage extends BaseShowPage
 {
@@ -87,22 +88,19 @@ class ShowPage extends BaseShowPage
                 $minute->selectOption($dateValue->format('i'));
             }
         }elseif($customerOption->getType() === CustomerOptionTypeEnum::BOOLEAN) {
-            $this->checkField($customerOption->getName(), boolval($value));
+            $this->checkField($customerOption->getName(), filter_var($value, FILTER_VALIDATE_BOOLEAN));
         }else {
             $this->getDocument()->fillField($customerOption->getName(), $value);
         }
     }
 
-    private function checkField($fieldName, $state){
-        if($this->getDocument()->hasCheckedField($fieldName)){
-            if($state === false){
-                $this->getDocument()->uncheckField($fieldName);
-            }
-        }else{
-            if($state === true){
-                $this->getDocument()->checkField($fieldName);
-            }
-        }
+    private function checkField(string $fieldName, bool $state){
+        /** @var NodeElement $field */
+        $field = $this->getDocument()->findField($fieldName);
+
+        $script = sprintf('$("#%s").prop("checked", %s);', $field->getAttribute('id'), ($state) ? 'true' : 'false');
+
+        $this->getDriver()->executeScript($script);
     }
 
     /**
