@@ -72,11 +72,11 @@ class ShowPage extends BaseShowPage
 
             $day = $dateFields->find('css', 'select[id$="day"]');
             $month = $dateFields->find('css', 'select[id$="month"]');
-            $year = $dateFields->find('css', 'select[id$="year"]');
+            $year = $dateFields->find('css', 'input[id$="year"]');
 
             $day->selectOption($dateValue->format('j'));
             $month->selectOption($dateValue->format('M'));
-            $year->selectOption($dateValue->format('Y'));
+            $year->setValue($dateValue->format('Y'));
 
             $timeFields = $field->find('css', 'div[id$="time"]');
 
