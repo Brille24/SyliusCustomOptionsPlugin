@@ -38,6 +38,9 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     /** @var ArrayCollection */
     private $products;
 
+    /** @var Collection */
+    private $validators;
+
     public function __construct()
     {
         $this->optionAssociations = new ArrayCollection();
@@ -138,6 +141,26 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
             ->map(function (CustomerOptionAssociationInterface $association) {
                 return $association->getOption();
             })->toArray();
+    }
+
+    public function getValidators(): Collection
+    {
+        return $this->validators;
+    }
+
+    public function setValidators(Collection $validators): void
+    {
+        $this->validators = $validators;
+    }
+
+    public function addValidator(ValidatorInterface $validator): void
+    {
+        $this->validators->add($validator);
+    }
+
+    public function removeValidator(ValidatorInterface $validator): void
+    {
+        $this->validators->removeElement($validator);
     }
 
     //<editor-fold "Translations">

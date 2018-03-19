@@ -38,7 +38,12 @@ final class CustomerOptionGroupType extends AbstractResourceType
                 'allow_delete' => true,
                 'label' => false,
                 'by_reference' => false,
-            ]);
+            ])
+            ->add('validators', ValidatorType::class, [
+                'mapped' => false,
+                'label' => false,
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
