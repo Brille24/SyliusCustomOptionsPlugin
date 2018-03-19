@@ -5,6 +5,7 @@ namespace Brille24\CustomerOptionsPlugin\Form;
 
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Condition;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -15,10 +16,13 @@ class ConditionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var CustomerOptionGroupInterface $customerOptionGroup */
+        $customerOptionGroup = $options['customerOptionGroup'];
+
         $builder
             ->add('customer_option', ChoiceType::class, [
-                'choices' => ['a' => 1, 'b' => 2, 'c' => 3],
-                'mapped' => false,
+                'choices' => $customerOptionGroup->getOptions(),
+                'choice_label' => 'name',
             ])
             ->add('comparator', ChoiceType::class, [
                 'choices' => [
@@ -40,6 +44,9 @@ class ConditionType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Condition::class,
         ]);
+
+        $resolver->setDefined('customerOptionGroup');
+        $resolver->setAllowedTypes('customerOptionGroup', CustomerOptionGroupInterface::class);
     }
 
     public function getBlockPrefix()

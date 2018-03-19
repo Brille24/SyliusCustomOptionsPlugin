@@ -41,6 +41,9 @@ final class CustomerOptionGroupType extends AbstractResourceType
             ])
             ->add('validators', CollectionType::class, [
                 'entry_type' => ValidatorType::class,
+                'entry_options' => [
+                    'customerOptionGroup' => $options['data'],
+                ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'label' => false,

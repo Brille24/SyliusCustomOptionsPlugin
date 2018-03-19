@@ -47,4 +47,10 @@ interface ConditionInterface extends ResourceInterface
      * @param ValidatorInterface $validator
      */
     public function setValidator(ValidatorInterface $validator): void;
+
+    /**
+     * @param mixed $value
+     * @return bool
+     */
+    public function isMet($value): bool;
 }

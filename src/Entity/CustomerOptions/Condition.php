@@ -85,4 +85,27 @@ class Condition implements ConditionInterface
     {
         return $this->id;
     }
+
+    /** {@inheritdoc} */
+    public function isMet($value): bool
+    {
+        switch ($this->comparator){
+            case self::GREATER:
+                return $value > $this->value;
+
+            case self::GREATER_OR_EQUAL:
+                return $value >= $this->value;
+
+            case self::EQUAL:
+                return $value == $this->value;
+
+            case self::LESSER_OR_EQUAL:
+                return $value <= $this->value;
+
+            case self::LESSER:
+                return $value < $this->value;
+        }
+
+        return false;
+    }
 }

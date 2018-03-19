@@ -209,7 +209,7 @@ class OrderItemOption implements OrderItemOptionInterface
     /** {@inheritdoc} */
     public function getScalarValue()
     {
-        if (null === $this->optionValue) {
+        if (null !== $this->optionValue) {
             return $this->optionValue;
         }
 
