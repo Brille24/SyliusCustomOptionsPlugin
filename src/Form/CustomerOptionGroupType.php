@@ -39,8 +39,10 @@ final class CustomerOptionGroupType extends AbstractResourceType
                 'label' => false,
                 'by_reference' => false,
             ])
-            ->add('validators', ValidatorType::class, [
-                'mapped' => false,
+            ->add('validators', CollectionType::class, [
+                'entry_type' => ValidatorType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
                 'label' => false,
             ])
         ;

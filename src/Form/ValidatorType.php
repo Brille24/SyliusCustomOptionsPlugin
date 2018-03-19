@@ -4,9 +4,14 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Form;
 
 
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Constraint;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\ValidatorInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ValidatorType extends AbstractType
 {
@@ -17,17 +22,25 @@ class ValidatorType extends AbstractType
                 'entry_type' => ConditionType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
-
-                'mapped' => false,
+                'by_reference' => false,
             ])
             ->add('constraints', CollectionType::class, [
                 'entry_type' => ConditionType::class,
+                'entry_options' => [
+                    'data_class' => Constraint::class,
+                ],
                 'allow_add' => true,
                 'allow_delete' => true,
-
-                'mapped' => false,
+                'by_reference' => false,
             ])
         ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Validator::class,
+        ]);
     }
 
     public function getBlockPrefix()

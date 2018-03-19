@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Form;
 
 
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Condition;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -17,9 +18,16 @@ class ConditionType extends AbstractType
         $builder
             ->add('customer_option', ChoiceType::class, [
                 'choices' => ['a' => 1, 'b' => 2, 'c' => 3],
+                'mapped' => false,
             ])
-            ->add('operator', ChoiceType::class, [
-                'choices' => ['>' => 1, '>=' => 2, '=' => 3, '<=' => 4, '<' => 5],
+            ->add('comparator', ChoiceType::class, [
+                'choices' => [
+                    '>' => Condition::GREATER,
+                    '>=' => Condition::GREATER_OR_EQUAL,
+                    '=' => Condition::EQUAL,
+                    '<=' => Condition::LESSER_OR_EQUAL,
+                    '<' => Condition::LESSER,
+                ],
             ])
             ->add('value', NumberType::class, [
 
@@ -29,7 +37,9 @@ class ConditionType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-
+        $resolver->setDefaults([
+            'data_class' => Condition::class,
+        ]);
     }
 
     public function getBlockPrefix()
