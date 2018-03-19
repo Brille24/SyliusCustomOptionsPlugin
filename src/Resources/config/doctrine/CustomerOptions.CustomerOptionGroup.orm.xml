@@ -34,5 +34,16 @@
                 <order-by-field name="position" direction="ASC" />
             </order-by>
         </one-to-many>
+
+        <one-to-many
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator"
+                mapped-by="customerOptionGroup"
+                field="validators"
+        >
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+        </one-to-many>
     </entity>
 </doctrine-mapping>

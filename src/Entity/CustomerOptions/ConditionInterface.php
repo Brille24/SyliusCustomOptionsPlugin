@@ -11,22 +11,22 @@ interface ConditionInterface extends ResourceInterface
     /**
      * @return CustomerOptionInterface
      */
-    public function getCustomerOption(): CustomerOptionInterface;
+    public function getCustomerOption(): ?CustomerOptionInterface;
 
     /**
      * @param CustomerOptionInterface $customerOption
      */
-    public function setCustomerOption(CustomerOptionInterface $customerOption): void;
+    public function setCustomerOption(?CustomerOptionInterface $customerOption): void;
 
     /**
      * @return string
      */
-    public function getComparator(): string ;
+    public function getComparator(): ?string ;
 
     /**
      * @param string $comparator
      */
-    public function setComparator(string $comparator): void;
+    public function setComparator(?string $comparator): void;
 
     /**
      * @return int
@@ -37,4 +37,14 @@ interface ConditionInterface extends ResourceInterface
      * @param int $value
      */
     public function setValue(int $value): void;
+
+    /**
+     * @return ValidatorInterface
+     */
+    public function getValidator(): ValidatorInterface;
+
+    /**
+     * @param ValidatorInterface $validator
+     */
+    public function setValidator(ValidatorInterface $validator): void;
 }

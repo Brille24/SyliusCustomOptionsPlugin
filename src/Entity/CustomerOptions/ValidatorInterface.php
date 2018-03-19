@@ -12,12 +12,12 @@ interface ValidatorInterface extends ResourceInterface
     /**
      * @return Collection
      */
-    public function getConditions(): Collection;
+    public function getConditions(): ?Collection;
 
     /**
      * @param Collection $conditions
      */
-    public function setConditions(Collection $conditions): void;
+    public function setConditions(?Collection $conditions): void;
 
     /**
      * @param ConditionInterface $condition
@@ -32,12 +32,12 @@ interface ValidatorInterface extends ResourceInterface
     /**
      * @return Collection
      */
-    public function getConstraints(): Collection;
+    public function getConstraints(): ?Collection;
 
     /**
      * @param Collection $constraints
      */
-    public function setConstraints(Collection $constraints): void;
+    public function setConstraints(?Collection $constraints): void;
 
     /**
      * @param ConditionInterface $constraint
@@ -52,10 +52,10 @@ interface ValidatorInterface extends ResourceInterface
     /**
      * @return CustomerOptionGroupInterface
      */
-    public function getCustomerOptionGroup(): CustomerOptionGroupInterface;
+    public function getCustomerOptionGroup(): ?CustomerOptionGroupInterface;
 
     /**
      * @param CustomerOptionGroupInterface $customerOptionGroup
      */
-    public function setCustomerOptionGroup(CustomerOptionGroupInterface $customerOptionGroup): void;
+    public function setCustomerOptionGroup(?CustomerOptionGroupInterface $customerOptionGroup): void;
 }

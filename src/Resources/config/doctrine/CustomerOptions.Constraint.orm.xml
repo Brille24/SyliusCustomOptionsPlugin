@@ -1,0 +1,8 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <entity
+            name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Constraint"
+            table="brille24_customer_option_group_validator_constraint"
+    >
+
+    </entity>
+</doctrine-mapping>
