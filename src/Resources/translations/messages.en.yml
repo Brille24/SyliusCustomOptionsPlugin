@@ -50,6 +50,15 @@ brille24:
                 number: Maximum number
             invalid_min_max: The configurations minimum value is greater then the maximum
             default_value: Default value
+        validators:
+            condition:
+                greater: ">"
+                greater_equal: ">="
+                equal: "=="
+                lesser_equal: "<="
+                lesser: "<"
+                in_set: Is in set
+                not_in_set: Is not in set
 
     grid:
         options_remaining: "{0} |]0,Inf]and %count% more"

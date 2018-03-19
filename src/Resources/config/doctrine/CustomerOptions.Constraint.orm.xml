@@ -3,6 +3,26 @@
             name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Constraint"
             table="brille24_customer_option_group_validator_constraint"
     >
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
 
+        <field name="comparator" type="string" />
+
+        <field name="value" type="json_array" nullable="true" />
+
+        <many-to-one
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator"
+                field="validator"
+        >
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </many-to-one>
+
+        <many-to-one
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
+                field="customerOption"
+        />
     </entity>
 </doctrine-mapping>

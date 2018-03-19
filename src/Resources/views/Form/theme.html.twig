@@ -10,14 +10,20 @@
                 data-prototype='{{ self.collection_item(prototype, allow_delete, button_delete_label, '__name__')|e }}'
             {%- endif -%}
     >
-        <b>{{ form_label(form.conditions) }}</b>
-        <div class="ui segment">
-            {{ form_widget(form.conditions) }}
-        </div>
+        <div class="two fields">
+            <div class="field">
+                <b>{{ form_label(form.conditions) }}</b>
+                <div class="ui segment">
+                    {{ form_widget(form.conditions) }}
+                </div>
+            </div>
 
-        <b>{{ form_label(form.constraints) }}</b>
-        <div class="ui segment">
-            {{ form_widget(form.constraints) }}
+            <div class="field">
+                <b>{{ form_label(form.constraints) }}</b>
+                <div class="ui segment">
+                    {{ form_widget(form.constraints) }}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock brille24_customer_options_plugin_validator_widget %}

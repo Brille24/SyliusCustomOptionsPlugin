@@ -37,5 +37,5 @@ interface EnumInterface
      */
     public static function getTranslateArray(): array;
 
-    public static function getFormTypeArray(): array;
+//    public static function getFormTypeArray(): array;
 }
