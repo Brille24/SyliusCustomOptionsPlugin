@@ -7,6 +7,7 @@ namespace Brille24\CustomerOptionsPlugin\Enumerations;
 use Brille24\CustomerOptionsPlugin\Form\CustomDateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 final class ConditionComparatorEnum implements EnumInterface
@@ -102,7 +103,7 @@ final class ConditionComparatorEnum implements EnumInterface
             ];
         }elseif (CustomerOptionTypeEnum::isDate($type)){
             return [
-                CustomDateType::class,
+                DateType::class,
                 [],
             ];
         }else{
