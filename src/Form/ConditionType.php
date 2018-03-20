@@ -9,6 +9,7 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\ConditionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -41,6 +42,10 @@ class ConditionType extends AbstractType
                     $valueConfig[1]['choices'] = $configuration->getCustomerOption()->getValues()->getValues();
                     $valueConfig[1]['choice_label'] = 'name';
                 }
+            }
+
+            if($valueConfig[0] === CustomDateType::class) {
+                $valueConfig[1] = ['data' => new DateTime()];
             }
 
             $form->add('comparator', ChoiceType::class, [
