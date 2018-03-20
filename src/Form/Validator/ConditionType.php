@@ -34,6 +34,7 @@ class ConditionType extends AbstractType
             ->add('customer_option', ChoiceType::class, [
                 'choices' => $customerOptionGroup->getOptions(),
                 'choice_label' => 'name',
+                'attr' => ['onChange' => '$(event.target).parentsUntil("form").parent().submit();'],
             ])
         ;
 

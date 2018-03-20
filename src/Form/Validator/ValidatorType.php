@@ -28,7 +28,6 @@ class ValidatorType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'attr' => ['onChange' => '$(event.target).parentsUntil("form").parent().submit();'],
             ])
             ->add('constraints', CollectionType::class, [
                 'entry_type' => ConditionType::class,
