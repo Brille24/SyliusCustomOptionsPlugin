@@ -13,9 +13,7 @@ namespace Brille24\CustomerOptionsPlugin\Factory;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\CustomerOptionsPlugin\Exceptions\ConfigurationException;
-use Brille24\CustomerOptionsPlugin\Services\FakerFactoryWrapper;
 use Doctrine\ORM\EntityNotFoundException;
 use Faker\Factory;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
@@ -29,7 +27,7 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
     private $channelRepository;
 
     /**
-     * @var FakerFactoryWrapper
+     * @var Factory
      */
     private $faker;
 
@@ -92,7 +90,7 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
             $this->channelRepository->findAll()
         );
 
-        foreach (range(1, $amount) as $i) {
+        foreach (range(1, $amount) as $_) {
             $config = [
                 'type'    => $this->faker->randomElement(['fixed', 'percent']),
                 'amount'  => $this->faker->numberBetween(50, 10000),

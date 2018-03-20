@@ -39,7 +39,7 @@ class CustomerOptionGroupFixture extends AbstractFixture
 
         foreach ($options['custom'] as $groupConfig) {
             try {
-                $customerOptionsGroups[] = $this->factory->create($groupConfig);
+                $customerOptionsGroups[] = $this->factory->createFromConfig($groupConfig);
             } catch (\Throwable $e) {
                 echo $e->getMessage();
             }

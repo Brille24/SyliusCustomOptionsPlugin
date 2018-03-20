@@ -23,7 +23,7 @@ class CustomerOptionValueRepository extends EntityRepository implements Customer
     public function findOneByCode(string $code): ?CustomerOptionValueInterface
     {
         return $this->createQueryBuilder('v')
-            ->where('v.codeh = :code')
+            ->where('v.code = :code')
             ->setParameter('code', $code)
             ->getQuery()
             ->getOneOrNullResult()

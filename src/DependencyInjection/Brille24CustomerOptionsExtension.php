@@ -26,6 +26,6 @@ final class Brille24CustomerOptionsExtension extends Extension
     {
         $this->processConfiguration($this->getConfiguration([], $container), $config);
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
     }
 }

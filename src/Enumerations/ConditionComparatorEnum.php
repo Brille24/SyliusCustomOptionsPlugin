@@ -14,6 +14,9 @@ final class ConditionComparatorEnum implements EnumInterface
     const IN_SET = 'in_set';
     const NOT_IN_SET = 'not_in_set';
 
+    const TRUE = true;
+    const FALSE = false;
+
     public static function getConstList(): array
     {
         return [

@@ -189,6 +189,14 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     }
 
     /**
+     * @return OrderItemOptionInterface[]
+     */
+    public function getOrders(): array
+    {
+        return $this->orders;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function createTranslation(): TranslationInterface

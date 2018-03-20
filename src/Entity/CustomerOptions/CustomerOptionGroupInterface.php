@@ -31,7 +31,7 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
     public function setName(?string $name): void;
 
     /**
-     * @return CustomerOptionAssociationInterface[]
+     * @return Collection
      */
     public function getOptionAssociations(): Collection;
 
