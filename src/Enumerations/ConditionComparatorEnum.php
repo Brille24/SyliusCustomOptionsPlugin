@@ -3,12 +3,6 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Enumerations;
 
-
-use Brille24\CustomerOptionsPlugin\Form\CustomDateType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-
 final class ConditionComparatorEnum implements EnumInterface
 {
     const GREATER = 'greater';
@@ -84,31 +78,6 @@ final class ConditionComparatorEnum implements EnumInterface
                 self::EQUAL,
                 self::LESSER_OR_EQUAL,
                 self::LESSER,
-            ];
-        }
-    }
-
-    public static function getFormTypeForCustomerOptionType(string $type): array
-    {
-        if(CustomerOptionTypeEnum::isSelect($type)){
-            return [
-                ChoiceType::class,
-                ['multiple' => true],
-            ];
-        }elseif ($type === CustomerOptionTypeEnum::BOOLEAN){
-            return [
-                CheckboxType::class,
-                [],
-            ];
-        }elseif (CustomerOptionTypeEnum::isDate($type)){
-            return [
-                CustomDateType::class,
-                [],
-            ];
-        }else{
-            return [
-                NumberType::class,
-                [],
             ];
         }
     }

@@ -71,17 +71,5 @@
             <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionAssociationType" name="form.type" />
         </service>
 
-        <service class="Brille24\CustomerOptionsPlugin\Form\CustomDateType"
-                 id="brille24.customer_options_plugin.form.custom_date_type"
-        >
-            <tag name="form.type" alias="Brille24\CustomerOptionsPlugin\Form\CustomDateType" />
-        </service>
-
-        <service class="Brille24\CustomerOptionsPlugin\Form\CustomDateTimeType"
-                 id="brille24.customer_options_plugin.form.custom_datetime_type"
-        >
-            <tag name="form.type" alias="Brille24\CustomerOptionsPlugin\Form\CustomDateTimeType" />
-        </service>
-
     </services>
 </container>

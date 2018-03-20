@@ -30,7 +30,7 @@ class CustomerOptionConfigurationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $form = $event->getForm();
+            $form          = $event->getForm();
             $configuration = $event->getData();
 
             foreach ($configuration as $key => $configArray) {
@@ -38,35 +38,19 @@ class CustomerOptionConfigurationType extends AbstractType
                 $data = $configArray['value'];
 
                 // Transforming Datetime objects
-                if (in_array($type, [CustomerOptionTypeEnum::DATE, CustomerOptionTypeEnum::DATETIME])) {
+                if (CustomerOptionTypeEnum::isDate($type)) {
                     $data = new DateTime($data['date'], new DateTimeZone($data['timezone']));
                 }
 
+                [$formTypeClass, $formTypeConfig] = CustomerOptionTypeEnum::getFormTypeArray()[$type];
+
                 // Adding form field for configuration option based on type
-                $form->add(str_replace('.', '_', $key), CustomerOptionConfigurationType::getTypeFromString($type), [
-                    'data' => $data,
-                    'label' => $key,
-                ]);
+                $form->add(
+                    str_replace('.', '_', $key), $formTypeClass,
+                    array_merge(['data' => $data, 'label' => $key], $formTypeConfig)
+                );
             }
         });
-    }
-
-    private static function getTypeFromString(string $type): string
-    {
-        switch ($type) {
-            case 'integer':
-            case 'int':
-                return NumberType::class;
-            case 'boolean':
-            case 'bool':
-                return CheckboxType::class;
-            case 'date':
-                return CustomDateType::class;
-            case 'datetime':
-                return CustomDateTimeType::class;
-            default:
-                return TextType::class;
-        }
     }
 
     public function getBlockPrefix(): string

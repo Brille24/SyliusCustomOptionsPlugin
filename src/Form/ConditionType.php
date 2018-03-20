@@ -12,6 +12,7 @@ use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -29,23 +30,21 @@ class ConditionType extends AbstractType
             $configuration = $event->getData();
 
             $comparatorChoices = ConditionComparatorEnum::getConstList();
-            $valueConfig = ConditionComparatorEnum::getFormTypeForCustomerOptionType('text');
+            $valueConfig = CustomerOptionTypeEnum::getFormTypeArray()['text'];
+
 
             if($configuration !== null){
                 $customerOptionType = $configuration->getCustomerOption()->getType();
-
                 $comparatorChoices = ConditionComparatorEnum::getValuesForCustomerOptionType($customerOptionType);
 
-                $valueConfig = ConditionComparatorEnum::getFormTypeForCustomerOptionType($customerOptionType);
+                $valueConfig = CustomerOptionTypeEnum::getFormTypeArray()[$customerOptionType];
 
                 if(CustomerOptionTypeEnum::isSelect($customerOptionType)){
                     $valueConfig[1]['choices'] = $configuration->getCustomerOption()->getValues()->getValues();
                     $valueConfig[1]['choice_label'] = 'name';
+                }elseif(CustomerOptionTypeEnum::isDate($customerOptionType)) {
+                    $valueConfig[1]['data'] = new DateTime();
                 }
-            }
-
-            if($valueConfig[0] === CustomDateType::class) {
-                $valueConfig[1] = ['data' => new DateTime()];
             }
 
             $form->add('comparator', ChoiceType::class, [
