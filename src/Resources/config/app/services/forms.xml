@@ -83,5 +83,12 @@
             <tag name="form.type" alias="Brille24\CustomerOptionsPlugin\Form\CustomDateTimeType" />
         </service>
 
+        <service class="Brille24\CustomerOptionsPlugin\Form\Validator\ValueType"
+                 id="brille24.customer_options_plugin.form.validator.test_type"
+        >
+            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_value" />
+            <tag name="form.type" alias="Brille24\CustomerOptionsPlugin\Form\Validator\ValueType" />
+        </service>
+
     </services>
 </container>

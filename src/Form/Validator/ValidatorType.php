@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Form;
+namespace Brille24\CustomerOptionsPlugin\Form\Validator;
 
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Constraint;

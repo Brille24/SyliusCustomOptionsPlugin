@@ -42,16 +42,17 @@ interface ConditionTraitInterface
     /**
      * @return ValidatorInterface
      */
-    public function getValidator(): ValidatorInterface;
+    public function getValidator(): ?ValidatorInterface;
 
     /**
      * @param ValidatorInterface $validator
      */
-    public function setValidator(ValidatorInterface $validator): void;
+    public function setValidator(?ValidatorInterface $validator): void;
 
     /**
-     * @param mixed $value
+     * @param $value
+     * @param string $optionType
      * @return bool
      */
-    public function isMet($value): bool;
+    public function isMet($value, string $optionType): bool;
 }

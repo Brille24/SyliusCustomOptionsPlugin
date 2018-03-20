@@ -11,6 +11,7 @@
                 target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Condition"
                 mapped-by="validator"
                 field="conditions"
+                orphan-removal="true"
         >
             <cascade>
                 <cascade-persist/>
@@ -22,6 +23,7 @@
                 target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Constraint"
                 mapped-by="validator"
                 field="constraints"
+                orphan-removal="true"
         >
             <cascade>
                 <cascade-persist/>

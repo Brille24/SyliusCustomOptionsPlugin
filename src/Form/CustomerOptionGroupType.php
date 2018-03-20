@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Form;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
+use Brille24\CustomerOptionsPlugin\Form\Validator\ValidatorType;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;

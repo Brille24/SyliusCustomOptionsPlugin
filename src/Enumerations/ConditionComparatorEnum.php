@@ -116,7 +116,10 @@ final class ConditionComparatorEnum implements EnumInterface
     public static function getValueConfig(string $type): array
     {
         if(CustomerOptionTypeEnum::isSelect($type)){
-            return [];
+            return [
+                'type' => 'array',
+                'value' => [],
+            ];
         }elseif (CustomerOptionTypeEnum::isDate($type)){
             return [
                 'type' => 'date',
