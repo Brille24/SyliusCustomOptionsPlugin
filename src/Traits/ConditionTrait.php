@@ -74,10 +74,24 @@ trait ConditionTrait
         $this->customerOption ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT
         );
 
-        if(CustomerOptionTypeEnum::isSelect($this->customerOption->getType())) {
-            $newValue['value'] = is_array($value) ? $value : [];
-        }else{
-            $newValue['value'] = is_array($value) ? null : $value;
+        if($newValue['type'] === 'array')
+        {
+            $newValue['value'] = is_array($value) ? $value : null;
+        }
+        elseif ($newValue['type'] === 'date')
+        {
+            $newValue['value'] = $value instanceof \DateTime ? $value : null;
+        }
+        elseif ($newValue['type'] === 'boolean')
+        {
+            $newValue['value'] = boolval($value);
+        } else {
+            if(is_array($value) || $value instanceof \DateTime)
+            {
+                $newValue['value'] = null;
+            }else{
+                $newValue['value'] = $value;
+            }
         }
 
         if($newValue['value'] === null){
