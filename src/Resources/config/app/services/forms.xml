@@ -72,7 +72,7 @@
         </service>
 
 
-        
+
         <service class="Brille24\CustomerOptionsPlugin\Form\CustomDateType"
                  id="brille24.customer_options_plugin.form.custom_date_type"
         >

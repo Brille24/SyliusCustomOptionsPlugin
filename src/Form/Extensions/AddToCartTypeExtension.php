@@ -16,6 +16,7 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\ValidatorInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Form\Product\ShopCustomerOptionType;
 use Brille24\CustomerOptionsPlugin\Services\ConstraintCreator;
+use Brille24\CustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
 use Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,7 +30,6 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
     {
         $builder->add('customer_options', ShopCustomerOptionType::class, [
             'product' => $options['product'],
-//            'constraints' => $this->getConstraints($options['product']),
         ]);
 
         $itemOptions = $builder->get('cartItem')->getOptions();
@@ -45,12 +45,15 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
 
         /** @var ValidatorInterface $validator */
         foreach ($product->getCustomerOptionGroup()->getValidators() as $validator){
+            /** @var ConditionalConstraint $constraint */
             $constraint = ConstraintCreator::createConditionalConstraint(
                 $validator->getConditions()->getValues(),
                 $validator->getConstraints()->getValues()
             );
 
             $constraint->groups = ['sylius'];
+
+            $constraint->message = $validator->getErrorMessage();
 
             $constraints[] = $constraint;
         }

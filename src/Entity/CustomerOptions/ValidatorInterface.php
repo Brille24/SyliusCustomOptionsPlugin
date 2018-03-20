@@ -58,4 +58,14 @@ interface ValidatorInterface extends ResourceInterface
      * @param CustomerOptionGroupInterface $customerOptionGroup
      */
     public function setCustomerOptionGroup(?CustomerOptionGroupInterface $customerOptionGroup): void;
+
+    /**
+     * @return string
+     */
+    public function getErrorMessage(): string;
+
+    /**
+     * @param string $message
+     */
+    public function setErrorMessage(string $message): void;
 }

@@ -9,6 +9,8 @@ use Doctrine\Common\Collections\Collection;
 
 class Validator implements ValidatorInterface
 {
+    const DEFAULT_ERROR_MESSAGE = 'One or more constraints failed.';
+
     /** @var int */
     protected $id;
 
@@ -21,10 +23,15 @@ class Validator implements ValidatorInterface
     /** @var CustomerOptionGroupInterface */
     protected $customerOptionGroup;
 
+    /** @var string */
+    protected $errorMessage;
+
     public function __construct()
     {
         $this->constraints = new ArrayCollection();
         $this->conditions = new ArrayCollection();
+
+        $this->errorMessage = self::DEFAULT_ERROR_MESSAGE;
     }
 
     /** {@inheritdoc} */
@@ -107,5 +114,15 @@ class Validator implements ValidatorInterface
     public function setCustomerOptionGroup(?CustomerOptionGroupInterface $customerOptionGroup): void
     {
         $this->customerOptionGroup = $customerOptionGroup;
+    }
+
+    public function getErrorMessage(): string
+    {
+        return $this->errorMessage ?? self::DEFAULT_ERROR_MESSAGE;
+    }
+
+    public function setErrorMessage(?string $message): void
+    {
+        $this->errorMessage = $message ?? self::DEFAULT_ERROR_MESSAGE;
     }
 }

@@ -11,6 +11,7 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\ValidatorInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -39,6 +40,7 @@ class ValidatorType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
+            ->add('errorMessage', TextType::class, [])
         ;
     }
 
