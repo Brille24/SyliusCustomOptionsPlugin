@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Factory;
 
-use Behat\Behat\Context\Exception\UnknownTranslationResourceException;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;

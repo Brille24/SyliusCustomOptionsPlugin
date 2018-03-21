@@ -19,10 +19,10 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 class CustomerOptionGroupFixture extends AbstractFixture
 {
-    /** @var CustomerOptionGroupFactoryInterface  */
+    /** @var CustomerOptionGroupFactoryInterface */
     private $factory;
 
-    /** @var EntityManagerInterface  */
+    /** @var EntityManagerInterface */
     private $em;
 
     public function __construct(CustomerOptionGroupFactoryInterface $factory, EntityManagerInterface $em)

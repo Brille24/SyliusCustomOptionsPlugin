@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Factory;
-
 
 use Sylius\Component\Resource\Factory\FactoryInterface;
 

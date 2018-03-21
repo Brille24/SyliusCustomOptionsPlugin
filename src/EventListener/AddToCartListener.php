@@ -62,8 +62,8 @@ final class AddToCartListener
                 $valueArray = [$valueArray];
             }
 
-            foreach ($valueArray as $key => $value){
-                if(is_array($value)){
+            foreach ($valueArray as $key => $value) {
+                if (is_array($value)) {
                     $valueArray = array_merge($valueArray, $value);
                     unset($valueArray[$key]);
                 }
