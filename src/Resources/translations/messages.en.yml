@@ -66,6 +66,7 @@ brille24:
                     default: Value
                     text: Text length
                     set: Set
+                message: Message
             error_message: Error message
 
     grid:

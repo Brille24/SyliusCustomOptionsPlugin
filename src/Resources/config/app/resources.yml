@@ -52,3 +52,12 @@ sylius_resource:
                 model: Brille24\CustomerOptionsPlugin\Entity\OrderItemOption
                 interface: Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface
                 factory: Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactory
+
+        brille24.customer_option_validator_error_message:
+            classes:
+                model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage
+                form: Brille24\CustomerOptionsPlugin\Form\Validator\ErrorMessageType
+            translation:
+                classes:
+                    model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessageTranslation
+                    form: Brille24\CustomerOptionsPlugin\Form\Validator\ErrorMessageTranslationType

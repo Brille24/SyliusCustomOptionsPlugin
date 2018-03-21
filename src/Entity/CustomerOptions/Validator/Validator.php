@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
+namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator;
 
 
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -23,7 +24,7 @@ class Validator implements ValidatorInterface
     /** @var CustomerOptionGroupInterface */
     protected $customerOptionGroup;
 
-    /** @var string */
+    /** @var ErrorMessageInterface */
     protected $errorMessage;
 
     public function __construct()
@@ -31,7 +32,7 @@ class Validator implements ValidatorInterface
         $this->constraints = new ArrayCollection();
         $this->conditions = new ArrayCollection();
 
-        $this->errorMessage = self::DEFAULT_ERROR_MESSAGE;
+        $this->errorMessage = self::createDefaultErrorMessage();
     }
 
     /** {@inheritdoc} */
@@ -116,13 +117,28 @@ class Validator implements ValidatorInterface
         $this->customerOptionGroup = $customerOptionGroup;
     }
 
-    public function getErrorMessage(): string
+    public function getErrorMessage(): ?ErrorMessageInterface
     {
-        return $this->errorMessage ?? self::DEFAULT_ERROR_MESSAGE;
+        return $this->errorMessage;
     }
 
-    public function setErrorMessage(?string $message): void
+    public function setErrorMessage(?ErrorMessageInterface $message): void
     {
-        $this->errorMessage = $message ?? self::DEFAULT_ERROR_MESSAGE;
+        $this->errorMessage = $message ?? self::createDefaultErrorMessage();
+
+        $this->errorMessage->setValidator($this);
+    }
+
+    private static function createDefaultErrorMessage(): ErrorMessageInterface
+    {
+        $errorMessage = new ErrorMessage();
+        $errorMessage->setCurrentLocale('en_US');
+
+        $errorMessageTranslation = new ErrorMessageTranslation();
+        $errorMessageTranslation->setMessage(self::DEFAULT_ERROR_MESSAGE);
+
+        $errorMessage->addTranslation($errorMessageTranslation);
+
+        return $errorMessage;
     }
 }

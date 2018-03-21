@@ -6,7 +6,7 @@ namespace Brille24\CustomerOptionsPlugin\Traits;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\ValidatorInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 

@@ -17,29 +17,5 @@
 
 <div class="ui segment">
     <h3 class="ui dividing header">Validators</h3>
-    {#<div class="controls collection-widget">#}
-    {#{% for validator in form.validators %}#}
-        {#<div class="ui segment">#}
-            {#{{ form_label(validator.conditions) }}#}
-            {#{% for condition in validator.conditions %}#}
-                {#<div class="ui three fields">#}
-                    {#{{ form_row(condition) }}#}
-                {#</div>#}
-            {#{% endfor %}#}
-            {#{{ form_row(validator.conditions) }}#}
-
-            {#{{ form_label(validator.constraints) }}#}
-            {#{% for constraint in validator.constraints %}#}
-                {#<div class="ui three fields">#}
-                    {#{{ form_row(constraint) }}#}
-                {#</div>#}
-            {#{% endfor %}#}
-            {#{{ form_row(validator.constraints) }}#}
-        {#</div>#}
-    {#{% endfor %}#}
-    {#</div>#}
-
-
-
     {{ form_widget(form.validators) }}
 </div>

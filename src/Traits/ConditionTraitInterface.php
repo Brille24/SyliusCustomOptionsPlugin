@@ -5,7 +5,7 @@ namespace Brille24\CustomerOptionsPlugin\Traits;
 
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\ValidatorInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 
 interface ConditionTraitInterface
 {

@@ -12,12 +12,14 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Form\Extensions;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\ValidatorInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessageTranslationInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Form\Product\ShopCustomerOptionType;
 use Brille24\CustomerOptionsPlugin\Services\ConstraintCreator;
 use Brille24\CustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
 use Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType;
+use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -26,6 +28,14 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 final class AddToCartTypeExtension extends AbstractTypeExtension
 {
+    /** @var LocaleContextInterface  */
+    private $localeContext;
+
+    public function __construct(LocaleContextInterface $localeContext)
+    {
+        $this->localeContext = $localeContext;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('customer_options', ShopCustomerOptionType::class, [
@@ -53,7 +63,10 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
 
             $constraint->groups = ['sylius'];
 
-            $constraint->message = $validator->getErrorMessage();
+            /** @var ErrorMessageTranslationInterface $errorMessage */
+            $errorMessage = $validator->getErrorMessage()->getTranslation($this->localeContext->getLocaleCode());
+            
+            $constraint->message = $errorMessage->getMessage();
 
             $constraints[] = $constraint;
         }

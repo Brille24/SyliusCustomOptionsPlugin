@@ -1,16 +1,21 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
     <entity
-            name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator"
+            name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator"
             table="brille24_customer_option_group_validator"
     >
         <id name="id" type="integer">
             <generator strategy="AUTO" />
         </id>
 
-        <field name="errorMessage" type="string" nullable="true" />
+        <one-to-one field="errorMessage" target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage">
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+        </one-to-one>
 
         <one-to-many
-                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Condition"
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition"
                 mapped-by="validator"
                 field="conditions"
                 orphan-removal="true"
@@ -22,7 +27,7 @@
         </one-to-many>
 
         <one-to-many
-                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Constraint"
+                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint"
                 mapped-by="validator"
                 field="constraints"
                 orphan-removal="true"

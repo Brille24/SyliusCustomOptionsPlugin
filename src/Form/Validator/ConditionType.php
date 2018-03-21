@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Form\Validator;
 
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Condition;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\ConditionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use DateTime;
