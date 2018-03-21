@@ -79,7 +79,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
             'products' => [],
         ];
 
-        $customerOptionGroup = $this->customerOptionGroupFactory->create($options);
+        $customerOptionGroup = $this->customerOptionGroupFactory->createFromConfig($options);
 
         $this->assertInstanceOf(CustomerOptionGroup::class, $customerOptionGroup);
     }
@@ -104,7 +104,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
             ],
         ];
 
-        $customerOptionGroup = $this->customerOptionGroupFactory->create($options);
+        $customerOptionGroup = $this->customerOptionGroupFactory->createFromConfig($options);
 
         $this->assertInstanceOf(CustomerOptionGroup::class, $customerOptionGroup);
     }
@@ -129,7 +129,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
 
         $this->expectException(\Exception::class);
 
-        $customerOptionGroup = $this->customerOptionGroupFactory->create($options);
+        $customerOptionGroup = $this->customerOptionGroupFactory->createFromConfig($options);
 
         $this->assertNull($customerOptionGroup);
     }
@@ -174,7 +174,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
             'options' => $optionCodes,
         ];
 
-        $customerOptionGroup = $this->customerOptionGroupFactory->create($options);
+        $customerOptionGroup = $this->customerOptionGroupFactory->createFromConfig($options);
 
         $this->assertCount(3, $customerOptionGroup->getOptions());
     }
@@ -214,7 +214,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
             'products' => $productCodes,
         ];
 
-        $customerOptionGroup = $this->customerOptionGroupFactory->create($options);
+        $customerOptionGroup = $this->customerOptionGroupFactory->createFromConfig($options);
 
         $this->assertCount(3, $customerOptionGroup->getProducts());
     }

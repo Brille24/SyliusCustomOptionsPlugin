@@ -20,7 +20,7 @@ class CustomerOptionValueFactoryTest extends TestCase
     protected function setUp()
     {
         $customerOptionPriceFactory = self::createMock(CustomerOptionValuePriceFactory::class);
-        $customerOptionPriceFactory->method('create')->willReturnCallback(function ($config) {
+        $customerOptionPriceFactory->method('createFromConfig')->willReturnCallback(function ($config) {
             return self::createMock(CustomerOptionValuePrice::class);
         });
 
