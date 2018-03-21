@@ -55,7 +55,7 @@ interface OrderItemOptionInterface extends ResourceInterface
     public function getCustomerOptionName(): string;
 
     /**
-     * @param null|string $value
+     * @param string|null $value
      */
     public function setOptionValue(?string $value): void;
 

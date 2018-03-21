@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Core\Model\ChannelInterface as CoreChannelInterface;
 use Sylius\Component\Channel\Model\ChannelInterface as BundleChannelInterface;
+use Sylius\Component\Core\Model\ChannelInterface as CoreChannelInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TranslatableInterface;
 

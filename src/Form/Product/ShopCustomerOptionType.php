@@ -26,8 +26,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\Required;
 
 final class ShopCustomerOptionType extends AbstractType
@@ -50,10 +48,10 @@ final class ShopCustomerOptionType extends AbstractType
         MoneyFormatterInterface $moneyFormatter,
         LocaleContextInterface $localeContext
     ) {
-        $this->channelContext  = $channelContext;
+        $this->channelContext = $channelContext;
         $this->currencyContext = $currencyContext;
-        $this->moneyFormatter  = $moneyFormatter;
-        $this->localeContext   = $localeContext;
+        $this->moneyFormatter = $moneyFormatter;
+        $this->localeContext = $localeContext;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -70,7 +68,7 @@ final class ShopCustomerOptionType extends AbstractType
 //        dump($customerOptions);
         foreach ($customerOptions as $customerOption) {
             $customerOptionType = $customerOption->getType();
-            $fieldName          = $customerOption->getCode();
+            $fieldName = $customerOption->getCode();
 
             [$class, $formOptions] = CustomerOptionTypeEnum::getFormTypeArray()[$customerOptionType];
 
@@ -106,8 +104,8 @@ final class ShopCustomerOptionType extends AbstractType
         ProductInterface $product
     ): array {
         $defaultOptions = [
-            'label'    => $customerOption->getName(),
-            'mapped'   => false,
+            'label' => $customerOption->getName(),
+            'mapped' => false,
             'required' => $customerOption->isRequired(),
         ];
 
@@ -117,27 +115,26 @@ final class ShopCustomerOptionType extends AbstractType
         $customerOptionType = $customerOption->getType();
         if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
             $configuration = [
-                'choices'      => $customerOption->getValues()->toArray(),
+                'choices' => $customerOption->getValues()->toArray(),
                 'choice_label' => function (CustomerOptionValueInterface $value) use ($product) {
                     return $this->buildValueString($value, $product);
                 },
                 'choice_value' => 'code',
             ];
-        } else{
+        } else {
             $constraint = ConstraintCreator::createFromConfiguration(
                 $customerOptionType,
                 $customerOption->getConfiguration()
             );
 
-            if($constraint !== null) {
+            if ($constraint !== null) {
                 $constraint->groups = ['sylius'];
                 $configuration = ['constraints' => [$constraint]];
             }
 
-
-            if($customerOption->isRequired()){
+            if ($customerOption->isRequired()) {
                 $requiredConstraint = ConstraintCreator::createRequiredConstraint();
-                $requiredConstraint->message = "brille24.form.customer_options.required";
+                $requiredConstraint->message = 'brille24.form.customer_options.required';
 
                 $requiredConstraint->groups = ['sylius'];
                 $configuration['constraints'][] = $requiredConstraint;
