@@ -40,7 +40,6 @@ sylius_resource:
                 model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue
                 interface: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface
                 form: Brille24\CustomerOptionsPlugin\Form\CustomerOptionValueType
-                factory: Brille24\CustomerOptionsPlugin\Factory\CustomerOptionValueFactory
             translation:
                 classes:
                     model: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueTranslation
@@ -50,4 +49,3 @@ sylius_resource:
             classes:
                 model: Brille24\CustomerOptionsPlugin\Entity\OrderItemOption
                 interface: Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface
-                factory: Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactory

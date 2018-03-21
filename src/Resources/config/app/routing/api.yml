@@ -1,0 +1,20 @@
+# API Routes
+brille24_customer_options_api:
+    resource: |
+        alias: brille24.customer_option
+    type: sylius.resource_api
+
+brille24_customer_option_group_api:
+    resource: |
+        alias: brille24.customer_option_group
+    type: sylius.resource_api
+
+brille24_customer_option_value_api:
+    resource: |
+        alias: brille24.customer_option_value
+    type: sylius.resource_api
+
+brille24_order_item_option:
+    resource: |
+        alias: brille24.order_item_option
+    type: sylius.resource_api
