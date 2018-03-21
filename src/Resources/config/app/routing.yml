@@ -1,3 +1,7 @@
 brille24_customer_options_admin:
-    resource: "@Brille24CustomerOptionsPlugin/Resources/config/app/routing/admin.yml"
+    resource: "routing/admin.yml"
     prefix: /admin
+
+brille24_customer_option_api_routes:
+    resource: "routing/api.yml"
+    prefix: /api
