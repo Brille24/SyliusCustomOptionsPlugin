@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Validator\Constraints;
 
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\ConditionInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
