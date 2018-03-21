@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
+namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator;
 
 
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
@@ -58,4 +59,14 @@ interface ValidatorInterface extends ResourceInterface
      * @param CustomerOptionGroupInterface $customerOptionGroup
      */
     public function setCustomerOptionGroup(?CustomerOptionGroupInterface $customerOptionGroup): void;
+
+    /**
+     * @return ErrorMessageInterface
+     */
+    public function getErrorMessage(): ?ErrorMessageInterface;
+
+    /**
+     * @param ErrorMessageInterface $message
+     */
+    public function setErrorMessage(?ErrorMessageInterface $message): void;
 }

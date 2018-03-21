@@ -1,14 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
+namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator;
 
 
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 class Validator implements ValidatorInterface
 {
+    const DEFAULT_ERROR_MESSAGE = 'One or more constraints failed.';
+
     /** @var int */
     protected $id;
 
@@ -21,10 +24,15 @@ class Validator implements ValidatorInterface
     /** @var CustomerOptionGroupInterface */
     protected $customerOptionGroup;
 
+    /** @var ErrorMessageInterface */
+    protected $errorMessage;
+
     public function __construct()
     {
         $this->constraints = new ArrayCollection();
         $this->conditions = new ArrayCollection();
+
+        $this->errorMessage = self::createDefaultErrorMessage();
     }
 
     /** {@inheritdoc} */
@@ -107,5 +115,30 @@ class Validator implements ValidatorInterface
     public function setCustomerOptionGroup(?CustomerOptionGroupInterface $customerOptionGroup): void
     {
         $this->customerOptionGroup = $customerOptionGroup;
+    }
+
+    public function getErrorMessage(): ?ErrorMessageInterface
+    {
+        return $this->errorMessage;
+    }
+
+    public function setErrorMessage(?ErrorMessageInterface $message): void
+    {
+        $this->errorMessage = $message ?? self::createDefaultErrorMessage();
+
+        $this->errorMessage->setValidator($this);
+    }
+
+    private static function createDefaultErrorMessage(): ErrorMessageInterface
+    {
+        $errorMessage = new ErrorMessage();
+        $errorMessage->setCurrentLocale('en_US');
+
+        $errorMessageTranslation = new ErrorMessageTranslation();
+        $errorMessageTranslation->setMessage(self::DEFAULT_ERROR_MESSAGE);
+
+        $errorMessage->addTranslation($errorMessageTranslation);
+
+        return $errorMessage;
     }
 }

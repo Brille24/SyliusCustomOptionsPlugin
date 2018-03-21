@@ -59,6 +59,15 @@ brille24:
                 lesser: "<"
                 in_set: Is in set
                 not_in_set: Is not in set
+            fields:
+                customer_option: Customer Option
+                comparator: Comparator
+                value:
+                    default: Value
+                    text: Text length
+                    set: Set
+                message: Message
+            error_message: Error message
 
     grid:
         options_remaining: "{0} |]0,Inf]and %count% more"

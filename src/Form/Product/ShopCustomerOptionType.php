@@ -15,6 +15,7 @@ namespace Brille24\CustomerOptionsPlugin\Form\Product;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\ValidatorInterface;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\CustomerOptionsPlugin\Services\ConstraintCreator;
@@ -63,7 +64,7 @@ final class ShopCustomerOptionType extends AbstractType
 
         // Add a form field for every customer option
         $customerOptions = $product->getCustomerOptions();
-//        dump($customerOptions);
+
         foreach ($customerOptions as $customerOption) {
             $customerOptionType = $customerOption->getType();
             $fieldName          = $customerOption->getCode();
@@ -139,6 +140,26 @@ final class ShopCustomerOptionType extends AbstractType
                 $configuration['constraints'][] = $requiredConstraint;
             }
         }
+
+//        $constraints = [];
+//
+//        /** @var ValidatorInterface $validator */
+//        foreach ($product->getCustomerOptionGroup()->getValidators() as $validator){
+//            $constraint = ConstraintCreator::createConditionalConstraint(
+//                $validator->getConditions()->getValues(),
+//                $validator->getConstraints()->getValues()
+//            );
+//
+//            $constraint->groups = ['sylius'];
+//
+//            $constraints[] = $constraint;
+//        }
+//
+//        if(isset($configuration['constraints'])){
+//            $configuration['constraints'] = array_merge($configuration['constraints'], $constraints);
+//        }else{
+//            $configuration['constraints'] = $constraints;
+//        }
 
         return array_merge($formOptions, $defaultOptions, $configuration);
     }

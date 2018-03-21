@@ -7,6 +7,7 @@
         
         <service class="Brille24\CustomerOptionsPlugin\Form\Extensions\AddToCartTypeExtension"
                  id="brille24.customer_options_plugin.form.extension.add_to_cart_type_extension">
+            <argument type="service" id="sylius.context.locale" />
             <tag name="form.type_extension" extended_type="Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType" />
         </service>
 
@@ -69,6 +70,41 @@
             <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
             <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionAssociationType" name="form.type" />
+        </service>
+
+
+
+        <service class="Brille24\CustomerOptionsPlugin\Form\CustomDateType"
+                 id="brille24.customer_options_plugin.form.custom_date_type"
+        >
+            <tag name="form.type" alias="Brille24\CustomerOptionsPlugin\Form\CustomDateType" />
+        </service>
+
+        <service class="Brille24\CustomerOptionsPlugin\Form\CustomDateTimeType"
+                 id="brille24.customer_options_plugin.form.custom_datetime_type"
+        >
+            <tag name="form.type" alias="Brille24\CustomerOptionsPlugin\Form\CustomDateTimeType" />
+        </service>
+
+        <service class="Brille24\CustomerOptionsPlugin\Form\Validator\ValueType"
+                 id="brille24.customer_options_plugin.form.validator.test_type"
+        >
+            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_value" />
+            <tag name="form.type" alias="Brille24\CustomerOptionsPlugin\Form\Validator\ValueType" />
+        </service>
+
+        <service class="Brille24\CustomerOptionsPlugin\Form\Validator\ErrorMessage"
+                id="brille24.customer_options_plugin.form.validator.error_message_type">
+            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage</argument>
+            <argument>%sylius.form.type.product.validation_groups%</argument>
+            <tag alias="Brille24\CustomerOptionsPlugin\Form\Validator\ErrorMessageType" name="form.type"/>
+        </service>
+
+        <service class="Brille24\CustomerOptionsPlugin\Form\Validator\ErrorMessageTranslationType"
+                 id="brille24.customer_options_plugin.form.validator.error_message_translation_type">
+            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessageTranslation</argument>
+            <argument>%sylius.form.type.product.validation_groups%</argument>
+            <tag alias="Brille24\CustomerOptionsPlugin\Form\Validator\ErrorMessageTranslationType" name="form.type"/>
         </service>
 
     </services>

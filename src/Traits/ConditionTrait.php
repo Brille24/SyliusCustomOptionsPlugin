@@ -6,7 +6,7 @@ namespace Brille24\CustomerOptionsPlugin\Traits;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\ValidatorInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 
@@ -56,78 +56,114 @@ trait ConditionTrait
     /** {@inheritdoc} */
     public function getValue()
     {
-        return $this->value['value'] ?? null;
+        $value = $this->value['value'] ?? null;
+
+        if($value !== null){
+            $value = ['value' => $value];
+        }
+
+        return $value;
     }
 
     /** {@inheritdoc} */
     public function setValue($value): void
     {
-        $this->value = ConditionComparatorEnum::getValueConfig(
+        $value = key_exists('value', $value) ? $value['value'] : $value;
+
+        $newValue = ConditionComparatorEnum::getValueConfig(
         $this->customerOption ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT
         );
 
-        if(CustomerOptionTypeEnum::isSelect($this->customerOption->getType())) {
-            if(is_array($value)){
-                $newValues = [];
-
-                /** @var CustomerOptionValueInterface $val */
-                foreach ($value as $val){
-                    $newValues[] = $val->getCode();
-                }
-
-                $value = $newValues;
-            }
-
-            $this->value['value'] = is_array($value) ? $value : [];
-        }else{
-            $this->value['value'] = $value;
+        if($newValue['type'] === 'array')
+        {
+            $newValue['value'] = is_array($value) ? $value : null;
         }
+        elseif ($newValue['type'] === 'date')
+        {
+            $newValue['value'] = $value instanceof \DateTime ? $value : null;
+        }
+        elseif ($newValue['type'] === 'boolean')
+        {
+            $newValue['value'] = boolval($value);
+        } else {
+            if(is_array($value) || $value instanceof \DateTime)
+            {
+                $newValue['value'] = null;
+            }else{
+                $newValue['value'] = $value;
+            }
+        }
+
+        if($newValue['value'] === null){
+            $newValue = ConditionComparatorEnum::getValueConfig(
+                $this->customerOption ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT
+            );
+        }
+
+        $this->value = $newValue;
     }
 
     /** {@inheritdoc} */
-    public function getValidator(): ValidatorInterface
+    public function getValidator(): ?ValidatorInterface
     {
         return $this->validator;
     }
 
     /** {@inheritdoc} */
-    public function setValidator(ValidatorInterface $validator): void
+    public function setValidator(?ValidatorInterface $validator): void
     {
         $this->validator = $validator;
     }
 
     /** {@inheritdoc} */
-    public function isMet($value): bool
+    public function isMet($value, string $optionType = 'number'): bool
     {
+        if($optionType === CustomerOptionTypeEnum::TEXT){
+            $actual = strlen($value);
+        }elseif (CustomerOptionTypeEnum::isDate($optionType)){
+            $actual = new \DateTime();
+            $actual->setDate(
+                intval($value['year']),
+                intval($value['month']),
+                intval($value['day'])
+            );
+
+            if($optionType === CustomerOptionTypeEnum::DATETIME){
+                $actual->setTime($value['hour'], $value['minute'], $value['second']);
+            }
+        }else{
+            $actual = $value;
+        }
+
+        if($this->value['type'] === 'date'){
+            $target = new \DateTime($this->value['value']['date']);
+            $target->setTimezone(new \DateTimeZone($this->value['value']['timezone']));
+        }else{
+            $target = $this->value['value'];
+        }
+
         switch ($this->comparator){
             case ConditionComparatorEnum::GREATER:
-                return $value > $this->value;
+                return $actual > $target;
 
             case ConditionComparatorEnum::GREATER_OR_EQUAL:
-                return $value >= $this->value;
+                return $actual >= $target;
 
             case ConditionComparatorEnum::EQUAL:
-                return $value == $this->value;
+                return $actual == $target;
 
             case ConditionComparatorEnum::LESSER_OR_EQUAL:
-                return $value <= $this->value;
+                return $actual <= $target;
 
             case ConditionComparatorEnum::LESSER:
-                return $value < $this->value;
-
-
-            case ConditionComparatorEnum::TRUE:
-                return $value === true;
-
-            case ConditionComparatorEnum::FALSE:
-                return $value === false;
+                return $actual < $target;
 
 
             case ConditionComparatorEnum::IN_SET:
-                return in_array($value, $this->value);
+                return in_array($actual, $target);
 
             case ConditionComparatorEnum::NOT_IN_SET:
-                return !in_array($value, $this->value);
+                return !in_array($actual, $target);
         }
 
         return false;

@@ -7,6 +7,7 @@ imports:
   - { resource: "services/menuListener.xml" }
   - { resource: "services/services.xml" }
   - { resource: "services/fixtures.xml" }
+  - { resource: "services/validator.xml" }
 
 services:
   # Sonata

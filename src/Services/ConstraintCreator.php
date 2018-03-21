@@ -5,6 +5,7 @@ namespace Brille24\CustomerOptionsPlugin\Services;
 
 
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\CustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
@@ -54,6 +55,14 @@ class ConstraintCreator
                 return new Range($dateRange);
         }
         return null;
+    }
+
+    public static function createConditionalConstraint(array $conditions, array $constraints): Constraint
+    {
+        return new ConditionalConstraint([
+            'conditions' => $conditions,
+            'constraints' => $constraints,
+        ]);
     }
 
     public static function createRequiredConstraint(): Constraint

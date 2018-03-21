@@ -3,6 +3,14 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Enumerations;
 
+
+use Brille24\CustomerOptionsPlugin\Form\CustomDateType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+
 final class ConditionComparatorEnum implements EnumInterface
 {
     const GREATER = 'greater';
@@ -85,10 +93,48 @@ final class ConditionComparatorEnum implements EnumInterface
         }
     }
 
+    public static function getFormTypeForCustomerOptionType(string $type): array
+    {
+        if(CustomerOptionTypeEnum::isSelect($type)){
+            return [
+                ChoiceType::class,
+                [
+                    'multiple' => true,
+                    'label' => 'brille24.form.validators.fields.value.set',
+                ],
+            ];
+        }elseif ($type === CustomerOptionTypeEnum::BOOLEAN){
+            return [
+                CheckboxType::class,
+                [],
+            ];
+        }elseif (CustomerOptionTypeEnum::isDate($type)){
+            return [
+                DateType::class,
+                [],
+            ];
+        }elseif ($type === CustomerOptionTypeEnum::TEXT){
+            return [
+                IntegerType::class,
+                [
+                    'label' => 'brille24.form.validators.fields.value.text',
+                ],
+            ];
+        } else {
+            return [
+                NumberType::class,
+                [],
+            ];
+        }
+    }
+
     public static function getValueConfig(string $type): array
     {
         if(CustomerOptionTypeEnum::isSelect($type)){
-            return [];
+            return [
+                'type' => 'array',
+                'value' => [],
+            ];
         }elseif (CustomerOptionTypeEnum::isDate($type)){
             return [
                 'type' => 'date',

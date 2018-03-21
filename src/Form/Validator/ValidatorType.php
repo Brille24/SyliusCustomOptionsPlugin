@@ -1,12 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Form;
+namespace Brille24\CustomerOptionsPlugin\Form\Validator;
 
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Constraint;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,7 +24,6 @@ class ValidatorType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'attr' => ['onChange' => '$(event.target).parentsUntil("form").parent().submit();'],
             ])
             ->add('constraints', CollectionType::class, [
                 'entry_type' => ConditionType::class,
@@ -36,6 +34,9 @@ class ValidatorType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+            ])
+            ->add('errorMessage', ErrorMessageType::class, [
+                'label' => 'brille24.form.validators.error_message',
             ])
         ;
     }
