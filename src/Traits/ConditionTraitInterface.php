@@ -54,5 +54,5 @@ interface ConditionTraitInterface
      * @param string $optionType
      * @return bool
      */
-    public function isMet($value, string $optionType): bool;
+    public function isMet($value, ?string $optionType = null): bool;
 }

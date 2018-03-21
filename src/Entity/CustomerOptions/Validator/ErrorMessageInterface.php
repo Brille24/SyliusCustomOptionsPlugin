@@ -12,4 +12,8 @@ interface ErrorMessageInterface extends ResourceInterface, TranslatableInterface
     public function getValidator(): ?ValidatorInterface;
 
     public function setValidator(?ValidatorInterface $validator): void;
+
+    public function getMessage(): string;
+
+    public function setMessage(string $message): void;
 }

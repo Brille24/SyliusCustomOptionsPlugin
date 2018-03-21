@@ -9,6 +9,7 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInt
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Webmozart\Assert\Assert;
 
 trait ConditionTrait
 {
@@ -50,6 +51,8 @@ trait ConditionTrait
     /** {@inheritdoc} */
     public function setComparator(?string $comparator): void
     {
+        Assert::true(in_array($comparator, ConditionComparatorEnum::getConstList()) || $comparator === null);
+
         $this->comparator = $comparator;
     }
 
@@ -68,7 +71,7 @@ trait ConditionTrait
     /** {@inheritdoc} */
     public function setValue($value): void
     {
-        $value = key_exists('value', $value) ? $value['value'] : $value;
+        $value = is_array($value) && key_exists('value', $value) ? $value['value'] : $value;
 
         $newValue = ConditionComparatorEnum::getValueConfig(
         $this->customerOption ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT
@@ -116,8 +119,10 @@ trait ConditionTrait
     }
 
     /** {@inheritdoc} */
-    public function isMet($value, string $optionType = 'number'): bool
+    public function isMet($value, ?string $optionType = null): bool
     {
+        $optionType = $optionType ?? $this->customerOption->getType() ?? 'number';
+
         if($optionType === CustomerOptionTypeEnum::TEXT){
             $actual = strlen($value);
         }elseif (CustomerOptionTypeEnum::isDate($optionType)){
@@ -142,30 +147,45 @@ trait ConditionTrait
             $target = $this->value['value'];
         }
 
-        switch ($this->comparator){
-            case ConditionComparatorEnum::GREATER:
-                return $actual > $target;
-
-            case ConditionComparatorEnum::GREATER_OR_EQUAL:
-                return $actual >= $target;
-
-            case ConditionComparatorEnum::EQUAL:
-                return $actual == $target;
-
-            case ConditionComparatorEnum::LESSER_OR_EQUAL:
-                return $actual <= $target;
-
-            case ConditionComparatorEnum::LESSER:
-                return $actual < $target;
-
-
-            case ConditionComparatorEnum::IN_SET:
-                return in_array($actual, $target);
-
-            case ConditionComparatorEnum::NOT_IN_SET:
-                return !in_array($actual, $target);
+        if(!is_array($actual)){
+            $actual = [$actual];
         }
 
-        return false;
+        $result = true;
+
+        foreach ($actual as $val) {
+            switch ($this->comparator) {
+                case ConditionComparatorEnum::GREATER:
+                    $result = $result ? $val > $target : false;
+                    break;
+
+                case ConditionComparatorEnum::GREATER_OR_EQUAL:
+                    $result = $result ? $val >= $target : false;
+                    break;
+
+                case ConditionComparatorEnum::EQUAL:
+                    $result = $result ? $val == $target : false;
+                    break;
+
+                case ConditionComparatorEnum::LESSER_OR_EQUAL:
+                    $result = $result ? $val <= $target : false;
+                    break;
+
+                case ConditionComparatorEnum::LESSER:
+                    $result = $result ? $val < $target : false;
+                    break;
+
+
+                case ConditionComparatorEnum::IN_SET:
+                    $result = $result ? in_array($val, $target) : false;
+                    break;
+
+                case ConditionComparatorEnum::NOT_IN_SET:
+                    $result = $result ? !in_array($val, $target) : false;
+                    break;
+            }
+        }
+
+        return $result;
     }
 }
