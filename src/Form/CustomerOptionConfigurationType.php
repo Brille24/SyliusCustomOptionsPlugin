@@ -61,9 +61,9 @@ class CustomerOptionConfigurationType extends AbstractType
             case 'bool':
                 return CheckboxType::class;
             case 'date':
-                return DateType::class;
+                return CustomDateType::class;
             case 'datetime':
-                return DateTimeType::class;
+                return CustomDateTimeType::class;
             default:
                 return TextType::class;
         }

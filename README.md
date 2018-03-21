@@ -75,7 +75,7 @@ sylius_fixtures:
                 brille24_customer_option_group: #For Customer Option Groups
 ```
 
-There two possible ways to add Customer Options to your fixture.
+There are two possible ways to add Customer Options to your fixture.
 1. Generate them randomly:
 ```yaml
 ...

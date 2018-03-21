@@ -96,7 +96,7 @@ class CustomerOptionFactoryTest extends TestCase
      */
     public function testCreateWithSelect(array $config, int $configCount, bool $required): void
     {
-        $customerOption = $this->customerOptionFactory->create($config);
+        $customerOption = $this->customerOptionFactory->createFromConfig($config);
 
         self::assertInstanceOf(CustomerOptionInterface::class, $customerOption);
         self::assertCount($configCount, $customerOption->getValues());
@@ -157,7 +157,7 @@ class CustomerOptionFactoryTest extends TestCase
             'required'     => true,
         ];
 
-        $customerOption = $this->customerOptionFactory->create($option);
+        $customerOption = $this->customerOptionFactory->createFromConfig($option);
 
         self::assertInstanceOf(CustomerOptionInterface::class, $customerOption);
         self::assertEquals(true, $customerOption->isRequired());
@@ -202,7 +202,7 @@ class CustomerOptionFactoryTest extends TestCase
             'required'     => true,
         ];
 
-        $customerOption = $this->customerOptionFactory->create($option);
+        $customerOption = $this->customerOptionFactory->createFromConfig($option);
 
         self::assertEquals(1, $customerOption->getGroupAssociations()->count());
         self::assertEquals('hello', $associated);

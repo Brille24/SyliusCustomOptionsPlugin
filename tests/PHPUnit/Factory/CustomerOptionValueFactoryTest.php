@@ -73,7 +73,7 @@ class CustomerOptionValueFactoryTest extends TestCase
     {
         $config = ['code' => 'something', 'translations' => ['en' => 'something'], 'prices' => [['20 EUR']]];
 
-        $valueObject = $this->customerOptionValueFactory->create($config);
+        $valueObject = $this->customerOptionValueFactory->createFromConfig($config);
 
         self::assertInstanceOf(CustomerOptionValueInterface::class, $valueObject);
         self::assertEquals('something', $valueObject->getName());

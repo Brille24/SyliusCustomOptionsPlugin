@@ -5,9 +5,9 @@ namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product;
 
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ElementNotFoundException;
-use Sylius\Behat\Page\Admin\Product\UpdateConfigurableProductPage as BaseUpdatePage;
+use Sylius\Behat\Page\Admin\Product\CreateConfigurableProductPage as BaseCreatePage;
 
-class UpdateConfigurableProductPage extends BaseUpdatePage
+class CreateConfigurableProductPage extends BaseCreatePage
 {
     /**
      * @param string $name

@@ -6,7 +6,7 @@ namespace Brille24\CustomerOptionsPlugin\Factory;
 
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
-interface CustomerOptionFactoryInterface extends FactoryInterface
+interface CustomerOptionValueFactoryInterface extends FactoryInterface
 {
     /**
      * @param array $configuration

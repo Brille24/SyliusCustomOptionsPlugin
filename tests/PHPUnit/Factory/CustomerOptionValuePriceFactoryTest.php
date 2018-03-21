@@ -80,7 +80,7 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
             'channel' => 'does_not_exist',
         ];
 
-        $this->customerOptionPriceFactory->create($configuration);
+        $this->customerOptionPriceFactory->createFromConfig($configuration);
     }
 
     public function testCreateSuccess(): void
@@ -93,7 +93,7 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
             'channel' => 'en_US',
         ];
 
-        $customerOptionValuePrice = $this->customerOptionPriceFactory->create($configuration);
+        $customerOptionValuePrice = $this->customerOptionPriceFactory->createFromConfig($configuration);
 
         self::assertInstanceOf(CustomerOptionValuePrice::class, $customerOptionValuePrice);
     }

@@ -12,18 +12,20 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Fixture;
 
-use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionGroupFactory;
+use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionGroupFactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 class CustomerOptionGroupFixture extends AbstractFixture
 {
+    /** @var CustomerOptionGroupFactoryInterface  */
     private $factory;
 
+    /** @var EntityManagerInterface  */
     private $em;
 
-    public function __construct(CustomerOptionGroupFactory $factory, EntityManagerInterface $em)
+    public function __construct(CustomerOptionGroupFactoryInterface $factory, EntityManagerInterface $em)
     {
         $this->factory = $factory;
         $this->em = $em;
@@ -39,7 +41,7 @@ class CustomerOptionGroupFixture extends AbstractFixture
 
         foreach ($options['custom'] as $groupConfig) {
             try {
-                $customerOptionsGroups[] = $this->factory->create($groupConfig);
+                $customerOptionsGroups[] = $this->factory->createFromConfig($groupConfig);
             } catch (\Throwable $e) {
                 echo $e->getMessage();
             }

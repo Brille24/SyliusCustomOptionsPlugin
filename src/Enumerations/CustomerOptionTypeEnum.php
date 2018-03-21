@@ -13,14 +13,11 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Enumerations;
 
 // TODO: Wait to see if sylius has something like this.
+use Brille24\CustomerOptionsPlugin\Form\CustomDateTimeType;
+use Brille24\CustomerOptionsPlugin\Form\CustomDateType;
 use DateTime;
-use Exception;
-use Sonata\CoreBundle\Form\Type\BooleanType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -84,11 +81,11 @@ final class CustomerOptionTypeEnum implements EnumInterface
                 ['multiple' => true],
             ],
             self::DATE => [
-                DateType::class,
+                CustomDateType::class,
                 [],
             ],
             self::DATETIME => [
-                DateTimeType::class,
+                CustomDateTimeType::class,
                 [],
             ],
             self::NUMBER => [

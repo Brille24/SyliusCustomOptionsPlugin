@@ -47,13 +47,13 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
      */
     private $faker;
     /**
-     * @var CustomerOptionFactoryInterface
+     * @var CustomerOptionValueFactoryInterface
      */
     private $customerOptionValueFactory;
 
     public function __construct(
         CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
-        CustomerOptionFactoryInterface $customerOptionValueFactory
+        CustomerOptionValueFactoryInterface $customerOptionValueFactory
     ) {
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;
         $this->customerOptionValueFactory    = $customerOptionValueFactory;
@@ -94,7 +94,7 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
      *
      * @throws \Exception
      */
-    public function create(array $configuration): CustomerOptionInterface
+    public function createFromConfig(array $configuration): CustomerOptionInterface
     {
         $this->validateConfiguration($configuration);
 
@@ -111,7 +111,7 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
         if (CustomerOptionTypeEnum::isSelect($configuration['type'])) {
             foreach ($configuration['values'] as $valueConfig) {
                 /** @var CustomerOptionValueInterface $value */
-                $value = $this->customerOptionValueFactory->create($valueConfig);
+                $value = $this->customerOptionValueFactory->createFromConfig($valueConfig);
 
                 $customerOption->addValue($value);
             }
@@ -174,5 +174,10 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
         }
 
         return $result;
+    }
+
+    public function createNew()
+    {
+        return new CustomerOption();
     }
 }
