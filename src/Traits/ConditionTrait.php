@@ -126,12 +126,7 @@ trait ConditionTrait
         if($optionType === CustomerOptionTypeEnum::TEXT){
             $actual = strlen($value);
         }elseif (CustomerOptionTypeEnum::isDate($optionType)){
-            $actual = new \DateTime();
-            $actual->setDate(
-                intval($value['year']),
-                intval($value['month']),
-                intval($value['day'])
-            );
+            $actual = new \DateTime(sprintf('%d-%d-%d', $value['year'], $value['month'], $value['day']));
 
             if($optionType === CustomerOptionTypeEnum::DATETIME){
                 $actual->setTime($value['hour'], $value['minute'], $value['second']);
@@ -140,12 +135,7 @@ trait ConditionTrait
             $actual = $value;
         }
 
-        if($this->value['type'] === 'date'){
-            $target = new \DateTime($this->value['value']['date']);
-            $target->setTimezone(new \DateTimeZone($this->value['value']['timezone']));
-        }else{
-            $target = $this->value['value'];
-        }
+        $target = $this->value['value'];
 
         if(!is_array($actual)){
             $actual = [$actual];
