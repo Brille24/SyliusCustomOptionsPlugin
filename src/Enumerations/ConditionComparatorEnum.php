@@ -8,6 +8,7 @@ use Brille24\CustomerOptionsPlugin\Form\CustomDateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 final class ConditionComparatorEnum implements EnumInterface
@@ -94,7 +95,10 @@ final class ConditionComparatorEnum implements EnumInterface
         if(CustomerOptionTypeEnum::isSelect($type)){
             return [
                 ChoiceType::class,
-                ['multiple' => true],
+                [
+                    'multiple' => true,
+                    'label' => 'brille24.form.validators.fields.value.set',
+                ],
             ];
         }elseif ($type === CustomerOptionTypeEnum::BOOLEAN){
             return [
@@ -106,7 +110,14 @@ final class ConditionComparatorEnum implements EnumInterface
                 DateType::class,
                 [],
             ];
-        }else{
+        }elseif ($type === CustomerOptionTypeEnum::TEXT){
+            return [
+                IntegerType::class,
+                [
+                    'label' => 'brille24.form.validators.fields.value.text',
+                ],
+            ];
+        } else {
             return [
                 NumberType::class,
                 [],

@@ -39,7 +39,9 @@ class ValidatorType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
-            ->add('errorMessage', TextType::class, [])
+            ->add('errorMessage', TextType::class, [
+                'label' => 'brille24.form.validators.error_message',
+            ])
         ;
     }
 

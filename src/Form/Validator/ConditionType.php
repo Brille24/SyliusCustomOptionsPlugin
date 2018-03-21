@@ -32,6 +32,7 @@ class ConditionType extends AbstractType
 
         $builder
             ->add('customer_option', ChoiceType::class, [
+                'label' => 'brille24.form.validators.fields.customer_option',
                 'choices' => $customerOptionGroup->getOptions(),
                 'choice_label' => 'name',
                 'attr' => ['onChange' => '$(event.target).parentsUntil("form").parent().submit();'],
@@ -63,6 +64,7 @@ class ConditionType extends AbstractType
             }
 
             $form->add('comparator', ChoiceType::class, [
+                'label' => 'brille24.form.validators.fields.comparator',
                 'choices' => array_flip(
                     ConditionComparatorEnum::transformToTranslateArray($comparatorChoices)
                 ),
