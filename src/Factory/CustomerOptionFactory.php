@@ -32,11 +32,6 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
     private $customerOptionGroupRepository;
 
     /**
-     * @var EntityRepository
-     */
-    private $channelRepository;
-
-    /**
      * @var \Faker\Generator
      */
     private $faker;

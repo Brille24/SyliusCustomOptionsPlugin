@@ -18,6 +18,9 @@ use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 interface OrderItemOptionFactoryInterface
 {
     /**
+     * @param CustomerOptionInterface $customerOption
+     * @param                         $customerOptionValue
+     *
      * @return OrderItemOptionInterface
      */
     public function createNew(CustomerOptionInterface $customerOption, $customerOptionValue): OrderItemOptionInterface;

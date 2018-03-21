@@ -21,7 +21,7 @@ class CustomerOptionFactoryTest extends TestCase
      */
     private $customerOptionFactory;
 
-    /** @var CustomerOptionGroupRepositoryInterface */
+    /** @var CustomerOptionGroupRepositoryInterface[] */
     private $customerOptionGroupRepository = [];
 
     public function setUp()

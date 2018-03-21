@@ -274,6 +274,14 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
+     * @return OrderItemOptionInterface
+     */
+    public function getOrders(): OrderItemOptionInterface
+    {
+        return $this->orders;
+    }
+
+    /**
      * @return CustomerOptionTranslationInterface
      */
     protected function createTranslation(): CustomerOptionTranslationInterface

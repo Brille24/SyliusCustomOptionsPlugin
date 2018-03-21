@@ -15,7 +15,6 @@ namespace Brille24\CustomerOptionsPlugin\Factory;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Exceptions\ConfigurationException;
-use Brille24\CustomerOptionsPlugin\Services\FakerFactoryWrapper;
 use Faker\Factory;
 
 class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
@@ -26,7 +25,7 @@ class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
     private $valuePriceFactory;
 
     /**
-     * @var FakerFactoryWrapper
+     * @var Factory
      */
     private $faker;
 
