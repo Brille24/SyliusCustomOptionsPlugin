@@ -90,4 +90,12 @@ class ProductContext implements Context
     {
         Assert::true($this->showPage->hasOptionOutOfBoundsValidationMessage());
     }
+
+    /**
+     * @Then I should be notified that the validation failed
+     */
+    public function iShouldBeNotifiedThatTheValidationFailed()
+    {
+        Assert::true($this->showPage->hasValidationErrors());
+    }
 }

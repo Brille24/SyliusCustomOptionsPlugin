@@ -151,4 +151,8 @@ class ShowPage extends BaseShowPage
 
         return $this->getElement('validation_errors')->getText() === $message;
     }
+
+    public function hasValidationErrors(){
+        return $this->hasElement('validation_errors');
+    }
 }

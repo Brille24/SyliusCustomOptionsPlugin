@@ -1,5 +1,6 @@
 @admin
 @customer_option_groups
+@validator
 @javascript
 Feature: Configuring validators
     In order to limit the accepted values of an option based on another option

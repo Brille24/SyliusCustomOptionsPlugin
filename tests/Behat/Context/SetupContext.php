@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Context;
 
 
+use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
@@ -14,6 +15,10 @@ use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterfac
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemOption;
 use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
@@ -300,5 +305,52 @@ class SetupContext implements Context
         }
 
         return null;
+    }
+
+    /**
+     * @Given customer option group :customerOptionGroup has a validator:
+     */
+    public function customerOptionGroupHasAValidator(CustomerOptionGroupInterface $customerOptionGroup, TableNode $table)
+    {
+        $validatorConfig = $table->getHash();
+
+        $errorMessageText = $validatorConfig[0]['error_message'];
+        $errorMessage = new ErrorMessage();
+        $errorMessage->setCurrentLocale('en_US');
+        $errorMessage->setMessage($errorMessageText);
+
+        $validator = new Validator();
+        $validator->setErrorMessage($errorMessage);
+
+        $customerOptionGroup->addValidator($validator);
+
+        foreach ($validatorConfig as $row){
+            if($row['condition_option']){
+                $customerOptions = $this->customerOptionRepository->findByName($row['condition_option'], 'en_US');
+                $customerOption = $customerOptions[0] ?? null;
+
+                $condition = new Condition();
+                $condition->setValue($row['condition_value']);
+                $condition->setComparator($row['condition_comparator']);
+                $condition->setCustomerOption($customerOption);
+
+                $validator->addCondition($condition);
+            }
+
+            if($row['constraint_option']){
+                $customerOptions = $this->customerOptionRepository->findByName($row['constraint_option'], 'en_US');
+                $customerOption = $customerOptions[0] ?? null;
+
+                $constraint = new Constraint();
+                $constraint->setValue($row['constraint_value']);
+                $constraint->setComparator($row['constraint_comparator']);
+                $constraint->setCustomerOption($customerOption);
+
+                $validator->addCondition($constraint);
+            }
+        }
+
+        $this->em->persist($customerOptionGroup);
+        $this->em->flush();
     }
 }
