@@ -8,7 +8,7 @@ Feature: Managing CustomerOptions
     Background:
         Given the store operates on a single channel in "United States"
         And I am logged in as an administrator
-        And I have a customer option "some_option" named "Some Option"
+        And I have a customer option named "Some Option"
 
     @ui
     Scenario: Creating a new CustomerOption

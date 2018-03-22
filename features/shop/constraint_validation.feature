@@ -8,14 +8,14 @@ Feature: Validating submitted customer options using constraints
 
     Background:
         Given the store operates on a single channel in "United States"
-        And I have a customer option group "some_group" named "Some Group"
+        And I have a customer option group named "Some Group"
 
         And the store has a product "Customizable Product" priced at "$15.00"
         And product "Customizable Product" has the customer option group "Some Group"
 
     @ui
     Scenario: Validating a text
-        Given I have a customer option "text_option" named "Text Option" with type "text"
+        Given I have a customer option named "Text Option" with type "text"
         And customer option "Text Option" has constraint 5 to 10
         And customer option group "Some Group" has option "Text Option"
         And product "Customizable Product" has the customer option group "Some Group"
@@ -35,7 +35,7 @@ Feature: Validating submitted customer options using constraints
 
     @ui
     Scenario: Validating a number
-        Given I have a customer option "number_option" named "Number Option" with type "number"
+        Given I have a customer option named "Number Option" with type "number"
         And customer option "Number Option" has constraint "-5" to "55"
         And customer option group "Some Group" has option "Number Option"
         And product "Customizable Product" has the customer option group "Some Group"
@@ -55,7 +55,7 @@ Feature: Validating submitted customer options using constraints
 
     @ui
     Scenario: Validating a date
-        Given I have a customer option "date_option" named "Date Option" with type "date"
+        Given I have a customer option named "Date Option" with type "date"
         And customer option "Date Option" has constraint "1999-1-1" to "2030-12-31"
         And customer option group "Some Group" has option "Date Option"
         And product "Customizable Product" has the customer option group "Some Group"
@@ -75,7 +75,7 @@ Feature: Validating submitted customer options using constraints
 
     @ui
     Scenario: Validating a datetime
-        Given I have a customer option "datetime_option" named "Datetime Option" with type "datetime"
+        Given I have a customer option named "Datetime Option" with type "datetime"
         And customer option "Datetime Option" has constraint "1999-1-1 00:00:00" to "2030-12-31 23:59:59"
         And customer option group "Some Group" has option "Datetime Option"
         And product "Customizable Product" has the customer option group "Some Group"

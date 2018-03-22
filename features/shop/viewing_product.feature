@@ -7,16 +7,16 @@ Feature: Viewing products with customer options
 
     Background:
         Given the store operates on a single channel in "United States"
-        And I have a customer option "select_option" named "Select Option" with type "select"
+        And I have a customer option named "Select Option" with type "select"
         And customer option "Select Option" has a value "Value 1"
         And customer option "Select Option" has a value "Value 2"
         And customer option "Select Option" has a value "Value 3"
 
-        And I have a customer option "text_option" named "Text Option" with type "text"
-        And I have a customer option "date_option" named "Date Option" with type "date"
-        And I have a customer option "number_option" named "Number Option" with type "number"
+        And I have a customer option named "Text Option" with type "text"
+        And I have a customer option named "Date Option" with type "date"
+        And I have a customer option named "Number Option" with type "number"
 
-        And I have a customer option group "some_group" named "Some Group"
+        And I have a customer option group named "Some Group"
         And customer option group "Some Group" has option "Select Option"
         And customer option group "Some Group" has option "Text Option"
         And customer option group "Some Group" has option "Date Option"

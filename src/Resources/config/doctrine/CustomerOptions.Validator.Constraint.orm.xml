@@ -18,11 +18,14 @@
             <cascade>
                 <cascade-persist/>
             </cascade>
+            <join-column on-delete="CASCADE" />
         </many-to-one>
 
         <many-to-one
                 target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
                 field="customerOption"
-        />
+        >
+            <join-column on-delete="SET NULL" />
+        </many-to-one>
     </entity>
 </doctrine-mapping>

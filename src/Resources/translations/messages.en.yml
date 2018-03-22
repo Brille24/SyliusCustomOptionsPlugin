@@ -37,6 +37,11 @@ brille24:
             subheader: Manage your Customer Option Groups
             select: Select
             duplicate_option: A group can not have an option twice
+            buttons:
+                add_option: Add Option
+                delete_option: Delete Option
+                add_validator: Add Validator
+                delete_validator: Delete Validator
         config:
             min:
                 length: Minimum length
@@ -68,6 +73,11 @@ brille24:
                     set: Set
                 message: Message
             error_message: Error message
+            buttons:
+                add_condition: Add Condition
+                delete_condition: Delete Condition
+                add_constraint: Add Constraint
+                delete_constraint: Delete Constraint
 
     grid:
         options_remaining: "{0} |]0,Inf]and %count% more"

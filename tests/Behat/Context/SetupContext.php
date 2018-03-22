@@ -30,22 +30,22 @@ use Webmozart\Assert\Assert;
 
 class SetupContext implements Context
 {
-    /** @var EntityManagerInterface  */
+    /** @var EntityManagerInterface */
     private $em;
 
-    /** @var CustomerOptionRepositoryInterface  */
+    /** @var CustomerOptionRepositoryInterface */
     private $customerOptionRepository;
 
-    /** @var CustomerOptionGroupRepositoryInterface  */
+    /** @var CustomerOptionGroupRepositoryInterface */
     private $customerOptionGroupRepository;
 
     /** @var OrderItemRepositoryInterface */
     private $orderItemRepository;
 
-    /** @var ChannelContextInterface  */
+    /** @var ChannelContextInterface */
     private $channelContext;
 
-    /** @var ChannelRepositoryInterface  */
+    /** @var ChannelRepositoryInterface */
     private $channelRepository;
 
     public function __construct(
@@ -66,13 +66,15 @@ class SetupContext implements Context
     }
 
     /**
-     * @Given I have a customer option :code named :name
-     * @Given I have a customer option :code named :name in :locale
-     * @Given I have a customer option :code named :name with type :type
-     * @Given I have a customer option :code named :name in :locale with type :type
+     * @Given I have a customer option named :name
+     * @Given I have a customer option named :name in :locale
+     * @Given I have a customer option named :name with type :type
+     * @Given I have a customer option named :name in :locale with type :type
      */
-    public function iHaveACustomerOptionNamed(string $code, string $name, string $locale = 'en_US', string $type = CustomerOptionTypeEnum::TEXT)
+    public function iHaveACustomerOptionNamed(string $name, string $locale = 'en_US', string $type = CustomerOptionTypeEnum::TEXT)
     {
+        $code = str_replace([' '], '_', strtolower($name));
+
         $customerOption = new CustomerOption();
         $customerOption->setCode($code);
         $customerOption->setCurrentLocale($locale);
@@ -126,11 +128,13 @@ class SetupContext implements Context
     }
 
     /**
-     * @Given I have a customer option group :code named :name
-     * @Given I have a customer option group :code named :name in :locale
+     * @Given I have a customer option group named :name
+     * @Given I have a customer option group named :name in :locale
      */
-    public function iHaveACustomerOptionGroupNamed($code, $name, $locale = 'en_US')
+    public function iHaveACustomerOptionGroupWithCodeNamed($name, $locale = 'en_US')
     {
+        $code = str_replace([' '], '_', strtolower($name));
+
         $customerOptionGroup = new CustomerOptionGroup();
         $customerOptionGroup->setCode($code);
         $customerOptionGroup->setCurrentLocale($locale);

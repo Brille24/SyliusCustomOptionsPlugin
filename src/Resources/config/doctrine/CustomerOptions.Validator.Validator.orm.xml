@@ -12,6 +12,7 @@
                 <cascade-persist/>
                 <cascade-remove/>
             </cascade>
+            <join-column on-delete="SET NULL" />
         </one-to-one>
 
         <one-to-many

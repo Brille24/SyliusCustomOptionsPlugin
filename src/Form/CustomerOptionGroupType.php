@@ -39,6 +39,8 @@ final class CustomerOptionGroupType extends AbstractResourceType
                 'allow_delete' => true,
                 'label' => false,
                 'by_reference' => false,
+                'button_add_label' => 'brille24.form.customer_option_groups.buttons.add_option',
+                'button_delete_label' => 'brille24.form.customer_option_groups.buttons.delete_option',
             ])
             ->add('validators', CollectionType::class, [
                 'entry_type' => ValidatorType::class,
@@ -48,6 +50,8 @@ final class CustomerOptionGroupType extends AbstractResourceType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'label' => false,
+                'button_add_label' => 'brille24.form.customer_option_groups.buttons.add_validator',
+                'button_delete_label' => 'brille24.form.customer_option_groups.buttons.delete_validator',
             ])
         ;
     }

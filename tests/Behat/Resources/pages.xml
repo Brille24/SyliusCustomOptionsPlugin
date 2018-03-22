@@ -28,6 +28,7 @@
                 parent="sylius.behat.page.admin.crud.create"
         >
             <argument>brille24_admin_customer_option_group_create</argument>
+            <argument type="service" id="__symfony__.translator" />
         </service>
         <service
                 id="brille24.behat.page.admin.customer_option_groups.update"
@@ -35,6 +36,7 @@
                 parent="sylius.behat.page.admin.crud.update"
         >
             <argument>brille24_admin_customer_option_group_update</argument>
+            <argument type="service" id="__symfony__.translator" />
         </service>
         <service
                 id="brille24.behat.page.admin.customer_option_groups.index"
