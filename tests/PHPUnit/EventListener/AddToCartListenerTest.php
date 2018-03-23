@@ -139,7 +139,7 @@ class AddToCartListenerTest extends TestCase
     {
         // SETUP
         $event         = $this->createEvent(true);
-        $this->request = $this->createRequest(['customerOptions' => ['customerOptionCode' => 'value']]);
+        $this->request = $this->createRequest(['customer_options' => ['customerOptionCode' => 'value']]);
 
         self::expectException(\Exception::class);
         self::expectExceptionMessage('Not found');
@@ -154,7 +154,7 @@ class AddToCartListenerTest extends TestCase
         $this->customerOptions['customerOptionCode'] = self::createMock(CustomerOptionInterface::class);
 
         $event         = $this->createEvent(true);
-        $this->request = $this->createRequest(['customerOptions' => ['customerOptionCode' => 'value']]);
+        $this->request = $this->createRequest(['customer_options' => ['customerOptionCode' => 'value']]);
 
         // EXECUTE
         $this->addToCartListener->addItemToCart($event);
