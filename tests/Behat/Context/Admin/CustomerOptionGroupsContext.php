@@ -404,7 +404,7 @@ class CustomerOptionGroupsContext implements Context
                             $val = $this->prepareValue($row['condition_value'], $customerOption->getType());
 
                             $sameComp = $condition->getComparator() == $row['condition_comparator'];
-                            $sameVal = $this->values_are_equal($condition->getValue()['value'], $val, $customerOption->getType());
+                            $sameVal = $this->values_are_equal($condition->getValue()['value']['value'], $val, $customerOption->getType());
 
                             if ($sameComp && $sameVal) {
                                 $hasCondition = true;
@@ -426,7 +426,7 @@ class CustomerOptionGroupsContext implements Context
                             $val = $this->prepareValue($row['constraint_value'], $customerOption->getType());
 
                             $sameComp = $constraint->getComparator() == $row['constraint_comparator'];
-                            $sameVal = $this->values_are_equal($constraint->getValue()['value'], $val, $customerOption->getType());
+                            $sameVal = $this->values_are_equal($constraint->getValue()['value']['value'], $val, $customerOption->getType());
 
                             if ($sameComp && $sameVal) {
                                 $hasConstraint = true;

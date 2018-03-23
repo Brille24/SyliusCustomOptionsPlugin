@@ -57,7 +57,7 @@ trait ConditionTrait
     /** {@inheritdoc} */
     public function getValue()
     {
-        $value = $this->value['value'] ?? null;
+        $value = !empty($this->value['value']) ? $this->value : null;
 
         if ($value !== null) {
             $value = ['value' => $value];

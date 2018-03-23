@@ -1,6 +1,5 @@
 @shop
 @customer_options
-@checkout
 Feature: Viewing products after completed checkout
     In order to know what options I chose and how they affect the price
     As a customer

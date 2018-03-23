@@ -87,7 +87,7 @@ class ConditionTest extends TestCase
 
         $val = $this->condition->getValue();
 
-        self::assertEquals($value, $val['value']);
+        self::assertEquals($value, $val['value']['value']);
 
         return $this->condition;
     }

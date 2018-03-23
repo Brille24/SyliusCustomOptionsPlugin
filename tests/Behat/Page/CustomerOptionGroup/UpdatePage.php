@@ -77,7 +77,10 @@ class UpdatePage extends BaseUpdatePage
      */
     public function addValidator()
     {
-        $this->getDocument()->clickLink($this->translator->trans('brille24.form.customer_option_groups.buttons.add_validator'));
+        $validatorDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"]');
+        $lastValidatorDiv = end($validatorDivs);
+
+        $lastValidatorDiv->clickLink($this->translator->trans('brille24.form.customer_option_groups.buttons.add_validator'));
     }
 
     /**
@@ -85,7 +88,11 @@ class UpdatePage extends BaseUpdatePage
      */
     public function addCondition()
     {
-        $this->getDocument()->clickLink($this->translator->trans('brille24.form.validators.buttons.add_condition'));
+        /** @var NodeElement[] $conditionDivs */
+        $conditionDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
+        $lastConditionDiv = end($conditionDivs);
+
+        $lastConditionDiv->clickLink($this->translator->trans('brille24.form.validators.buttons.add_condition'));
     }
 
     /**
@@ -93,7 +100,11 @@ class UpdatePage extends BaseUpdatePage
      */
     public function addConstraint()
     {
-        $this->getDocument()->clickLink($this->translator->trans('brille24.form.validators.buttons.add_constraint'));
+        /** @var NodeElement[] $constraintDivs */
+        $constraintDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="constraints"]');
+        $lastConstraintDiv = end($constraintDivs);
+
+        $lastConstraintDiv->clickLink($this->translator->trans('brille24.form.validators.buttons.add_constraint'));
     }
 
     /**
@@ -101,7 +112,10 @@ class UpdatePage extends BaseUpdatePage
      */
     public function deleteValidator()
     {
-        $this->getDocument()->clickLink($this->translator->trans('brille24.form.customer_option_groups.buttons.delete_validator'));
+        $validatorDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"]');
+        $lastValidatorDiv = end($validatorDivs);
+
+        $lastValidatorDiv->clickLink($this->translator->trans('brille24.form.customer_option_groups.buttons.delete_validator'));
     }
 
     /**
@@ -109,7 +123,11 @@ class UpdatePage extends BaseUpdatePage
      */
     public function deleteCondition()
     {
-        $this->getDocument()->clickLink($this->translator->trans('brille24.form.validators.buttons.delete_condition'));
+        /** @var NodeElement[] $conditionDivs */
+        $conditionDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
+        $lastConditionDiv = end($conditionDivs);
+
+        $lastConditionDiv->clickLink($this->translator->trans('brille24.form.validators.buttons.delete_condition'));
     }
 
     /**
@@ -117,7 +135,11 @@ class UpdatePage extends BaseUpdatePage
      */
     public function deleteConstraint()
     {
-        $this->getDocument()->clickLink($this->translator->trans('brille24.form.validators.buttons.delete_constraint'));
+        /** @var NodeElement[] $constraintDivs */
+        $constraintDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="constraints"]');
+        $lastConstraintDiv = end($constraintDivs);
+
+        $lastConstraintDiv->clickLink($this->translator->trans('brille24.form.validators.buttons.delete_constraint'));
     }
 
     /**

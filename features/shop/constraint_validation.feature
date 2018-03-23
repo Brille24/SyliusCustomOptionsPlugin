@@ -1,6 +1,7 @@
 @shop
 @customer_options
-@constraints @javascript
+@constraints
+@javascript
 Feature: Validating submitted customer options using constraints
     In order to make sure the submitted data is within the allowed set of values
     As a customer

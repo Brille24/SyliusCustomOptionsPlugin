@@ -1,6 +1,7 @@
 @admin
 @customer_option_groups
 @validator
+@constraints
 @javascript
 Feature: Configuring validators
     In order to limit the accepted values of an option based on another option
@@ -59,12 +60,12 @@ Feature: Configuring validators
         And the conditions available comparators should be <comparators>
 
         Examples:
-            | option            | option_type   | type      | comparators                                           |
-            | "Text Option"     | "text"        | "number"  | "greater, greater_equal, equal, lesser_equal, lesser" |
-            | "Select Option"   | "select"      | "select"  | "in_set, not_in_set"                                  |
-            | "Number Option"   | "number"      | "text"    | "greater, greater_equal, equal, lesser_equal, lesser" |
-            | "Date Option"     | "date"        | "div"     | "greater, greater_equal, equal, lesser_equal, lesser" |
-            | "Boolean Option"  | "boolean"     | "checkbox"| "equal"                                               |
+            | option           | option_type | type       | comparators                                           |
+            | "Text Option"    | "text"      | "number"   | "greater, greater_equal, equal, lesser_equal, lesser" |
+            | "Select Option"  | "select"    | "select"   | "in_set, not_in_set"                                  |
+            | "Number Option"  | "number"    | "text"     | "greater, greater_equal, equal, lesser_equal, lesser" |
+            | "Date Option"    | "date"      | "div"      | "greater, greater_equal, equal, lesser_equal, lesser" |
+            | "Boolean Option" | "boolean"   | "checkbox" | "equal"                                               |
 
     @ui
     Scenario Outline: The constraint value type and available comparators change based on customer option type
@@ -76,12 +77,12 @@ Feature: Configuring validators
         And the constraints available comparators should be <comparators>
 
         Examples:
-            | option            | option_type   | type      | comparators                                           |
-            | "Text Option"     | "text"        | "number"  | "greater, greater_equal, equal, lesser_equal, lesser" |
-            | "Select Option"   | "select"      | "select"  | "in_set, not_in_set"                                  |
-            | "Number Option"   | "number"      | "text"    | "greater, greater_equal, equal, lesser_equal, lesser" |
-            | "Date Option"     | "date"        | "div"     | "greater, greater_equal, equal, lesser_equal, lesser" |
-            | "Boolean Option"  | "boolean"     | "checkbox"| "equal"                                               |
+            | option           | option_type | type       | comparators                                           |
+            | "Text Option"    | "text"      | "number"   | "greater, greater_equal, equal, lesser_equal, lesser" |
+            | "Select Option"  | "select"    | "select"   | "in_set, not_in_set"                                  |
+            | "Number Option"  | "number"    | "text"     | "greater, greater_equal, equal, lesser_equal, lesser" |
+            | "Date Option"    | "date"      | "div"      | "greater, greater_equal, equal, lesser_equal, lesser" |
+            | "Boolean Option" | "boolean"   | "checkbox" | "equal"                                               |
 
     @ui
     Scenario Outline: Single conditions are saved correctly
@@ -130,3 +131,105 @@ Feature: Configuring validators
             | "Number Option"  | "equal"         | 5.5                         | "Def"                   |
             | "Date Option"    | "greater_equal" | "2018-10-15"                | "Ravioli"               |
             | "Boolean Option" | "equal"         | true                        | "Spaghetti"             |
+
+    @ui
+    Scenario: Multiple conditions are saved correctly
+        Given I want to edit customer option group "Some Group"
+
+        When I add a validator
+        And I define the validators error message as "Oops"
+
+        And I add a condition
+        And I pick "Text Option" as the conditions customer option
+        And I select "equal" as the conditions comparator
+        And I enter 5 as value for the condition with customer option "Text Option"
+
+        And I add a condition
+        And I pick "Select Option" as the conditions customer option
+        And I select "in_set" as the conditions comparator
+        And I enter "Value-1, Value-3" as value for the condition with customer option "Select Option"
+
+        And I add a condition
+        And I pick "Boolean Option" as the conditions customer option
+        And I select "equal" as the conditions comparator
+        And I enter true as value for the condition with customer option "Boolean Option"
+
+        And I save my changes
+
+        Then the customer option group "Some Group" should have a validator:
+            | condition_option | condition_comparator | condition_value    | constraint_option | constraint_comparator | constraint_value | error_message |
+            | "Text Option"    | "equal"              | 5                  |                   |                       |                  | "Oops"        |
+            | "Select Option"  | "in_set"             | "Value-1, Value-3" |                   |                       |                  |               |
+            | "Boolean Option" | "equal"              | true               |                   |                       |                  |               |
+
+    @ui
+    Scenario: Multiple constraints are saved correctly
+        Given I want to edit customer option group "Some Group"
+
+        When I add a validator
+        And I define the validators error message as "Oops"
+
+        And I add a constraint
+        And I pick "Text Option" as the constraints customer option
+        And I select "equal" as the constraints comparator
+        And I enter 5 as value for the constraint with customer option "Text Option"
+
+        And I add a constraint
+        And I pick "Select Option" as the constraints customer option
+        And I select "in_set" as the constraints comparator
+        And I enter "Value-1, Value-3" as value for the constraint with customer option "Select Option"
+
+        And I add a constraint
+        And I pick "Boolean Option" as the constraints customer option
+        And I select "equal" as the constraints comparator
+        And I enter true as value for the constraint with customer option "Boolean Option"
+
+        And I save my changes
+
+        Then the customer option group "Some Group" should have a validator:
+            | condition_option | condition_comparator | condition_value | constraint_option | constraint_comparator | constraint_value   | error_message |
+            |                  |                      |                 | "Text Option"     | "equal"               | 5                  | "Oops"        |
+            |                  |                      |                 | "Select Option"   | "in_set"              | "Value-1, Value-3" |               |
+            |                  |                      |                 | "Boolean Option"  | "equal"               | true               |               |
+
+    @ui @debug
+    Scenario: Saving multiple validators
+        Given I want to edit customer option group "Some Group"
+
+        When I add a validator
+        And I define the validators error message as "msg 1"
+
+        And I add a condition
+        And I pick "Text Option" as the conditions customer option
+        And I select "lesser" as the conditions comparator
+        And I enter 10 as value for the condition with customer option "Text Option"
+
+        When I add a validator
+        And I define the validators error message as "msg 2"
+
+        And I add a condition
+        And I pick "Number Option" as the conditions customer option
+        And I select "equal" as the conditions comparator
+        And I enter 10 as value for the condition with customer option "Number Option"
+
+        When I add a validator
+        And I define the validators error message as "msg 3"
+
+        And I add a constraint
+        And I pick "Text Option" as the constraints customer option
+        And I select "greater" as the constraints comparator
+        And I enter 10 as value for the constraint with customer option "Text Option"
+
+        And I save my changes
+
+        Then the customer option group "Some Group" should have a validator:
+            | condition_option | condition_comparator | condition_value | constraint_option | constraint_comparator | constraint_value | error_message |
+            | "Text Option"    | "lesser"             | 10              |                   |                       |                  | "msg 1"       |
+
+        And the customer option group "Some Group" should have a validator:
+            | condition_option | condition_comparator | condition_value | constraint_option | constraint_comparator | constraint_value | error_message |
+            | "Number Option"  | "equal"              | 10              |                   |                       |                  | "msg 2"       |
+
+        And the customer option group "Some Group" should have a validator:
+            | condition_option | condition_comparator | condition_value | constraint_option | constraint_comparator | constraint_value | error_message |
+            |                  |                      |                 | "Text Option"     | "greater"             | 10               | "msg 3"       |

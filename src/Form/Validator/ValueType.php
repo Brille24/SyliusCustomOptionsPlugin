@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brille24\CustomerOptionsPlugin\Form\Validator;
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\CustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionValueRepositoryInterface;
 use Symfony\Component\Form\AbstractType;
@@ -33,19 +34,28 @@ class ValueType extends AbstractType
 
         $builder->get('value')->addModelTransformer(new CallbackTransformer(
             function ($modelData) use ($options) {
-                $result = $modelData;
+                $result = null;
 
-                if (CustomerOptionTypeEnum::isSelect($options['option_type'])) {
-                    $result = [];
+                $newConfig = ConditionComparatorEnum::getValueConfig($options['option_type']);
 
-                    foreach ($modelData as $data) {
-                        $result[] = $this->customerOptionValueRepository->findOneByCode($data);
-                    }
-                } elseif (CustomerOptionTypeEnum::isDate($options['option_type'])) {
-                    $result = new \DateTime($modelData['date'] ?? 'now');
+                if ($modelData !== null && $modelData['type'] === $newConfig['type']) {
+                    $modelData = $modelData['value'];
+                    $result = $modelData;
+                }
 
-                    if (isset($modelData['timezone'])) {
-                        $result->setTimezone(new \DateTimeZone($modelData['timezone']));
+                if ($modelData !== null) {
+                    if (CustomerOptionTypeEnum::isSelect($options['option_type'])) {
+                        $result = [];
+
+                        foreach ($modelData as $data) {
+                            $result[] = $this->customerOptionValueRepository->findOneByCode($data);
+                        }
+                    } elseif (CustomerOptionTypeEnum::isDate($options['option_type'])) {
+                        $result = new \DateTime($modelData['date'] ?? 'now');
+
+                        if (isset($modelData['timezone'])) {
+                            $result->setTimezone(new \DateTimeZone($modelData['timezone']));
+                        }
                     }
                 }
 
