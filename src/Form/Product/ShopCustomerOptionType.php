@@ -24,6 +24,7 @@ use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -139,26 +140,6 @@ final class ShopCustomerOptionType extends AbstractType
                 $configuration['constraints'][] = $requiredConstraint;
             }
         }
-
-//        $constraints = [];
-//
-//        /** @var ValidatorInterface $validator */
-//        foreach ($product->getCustomerOptionGroup()->getValidators() as $validator){
-//            $constraint = ConstraintCreator::createConditionalConstraint(
-//                $validator->getConditions()->getValues(),
-//                $validator->getConstraints()->getValues()
-//            );
-//
-//            $constraint->groups = ['sylius'];
-//
-//            $constraints[] = $constraint;
-//        }
-//
-//        if(isset($configuration['constraints'])){
-//            $configuration['constraints'] = array_merge($configuration['constraints'], $constraints);
-//        }else{
-//            $configuration['constraints'] = $constraints;
-//        }
 
         return array_merge($formOptions, $defaultOptions, $configuration);
     }

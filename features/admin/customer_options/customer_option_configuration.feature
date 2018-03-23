@@ -12,7 +12,7 @@ Feature: Checking if configuration is available
         And I specify its code as "cool_option"
         And I name it "Cool Option"
 
-    @ui
+    @ui @debug
     Scenario: Creating a new text option
         Given I specify its type as "Text"
         And I add it
@@ -33,7 +33,7 @@ Feature: Checking if configuration is available
         Then I should see configuration for "Maximum date"
         And I should see configuration for "Minimum date"
 
-    @ui
+    @ui @debug
     Scenario: Creating a new number option
         Given I specify its type as "Number"
         And I add it

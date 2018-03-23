@@ -123,19 +123,13 @@ trait ConditionTrait
     {
         $optionType = $optionType ?? $this->customerOption->getType() ?? 'number';
 
-        if($optionType === CustomerOptionTypeEnum::TEXT){
-            $actual = strlen($value);
-        }elseif (CustomerOptionTypeEnum::isDate($optionType)){
-            $actual = new \DateTime(sprintf('%d-%d-%d', $value['year'], $value['month'], $value['day']));
-
-            if($optionType === CustomerOptionTypeEnum::DATETIME){
-                $actual->setTime($value['hour'], $value['minute'], $value['second']);
-            }
-        }else{
-            $actual = $value;
-        }
+        $actual = $this->formatValue($value, $optionType);
 
         $target = $this->value['value'];
+
+        if(CustomerOptionTypeEnum::isDate($optionType)){
+            $target = new \DateTime($target['date']);
+        }
 
         if(!is_array($actual)){
             $actual = [$actual];
@@ -174,6 +168,30 @@ trait ConditionTrait
                     $result = $result ? !in_array($val, $target) : false;
                     break;
             }
+        }
+
+        return $result;
+    }
+
+    private function formatValue($value, string $optionType)
+    {
+        $result = $value;
+
+        if($optionType === CustomerOptionTypeEnum::TEXT){
+            $result = strlen($value);
+        }elseif (CustomerOptionTypeEnum::isDate($optionType)){
+
+            if($optionType === CustomerOptionTypeEnum::DATETIME){
+                $date = $value['date'];
+                $time = $value['time'];
+                $result = new \DateTime(sprintf('%d-%d-%d', $date['year'], $date['month'], $date['day']));
+                $result->setTime(intval($time['hour']), intval($time['minute']));
+            }else{
+                $result = new \DateTime(sprintf('%d-%d-%d', $value['year'], $value['month'], $value['day']));
+            }
+
+        }elseif($optionType === CustomerOptionTypeEnum::BOOLEAN){
+            $result = filter_var($value, FILTER_VALIDATE_BOOLEAN);
         }
 
         return $result;

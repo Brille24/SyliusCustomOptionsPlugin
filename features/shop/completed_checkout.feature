@@ -34,7 +34,7 @@ Feature: Viewing products after completed checkout
 
         And I am a logged in customer
 
-    @ui @javascript
+    @ui @javascript @debug
     Scenario: Completing checkout with product with customer options
         Given I view product "Cool Product"
         When I select value "Value 3" for customer option "Select Option"

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Shop;
 
+use Behat\Behat\Hook\Scope\BeforeStepScope;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
@@ -20,6 +21,19 @@ class ProductContext implements Context
     )
     {
         $this->showPage = $showPage;
+    }
+
+    /**
+//     * @BeforeScenario
+     *
+     * @param $event
+     */
+    public function setCookie($event){
+        try {
+            $this->showPage->setCookie('XDEBUG_SESSION', 'PHPSTORM');
+        }catch (\Throwable $exception){
+
+        }
     }
 
     /**

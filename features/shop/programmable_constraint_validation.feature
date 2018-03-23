@@ -33,7 +33,7 @@ Feature: Validating with programmable constraints
         And customer option group "Some Group" has a validator:
             |condition_option|condition_comparator|condition_value |constraint_option|constraint_comparator|constraint_value|error_message|
             |Select Option   |in_set              |Value-1, Value-3|Text Option      |greater              |2               |The awesome constraint failed.|
-            |Number Option   |less                |50.5            |Boolean Option   |equal                |true            |                              |
+            |Number Option   |lesser              |50.5            |Boolean Option   |equal                |true            |                              |
             |Date Option     |equal               |2000-1-1        |                 |                     |                |                              |
 
         And the store has a product "Cool Product" priced at "$15"

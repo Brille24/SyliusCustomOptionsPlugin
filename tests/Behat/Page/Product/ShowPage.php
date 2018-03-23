@@ -14,6 +14,18 @@ use WebDriver\Key;
 class ShowPage extends BaseShowPage
 {
     /**
+     * @param $name
+     * @param $value
+     * @throws \Behat\Mink\Exception\DriverException
+     * @throws \Behat\Mink\Exception\UnsupportedDriverActionException
+     */
+    public function setCookie($name, $value){
+        $driver = $this->getSession()->getDriver();
+
+        $driver->setCookie($name, $value);
+    }
+
+    /**
      * @param CustomerOptionInterface $customerOption
      * @return bool
      */
@@ -72,7 +84,7 @@ class ShowPage extends BaseShowPage
 
             $day = $dateFields->find('css', 'select[id$="day"]');
             $month = $dateFields->find('css', 'select[id$="month"]');
-            $year = $dateFields->find('css', 'input[id$="year"]');
+            $year = $dateFields->find('css', 'select[id$="year"]');
 
             $day->selectOption($dateValue->format('j'));
             $month->selectOption($dateValue->format('M'));

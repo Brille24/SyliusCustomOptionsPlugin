@@ -50,7 +50,6 @@ Feature: Configuring validators
         Then I should see 0 validators
 
     @ui
-    @debug
     Scenario Outline: The condition value type and available comparators change based on customer option type
         Given I want to edit customer option group "Some Group"
         When I add a validator
@@ -68,7 +67,6 @@ Feature: Configuring validators
             | "Boolean Option"  | "boolean"     | "checkbox"| "equal"                                               |
 
     @ui
-    @debug
     Scenario Outline: The constraint value type and available comparators change based on customer option type
         Given I want to edit customer option group "Some Group"
         When I add a validator
@@ -109,7 +107,7 @@ Feature: Configuring validators
             | "Date Option"    | "greater_equal" | "2018-10-15"                | "Ravioli"               |
             | "Boolean Option" | "equal"         | true                        | "Spaghetti"             |
 
-    @ui @debug @test
+    @ui
     Scenario Outline: Single constraints are saved correctly
         Given I want to edit customer option group "Some Group"
 

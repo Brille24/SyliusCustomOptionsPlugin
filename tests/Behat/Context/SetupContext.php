@@ -326,31 +326,57 @@ class SetupContext implements Context
 
         foreach ($validatorConfig as $row){
             if($row['condition_option']){
+                /** @var CustomerOptionInterface[] $customerOptions */
                 $customerOptions = $this->customerOptionRepository->findByName($row['condition_option'], 'en_US');
                 $customerOption = $customerOptions[0] ?? null;
 
+                $val = $this->prepareValue($row['condition_value'], $customerOption->getType());
+
                 $condition = new Condition();
-                $condition->setValue($row['condition_value']);
-                $condition->setComparator($row['condition_comparator']);
                 $condition->setCustomerOption($customerOption);
+                $condition->setComparator($row['condition_comparator']);
+                $condition->setValue($val);
 
                 $validator->addCondition($condition);
+
+                $this->em->persist($condition);
             }
 
             if($row['constraint_option']){
+                /** @var CustomerOptionInterface[] $customerOptions */
                 $customerOptions = $this->customerOptionRepository->findByName($row['constraint_option'], 'en_US');
                 $customerOption = $customerOptions[0] ?? null;
 
-                $constraint = new Constraint();
-                $constraint->setValue($row['constraint_value']);
-                $constraint->setComparator($row['constraint_comparator']);
-                $constraint->setCustomerOption($customerOption);
+                $val = $this->prepareValue($row['constraint_value'], $customerOption->getType());
 
-                $validator->addCondition($constraint);
+                $constraint = new Constraint();
+                $constraint->setCustomerOption($customerOption);
+                $constraint->setComparator($row['constraint_comparator']);
+                $constraint->setValue($val);
+
+                $validator->addConstraint($constraint);
+
+                $this->em->persist($constraint);
             }
+
+            $this->em->persist($validator);
         }
 
         $this->em->persist($customerOptionGroup);
         $this->em->flush();
+    }
+
+    private function prepareValue($value, string $optionType){
+        $result = $value;
+
+        if(CustomerOptionTypeEnum::isSelect($optionType)){
+            $result = explode(',', str_replace(' ', '', strtolower($value)));
+        }elseif($optionType === CustomerOptionTypeEnum::BOOLEAN){
+            $result = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        }elseif(CustomerOptionTypeEnum::isDate($optionType)){
+            $result = new \DateTime($value);
+        }
+
+        return $result;
     }
 }
