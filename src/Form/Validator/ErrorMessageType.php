@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Form\Validator;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;

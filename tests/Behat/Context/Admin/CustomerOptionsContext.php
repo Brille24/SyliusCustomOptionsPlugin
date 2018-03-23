@@ -1,35 +1,32 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Admin;
 
-
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Sylius\Behat\Page\Admin\Crud\CreatePageInterface;
 use Sylius\Behat\Page\Admin\Crud\IndexPageInterface;
 use Sylius\Behat\Page\Admin\Crud\UpdatePageInterface;
 use Sylius\Behat\Service\Resolver\CurrentPageResolverInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
 use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOption\CreatePage;
 use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOption\UpdatePage;
 use Webmozart\Assert\Assert;
 
 class CustomerOptionsContext implements Context
 {
-    /** @var IndexPageInterface  */
+    /** @var IndexPageInterface */
     private $indexPage;
 
-    /** @var CreatePage  */
+    /** @var CreatePage */
     private $createPage;
 
-    /** @var UpdatePage  */
+    /** @var UpdatePage */
     private $updatePage;
 
-    /** @var CurrentPageResolverInterface  */
+    /** @var CurrentPageResolverInterface */
     private $currentPageResolver;
 
     public function __construct(
@@ -37,8 +34,7 @@ class CustomerOptionsContext implements Context
         CreatePageInterface $createPage,
         UpdatePageInterface $updatePage,
         CurrentPageResolverInterface $currentPageResolver
-    )
-    {
+    ) {
         $this->indexPage = $indexPage;
         $this->createPage = $createPage;
         $this->updatePage = $updatePage;
@@ -188,7 +184,7 @@ class CustomerOptionsContext implements Context
      * @Then I should see price configuration for value :valueName in channel :channelName
      * @Then I should see price configuration for value :valueName
      */
-    public function iShouldSeePriceConfigurationForValue(string $valueName, string $channelName = "WEB-US")
+    public function iShouldSeePriceConfigurationForValue(string $valueName, string $channelName = 'WEB-US')
     {
         /** @var CreatePage|UpdatePage $currentPage */
         $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);

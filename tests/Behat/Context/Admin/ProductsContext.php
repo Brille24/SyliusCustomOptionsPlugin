@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Admin;
-
 
 use Behat\Behat\Context\Context;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
@@ -24,10 +24,10 @@ use Webmozart\Assert\Assert;
 
 class ProductsContext implements Context
 {
-    /** @var UpdateSimpleProductPageInterface  */
+    /** @var UpdateSimpleProductPageInterface */
     private $updatePageSimple;
 
-    /** @var UpdateConfigurableProductPageInterface  */
+    /** @var UpdateConfigurableProductPageInterface */
     private $updatePageConfigurable;
 
     /** @var CreateSimpleProductPageInterface */
@@ -36,10 +36,10 @@ class ProductsContext implements Context
     /** @var CreateConfigurableProductPageInterface */
     private $createPageConfigurable;
 
-    /** @var CurrentPageResolverInterface  */
+    /** @var CurrentPageResolverInterface */
     private $currentPageResolver;
 
-    /** @var EntityRepository  */
+    /** @var EntityRepository */
     private $customerOptionValuePriceRepository;
 
     public function __construct(
@@ -49,8 +49,7 @@ class ProductsContext implements Context
         CreateConfigurableProductPageInterface $createPageConfigurable,
         CurrentPageResolverInterface $currentPageResolver,
         EntityRepository $customerOptionValuePriceRepository
-    )
-    {
+    ) {
         $this->updatePageSimple = $updateSimpleProductPage;
         $this->updatePageConfigurable = $updateConfigurableProductPage;
         $this->createPageSimple = $createPageSimple;
@@ -114,9 +113,9 @@ class ProductsContext implements Context
      */
     public function iWantToModifyTheProduct(ProductInterface $product)
     {
-        if($product->isSimple()){
+        if ($product->isSimple()) {
             $this->updatePageSimple->open(['id' => $product->getId()]);
-        }else{
+        } else {
             $this->updatePageConfigurable->open(['id' => $product->getId()]);
         }
     }
@@ -124,7 +123,8 @@ class ProductsContext implements Context
     /**
      * @When I open the customer options tab
      */
-    public function iOpenTheCustomerOptionsTab(){
+    public function iOpenTheCustomerOptionsTab()
+    {
         $currentPage = $this->resolveCurrentPage();
 
         $currentPage->openCustomerOptionsTab();
@@ -231,8 +231,8 @@ class ProductsContext implements Context
         $result = false;
 
         /** @var CustomerOptionValuePriceInterface $valuePrice */
-        foreach ($valuePrices as $valuePrice){
-            if($valuePrice->getAmount() === $amount * 100){
+        foreach ($valuePrices as $valuePrice) {
+            if ($valuePrice->getAmount() === $amount * 100) {
                 $result = true;
             }
         }

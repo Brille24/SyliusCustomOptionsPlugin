@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Traits;
 
-
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
@@ -24,7 +23,6 @@ trait ConditionTrait
 
     /** @var ValidatorInterface */
     protected $validator;
-
 
     /** {@inheritdoc} */
     public function getCustomerOption(): ?CustomerOptionInterface
@@ -61,7 +59,7 @@ trait ConditionTrait
     {
         $value = $this->value['value'] ?? null;
 
-        if($value !== null){
+        if ($value !== null) {
             $value = ['value' => $value];
         }
 
@@ -71,33 +69,27 @@ trait ConditionTrait
     /** {@inheritdoc} */
     public function setValue($value): void
     {
-        $value = is_array($value) && key_exists('value', $value) ? $value['value'] : $value;
+        $value = is_array($value) && array_key_exists('value', $value) ? $value['value'] : $value;
 
         $newValue = ConditionComparatorEnum::getValueConfig(
         $this->customerOption ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT
         );
 
-        if($newValue['type'] === 'array')
-        {
+        if ($newValue['type'] === 'array') {
             $newValue['value'] = is_array($value) ? $value : null;
-        }
-        elseif ($newValue['type'] === 'date')
-        {
+        } elseif ($newValue['type'] === 'date') {
             $newValue['value'] = $value instanceof \DateTime ? $value : null;
-        }
-        elseif ($newValue['type'] === 'boolean')
-        {
-            $newValue['value'] = boolval($value);
+        } elseif ($newValue['type'] === 'boolean') {
+            $newValue['value'] = (bool) $value;
         } else {
-            if(is_array($value) || $value instanceof \DateTime)
-            {
+            if (is_array($value) || $value instanceof \DateTime) {
                 $newValue['value'] = null;
-            }else{
+            } else {
                 $newValue['value'] = $value;
             }
         }
 
-        if($newValue['value'] === null){
+        if ($newValue['value'] === null) {
             $newValue = ConditionComparatorEnum::getValueConfig(
                 $this->customerOption ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT
             );
@@ -127,11 +119,11 @@ trait ConditionTrait
 
         $target = $this->value['value'];
 
-        if(CustomerOptionTypeEnum::isDate($optionType)){
+        if (CustomerOptionTypeEnum::isDate($optionType)) {
             $target = $target instanceof \DateTime ? $target : $this->formatValue($target, $optionType);
         }
 
-        if(!is_array($actual)){
+        if (!is_array($actual)) {
             $actual = [$actual];
         }
 
@@ -141,31 +133,31 @@ trait ConditionTrait
             switch ($this->comparator) {
                 case ConditionComparatorEnum::GREATER:
                     $result = $result ? $val > $target : false;
-                    break;
 
+                    break;
                 case ConditionComparatorEnum::GREATER_OR_EQUAL:
                     $result = $result ? $val >= $target : false;
-                    break;
 
+                    break;
                 case ConditionComparatorEnum::EQUAL:
                     $result = $result ? $val == $target : false;
-                    break;
 
+                    break;
                 case ConditionComparatorEnum::LESSER_OR_EQUAL:
                     $result = $result ? $val <= $target : false;
-                    break;
 
+                    break;
                 case ConditionComparatorEnum::LESSER:
                     $result = $result ? $val < $target : false;
+
                     break;
-
-
                 case ConditionComparatorEnum::IN_SET:
                     $result = $result ? in_array($val, $target) : false;
-                    break;
 
+                    break;
                 case ConditionComparatorEnum::NOT_IN_SET:
                     $result = $result ? !in_array($val, $target) : false;
+
                     break;
             }
         }
@@ -177,20 +169,22 @@ trait ConditionTrait
     {
         $result = $value;
 
-        if($optionType === CustomerOptionTypeEnum::TEXT){
+        if ($optionType === CustomerOptionTypeEnum::TEXT) {
             $result = strlen($value);
-        }elseif (CustomerOptionTypeEnum::isDate($optionType)){
-
-            if($optionType === CustomerOptionTypeEnum::DATETIME){
-                $date = $value['date'];
-                $time = $value['time'];
-                $result = new \DateTime(sprintf('%d-%d-%d', $date['year'], $date['month'], $date['day']));
-                $result->setTime(intval($time['hour']), intval($time['minute']));
-            }else{
-                $result = new \DateTime(sprintf('%d-%d-%d', $value['year'], $value['month'], $value['day']));
+        } elseif (CustomerOptionTypeEnum::isDate($optionType)) {
+            if (isset($result['date']) && !is_array($result['date'])) {
+                $result = new \DateTime($result['date']);
+            } else {
+                if ($optionType === CustomerOptionTypeEnum::DATETIME) {
+                    $date = $value['date'];
+                    $time = $value['time'];
+                    $result = new \DateTime(sprintf('%d-%d-%d', $date['year'], $date['month'], $date['day']));
+                    $result->setTime((int) ($time['hour']), (int) ($time['minute']));
+                } else {
+                    $result = new \DateTime(sprintf('%d-%d-%d', $value['year'], $value['month'], $value['day']));
+                }
             }
-
-        }elseif($optionType === CustomerOptionTypeEnum::BOOLEAN){
+        } elseif ($optionType === CustomerOptionTypeEnum::BOOLEAN) {
             $result = filter_var($value, FILTER_VALIDATE_BOOLEAN);
         }
 

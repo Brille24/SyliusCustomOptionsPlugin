@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Form\Validator;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
@@ -17,7 +17,7 @@ class ValueType extends AbstractType
 {
     const DEFAULT_LABEL = 'brille24.form.validators.fields.value.default';
 
-    /** @var CustomerOptionValueRepositoryInterface  */
+    /** @var CustomerOptionValueRepositoryInterface */
     private $customerOptionValueRepository;
 
     public function __construct(CustomerOptionValueRepositoryInterface $customerOptionValueRepository)
@@ -32,33 +32,33 @@ class ValueType extends AbstractType
         $builder->add('value', $options['field_type'], $options['field_options']);
 
         $builder->get('value')->addModelTransformer(new CallbackTransformer(
-            function ($modelData) use ($options){
+            function ($modelData) use ($options) {
                 $result = $modelData;
 
-                if(CustomerOptionTypeEnum::isSelect($options['option_type'])){
+                if (CustomerOptionTypeEnum::isSelect($options['option_type'])) {
                     $result = [];
 
-                    foreach ($modelData as $data){
+                    foreach ($modelData as $data) {
                         $result[] = $this->customerOptionValueRepository->findOneByCode($data);
                     }
-                }elseif (CustomerOptionTypeEnum::isDate($options['option_type'])){
+                } elseif (CustomerOptionTypeEnum::isDate($options['option_type'])) {
                     $result = new \DateTime($modelData['date'] ?? 'now');
 
-                    if(isset($modelData['timezone'])) {
+                    if (isset($modelData['timezone'])) {
                         $result->setTimezone(new \DateTimeZone($modelData['timezone']));
                     }
                 }
 
                 return $result;
             },
-            function ($viewData) use ($options){
+            function ($viewData) use ($options) {
                 $result = $viewData;
 
-                if(CustomerOptionTypeEnum::isSelect($options['option_type'])){
+                if (CustomerOptionTypeEnum::isSelect($options['option_type'])) {
                     $result = [];
 
-                    foreach ($viewData as $data){
-                        if($data instanceof CustomerOptionValueInterface){
+                    foreach ($viewData as $data) {
+                        if ($data instanceof CustomerOptionValueInterface) {
                             $result[] = $data->getCode();
                         }
                     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOptionGroup;
@@ -13,7 +14,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class CreatePage extends BaseCreatePage
 {
-    /** @var TranslatorInterface  */
+    /** @var TranslatorInterface */
     private $translator;
 
     public function __construct(Session $session, array $parameters, RouterInterface $router, string $routeName, TranslatorInterface $translator)
@@ -26,25 +27,30 @@ class CreatePage extends BaseCreatePage
     /**
      * @param string $field
      * @param string $value
+     *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
-    public function fillField(string $field, string $value){
+    public function fillField(string $field, string $value)
+    {
         $this->getDocument()->fillField($field, $value);
     }
 
     /**
      * @throws ElementNotFoundException
      */
-    public function addOption(){
+    public function addOption()
+    {
         $this->getDocument()->clickLink($this->translator->trans('brille24.form.customer_option_groups.buttons.add_option'));
     }
 
     /**
      * @param string $name
      * @param int $position
+     *
      * @throws ElementNotFoundException
      */
-    public function chooseOption(string $name, int $position){
+    public function chooseOption(string $name, int $position)
+    {
         $selectItems = $this->getDocument()->waitFor(2, function () {
             return $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="option_associations"] select');
         });
@@ -58,7 +64,7 @@ class CreatePage extends BaseCreatePage
         $numberItems = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="option_associations"] input[type="number"]');
         $lastNumberItem = end($numberItems);
 
-        if (false === $lastNumberItem){
+        if (false === $lastNumberItem) {
             throw new ElementNotFoundException($this->getSession(), 'input', 'css', 'div[data-form-type="collection"][id$="option_associations"] input[type="number"]');
         }
 
@@ -69,36 +75,41 @@ class CreatePage extends BaseCreatePage
     /**
      * @throws ElementNotFoundException
      */
-    public function addValidator(){
+    public function addValidator()
+    {
         $this->getDocument()->clickLink($this->translator->trans('brille24.form.customer_option_groups.buttons.add_validator'));
     }
 
     /**
      * @throws ElementNotFoundException
      */
-    public function addCondition(){
+    public function addCondition()
+    {
         $this->getDocument()->clickLink($this->translator->trans('brille24.form.validators.buttons.add_condition'));
     }
 
     /**
      * @throws ElementNotFoundException
      */
-    public function addConstraint(){
+    public function addConstraint()
+    {
         $this->getDocument()->clickLink($this->translator->trans('brille24.form.validators.buttons.add_constraint'));
     }
 
     /**
      * @param string $name
+     *
      * @throws ElementNotFoundException
      */
-    public function chooseOptionForCondition(string $name){
+    public function chooseOptionForCondition(string $name)
+    {
         /** @var NodeElement[] $conditionDiv */
         $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
         $lastConditionDiv = end($conditionDiv);
 
         $selectItems = $lastConditionDiv->findAll('named', [
             'field',
-            $this->translator->trans('brille24.form.validators.fields.customer_option')
+            $this->translator->trans('brille24.form.validators.fields.customer_option'),
         ]);
 
         $lastSelectItem = end($selectItems);
@@ -112,16 +123,18 @@ class CreatePage extends BaseCreatePage
 
     /**
      * @param string $name
+     *
      * @throws ElementNotFoundException
      */
-    public function chooseComparatorForCondition(string $name){
+    public function chooseComparatorForCondition(string $name)
+    {
         /** @var NodeElement[] $conditionDiv */
         $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
         $lastConditionDiv = end($conditionDiv);
 
         $selectItems = $lastConditionDiv->findAll('named', [
             'field',
-            $this->translator->trans('brille24.form.validators.fields.comparator')
+            $this->translator->trans('brille24.form.validators.fields.comparator'),
         ]);
 
         $lastSelectItem = end($selectItems);
@@ -136,9 +149,9 @@ class CreatePage extends BaseCreatePage
     public function getConditionValueType(string $optionType): ?string
     {
         $valueSuffix = '.default';
-        if($optionType === CustomerOptionTypeEnum::TEXT){
+        if ($optionType === CustomerOptionTypeEnum::TEXT) {
             $valueSuffix = '.text';
-        }elseif (CustomerOptionTypeEnum::isSelect($optionType)){
+        } elseif (CustomerOptionTypeEnum::isSelect($optionType)) {
             $valueSuffix = '.set';
         }
 
@@ -157,7 +170,8 @@ class CreatePage extends BaseCreatePage
         return $lastValueItem->getAttribute('type') ?? $lastValueItem->getTagName();
     }
 
-    public function countValidators(){
+    public function countValidators()
+    {
         $validators = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"] > div > div');
 
         return count($validators);

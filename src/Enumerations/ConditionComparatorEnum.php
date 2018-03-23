@@ -1,10 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Enumerations;
 
-
-use Brille24\CustomerOptionsPlugin\Form\CustomDateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -62,8 +61,8 @@ final class ConditionComparatorEnum implements EnumInterface
     {
         $result = [];
 
-        foreach ($values as $value){
-            if(self::isValid($value)){
+        foreach ($values as $value) {
+            if (self::isValid($value)) {
                 $result[$value] = self::getTranslateArray()[$value];
             }
         }
@@ -73,29 +72,30 @@ final class ConditionComparatorEnum implements EnumInterface
 
     public static function getValuesForCustomerOptionType(string $customerOptionType): array
     {
-        if(CustomerOptionTypeEnum::isSelect($customerOptionType)){
+        if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
             return [
                 self::IN_SET,
                 self::NOT_IN_SET,
             ];
-        }elseif ($customerOptionType === CustomerOptionTypeEnum::BOOLEAN){
+        }
+        if ($customerOptionType === CustomerOptionTypeEnum::BOOLEAN) {
             return [
                 self::EQUAL,
             ];
-        }else{
-            return [
+        }
+
+        return [
                 self::GREATER,
                 self::GREATER_OR_EQUAL,
                 self::EQUAL,
                 self::LESSER_OR_EQUAL,
                 self::LESSER,
             ];
-        }
     }
 
     public static function getFormTypeForCustomerOptionType(string $type): array
     {
-        if(CustomerOptionTypeEnum::isSelect($type)){
+        if (CustomerOptionTypeEnum::isSelect($type)) {
             return [
                 ChoiceType::class,
                 [
@@ -103,53 +103,58 @@ final class ConditionComparatorEnum implements EnumInterface
                     'label' => 'brille24.form.validators.fields.value.set',
                 ],
             ];
-        }elseif ($type === CustomerOptionTypeEnum::BOOLEAN){
+        }
+        if ($type === CustomerOptionTypeEnum::BOOLEAN) {
             return [
                 CheckboxType::class,
                 [],
             ];
-        }elseif (CustomerOptionTypeEnum::isDate($type)){
+        }
+        if (CustomerOptionTypeEnum::isDate($type)) {
             return [
                 DateType::class,
                 [],
             ];
-        }elseif ($type === CustomerOptionTypeEnum::TEXT){
+        }
+        if ($type === CustomerOptionTypeEnum::TEXT) {
             return [
                 IntegerType::class,
                 [
                     'label' => 'brille24.form.validators.fields.value.text',
                 ],
             ];
-        } else {
-            return [
+        }
+
+        return [
                 NumberType::class,
                 [],
             ];
-        }
     }
 
     public static function getValueConfig(string $type): array
     {
-        if(CustomerOptionTypeEnum::isSelect($type)){
+        if (CustomerOptionTypeEnum::isSelect($type)) {
             return [
                 'type' => 'array',
                 'value' => [],
             ];
-        }elseif (CustomerOptionTypeEnum::isDate($type)){
+        }
+        if (CustomerOptionTypeEnum::isDate($type)) {
             return [
                 'type' => 'date',
                 'value' => new \DateTime(),
             ];
-        }elseif ($type === CustomerOptionTypeEnum::BOOLEAN){
+        }
+        if ($type === CustomerOptionTypeEnum::BOOLEAN) {
             return [
                 'type' => 'boolean',
                 'value' => true,
             ];
-        }else{
-            return [
+        }
+
+        return [
                 'type' => 'integer',
                 'value' => 0,
             ];
-        }
     }
 }

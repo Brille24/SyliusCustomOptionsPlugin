@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Validator\Constraints;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
@@ -24,21 +24,21 @@ class ConditionalConstraintValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint)
     {
-        if($value instanceof OrderItemInterface && $constraint instanceof ConditionalConstraint) {
+        if ($value instanceof OrderItemInterface && $constraint instanceof ConditionalConstraint) {
             $configuration = $this->getCustomerOptionsFromRequest($this->requestStack->getCurrentRequest(), $value->getProduct());
-
 
             $allConditionsMet = $this->allConditionsMet($constraint->conditions, $configuration);
 
-            if($allConditionsMet) {
-                if(!$this->allConditionsMet($constraint->constraints, $configuration)){
+            if ($allConditionsMet) {
+                if (!$this->allConditionsMet($constraint->constraints, $configuration)) {
                     $this->context->addViolation($constraint->message);
                 }
             }
         }
     }
 
-    private function getCustomerOptionsFromRequest(Request $request, ProductInterface $product){
+    private function getCustomerOptionsFromRequest(Request $request, ProductInterface $product)
+    {
         $addToCart = $request->request->get('sylius_add_to_cart');
 
         if (!isset($addToCart['customer_options'])) {
@@ -47,8 +47,8 @@ class ConditionalConstraintValidator extends ConstraintValidator
 
         $customerOptions = $product->getCustomerOptions();
 
-        foreach ($customerOptions as $customerOption){
-            if(!in_array($customerOption->getCode(), array_keys($addToCart['customer_options']))){
+        foreach ($customerOptions as $customerOption) {
+            if (!in_array($customerOption->getCode(), array_keys($addToCart['customer_options']))) {
                 $addToCart['customer_options'][$customerOption->getCode()] = '0';
             }
         }
@@ -59,7 +59,6 @@ class ConditionalConstraintValidator extends ConstraintValidator
     private function allConditionsMet(array $conditions, array $customerOptionConfig)
     {
         $result = true;
-
 
         /** @var ConditionInterface $condition */
         foreach ($conditions as $condition) {
@@ -77,13 +76,12 @@ class ConditionalConstraintValidator extends ConstraintValidator
                     break;
                 }
 
-                $counter++;
+                ++$counter;
             }
 
             if ($counter >= count($customerOptionConfig)) {
                 $result = false;
             }
-
         }
 
         return $result;

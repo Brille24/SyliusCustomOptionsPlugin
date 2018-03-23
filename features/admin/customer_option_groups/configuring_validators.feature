@@ -83,7 +83,7 @@ Feature: Configuring validators
             | "Date Option"     | "date"        | "div"     | "greater, greater_equal, equal, lesser_equal, lesser" |
             | "Boolean Option"  | "boolean"     | "checkbox"| "equal"                                               |
 
-    @ui @debug
+    @ui
     Scenario Outline: Single conditions are saved correctly
         Given I want to edit customer option group "Some Group"
 
@@ -97,13 +97,13 @@ Feature: Configuring validators
 
         Then the customer option group "Some Group" should have a validator:
             | condition_option | condition_comparator | condition_value | constraint_option | constraint_comparator | constraint_value | error_message   |
-            |                  |                      |                 | <option_name>     | <comparator>          | <value>          | <error_message> |
+            | <option_name>    | <comparator>         | <value>         |                   |                       |                  | <error_message> |
 
         Examples:
             | option_name      | comparator      | value                       | error_message           |
             | "Text Option"    | "lesser"        | 4                           | "Something went wrong!" |
             | "Select Option"  | "not_in_set"    | "Value-1, Value-2, Value-4" | "Abc"                   |
-            | "Number Option"  | "equal"         | 5.5                         | "Cde"                   |
+            | "Number Option"  | "equal"         | 5.5                         | "Def"                   |
             | "Date Option"    | "greater_equal" | "2018-10-15"                | "Ravioli"               |
             | "Boolean Option" | "equal"         | true                        | "Spaghetti"             |
 
@@ -127,6 +127,6 @@ Feature: Configuring validators
             | option_name      | comparator      | value                       | error_message           |
             | "Text Option"    | "lesser"        | 4                           | "Something went wrong!" |
             | "Select Option"  | "not_in_set"    | "Value-1, Value-2, Value-4" | "Abc"                   |
-            | "Number Option"  | "equal"         | 5.5                         | "Cde"                   |
+            | "Number Option"  | "equal"         | 5.5                         | "Def"                   |
             | "Date Option"    | "greater_equal" | "2018-10-15"                | "Ravioli"               |
             | "Boolean Option" | "equal"         | true                        | "Spaghetti"             |

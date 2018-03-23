@@ -1,12 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Admin;
 
-
-use Behat\Gherkin\Node\TableNode;
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\TableNode;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
@@ -36,8 +35,7 @@ class CustomerOptionGroupsContext implements Context
         UpdatePageInterface $updatePage,
         IndexPageInterface $indexPage,
         CurrentPageResolverInterface $currentPageResolver
-    )
-    {
+    ) {
         $this->createPage = $createPage;
         $this->updatePage = $updatePage;
         $this->indexPage = $indexPage;
@@ -153,12 +151,11 @@ class CustomerOptionGroupsContext implements Context
     public function theCustomerOptionGroupShouldHaveOption(
         CustomerOptionGroupInterface $customerOptionGroup,
         CustomerOptionInterface $customerOption
-    )
-    {
+    ) {
         $result = false;
 
-        foreach ($customerOptionGroup->getOptions() as $option){
-            if($option === $customerOption){
+        foreach ($customerOptionGroup->getOptions() as $option) {
+            if ($option === $customerOption) {
                 $result = true;
             }
         }
@@ -351,13 +348,14 @@ class CustomerOptionGroupsContext implements Context
         $currentPage->setConstraintValue($value, $customerOption->getType());
     }
 
-    private function prepareValue($value, $optionType){
-        if(is_string($value)){
+    private function prepareValue($value, $optionType)
+    {
+        if (is_string($value)) {
             $value = preg_replace('/\s+/', '', $value);
 
-            if(CustomerOptionTypeEnum::isSelect($optionType)){
+            if (CustomerOptionTypeEnum::isSelect($optionType)) {
                 $value = explode(',', $value);
-            }elseif ($optionType === CustomerOptionTypeEnum::BOOLEAN){
+            } elseif ($optionType === CustomerOptionTypeEnum::BOOLEAN) {
                 $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
             }
         }
@@ -377,7 +375,7 @@ class CustomerOptionGroupsContext implements Context
         $hasValidator = false;
 
         /** @var ValidatorInterface $validator */
-        foreach ($customerOptionGroup->getValidators() as $validator){
+        foreach ($customerOptionGroup->getValidators() as $validator) {
             /** @var ConditionInterface[] $conditions */
             $conditions = $validator->getConditions();
 
@@ -386,9 +384,8 @@ class CustomerOptionGroupsContext implements Context
 
             $result = true;
 
-            foreach ($validatorConfig as $row){
-
-                foreach ($row as &$value){
+            foreach ($validatorConfig as $row) {
+                foreach ($row as &$value) {
                     $value = str_replace('"', '', $value);
                 }
                 $row['condition_value'] = strtolower($row['condition_value']);
@@ -397,21 +394,21 @@ class CustomerOptionGroupsContext implements Context
                 $hasCondition = $hasConstraint = true;
 
                 // Check for condition
-                if(!empty($row['condition_option'])) {
-
+                if (!empty($row['condition_option'])) {
                     $hasCondition = false;
 
                     foreach ($conditions as $condition) {
                         $customerOption = $condition->getCustomerOption();
 
-                        if($customerOption->getName() == $row['condition_option']){
+                        if ($customerOption->getName() == $row['condition_option']) {
                             $val = $this->prepareValue($row['condition_value'], $customerOption->getType());
 
                             $sameComp = $condition->getComparator() == $row['condition_comparator'];
                             $sameVal = $this->values_are_equal($condition->getValue()['value'], $val, $customerOption->getType());
 
-                            if($sameComp && $sameVal){
+                            if ($sameComp && $sameVal) {
                                 $hasCondition = true;
+
                                 break;
                             }
                         }
@@ -419,37 +416,38 @@ class CustomerOptionGroupsContext implements Context
                 }
 
                 //Check for constraint
-                if(!empty($row['constraint_option'])) {
-
+                if (!empty($row['constraint_option'])) {
                     $hasConstraint = false;
 
                     foreach ($constraints as $constraint) {
                         $customerOption = $constraint->getCustomerOption();
 
-                        if($customerOption->getName() == $row['constraint_option']){
+                        if ($customerOption->getName() == $row['constraint_option']) {
                             $val = $this->prepareValue($row['constraint_value'], $customerOption->getType());
 
                             $sameComp = $constraint->getComparator() == $row['constraint_comparator'];
                             $sameVal = $this->values_are_equal($constraint->getValue()['value'], $val, $customerOption->getType());
 
-                            if($sameComp && $sameVal){
+                            if ($sameComp && $sameVal) {
                                 $hasConstraint = true;
+
                                 break;
                             }
                         }
                     }
                 }
 
-                if(!$hasCondition || !$hasConstraint){
+                if (!$hasCondition || !$hasConstraint) {
                     $result = false;
+
                     break;
                 }
             }
 
-            if($result){
-                if(empty($errorMessage)) {
+            if ($result) {
+                if (empty($errorMessage)) {
                     $hasValidator = true;
-                }else{
+                } else {
                     $hasValidator = $validator->getErrorMessage()->getMessage() === $errorMessage;
                 }
             }
@@ -458,15 +456,14 @@ class CustomerOptionGroupsContext implements Context
         Assert::true($hasValidator);
     }
 
-
-    private function values_are_equal($a, $b, string $optionType){
-        if(CustomerOptionTypeEnum::isSelect($optionType)){
+    private function values_are_equal($a, $b, string $optionType)
+    {
+        if (CustomerOptionTypeEnum::isSelect($optionType)) {
             $result = (
                 is_array($a) && is_array($b)
                 && array_diff($a, $b) === array_diff($b, $a)
             );
-
-        }elseif(CustomerOptionTypeEnum::isDate($optionType)){
+        } elseif (CustomerOptionTypeEnum::isDate($optionType)) {
             $a = new \DateTime($a['date']);
             $b = new \DateTime($b);
 

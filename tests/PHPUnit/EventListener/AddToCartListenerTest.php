@@ -58,7 +58,7 @@ class AddToCartListenerTest extends TestCase
             if (!array_key_exists(get_class($entity), $entitiesPersisted)) {
                 $entitiesPersisted[get_class($entity)] = 1;
             }
-            $entitiesPersisted[get_class($entity)]++;
+            ++$entitiesPersisted[get_class($entity)];
         });
 
         $orderItemOptionFactory = self::createMock(OrderItemOptionFactoryInterface::class);
@@ -83,7 +83,7 @@ class AddToCartListenerTest extends TestCase
     {
         $product = self::createConfiguredMock(ProductInterface::class, []);
 
-        $order     = self::createMock(OrderInterface::class);
+        $order = self::createMock(OrderInterface::class);
         $orderItem = self::createMock(OrderItemInterface::class);
         $orderItem->method('getOrder')->willReturn($hasOrder ? $order : null);
         $orderItem->method('getProduct')->willReturn($product);
@@ -125,7 +125,7 @@ class AddToCartListenerTest extends TestCase
     public function testWithEmptyCustomerOptions(): void
     {
         // SETUP
-        $event         = $this->createEvent(true);
+        $event = $this->createEvent(true);
         $this->request = $this->createRequest([]);
 
         // EXECUTE
@@ -138,7 +138,7 @@ class AddToCartListenerTest extends TestCase
     public function testInvalidCustomerOptionCode(): void
     {
         // SETUP
-        $event         = $this->createEvent(true);
+        $event = $this->createEvent(true);
         $this->request = $this->createRequest(['customer_options' => ['customerOptionCode' => 'value']]);
 
         self::expectException(\Exception::class);
@@ -153,7 +153,7 @@ class AddToCartListenerTest extends TestCase
         // SETUP
         $this->customerOptions['customerOptionCode'] = self::createMock(CustomerOptionInterface::class);
 
-        $event         = $this->createEvent(true);
+        $event = $this->createEvent(true);
         $this->request = $this->createRequest(['customer_options' => ['customerOptionCode' => 'value']]);
 
         // EXECUTE

@@ -152,7 +152,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
 
     public function setValidators(array $validators): void
     {
-        foreach ($validators as $validator){
+        foreach ($validators as $validator) {
             $validator->setCustomerOptionGroup($this);
         }
 

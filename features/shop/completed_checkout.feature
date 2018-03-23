@@ -1,5 +1,6 @@
 @shop
 @customer_options
+@checkout
 Feature: Viewing products after completed checkout
     In order to know what options I chose and how they affect the price
     As a customer
@@ -29,12 +30,12 @@ Feature: Viewing products after completed checkout
         And the store has a product "Cool Product"
         And product "Cool Product" has the customer option group "Some Group"
 
-        And the store ships everywhere for free for all channels
-        And the store allows paying with "Cash on Delivery"
+        And the store ships everywhere for free
+        And the store allows paying offline
 
         And I am a logged in customer
 
-    @ui @javascript @debug
+    @ui @javascript
     Scenario: Completing checkout with product with customer options
         Given I view product "Cool Product"
         When I select value "Value 3" for customer option "Select Option"

@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -50,7 +50,7 @@ class Validator implements ValidatorInterface
     /** {@inheritdoc} */
     public function setConditions(?Collection $conditions): void
     {
-        foreach ($conditions as $condition){
+        foreach ($conditions as $condition) {
             $condition->setValidator($this);
         }
 
@@ -82,7 +82,7 @@ class Validator implements ValidatorInterface
     /** {@inheritdoc} */
     public function setConstraints(?Collection $constraints): void
     {
-        foreach ($constraints as $constraint){
+        foreach ($constraints as $constraint) {
             $constraint->setValidator($this);
         }
 

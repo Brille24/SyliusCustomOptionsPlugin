@@ -12,22 +12,12 @@ declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\EventListener;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\ConditionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\ValidatorInterface;
 use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 final class AddToCartListener
 {
@@ -48,8 +38,7 @@ final class AddToCartListener
         RequestStack $requestStack,
         EntityManagerInterface $entityManager,
         OrderItemOptionFactoryInterface $itemOptionFactory
-    )
-    {
+    ) {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
         $this->orderItemOptionFactory = $itemOptionFactory;
@@ -100,7 +89,6 @@ final class AddToCartListener
 
         $this->entityManager->persist($orderItem);
         $this->entityManager->flush();
-
     }
 
     /**
@@ -120,6 +108,4 @@ final class AddToCartListener
 
         return $addToCart['customer_options'];
     }
-
-
 }

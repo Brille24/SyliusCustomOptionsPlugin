@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Entity;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
@@ -38,7 +38,7 @@ class ValidatorTest extends TestCase
     {
         $num = 5;
 
-        for ($i = 0; $i < $num; $i++) {
+        for ($i = 0; $i < $num; ++$i) {
             $condition = self::createMock(Condition::class);
 
             $this->validator->addCondition($condition);
@@ -70,7 +70,7 @@ class ValidatorTest extends TestCase
     {
         $num = 5;
 
-        for($i = 0; $i < $num; $i++) {
+        for ($i = 0; $i < $num; ++$i) {
             $constraint = self::createMock(Constraint::class);
 
             $this->validator->addConstraint($constraint);

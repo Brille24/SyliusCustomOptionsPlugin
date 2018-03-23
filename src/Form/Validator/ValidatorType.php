@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Form\Validator;
 
-
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;

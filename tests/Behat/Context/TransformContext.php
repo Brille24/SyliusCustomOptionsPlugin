@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Context;
-
 
 use Behat\Behat\Context\Context;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
@@ -15,16 +15,16 @@ use Webmozart\Assert\Assert;
 
 class TransformContext implements Context
 {
-    /** @var CustomerOptionRepositoryInterface  */
+    /** @var CustomerOptionRepositoryInterface */
     private $customerOptionRepository;
 
-    /** @var CustomerOptionGroupRepositoryInterface  */
+    /** @var CustomerOptionGroupRepositoryInterface */
     private $customerOptionGroupRepository;
 
     /** @var ProductRepositoryInterface */
     private $productRepository;
 
-    /** @var EntityManagerInterface  */
+    /** @var EntityManagerInterface */
     private $em;
 
     public function __construct(
@@ -32,8 +32,7 @@ class TransformContext implements Context
         CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
         ProductRepositoryInterface $productRepository,
         EntityManagerInterface $em
-    )
-    {
+    ) {
         $this->customerOptionRepository = $customerOptionRepository;
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;
         $this->productRepository = $productRepository;

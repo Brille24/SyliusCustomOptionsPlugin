@@ -28,7 +28,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 final class AddToCartTypeExtension extends AbstractTypeExtension
 {
-    /** @var LocaleContextInterface  */
+    /** @var LocaleContextInterface */
     private $localeContext;
 
     public function __construct(LocaleContextInterface $localeContext)
@@ -50,25 +50,30 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
         ]));
     }
 
-    private function getConstraints(ProductInterface $product){
+    private function getConstraints(ProductInterface $product)
+    {
         $constraints = [];
 
-        /** @var ValidatorInterface $validator */
-        foreach ($product->getCustomerOptionGroup()->getValidators() as $validator){
-            /** @var ConditionalConstraint $constraint */
-            $constraint = ConstraintCreator::createConditionalConstraint(
-                $validator->getConditions()->getValues(),
-                $validator->getConstraints()->getValues()
-            );
+        $customerOptionGroup = $product->getCustomerOptionGroup();
 
-            $constraint->groups = ['sylius'];
+        if ($customerOptionGroup !== null) {
+            /** @var ValidatorInterface $validator */
+            foreach ($customerOptionGroup->getValidators() as $validator) {
+                /** @var ConditionalConstraint $constraint */
+                $constraint = ConstraintCreator::createConditionalConstraint(
+                    $validator->getConditions()->getValues(),
+                    $validator->getConstraints()->getValues()
+                );
 
-            /** @var ErrorMessageTranslationInterface $errorMessage */
-            $errorMessage = $validator->getErrorMessage()->getTranslation($this->localeContext->getLocaleCode());
-            
-            $constraint->message = $errorMessage->getMessage();
+                $constraint->groups = ['sylius'];
 
-            $constraints[] = $constraint;
+                /** @var ErrorMessageTranslationInterface $errorMessage */
+                $errorMessage = $validator->getErrorMessage()->getTranslation($this->localeContext->getLocaleCode());
+
+                $constraint->message = $errorMessage->getMessage();
+
+                $constraints[] = $constraint;
+            }
         }
 
         return $constraints;

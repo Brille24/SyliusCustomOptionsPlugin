@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Factory;
@@ -6,7 +7,6 @@ namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Factory;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\CustomerOptionsPlugin\Exceptions\ConfigurationException;
 use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactory;
-use Brille24\CustomerOptionsPlugin\Services\FakerFactoryWrapper;
 use Doctrine\ORM\EntityNotFoundException;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
@@ -33,6 +33,7 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
 
     /**
      * @dataProvider dataValidateConfigurationInvalid
+     *
      * @throws ConfigurationException
      */
     public function testValidateConfigurationInvalid(array $configuration, string $exceptionMessage)
@@ -46,15 +47,15 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
     public function dataValidateConfigurationInvalid(): array
     {
         return [
-            'missing type'                   => [
+            'missing type' => [
                 [],
                 'The configuration does not contain key: "type"',
             ],
-            'invalid type'                   => [
+            'invalid type' => [
                 ['type' => 'something'],
                 '\'something\' should be in array fixed,percent',
             ],
-            'valid type but missing price'   => [
+            'valid type but missing price' => [
                 ['type' => 'fixed'],
                 'The configuration does not contain key: "amount"',
             ],
@@ -62,7 +63,7 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
                 ['type' => 'percent'],
                 'The configuration does not contain key: "percent"',
             ],
-            'missing channel'                => [
+            'missing channel' => [
                 ['type' => 'fixed', 'amount' => 10],
                 'The configuration does not contain key: "channel"',
             ],
@@ -75,8 +76,8 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
         self::expectExceptionMessage('Could not find Channel with code: "does_not_exist"');
 
         $configuration = [
-            'type'    => 'fixed',
-            'amount'  => 100,
+            'type' => 'fixed',
+            'amount' => 100,
             'channel' => 'does_not_exist',
         ];
 
@@ -88,8 +89,8 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
         $this->channelRepository = ['en_US' => self::createMock(ChannelInterface::class)];
 
         $configuration = [
-            'type'    => 'fixed',
-            'amount'  => 100,
+            'type' => 'fixed',
+            'amount' => 100,
             'channel' => 'en_US',
         ];
 

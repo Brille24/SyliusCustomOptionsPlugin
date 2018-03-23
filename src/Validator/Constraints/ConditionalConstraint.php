@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Validator\Constraints;
-
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\MissingOptionsException;
@@ -17,7 +17,7 @@ class ConditionalConstraint extends Constraint
 
     public function __construct($options = null)
     {
-        if($options !== null && !is_array($options)){
+        if ($options !== null && !is_array($options)) {
             $options = [
                 'conditions' => [],
                 'constraints' => [],
@@ -26,7 +26,7 @@ class ConditionalConstraint extends Constraint
 
         parent::__construct($options);
 
-        if($this->conditions === null || $this->constraints === null){
+        if ($this->conditions === null || $this->constraints === null) {
             throw new MissingOptionsException('No conditions or constraints given.', ['conditions', 'constraints']);
         }
     }

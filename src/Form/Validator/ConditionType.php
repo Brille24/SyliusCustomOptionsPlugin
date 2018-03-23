@@ -1,24 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Form\Validator;
 
-
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
 use Brille24\CustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use DateTime;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ConditionType extends AbstractType
@@ -47,13 +42,13 @@ class ConditionType extends AbstractType
 
             $customerOptionType = CustomerOptionTypeEnum::TEXT;
 
-            if($configuration instanceof ConditionInterface){
+            if ($configuration instanceof ConditionInterface) {
                 $customerOptionType = $configuration->getCustomerOption()->getType();
                 $comparatorChoices = ConditionComparatorEnum::getValuesForCustomerOptionType($customerOptionType);
 
                 [$formType, $formOptions] = ConditionComparatorEnum::getFormTypeForCustomerOptionType($customerOptionType);
 
-                if(CustomerOptionTypeEnum::isSelect($customerOptionType)){
+                if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
                     $formOptions['choices'] = $configuration->getCustomerOption()->getValues()->getValues();
                     $formOptions['choice_label'] = 'name';
                 }
@@ -91,5 +86,4 @@ class ConditionType extends AbstractType
     {
         return 'brille24_customer_options_plugin_validator_condition';
     }
-
 }

@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\CustomerOptionsPlugin\Traits;
-
 
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
@@ -22,7 +22,7 @@ interface ConditionTraitInterface
     /**
      * @return string
      */
-    public function getComparator(): ?string ;
+    public function getComparator(): ?string;
 
     /**
      * @param string $comparator
@@ -52,6 +52,7 @@ interface ConditionTraitInterface
     /**
      * @param $value
      * @param string $optionType
+     *
      * @return bool
      */
     public function isMet($value, ?string $optionType = null): bool;

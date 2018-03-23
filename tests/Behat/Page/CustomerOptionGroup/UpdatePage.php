@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOptionGroup;
@@ -10,7 +11,6 @@ use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Sylius\Behat\Page\Admin\Crud\UpdatePage as BaseUpdatePage;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Selector\LabelSelector;
 
 class UpdatePage extends BaseUpdatePage
 {
@@ -27,6 +27,7 @@ class UpdatePage extends BaseUpdatePage
     /**
      * @param string $field
      * @param string $value
+     *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
     public function fillField(string $field, string $value)
@@ -45,6 +46,7 @@ class UpdatePage extends BaseUpdatePage
     /**
      * @param string $name
      * @param int $position
+     *
      * @throws ElementNotFoundException
      */
     public function chooseOption(string $name, int $position)
@@ -120,6 +122,7 @@ class UpdatePage extends BaseUpdatePage
 
     /**
      * @param string $name
+     *
      * @throws ElementNotFoundException
      */
     public function chooseOptionForCondition(string $name)
@@ -133,6 +136,7 @@ class UpdatePage extends BaseUpdatePage
 
     /**
      * @param string $name
+     *
      * @throws ElementNotFoundException
      */
     public function chooseComparatorForCondition(string $name)
@@ -157,6 +161,7 @@ class UpdatePage extends BaseUpdatePage
 
     /**
      * @param string $name
+     *
      * @throws ElementNotFoundException
      */
     public function chooseOptionForConstraint(string $name)
@@ -170,6 +175,7 @@ class UpdatePage extends BaseUpdatePage
 
     /**
      * @param string $name
+     *
      * @throws ElementNotFoundException
      */
     public function chooseComparatorForConstraint(string $name)
@@ -196,7 +202,7 @@ class UpdatePage extends BaseUpdatePage
     {
         $selectItems = $container->findAll('named', [
             'field',
-            $fieldName
+            $fieldName,
         ]);
 
         $lastSelectItem = end($selectItems);
@@ -266,7 +272,7 @@ class UpdatePage extends BaseUpdatePage
 
         $comparators = [];
 
-        foreach ($optionItems as $optionItem){
+        foreach ($optionItems as $optionItem) {
             $comparators[] = $optionItem->getValue();
         }
 
@@ -276,9 +282,11 @@ class UpdatePage extends BaseUpdatePage
     /**
      * @param $value
      * @param string $optionType
+     *
      * @throws ElementNotFoundException
      */
-    public function setConditionValue($value, string $optionType){
+    public function setConditionValue($value, string $optionType)
+    {
         /** @var NodeElement[] $conditionDiv */
         $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
         $lastConditionDiv = end($conditionDiv);
@@ -289,9 +297,11 @@ class UpdatePage extends BaseUpdatePage
     /**
      * @param $value
      * @param string $optionType
+     *
      * @throws ElementNotFoundException
      */
-    public function setConstraintValue($value, string $optionType){
+    public function setConstraintValue($value, string $optionType)
+    {
         /** @var NodeElement[] $constraintDiv */
         $constraintDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="constraints"]');
         $lastConstraintDiv = end($constraintDiv);
@@ -303,11 +313,13 @@ class UpdatePage extends BaseUpdatePage
      * @param NodeElement $container
      * @param string $optionType
      * @param $value
+     *
      * @throws ElementNotFoundException
      * @throws \Behat\Mink\Exception\DriverException
      * @throws \Behat\Mink\Exception\UnsupportedDriverActionException
      */
-    private function setValue(NodeElement $container, string $optionType, $value){
+    private function setValue(NodeElement $container, string $optionType, $value)
+    {
         $label = $this->translator->trans('brille24.form.validators.fields.value' . $this->getValueNameSuffix($optionType));
 
         // 1. Find value element
@@ -319,12 +331,11 @@ class UpdatePage extends BaseUpdatePage
         $lastValue = end($values);
 
         // 2. Fill according to $optionType
-        if(CustomerOptionTypeEnum::isSelect($optionType)){
+        if (CustomerOptionTypeEnum::isSelect($optionType)) {
             foreach ($value as $val) {
                 $lastValue->selectOption($val, true);
             }
-
-        }elseif (CustomerOptionTypeEnum::isDate($optionType)){
+        } elseif (CustomerOptionTypeEnum::isDate($optionType)) {
             $value = new \DateTime($value);
 
             /** @var NodeElement[] $valueItems */
@@ -339,25 +350,25 @@ class UpdatePage extends BaseUpdatePage
             $yearItem->selectOption($value->format('Y'));
             $monthItem->selectOption($value->format('m'));
             $dayItem->selectOption($value->format('d'));
-
-        }elseif ($optionType === CustomerOptionTypeEnum::BOOLEAN){
+        } elseif ($optionType === CustomerOptionTypeEnum::BOOLEAN) {
             $script = sprintf('$("#%s").prop("checked", %s);', $lastValue->getAttribute('id'), ($value) ? 'true' : 'false');
 
             $this->getDriver()->executeScript($script);
-
-        }else{
+        } else {
             $lastValue->setValue($value);
         }
     }
 
-    public function setErrorMessage(string $message){
+    public function setErrorMessage(string $message)
+    {
         $validators = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"] > div > div');
         $lastValidator = end($validators);
 
         $lastValidator->fillField('Message', $message);
     }
 
-    private function getValueNameSuffix(string $optionType){
+    private function getValueNameSuffix(string $optionType)
+    {
         $valueSuffix = '.default';
         if ($optionType === CustomerOptionTypeEnum::TEXT) {
             $valueSuffix = '.text';
