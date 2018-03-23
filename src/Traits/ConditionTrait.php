@@ -128,7 +128,7 @@ trait ConditionTrait
         $target = $this->value['value'];
 
         if(CustomerOptionTypeEnum::isDate($optionType)){
-            $target = new \DateTime($target['date']);
+            $target = $target instanceof \DateTime ? $target : $this->formatValue($target, $optionType);
         }
 
         if(!is_array($actual)){

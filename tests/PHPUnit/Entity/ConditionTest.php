@@ -138,9 +138,19 @@ class ConditionTest extends TestCase
                 if($type === CustomerOptionTypeEnum::TEXT){
                     $testValue = strlen($testValue);
                 }elseif (CustomerOptionTypeEnum::isDate($type)){
-                    $newVal = new \DateTime(sprintf('%d-%d-%d', $testValue['year'], $testValue['month'], $testValue['day']));
                     if($type === CustomerOptionTypeEnum::DATETIME){
-                        $newVal->setTime($testValue['hour'], $testValue['minute'], $testValue['second']);
+                        $date = $testValue['date'];
+                        $time = $testValue['time'];
+                        $newVal = new \DateTime(
+                            sprintf(
+                                '%d-%d-%d %d:%d',
+                                $date['year'], $date['month'], $date['day'], $time['hour'], $time['minute']
+                            )
+                        );
+                    }else {
+                        $newVal = new \DateTime(
+                            sprintf('%d-%d-%d', $testValue['year'], $testValue['month'], $testValue['day'])
+                        );
                     }
 
                     $testValue = $newVal;
@@ -257,32 +267,41 @@ class ConditionTest extends TestCase
             ],
             [
                 CustomerOptionTypeEnum::DATETIME,
-                new \DateTime('2018-06-18 12:42:56'),
+                new \DateTime('2018-06-18 12:42'),
                 ConditionComparatorEnum::getValuesForCustomerOptionType(CustomerOptionTypeEnum::DATETIME),
                 [
                     [
-                        'year' => 1900,
-                        'month' => 5,
-                        'day' => 7,
-                        'hour' => 5,
-                        'minute' => 8,
-                        'second' => 0,
+                        'date' => [
+                            'year' => 1900,
+                            'month' => 5,
+                            'day' => 7,
+                        ],
+                        'time' => [
+                            'hour' => 5,
+                            'minute' => 8,
+                        ]
                     ],
                     [
-                        'year' => 2018,
-                        'month' => 6,
-                        'day' => 18,
-                        'hour' => 12,
-                        'minute' => 42,
-                        'second' => 56,
+                        'date' => [
+                            'year' => 2018,
+                            'month' => 6,
+                            'day' => 18,
+                        ],
+                        'time' => [
+                            'hour' => 12,
+                            'minute' => 42,
+                        ]
                     ],
                     [
-                        'year' => 2048,
-                        'month' => 8,
-                        'day' => 16,
-                        'hour' => 8,
-                        'minute' => 10,
-                        'second' => 0,
+                        'date' => [
+                            'year' => 2048,
+                            'month' => 8,
+                            'day' => 16,
+                        ],
+                        'time' => [
+                            'hour' => 8,
+                            'minute' => 10,
+                        ],
                     ],
                 ]
             ],

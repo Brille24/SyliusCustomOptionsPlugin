@@ -132,7 +132,7 @@ class AddToCartListenerTest extends TestCase
         $this->addToCartListener->addItemToCart($event);
 
         // ASSERT
-        self::assertEquals(0, count($this->entitiesPersisted));
+        self::assertEquals(1, count($this->entitiesPersisted));
     }
 
     public function testInvalidCustomerOptionCode(): void
