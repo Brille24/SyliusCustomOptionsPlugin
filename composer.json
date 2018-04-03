@@ -1,5 +1,5 @@
 {
-    "name": "brille24/sylius-customer-options-plugin",
+    "name": "brille24/customer-options",
     "type": "sylius-plugin",
     "description": "Brille24 customer options plugin for Sylius.",
     "license": "MIT",
