@@ -101,18 +101,6 @@ final class ConditionComparatorEnum implements EnumInterface
                 ],
             ];
         }
-        if ($type === CustomerOptionTypeEnum::BOOLEAN) {
-            return [
-                CheckboxType::class,
-                [],
-            ];
-        }
-        if (CustomerOptionTypeEnum::isDate($type)) {
-            return [
-                DateType::class,
-                [],
-            ];
-        }
         if ($type === CustomerOptionTypeEnum::TEXT) {
             return [
                 IntegerType::class,
@@ -122,10 +110,7 @@ final class ConditionComparatorEnum implements EnumInterface
             ];
         }
 
-        return [
-                NumberType::class,
-                [],
-            ];
+        return CustomerOptionTypeEnum::getFormTypeArray()[$type];
     }
 
     public static function getValueConfig(string $type): array
