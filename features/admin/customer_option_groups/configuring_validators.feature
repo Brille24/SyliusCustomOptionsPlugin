@@ -192,7 +192,7 @@ Feature: Configuring validators
             |                  |                      |                 | "Select Option"   | "in_set"              | "Value-1, Value-3" |               |
             |                  |                      |                 | "Boolean Option"  | "equal"               | true               |               |
 
-    @ui @debug
+    @ui
     Scenario: Saving multiple validators
         Given I want to edit customer option group "Some Group"
 

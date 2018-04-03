@@ -8,7 +8,6 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
@@ -16,8 +15,8 @@ use Sylius\Behat\Page\Admin\Crud\CreatePageInterface;
 use Sylius\Behat\Page\Admin\Crud\IndexPageInterface;
 use Sylius\Behat\Page\Admin\Crud\UpdatePageInterface;
 use Sylius\Behat\Service\Resolver\CurrentPageResolverInterface;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOptionGroup\CreatePage;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOptionGroup\UpdatePage;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOptionGroup\UpdatePage;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOptionGroup\CreatePage;
 use Webmozart\Assert\Assert;
 
 class CustomerOptionGroupsContext implements Context

@@ -12,7 +12,7 @@ Feature: Checking if configuration is available
         And I specify its code as "cool_option"
         And I name it "Cool Option"
 
-    @ui @debug
+    @ui
     Scenario: Creating a new text option
         Given I specify its type as "Text"
         And I add it

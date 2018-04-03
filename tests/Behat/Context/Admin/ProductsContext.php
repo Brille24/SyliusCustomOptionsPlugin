@@ -16,10 +16,10 @@ use Sylius\Behat\Page\Admin\Product\UpdateConfigurableProductPageInterface;
 use Sylius\Behat\Page\Admin\Product\UpdateSimpleProductPageInterface;
 use Sylius\Behat\Page\SymfonyPageInterface;
 use Sylius\Behat\Service\Resolver\CurrentPageResolverInterface;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\CreateConfigurableProductPage;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\CreateSimpleProductPage;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\UpdateConfigurableProductPage;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\UpdateSimpleProductPage;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\CreateConfigurableProductPage;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\CreateSimpleProductPage;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\UpdateConfigurableProductPage;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\UpdateSimpleProductPage;
 use Webmozart\Assert\Assert;
 
 class ProductsContext implements Context

@@ -11,8 +11,8 @@ use Sylius\Behat\Page\Admin\Crud\CreatePageInterface;
 use Sylius\Behat\Page\Admin\Crud\IndexPageInterface;
 use Sylius\Behat\Page\Admin\Crud\UpdatePageInterface;
 use Sylius\Behat\Service\Resolver\CurrentPageResolverInterface;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOption\CreatePage;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOption\UpdatePage;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOption\CreatePage;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOption\UpdatePage;
 use Webmozart\Assert\Assert;
 
 class CustomerOptionsContext implements Context

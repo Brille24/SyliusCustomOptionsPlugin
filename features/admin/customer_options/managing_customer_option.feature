@@ -20,7 +20,7 @@ Feature: Managing CustomerOptions
         Then I should be notified that it has been successfully created
         And the customer option "Cool Customer Option" should appear in the registry
 
-    @ui @debug
+    @ui
     Scenario: Editing a CustomerOption
         Given I want to edit customer option "Some Option"
         When I specify its type as "Number"

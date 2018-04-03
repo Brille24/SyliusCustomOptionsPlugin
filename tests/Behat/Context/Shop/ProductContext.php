@@ -7,7 +7,7 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\Shop;
 use Behat\Behat\Context\Context;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\ShowPage;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\ShowPage;
 use Webmozart\Assert\Assert;
 
 class ProductContext implements Context
