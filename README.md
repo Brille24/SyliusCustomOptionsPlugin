@@ -111,7 +111,7 @@ There are two possible ways to add Customer Options to your fixture.
 ```
 This will generate 10 Customer Options and 2 Customer Option Groups. Generated Customer Options will automatically assign
 themselves to at least one Group, and generated Customer Option Groups will assign at least one Option and Product to
-themselves (of course only, if there are any defined).
+themselves (of course only, if there are any defined). But they won't create conditional constraints.
 
 2. Define them yourself:
 ```yaml
@@ -157,6 +157,20 @@ themselves (of course only, if there are any defined).
                           
                       options: #Put codes of defined options here.
                           - some_option
+                          
+                      validators:
+                          - conditions: #Not required
+                                - customer_option: some_option #Required
+                                  comparator: in_set #Required, must be one of the defined comparators in Enumerations/ConditionComparatorEnum.php
+                                  value: val_1 #Required, for select options put the value codes seperated with commas here
+                          
+                            constraints: #Same as conditions
+                                - customer_option: some_option
+                                  comparator: not_in_set
+                                  value: val_2
+                                  
+                            error_messages: #Not required
+                                en_US: Oops! #At least one required
                           
                       products: ~ #Put codes of defined products here.
 ```

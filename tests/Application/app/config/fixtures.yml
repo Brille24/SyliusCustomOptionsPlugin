@@ -9,7 +9,7 @@ sylius_fixtures:
                             -   code: some_option
                                 translations:
                                     en_US: Some Option
-                                type: select
+                                type: multi_select
                                 values:
                                     -   code: val_1
                                         translations:
@@ -48,6 +48,17 @@ sylius_fixtures:
                                     en_US: Some Group
                                 options:
                                     - some_option
+                                validators:
+                                    - conditions:
+                                        - customer_option: some_option
+                                          comparator: in_set
+                                          value: val_1
+                                      constraints:
+                                        - customer_option: some_option
+                                          comparator: not_in_set
+                                          value: val_2
+                                      error_messages:
+                                          en_US: Oops!
                                 products: ~
 
                 product:

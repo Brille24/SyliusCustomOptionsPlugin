@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 
 class Validator implements ValidatorInterface
 {
-    const DEFAULT_ERROR_MESSAGE = 'One or more constraints failed.';
+    const DEFAULT_ERROR_MESSAGE = 'This combination of values is not valid.';
 
     /** @var int */
     protected $id;
@@ -133,11 +133,7 @@ class Validator implements ValidatorInterface
     {
         $errorMessage = new ErrorMessage();
         $errorMessage->setCurrentLocale('en_US');
-
-        $errorMessageTranslation = new ErrorMessageTranslation();
-        $errorMessageTranslation->setMessage(self::DEFAULT_ERROR_MESSAGE);
-
-        $errorMessage->addTranslation($errorMessageTranslation);
+        $errorMessage->setMessage(self::DEFAULT_ERROR_MESSAGE);
 
         return $errorMessage;
     }
