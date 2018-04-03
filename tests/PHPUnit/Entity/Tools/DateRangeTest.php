@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Entity\Tools;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Entity\Tools;
 
-use Brille24\CustomerOptionsPlugin\Entity\Tools\DateRange;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
 use DateTime;
 use DateTimeInterface;
 use PHPUnit\Framework\TestCase;

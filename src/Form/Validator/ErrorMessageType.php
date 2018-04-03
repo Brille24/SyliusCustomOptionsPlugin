@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Form\Validator;
+namespace Brille24\SyliusCustomerOptionsPlugin\Form\Validator;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

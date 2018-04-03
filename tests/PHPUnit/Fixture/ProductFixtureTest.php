@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Fixture;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Fixture;
 
-use Brille24\CustomerOptionsPlugin\Factory\ProductFactory;
-use Brille24\CustomerOptionsPlugin\Fixture\ProductFixture;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\ProductFactory;
+use Brille24\SyliusCustomerOptionsPlugin\Fixture\ProductFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;

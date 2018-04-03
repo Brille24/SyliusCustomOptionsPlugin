@@ -10,9 +10,9 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Validator\Constraints;
+namespace Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Doctrine\Common\Collections\Collection;
 use InvalidArgumentException;
 use Symfony\Component\Validator\Constraint;

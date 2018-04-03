@@ -10,10 +10,10 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Entity;
+namespace Brille24\SyliusCustomerOptionsPlugin\Entity;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\CustomerOptionsPlugin\Traits\CustomerOptionableTraitInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Traits\CustomerOptionableTraitInterface;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ProductInterface as BaseProductInterface;
 

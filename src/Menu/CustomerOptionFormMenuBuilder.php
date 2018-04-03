@@ -10,10 +10,10 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Menu;
+namespace Brille24\SyliusCustomerOptionsPlugin\Menu;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Event\CustomerOptionMenuBuilderEvent;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Event\CustomerOptionMenuBuilderEvent;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -42,14 +42,14 @@ final class CustomerOptionFormMenuBuilder
 
         $menu
             ->addChild('details')
-            ->setAttribute('template', '@Brille24CustomerOptionsPlugin/CustomerOption/Tab/_details.html.twig')
+            ->setAttribute('template', '@Brille24SyliusCustomerOptionsPlugin/CustomerOption/Tab/_details.html.twig')
             ->setLabel('sylius.ui.details')
             ->setCurrent(true)
         ;
 
         $menu
             ->addChild('pricing')
-            ->setAttribute('template', '@Brille24CustomerOptionsPlugin/CustomerOption/Tab/_pricing.html.twig')
+            ->setAttribute('template', '@Brille24SyliusCustomerOptionsPlugin/CustomerOption/Tab/_pricing.html.twig')
             ->setLabel('sylius.ui.pricing')
         ;
 

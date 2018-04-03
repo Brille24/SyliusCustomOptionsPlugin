@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Services;
+namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\CustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;

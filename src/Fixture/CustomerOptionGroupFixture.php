@@ -10,9 +10,9 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Fixture;
+namespace Brille24\SyliusCustomerOptionsPlugin\Fixture;
 
-use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionGroupFactoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionGroupFactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;

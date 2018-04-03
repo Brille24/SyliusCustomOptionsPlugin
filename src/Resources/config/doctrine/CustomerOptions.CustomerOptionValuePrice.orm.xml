@@ -1,5 +1,5 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
-    <entity name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
+    <entity name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
             table="brille24_customer_option_value_price">
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
@@ -12,7 +12,7 @@
 
         <many-to-one
                 field="customerOptionValue"
-                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
                 inversed-by="prices"
         >
             <cascade>
@@ -27,12 +27,12 @@
             <join-column on-delete="CASCADE" />
         </many-to-one>
 
-        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\Product"
+        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\Product"
                      field="product" inversed-by="customerOptionValuePrices"
         >
         </many-to-one>
 
-        <one-to-one field="dateValid" target-entity="Brille24\CustomerOptionsPlugin\Entity\Tools\DateRange">
+        <one-to-one field="dateValid" target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange">
             <cascade>
                 <cascade-all />
             </cascade>

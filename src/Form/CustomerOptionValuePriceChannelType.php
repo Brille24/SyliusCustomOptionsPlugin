@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Form;
+namespace Brille24\SyliusCustomerOptionsPlugin\Form;
 
 use Sylius\Component\Core\Model\Channel;
 use Symfony\Component\Form\AbstractType;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Traits;
+namespace Brille24\SyliusCustomerOptionsPlugin\Traits;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 
 interface ConditionTraitInterface
 {

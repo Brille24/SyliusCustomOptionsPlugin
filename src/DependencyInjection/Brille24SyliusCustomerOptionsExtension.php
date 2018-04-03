@@ -10,14 +10,14 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\DependencyInjection;
+namespace Brille24\SyliusCustomerOptionsPlugin\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-final class Brille24CustomerOptionsExtension extends Extension
+final class Brille24SyliusCustomerOptionsExtension extends Extension
 {
     /**
      * {@inheritdoc}

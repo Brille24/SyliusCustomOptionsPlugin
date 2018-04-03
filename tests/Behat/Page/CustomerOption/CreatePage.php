@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOption;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOption;
 
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ElementNotFoundException;

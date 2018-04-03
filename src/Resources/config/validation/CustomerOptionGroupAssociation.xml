@@ -1,5 +1,5 @@
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping">
-    <class name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation">
+    <class name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation">
         <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
             <option name="fields">
                 <value>option,position</value>

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Services;
+namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;

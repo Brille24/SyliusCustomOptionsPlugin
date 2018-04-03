@@ -10,13 +10,13 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin;
+namespace Brille24\SyliusCustomerOptionsPlugin;
 
-use Brille24\CustomerOptionsPlugin\DependencyInjection\Brille24CustomerOptionsExtension;
+use Brille24\SyliusCustomerOptionsPlugin\DependencyInjection\Brille24SyliusCustomerOptionsExtension;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-final class Brille24CustomerOptionsPlugin extends Bundle
+final class Brille24SyliusCustomerOptionsPlugin extends Bundle
 {
     use SyliusPluginTrait;
 
@@ -29,6 +29,6 @@ final class Brille24CustomerOptionsPlugin extends Bundle
 
     public function getContainerExtensionClass(): string
     {
-        return Brille24CustomerOptionsExtension::class;
+        return Brille24SyliusCustomerOptionsExtension::class;
     }
 }

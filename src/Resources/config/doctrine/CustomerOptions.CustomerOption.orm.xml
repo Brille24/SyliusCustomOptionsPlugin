@@ -4,9 +4,9 @@
         xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
-    <entity name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
+    <entity name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
             table="brille24_customer_option"
-            repository-class="Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepository"
+            repository-class="Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepository"
     >
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
@@ -18,7 +18,7 @@
         <field name="required" type="boolean"/>
 
         <one-to-many
-                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation"
                 mapped-by="option"
                 field="groupAssociations"
                 orphan-removal="true"
@@ -32,7 +32,7 @@
         </one-to-many>
 
         <one-to-many
-                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
                 mapped-by="customerOption"
                 field="values"
                 orphan-removal="true"
