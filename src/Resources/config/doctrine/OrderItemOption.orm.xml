@@ -1,16 +1,16 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
-    <entity name="Brille24\CustomerOptionsPlugin\Entity\OrderItemOption"
+    <entity name="Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption"
             table="brille24_customer_option_order_item_option">
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
 
-        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\OrderItem" field="orderItem" inversed-by="configuration"/>
+        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem" field="orderItem" inversed-by="configuration"/>
 
         <field name="customerOptionCode"/>
         <field name="customerOptionName"/>
 
-        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
+        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
                      field="customerOption" optional="true"
         >
             <join-column on-delete="SET NULL" nullable="true"/>
@@ -20,7 +20,7 @@
         <field name="customerOptionValueName" nullable="true"/>
         <field name="optionValue" nullable="true"/>
 
-        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
                      field="customerOptionValue" optional="true"
         >
             <join-column on-delete="SET NULL" nullable="true"/>

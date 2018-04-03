@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\Factory;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Factory;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactory;
-use Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
-use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
-use Brille24\CustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactory;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ChannelInterface;

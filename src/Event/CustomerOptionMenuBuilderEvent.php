@@ -10,9 +10,9 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Event;
+namespace Brille24\SyliusCustomerOptionsPlugin\Event;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;

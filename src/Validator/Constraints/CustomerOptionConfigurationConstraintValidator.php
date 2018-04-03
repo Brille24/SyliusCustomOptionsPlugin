@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Validator\Constraints;
+namespace Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;

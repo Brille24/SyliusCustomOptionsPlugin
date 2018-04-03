@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Entity;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Entity;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItem;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;

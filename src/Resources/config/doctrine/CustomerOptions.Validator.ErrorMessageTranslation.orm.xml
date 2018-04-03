@@ -5,7 +5,7 @@
                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
     <entity
-            name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessageTranslation"
+            name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessageTranslation"
             table="brille24_validator_error_message_translation"
     >
         <id name="id" type="integer" >
@@ -14,7 +14,7 @@
 
         <field name="message" nullable="true"/>
 
-        <many-to-one target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage"
+        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage"
                      field="translatable" inversed-by="translations"
         >
             <join-column on-delete="CASCADE" />

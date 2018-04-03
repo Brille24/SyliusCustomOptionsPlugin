@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator;
+namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TranslationInterface;

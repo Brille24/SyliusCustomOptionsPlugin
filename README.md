@@ -3,7 +3,7 @@ This bundle gives the customer the ability to customize the product to his/her l
 
 ## Installation
 
-* Run `composer require brille24/customer-options`.
+* Run `composer require brille24/sylius-customer-options-plugin`.
 
 * Register the Plugin in your `AppKernel` file:
 
@@ -13,7 +13,7 @@ public function registerBundles()
     return array_merge(parent::registerBundles(), [
         ...
 
-        new \Brille24\CustomerOptionsPlugin\Brille24CustomerOptionsPlugin(),
+        new \Brille24\CustomerOptionsPlugin\Brille24SyliusCustomerOptionsPlugin(),
     ]);
 }
 ```
@@ -21,13 +21,13 @@ public function registerBundles()
 ```yaml
 imports:
     ...
-    - { resource: "@Brille24CustomerOptionsPlugin/Resources/config/app/config.yml" }
+    - { resource: "@Brille24SyliusCustomerOptionsPlugin/Resources/config/app/config.yml" }
 ```
 
 * Add the `routing.yml` to your local `app/config/routing.yml`:
 ```yaml
 brille24_customer_options:
-    resource: "@Brille24CustomerOptionsPlugin/Resources/config/app/routing.yml"
+    resource: "@Brille24SyliusCustomerOptionsPlugin/Resources/config/app/routing.yml"
 ```
 
 * Copy the template overrides from the plugin directory
@@ -170,5 +170,5 @@ When you finished defining all your fixtures, run `bin/console sylius:fixtures:l
 
 ## Things to consider
 * This plugin does not take the [tier price plugin](https://packagist.org/packages/brille24/tierprice-plugin) into account. The tier prices will override the pricing model that is implemented here (if you use the default implementation that comes with the plugin)
-* Just like the tier price plugin, this plugin overrides the update cart functionality if you want to implement an event bases solution, you need to comment out the `Brille24\CustomerOptionsPlugin\Services\OrderPricesRecalculator` in the `serices.xml` in the plugin's resource folder.
+* Just like the tier price plugin, this plugin overrides the update cart functionality if you want to implement an event bases solution, you need to comment out the `Brille24\CustomerOptionsPlugin\Services\OrderPricesRecalculator` in the `services.xml` in the plugin's resource folder.
 * Saving files as customer defined values as the values are currently stored as a string in the database

@@ -5,9 +5,9 @@
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
     <entity
-            name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup"
+            name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup"
             table="brille24_customer_option_group"
-            repository-class="Brille24\CustomerOptionsPlugin\Repository\CustomerOptionGroupRepository"
+            repository-class="Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionGroupRepository"
     >
         <id name="id" type="integer">
             <generator strategy="AUTO" />
@@ -16,13 +16,13 @@
         <field name="code"/>
 
         <one-to-many
-                target-entity="Brille24\CustomerOptionsPlugin\Entity\Product"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\Product"
                 mapped-by="customerOptionGroup"
                 field="products"
         />
         
         <one-to-many
-                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation"
                 mapped-by="group" field="optionAssociations"
                 orphan-removal="true"
         >
@@ -36,7 +36,7 @@
         </one-to-many>
 
         <one-to-many
-                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator"
                 mapped-by="customerOptionGroup"
                 field="validators"
         >

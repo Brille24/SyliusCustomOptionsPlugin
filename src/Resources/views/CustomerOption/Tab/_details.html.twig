@@ -16,9 +16,9 @@
     <div class="ui segment">
         {% set customerOptionType = form.type.vars.value %}
         {% if customerOptionType == 'select' or customerOptionType == 'multi_select' %}
-            {% include 'Brille24CustomerOptionsPlugin:CustomerOption:_values.html.twig' with {'form': form.values} only %}
+            {% include 'Brille24SyliusCustomerOptionsPlugin:CustomerOption:_values.html.twig' with {'form': form.values} only %}
         {% else %}
-            {% include 'Brille24CustomerOptionsPlugin:CustomerOption:_configuration.html.twig' with {'form': form.configuration} only %}
+            {% include 'Brille24SyliusCustomerOptionsPlugin:CustomerOption:_configuration.html.twig' with {'form': form.configuration} only %}
         {% endif %}
     </div>
 </div>

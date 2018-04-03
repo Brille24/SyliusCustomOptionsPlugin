@@ -1,7 +1,7 @@
 <container xmlns="http://symfony.com/schema/dic/services">
     <services>
 
-        <service id="brille24.admin.menu_builder.customer_option_form" class="Brille24\CustomerOptionsPlugin\Menu\CustomerOptionFormMenuBuilder">
+        <service id="brille24.admin.menu_builder.customer_option_form" class="Brille24\SyliusCustomerOptionsPlugin\Menu\CustomerOptionFormMenuBuilder">
             <argument type="service" id="knp_menu.factory" />
             <argument type="service" id="event_dispatcher" />
             <tag name="knp_menu.menu_builder" method="createMenu" alias="brille24.admin.customer_option_form" />

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\Validator;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Validator;
 
-use Brille24\CustomerOptionsPlugin\Validator\Constraints\CustomerOptionConfigurationConstraintValidator;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionConfigurationConstraintValidator;
 use DateInterval;
 use DateTime;
 use PHPUnit\Framework\TestCase;

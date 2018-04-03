@@ -2,7 +2,7 @@
     <services>
 
         <service
-                class="Brille24\CustomerOptionsPlugin\Fixture\CustomerOptionFixture"
+                class="Brille24\SyliusCustomerOptionsPlugin\Fixture\CustomerOptionFixture"
                 id="brille24.fixture.customer_option"
         >
             <argument type="service" id="brille24.factory.customer_option" />
@@ -11,7 +11,7 @@
         </service>
 
         <service
-                class="Brille24\CustomerOptionsPlugin\Fixture\CustomerOptionGroupFixture"
+                class="Brille24\SyliusCustomerOptionsPlugin\Fixture\CustomerOptionGroupFixture"
                 id="brille24.fixture.customer_option_group"
         >
             <argument type="service" id="brille24.factory.customer_option_group" />
@@ -20,7 +20,7 @@
         </service>
 
         <service
-                class="Brille24\CustomerOptionsPlugin\Fixture\ProductFixture"
+                class="Brille24\SyliusCustomerOptionsPlugin\Fixture\ProductFixture"
                 id="sylius.fixture.product"
         >
             <argument type="service" id="doctrine.orm.default_entity_manager"/>

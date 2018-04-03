@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\Validator;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Validator;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\CustomerOptionsPlugin\Validator\Constraints\ProductCustomerOptionValuePriceConstraintValidator;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ProductCustomerOptionValuePriceConstraintValidator;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ChannelInterface;

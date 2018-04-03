@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Enumerations;
+namespace Brille24\SyliusCustomerOptionsPlugin\Enumerations;
 
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

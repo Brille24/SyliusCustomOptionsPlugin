@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Exceptions;
+namespace Brille24\SyliusCustomerOptionsPlugin\Exceptions;
 
 class ConfigurationException extends \Exception
 {

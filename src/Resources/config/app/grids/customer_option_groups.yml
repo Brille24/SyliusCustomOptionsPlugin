@@ -4,7 +4,7 @@ sylius_grid:
             driver:
                 name: doctrine/orm
                 options:
-                    class: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup
+                    class: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup
             fields:
                 code:
                     type: string
@@ -16,12 +16,12 @@ sylius_grid:
                     type: twig
                     label: brille24.ui.customer_options
                     options:
-                        template: Brille24CustomerOptionsPlugin:CustomerOptionGroup:_first_element_codes.html.twig
+                        template: Brille24SyliusCustomerOptionsPlugin:CustomerOptionGroup:_first_element_codes.html.twig
                 products:
                     type: twig
                     label: sylius.ui.products
                     options:
-                        template: Brille24CustomerOptionsPlugin:CustomerOptionGroup:_first_element_codes.html.twig
+                        template: Brille24SyliusCustomerOptionsPlugin:CustomerOptionGroup:_first_element_codes.html.twig
 
             filters:
                 code:

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product;
 
 use Behat\Mink\Element\NodeElement;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Sylius\Behat\Page\Shop\Product\ShowPage as BaseShowPage;
 
 class ShowPage extends BaseShowPage

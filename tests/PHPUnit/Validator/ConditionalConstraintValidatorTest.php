@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Validator;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Validator;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\CustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
-use Brille24\CustomerOptionsPlugin\Validator\Constraints\ConditionalConstraintValidator;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraintValidator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;

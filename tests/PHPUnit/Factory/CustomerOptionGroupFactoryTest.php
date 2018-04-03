@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Factory;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Factory;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
-use Brille24\CustomerOptionsPlugin\Entity\Product;
-use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionGroupFactory;
-use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\Product;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionGroupFactory;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 

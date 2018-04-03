@@ -10,9 +10,9 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Repository;
+namespace Brille24\SyliusCustomerOptionsPlugin\Repository;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 interface CustomerOptionValueRepositoryInterface extends RepositoryInterface

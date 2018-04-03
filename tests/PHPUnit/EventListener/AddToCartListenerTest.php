@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Test\Brille24\CustomerOptionsPlugin\EventListener;
+namespace Test\Brille24\SyliusCustomerOptionsPlugin\EventListener;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemOption;
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
-use Brille24\CustomerOptionsPlugin\EventListener\AddToCartListener;
-use Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\EventListener\AddToCartListener;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;

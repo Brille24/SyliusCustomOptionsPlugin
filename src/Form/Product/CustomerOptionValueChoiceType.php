@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Form\Product;
+namespace Brille24\SyliusCustomerOptionsPlugin\Form\Product;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

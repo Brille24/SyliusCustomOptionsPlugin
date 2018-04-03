@@ -10,14 +10,14 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Form\Extensions;
+namespace Brille24\SyliusCustomerOptionsPlugin\Form\Extensions;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessageTranslationInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
-use Brille24\CustomerOptionsPlugin\Form\Product\ShopCustomerOptionType;
-use Brille24\CustomerOptionsPlugin\Services\ConstraintCreator;
-use Brille24\CustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessageTranslationInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Form\Product\ShopCustomerOptionType;
+use Brille24\SyliusCustomerOptionsPlugin\Services\ConstraintCreator;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
 use Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Component\Form\AbstractTypeExtension;

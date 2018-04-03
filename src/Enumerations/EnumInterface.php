@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Enumerations;
+namespace Brille24\SyliusCustomerOptionsPlugin\Enumerations;
 
 interface EnumInterface
 {

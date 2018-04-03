@@ -4,7 +4,7 @@ sylius_grid:
             driver:
                 name: doctrine/orm
                 options:
-                    class: Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption
+                    class: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption
             fields:
                 code:
                     type: string

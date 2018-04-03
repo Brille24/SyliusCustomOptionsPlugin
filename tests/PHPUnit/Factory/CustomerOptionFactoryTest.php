@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Factory;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Factory;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\CustomerOptionsPlugin\Exceptions\ConfigurationException;
-use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionFactory;
-use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionValueFactory;
-use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConfigurationException;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionFactory;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValueFactory;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 
 class CustomerOptionFactoryTest extends TestCase

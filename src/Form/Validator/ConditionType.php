@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Form\Validator;
+namespace Brille24\SyliusCustomerOptionsPlugin\Form\Validator;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;

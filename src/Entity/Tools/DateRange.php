@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Entity\Tools;
+namespace Brille24\SyliusCustomerOptionsPlugin\Entity\Tools;
 
 use DateTimeInterface;
 use InvalidArgumentException;

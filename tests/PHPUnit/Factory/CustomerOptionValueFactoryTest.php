@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Factory;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Factory;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
-use Brille24\CustomerOptionsPlugin\Exceptions\ConfigurationException;
-use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionValueFactory;
-use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactory;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConfigurationException;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValueFactory;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactory;
 use PHPUnit\Framework\TestCase;
 
 class CustomerOptionValueFactoryTest extends TestCase

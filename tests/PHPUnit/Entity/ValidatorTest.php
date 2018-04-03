@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Entity;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Entity;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use PHPUnit\Framework\TestCase;
 
 class ValidatorTest extends TestCase

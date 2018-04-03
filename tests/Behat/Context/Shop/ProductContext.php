@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Shop;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\Shop;
 
 use Behat\Behat\Context\Context;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\ShowPage;
 use Webmozart\Assert\Assert;
 
