@@ -1,0 +1,5 @@
+{% if data %}
+    {% include '@SyliusUi/Label/_default.html.twig' with {'value': data.code} %}
+{% else %}
+    {{ 'brille24.grid.options_empty'|trans }}
+{% endif %}

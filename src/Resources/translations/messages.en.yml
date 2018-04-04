@@ -13,6 +13,7 @@ brille24:
     ui:
         customer_options: Customer Options
         customer_option_groups: Customer Option Groups
+        customer_option_group: Customer Option Group
         required: Required
         product_customization: Product customization
         pricing:

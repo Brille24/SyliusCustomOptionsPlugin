@@ -1,0 +1,4 @@
+imports:
+    - { resource: "grids/customer_options.yml" }
+    - { resource: "grids/customer_option_groups.yml" }
+    - { resource: "grids/products.yml" }
