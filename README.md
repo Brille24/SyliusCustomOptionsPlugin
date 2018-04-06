@@ -3,7 +3,7 @@ This bundle gives the customer the ability to customize the product to his/her l
 
 ## Installation
 
-* Run `composer require brille24/customer-options`.
+* Run `composer require brille24/sylius-customer-options-plugin`.
 
 * Register the Plugin in your `AppKernel` file:
 
