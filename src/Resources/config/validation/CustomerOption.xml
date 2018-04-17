@@ -1,6 +1,6 @@
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping">
 
-    <class name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption">
+    <class name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption">
         <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
             <option name="fields">
                 <value>code</value>
@@ -23,7 +23,7 @@
         </property>
         
         <property name="configuration">
-            <constraint name="Brille24\CustomerOptionsPlugin\Validator\Constraints\CustomerOptionConfigurationConstraint">
+            <constraint name="Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionConfigurationConstraint">
                 <option name="message">brille24.form.config.invalid_min_max</option>
                 <option name="groups">sylius</option>
             </constraint>

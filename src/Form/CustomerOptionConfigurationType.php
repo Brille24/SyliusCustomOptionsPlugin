@@ -10,17 +10,12 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Form;
+namespace Brille24\SyliusCustomerOptionsPlugin\Form;
 
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use DateTime;
 use DateTimeZone;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -38,35 +33,19 @@ class CustomerOptionConfigurationType extends AbstractType
                 $data = $configArray['value'];
 
                 // Transforming Datetime objects
-                if (in_array($type, [CustomerOptionTypeEnum::DATE, CustomerOptionTypeEnum::DATETIME])) {
+                if (CustomerOptionTypeEnum::isDate($type)) {
                     $data = new DateTime($data['date'], new DateTimeZone($data['timezone']));
                 }
 
+                [$formTypeClass, $formTypeConfig] = CustomerOptionTypeEnum::getFormTypeArray()[$type];
+
                 // Adding form field for configuration option based on type
-                $form->add(str_replace('.', '_', $key), CustomerOptionConfigurationType::getTypeFromString($type), [
-                    'data' => $data,
-                    'label' => $key,
-                ]);
+                $form->add(
+                    str_replace('.', '_', $key), $formTypeClass,
+                    array_merge(['data' => $data, 'label' => $key], $formTypeConfig)
+                );
             }
         });
-    }
-
-    private static function getTypeFromString(string $type): string
-    {
-        switch ($type) {
-            case 'integer':
-            case 'int':
-                return NumberType::class;
-            case 'boolean':
-            case 'bool':
-                return CheckboxType::class;
-            case 'date':
-                return CustomDateType::class;
-            case 'datetime':
-                return CustomDateTimeType::class;
-            default:
-                return TextType::class;
-        }
     }
 
     public function getBlockPrefix(): string

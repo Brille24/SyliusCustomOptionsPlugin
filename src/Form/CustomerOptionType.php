@@ -10,10 +10,9 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Form;
+namespace Brille24\SyliusCustomerOptionsPlugin\Form;
 
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;

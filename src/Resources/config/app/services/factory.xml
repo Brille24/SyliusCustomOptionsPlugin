@@ -2,7 +2,7 @@
     <services>
 
         <service
-                class="Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactory"
+                class="Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactory"
                 id="brille24.customer_options_plugin.factory.order_item_option_factory"
         >
             <argument type="expression">service('sylius.context.channel').getChannel()</argument>
@@ -12,25 +12,25 @@
         </service>
 
         <service
-                class="Brille24\CustomerOptionsPlugin\Factory\CustomerOptionFactory"
+                class="Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionFactory"
                 id="brille24.factory.customer_option"
         >
             <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_group"/>
             <argument type="service" id="brille24.customer_options_plugin.factory.customer_option_value_factory"/>
         </service>
 
-        <service class="Brille24\CustomerOptionsPlugin\Factory\CustomerOptionValueFactory"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValueFactory"
                  id="brille24.customer_options_plugin.factory.customer_option_value_factory">
             <argument id="brille24.customer_options_plugin.factory.customer_option_value_price_factory" type="service"/>
         </service>
 
-        <service class="Brille24\CustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactory"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactory"
                  id="brille24.customer_options_plugin.factory.customer_option_value_price_factory">
             <argument id="sylius.repository.channel" type="service"/>
         </service>
 
         <service
-                class="Brille24\CustomerOptionsPlugin\Factory\CustomerOptionGroupFactory"
+                class="Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionGroupFactory"
                 id="brille24.factory.customer_option_group"
         >
             <argument type="service" id="brille24.customer_options_plugin.repository.customer_option"/>
@@ -38,7 +38,7 @@
         </service>
 
         <service
-                class="Brille24\CustomerOptionsPlugin\Factory\ProductFactory"
+                class="Brille24\SyliusCustomerOptionsPlugin\Factory\ProductFactory"
                 id="brille24.factory.product"
         >
             <argument type="service" id="sylius.fixture.example_factory.product"/>

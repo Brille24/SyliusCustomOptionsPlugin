@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * This file is part of the Brille24 customer options plugin.
@@ -9,13 +10,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Brille24\CustomerOptionsPlugin\Factory;
+namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\CustomerOptionsPlugin\Exceptions\ConfigurationException;
-use Brille24\CustomerOptionsPlugin\Services\FakerFactoryWrapper;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConfigurationException;
 use Doctrine\ORM\EntityNotFoundException;
 use Faker\Factory;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
@@ -29,14 +28,14 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
     private $channelRepository;
 
     /**
-     * @var FakerFactoryWrapper
+     * @var Factory
      */
     private $faker;
 
     public function __construct(ChannelRepositoryInterface $channelRepository)
     {
         $this->channelRepository = $channelRepository;
-        $this->faker             = Factory::create();
+        $this->faker = Factory::create();
     }
 
     /** {@inheritdoc} */
@@ -63,12 +62,12 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
         switch ($configuration['type']) {
             case 'fixed':
                 $price->setType(CustomerOptionValuePrice::TYPE_FIXED_AMOUNT);
-                $price->setAmount(intval($configuration['amount']));
-                break;
+                $price->setAmount((int) ($configuration['amount']));
 
+                break;
             case 'percent':
                 $price->setType(CustomerOptionValuePrice::TYPE_PERCENT);
-                $price->setPercent(floatval($configuration['percent']));
+                $price->setPercent((float) ($configuration['percent']));
         }
 
         /** @var ChannelInterface $channel */
@@ -86,16 +85,16 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
     /** {@inheritdoc} */
     public function generateRandomConfiguration(int $amount): array
     {
-        $prices          = [];
+        $prices = [];
         $allChannelCodes = array_map(
             function (ChannelInterface $channel) { return $channel->getCode(); },
             $this->channelRepository->findAll()
         );
 
-        foreach (range(1, $amount) as $i) {
+        foreach (range(1, $amount) as $_) {
             $config = [
-                'type'    => $this->faker->randomElement(['fixed', 'percent']),
-                'amount'  => $this->faker->numberBetween(50, 10000),
+                'type' => $this->faker->randomElement(['fixed', 'percent']),
+                'amount' => $this->faker->numberBetween(50, 10000),
                 'percent' => $this->faker->randomFloat(4, 0.01, 0.5),
                 'channel' => $this->faker->randomElement($allChannelCodes),
             ];

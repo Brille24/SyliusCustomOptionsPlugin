@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product;
 
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ElementNotFoundException;
@@ -11,9 +12,11 @@ class UpdateConfigurableProductPage extends BaseUpdatePage
 {
     /**
      * @param string $name
+     *
      * @throws ElementNotFoundException
      */
-    public function selectCustomerOptionGroup(string $name){
+    public function selectCustomerOptionGroup(string $name)
+    {
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
         $selectItems = $customerOptionsTab->waitFor(2, function () use ($customerOptionsTab) {
@@ -31,16 +34,19 @@ class UpdateConfigurableProductPage extends BaseUpdatePage
     /**
      * @throws ElementNotFoundException
      */
-    public function addCustomerOptionValuePrice(){
+    public function addCustomerOptionValuePrice()
+    {
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
         $customerOptionsTab->clickLink('Add');
     }
 
     /**
      * @param string $valueName
+     *
      * @throws ElementNotFoundException
      */
-    public function chooseOptionValue(string $valueName){
+    public function chooseOptionValue(string $valueName)
+    {
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
         /** @var NodeElement[] $valuePrices */
@@ -50,7 +56,7 @@ class UpdateConfigurableProductPage extends BaseUpdatePage
 
         $lastValuePrice = end($valuePrices);
 
-        if(false === $lastValuePrice){
+        if (false === $lastValuePrice) {
             throw new ElementNotFoundException($this->getSession(), 'div', 'css', 'div[id^="sylius_product_customer_option_value_prices"]');
         }
 
@@ -59,9 +65,11 @@ class UpdateConfigurableProductPage extends BaseUpdatePage
 
     /**
      * @param int $amount
+     *
      * @throws ElementNotFoundException
      */
-    public function setValuePriceAmount(int $amount){
+    public function setValuePriceAmount(int $amount)
+    {
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
         /** @var NodeElement[] $valuePrices */
@@ -71,7 +79,7 @@ class UpdateConfigurableProductPage extends BaseUpdatePage
 
         $lastValuePrice = end($valuePrices);
 
-        if(false === $lastValuePrice){
+        if (false === $lastValuePrice) {
             throw new ElementNotFoundException($this->getSession(), 'div', 'css', 'div[id^="sylius_product_customer_option_value_prices"]');
         }
 
@@ -80,9 +88,11 @@ class UpdateConfigurableProductPage extends BaseUpdatePage
 
     /**
      * @param string $type
+     *
      * @throws ElementNotFoundException
      */
-    public function setValuePriceType(string $type){
+    public function setValuePriceType(string $type)
+    {
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
         /** @var NodeElement[] $valuePrices */
@@ -92,14 +102,15 @@ class UpdateConfigurableProductPage extends BaseUpdatePage
 
         $lastValuePrice = end($valuePrices);
 
-        if(false === $lastValuePrice){
+        if (false === $lastValuePrice) {
             throw new ElementNotFoundException($this->getSession(), 'div', 'css', 'div[id^="sylius_product_customer_option_value_prices"]');
         }
 
         $lastValuePrice->selectFieldOption('Type', $type);
     }
 
-    public function openCustomerOptionsTab(){
+    public function openCustomerOptionsTab()
+    {
         $customerOptionsTab = $this->getDocument()->find('css', 'a[data-tab="customer_options"]');
 
         $customerOptionsTab->click();

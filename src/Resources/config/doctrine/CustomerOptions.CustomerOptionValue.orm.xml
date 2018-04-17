@@ -4,9 +4,9 @@
         xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
-    <entity name="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+    <entity name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
             table="brille24_customer_option_value"
-            repository-class="Brille24\CustomerOptionsPlugin\Repository\CustomerOptionValueRepository"
+            repository-class="Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepository"
     >
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
@@ -16,7 +16,7 @@
 
         <one-to-many
                 field="prices"
-                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
                 mapped-by="customerOptionValue"
         >
             <cascade>
@@ -26,7 +26,7 @@
         </one-to-many>
 
         <many-to-one
-                target-entity="Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
                 field="customerOption"
                 inversed-by="values"
         />

@@ -3,14 +3,14 @@
 
         <service
                 id="brille24.behat.page.admin.customer_options.create"
-                class="Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOption\CreatePage"
+                class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOption\CreatePage"
                 parent="sylius.behat.page.admin.crud.create"
         >
             <argument>brille24_admin_customer_option_create</argument>
         </service>
         <service
                 id="brille24.behat.page.admin.customer_options.update"
-                class="Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOption\UpdatePage"
+                class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOption\UpdatePage"
                 parent="sylius.behat.page.admin.crud.update"
         >
             <argument>brille24_admin_customer_option_update</argument>
@@ -24,17 +24,19 @@
 
         <service
                 id="brille24.behat.page.admin.customer_option_groups.create"
-                class="Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOptionGroup\CreatePage"
+                class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOptionGroup\CreatePage"
                 parent="sylius.behat.page.admin.crud.create"
         >
             <argument>brille24_admin_customer_option_group_create</argument>
+            <argument type="service" id="__symfony__.translator" />
         </service>
         <service
                 id="brille24.behat.page.admin.customer_option_groups.update"
-                class="Tests\Brille24\CustomerOptionsPlugin\Behat\Page\CustomerOptionGroup\UpdatePage"
+                class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOptionGroup\UpdatePage"
                 parent="sylius.behat.page.admin.crud.update"
         >
             <argument>brille24_admin_customer_option_group_update</argument>
+            <argument type="service" id="__symfony__.translator" />
         </service>
         <service
                 id="brille24.behat.page.admin.customer_option_groups.index"
@@ -45,31 +47,31 @@
 
         <service
                 id="brille24.behat.page.admin.product.update_simple"
-                class="Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\UpdateSimpleProductPage"
+                class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\UpdateSimpleProductPage"
                 parent="sylius.behat.page.admin.product.update_simple"
         />
 
         <service
                 id="brille24.behat.page.admin.product.update_configurable"
-                class="Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\UpdateConfigurableProductPage"
+                class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\UpdateConfigurableProductPage"
                 parent="sylius.behat.page.admin.product.update_configurable"
         />
 
         <service
                 id="brille24.behat.page.admin.product.create_configurable"
-                class="Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\CreateConfigurableProductPage"
+                class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\CreateConfigurableProductPage"
                 parent="sylius.behat.page.admin.product.create_configurable"
         />
 
         <service
                 id="brille24.behat.page.admin.product.create_simple"
-                class="Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\CreateSimpleProductPage"
+                class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\CreateSimpleProductPage"
                 parent="sylius.behat.page.admin.product.create_simple"
         />
 
         <service
                 id="brille24.behat.page.shop.product.show"
-                class="Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\ShowPage"
+                class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\ShowPage"
                 parent="sylius.behat.page.shop.product.show"
         />
 

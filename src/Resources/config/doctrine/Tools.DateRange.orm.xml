@@ -1,5 +1,5 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
-    <entity name="Brille24\CustomerOptionsPlugin\Entity\Tools\DateRange"
+    <entity name="Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange"
     table="brille24_customer_option_date_range">
         <id name="id" type="integer">
             <generator strategy="AUTO"/>

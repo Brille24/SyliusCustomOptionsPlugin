@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Services;
+namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 
-
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
@@ -18,6 +19,7 @@ class ConstraintCreator
         if (!isset($configuration[$key]['value'])) {
             return null;
         }
+
         return $configuration[$key]['value'];
     }
 
@@ -33,27 +35,36 @@ class ConstraintCreator
                     'min' => $getFromConfiguration('brille24.form.config.min.length'),
                     'max' => $getFromConfiguration('brille24.form.config.max.length'),
                 ];
-                return new Length($lengthRange);
 
+                return new Length($lengthRange);
             case CustomerOptionTypeEnum::FILE:
                 return new File(['maxSize' => $getFromConfiguration('brille24.form.config.max.file_size')]);
-
             case CustomerOptionTypeEnum::DATE:
             case CustomerOptionTypeEnum::DATETIME:
                 $dateRange = [
                     'min' => $getFromConfiguration('brille24.form.config.min.date')['date'],
                     'max' => $getFromConfiguration('brille24.form.config.max.date')['date'],
                 ];
-                return new Range($dateRange);
 
+                return new Range($dateRange);
             case CustomerOptionTypeEnum::NUMBER:
                 $dateRange = [
                     'min' => $getFromConfiguration('brille24.form.config.min.number'),
                     'max' => $getFromConfiguration('brille24.form.config.max.number'),
                 ];
+
                 return new Range($dateRange);
         }
+
         return null;
+    }
+
+    public static function createConditionalConstraint(array $conditions, array $constraints): Constraint
+    {
+        return new ConditionalConstraint([
+            'conditions' => $conditions,
+            'constraints' => $constraints,
+        ]);
     }
 
     public static function createRequiredConstraint(): Constraint

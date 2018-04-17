@@ -1,0 +1,9 @@
+sylius_grid:
+    grids:
+        sylius_admin_product:
+            fields:
+                customerOptionGroup:
+                    type: twig
+                    label: brille24.ui.customer_option_group
+                    options:
+                        template: Brille24SyliusCustomerOptionsPlugin:Product:_customer_option_group_code.html.twig

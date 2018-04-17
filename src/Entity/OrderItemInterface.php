@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Entity;
+namespace Brille24\SyliusCustomerOptionsPlugin\Entity;
 
 use Sylius\Component\Core\Model\OrderItemInterface as BaseOrderItemInterface;
 

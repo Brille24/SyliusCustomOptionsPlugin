@@ -1,25 +1,37 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Shop;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\Shop;
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\ShowPage;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\ShowPage;
 use Webmozart\Assert\Assert;
 
 class ProductContext implements Context
 {
-    /** @var ShowPage  */
+    /** @var ShowPage */
     private $showPage;
 
     public function __construct(
         ShowPage $showPage
-    )
-    {
+    ) {
         $this->showPage = $showPage;
+    }
+
+    /**
+//     * @BeforeScenario
+     *
+     * @param $event
+     */
+    public function setCookie($event)
+    {
+        try {
+            $this->showPage->setCookie('XDEBUG_SESSION', 'PHPSTORM');
+        } catch (\Throwable $exception) {
+        }
     }
 
     /**
@@ -29,7 +41,7 @@ class ProductContext implements Context
     public function iViewProduct(ProductInterface $product, string $localeCode = 'en_US')
     {
         $this->showPage->open([
-            'slug' => $product->getTranslation($localeCode)->getSlug(), '_locale' => $localeCode
+            'slug' => $product->getTranslation($localeCode)->getSlug(), '_locale' => $localeCode,
         ]);
     }
 
@@ -89,5 +101,13 @@ class ProductContext implements Context
     public function iShouldBeNotifiedThatAnOptionDoesNotMeetAConstraint()
     {
         Assert::true($this->showPage->hasOptionOutOfBoundsValidationMessage());
+    }
+
+    /**
+     * @Then I should be notified that the validation failed
+     */
+    public function iShouldBeNotifiedThatTheValidationFailed()
+    {
+        Assert::true($this->showPage->hasValidationErrors());
     }
 }

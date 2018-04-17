@@ -10,9 +10,10 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Form;
+namespace Brille24\SyliusCustomerOptionsPlugin\Form;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
+use Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ValidatorType;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -38,7 +39,21 @@ final class CustomerOptionGroupType extends AbstractResourceType
                 'allow_delete' => true,
                 'label' => false,
                 'by_reference' => false,
-            ]);
+                'button_add_label' => 'brille24.form.customer_option_groups.buttons.add_option',
+                'button_delete_label' => 'brille24.form.customer_option_groups.buttons.delete_option',
+            ])
+            ->add('validators', CollectionType::class, [
+                'entry_type' => ValidatorType::class,
+                'entry_options' => [
+                    'customerOptionGroup' => $options['data'],
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'label' => false,
+                'button_add_label' => 'brille24.form.customer_option_groups.buttons.add_validator',
+                'button_delete_label' => 'brille24.form.customer_option_groups.buttons.delete_validator',
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

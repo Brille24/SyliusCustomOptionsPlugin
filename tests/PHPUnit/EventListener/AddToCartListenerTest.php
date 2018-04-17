@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Test\Brille24\CustomerOptionsPlugin\EventListener;
+namespace Test\Brille24\SyliusCustomerOptionsPlugin\EventListener;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemOption;
-use Brille24\CustomerOptionsPlugin\EventListener\AddToCartListener;
-use Brille24\CustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\EventListener\AddToCartListener;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
@@ -54,17 +55,22 @@ class AddToCartListenerTest extends TestCase
 
         $entityManager = self::createMock(EntityManagerInterface::class);
         $entityManager->method('persist')->willReturnCallback(function ($entity) use (&$entitiesPersisted) {
-            $entitiesPersisted[] = $entity;
+            if (!array_key_exists(get_class($entity), $entitiesPersisted)) {
+                $entitiesPersisted[get_class($entity)] = 1;
+            }
+            ++$entitiesPersisted[get_class($entity)];
         });
 
         $orderItemOptionFactory = self::createMock(OrderItemOptionFactoryInterface::class);
-        $orderItemOptionFactory->method('createNewFromStrings')->willReturnCallback(function ($customerOptionCode, $value) {
-            if (!array_key_exists($customerOptionCode, $this->customerOptions)) {
-                throw new \Exception('Not found');
-            }
+        $orderItemOptionFactory->method('createNewFromStrings')->willReturnCallback(
+            function ($customerOptionCode, $value) {
+                if (!array_key_exists($customerOptionCode, $this->customerOptions)) {
+                    throw new \Exception('Not found');
+                }
 
-            return new OrderItemOption($this->channel, $this->customerOptions[$customerOptionCode], $value);
-        });
+                return new OrderItemOption($this->channel, $this->customerOptions[$customerOptionCode], $value);
+            }
+        );
 
         $this->addToCartListener = new AddToCartListener(
             $requestStack,
@@ -75,10 +81,12 @@ class AddToCartListenerTest extends TestCase
 
     private function createEvent(bool $hasOrder): ResourceControllerEvent
     {
-        $order = self::createMock(OrderInterface::class);
+        $product = self::createConfiguredMock(ProductInterface::class, []);
 
+        $order = self::createMock(OrderInterface::class);
         $orderItem = self::createMock(OrderItemInterface::class);
         $orderItem->method('getOrder')->willReturn($hasOrder ? $order : null);
+        $orderItem->method('getProduct')->willReturn($product);
 
         $event = self::createMock(ResourceControllerEvent::class);
         $event->method('getSubject')->willReturn($orderItem);
@@ -131,7 +139,7 @@ class AddToCartListenerTest extends TestCase
     {
         // SETUP
         $event = $this->createEvent(true);
-        $this->request = $this->createRequest(['customerOptions' => ['customerOptionCode' => 'value']]);
+        $this->request = $this->createRequest(['customer_options' => ['customerOptionCode' => 'value']]);
 
         self::expectException(\Exception::class);
         self::expectExceptionMessage('Not found');
@@ -146,7 +154,7 @@ class AddToCartListenerTest extends TestCase
         $this->customerOptions['customerOptionCode'] = self::createMock(CustomerOptionInterface::class);
 
         $event = $this->createEvent(true);
-        $this->request = $this->createRequest(['customerOptions' => ['customerOptionCode' => 'value']]);
+        $this->request = $this->createRequest(['customer_options' => ['customerOptionCode' => 'value']]);
 
         // EXECUTE
         $this->addToCartListener->addItemToCart($event);

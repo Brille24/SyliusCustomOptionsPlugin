@@ -10,9 +10,9 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Form;
+namespace Brille24\SyliusCustomerOptionsPlugin\Form;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Sylius\Bundle\MoneyBundle\Form\Type\MoneyType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

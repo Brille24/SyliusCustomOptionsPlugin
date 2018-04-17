@@ -1,13 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Context\Admin;
-
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\Admin;
 
 use Behat\Behat\Context\Context;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\ORM\EntityRepository;
 use Sylius\Behat\Page\Admin\Crud\CreatePageInterface;
 use Sylius\Behat\Page\Admin\Product\CreateConfigurableProductPageInterface;
@@ -16,18 +16,18 @@ use Sylius\Behat\Page\Admin\Product\UpdateConfigurableProductPageInterface;
 use Sylius\Behat\Page\Admin\Product\UpdateSimpleProductPageInterface;
 use Sylius\Behat\Page\SymfonyPageInterface;
 use Sylius\Behat\Service\Resolver\CurrentPageResolverInterface;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\CreateConfigurableProductPage;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\CreateSimpleProductPage;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\UpdateConfigurableProductPage;
-use Tests\Brille24\CustomerOptionsPlugin\Behat\Page\Product\UpdateSimpleProductPage;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\CreateConfigurableProductPage;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\CreateSimpleProductPage;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\UpdateConfigurableProductPage;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product\UpdateSimpleProductPage;
 use Webmozart\Assert\Assert;
 
 class ProductsContext implements Context
 {
-    /** @var UpdateSimpleProductPageInterface  */
+    /** @var UpdateSimpleProductPageInterface */
     private $updatePageSimple;
 
-    /** @var UpdateConfigurableProductPageInterface  */
+    /** @var UpdateConfigurableProductPageInterface */
     private $updatePageConfigurable;
 
     /** @var CreateSimpleProductPageInterface */
@@ -36,10 +36,10 @@ class ProductsContext implements Context
     /** @var CreateConfigurableProductPageInterface */
     private $createPageConfigurable;
 
-    /** @var CurrentPageResolverInterface  */
+    /** @var CurrentPageResolverInterface */
     private $currentPageResolver;
 
-    /** @var EntityRepository  */
+    /** @var EntityRepository */
     private $customerOptionValuePriceRepository;
 
     public function __construct(
@@ -49,8 +49,7 @@ class ProductsContext implements Context
         CreateConfigurableProductPageInterface $createPageConfigurable,
         CurrentPageResolverInterface $currentPageResolver,
         EntityRepository $customerOptionValuePriceRepository
-    )
-    {
+    ) {
         $this->updatePageSimple = $updateSimpleProductPage;
         $this->updatePageConfigurable = $updateConfigurableProductPage;
         $this->createPageSimple = $createPageSimple;
@@ -114,9 +113,9 @@ class ProductsContext implements Context
      */
     public function iWantToModifyTheProduct(ProductInterface $product)
     {
-        if($product->isSimple()){
+        if ($product->isSimple()) {
             $this->updatePageSimple->open(['id' => $product->getId()]);
-        }else{
+        } else {
             $this->updatePageConfigurable->open(['id' => $product->getId()]);
         }
     }
@@ -124,7 +123,8 @@ class ProductsContext implements Context
     /**
      * @When I open the customer options tab
      */
-    public function iOpenTheCustomerOptionsTab(){
+    public function iOpenTheCustomerOptionsTab()
+    {
         $currentPage = $this->resolveCurrentPage();
 
         $currentPage->openCustomerOptionsTab();
@@ -231,8 +231,8 @@ class ProductsContext implements Context
         $result = false;
 
         /** @var CustomerOptionValuePriceInterface $valuePrice */
-        foreach ($valuePrices as $valuePrice){
-            if($valuePrice->getAmount() === $amount * 100){
+        foreach ($valuePrices as $valuePrice) {
+            if ($valuePrice->getAmount() === $amount * 100) {
                 $result = true;
             }
         }

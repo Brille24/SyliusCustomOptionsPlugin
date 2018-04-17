@@ -10,14 +10,14 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Factory;
+namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemOption;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
-use Brille24\CustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Exception;
 use Sylius\Component\Core\Model\ChannelInterface;
 

@@ -7,18 +7,18 @@ Feature: Viewing products after completed checkout
 
     Background:
         Given the store operates on a single channel in "United States"
-        And I have a customer option "select_option" named "Select Option" with type "select"
+        And I have a customer option named "Select Option" with type "select"
         And customer option "Select Option" has a value named "Value 1" in "en_US" priced 15
         And customer option "Select Option" has a value named "Value 2" in "en_US" priced 20
         And customer option "Select Option" has a value named "Value 3" in "en_US" priced 42
 
-        And I have a customer option "text_option" named "Text Option" with type "text"
-        And I have a customer option "date_option" named "Date Option" with type "date"
-        And I have a customer option "number_option" named "Number Option" with type "number"
-        And I have a customer option "boolean_option" named "Boolean Option" with type "boolean"
-        And I have a customer option "other_boolean_option" named "Other Boolean Option" with type "boolean"
+        And I have a customer option named "Text Option" with type "text"
+        And I have a customer option named "Date Option" with type "date"
+        And I have a customer option named "Number Option" with type "number"
+        And I have a customer option named "Boolean Option" with type "boolean"
+        And I have a customer option named "Other Boolean Option" with type "boolean"
 
-        And I have a customer option group "some_group" named "Some Group"
+        And I have a customer option group named "Some Group"
         And customer option group "Some Group" has option "Select Option"
         And customer option group "Some Group" has option "Text Option"
         And customer option group "Some Group" has option "Date Option"
@@ -29,8 +29,8 @@ Feature: Viewing products after completed checkout
         And the store has a product "Cool Product"
         And product "Cool Product" has the customer option group "Some Group"
 
-        And the store ships everywhere for free for all channels
-        And the store allows paying with "Cash on Delivery"
+        And the store ships everywhere for free
+        And the store allows paying offline
 
         And I am a logged in customer
 

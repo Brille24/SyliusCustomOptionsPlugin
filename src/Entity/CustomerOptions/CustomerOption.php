@@ -10,10 +10,10 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
+namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\PersistentCollection;
@@ -55,7 +55,7 @@ class CustomerOption implements CustomerOptionInterface
     {
         $this->initializeTranslationsCollection();
 
-        $this->values            = new ArrayCollection();
+        $this->values = new ArrayCollection();
         $this->groupAssociations = new ArrayCollection();
     }
 
@@ -187,7 +187,7 @@ class CustomerOption implements CustomerOptionInterface
     {
         // Setting the new values
         foreach ($configuration as $key => $value) {
-            $optionKey                                = str_replace('_', '.', $key);
+            $optionKey = str_replace('_', '.', $key);
             $this->configuration[$optionKey]['value'] = $value;
         }
 
@@ -281,6 +281,14 @@ class CustomerOption implements CustomerOptionInterface
         $translation = $this->doGetTranslation($locale);
 
         return $translation;
+    }
+
+    /**
+     * @return OrderItemOptionInterface
+     */
+    public function getOrders(): OrderItemOptionInterface
+    {
+        return $this->orders;
     }
 
     /**

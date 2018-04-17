@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Test\Brille24\CustomerOptionsPlugin\Entity;
+namespace Test\Brille24\SyliusCustomerOptionsPlugin\Entity;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use PHPUnit\Framework\TestCase;
 
 class CustomerOptionTest extends TestCase

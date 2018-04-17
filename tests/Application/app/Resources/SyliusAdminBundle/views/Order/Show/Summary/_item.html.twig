@@ -12,7 +12,7 @@
     <td class="single line">
         {% include '@SyliusAdmin/Product/_info.html.twig' %}
         {% if item.customerOptionConfiguration is defined %}
-            {% include '@Brille24CustomerOptionsPlugin/Product/_customerOptions.html.twig' with {
+            {% include '@Brille24SyliusCustomerOptionsPlugin/Product/_customerOptions.html.twig' with {
                 'configuration': item.customerOptionConfiguration
             } %}
         {% endif %}

@@ -1,0 +1,42 @@
+{% extends '@SyliusAdmin/Form/theme.html.twig' %}
+
+{% block brille24_customer_options_plugin_validator_widget %}
+    {% from '@SyliusAdmin/Macro/translationForm.html.twig' import translationForm %}
+    {% from 'SyliusResourceBundle:Macros:notification.html.twig' import error %}
+    {% import _self as self %}
+    {% set attr = attr|merge({'class': attr.class|default ~ ' controls collection-widget'}) %}
+
+    <div class="ui segment" data-form-type="collection" {{ block('widget_container_attributes') }}
+            {% if prototype is defined and allow_add %}
+                data-prototype='{{ self.collection_item(prototype, allow_delete, button_delete_label, '__name__')|e }}'
+            {%- endif -%}
+    >
+        <div class="two fields">
+            <div class="field">
+                <b>{{ form_label(form.conditions) }}</b>
+                <div class="ui segment">
+                    {{ form_widget(form.conditions) }}
+                </div>
+            </div>
+
+            <div class="field">
+                <b>{{ form_label(form.constraints) }}</b>
+                <div class="ui segment">
+                    {{ form_widget(form.constraints) }}
+                </div>
+            </div>
+        </div>
+
+        <b>{{ form_label(form.errorMessage) }}</b>
+        {{ translationForm(form.errorMessage.translations) }}
+    </div>
+{% endblock brille24_customer_options_plugin_validator_widget %}
+
+
+{% block brille24_customer_options_plugin_validator_condition_widget %}
+    <div class="three fields">
+        {{ form_row(form.customer_option) }}
+        {{ form_row(form.comparator) }}
+        {{ form_row(form.value) }}
+    </div>
+{% endblock brille24_customer_options_plugin_validator_condition_widget %}

@@ -10,9 +10,10 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
+namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\CodeAwareInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
@@ -31,7 +32,7 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
     public function setName(?string $name): void;
 
     /**
-     * @return CustomerOptionAssociationInterface[]
+     * @return Collection
      */
     public function getOptionAssociations(): Collection;
 
@@ -58,6 +59,14 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
     public function setProducts(array $products): void;
 
     public function addProduct(ProductInterface $product): void;
+
+    public function getValidators(): array;
+
+    public function setValidators(array $validators): void;
+
+    public function addValidator(ValidatorInterface $validator): void;
+
+    public function removeValidator(ValidatorInterface $validator): void;
 
     /**
      * @return CustomerOptionInterface[]

@@ -10,9 +10,9 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Repository;
+namespace Brille24\SyliusCustomerOptionsPlugin\Repository;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 class CustomerOptionValueRepository extends EntityRepository implements CustomerOptionValueRepositoryInterface
@@ -23,7 +23,7 @@ class CustomerOptionValueRepository extends EntityRepository implements Customer
     public function findOneByCode(string $code): ?CustomerOptionValueInterface
     {
         return $this->createQueryBuilder('v')
-            ->where('v.codeh = :code')
+            ->where('v.code = :code')
             ->setParameter('code', $code)
             ->getQuery()
             ->getOneOrNullResult()

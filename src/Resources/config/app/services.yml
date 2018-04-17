@@ -7,12 +7,13 @@ imports:
   - { resource: "services/menuListener.xml" }
   - { resource: "services/services.xml" }
   - { resource: "services/fixtures.xml" }
+  - { resource: "services/validator.xml" }
 
 services:
   # Sonata
   block_event_listener.admin.layout.javascripts:
       class: Sylius\Bundle\UiBundle\Block\BlockEventListener
       arguments:
-          - '@@Brille24CustomerOptionsPlugin/Resources/views/Product/Tab/_javascripts.html.twig'
+          - '@@Brille24SyliusCustomerOptionsPlugin/Resources/views/Product/Tab/_javascripts.html.twig'
       tags:
           - { name: kernel.event_listener, event: sonata.block.event.sylius.admin.layout.javascripts, method: onBlockEvent }

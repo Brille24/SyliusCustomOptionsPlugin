@@ -1,5 +1,7 @@
 {% from '@SyliusAdmin/Macro/translationForm.html.twig' import translationForm %}
 
+{% form_theme form '@Brille24SyliusCustomerOptionsPlugin/Form/theme.html.twig' %}
+
 {{ form_errors(form) }}
 
 <div class="ui segment">
@@ -13,3 +15,7 @@
     {{ form_row(form.option_associations) }}
 </div>
 
+<div class="ui segment">
+    <h3 class="ui dividing header">Validators</h3>
+    {{ form_widget(form.validators) }}
+</div>

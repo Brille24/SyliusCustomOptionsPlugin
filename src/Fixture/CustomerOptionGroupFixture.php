@@ -10,19 +10,19 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Fixture;
+namespace Brille24\SyliusCustomerOptionsPlugin\Fixture;
 
-use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionGroupFactoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionGroupFactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 class CustomerOptionGroupFixture extends AbstractFixture
 {
-    /** @var CustomerOptionGroupFactoryInterface  */
+    /** @var CustomerOptionGroupFactoryInterface */
     private $factory;
 
-    /** @var EntityManagerInterface  */
+    /** @var EntityManagerInterface */
     private $em;
 
     public function __construct(CustomerOptionGroupFactoryInterface $factory, EntityManagerInterface $em)
@@ -82,6 +82,56 @@ class CustomerOptionGroupFixture extends AbstractFixture
                             ->end()
                             ->arrayNode('options')
                                 ->scalarPrototype()
+                                ->end()
+                            ->end()
+                            ->arrayNode('validators')
+                                ->requiresAtLeastOneElement()
+                                ->arrayPrototype()
+                                    ->children()
+                                        ->arrayNode('conditions')
+                                            ->requiresAtLeastOneElement()
+                                            ->arrayPrototype()
+                                                ->children()
+                                                    ->scalarNode('customer_option')
+                                                        ->isRequired()
+                                                        ->cannotBeEmpty()
+                                                    ->end()
+                                                    ->scalarNode('comparator')
+                                                        ->isRequired()
+                                                        ->cannotBeEmpty()
+                                                    ->end()
+                                                    ->scalarNode('value')
+                                                        ->isRequired()
+                                                        ->cannotBeEmpty()
+                                                    ->end()
+                                                ->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('constraints')
+                                            ->requiresAtLeastOneElement()
+                                            ->arrayPrototype()
+                                                ->children()
+                                                    ->scalarNode('customer_option')
+                                                        ->isRequired()
+                                                        ->cannotBeEmpty()
+                                                    ->end()
+                                                    ->scalarNode('comparator')
+                                                        ->isRequired()
+                                                        ->cannotBeEmpty()
+                                                    ->end()
+                                                    ->scalarNode('value')
+                                                        ->isRequired()
+                                                        ->cannotBeEmpty()
+                                                    ->end()
+                                                ->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('error_messages')
+                                            ->requiresAtLeastOneElement()
+                                            ->scalarPrototype()
+                                            ->end()
+                                        ->end()
+                                    ->end()
                                 ->end()
                             ->end()
                             ->arrayNode('products')

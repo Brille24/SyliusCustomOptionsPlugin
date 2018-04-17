@@ -1,86 +1,110 @@
 <container xmlns="http://symfony.com/schema/dic/services">
     <services>
-        <service class="Brille24\CustomerOptionsPlugin\Form\Extensions\ProductTypeExtension"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\Extensions\ProductTypeExtension"
                  id="brille24.customer_options_plugin.form.extensions.product_type_extension">
             <tag name="form.type_extension" extended_type="Sylius\Bundle\ProductBundle\Form\Type\ProductType"/>
         </service>
         
-        <service class="Brille24\CustomerOptionsPlugin\Form\Extensions\AddToCartTypeExtension"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\Extensions\AddToCartTypeExtension"
                  id="brille24.customer_options_plugin.form.extension.add_to_cart_type_extension">
+            <argument type="service" id="sylius.context.locale" />
             <tag name="form.type_extension" extended_type="Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType" />
         </service>
 
         <!-- Translation Type -->
-        <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionValueType"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionValueType"
                  id="brille24.customer_options_plugin.form.customer_option_value_type">
-            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue</argument>
+            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
-            <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionValueType" name="form.type"/>
+            <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionValueType" name="form.type"/>
         </service>
 
-        <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionValueTranslationType"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionValueTranslationType"
                  id="brille24.customer_options_plugin.form.customer_option_value_translation_type">
-            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueTranslation</argument>
+            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueTranslation</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
-            <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionValueTranslationType" name="form.type"/>
+            <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionValueTranslationType" name="form.type"/>
         </service>
 
         <!-- Customer Options -->
-        <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionType"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionType"
                  id="brille24.customer_options_plugin.form.customer_option_type">
-            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption</argument>
+            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
-            <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionType" name="form.type"/>
+            <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionType" name="form.type"/>
         </service>
 
-        <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionTranslationType"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionTranslationType"
                  id="brille24.customer_options_plugin.form.customer_option_translation_type">
-            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionTranslation</argument>
+            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionTranslation</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
-            <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionTranslationType" name="form.type"/>
+            <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionTranslationType" name="form.type"/>
         </service>
 
-        <service class="Brille24\CustomerOptionsPlugin\Form\Product\ShopCustomerOptionType"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\Product\ShopCustomerOptionType"
                  id="brille24.customer_options_plugin.form.product.shop_customer_option_type">
             <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="sylius.context.currency" />
             <argument type="service" id="sylius.money_formatter" />
             <argument type="service" id="sylius.context.locale" />
-            <tag alias="Brille24\CustomerOptionsPlugin\Form\Product\ShopCustomerOptionType" name="form.type" />
+            <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\Product\ShopCustomerOptionType" name="form.type" />
         </service>
 
         <!-- Customer Option Group -->
-        <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionGroupType"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionGroupType"
                  id="brille24.customer_options_plugin.form.customer_option_group_type">
-            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup</argument>
+            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
-            <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionGroupType" name="form.type"/>
+            <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionGroupType" name="form.type"/>
         </service>
 
-        <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionGroupTranslationType"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionGroupTranslationType"
                  id="brille24.customer_options_plugin.form.customer_option_group_translation_type">
-            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTranslation</argument>
+            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTranslation</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
-            <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionGroupTranslationType" name="form.type"/>
+            <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionGroupTranslationType" name="form.type"/>
         </service>
 
-        <service class="Brille24\CustomerOptionsPlugin\Form\CustomerOptionAssociationType"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionAssociationType"
                 id="brille24.customer_options_plugin.form.customer_option_association_type">
-            <argument>Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation</argument>
+            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
-            <tag alias="Brille24\CustomerOptionsPlugin\Form\CustomerOptionAssociationType" name="form.type" />
+            <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionAssociationType" name="form.type" />
         </service>
 
-        <service class="Brille24\CustomerOptionsPlugin\Form\CustomDateType"
+
+
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomDateType"
                  id="brille24.customer_options_plugin.form.custom_date_type"
         >
-            <tag name="form.type" alias="Brille24\CustomerOptionsPlugin\Form\CustomDateType" />
+            <tag name="form.type" alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomDateType" />
         </service>
 
-        <service class="Brille24\CustomerOptionsPlugin\Form\CustomDateTimeType"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomDateTimeType"
                  id="brille24.customer_options_plugin.form.custom_datetime_type"
         >
-            <tag name="form.type" alias="Brille24\CustomerOptionsPlugin\Form\CustomDateTimeType" />
+            <tag name="form.type" alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomDateTimeType" />
+        </service>
+
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ValueType"
+                 id="brille24.customer_options_plugin.form.validator.test_type"
+        >
+            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_value" />
+            <tag name="form.type" alias="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ValueType" />
+        </service>
+
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ErrorMessage"
+                id="brille24.customer_options_plugin.form.validator.error_message_type">
+            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage</argument>
+            <argument>%sylius.form.type.product.validation_groups%</argument>
+            <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ErrorMessageType" name="form.type"/>
+        </service>
+
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ErrorMessageTranslationType"
+                 id="brille24.customer_options_plugin.form.validator.error_message_translation_type">
+            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessageTranslation</argument>
+            <argument>%sylius.form.type.product.validation_groups%</argument>
+            <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ErrorMessageTranslationType" name="form.type"/>
         </service>
 
     </services>

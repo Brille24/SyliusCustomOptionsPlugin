@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Enumerations;
+namespace Brille24\SyliusCustomerOptionsPlugin\Enumerations;
 
 interface EnumInterface
 {
@@ -37,5 +37,5 @@ interface EnumInterface
      */
     public static function getTranslateArray(): array;
 
-    public static function getFormTypeArray(): array;
+//    public static function getFormTypeArray(): array;
 }

@@ -10,18 +10,26 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Factory;
+namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 
-use Behat\Behat\Context\Exception\UnknownTranslationResourceException;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
-use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Faker\Factory;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Throwable;
+use Webmozart\Assert\Assert;
 
 class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 {
@@ -106,7 +114,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
      */
     public function createFromConfig(array $options): CustomerOptionGroupInterface
     {
-        $options = array_merge($this->getOptionsPrototype(), $options);
+        $options = array_merge($this->getOptionsSkeleton(), $options);
         $this->validateOptions($options);
 
         $customerOptionGroup = new CustomerOptionGroup();
@@ -118,22 +126,77 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
             $customerOptionGroup->setName($name);
         }
 
-        foreach ($options['options'] as $optionCode) {
+        foreach ($options['options'] as $index => $optionCode) {
             /** @var CustomerOptionInterface $option */
             $option = $this->customerOptionRepository->findOneByCode($optionCode);
 
             if ($option !== null) {
                 $optionAssoc = new CustomerOptionAssociation();
+                $optionAssoc->setPosition($index * 10);
 
                 $option->addGroupAssociation($optionAssoc);
                 $customerOptionGroup->addOptionAssociation($optionAssoc);
             }
         }
 
+        foreach ($options['validators'] as $validatorConfig){
+            $validator = new Validator();
+
+            if(isset($validatorConfig['conditions'])){
+                foreach ($validatorConfig['conditions'] as $conditionConfig){
+                    $condition = new Condition();
+                    $this->setupConstraint($condition, $conditionConfig);
+                    $validator->addCondition($condition);
+                }
+            }
+
+            if(isset($validatorConfig['constraints'])){
+                foreach ($validatorConfig['constraints'] as $constraintConfig){
+                    $constraint = new Constraint();
+                    $this->setupConstraint($constraint, $constraintConfig);
+                    $validator->addConstraint($constraint);
+                }
+            }
+
+            if(!empty($validatorConfig['error_messages'])){
+                $error_message = new ErrorMessage();
+                foreach($validatorConfig['error_messages'] as $locale => $message){
+                    $error_message->setCurrentLocale($locale);
+                    $error_message->setMessage($message);
+                }
+                $validator->setErrorMessage($error_message);
+            }
+
+            $customerOptionGroup->addValidator($validator);
+        }
+
         $products = $this->productRepository->findBy(['code' => $options['products']]);
         $customerOptionGroup->setProducts($products);
 
         return $customerOptionGroup;
+    }
+
+    private function setupConstraint(ConditionInterface $constraint, array $config)
+    {
+        $customerOption = $this->customerOptionRepository->findOneByCode($config['customer_option']);
+        Assert::notNull($customerOption);
+
+        $constraint->setCustomerOption($customerOption);
+        Assert::true(ConditionComparatorEnum::isValid($config['comparator']));
+
+        $constraint->setComparator($config['comparator']);
+
+        $value = $config['value'];
+
+        if(CustomerOptionTypeEnum::isSelect($customerOption->getType())){
+            $value = explode(',', str_replace(' ', '', $value));
+        }elseif (CustomerOptionTypeEnum::isDate($customerOption->getType())){
+            $value = new \DateTime($value);
+        }elseif ($customerOption->getType() === CustomerOptionTypeEnum::BOOLEAN){
+            $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        }
+
+        $constraint->setValue($value);
     }
 
     /**
@@ -152,12 +215,13 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
         return $names;
     }
 
-    private function getOptionsPrototype()
+    private function getOptionsSkeleton()
     {
         return [
             'code' => null,
             'translations' => [],
             'options' => [],
+            'validators' => [],
             'products' => [],
         ];
     }

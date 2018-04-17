@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Fixture;
+namespace Brille24\SyliusCustomerOptionsPlugin\Fixture;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\ExampleFactoryInterface;

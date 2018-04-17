@@ -1,30 +1,30 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Context;
-
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context;
 
 use Behat\Behat\Context\Context;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
-use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Webmozart\Assert\Assert;
 
 class TransformContext implements Context
 {
-    /** @var CustomerOptionRepositoryInterface  */
+    /** @var CustomerOptionRepositoryInterface */
     private $customerOptionRepository;
 
-    /** @var CustomerOptionGroupRepositoryInterface  */
+    /** @var CustomerOptionGroupRepositoryInterface */
     private $customerOptionGroupRepository;
 
     /** @var ProductRepositoryInterface */
     private $productRepository;
 
-    /** @var EntityManagerInterface  */
+    /** @var EntityManagerInterface */
     private $em;
 
     public function __construct(
@@ -32,8 +32,7 @@ class TransformContext implements Context
         CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
         ProductRepositoryInterface $productRepository,
         EntityManagerInterface $em
-    )
-    {
+    ) {
         $this->customerOptionRepository = $customerOptionRepository;
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;
         $this->productRepository = $productRepository;

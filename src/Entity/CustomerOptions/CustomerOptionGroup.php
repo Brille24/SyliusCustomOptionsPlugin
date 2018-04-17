@@ -10,9 +10,10 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
+namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\PersistentCollection;
@@ -38,10 +39,14 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     /** @var ArrayCollection */
     private $products;
 
+    /** @var ArrayCollection|array */
+    private $validators;
+
     public function __construct()
     {
         $this->optionAssociations = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->validators = new ArrayCollection();
         $this->initializeTranslationsCollection();
     }
 
@@ -138,6 +143,34 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
             ->map(function (CustomerOptionAssociationInterface $association) {
                 return $association->getOption();
             })->toArray();
+    }
+
+    public function getValidators(): array
+    {
+        return $this->validators->getValues();
+    }
+
+    public function setValidators(array $validators): void
+    {
+        foreach ($validators as $validator) {
+            $validator->setCustomerOptionGroup($this);
+        }
+
+        $this->validators = new ArrayCollection($validators);
+    }
+
+    public function addValidator(ValidatorInterface $validator): void
+    {
+        $validator->setCustomerOptionGroup($this);
+
+        $this->validators->add($validator);
+    }
+
+    public function removeValidator(ValidatorInterface $validator): void
+    {
+        $validator->setCustomerOptionGroup(null);
+
+        $this->validators->removeElement($validator);
     }
 
     //<editor-fold "Translations">

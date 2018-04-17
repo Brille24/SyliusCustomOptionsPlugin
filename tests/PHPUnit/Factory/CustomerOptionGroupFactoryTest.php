@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Factory;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Factory;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
-use Brille24\CustomerOptionsPlugin\Entity\Product;
-use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionGroupFactory;
-use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\Product;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionGroupFactory;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 
@@ -79,7 +80,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
             'products' => [],
         ];
 
-        $customerOptionGroup = $this->customerOptionGroupFactory->create($options);
+        $customerOptionGroup = $this->customerOptionGroupFactory->createFromConfig($options);
 
         $this->assertInstanceOf(CustomerOptionGroup::class, $customerOptionGroup);
     }
@@ -104,7 +105,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
             ],
         ];
 
-        $customerOptionGroup = $this->customerOptionGroupFactory->create($options);
+        $customerOptionGroup = $this->customerOptionGroupFactory->createFromConfig($options);
 
         $this->assertInstanceOf(CustomerOptionGroup::class, $customerOptionGroup);
     }
@@ -129,7 +130,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
 
         $this->expectException(\Exception::class);
 
-        $customerOptionGroup = $this->customerOptionGroupFactory->create($options);
+        $customerOptionGroup = $this->customerOptionGroupFactory->createFromConfig($options);
 
         $this->assertNull($customerOptionGroup);
     }
@@ -174,7 +175,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
             'options' => $optionCodes,
         ];
 
-        $customerOptionGroup = $this->customerOptionGroupFactory->create($options);
+        $customerOptionGroup = $this->customerOptionGroupFactory->createFromConfig($options);
 
         $this->assertCount(3, $customerOptionGroup->getOptions());
     }
@@ -214,8 +215,119 @@ class CustomerOptionGroupFactoryTest extends TestCase
             'products' => $productCodes,
         ];
 
-        $customerOptionGroup = $this->customerOptionGroupFactory->create($options);
+        $customerOptionGroup = $this->customerOptionGroupFactory->createFromConfig($options);
 
         $this->assertCount(3, $customerOptionGroup->getProducts());
+    }
+
+    /**
+     * @test
+     *
+     * @throws \Exception
+     */
+    public function testCreateWithConditionalConstraint()
+    {
+        $this->productRepositoryMock
+            ->expects($this->any())
+            ->method('findBy')
+            ->with(['code' => []])
+            ->willReturn([])
+        ;
+
+        $optionCodes = [
+            'option_1',
+            'option_2',
+            'option_3',
+        ];
+
+        $customerOptions = [];
+
+        foreach ($optionCodes as $index => $code) {
+            $option = new CustomerOption();
+            $option->setCode($code);
+
+            $this->customerOptionRepositoryMock
+                ->expects($this->at($index))
+                ->method('findOneByCode')
+                ->with($code)
+                ->willReturn($option)
+            ;
+
+            $customerOptions[] = $option;
+        }
+
+        $this->customerOptionRepositoryMock
+            ->expects($this->at(3))
+            ->method('findOneByCode')
+            ->with($customerOptions[0]->getCode())
+            ->willReturn($customerOptions[0]);
+
+        $this->customerOptionRepositoryMock
+            ->expects($this->at(4))
+            ->method('findOneByCode')
+            ->with($customerOptions[1]->getCode())
+            ->willReturn($customerOptions[1]);
+
+        $this->customerOptionRepositoryMock
+            ->expects($this->at(5))
+            ->method('findOneByCode')
+            ->with($customerOptions[1]->getCode())
+            ->willReturn($customerOptions[1]);
+
+        $this->customerOptionRepositoryMock
+            ->expects($this->at(6))
+            ->method('findOneByCode')
+            ->with($customerOptions[2]->getCode())
+            ->willReturn($customerOptions[2]);
+
+        $options = [
+            'code' => 'some_group',
+            'translations' => [
+                'en_US' => 'Some Group',
+            ],
+            'options' => $optionCodes,
+            'validators' => [
+                [
+                    'conditions' => [
+                        [
+                            'customer_option' => 'option_1',
+                            'comparator' => 'greater',
+                            'value' => '4',
+                        ],
+                    ],
+                    'constraints' => [
+                        [
+                            'customer_option' => 'option_2',
+                            'comparator' => 'lesser',
+                            'value' => '10',
+                        ],
+                        [
+                            'customer_option' => 'option_2',
+                            'comparator' => 'greater',
+                            'value' => '0',
+                        ],
+                        [
+                            'customer_option' => 'option_3',
+                            'comparator' => 'equal',
+                            'value' => '5',
+                        ],
+                    ],
+                    'error_messages' => [
+                        'en_US' => 'Test',
+                        'de_DE' => 'Test2',
+                    ],
+                ],
+            ],
+        ];
+
+        $customerOptionGroup = $this->customerOptionGroupFactory->createFromConfig($options);
+
+        $this->assertCount(1, $customerOptionGroup->getValidators());
+
+        /** @var ValidatorInterface $validator */
+        $validator = $customerOptionGroup->getValidators()[0];
+
+        $this->assertCount(1, $validator->getConditions());
+        $this->assertCount(3, $validator->getConstraints());
     }
 }

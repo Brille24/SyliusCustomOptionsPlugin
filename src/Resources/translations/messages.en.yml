@@ -13,6 +13,7 @@ brille24:
     ui:
         customer_options: Customer Options
         customer_option_groups: Customer Option Groups
+        customer_option_group: Customer Option Group
         required: Required
         product_customization: Product customization
         pricing:
@@ -37,6 +38,11 @@ brille24:
             subheader: Manage your Customer Option Groups
             select: Select
             duplicate_option: A group can not have an option twice
+            buttons:
+                add_option: Add Option
+                delete_option: Delete Option
+                add_validator: Add Validator
+                delete_validator: Delete Validator
         config:
             min:
                 length: Minimum length
@@ -50,6 +56,29 @@ brille24:
                 number: Maximum number
             invalid_min_max: The configurations minimum value is greater then the maximum
             default_value: Default value
+        validators:
+            condition:
+                greater: ">"
+                greater_equal: ">="
+                equal: "=="
+                lesser_equal: "<="
+                lesser: "<"
+                in_set: Is in set
+                not_in_set: Is not in set
+            fields:
+                customer_option: Customer Option
+                comparator: Comparator
+                value:
+                    default: Value
+                    text: Text length
+                    set: Set
+                message: Message
+            error_message: Error message
+            buttons:
+                add_condition: Add Condition
+                delete_condition: Delete Condition
+                add_constraint: Add Constraint
+                delete_constraint: Delete Constraint
 
     grid:
         options_remaining: "{0} |]0,Inf]and %count% more"

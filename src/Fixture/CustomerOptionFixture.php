@@ -10,10 +10,10 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Fixture;
+namespace Brille24\SyliusCustomerOptionsPlugin\Fixture;
 
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionFactory;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
@@ -21,16 +21,16 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
 {
-    /** @var CustomerOptionFactory  */
+    /** @var CustomerOptionFactory */
     private $factory;
 
-    /** @var EntityManagerInterface  */
+    /** @var EntityManagerInterface */
     private $em;
 
     public function __construct(CustomerOptionFactory $factory, EntityManagerInterface $em)
     {
         $this->factory = $factory;
-        $this->em      = $em;
+        $this->em = $em;
     }
 
     public function load(array $options): void
@@ -39,7 +39,7 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
         $customConfiguration = array_key_exists('custom', $options) ? $options['custom'] : [];
 
         // When amount is given, generate config
-        $autoConfiguration   = array_key_exists('amount', $options)
+        $autoConfiguration = array_key_exists('amount', $options)
             ? $this->factory->generateRandomConfiguration($options['amount']) : [];
 
         $customerOptions = [];

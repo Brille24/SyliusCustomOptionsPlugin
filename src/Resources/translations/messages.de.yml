@@ -48,6 +48,23 @@ brille24:
                 number: Maximum Zahl
             invalid_min_max: Das konfigurierte Minimum ist größer als das Maximum
             default_value: Standard-Wert
+        validators:
+            condition:
+                greater: ">"
+                greater_equal: ">="
+                equal: "=="
+                lesser_equal: "<="
+                lesser: "<"
+                in_set: In Menge enthalten
+                not_in_set: Nicht in Menge enthalten
+            fields:
+                customer_option: Kunden Option
+                comparator: Vergleich
+                value:
+                    default: Wert
+                    text: Textlänge
+                    set: Menge
+            error_message: Fehlermeldung
 
     grid:
         options_remaining: "{0} |]0,Inf]and %count% more"

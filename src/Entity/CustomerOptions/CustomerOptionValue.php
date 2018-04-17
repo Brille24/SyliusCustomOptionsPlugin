@@ -10,10 +10,10 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\CustomerOptionsPlugin\Entity\CustomerOptions;
+namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface as COValuePriceInterface;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface as COValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -186,6 +186,14 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     public function getTranslation(?string $locale = null): TranslationInterface
     {
         return $this->doGetTranslation();
+    }
+
+    /**
+     * @return OrderItemOptionInterface[]
+     */
+    public function getOrders(): array
+    {
+        return $this->orders;
     }
 
     /**

@@ -1,51 +1,52 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\Behat\Context;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context;
 
-
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemInterface;
-use Brille24\CustomerOptionsPlugin\Entity\OrderItemOption;
-use Brille24\CustomerOptionsPlugin\Entity\ProductInterface;
-use Brille24\CustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
-use Brille24\CustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
+use Behat\Gherkin\Node\TableNode;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Order\Repository\OrderItemRepositoryInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
 class SetupContext implements Context
 {
-    /** @var EntityManagerInterface  */
+    /** @var EntityManagerInterface */
     private $em;
 
-    /** @var CustomerOptionRepositoryInterface  */
+    /** @var CustomerOptionRepositoryInterface */
     private $customerOptionRepository;
 
-    /** @var CustomerOptionGroupRepositoryInterface  */
+    /** @var CustomerOptionGroupRepositoryInterface */
     private $customerOptionGroupRepository;
 
     /** @var OrderItemRepositoryInterface */
     private $orderItemRepository;
 
-    /** @var ChannelContextInterface  */
+    /** @var ChannelContextInterface */
     private $channelContext;
 
-    /** @var ChannelRepositoryInterface  */
+    /** @var ChannelRepositoryInterface */
     private $channelRepository;
 
     public function __construct(
@@ -55,8 +56,7 @@ class SetupContext implements Context
         OrderItemRepositoryInterface $orderItemRepository,
         ChannelContextInterface $channelContext,
         ChannelRepositoryInterface $channelRepository
-    )
-    {
+    ) {
         $this->em = $em;
         $this->customerOptionRepository = $customerOptionRepository;
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;
@@ -66,13 +66,15 @@ class SetupContext implements Context
     }
 
     /**
-     * @Given I have a customer option :code named :name
-     * @Given I have a customer option :code named :name in :locale
-     * @Given I have a customer option :code named :name with type :type
-     * @Given I have a customer option :code named :name in :locale with type :type
+     * @Given I have a customer option named :name
+     * @Given I have a customer option named :name in :locale
+     * @Given I have a customer option named :name with type :type
+     * @Given I have a customer option named :name in :locale with type :type
      */
-    public function iHaveACustomerOptionNamed(string $code, string $name, string $locale = 'en_US', string $type = CustomerOptionTypeEnum::TEXT)
+    public function iHaveACustomerOptionNamed(string $name, string $locale = 'en_US', string $type = CustomerOptionTypeEnum::TEXT)
     {
+        $code = str_replace([' '], '_', strtolower($name));
+
         $customerOption = new CustomerOption();
         $customerOption->setCode($code);
         $customerOption->setCurrentLocale($locale);
@@ -81,7 +83,6 @@ class SetupContext implements Context
 
         $this->customerOptionRepository->add($customerOption);
     }
-
 
     /**
      * @Given customer option :customerOption has a value :valueName
@@ -126,11 +127,13 @@ class SetupContext implements Context
     }
 
     /**
-     * @Given I have a customer option group :code named :name
-     * @Given I have a customer option group :code named :name in :locale
+     * @Given I have a customer option group named :name
+     * @Given I have a customer option group named :name in :locale
      */
-    public function iHaveACustomerOptionGroupNamed($code, $name, $locale = 'en_US')
+    public function iHaveACustomerOptionGroupWithCodeNamed($name, $locale = 'en_US')
     {
+        $code = str_replace([' '], '_', strtolower($name));
+
         $customerOptionGroup = new CustomerOptionGroup();
         $customerOptionGroup->setCode($code);
         $customerOptionGroup->setCurrentLocale($locale);
@@ -145,8 +148,7 @@ class SetupContext implements Context
     public function customerOptionGroupHasOption(
         CustomerOptionGroupInterface $customerOptionGroup,
         CustomerOptionInterface $customerOption
-    )
-    {
+    ) {
         $assoc = new CustomerOptionAssociation();
 
         $customerOptionGroup->addOptionAssociation($assoc);
@@ -159,8 +161,7 @@ class SetupContext implements Context
     public function productHasTheCustomerOptionGroup(
         ProductInterface $product,
         CustomerOptionGroupInterface $customerOptionGroup
-    )
-    {
+    ) {
         $product->setCustomerOptionGroup($customerOptionGroup);
         $customerOptionGroup->addProduct($product);
 
@@ -199,20 +200,19 @@ class SetupContext implements Context
     {
         $baseConfig = CustomerOptionTypeEnum::getConfigurationArray()[$customerOption->getType()];
 
-        if(CustomerOptionTypeEnum::isDate($customerOption->getType())) {
+        if (CustomerOptionTypeEnum::isDate($customerOption->getType())) {
             $min = new \DateTime($min);
             $max = new \DateTime($max);
-        }else{
-            $min = intval($min);
-            $max = intval($max);
+        } else {
+            $min = (int) $min;
+            $max = (int) $max;
         }
 
-
         $config = [];
-        foreach ($baseConfig as $key => $value){
-            if(strpos($key, 'max') !== false){
+        foreach ($baseConfig as $key => $value) {
+            if (strpos($key, 'max') !== false) {
                 $config[$key] = $max;
-            }elseif (strpos($key, 'min') !== false){
+            } elseif (strpos($key, 'min') !== false) {
                 $config[$key] = $min;
             }
         }
@@ -238,7 +238,7 @@ class SetupContext implements Context
 
         $values = [$value];
 
-        if(CustomerOptionTypeEnum::isDate($customerOption->getType())){
+        if (CustomerOptionTypeEnum::isDate($customerOption->getType())) {
             $date = new \DateTime($value);
 
             $values = [
@@ -253,7 +253,6 @@ class SetupContext implements Context
         foreach ($values as $value) {
             foreach ($config as $itemOption) {
                 if ($itemOption->getCustomerOption() === $customerOption) {
-
                     if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
                         $customerOptionValue = $this->getCustomerOptionValueByName($customerOption, $value);
 
@@ -262,13 +261,12 @@ class SetupContext implements Context
                         $itemOption->setCustomerOptionValue($customerOptionValue);
                         $itemOption->setPrice($customerOptionValue->getPriceForChannel($this->channelContext->getChannel()));
                     } else {
-
-                        if(empty($itemOption->getOptionValue())) {
+                        if (empty($itemOption->getOptionValue())) {
                             $itemOption->setOptionValue($value);
+
                             break;
                         }
                     }
-
                 }
             }
         }
@@ -282,6 +280,7 @@ class SetupContext implements Context
     /**
      * @param CustomerOptionInterface $customerOption
      * @param string $name
+     *
      * @return CustomerOptionValueInterface|null
      */
     private function getCustomerOptionValueByName(CustomerOptionInterface $customerOption, string $name): ?CustomerOptionValueInterface
@@ -289,12 +288,86 @@ class SetupContext implements Context
         /** @var CustomerOptionValueInterface[] $customerOptionValues */
         $customerOptionValues = $customerOption->getValues();
 
-        foreach ($customerOptionValues as $customerOptionValue){
-            if($customerOptionValue->getName() === $name){
+        foreach ($customerOptionValues as $customerOptionValue) {
+            if ($customerOptionValue->getName() === $name) {
                 return $customerOptionValue;
             }
         }
 
         return null;
+    }
+
+    /**
+     * @Given customer option group :customerOptionGroup has a validator:
+     */
+    public function customerOptionGroupHasAValidator(CustomerOptionGroupInterface $customerOptionGroup, TableNode $table)
+    {
+        $validatorConfig = $table->getHash();
+
+        $errorMessageText = $validatorConfig[0]['error_message'];
+        $errorMessage = new ErrorMessage();
+        $errorMessage->setCurrentLocale('en_US');
+        $errorMessage->setMessage($errorMessageText);
+
+        $validator = new Validator();
+        $validator->setErrorMessage($errorMessage);
+
+        $customerOptionGroup->addValidator($validator);
+
+        foreach ($validatorConfig as $row) {
+            if ($row['condition_option']) {
+                /** @var CustomerOptionInterface[] $customerOptions */
+                $customerOptions = $this->customerOptionRepository->findByName($row['condition_option'], 'en_US');
+                $customerOption = $customerOptions[0] ?? null;
+
+                $val = $this->prepareValue($row['condition_value'], $customerOption->getType());
+
+                $condition = new Condition();
+                $condition->setCustomerOption($customerOption);
+                $condition->setComparator($row['condition_comparator']);
+                $condition->setValue($val);
+
+                $validator->addCondition($condition);
+
+                $this->em->persist($condition);
+            }
+
+            if ($row['constraint_option']) {
+                /** @var CustomerOptionInterface[] $customerOptions */
+                $customerOptions = $this->customerOptionRepository->findByName($row['constraint_option'], 'en_US');
+                $customerOption = $customerOptions[0] ?? null;
+
+                $val = $this->prepareValue($row['constraint_value'], $customerOption->getType());
+
+                $constraint = new Constraint();
+                $constraint->setCustomerOption($customerOption);
+                $constraint->setComparator($row['constraint_comparator']);
+                $constraint->setValue($val);
+
+                $validator->addConstraint($constraint);
+
+                $this->em->persist($constraint);
+            }
+
+            $this->em->persist($validator);
+        }
+
+        $this->em->persist($customerOptionGroup);
+        $this->em->flush();
+    }
+
+    private function prepareValue($value, string $optionType)
+    {
+        $result = $value;
+
+        if (CustomerOptionTypeEnum::isSelect($optionType)) {
+            $result = explode(',', str_replace(' ', '', strtolower($value)));
+        } elseif ($optionType === CustomerOptionTypeEnum::BOOLEAN) {
+            $result = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        } elseif (CustomerOptionTypeEnum::isDate($optionType)) {
+            $result = new \DateTime($value);
+        }
+
+        return $result;
     }
 }

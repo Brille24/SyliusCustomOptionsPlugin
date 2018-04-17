@@ -1,15 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Tests\Brille24\CustomerOptionsPlugin\PHPUnit\Factory;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Factory;
 
-
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\CustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
-use Brille24\CustomerOptionsPlugin\Exceptions\ConfigurationException;
-use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionValueFactory;
-use Brille24\CustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactory;
-use Brille24\CustomerOptionsPlugin\Services\FakerFactoryWrapper;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConfigurationException;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValueFactory;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactory;
 use PHPUnit\Framework\TestCase;
 
 class CustomerOptionValueFactoryTest extends TestCase
@@ -20,7 +19,7 @@ class CustomerOptionValueFactoryTest extends TestCase
     protected function setUp()
     {
         $customerOptionPriceFactory = self::createMock(CustomerOptionValuePriceFactory::class);
-        $customerOptionPriceFactory->method('create')->willReturnCallback(function ($config) {
+        $customerOptionPriceFactory->method('createFromConfig')->willReturnCallback(function ($config) {
             return self::createMock(CustomerOptionValuePrice::class);
         });
 
@@ -29,6 +28,7 @@ class CustomerOptionValueFactoryTest extends TestCase
 
     /**
      * @dataProvider dataValidateWithInvalidConfiguration
+     *
      * @throws ConfigurationException
      */
     public function testValidateWithInvalidConfiguration(array $configuration, string $exceptionMessage): void
@@ -42,15 +42,15 @@ class CustomerOptionValueFactoryTest extends TestCase
     public function dataValidateWithInvalidConfiguration(): array
     {
         return [
-            'no code'                 => [
+            'no code' => [
                 [],
                 'The configuration does not contain key: "code"',
             ],
-            'no translations'         => [
+            'no translations' => [
                 ['code' => 'something'],
                 'The configuration does not contain key: "translations"',
             ],
-            'translations string'     => [
+            'translations string' => [
                 ['code' => 'something', 'translations' => 'hello'],
                 'The translations have to be an array',
             ],
@@ -58,11 +58,11 @@ class CustomerOptionValueFactoryTest extends TestCase
                 ['code' => 'something', 'translations' => []],
                 'The array has to be at least 1 element(s) long',
             ],
-            'Missing prices key'      => [
+            'Missing prices key' => [
                 ['code' => 'something', 'translations' => ['en' => 'something']],
                 'The configuration does not contain key: "prices"',
             ],
-            'Prices not array'        => [
+            'Prices not array' => [
                 ['code' => 'something', 'translations' => ['en' => 'something'], 'prices' => 'lll'],
                 'The translations have to be an array',
             ],
@@ -86,13 +86,13 @@ class CustomerOptionValueFactoryTest extends TestCase
         $configuration = $this->customerOptionValueFactory->generateRandomConfiguration($amount);
 
         self::assertEquals($amount, count($configuration));
-        foreach($configuration as $config){
+        foreach ($configuration as $config) {
             $this->customerOptionValueFactory->validateConfiguration($config);
             self::assertArrayHasKey('en_US', $config['translations']);
         }
     }
 
-    public function dataGenerateRandomConfiguration():array
+    public function dataGenerateRandomConfiguration(): array
     {
         return ['one' => [1], 'many' => [5]];
     }
