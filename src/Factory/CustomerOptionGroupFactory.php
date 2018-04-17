@@ -126,12 +126,13 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
             $customerOptionGroup->setName($name);
         }
 
-        foreach ($options['options'] as $optionCode) {
+        foreach ($options['options'] as $index => $optionCode) {
             /** @var CustomerOptionInterface $option */
             $option = $this->customerOptionRepository->findOneByCode($optionCode);
 
             if ($option !== null) {
                 $optionAssoc = new CustomerOptionAssociation();
+                $optionAssoc->setPosition($index * 10);
 
                 $option->addGroupAssociation($optionAssoc);
                 $customerOptionGroup->addOptionAssociation($optionAssoc);
