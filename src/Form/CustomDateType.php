@@ -14,7 +14,7 @@ class CustomDateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('year', IntegerType::class, []);
+        $builder->add('year', IntegerType::class, ['label' => false]);
     }
 
     public function getParent()

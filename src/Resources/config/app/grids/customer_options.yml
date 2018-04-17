@@ -12,7 +12,7 @@ sylius_grid:
                 name:
                     type: string
                     label: sylius.ui.name
-                type:
+                typeCode:
                     type: twig
                     label: sylius.ui.type
                     options:

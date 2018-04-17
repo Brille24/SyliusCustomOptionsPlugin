@@ -93,6 +93,16 @@ class CustomerOption implements CustomerOptionInterface
         return $this->type;
     }
 
+    public function getTypeCode(): string {
+        $type = $this->getType();
+        $translations = CustomerOptionTypeEnum::getTranslateArray();
+        if (array_key_exists($type, $translations)) {
+            return $translations[$type];
+        } else {
+            return $this->getType();
+        }
+    }
+
     /**
      * {@inheritdoc}
      */

@@ -30,8 +30,9 @@ final class CustomerOptionAssociationType extends AbstractType
                 'placeholder' => 'brille24.form.customer_option_groups.select',
                 'required' => true,
                 'choice_label' => 'name',
+                'label' => 'brille24.ui.customer_options'
             ])
-            ->add('position', IntegerType::class);
+            ->add('position', IntegerType::class, ['label' => 'sylius.ui.position']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

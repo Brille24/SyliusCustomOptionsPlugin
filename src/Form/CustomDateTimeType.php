@@ -17,7 +17,7 @@ class CustomDateTimeType extends AbstractType
     {
         $dateOptions = $builder->get('date')->getOptions();
 
-        $builder->add('date', CustomDateType::class, $dateOptions);
+        $builder->add('date', CustomDateType::class, array_merge($dateOptions, ['label' => 'sylius.ui.date']));
     }
 
     public function getParent()
