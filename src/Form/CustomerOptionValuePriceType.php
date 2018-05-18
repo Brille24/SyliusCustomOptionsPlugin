@@ -38,7 +38,7 @@ final class CustomerOptionValuePriceType extends AbstractType
                     'readonly' => true,
                 ],
                 'disabled' => true,
-                'label' => 'sylius.ui.channel'
+                'label' => 'sylius.ui.channel',
             ])
             ->add('percent', PercentType::class, [
                 'empty_data' => '0.00',
@@ -49,14 +49,14 @@ final class CustomerOptionValuePriceType extends AbstractType
             ->add('amount', MoneyType::class, [
                 'empty_data' => '0.00',
                 'required' => false,
-                'label' => 'sylius.ui.amount'
+                'label' => 'sylius.ui.amount',
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => CustomerOptionValuePrice::getAllTypes(),
                 'choice_label' => function ($option) {
                     return 'brille24.ui.pricing.' . strtolower($option);
                 },
-                'label' => 'sylius.ui.type'
+                'label' => 'sylius.ui.type',
             ])
         ;
     }

@@ -21,7 +21,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condit
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
@@ -139,28 +138,28 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
             }
         }
 
-        foreach ($options['validators'] as $validatorConfig){
+        foreach ($options['validators'] as $validatorConfig) {
             $validator = new Validator();
 
-            if(isset($validatorConfig['conditions'])){
-                foreach ($validatorConfig['conditions'] as $conditionConfig){
+            if (isset($validatorConfig['conditions'])) {
+                foreach ($validatorConfig['conditions'] as $conditionConfig) {
                     $condition = new Condition();
                     $this->setupConstraint($condition, $conditionConfig);
                     $validator->addCondition($condition);
                 }
             }
 
-            if(isset($validatorConfig['constraints'])){
-                foreach ($validatorConfig['constraints'] as $constraintConfig){
+            if (isset($validatorConfig['constraints'])) {
+                foreach ($validatorConfig['constraints'] as $constraintConfig) {
                     $constraint = new Constraint();
                     $this->setupConstraint($constraint, $constraintConfig);
                     $validator->addConstraint($constraint);
                 }
             }
 
-            if(!empty($validatorConfig['error_messages'])){
+            if (!empty($validatorConfig['error_messages'])) {
                 $error_message = new ErrorMessage();
-                foreach($validatorConfig['error_messages'] as $locale => $message){
+                foreach ($validatorConfig['error_messages'] as $locale => $message) {
                     $error_message->setCurrentLocale($locale);
                     $error_message->setMessage($message);
                 }
@@ -188,11 +187,11 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 
         $value = $config['value'];
 
-        if(CustomerOptionTypeEnum::isSelect($customerOption->getType())){
+        if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
             $value = explode(',', str_replace(' ', '', $value));
-        }elseif (CustomerOptionTypeEnum::isDate($customerOption->getType())){
+        } elseif (CustomerOptionTypeEnum::isDate($customerOption->getType())) {
             $value = new \DateTime($value);
-        }elseif ($customerOption->getType() === CustomerOptionTypeEnum::BOOLEAN){
+        } elseif ($customerOption->getType() === CustomerOptionTypeEnum::BOOLEAN) {
             $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
         }
 
