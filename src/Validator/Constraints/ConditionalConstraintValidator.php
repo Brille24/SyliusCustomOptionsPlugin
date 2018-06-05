@@ -24,8 +24,12 @@ class ConditionalConstraintValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint)
     {
-        if ($value instanceof OrderItemInterface && $constraint instanceof ConditionalConstraint) {
-            $configuration = $this->getCustomerOptionsFromRequest($this->requestStack->getCurrentRequest(), $value->getProduct());
+        if ($constraint instanceof ConditionalConstraint) {
+            if($value instanceof OrderItemInterface) {
+                $configuration = $this->getCustomerOptionsFromRequest($this->requestStack->getCurrentRequest(), $value->getProduct());
+            }else{
+                $configuration = is_array($value) ? $value : [$value];
+            }
 
             $allConditionsMet = $this->allConditionsMet($constraint->conditions, $configuration);
 
