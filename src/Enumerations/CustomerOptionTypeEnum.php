@@ -40,7 +40,6 @@ final class CustomerOptionTypeEnum implements EnumInterface
             self::TEXT,
             self::SELECT,
             self::MULTI_SELECT,
-            self::FILE,
             self::DATE,
             self::DATETIME,
             self::NUMBER,

@@ -96,7 +96,7 @@ class OrderItemTest extends TestCase
         $this->orderItem->addUnit($this->createOrderItemUnit($this->orderItem));
 
         $configuration = [
-            $this->createCustomerOptionConfiguration(CustomerOptionValuePriceInterface::TYPE_PERCENT, 32),
+            $this->createCustomerOptionConfiguration(CustomerOptionValuePriceInterface::TYPE_PERCENT, 0.32),
         ];
 
         $this->orderItem->setCustomerOptionConfiguration($configuration);
@@ -113,7 +113,7 @@ class OrderItemTest extends TestCase
 
         $configuration = [
             $this->createCustomerOptionConfiguration(CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT, 100),
-            $this->createCustomerOptionConfiguration(CustomerOptionValuePriceInterface::TYPE_PERCENT, 32),
+            $this->createCustomerOptionConfiguration(CustomerOptionValuePriceInterface::TYPE_PERCENT, 0.32),
         ];
 
         $this->orderItem->setCustomerOptionConfiguration($configuration);
