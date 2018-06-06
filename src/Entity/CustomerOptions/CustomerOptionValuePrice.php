@@ -125,7 +125,9 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
             return $formatter->format($this->getAmount(), $currencyCode, $locale);
         }
 
-        return "{$this->getPercent()}%";
+        $percent = $this->getPercent() * 100;
+
+        return "{$percent}%";
     }
 
     /**

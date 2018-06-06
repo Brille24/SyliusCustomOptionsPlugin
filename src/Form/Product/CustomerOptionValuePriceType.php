@@ -90,13 +90,6 @@ final class CustomerOptionValuePriceType extends AbstractType
 
     private function addModelTransformer(FormBuilderInterface $builder): void
     {
-        $builder->get('percent')->addModelTransformer(
-            new CallbackTransformer(
-                function ($percent) { return $percent / 100; },
-                function ($decimal) { return $decimal * 100; }
-            )
-        );
-
         $builder->get('dateValid')->addModelTransformer(
             new CallbackTransformer(
                 function (?DateRange $dateRange) {
