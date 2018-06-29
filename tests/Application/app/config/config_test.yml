@@ -11,7 +11,9 @@ framework:
 
 doctrine:
     dbal:
-        dbname: "sylius_customerOptions_test"
+        driver: pdo_sqlite
+        path: '%kernel.project_dir%/tests/Application/app/sqlite.db'
+        charset: UTF8
 
 monolog:
     handlers:
