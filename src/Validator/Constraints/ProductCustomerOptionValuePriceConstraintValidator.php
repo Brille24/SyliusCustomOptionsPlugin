@@ -42,14 +42,19 @@ class ProductCustomerOptionValuePriceConstraintValidator extends ConstraintValid
 
         /** @var CustomerOptionValuePriceInterface $price */
         foreach ($collection as $price) {
-            $channelCode = $price->getChannel()->getCode();
+            $priceChannel = $price->getChannel();
+            if($priceChannel === null){
+                continue;
+            }
+
+            $channelCode = $priceChannel->getCode();
 
             if (!isset($existingValues[$channelCode])) {
                 $existingValues[$channelCode] = [];
             }
 
             if (in_array($price->getCustomerOptionValue(), $existingValues[$channelCode])) {
-                $this->context->addViolation($constraint->message);
+                $this->context->addViolation('');
             } else {
                 $existingValues[$channelCode][] = $price->getCustomerOptionValue();
             }

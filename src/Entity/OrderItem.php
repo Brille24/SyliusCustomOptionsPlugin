@@ -47,7 +47,7 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
     {
         $basePrice = parent::getSubtotal();
 
-        return (int) $this->applyConfigurationPrices($basePrice, $this->getQuantity());
+        return $this->applyConfigurationPrices($basePrice, $this->getQuantity());
     }
 
     /** {@inheritdoc} */
@@ -59,7 +59,11 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
             return $parentEquals;
         }
 
-        $product = $item->getProduct();
+        if($item instanceof self){
+            $product = $item->getProduct();
+        }else{
+            $product = null;
+        }
 
         return ($product instanceof Product) ? !$product->hasCustomerOptions() : true;
     }

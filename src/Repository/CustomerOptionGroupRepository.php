@@ -21,8 +21,6 @@ class CustomerOptionGroupRepository extends EntityRepository implements Customer
      * @param string $code
      *
      * @return CustomerOptionGroupInterface
-     *
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findOneByCode(string $code): CustomerOptionGroupInterface
     {
@@ -37,7 +35,7 @@ class CustomerOptionGroupRepository extends EntityRepository implements Customer
     /**
      * {@inheritdoc}
      *
-     * @return CustomerOptionGroupInterface|null
+     * @return CustomerOptionGroupInterface[]
      */
     public function findByName(string $name, string $locale): array
     {

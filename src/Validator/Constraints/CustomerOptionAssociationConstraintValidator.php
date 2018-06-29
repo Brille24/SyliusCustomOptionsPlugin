@@ -33,7 +33,7 @@ class CustomerOptionAssociationConstraintValidator extends ConstraintValidator
 
             $customerOption = $uniqueValue->getOption();
             if (in_array($customerOption, $optionsSoFar)) {
-                $this->context->addViolation($constraint->message);
+                $this->context->addViolation('sylius.ui.code');
             } else {
                 $optionsSoFar[] = $customerOption;
             }

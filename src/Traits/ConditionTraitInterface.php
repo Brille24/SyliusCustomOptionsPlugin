@@ -50,7 +50,7 @@ interface ConditionTraitInterface
     public function setValidator(?ValidatorInterface $validator): void;
 
     /**
-     * @param $value
+     * @param mixed $value
      * @param string $optionType
      *
      * @return bool

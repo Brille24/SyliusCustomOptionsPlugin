@@ -34,23 +34,27 @@ class ErrorMessage implements ErrorMessageInterface
         return new ErrorMessageTranslation();
     }
 
-    public function getValidator(): ?ValidatorInterface
+    public function getValidator(): ValidatorInterface
     {
         return $this->validator;
     }
 
-    public function setValidator(?ValidatorInterface $validator): void
+    public function setValidator(ValidatorInterface $validator): void
     {
         $this->validator = $validator;
     }
 
-    public function getMessage(): string
+    public function getMessage(): ?string
     {
-        return $this->getTranslation()->getMessage();
+        /** @var ErrorMessageTranslationInterface $translation */
+        $translation = $this->getTranslation();
+        return $translation->getMessage();
     }
 
     public function setMessage(string $message): void
     {
-        $this->getTranslation()->setMessage($message);
+        /** @var ErrorMessageTranslationInterface $translation */
+        $translation = $this->getTranslation();
+        $translation->setMessage($message);
     }
 }

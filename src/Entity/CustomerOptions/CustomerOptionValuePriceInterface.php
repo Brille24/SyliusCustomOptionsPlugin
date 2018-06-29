@@ -53,7 +53,7 @@ interface CustomerOptionValuePriceInterface
     /**
      * @return string
      */
-    public function getType(): ?string;
+    public function getType(): string;
 
     /**
      * @param string $type
@@ -88,9 +88,9 @@ interface CustomerOptionValuePriceInterface
     public function getProduct(): ?ProductInterface;
 
     /**
-     * @param ProductInterface|null $product
+     * @param ProductInterface $product
      */
-    public function setProduct(?ProductInterface $product): void;
+    public function setProduct(ProductInterface $product): void;
 
     /**
      * @param ChannelInterface $channel

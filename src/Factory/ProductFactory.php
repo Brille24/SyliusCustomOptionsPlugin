@@ -91,7 +91,7 @@ class ProductFactory implements ExampleFactoryInterface
         $product = $this->baseFactory->create($options);
 
         if ($customerOptionGroupConfig !== null) {
-            /** @var CustomerOptionGroupInterface $customerOptionGroup */
+            /** @var CustomerOptionGroupInterface|null $customerOptionGroup */
             $customerOptionGroup = $this->customerOptionGroupRepository->findOneBy(['code' => $customerOptionGroupConfig]);
 
             if ($customerOptionGroup === null) {
@@ -107,12 +107,10 @@ class ProductFactory implements ExampleFactoryInterface
             foreach ($customerOptionValuePricesConfig as $valuePriceConfig) {
                 $valuePrice = new CustomerOptionValuePrice();
 
-                /** @var CustomerOptionValueInterface $value */
+                /** @var CustomerOptionValueInterface|null $value */
                 $value = $this->customerOptionValueRepository->findOneBy(['code' => $valuePriceConfig['value_code']]);
 
-                if ($value === null ||
-                    ($value !== null && !in_array($value->getCustomerOption(), $product->getCustomerOptionGroup()->getOptions())
-                    )) {
+                if ($value === null || $product->getCustomerOptionGroup() === null || !in_array($value->getCustomerOption(), $product->getCustomerOptionGroup()->getOptions())) {
                     continue;
                 }
 
@@ -129,7 +127,7 @@ class ProductFactory implements ExampleFactoryInterface
                 $valuePrice->setAmount($valuePriceConfig['amount']);
                 $valuePrice->setPercent($valuePriceConfig['percent']);
 
-                /** @var ChannelInterface $channel */
+                /** @var ChannelInterface|null $channel */
                 $channel = $this->channelRepository->findOneBy(['code' => $valuePriceConfig['channel']]);
 
                 if ($channel === null) {

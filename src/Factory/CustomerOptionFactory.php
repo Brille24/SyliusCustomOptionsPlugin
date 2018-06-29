@@ -108,8 +108,8 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
         $customerOption->setRequired(isset($configuration['required']) ? (bool) ($configuration['required']) : false);
 
         foreach ($configuration['groups'] as $groupCode) {
-            /** @var CustomerOptionGroupInterface $group */
-            $group = $this->customerOptionGroupRepository->findOneByCode($groupCode);
+            /** @var CustomerOptionGroupInterface|null $group */
+            $group = $this->customerOptionGroupRepository->findOneBy(['code' => $groupCode]);
 
             if ($group !== null) {
                 $groupAssoc = new CustomerOptionAssociation();

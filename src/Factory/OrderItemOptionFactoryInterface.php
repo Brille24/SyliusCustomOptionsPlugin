@@ -19,7 +19,7 @@ interface OrderItemOptionFactoryInterface
 {
     /**
      * @param CustomerOptionInterface $customerOption
-     * @param                         $customerOptionValue
+     * @param mixed                   $customerOptionValue
      *
      * @return OrderItemOptionInterface
      */

@@ -36,15 +36,15 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
 
     public function __construct(int $position = 0)
     {
-        $this->position = 0;
+        $this->position = $position;
     }
 
     /**
-     * @return int|mixed
+     * @return string
      */
-    public function getId(): ?int
+    public function getId(): string
     {
-        return $this->id;
+        return (string) $this->id;
     }
 
     /**

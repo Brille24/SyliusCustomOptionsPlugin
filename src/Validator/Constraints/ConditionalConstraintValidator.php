@@ -68,6 +68,10 @@ class ConditionalConstraintValidator extends ConstraintValidator
         foreach ($conditions as $condition) {
             $customerOption = $condition->getCustomerOption();
 
+            if($customerOption === null){
+                continue;
+            }
+
             $counter = 0;
 
             /** @var OrderItemOptionInterface $optionConfig */

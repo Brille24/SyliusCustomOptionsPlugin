@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
@@ -71,8 +72,8 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 
         $productCodes = [];
 
-        /** @var ProductInterface $product */
         foreach ($this->productRepository->findAll() as $product) {
+            /** @var ProductInterface $product */
             $productCodes[] = $product->getCode();
         }
 
@@ -94,11 +95,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
                 $options['products'] = $this->faker->randomElements($productCodes);
             }
 
-            try {
-                $customerOptionGroups[] = $this->createFromConfig($options);
-            } catch (Throwable $e) {
-                dump($e->getMessage());
-            }
+            $customerOptionGroups[] = $this->createFromConfig($options);
         }
 
         return $customerOptionGroups;
@@ -126,7 +123,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
         }
 
         foreach ($options['options'] as $index => $optionCode) {
-            /** @var CustomerOptionInterface $option */
+            /** @var CustomerOptionInterface|null $option */
             $option = $this->customerOptionRepository->findOneByCode($optionCode);
 
             if ($option !== null) {
@@ -177,6 +174,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 
     private function setupConstraint(ConditionInterface $constraint, array $config)
     {
+        /** @var CustomerOptionInterface $customerOption */
         $customerOption = $this->customerOptionRepository->findOneByCode($config['customer_option']);
         Assert::notNull($customerOption);
 

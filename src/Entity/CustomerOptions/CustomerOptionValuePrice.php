@@ -76,7 +76,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     }
 
     /** {@inheritdoc} */
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -135,11 +135,17 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
      */
     public function getCustomerOptionValueName(): ?string
     {
+        if($this->customerOptionValue === null){
+            return null;
+        }
         return $this->customerOptionValue->getName();
     }
 
     public function setCustomerOptionValueName(string $name): void
     {
+        if($this->customerOptionValue === null){
+            return;
+        }
         $this->customerOptionValue->setName($name);
     }
 
@@ -148,7 +154,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         return $this->product;
     }
 
-    public function setProduct(?ProductInterface $product): void
+    public function setProduct(ProductInterface $product): void
     {
         $this->product = $product;
     }

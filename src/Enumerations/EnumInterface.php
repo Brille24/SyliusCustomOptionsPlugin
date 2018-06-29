@@ -24,7 +24,7 @@ interface EnumInterface
     /**
      * Checks if a value is a valid Enum Value
      *
-     * @param $value
+     * @param mixed $value
      *
      * @return bool
      */

@@ -19,8 +19,6 @@ class CustomerOptionRepository extends EntityRepository implements CustomerOptio
 {
     /**
      * {@inheritdoc}
-     *
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findOneByCode(string $code): ?CustomerOptionInterface
     {
@@ -35,7 +33,7 @@ class CustomerOptionRepository extends EntityRepository implements CustomerOptio
     /**
      * {@inheritdoc}
      *
-     * @return CustomerOptionInterface|null
+     * @return CustomerOptionInterface[]
      */
     public function findByName(string $name, string $locale): array
     {

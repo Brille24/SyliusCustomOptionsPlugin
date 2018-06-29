@@ -20,14 +20,14 @@ use Sylius\Component\Core\Model\ProductInterface as BaseProductInterface;
 interface ProductInterface extends BaseProductInterface, CustomerOptionableTraitInterface
 {
     /**
-     * @return Collection|null
+     * @return Collection
      */
-    public function getCustomerOptionValuePrices(): ?Collection;
+    public function getCustomerOptionValuePrices(): Collection;
 
     /**
-     * @param Collection|null $prices
+     * @param Collection $prices
      */
-    public function setCustomerOptionValuePrices(?Collection $prices);
+    public function setCustomerOptionValuePrices(?Collection $prices): void;
 
     public function addCustomerOptionValuePrice(CustomerOptionValuePriceInterface $price): void;
 

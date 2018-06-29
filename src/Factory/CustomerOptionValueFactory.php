@@ -16,16 +16,17 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConfigurationException;
 use Faker\Factory;
+use Faker\Generator;
 
 class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
 {
     /**
-     * @var CustomerOptionValuePriceFactory
+     * @var CustomerOptionValuePriceFactoryInterface
      */
     private $valuePriceFactory;
 
     /**
-     * @var Factory
+     * @var Generator
      */
     private $faker;
 

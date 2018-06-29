@@ -37,7 +37,7 @@ class Product extends BaseProduct implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function getCustomerOptionValuePrices(): ?Collection
+    public function getCustomerOptionValuePrices(): Collection
     {
         return $this->customerOptionValuePrices;
     }
@@ -45,8 +45,13 @@ class Product extends BaseProduct implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function setCustomerOptionValuePrices(?Collection $prices)
+    public function setCustomerOptionValuePrices(?Collection $prices): void
     {
+        if($prices === null){
+            $this->customerOptionValuePrices->clear();
+            return;
+        }
+
         $this->customerOptionValuePrices = $prices;
 
         foreach ($prices as $price) {

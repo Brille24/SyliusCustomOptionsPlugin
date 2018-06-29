@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Form\Validator;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
@@ -36,20 +37,21 @@ class ConditionType extends AbstractType
             $form = $event->getForm();
 
             $configuration = $event->getData();
+            $customerOption = $configuration->getCustomerOption();
 
             $comparatorChoices = ConditionComparatorEnum::getConstList();
             [$formType, $formOptions] = ConditionComparatorEnum::getFormTypeForCustomerOptionType('text');
 
             $customerOptionType = CustomerOptionTypeEnum::TEXT;
 
-            if ($configuration instanceof ConditionInterface) {
-                $customerOptionType = $configuration->getCustomerOption()->getType();
+            if ($configuration instanceof ConditionInterface && $customerOption instanceof CustomerOption) {
+                $customerOptionType = $customerOption->getType();
                 $comparatorChoices = ConditionComparatorEnum::getValuesForCustomerOptionType($customerOptionType);
 
                 [$formType, $formOptions] = ConditionComparatorEnum::getFormTypeForCustomerOptionType($customerOptionType);
 
                 if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
-                    $formOptions['choices'] = $configuration->getCustomerOption()->getValues()->getValues();
+                    $formOptions['choices'] = $customerOption->getValues()->getValues();
                     $formOptions['choice_label'] = 'name';
                 }
 

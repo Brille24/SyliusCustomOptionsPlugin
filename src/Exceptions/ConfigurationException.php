@@ -24,7 +24,7 @@ class ConfigurationException extends \Exception
     /**
      * Checks if the array contains the first value and if not it throws an exception
      *
-     * @param       $element
+     * @param mixed $element
      * @param array $array
      *
      * @throws ConfigurationException

@@ -16,7 +16,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Valida
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\PersistentCollection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
@@ -30,16 +29,16 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     /** @var int */
     private $id;
 
-    /** @var string */
+    /** @var string|null */
     private $code;
 
-    /** @var PersistentCollection */
+    /** @var Collection */
     private $optionAssociations;
 
     /** @var ArrayCollection */
     private $products;
 
-    /** @var ArrayCollection|array */
+    /** @var ArrayCollection */
     private $validators;
 
     public function __construct()
@@ -71,13 +70,17 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     /** {@inheritdoc} */
     public function getName(): ?string
     {
-        return $this->getTranslation()->getName();
+        /** @var CustomerOptionGroupTranslationInterface $translations */
+        $translations = $this->getTranslation();
+        return $translations->getName();
     }
 
     /** {@inheritdoc} */
     public function setName(?string $name): void
     {
-        $this->getTranslation()->setName($name);
+        /** @var CustomerOptionGroupTranslationInterface $translations */
+        $translations = $this->getTranslation();
+            $translations->setName($name);
     }
 
     /** {@inheritdoc} */
@@ -178,10 +181,11 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     /**
      * @param string|null $locale
      *
-     * @return CustomerOptionTranslationInterface
+     * @return TranslationInterface
      */
     public function getTranslation(?string $locale = null): TranslationInterface
     {
+        /** TranslationInterface $translation */
         $translation = $this->doGetTranslation($locale);
 
         return $translation;

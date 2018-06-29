@@ -75,9 +75,11 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function getName(): string
+    public function getName(): ?string
     {
-        return $this->getTranslation()->getName();
+        /** @var CustomerOptionValueTranslationInterface $translation */
+        $translation = $this->getTranslation();
+        return $translation->getName();
     }
 
     /**
@@ -85,7 +87,9 @@ class CustomerOptionValue implements CustomerOptionValueInterface
      */
     public function setName(string $name): void
     {
-        $this->getTranslation()->setName($name);
+        /** @var CustomerOptionValueTranslationInterface $translation */
+        $translation = $this->getTranslation();
+        $translation->setName($name);
     }
 
     /**
@@ -93,6 +97,11 @@ class CustomerOptionValue implements CustomerOptionValueInterface
      */
     public function setPrices(?Collection $prices): void
     {
+        if ($prices === null) {
+            $this->prices->clear();
+            return;
+        }
+
         $this->prices = $prices;
 
         foreach ($prices as $price) {
@@ -103,31 +112,29 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /**
      * {@inheritdoc}
      */
-    public function getPrices(): ?Collection
+    public function getPrices(): Collection
     {
-        $prices = new ArrayCollection();
-
-        /** @var CustomerOptionValuePriceInterface $price */
-        foreach ($this->prices as $price) {
-            if ($price->getProduct() === null) {
-                $prices[] = $price;
-            }
-        }
-
-        return $prices;
+        return $this->prices->filter(function (CustomerOptionValuePriceInterface $price){
+            return $price->getProduct() === null;
+        });
     }
 
     public function getPricesForChannel(ChannelInterface $channel): Collection
     {
-        return $this->prices
-            ->filter(function (COValuePriceInterface $price) use ($channel) {
-                return $price->getChannel()->getId() === $channel->getId();
-            });
+        $priceIsInChannel = function (COValuePriceInterface $price) use ($channel) {
+            $channelOfPrice = $price->getChannel();
+            if ($channelOfPrice === null) {
+                return false;
+            }
+            return $channelOfPrice->getId() === $channel->getId();
+        };
+
+        return $this->prices->filter($priceIsInChannel);
     }
 
     /** {@inheritdoc} */
     public function getPriceForChannel(
-        $channel,
+        ChannelInterface $channel,
         bool $ignoreActive = false
     ): ?CustomerOptionValuePriceInterface {
         $prices = $this->getPricesForChannel($channel);
@@ -140,9 +147,11 @@ class CustomerOptionValue implements CustomerOptionValueInterface
             // Get the prices with product references (aka. overrides) first
             $prices = $prices->toArray();
 
-            return array_reduce($prices, function ($accumulator, COValuePriceInterface $price): COValuePriceInterface {
+            return array_reduce(
+                $prices, function ($accumulator, COValuePriceInterface $price): COValuePriceInterface {
                 return $price->getProduct() !== null ? $price : $accumulator;
-            }, reset($prices));
+            }, reset($prices)
+            );
         } elseif (count($prices) === 1) {
             return $prices->first();
         }
@@ -181,7 +190,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /**
      * @param string|null $locale
      *
-     * @return CustomerOptionValueTranslationInterface
+     * @return TranslationInterface
      */
     public function getTranslation(?string $locale = null): TranslationInterface
     {

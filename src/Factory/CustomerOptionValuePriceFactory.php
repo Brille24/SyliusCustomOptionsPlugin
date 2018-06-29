@@ -17,6 +17,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConfigurationException;
 use Doctrine\ORM\EntityNotFoundException;
 use Faker\Factory;
+use Faker\Generator;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 
@@ -28,7 +29,7 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
     private $channelRepository;
 
     /**
-     * @var Factory
+     * @var Generator
      */
     private $faker;
 
@@ -70,7 +71,7 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
                 $price->setPercent((float) ($configuration['percent']));
         }
 
-        /** @var ChannelInterface $channel */
+        /** @var ChannelInterface|null $channel */
         $channel = $this->channelRepository->findOneByCode($configuration['channel']);
 
         if ($channel === null) {

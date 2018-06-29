@@ -13,8 +13,7 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Channel\Model\ChannelInterface as BundleChannelInterface;
-use Sylius\Component\Core\Model\ChannelInterface as CoreChannelInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TranslatableInterface;
 
@@ -38,7 +37,7 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
     /**
      * @return string
      */
-    public function getName(): string;
+    public function getName(): ?string;
 
     /**
      * @param Collection|null $prices
@@ -48,16 +47,16 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
     /**
      * @return Collection
      */
-    public function getPrices(): ?Collection;
+    public function getPrices(): Collection;
 
     /**
-     * @param CoreChannelInterface|BundleChannelInterface $channel
+     * @param ChannelInterface $channel
      * @param bool             $ignoreActive
      *
      * @return CustomerOptionValuePriceInterface
      */
     public function getPriceForChannel(
-        $channel,
+        ChannelInterface $channel,
         bool $ignoreActive = false
     ): ?CustomerOptionValuePriceInterface;
 

@@ -16,7 +16,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\PersistentCollection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
@@ -30,16 +29,16 @@ class CustomerOption implements CustomerOptionInterface
     /** @var int|null */
     private $id;
 
-    /** @var string|null */
+    /** @var string */
     private $type = CustomerOptionTypeEnum::SELECT;
 
-    /** @var string|null */
+    /** @var string */
     private $code = '';
 
     /** @var bool|null */
     private $required = false;
 
-    /** @var PersistentCollection|CustomerOptionValueInterface[] */
+    /** @var Collection|CustomerOptionValueInterface[] */
     private $values;
 
     /** @var array */
@@ -72,7 +71,7 @@ class CustomerOption implements CustomerOptionInterface
      */
     public function setType(?string $type): void
     {
-        if (!CustomerOptionTypeEnum::isValid($type)) {
+        if (!CustomerOptionTypeEnum::isValid($type) || $type === null) {
             throw new \Exception('Invalid type');
         }
 
@@ -88,12 +87,12 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function getTypeCode(): string
+    public function getTypeCode(): ?string
     {
         $type = $this->getType();
         $translations = CustomerOptionTypeEnum::getTranslateArray();
@@ -107,7 +106,7 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function setCode(?string $code): void
+    public function setCode(string $code): void
     {
         $this->code = $code;
     }

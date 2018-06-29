@@ -38,7 +38,7 @@ class CustomerOptionConfigurationConstraintValidator extends ConstraintValidator
         $minValue = $value[reset($minKeys)]['value'];
         $maxValue = $value[reset($maxKeys)]['value'];
 
-        if ($minValue > $maxValue) {
+        if ($minValue > $maxValue && $constraint instanceof CustomerOptionConfigurationConstraint) {
             $this->context->addViolation($constraint->message);
         }
     }
