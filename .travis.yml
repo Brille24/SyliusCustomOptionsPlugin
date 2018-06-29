@@ -29,6 +29,7 @@ install:
     - (cd tests/Application && yarn install)
 
 before_script:
+    # Setting up internal application
     - (cd tests/Application && bin/console doctrine:database:create --env=test -vvv)
     - (cd tests/Application && bin/console doctrine:schema:create --env=test -vvv)
     - (cd tests/Application && bin/console assets:install web --env=test -vvv)
