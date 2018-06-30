@@ -60,8 +60,14 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
 
     public function addProduct(ProductInterface $product): void;
 
+    /**
+     * @return array<ValidatorInterface>
+     */
     public function getValidators(): array;
 
+    /**
+     * @param array<ValidatorInterface> $validators
+     */
     public function setValidators(array $validators): void;
 
     public function addValidator(ValidatorInterface $validator): void;

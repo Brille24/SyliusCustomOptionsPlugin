@@ -20,11 +20,13 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Services\ConstraintCreator;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class ShopCustomerOptionType extends AbstractType
 {
@@ -131,6 +133,7 @@ final class ShopCustomerOptionType extends AbstractType
             }
 
             if ($customerOption->isRequired()) {
+                /** @var NotBlank $requiredConstraint */
                 $requiredConstraint = ConstraintCreator::createRequiredConstraint();
                 $requiredConstraint->message = 'brille24.form.customer_options.required';
 
@@ -167,7 +170,9 @@ final class ShopCustomerOptionType extends AbstractType
             }
         }
 
-        $price = $price ?? $value->getPriceForChannel($this->channelContext->getChannel());
+        /** @var ChannelInterface $channel */
+        $channel = $this->channelContext->getChannel();
+        $price = $price ?? $value->getPriceForChannel($channel);
 
         // No price was found for the current channel, probably because the values weren't updated after adding a new channel
         if ($price === null) {

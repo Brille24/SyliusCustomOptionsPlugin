@@ -42,7 +42,7 @@ class Validator implements ValidatorInterface
     }
 
     /** {@inheritdoc} */
-    public function getConditions(): ?Collection
+    public function getConditions(): Collection
     {
         return $this->conditions;
     }
@@ -50,6 +50,11 @@ class Validator implements ValidatorInterface
     /** {@inheritdoc} */
     public function setConditions(?Collection $conditions): void
     {
+        if($conditions === null){
+            $this->conditions->clear();
+            return;
+        }
+
         foreach ($conditions as $condition) {
             $condition->setValidator($this);
         }
@@ -74,7 +79,7 @@ class Validator implements ValidatorInterface
     }
 
     /** {@inheritdoc} */
-    public function getConstraints(): ?Collection
+    public function getConstraints(): Collection
     {
         return $this->constraints;
     }

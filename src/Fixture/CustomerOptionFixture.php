@@ -47,7 +47,7 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
             try {
                 $customerOptions[] = $this->factory->createFromConfig($optionConfig);
             } catch (\Throwable $e) {
-                dump($e->getMessage());
+                print_r($e->getMessage());
             }
         }
 

@@ -54,7 +54,7 @@ final class CustomerOptionValuePriceType extends AbstractType
             ->add('channel', ChannelChoiceType::class, [
                 'choice_attr' => function (?ChannelInterface $channel) {
                     if ($channel !== null) {
-                        $currency = $channel->getBaseCurrency()->getCode();
+                        $currency = $channel->getBaseCurrency()->getCode() ?? 'EUR';
                         $symbol = Intl::getCurrencyBundle()->getCurrencySymbol($currency, 'en');
 
                         return ['data-attribute' => $symbol];

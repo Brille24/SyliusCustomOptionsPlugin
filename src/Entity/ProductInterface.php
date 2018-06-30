@@ -25,7 +25,7 @@ interface ProductInterface extends BaseProductInterface, CustomerOptionableTrait
     public function getCustomerOptionValuePrices(): Collection;
 
     /**
-     * @param Collection $prices
+     * @param Collection|null $prices
      */
     public function setCustomerOptionValuePrices(?Collection $prices): void;
 

@@ -57,9 +57,11 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
         $customerOptionGroup = $product->getCustomerOptionGroup();
 
         if ($customerOptionGroup !== null) {
-            /** @var ValidatorInterface $validator */
             foreach ($customerOptionGroup->getValidators() as $validator) {
-                /** @var ConditionalConstraint $constraint */
+                /**
+                 * @var ConditionalConstraint $constraint
+                 * @var ValidatorInterface $validator
+                 */
                 $constraint = ConstraintCreator::createConditionalConstraint(
                     $validator->getConditions()->getValues(),
                     $validator->getConstraints()->getValues()
@@ -67,10 +69,11 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
 
                 $constraint->groups = ['sylius'];
 
-                /** @var ErrorMessageTranslationInterface $errorMessage */
-                $errorMessage = $validator->getErrorMessage()->getTranslation($this->localeContext->getLocaleCode());
-
-                $constraint->message = $errorMessage->getMessage();
+                /** @var ErrorMessageTranslationInterface|null $errorMessage */
+                $errorMessage = $validator->getErrorMessage();
+                if ($errorMessage === null) {
+                    $constraint->message = $errorMessage !== null ?$errorMessage->getMessage():null;
+                }
 
                 $constraints[] = $constraint;
             }
