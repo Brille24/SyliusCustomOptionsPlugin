@@ -59,9 +59,9 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
             return $parentEquals;
         }
 
-        if($item instanceof self){
+        if ($item instanceof self) {
             $product = $item->getProduct();
-        }else{
+        } else {
             $product = null;
         }
 

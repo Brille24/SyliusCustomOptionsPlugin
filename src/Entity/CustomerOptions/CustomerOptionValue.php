@@ -79,6 +79,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     {
         /** @var CustomerOptionValueTranslationInterface $translation */
         $translation = $this->getTranslation();
+
         return $translation->getName();
     }
 
@@ -99,6 +100,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     {
         if ($prices === null) {
             $this->prices->clear();
+
             return;
         }
 
@@ -114,7 +116,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
      */
     public function getPrices(): Collection
     {
-        return $this->prices->filter(function (CustomerOptionValuePriceInterface $price){
+        return $this->prices->filter(function (CustomerOptionValuePriceInterface $price) {
             return $price->getProduct() === null;
         });
     }
@@ -126,6 +128,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
             if ($channelOfPrice === null) {
                 return false;
             }
+
             return $channelOfPrice->getId() === $channel->getId();
         };
 
@@ -149,8 +152,8 @@ class CustomerOptionValue implements CustomerOptionValueInterface
 
             return array_reduce(
                 $prices, function ($accumulator, COValuePriceInterface $price): COValuePriceInterface {
-                return $price->getProduct() !== null ? $price : $accumulator;
-            }, reset($prices)
+                    return $price->getProduct() !== null ? $price : $accumulator;
+                }, reset($prices)
             );
         } elseif (count($prices) === 1) {
             return $prices->first();

@@ -72,6 +72,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     {
         /** @var CustomerOptionGroupTranslationInterface $translations */
         $translations = $this->getTranslation();
+
         return $translations->getName();
     }
 
@@ -80,7 +81,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     {
         /** @var CustomerOptionGroupTranslationInterface $translations */
         $translations = $this->getTranslation();
-            $translations->setName($name);
+        $translations->setName($name);
     }
 
     /** {@inheritdoc} */

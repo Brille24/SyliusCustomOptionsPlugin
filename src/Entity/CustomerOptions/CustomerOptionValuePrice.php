@@ -135,15 +135,16 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
      */
     public function getCustomerOptionValueName(): ?string
     {
-        if($this->customerOptionValue === null){
+        if ($this->customerOptionValue === null) {
             return null;
         }
+
         return $this->customerOptionValue->getName();
     }
 
     public function setCustomerOptionValueName(string $name): void
     {
-        if($this->customerOptionValue === null){
+        if ($this->customerOptionValue === null) {
             return;
         }
         $this->customerOptionValue->setName($name);

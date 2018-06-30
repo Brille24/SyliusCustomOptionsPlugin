@@ -48,6 +48,7 @@ class ErrorMessage implements ErrorMessageInterface
     {
         /** @var ErrorMessageTranslationInterface $translation */
         $translation = $this->getTranslation();
+
         return $translation->getMessage();
     }
 

@@ -25,9 +25,9 @@ class ConditionalConstraintValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         if ($constraint instanceof ConditionalConstraint) {
-            if($value instanceof OrderItemInterface) {
+            if ($value instanceof OrderItemInterface) {
                 $configuration = $this->getCustomerOptionsFromRequest($this->requestStack->getCurrentRequest(), $value->getProduct());
-            }else{
+            } else {
                 $configuration = is_array($value) ? $value : [$value];
             }
 
@@ -68,7 +68,7 @@ class ConditionalConstraintValidator extends ConstraintValidator
         foreach ($conditions as $condition) {
             $customerOption = $condition->getCustomerOption();
 
-            if($customerOption === null){
+            if ($customerOption === null) {
                 continue;
             }
 

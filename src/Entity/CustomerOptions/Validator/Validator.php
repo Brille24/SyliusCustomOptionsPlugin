@@ -50,8 +50,9 @@ class Validator implements ValidatorInterface
     /** {@inheritdoc} */
     public function setConditions(?Collection $conditions): void
     {
-        if($conditions === null){
+        if ($conditions === null) {
             $this->conditions->clear();
+
             return;
         }
 

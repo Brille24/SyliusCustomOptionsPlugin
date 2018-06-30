@@ -130,7 +130,7 @@ class OrderItemOption implements OrderItemOptionInterface
         $this->customerOptionValue = $value;
         if ($value !== null) {
             $this->customerOptionValueCode = $value->getCode() ?? 'code';
-            $this->customerOptionValueName = $value->getName() ??'name';
+            $this->customerOptionValueName = $value->getName() ?? 'name';
             $this->optionValue = null;
         } else {
             $this->optionValue = $value ?? '';

@@ -28,7 +28,6 @@ final class AdminMenuListener
                 ->setLabelAttribute('icon', 'options');
         }
 
-
         $submenu = $menu->getChild('catalog');
         if ($submenu instanceof ItemInterface) {
             $submenu->addChild('customer_option_groups', ['route' => 'brille24_admin_customer_option_group_index'])

@@ -43,7 +43,7 @@ class ProductCustomerOptionValuePriceConstraintValidator extends ConstraintValid
         /** @var CustomerOptionValuePriceInterface $price */
         foreach ($collection as $price) {
             $priceChannel = $price->getChannel();
-            if($priceChannel === null){
+            if ($priceChannel === null) {
                 continue;
             }
 
