@@ -30,6 +30,7 @@ final class CustomerOptionType extends AbstractResourceType
 
         $builder
             ->add('code', TextType::class, [
+                'required' => true,
                 'label' => 'sylius.ui.code',
             ])
             ->add('type', ChoiceType::class, [
