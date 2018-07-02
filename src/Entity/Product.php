@@ -47,8 +47,9 @@ class Product extends BaseProduct implements ProductInterface
      */
     public function setCustomerOptionValuePrices(?Collection $prices): void
     {
-        if($prices === null){
+        if ($prices === null) {
             $this->customerOptionValuePrices->clear();
+
             return;
         }
 

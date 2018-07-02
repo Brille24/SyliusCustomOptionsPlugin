@@ -57,11 +57,9 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
         $customerOptionGroup = $product->getCustomerOptionGroup();
 
         if ($customerOptionGroup !== null) {
+            /** @var ValidatorInterface $validator */
             foreach ($customerOptionGroup->getValidators() as $validator) {
-                /**
-                 * @var ConditionalConstraint $constraint
-                 * @var ValidatorInterface $validator
-                 */
+                /** @var ConditionalConstraint $constraint */
                 $constraint = ConstraintCreator::createConditionalConstraint(
                     $validator->getConditions()->getValues(),
                     $validator->getConstraints()->getValues()
