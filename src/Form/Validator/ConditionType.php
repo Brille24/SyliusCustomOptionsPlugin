@@ -36,15 +36,15 @@ class ConditionType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $form = $event->getForm();
 
-            $configuration = $event->getData();
-            $customerOption = $configuration->getCustomerOption();
+            $condition = $event->getData() ?? new Condition();
+            $customerOption = $condition->getCustomerOption();
 
             $comparatorChoices = ConditionComparatorEnum::getConstList();
             [$formType, $formOptions] = ConditionComparatorEnum::getFormTypeForCustomerOptionType('text');
 
             $customerOptionType = CustomerOptionTypeEnum::TEXT;
 
-            if ($configuration instanceof ConditionInterface && $customerOption instanceof CustomerOption) {
+            if ($condition instanceof ConditionInterface && $customerOption instanceof CustomerOption) {
                 $customerOptionType = $customerOption->getType();
                 $comparatorChoices = ConditionComparatorEnum::getValuesForCustomerOptionType($customerOptionType);
 
