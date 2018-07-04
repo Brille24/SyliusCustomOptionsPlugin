@@ -37,14 +37,6 @@ Feature: Managing CustomerOptions
         And the customer option "Some Option" should not appear in the registry
 
     @ui
-    Scenario: Trying to create a CustomerOption without code
-        Given I want to create a new customer option
-        And I name it "Cool Option"
-        When I add it
-        Then I should be notified that code is required
-        And the customer option "Cool Option" should not appear in the registry
-
-    @ui
     Scenario: Trying to create a CustomerOption with existing code
         Given I want to create a new customer option
         And I specify its code as "some_option"
