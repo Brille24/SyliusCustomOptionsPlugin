@@ -28,7 +28,7 @@ final class CustomerOptionFormMenuBuilder
 
     public function __construct(FactoryInterface $factory, EventDispatcherInterface $dispatcher)
     {
-        $this->factory = $factory;
+        $this->factory         = $factory;
         $this->eventDispatcher = $dispatcher;
     }
 

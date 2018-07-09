@@ -45,7 +45,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
         ProductRepositoryInterface $productRepository
     ) {
         $this->customerOptionRepository = $customerOptionRepository;
-        $this->productRepository = $productRepository;
+        $this->productRepository        = $productRepository;
 
         $this->faker = Factory::create();
     }
@@ -82,7 +82,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
         for ($i = 0; $i < $amount; ++$i) {
             $options = [];
 
-            $options['code'] = $this->faker->uuid;
+            $options['code']                  = $this->faker->uuid;
             $options['translations']['en_US'] = sprintf('CustomerOptionGroup "%s"', $names[$i]);
 
             if (count($customerOptionsCodes) > 0) {
@@ -213,11 +213,11 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
     private function getOptionsSkeleton()
     {
         return [
-            'code' => null,
+            'code'         => null,
             'translations' => [],
-            'options' => [],
-            'validators' => [],
-            'products' => [],
+            'options'      => [],
+            'validators'   => [],
+            'products'     => [],
         ];
     }
 

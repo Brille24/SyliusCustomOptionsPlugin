@@ -34,27 +34,27 @@ final class CustomerOptionValuePriceType extends AbstractType
             ])
             ->add('channel', CustomerOptionValuePriceChannelType::class, [
                 'required' => false,
-                'attr' => [
+                'attr'     => [
                     'readonly' => true,
                 ],
                 'disabled' => true,
-                'label' => 'sylius.ui.channel',
+                'label'    => 'sylius.ui.channel',
             ])
             ->add('percent', PercentType::class, [
                 'empty_data' => '0.00',
-                'scale' => 5,
-                'required' => false,
-                'label' => 'sylius.ui.percent',
+                'scale'      => 5,
+                'required'   => false,
+                'label'      => 'sylius.ui.percent',
             ])
             ->add('amount', MoneyType::class, [
                 'empty_data' => '0.00',
-                'required' => false,
-                'label' => 'sylius.ui.amount',
+                'required'   => false,
+                'label'      => 'sylius.ui.amount',
             ])
             ->add('type', ChoiceType::class, [
-                'choices' => CustomerOptionValuePrice::getAllTypes(),
+                'choices'      => CustomerOptionValuePrice::getAllTypes(),
                 'choice_label' => function ($option) {
-                    return 'brille24.ui.pricing.' . strtolower($option);
+                    return 'brille24.ui.pricing.'.strtolower($option);
                 },
                 'label' => 'sylius.ui.type',
             ])

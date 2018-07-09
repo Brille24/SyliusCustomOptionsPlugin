@@ -18,26 +18,26 @@ class ValidatorType extends AbstractType
     {
         $builder
             ->add('conditions', CollectionType::class, [
-                'entry_type' => ConditionType::class,
+                'entry_type'    => ConditionType::class,
                 'entry_options' => [
                     'customerOptionGroup' => $options['customerOptionGroup'],
                 ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'button_add_label' => 'brille24.form.validators.buttons.add_condition',
+                'allow_add'           => true,
+                'allow_delete'        => true,
+                'by_reference'        => false,
+                'button_add_label'    => 'brille24.form.validators.buttons.add_condition',
                 'button_delete_label' => 'brille24.form.validators.buttons.delete_condition',
             ])
             ->add('constraints', CollectionType::class, [
-                'entry_type' => ConditionType::class,
+                'entry_type'    => ConditionType::class,
                 'entry_options' => [
-                    'data_class' => Constraint::class,
+                    'data_class'          => Constraint::class,
                     'customerOptionGroup' => $options['customerOptionGroup'],
                 ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'button_add_label' => 'brille24.form.validators.buttons.add_constraint',
+                'allow_add'           => true,
+                'allow_delete'        => true,
+                'by_reference'        => false,
+                'button_add_label'    => 'brille24.form.validators.buttons.add_constraint',
                 'button_delete_label' => 'brille24.form.validators.buttons.delete_constraint',
             ])
             ->add('errorMessage', ErrorMessageType::class, [

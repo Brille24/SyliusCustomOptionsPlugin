@@ -25,14 +25,14 @@ final class CustomerOptionTypeEnum implements EnumInterface
 {
     const __default = null;
 
-    const TEXT = 'text';
-    const SELECT = 'select';
+    const TEXT         = 'text';
+    const SELECT       = 'select';
     const MULTI_SELECT = 'multi_select';
-    const FILE = 'file';
-    const DATE = 'date';
-    const DATETIME = 'datetime';
-    const NUMBER = 'number';
-    const BOOLEAN = 'boolean';
+    const FILE         = 'file';
+    const DATE         = 'date';
+    const DATETIME     = 'datetime';
+    const NUMBER       = 'number';
+    const BOOLEAN      = 'boolean';
 
     public static function getConstList(): array
     {
@@ -55,14 +55,14 @@ final class CustomerOptionTypeEnum implements EnumInterface
     public static function getTranslateArray(): array
     {
         return [
-            self::TEXT => 'brille24.form.customer_options.type.text',
-            self::SELECT => 'brille24.form.customer_options.type.select',
+            self::TEXT         => 'brille24.form.customer_options.type.text',
+            self::SELECT       => 'brille24.form.customer_options.type.select',
             self::MULTI_SELECT => 'brille24.form.customer_options.type.multi_select',
-            self::FILE => 'brille24.form.customer_options.type.file',
-            self::DATE => 'brille24.form.customer_options.type.date',
-            self::DATETIME => 'brille24.form.customer_options.type.datetime',
-            self::NUMBER => 'brille24.form.customer_options.type.number',
-            self::BOOLEAN => 'brille24.form.customer_options.type.boolean',
+            self::FILE         => 'brille24.form.customer_options.type.file',
+            self::DATE         => 'brille24.form.customer_options.type.date',
+            self::DATETIME     => 'brille24.form.customer_options.type.datetime',
+            self::NUMBER       => 'brille24.form.customer_options.type.number',
+            self::BOOLEAN      => 'brille24.form.customer_options.type.boolean',
         ];
     }
 

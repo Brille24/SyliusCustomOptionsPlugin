@@ -17,7 +17,7 @@ class ConfigurationException extends \Exception
     public static function createFromMissingArrayKey(string $key, array $array)
     {
         if (!array_key_exists($key, $array)) {
-            throw new self('The configuration does not contain key: "' . $key . '"');
+            throw new self('The configuration does not contain key: "'.$key.'"');
         }
     }
 

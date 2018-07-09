@@ -48,7 +48,7 @@ final class CustomerOptionValuePriceType extends AbstractType
 
         $builder
             ->add('customerOptionValue', ChoiceType::class, [
-                'choices' => $values,
+                'choices'      => $values,
                 'choice_label' => 'name',
             ])
             ->add('channel', ChannelChoiceType::class, [
@@ -66,23 +66,23 @@ final class CustomerOptionValuePriceType extends AbstractType
             ])
             ->add('percent', PercentType::class, [
                 'empty_data' => '0.00',
-                'scale' => 5,
-                'required' => false,
+                'scale'      => 5,
+                'required'   => false,
             ])
             ->add('amount', MoneyType::class, [
                 'empty_data' => '0.00',
-                'currency' => 'USD',
-                'required' => false,
+                'currency'   => 'USD',
+                'required'   => false,
             ])
             ->add('type', ChoiceType::class, [
-                'choices' => CustomerOptionValuePrice::getAllTypes(),
+                'choices'      => CustomerOptionValuePrice::getAllTypes(),
                 'choice_label' => function ($option) {
-                    return 'brille24.ui.pricing.' . strtolower($option);
+                    return 'brille24.ui.pricing.'.strtolower($option);
                 },
             ])
             ->add('dateValid', DateTimeRangeType::class, [
                 'required' => false,
-                'label' => 'Active range',
+                'label'    => 'Active range',
             ]);
 
         $this->addModelTransformer($builder);
@@ -99,7 +99,7 @@ final class CustomerOptionValuePriceType extends AbstractType
 
                     return [
                         'start' => $dateRange->getStart(),
-                        'end' => $dateRange->getEnd(),
+                        'end'   => $dateRange->getEnd(),
                     ];
                 },
                 function (array $dateTime) {

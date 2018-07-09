@@ -35,7 +35,7 @@ final class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('brille24_customer_options');
+        $rootNode    = $treeBuilder->root('brille24_customer_options');
 
         // Adding new resources
         $this->addResourceSection($rootNode);

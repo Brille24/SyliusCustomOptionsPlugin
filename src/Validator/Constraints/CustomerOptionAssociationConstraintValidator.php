@@ -23,7 +23,7 @@ class CustomerOptionAssociationConstraintValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint): void
     {
         if (!$value instanceof Collection) {
-            throw new \InvalidArgumentException(get_class($this) . ' can only validate collections containing ' . CustomerOptionAssociationInterface::class);
+            throw new \InvalidArgumentException(get_class($this).' can only validate collections containing '.CustomerOptionAssociationInterface::class);
         }
 
         $optionsSoFar = [];

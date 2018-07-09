@@ -176,8 +176,8 @@ trait ConditionTrait
                 $result = new \DateTime($result['date']);
             } else {
                 if ($optionType === CustomerOptionTypeEnum::DATETIME) {
-                    $date = $value['date'];
-                    $time = $value['time'];
+                    $date   = $value['date'];
+                    $time   = $value['time'];
                     $result = new \DateTime(sprintf('%d-%d-%d', $date['year'], $date['month'], $date['day']));
                     $result->setTime((int) ($time['hour']), (int) ($time['minute']));
                 } else {

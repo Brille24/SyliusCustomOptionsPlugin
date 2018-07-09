@@ -26,11 +26,11 @@ final class CustomerOptionAssociationType extends AbstractType
     {
         $builder
             ->add('option', EntityType::class, [
-                'class' => CustomerOption::class,
-                'placeholder' => 'brille24.form.customer_option_groups.select',
-                'required' => true,
+                'class'        => CustomerOption::class,
+                'placeholder'  => 'brille24.form.customer_option_groups.select',
+                'required'     => true,
                 'choice_label' => 'name',
-                'label' => 'brille24.ui.customer_options',
+                'label'        => 'brille24.ui.customer_options',
             ])
             ->add('position', IntegerType::class, ['label' => 'sylius.ui.position']);
     }
@@ -39,7 +39,7 @@ final class CustomerOptionAssociationType extends AbstractType
     {
         $resolver->setDefaults([
             'error_bubbling' => true,
-            'data_class' => CustomerOptionAssociation::class,
+            'data_class'     => CustomerOptionAssociation::class,
         ]);
     }
 

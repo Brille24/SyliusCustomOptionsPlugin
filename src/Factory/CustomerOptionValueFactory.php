@@ -33,7 +33,7 @@ class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
     public function __construct(CustomerOptionValuePriceFactoryInterface $valuePriceFactory)
     {
         $this->valuePriceFactory = $valuePriceFactory;
-        $this->faker = Factory::create();
+        $this->faker             = Factory::create();
     }
 
     /**
@@ -88,9 +88,9 @@ class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
             $priceAmount = $this->faker->numberBetween(0, 2);
 
             $config = [
-                'code' => $this->faker->uuid,
+                'code'         => $this->faker->uuid,
                 'translations' => ['en_US' => sprintf('Value "%s"', $this->faker->word)],
-                'prices' => $this->valuePriceFactory->generateRandomConfiguration($priceAmount),
+                'prices'       => $this->valuePriceFactory->generateRandomConfiguration($priceAmount),
             ];
 
             $result[] = $config;

@@ -30,7 +30,7 @@ class Validator implements ValidatorInterface
     public function __construct()
     {
         $this->constraints = new ArrayCollection();
-        $this->conditions = new ArrayCollection();
+        $this->conditions  = new ArrayCollection();
 
         $this->errorMessage = self::createDefaultErrorMessage();
     }

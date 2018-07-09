@@ -44,10 +44,10 @@ class ProductFactory implements ExampleFactoryInterface
         RepositoryInterface $customerOptionGroupRepository,
         RepositoryInterface $customerOptionValueRepository
     ) {
-        $this->baseFactory = $baseFactory;
+        $this->baseFactory                   = $baseFactory;
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;
         $this->customerOptionValueRepository = $customerOptionValueRepository;
-        $this->channelRepository = $channelRepository;
+        $this->channelRepository             = $channelRepository;
     }
 
     protected function configureOptions(OptionsResolver $resolver): void
@@ -78,11 +78,11 @@ class ProductFactory implements ExampleFactoryInterface
     public function create(array $options = []): ProductInterface
     {
         $options = array_merge([
-            'customer_option_group' => null,
+            'customer_option_group'        => null,
             'customer_option_value_prices' => [],
         ], $options);
 
-        $customerOptionGroupConfig = $options['customer_option_group'];
+        $customerOptionGroupConfig       = $options['customer_option_group'];
         $customerOptionValuePricesConfig = $options['customer_option_value_prices'];
 
         unset($options['customer_option_group'], $options['customer_option_value_prices']);
@@ -132,7 +132,7 @@ class ProductFactory implements ExampleFactoryInterface
 
                 if ($channel === null) {
                     $channels = new ArrayCollection($this->channelRepository->findAll());
-                    $channel = $channels->first();
+                    $channel  = $channels->first();
                 }
 
                 $valuePrice->setChannel($channel);

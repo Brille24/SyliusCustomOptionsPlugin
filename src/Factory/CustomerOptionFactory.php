@@ -44,7 +44,7 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
         CustomerOptionValueFactoryInterface $customerOptionValueFactory
     ) {
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;
-        $this->customerOptionValueFactory = $customerOptionValueFactory;
+        $this->customerOptionValueFactory    = $customerOptionValueFactory;
 
         $this->faker = Factory::create();
     }
@@ -139,18 +139,18 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
         for ($i = 0; $i < $amount; ++$i) {
             $options = [];
 
-            $options['code'] = $this->faker->uuid;
+            $options['code']                  = $this->faker->uuid;
             $options['translations']['en_US'] = sprintf('CustomerOption "%s"', $this->faker->unique()->word);
-            $options['type'] = $this->faker->randomElement($types);
-            $options['required'] = $this->faker->boolean;
+            $options['type']                  = $this->faker->randomElement($types);
+            $options['required']              = $this->faker->boolean;
 
             if (CustomerOptionTypeEnum::isSelect($options['type'])) {
-                $numValues = $this->faker->numberBetween(2, 4);
+                $numValues         = $this->faker->numberBetween(2, 4);
                 $options['values'] = $this->customerOptionValueFactory->generateRandomConfiguration($numValues);
             }
 
             /** @var CustomerOptionGroupInterface[] $groups */
-            $groups = $this->customerOptionGroupRepository->findAll();
+            $groups     = $this->customerOptionGroupRepository->findAll();
             $groupCodes = array_map(function (CustomerOptionGroupInterface $group) { return $group->getCode(); },
                 $groups);
 

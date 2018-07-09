@@ -44,8 +44,8 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     public function __construct()
     {
         $this->optionAssociations = new ArrayCollection();
-        $this->products = new ArrayCollection();
-        $this->validators = new ArrayCollection();
+        $this->products           = new ArrayCollection();
+        $this->validators         = new ArrayCollection();
         $this->initializeTranslationsCollection();
     }
 

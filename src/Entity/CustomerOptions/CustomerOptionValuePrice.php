@@ -89,7 +89,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         if (in_array($type, $allTypes)) {
             $this->type = $type;
         } else {
-            throw new InvalidTypeException('Invalid type. Possible types are ' . implode(', ', $allTypes));
+            throw new InvalidTypeException('Invalid type. Possible types are '.implode(', ', $allTypes));
         }
     }
 

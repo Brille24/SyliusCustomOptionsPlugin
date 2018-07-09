@@ -62,7 +62,7 @@ class ConstraintCreator
     public static function createConditionalConstraint(array $conditions, array $constraints): Constraint
     {
         return new ConditionalConstraint([
-            'conditions' => $conditions,
+            'conditions'  => $conditions,
             'constraints' => $constraints,
         ]);
     }

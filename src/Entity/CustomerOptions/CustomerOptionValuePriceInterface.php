@@ -20,7 +20,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 interface CustomerOptionValuePriceInterface
 {
     const TYPE_FIXED_AMOUNT = 'FIXED_AMOUNT';
-    const TYPE_PERCENT = 'PERCENT';
+    const TYPE_PERCENT      = 'PERCENT';
 
     /**
      * @return int|null

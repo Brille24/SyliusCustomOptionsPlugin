@@ -30,7 +30,7 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
     public function __construct(CustomerOptionFactory $factory, EntityManagerInterface $em)
     {
         $this->factory = $factory;
-        $this->em = $em;
+        $this->em      = $em;
     }
 
     public function load(array $options): void

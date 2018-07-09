@@ -39,8 +39,8 @@ final class AddToCartListener
         EntityManagerInterface $entityManager,
         OrderItemOptionFactoryInterface $itemOptionFactory
     ) {
-        $this->requestStack = $requestStack;
-        $this->entityManager = $entityManager;
+        $this->requestStack           = $requestStack;
+        $this->entityManager          = $entityManager;
         $this->orderItemOptionFactory = $itemOptionFactory;
     }
 

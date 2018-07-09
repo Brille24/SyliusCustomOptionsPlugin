@@ -92,9 +92,9 @@ class ValueType extends AbstractType
         $resolver->setAllowedTypes('option_type', 'string');
 
         $resolver->setDefaults([
-            'field_type' => NumberType::class,
+            'field_type'    => NumberType::class,
             'field_options' => [],
-            'option_type' => CustomerOptionTypeEnum::TEXT,
+            'option_type'   => CustomerOptionTypeEnum::TEXT,
         ]);
     }
 

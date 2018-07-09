@@ -35,7 +35,7 @@ final class CustomerOptionValueType extends AbstractResourceType
     {
         $defaults = [
             'error_bubbling' => true,
-            'data_class' => CustomerOptionValue::class,
+            'data_class'     => CustomerOptionValue::class,
         ];
         $resolver->setDefaults($defaults);
     }

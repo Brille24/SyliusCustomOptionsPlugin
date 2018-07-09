@@ -19,7 +19,7 @@ class ConditionalConstraint extends Constraint
     {
         if ($options !== null && !is_array($options)) {
             $options = [
-                'conditions' => [],
+                'conditions'  => [],
                 'constraints' => [],
             ];
         }

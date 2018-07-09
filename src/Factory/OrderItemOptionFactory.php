@@ -43,9 +43,9 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionValueResolverInterface $valueResolver
     ) {
-        $this->channel = $channel;
+        $this->channel                  = $channel;
         $this->customerOptionRepository = $customerOptionRepository;
-        $this->valueResolver = $valueResolver;
+        $this->valueResolver            = $valueResolver;
     }
 
     /** {@inheritdoc} */
