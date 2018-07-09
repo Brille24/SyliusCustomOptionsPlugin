@@ -12,16 +12,16 @@ use Webmozart\Assert\Assert;
 
 trait ConditionTrait
 {
-    /** @var CustomerOptionInterface */
+    /** @var CustomerOptionInterface|null */
     protected $customerOption;
 
-    /** @var string */
+    /** @var string|null */
     protected $comparator;
 
     /** @var array */
     protected $value;
 
-    /** @var ValidatorInterface */
+    /** @var ValidatorInterface|null */
     protected $validator;
 
     /** {@inheritdoc} */

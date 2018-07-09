@@ -104,8 +104,8 @@ final class ShopCustomerOptionType extends AbstractType
         ProductInterface $product
     ): array {
         $defaultOptions = [
-            'label'    => $customerOption->getName(),
-            'mapped'   => false,
+            'label' => $customerOption->getName(),
+            'mapped' => false,
             'required' => $customerOption->isRequired(),
         ];
 
@@ -115,7 +115,7 @@ final class ShopCustomerOptionType extends AbstractType
         $customerOptionType = $customerOption->getType();
         if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
             $configuration = [
-                'choices'      => $customerOption->getValues()->toArray(),
+                'choices' => $customerOption->getValues()->toArray(),
                 'choice_label' => function (CustomerOptionValueInterface $value) use ($product) {
                     return $this->buildValueString($value, $product);
                 },
@@ -161,8 +161,8 @@ final class ShopCustomerOptionType extends AbstractType
         /** @var CustomerOptionValuePriceInterface $productPrice */
         foreach ($product->getCustomerOptionValuePrices() as $productPrice) {
             if (
-                $productPrice->getCustomerOptionValue() === $value &&
-                $productPrice->getChannel() === $this->channelContext->getChannel()
+                $productPrice->getCustomerOptionValue() === $value
+                && $productPrice->getChannel() === $this->channelContext->getChannel()
             ) {
                 $price = $productPrice;
 
@@ -185,9 +185,10 @@ final class ShopCustomerOptionType extends AbstractType
             );
         }
 
-        return
-            "{$value} ({$price->getValueString(
-                $this->currencyContext->getCurrencyCode(), $this->localeContext->getLocaleCode(), $this->moneyFormatter
-            )})";
+        $valueString = $price->getValueString(
+            $this->currencyContext->getCurrencyCode(), $this->localeContext->getLocaleCode(), $this->moneyFormatter
+        );
+        $name = $value->getName();
+        return "{$name} ($valueString)";
     }
 }

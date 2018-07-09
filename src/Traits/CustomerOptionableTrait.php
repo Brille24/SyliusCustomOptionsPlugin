@@ -46,11 +46,12 @@ trait CustomerOptionableTrait
     /** {@inheritdoc} */
     public function getCustomerOptions(): array
     {
-        if (!$this->hasCustomerOptions()) {
+        $customerOptionGroup = $this->customerOptionGroup;
+        if ($customerOptionGroup === null) {
             return [];
         }
 
-        return $this->customerOptionGroup->getOptionAssociations()->map(function (
+        return $customerOptionGroup->getOptionAssociations()->map(function (
             CustomerOptionAssociationInterface $association
         ) {
             return $association->getOption();

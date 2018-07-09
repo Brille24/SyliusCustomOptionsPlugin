@@ -69,9 +69,7 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
 
                 /** @var ErrorMessageTranslationInterface|null $errorMessage */
                 $errorMessage = $validator->getErrorMessage();
-                if ($errorMessage === null) {
-                    $constraint->message = $errorMessage !== null ? $errorMessage->getMessage() : null;
-                }
+                $constraint->message = $errorMessage !== null ? $errorMessage->getMessage() : null;
 
                 $constraints[] = $constraint;
             }

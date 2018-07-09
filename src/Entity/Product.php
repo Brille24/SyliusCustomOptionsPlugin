@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Entity;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Traits\CustomerOptionableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -79,12 +80,13 @@ class Product extends BaseProduct implements ProductInterface
     {
         $options = [];
 
-        if ($this->customerOptionGroup !== null) {
-            foreach ($this->customerOptionGroup->getOptionAssociations() as $assoc) {
-                $options[] = $assoc->getOption();
-            }
+        $customerOptionGroup = $this->getCustomerOptionGroup();
+        if ($customerOptionGroup === null) {
+            return $options;
         }
 
-        return $options;
+        foreach ($customerOptionGroup->getOptionAssociations() as $assoc) {
+            $options[] = $assoc->getOption();
+        }
     }
 }

@@ -127,7 +127,7 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
      *
      * @param int $amount
      *
-     * @return CustomerOptionInterface[]
+     * @return array<array<string, mixed>>
      */
     public function generateRandomConfiguration(int $amount): array
     {

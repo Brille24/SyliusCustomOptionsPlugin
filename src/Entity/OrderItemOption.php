@@ -65,7 +65,7 @@ class OrderItemOption implements OrderItemOptionInterface
 
         // Copying the customer option value
         if (is_scalar($customerOptionValue)) {
-            $this->optionValue = $customerOptionValue;
+            $this->optionValue = (string) $customerOptionValue;
         } elseif ($customerOptionValue instanceof CustomerOptionValueInterface) {
             $this->setCustomerOptionValue($customerOptionValue);
 
