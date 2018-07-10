@@ -113,7 +113,11 @@ trait ConditionTrait
     /** {@inheritdoc} */
     public function isMet($value, ?string $optionType = null): bool
     {
-        $optionType = $optionType ?? $this->customerOption->getType() ?? 'number';
+        if ($this->customerOption === null) {
+            $optionType= 'number';
+        } else {
+            $optionType = $optionType ?? $this->customerOption->getType() ?? 'number';
+        }
 
         $actual = $this->formatValue($value, $optionType);
 

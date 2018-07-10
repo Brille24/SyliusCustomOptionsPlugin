@@ -68,7 +68,7 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
                 $constraint->groups = ['sylius'];
 
                 /** @var ErrorMessageTranslationInterface|null $errorMessage */
-                $errorMessage = $validator->getErrorMessage();
+                $errorMessage        = $validator->getErrorMessage();
                 $constraint->message = $errorMessage !== null ? $errorMessage->getMessage() : null;
 
                 $constraints[] = $constraint;

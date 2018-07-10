@@ -26,7 +26,13 @@ class CustomerOptionConfigurationConstraintValidator extends ConstraintValidator
             throw new \InvalidArgumentException('Can not validate configurations.');
         }
 
-        // Get the array key that contains min and max
+        /**
+         * The array can look like this
+         * filesize.min => 2
+         * filesize.max => 10
+         *
+         * So in this line we look for the array key that contains min and max
+         */
         $minKeys = array_filter(array_keys($value), function (string $key) { return is_int(strpos($key, 'min')); });
         $maxKeys = array_filter(array_keys($value), function (string $key) { return is_int(strpos($key, 'max')); });
 
@@ -38,7 +44,7 @@ class CustomerOptionConfigurationConstraintValidator extends ConstraintValidator
         $minValue = $value[reset($minKeys)]['value'];
         $maxValue = $value[reset($maxKeys)]['value'];
 
-        if ($minValue > $maxValue && $constraint instanceof CustomerOptionConfigurationConstraint) {
+        if ($minValue > $maxValue) {
             $this->context->addViolation($constraint->message);
         }
     }

@@ -12,6 +12,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConfigurationException;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionFactory;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValueFactory;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class CustomerOptionFactoryTest extends TestCase
@@ -32,7 +33,8 @@ class CustomerOptionFactoryTest extends TestCase
         $customerOptionGroupRepository->method('findAll')->willReturnCallback(
             function () { return $this->customerOptionGroupRepository; }
         );
-        $customerOptionGroupRepository->method('findOneByCode')->willReturnCallback(function (string $code) {
+        $customerOptionGroupRepository->method('findOneBy')->willReturnCallback(function (array $config) {
+            $code = $config['code'];
             foreach ($this->customerOptionGroupRepository as $group) {
                 if ($group->getCode() === $code) {
                     return $group;
@@ -190,10 +192,12 @@ class CustomerOptionFactoryTest extends TestCase
     public function testGroupAssociation(): void
     {
         $associated = null;
+
         $group = self::createConfiguredMock(CustomerOptionGroupInterface::class, ['getCode' => 'en_US']);
         $group->method('addOptionAssociation')->willReturnCallback(function (CustomerOptionAssociation $option) use (&$associated) {
             $associated = 'hello';
         });
+
         $this->customerOptionGroupRepository = [$group];
 
         $option = [

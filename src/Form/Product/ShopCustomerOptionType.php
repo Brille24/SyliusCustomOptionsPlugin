@@ -104,8 +104,8 @@ final class ShopCustomerOptionType extends AbstractType
         ProductInterface $product
     ): array {
         $defaultOptions = [
-            'label' => $customerOption->getName(),
-            'mapped' => false,
+            'label'    => $customerOption->getName(),
+            'mapped'   => false,
             'required' => $customerOption->isRequired(),
         ];
 
@@ -115,7 +115,7 @@ final class ShopCustomerOptionType extends AbstractType
         $customerOptionType = $customerOption->getType();
         if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
             $configuration = [
-                'choices' => $customerOption->getValues()->toArray(),
+                'choices'      => $customerOption->getValues()->toArray(),
                 'choice_label' => function (CustomerOptionValueInterface $value) use ($product) {
                     return $this->buildValueString($value, $product);
                 },
@@ -189,6 +189,7 @@ final class ShopCustomerOptionType extends AbstractType
             $this->currencyContext->getCurrencyCode(), $this->localeContext->getLocaleCode(), $this->moneyFormatter
         );
         $name = $value->getName();
+
         return "{$name} ($valueString)";
     }
 }

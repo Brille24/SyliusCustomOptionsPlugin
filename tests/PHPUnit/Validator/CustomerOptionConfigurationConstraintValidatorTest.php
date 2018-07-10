@@ -19,7 +19,7 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
     /** @var array */
     private $violations = [];
 
-    public function setUp()
+    public function setUp(): void
     {
         $context = self::createMock(ExecutionContextInterface::class);
         $context->method('addViolation')->willReturnCallback(function (?string $message): void {
@@ -40,7 +40,7 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
         $this->customerOptionConfigurationValidator->validate('something', $constraint);
     }
 
-    public function testWithInvalidKeys()
+    public function testWithInvalidKeys(): void
     {
         $constraint = self::createMock(Constraint::class);
 
@@ -51,7 +51,7 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
         self::assertEquals(0, count($this->violations));
     }
 
-    public function testWithValidKeysAndValidOrder()
+    public function testWithValidKeysAndValidOrder(): void
     {
         $constraint = self::createMock(Constraint::class);
 
@@ -62,8 +62,11 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
         self::assertEquals(0, count($this->violations));
     }
 
-    /** @dataProvider dataWithValidKeysAndInvalidOrder */
-    public function testWithValidKeysAndInvalidOrder($min, $max)
+    /** @dataProvider dataWithValidKeysAndInvalidOrder
+     * @param DateTime|int $min
+     * @param DateTime|int $max
+     */
+    public function testWithValidKeysAndInvalidOrder($min, $max): void
     {
         $constraint = self::createMock(Constraint::class);
 
