@@ -80,12 +80,13 @@ class Product extends BaseProduct implements ProductInterface
         $options = [];
 
         $customerOptionGroup = $this->getCustomerOptionGroup();
-        if ($customerOptionGroup === null) {
-            return $options;
+
+        if (null !== $customerOptionGroup) {
+            foreach ($customerOptionGroup->getOptionAssociations() as $assoc) {
+                $options[] = $assoc->getOption();
+            }
         }
 
-        foreach ($customerOptionGroup->getOptionAssociations() as $assoc) {
-            $options[] = $assoc->getOption();
-        }
+        return $options;
     }
 }
