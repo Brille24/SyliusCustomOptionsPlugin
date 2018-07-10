@@ -19,7 +19,7 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
     private $productCustomerOptionPriceValidator;
 
     /** @var array */
-    private $violations;
+    private $violations = [];
 
     /** @var ChannelInterface[] */
     private $channel;
