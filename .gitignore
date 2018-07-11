@@ -7,6 +7,8 @@
 /etc/build/*
 !/etc/build/.gitkeep
 
+# Excluding the test application
 /tests/Application/yarn.lock
+/tests/Application/app/sqlite.db
 
 /web
