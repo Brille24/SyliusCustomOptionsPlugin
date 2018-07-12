@@ -77,7 +77,7 @@ class ProductFactory implements ExampleFactoryInterface
     {
         $options = array_merge(
             [
-                'customer_option_group' => null,
+                'customer_option_group'        => null,
                 'customer_option_value_prices' => [],
             ], $options
         );

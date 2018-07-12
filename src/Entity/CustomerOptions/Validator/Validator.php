@@ -36,7 +36,7 @@ class Validator implements ValidatorInterface
     }
 
     /** {@inheritdoc} */
-    public function getId():?int
+    public function getId(): ?int
     {
         return $this->id;
     }
