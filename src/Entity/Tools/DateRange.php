@@ -14,9 +14,12 @@ class DateRange implements DateRangeInterface
 
     /**
      * @var DateTimeInterface
-     * @var DateTimeInterface $end
      */
     private $start;
+
+    /**
+     * @var DateTimeInterface
+     */
     private $end;
 
     public function getId(): ?int

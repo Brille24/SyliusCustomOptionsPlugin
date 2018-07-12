@@ -50,7 +50,7 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
         ]));
     }
 
-    private function getConstraints(ProductInterface $product)
+    private function getConstraints(ProductInterface $product): array
     {
         $constraints = [];
 
@@ -69,7 +69,7 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
 
                 /** @var ErrorMessageTranslationInterface|null $errorMessage */
                 $errorMessage        = $validator->getErrorMessage();
-                $constraint->message = $errorMessage !== null ? $errorMessage->getMessage() : null;
+                $constraint->message = $errorMessage !== null ? ($errorMessage->getMessage() ?? '') : '';
 
                 $constraints[] = $constraint;
             }

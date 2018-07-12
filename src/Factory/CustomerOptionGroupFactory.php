@@ -50,15 +50,6 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
         $this->faker = Factory::create();
     }
 
-    private function validateOptions(array $options)
-    {
-        if (count($options['translations']) === 0) {
-            throw new \Exception('There has to be at least one translation');
-        }
-
-        return true;
-    }
-
     public function generateRandom(int $amount): array
     {
         $customerOptionsCodes = [];
@@ -109,7 +100,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
     public function createFromConfig(array $options): CustomerOptionGroupInterface
     {
         $options = array_merge($this->getOptionsSkeleton(), $options);
-        $this->validateOptions($options);
+        Assert::minCount($options['translations'], 1);
 
         $customerOptionGroup = new CustomerOptionGroup();
 
@@ -152,7 +143,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
                 }
             }
 
-            if (!empty($validatorConfig['error_messages'])) {
+            if (isset($validatorConfig['error_messages']) && count($validatorConfig['error_messages']) > 0) {
                 $error_message = new ErrorMessage();
                 foreach ($validatorConfig['error_messages'] as $locale => $message) {
                     $error_message->setCurrentLocale($locale);
@@ -170,9 +161,9 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
         return $customerOptionGroup;
     }
 
-    private function setupConstraint(ConditionInterface $constraint, array $config)
+    private function setupConstraint(ConditionInterface $constraint, array $config): void
     {
-        /** @var CustomerOptionInterface $customerOption */
+        /** @var CustomerOptionInterface|null $customerOption */
         $customerOption = $this->customerOptionRepository->findOneByCode($config['customer_option']);
         Assert::notNull($customerOption);
 
@@ -210,7 +201,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
         return $names;
     }
 
-    private function getOptionsSkeleton()
+    private function getOptionsSkeleton(): array
     {
         return [
             'code'         => null,
@@ -221,7 +212,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
         ];
     }
 
-    public function createNew()
+    public function createNew(): CustomerOptionGroupInterface
     {
         return new CustomerOptionGroup();
     }

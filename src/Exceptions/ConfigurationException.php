@@ -14,7 +14,7 @@ class ConfigurationException extends \Exception
      *
      * @throws ConfigurationException
      */
-    public static function createFromMissingArrayKey(string $key, array $array)
+    public static function createFromMissingArrayKey(string $key, array $array): void
     {
         if (!array_key_exists($key, $array)) {
             throw new self('The configuration does not contain key: "'.$key.'"');
@@ -29,7 +29,7 @@ class ConfigurationException extends \Exception
      *
      * @throws ConfigurationException
      */
-    public static function createFromArrayContains($element, array $array)
+    public static function createFromArrayContains($element, array $array): void
     {
         if (!in_array($element, $array, true)) {
             $arrayString = implode(',', $array);
@@ -38,7 +38,7 @@ class ConfigurationException extends \Exception
         }
     }
 
-    public static function createFromMinimumLength(int $minLength, array $array)
+    public static function createFromMinimumLength(int $minLength, array $array): void
     {
         if (count($array) < $minLength) {
             throw new self("The array has to be at least $minLength element(s) long");

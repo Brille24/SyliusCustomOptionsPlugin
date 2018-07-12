@@ -56,6 +56,13 @@ class OrderItemOption implements OrderItemOptionInterface
     /** @var float */
     private $percent = 0;
 
+    /**
+     * OrderItemOption constructor.
+     *
+     * @param ChannelInterface        $channel
+     * @param CustomerOptionInterface $customerOption
+     * @param mixed                   $customerOptionValue
+     */
     public function __construct(
         ChannelInterface $channel,
         CustomerOptionInterface $customerOption,
@@ -65,7 +72,7 @@ class OrderItemOption implements OrderItemOptionInterface
 
         // Copying the customer option value
         if (is_scalar($customerOptionValue)) {
-            $this->optionValue = (string) $customerOptionValue;
+            $this->optionValue = (string)$customerOptionValue;
         } elseif ($customerOptionValue instanceof CustomerOptionValueInterface) {
             $this->setCustomerOptionValue($customerOptionValue);
 
@@ -223,11 +230,11 @@ class OrderItemOption implements OrderItemOptionInterface
         $equals &= $this->getCustomerOptionValue() === $orderItemOption->getCustomerOptionValue();
         $equals &= $this->getOptionValue() === $orderItemOption->getOptionValue();
 
-        return (bool) $equals;
+        return (bool)$equals;
     }
 
     public function __toString()
     {
-        return $this->customerOptionCode.': '.$this->getCustomerOptionValueName();
+        return $this->customerOptionCode . ': ' . $this->getCustomerOptionValueName();
     }
 }

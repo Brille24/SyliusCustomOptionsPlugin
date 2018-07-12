@@ -22,7 +22,7 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
     /**
      * @param string $code
      */
-    public function setCode(string $code);
+    public function setCode(string $code): void;
 
     /**
      * @return string
@@ -42,7 +42,7 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
     /**
      * @param Collection|null $prices
      */
-    public function setPrices(?Collection $prices);
+    public function setPrices(?Collection $prices): void;
 
     /**
      * @return Collection

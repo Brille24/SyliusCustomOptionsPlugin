@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
 interface CustomerOptionValuePriceFactoryInterface extends FactoryInterface
@@ -19,8 +20,10 @@ interface CustomerOptionValuePriceFactoryInterface extends FactoryInterface
      * Creates an array of items based on the configuration
      *
      * @param array $configuration
+     *
+     * @return CustomerOptionValuePriceInterface
      */
-    public function createFromConfig(array $configuration);
+    public function createFromConfig(array $configuration): CustomerOptionValuePriceInterface;
 
     /**
      * Generates a configuration for random items

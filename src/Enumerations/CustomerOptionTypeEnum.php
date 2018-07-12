@@ -47,9 +47,14 @@ final class CustomerOptionTypeEnum implements EnumInterface
         ];
     }
 
+    /**
+     * @param mixed $enumValue
+     *
+     * @return bool
+     */
     public static function isValid($enumValue): bool
     {
-        return in_array($enumValue, self::getConstList());
+        return in_array($enumValue, self::getConstList(), true);
     }
 
     public static function getTranslateArray(): array
@@ -132,11 +137,11 @@ final class CustomerOptionTypeEnum implements EnumInterface
 
     public static function isSelect(string $type): bool
     {
-        return in_array($type, [self::SELECT, self::MULTI_SELECT]);
+        return in_array($type, [self::SELECT, self::MULTI_SELECT], true);
     }
 
     public static function isDate(string $type): bool
     {
-        return in_array($type, [self::DATE, self::DATETIME]);
+        return in_array($type, [self::DATE, self::DATETIME], true);
     }
 }

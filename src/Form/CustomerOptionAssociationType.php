@@ -35,7 +35,7 @@ final class CustomerOptionAssociationType extends AbstractType
             ->add('position', IntegerType::class, ['label' => 'sylius.ui.position']);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'error_bubbling' => true,

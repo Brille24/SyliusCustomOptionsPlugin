@@ -19,6 +19,7 @@ use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
 class CustomerOptionMenuBuilderEvent extends MenuBuilderEvent
 {
+    /** @var CustomerOptionInterface */
     private $customerOption;
 
     public function __construct(FactoryInterface $factory, ItemInterface $menu, CustomerOptionInterface $customerOption)

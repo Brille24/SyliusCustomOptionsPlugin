@@ -19,20 +19,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerOptionValueChoiceType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'brille24_product_value_choice';
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return ChoiceType::class;
     }

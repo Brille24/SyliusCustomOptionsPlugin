@@ -21,7 +21,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 
 final class ChannelListener
 {
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getEntity();
 
@@ -30,7 +30,7 @@ final class ChannelListener
         }
     }
 
-    private function addNewChannelToAllValues(ChannelInterface $channel, EntityManagerInterface $em)
+    private function addNewChannelToAllValues(ChannelInterface $channel, EntityManagerInterface $em): void
     {
         /** @var CustomerOptionValueInterface[] $values */
         $values = $em->getRepository(CustomerOptionValue::class)->findAll();
@@ -41,7 +41,7 @@ final class ChannelListener
                 $existingChannels[] = $price->getChannel();
             }
 
-            if (!in_array($channel, $existingChannels)) {
+            if (!in_array($channel, $existingChannels, true)) {
                 $newPrice = new CustomerOptionValuePrice();
                 $newPrice->setChannel($channel);
                 $value->addPrice($newPrice);

@@ -39,7 +39,7 @@ class ProductFactory implements ExampleFactoryInterface
     private $baseFactory;
 
     public function __construct(
-        BaseFactory    $baseFactory,
+        BaseFactory $baseFactory,
         RepositoryInterface $channelRepository,
         RepositoryInterface $customerOptionGroupRepository,
         RepositoryInterface $customerOptionValueRepository
@@ -62,10 +62,8 @@ class ProductFactory implements ExampleFactoryInterface
                 'customer_option_group',
                 LazyOption::findOneBy($this->customerOptionGroupRepository, 'code')
             )
-
             ->setDefault('customer_option_value_prices', [])
-            ->setAllowedTypes('customer_option_value_prices', 'array')
-        ;
+            ->setAllowedTypes('customer_option_value_prices', 'array');
     }
 
     /**
@@ -77,10 +75,12 @@ class ProductFactory implements ExampleFactoryInterface
      */
     public function create(array $options = []): ProductInterface
     {
-        $options = array_merge([
-            'customer_option_group'        => null,
-            'customer_option_value_prices' => [],
-        ], $options);
+        $options = array_merge(
+            [
+                'customer_option_group' => null,
+                'customer_option_value_prices' => [],
+            ], $options
+        );
 
         $customerOptionGroupConfig       = $options['customer_option_group'];
         $customerOptionValuePricesConfig = $options['customer_option_value_prices'];
@@ -92,10 +92,14 @@ class ProductFactory implements ExampleFactoryInterface
 
         if ($customerOptionGroupConfig !== null) {
             /** @var CustomerOptionGroupInterface|null $customerOptionGroup */
-            $customerOptionGroup = $this->customerOptionGroupRepository->findOneBy(['code' => $customerOptionGroupConfig]);
+            $customerOptionGroup = $this->customerOptionGroupRepository->findOneBy(
+                ['code' => $customerOptionGroupConfig]
+            );
 
             if ($customerOptionGroup === null) {
-                throw new \Exception(sprintf("CustomerOptionGroup with code '%s' does not exist!", $customerOptionGroupConfig));
+                throw new \Exception(
+                    sprintf("CustomerOptionGroup with code '%s' does not exist!", $customerOptionGroupConfig)
+                );
             }
 
             $product->setCustomerOptionGroup(
@@ -110,7 +114,10 @@ class ProductFactory implements ExampleFactoryInterface
                 /** @var CustomerOptionValueInterface|null $value */
                 $value = $this->customerOptionValueRepository->findOneBy(['code' => $valuePriceConfig['value_code']]);
 
-                if ($value === null || $product->getCustomerOptionGroup() === null || !in_array($value->getCustomerOption(), $product->getCustomerOptionGroup()->getOptions())) {
+                if ($value === null
+                    || $product->getCustomerOptionGroup() === null
+                    || !in_array($value->getCustomerOption(), $product->getCustomerOptionGroup()->getOptions(), true)
+                ) {
                     continue;
                 }
 

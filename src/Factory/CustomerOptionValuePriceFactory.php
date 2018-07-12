@@ -106,7 +106,7 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
         return $prices;
     }
 
-    public function createNew()
+    public function createNew(): CustomerOptionValuePriceInterface
     {
         return new CustomerOptionValuePrice();
     }

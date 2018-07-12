@@ -99,7 +99,7 @@ class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
         return $result;
     }
 
-    public function createNew()
+    public function createNew(): CustomerOptionValueInterface
     {
         return new CustomerOptionValue();
     }

@@ -84,9 +84,9 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     /** {@inheritdoc} */
     public function setType(string $type): void
     {
-        $allTypes = $this->getAllTypes();
+        $allTypes = self::getAllTypes();
 
-        if (in_array($type, $allTypes)) {
+        if (in_array($type, $allTypes, true)) {
             $this->type = $type;
         } else {
             throw new InvalidTypeException('Invalid type. Possible types are '.implode(', ', $allTypes));

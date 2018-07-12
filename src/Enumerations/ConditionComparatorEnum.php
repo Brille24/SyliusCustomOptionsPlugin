@@ -32,9 +32,14 @@ final class ConditionComparatorEnum implements EnumInterface
         ];
     }
 
+    /**
+     * @param mixed $value
+     *
+     * @return bool
+     */
     public static function isValid($value): bool
     {
-        return in_array($value, self::getConstList());
+        return in_array($value, self::getConstList(), true);
     }
 
     public static function getTranslateArray(): array

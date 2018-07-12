@@ -36,7 +36,7 @@ final class CustomerOptionValueListener
     /**
      * @param LifecycleEventArgs $args
      */
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getEntity();
 
@@ -45,7 +45,7 @@ final class CustomerOptionValueListener
         }
     }
 
-    private function addChannelPricesToNewValue(CustomerOptionValueInterface $value)
+    private function addChannelPricesToNewValue(CustomerOptionValueInterface $value): void
     {
         $prices = $value->getPrices();
 
@@ -57,7 +57,7 @@ final class CustomerOptionValueListener
         $channels = $this->channelRepository->findAll();
 
         foreach ($channels as $channel) {
-            if (!in_array($channel, $existingChannels)) {
+            if (!in_array($channel, $existingChannels, true)) {
                 $newPrice = new CustomerOptionValuePrice();
                 $newPrice->setChannel($channel);
                 $value->addPrice($newPrice);

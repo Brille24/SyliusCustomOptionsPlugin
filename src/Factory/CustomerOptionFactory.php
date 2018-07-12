@@ -164,7 +164,7 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
         return $result;
     }
 
-    public function createNew()
+    public function createNew(): CustomerOptionInterface
     {
         return new CustomerOption();
     }
