@@ -26,6 +26,9 @@ final class Brille24SyliusCustomerOptionsExtension extends Extension
     {
         $this->processConfiguration($this->getConfiguration([], $container), $config);
 
-        new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        new YamlFileLoader(
+            $container,
+            new FileLocator(__DIR__.'/../Resources/config/app')
+        );
     }
 }

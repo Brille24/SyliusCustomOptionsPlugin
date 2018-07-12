@@ -7,6 +7,7 @@ imports:
     - { resource: "@SyliusAdminBundle/Resources/config/app/config.yml" }
     - { resource: "@SyliusShopBundle/Resources/config/app/config.yml" }
     - { resource: "@SyliusAdminApiBundle/Resources/config/app/config.yml" }
+
     - { resource: "@Brille24SyliusCustomerOptionsPlugin/Resources/config/app/config.yml" }
 
     - { resource: "../../../../vendor/sylius/sylius/app/config/security.yml" }
@@ -14,16 +15,15 @@ imports:
 
 framework:
     translator: { fallbacks: ["%locale%", "en"] }
-    secret: "%secret"
+    secret: "%secret%"
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: "%kernel.project_dir%/app/config/routing.yml"
         strict_requirements: "%kernel.debug%"
     form: true
     csrf_protection: true
     validation: { enable_annotations: true }
     templating: { engines: ["twig"] }
     default_locale: "%locale%"
-    trusted_proxies: ~
     session:
         storage_id: session.storage.mock_file
     test: ~
@@ -47,10 +47,8 @@ swiftmailer:
 
 doctrine:
     dbal:
-        driver: "pdo_mysql"
-        user: root
-        password: root
-        dbname: sylius_customerOptions
+        driver: "pdo_sqlite"
+        path: "%kernel.project_dir%/var/db.sql"
         charset: UTF8
 
 fos_rest:
@@ -69,6 +67,9 @@ sylius_theme:
     sources:
         test: ~
 
-web_profiler:
-    toolbar: true
-    intercept_redirects: false
+liip_imagine:
+    resolvers:
+        default:
+            web_path:
+                web_root: "%kernel.project_dir%/web"
+                cache_prefix: "media/cache"

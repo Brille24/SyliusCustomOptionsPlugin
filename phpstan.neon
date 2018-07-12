@@ -1,10 +1,17 @@
+includes:
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-webmozart-assert/extension.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
+    reportUnmatchedIgnoredErrors: false
+
+    symfony:
+        container_xml_path: tests/Application/var/cache/test/appTestDebugProjectContainer.xml
+
     excludes_analyse:
         # Makes PHPStan crash
         - 'src/DependencyInjection/Configuration.php'
-
-        # Remove configuration testing for Fixtures because some node functions return null or run into recursion problems when analysing
-        - 'src/Fixture'
 
         # Test dependencies
         - 'tests/Application/app/**.php'
@@ -12,4 +19,3 @@ parameters:
 
     ignoreErrors:
         - '/Parameter #1 $configuration of method Symfony\Component\DependencyInjection\Extension\Extension::processConfiguration() expects Symfony\Component\Config\Definition\ConfigurationInterface, Symfony\Component\Config\Definition\ConfigurationInterface|null given./'
-        - '/Access to an undefined property Symfony\\Component\\Validator\\Constraint::\$message./'

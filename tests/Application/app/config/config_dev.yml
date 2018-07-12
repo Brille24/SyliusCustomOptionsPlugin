@@ -1,13 +1,16 @@
 imports:
     - { resource: "config.yml" }
 
-web_profiler:
-    toolbar: true
-    intercept_redirects: false
+doctrine:
+    dbal:
+        path: "%kernel.project_dir%/var/db_dev.sql"
 
+web_profiler:
+  toolbar: true
+  intercept_redirects: false
 
 framework:
     router:
-        resource: "%kernel.root_dir%/config/routing_dev.yml"
+        resource: "%kernel.project_dir%/app/config/routing_dev.yml"
     profiler:
         enabled: true
