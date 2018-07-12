@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraint;
 
 class CustomerOptionConfigurationConstraint extends Constraint
 {
+    /** @var string */
     public $message = '';
 
     public function getTargets(): string

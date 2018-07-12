@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ConditionType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var CustomerOptionGroupInterface $customerOptionGroup */
         $customerOptionGroup = $options['customerOptionGroup'];
@@ -74,7 +74,7 @@ class ConditionType extends AbstractType
         });
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Condition::class,
@@ -84,7 +84,7 @@ class ConditionType extends AbstractType
         $resolver->setAllowedTypes('customerOptionGroup', CustomerOptionGroupInterface::class);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'brille24_customer_options_plugin_validator_condition';
     }

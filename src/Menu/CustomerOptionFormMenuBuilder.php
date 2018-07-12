@@ -22,8 +22,10 @@ final class CustomerOptionFormMenuBuilder
 {
     public const EVENT_NAME = 'brille24.menu.admin.customer_option.form';
 
+    /** @var FactoryInterface */
     private $factory;
 
+    /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
     public function __construct(FactoryInterface $factory, EventDispatcherInterface $dispatcher)

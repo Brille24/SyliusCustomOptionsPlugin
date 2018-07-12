@@ -17,17 +17,20 @@ use Doctrine\Common\Collections\Collection;
 use InvalidArgumentException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Webmozart\Assert\Assert;
 
 class ProductCustomerOptionValuePriceConstraintValidator extends ConstraintValidator
 {
     /**
-     * {@inheritdoc}
+     * Checks if the passed value is valid.
+     *
+     * @param mixed      $collection The value that should be validated
+     * @param Constraint $constraint The constraint for the validation
      */
     public function validate($collection, Constraint $constraint): void
     {
-        if (!$collection instanceof Collection) {
-            throw new InvalidArgumentException('Value is not a Collection.');
-        }
+        Assert::implementsInterface($collection, Collection::class);
+        Assert::allImplementsInterface($collection, CustomerOptionValuePriceInterface::class);
 
         /** @var Collection $collection */
         if ($collection->isEmpty()) {
@@ -53,7 +56,7 @@ class ProductCustomerOptionValuePriceConstraintValidator extends ConstraintValid
                 $existingValues[$channelCode] = [];
             }
 
-            if (in_array($price->getCustomerOptionValue(), $existingValues[$channelCode])) {
+            if (in_array($price->getCustomerOptionValue(), $existingValues[$channelCode], true)) {
                 $this->context->addViolation('');
             } else {
                 $existingValues[$channelCode][] = $price->getCustomerOptionValue();

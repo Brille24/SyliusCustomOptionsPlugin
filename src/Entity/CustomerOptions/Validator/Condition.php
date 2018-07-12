@@ -13,7 +13,7 @@ class Condition implements ConditionInterface
     /** @var int */
     protected $id;
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }

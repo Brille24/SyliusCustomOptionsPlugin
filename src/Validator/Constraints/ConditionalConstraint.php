@@ -9,13 +9,16 @@ use Symfony\Component\Validator\Exception\MissingOptionsException;
 
 class ConditionalConstraint extends Constraint
 {
+    /** @var array|null */
     public $conditions;
 
+    /** @var array|null */
     public $constraints;
 
+    /** @var string */
     public $message = 'One or more constraints not met.';
 
-    public function __construct($options = null)
+    public function __construct(?array $options = null)
     {
         if ($options !== null && !is_array($options)) {
             $options = [
@@ -31,7 +34,7 @@ class ConditionalConstraint extends Constraint
         }
     }
 
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return ConditionalConstraintValidator::class;
     }

@@ -56,7 +56,6 @@ final class ShopCustomerOptionType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /** @var \Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface $product */
         $product = $options['product'];
 
         if (!$product instanceof ProductInterface) {

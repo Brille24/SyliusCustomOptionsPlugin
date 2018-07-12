@@ -31,7 +31,7 @@ class ConfigurationException extends \Exception
      */
     public static function createFromArrayContains($element, array $array)
     {
-        if (!in_array($element, $array)) {
+        if (!in_array($element, $array, true)) {
             $arrayString = implode(',', $array);
 
             throw new self("'$element' should be in array $arrayString");

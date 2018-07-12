@@ -49,15 +49,18 @@ trait ConditionTrait
     /** {@inheritdoc} */
     public function setComparator(?string $comparator): void
     {
-        Assert::true(in_array($comparator, ConditionComparatorEnum::getConstList()) || $comparator === null);
+        Assert::true(in_array($comparator, ConditionComparatorEnum::getConstList(), true) || $comparator === null);
 
         $this->comparator = $comparator;
     }
 
     /** {@inheritdoc} */
-    public function getValue()
+    public function getValue(): ?array
     {
-        $value = !empty($this->value['value']) ? $this->value : null;
+        $value = null;
+        if (array_key_exists('value', $this->value) && $this->value['value'] !== null) {
+            $value = $this->value['value'];
+        }
 
         if ($value !== null) {
             $value = ['value' => $value];
@@ -66,13 +69,17 @@ trait ConditionTrait
         return $value;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * Sets a nex value
+     *
+     * @param mixed $value
+     */
     public function setValue($value): void
     {
         $value = is_array($value) && array_key_exists('value', $value) ? $value['value'] : $value;
 
         $newValue = ConditionComparatorEnum::getValueConfig(
-        $this->customerOption ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT
+            $this->customerOption ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT
         );
 
         if ($newValue['type'] === 'array') {
@@ -110,11 +117,16 @@ trait ConditionTrait
         $this->validator = $validator;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * @param mixed            $value
+     * @param string|null $optionType
+     *
+     * @return bool
+     */
     public function isMet($value, ?string $optionType = null): bool
     {
         if ($this->customerOption === null) {
-            $optionType= 'number';
+            $optionType = 'number';
         } else {
             $optionType = $optionType ?? $this->customerOption->getType() ?? 'number';
         }
@@ -156,11 +168,11 @@ trait ConditionTrait
 
                     break;
                 case ConditionComparatorEnum::IN_SET:
-                    $result = $result ? in_array($val, $target) : false;
+                    $result = $result ? in_array($val, $target, true) : false;
 
                     break;
                 case ConditionComparatorEnum::NOT_IN_SET:
-                    $result = $result ? !in_array($val, $target) : false;
+                    $result = $result ? !in_array($val, $target, true) : false;
 
                     break;
             }
@@ -169,6 +181,12 @@ trait ConditionTrait
         return $result;
     }
 
+    /**
+     * @param mixed  $value
+     * @param string $optionType
+     *
+     * @return \DateTime|int|mixed
+     */
     private function formatValue($value, string $optionType)
     {
         $result = $value;

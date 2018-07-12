@@ -16,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ValueType extends AbstractType
 {
+    /** @var string */
     const DEFAULT_LABEL = 'brille24.form.validators.fields.value.default';
 
     /** @var CustomerOptionValueRepositoryInterface */
@@ -26,7 +27,7 @@ class ValueType extends AbstractType
         $this->customerOptionValueRepository = $customerOptionValueRepository;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $options['field_options']['label'] = $options['field_options']['label'] ?? self::DEFAULT_LABEL;
 
@@ -79,7 +80,7 @@ class ValueType extends AbstractType
         ));
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefined([
             'field_type',
@@ -98,7 +99,7 @@ class ValueType extends AbstractType
         ]);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'brille24_customer_options_plugin_validator_test';
     }

@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ValidatorType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('conditions', CollectionType::class, [
@@ -46,7 +46,7 @@ class ValidatorType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Validator::class,
@@ -56,7 +56,7 @@ class ValidatorType extends AbstractType
         $resolver->setAllowedTypes('customerOptionGroup', CustomerOptionGroupInterface::class);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'brille24_customer_options_plugin_validator';
     }

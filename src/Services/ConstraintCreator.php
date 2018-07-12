@@ -14,7 +14,15 @@ use Symfony\Component\Validator\Constraints\Range;
 
 class ConstraintCreator
 {
-    public static function getValueFromConfiguration(array $configuration, string $key)
+    /**
+     * Gets the value from the Customer Option value configuration
+     *
+     * @param array  $configuration
+     * @param string $key
+     *
+     * @return string|null
+     */
+    public static function getValueFromConfiguration(array $configuration, string $key): ?string
     {
         if (!isset($configuration[$key]['value'])) {
             return null;
@@ -23,6 +31,14 @@ class ConstraintCreator
         return $configuration[$key]['value'];
     }
 
+    /**
+     * Creates a constraint form the configuration based on the type of Custom Option
+     *
+     * @param string $type
+     * @param array  $configuration
+     *
+     * @return Constraint|null
+     */
     public static function createFromConfiguration(string $type, array $configuration): ?Constraint
     {
         $getFromConfiguration = function ($key) use ($configuration) {

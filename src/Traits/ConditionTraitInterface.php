@@ -30,9 +30,9 @@ interface ConditionTraitInterface
     public function setComparator(?string $comparator): void;
 
     /**
-     * @return mixed
+     * @return array|null
      */
-    public function getValue();
+    public function getValue(): ?array;
 
     /**
      * @param mixed $value

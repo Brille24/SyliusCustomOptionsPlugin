@@ -15,6 +15,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class ConditionalConstraintValidator extends ConstraintValidator
 {
+    /** @var RequestStack */
     private $requestStack;
 
     public function __construct(RequestStack $requestStack)
@@ -22,7 +23,13 @@ class ConditionalConstraintValidator extends ConstraintValidator
         $this->requestStack = $requestStack;
     }
 
-    public function validate($value, Constraint $constraint)
+    /**
+     * Checks if the passed value is valid.
+     *
+     * @param mixed      $value      The value that should be validated
+     * @param Constraint $constraint The constraint for the validation
+     */
+    public function validate($value, Constraint $constraint): void
     {
         if ($constraint instanceof ConditionalConstraint) {
             if ($value instanceof OrderItemInterface) {
@@ -41,7 +48,7 @@ class ConditionalConstraintValidator extends ConstraintValidator
         }
     }
 
-    private function getCustomerOptionsFromRequest(Request $request, ProductInterface $product)
+    private function getCustomerOptionsFromRequest(Request $request, ProductInterface $product): array
     {
         $addToCart = $request->request->get('sylius_add_to_cart');
 
@@ -52,7 +59,7 @@ class ConditionalConstraintValidator extends ConstraintValidator
         $customerOptions = $product->getCustomerOptions();
 
         foreach ($customerOptions as $customerOption) {
-            if (!in_array($customerOption->getCode(), array_keys($addToCart['customer_options']))) {
+            if (!in_array($customerOption->getCode(), array_keys($addToCart['customer_options']), true)) {
                 $addToCart['customer_options'][$customerOption->getCode()] = '0';
             }
         }
@@ -60,7 +67,15 @@ class ConditionalConstraintValidator extends ConstraintValidator
         return $addToCart['customer_options'];
     }
 
-    private function allConditionsMet(array $conditions, array $customerOptionConfig)
+    /**
+     * Checks if all of the conditions are met
+     *
+     * @param array $conditions
+     * @param array $customerOptionConfig
+     *
+     * @return bool
+     */
+    private function allConditionsMet(array $conditions, array $customerOptionConfig): bool
     {
         $result = true;
 

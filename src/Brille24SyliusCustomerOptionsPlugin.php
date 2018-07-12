@@ -20,7 +20,7 @@ final class Brille24SyliusCustomerOptionsPlugin extends Bundle
 {
     use SyliusPluginTrait;
 
-    public function getContainerExtension()
+    public function getContainerExtension(): Brille24SyliusCustomerOptionsExtension
     {
         $class = $this->getContainerExtensionClass();
 

@@ -16,34 +16,30 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAs
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Webmozart\Assert\Assert;
 
 class CustomerOptionAssociationConstraintValidator extends ConstraintValidator
 {
-    /** {@inheritdoc} */
+    /**
+     * Checks if the passed value is valid.
+     *
+     * @param mixed      $value      The value that should be validated
+     * @param Constraint $constraint The constraint for the validation
+     */
     public function validate($value, Constraint $constraint): void
     {
-        if (!$value instanceof Collection) {
-            throw new \InvalidArgumentException(get_class($this).' can only validate collections containing '.CustomerOptionAssociationInterface::class);
-        }
+        Assert::implementsInterface($value, Collection::class);
+        Assert::allImplementsInterface($value, CustomerOptionAssociationInterface::class);
 
         $optionsSoFar = [];
         foreach ($value->toArray() as $uniqueValue) {
             /** @var CustomerOptionAssociationInterface $uniqueValue */
-            $this->checkElementType($uniqueValue);
-
             $customerOption = $uniqueValue->getOption();
-            if (in_array($customerOption, $optionsSoFar)) {
+            if (in_array($customerOption, $optionsSoFar, true)) {
                 $this->context->addViolation('sylius.ui.code');
             } else {
                 $optionsSoFar[] = $customerOption;
             }
-        }
-    }
-
-    private function checkElementType($element): void
-    {
-        if (!$element instanceof CustomerOptionAssociationInterface) {
-            throw new \InvalidArgumentException('Invalid entry type');
         }
     }
 }

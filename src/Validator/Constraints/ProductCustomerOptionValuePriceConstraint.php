@@ -16,14 +16,15 @@ use Symfony\Component\Validator\Constraint;
 
 class ProductCustomerOptionValuePriceConstraint extends Constraint
 {
+    /** @var string */
     public $message = '';
 
-    public function getTargets()
+    public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
     }
 
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return ProductCustomerOptionValuePriceConstraintValidator::class;
     }

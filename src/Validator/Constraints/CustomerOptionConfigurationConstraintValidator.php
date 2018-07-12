@@ -14,14 +14,21 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Webmozart\Assert\Assert;
 
 class CustomerOptionConfigurationConstraintValidator extends ConstraintValidator
 {
     /**
-     * {@inheritdoc}
+     * Checks if the passed value is valid.
+     *
+     * @param mixed      $value      The value that should be validated
+     * @param Constraint $constraint The constraint for the validation
      */
     public function validate($value, Constraint $constraint): void
     {
+        Assert::isArray($value);
+        Assert::isInstanceOf($constraint, CustomerOptionConfigurationConstraint::class);
+
         if (!is_array($value)) {
             throw new \InvalidArgumentException('Can not validate configurations.');
         }
