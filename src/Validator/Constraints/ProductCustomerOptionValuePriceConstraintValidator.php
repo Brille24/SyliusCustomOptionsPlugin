@@ -14,7 +14,6 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Doctrine\Common\Collections\Collection;
-use InvalidArgumentException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Webmozart\Assert\Assert;
@@ -29,7 +28,9 @@ class ProductCustomerOptionValuePriceConstraintValidator extends ConstraintValid
      */
     public function validate($collection, Constraint $constraint): void
     {
+        Assert::object($collection);
         Assert::implementsInterface($collection, Collection::class);
+        Assert::allObject($collection);
         Assert::allImplementsInterface($collection, CustomerOptionValuePriceInterface::class);
 
         /** @var Collection $collection */
@@ -37,14 +38,9 @@ class ProductCustomerOptionValuePriceConstraintValidator extends ConstraintValid
             return;
         }
 
-        if (!$collection->first() instanceof CustomerOptionValuePriceInterface) {
-            throw new InvalidArgumentException('Collection does not contain CustomerOptionValuePrices.');
-        }
-
         $existingValues = [];
-
-        /** @var CustomerOptionValuePriceInterface $price */
         foreach ($collection as $price) {
+            /** @var CustomerOptionValuePriceInterface $price */
             $priceChannel = $price->getChannel();
             if ($priceChannel === null) {
                 continue;

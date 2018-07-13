@@ -28,11 +28,13 @@ class CustomerOptionAssociationConstraintValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint): void
     {
+        Assert::object($value);
         Assert::implementsInterface($value, Collection::class);
-        Assert::allImplementsInterface($value, CustomerOptionAssociationInterface::class);
 
         $optionsSoFar = [];
         foreach ($value->toArray() as $uniqueValue) {
+            Assert::isInstanceOf($uniqueValue, CustomerOptionAssociationInterface::class);
+
             /** @var CustomerOptionAssociationInterface $uniqueValue */
             $customerOption = $uniqueValue->getOption();
             if (in_array($customerOption, $optionsSoFar, true)) {

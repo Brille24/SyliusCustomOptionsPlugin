@@ -6,6 +6,8 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Factory;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactory;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
@@ -70,7 +72,8 @@ class OrderItemOptionFactoryTest extends TestCase
         $customerOption = self::createMock(CustomerOptionInterface::class);
         $value = 'something';
 
-        $this->orderItemOptionFactory->createNew($customerOption, $value);
+        $orderItemOption = $this->orderItemOptionFactory->createNew($customerOption, $value);
+        $this->assertInstanceOf(OrderItemOptionInterface::class, $orderItemOption);
     }
 
     public function testCreateNewFromStringsWithInvalidCustomerOptionCode()

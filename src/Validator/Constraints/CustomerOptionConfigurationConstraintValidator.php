@@ -28,6 +28,7 @@ class CustomerOptionConfigurationConstraintValidator extends ConstraintValidator
     {
         Assert::isArray($value);
         Assert::isInstanceOf($constraint, CustomerOptionConfigurationConstraint::class);
+        /** @var CustomerOptionConfigurationConstraint $constraint */
 
         if (!is_array($value)) {
             throw new \InvalidArgumentException('Can not validate configurations.');

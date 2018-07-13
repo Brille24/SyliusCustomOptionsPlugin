@@ -56,7 +56,7 @@ class CustomerOptionAssociationConstraintValidatorTest extends TestCase
     public function testWrongElementType(): void
     {
         self::expectException(\InvalidArgumentException::class);
-        self::expectExceptionMessage(CustomerOptionAssociationConstraintValidator::class . ' can only validate collections containing ' . CustomerOptionAssociationInterface::class);
+        self::expectExceptionMessage('Expected an object. Got: integer');
 
         $constraint = self::createMock(Constraint::class);
         $this->customerOptionAssociationConstraintValidator->validate(1, $constraint);
@@ -65,7 +65,7 @@ class CustomerOptionAssociationConstraintValidatorTest extends TestCase
     public function testWrongElementTypeInList(): void
     {
         self::expectException(\InvalidArgumentException::class);
-        self::expectExceptionMessage('Invalid entry type');
+        self::expectExceptionMessage('Expected an instance of Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociationInterface. Got: integer');
 
         $constraint = self::createMock(Constraint::class);
         $this->customerOptionAssociationConstraintValidator->validate(new ArrayCollection([1]), $constraint);

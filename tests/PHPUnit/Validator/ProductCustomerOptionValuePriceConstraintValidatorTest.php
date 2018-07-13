@@ -9,6 +9,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ProductCustomerOptionValuePriceConstraintValidator;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -31,9 +32,11 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
     protected function setUp()
     {
         $context = self::createMock(ExecutionContextInterface::class);
-        $context->method('addViolation')->willReturnCallback(function (?string $message): void {
-            $this->violations[] = $message;
-        });
+        $context->method('addViolation')->willReturnCallback(
+            function (?string $message): void {
+                $this->violations[] = $message;
+            }
+        );
 
         $this->productCustomerOptionPriceValidator = new ProductCustomerOptionValuePriceConstraintValidator();
         $this->productCustomerOptionPriceValidator->initialize($context);
@@ -83,14 +86,17 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
 
     public function dataInvalidData(): array
     {
-        return
-            [
-                'not a collection' => [12, 'Value is not a Collection.'],
-                'invalid entry' => [
-                    new ArrayCollection([12]),
-                    'Collection does not contain CustomerOptionValuePrices.',
-                ],
-            ];
+        return [
+            'not a collection' => [12, 'Expected an object. Got: integer'],
+            'non object entry' => [
+                new ArrayCollection(['12']),
+                'Expected an object. Got: string',
+            ],
+            'invalid entry' => [
+                new ArrayCollection([new stdClass()]),
+                'Expected an implementation of "Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface". Got: stdClass',
+            ],
+        ];
     }
 
     public function testEmptyCollection(): void
@@ -103,13 +109,13 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
 
     public function testWithPricesInDifferentChannels(): void
     {
-        $prices =
-            [
-                $this->createPrice('de_DE', 'value1'),
-                $this->createPrice('en_DE', 'value1'),
-                $this->createPrice('de_DE', 'value2'),
-                $this->createPrice('en_DE', 'value2'),
-            ];
+        $prices
+            = [
+            $this->createPrice('de_DE', 'value1'),
+            $this->createPrice('en_DE', 'value1'),
+            $this->createPrice('de_DE', 'value2'),
+            $this->createPrice('en_DE', 'value2'),
+        ];
 
         $constraint = self::createMock(Constraint::class);
         $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
@@ -119,12 +125,12 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
 
     public function testWithPricesInSameChannel(): void
     {
-        $prices =
-            [
-                $this->createPrice('de_DE', 'value1'),
-                $this->createPrice('en_DE', 'value1'),
-                $this->createPrice('en_DE', 'value1'),
-            ];
+        $prices
+            = [
+            $this->createPrice('de_DE', 'value1'),
+            $this->createPrice('en_DE', 'value1'),
+            $this->createPrice('en_DE', 'value1'),
+        ];
 
         $constraint = self::createMock(Constraint::class);
         $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);

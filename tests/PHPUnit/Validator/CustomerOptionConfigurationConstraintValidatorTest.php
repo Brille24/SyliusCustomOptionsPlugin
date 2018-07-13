@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Validator;
 
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionConfigurationConstraint;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionConfigurationConstraintValidator;
 use DateInterval;
 use DateTime;
@@ -35,14 +36,14 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
         $constraint = self::createMock(Constraint::class);
 
         self::expectException(\InvalidArgumentException::class);
-        self::expectExceptionMessage('Can not validate configuration');
+        self::expectExceptionMessage('Expected an array. Got: string');
 
         $this->customerOptionConfigurationValidator->validate('something', $constraint);
     }
 
     public function testWithInvalidKeys(): void
     {
-        $constraint = self::createMock(Constraint::class);
+        $constraint = self::createMock(CustomerOptionConfigurationConstraint::class);
 
         $input = ['something' => ['value' => 'cool'], 'something else' => ['value' => 23]];
 
@@ -53,7 +54,7 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
 
     public function testWithValidKeysAndValidOrder(): void
     {
-        $constraint = self::createMock(Constraint::class);
+        $constraint = self::createMock(CustomerOptionConfigurationConstraint::class);
 
         $input = ['min' => ['value' => 0], 'max' => ['value' => 23]];
 
@@ -68,7 +69,7 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
      */
     public function testWithValidKeysAndInvalidOrder($min, $max): void
     {
-        $constraint = self::createMock(Constraint::class);
+        $constraint = self::createMock(CustomerOptionConfigurationConstraint::class);
 
         $input = ['max' => ['value' => $min], 'min' => ['value' => $max]];
 

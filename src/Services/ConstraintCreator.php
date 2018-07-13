@@ -20,9 +20,9 @@ class ConstraintCreator
      * @param array  $configuration
      * @param string $key
      *
-     * @return string|null
+     * @return mixed
      */
-    public static function getValueFromConfiguration(array $configuration, string $key): ?string
+    public static function getValueFromConfiguration(array $configuration, string $key)
     {
         if (!isset($configuration[$key]['value'])) {
             return null;
