@@ -21,7 +21,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condit
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
@@ -196,11 +195,11 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
     private function getOptionsSkeleton(): array
     {
         return [
-            'code' => null,
+            'code'         => null,
             'translations' => [],
-            'options' => [],
-            'validators' => [],
-            'products' => [],
+            'options'      => [],
+            'validators'   => [],
+            'products'     => [],
         ];
     }
 
