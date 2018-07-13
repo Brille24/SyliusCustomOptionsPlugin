@@ -87,10 +87,9 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
     public function dataInvalidData(): array
     {
         return [
-            'not a collection' => [12, 'Expected an object. Got: integer'],
             'non object entry' => [
-                new ArrayCollection(['12']),
-                'Expected an object. Got: string',
+                new stdClass(),
+                'Expected an instance of Doctrine\Common\Collections\Collection. Got: stdClass',
             ],
             'invalid entry' => [
                 new ArrayCollection([new stdClass()]),

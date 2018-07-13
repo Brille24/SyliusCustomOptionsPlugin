@@ -28,8 +28,7 @@ class ProductCustomerOptionValuePriceConstraintValidator extends ConstraintValid
      */
     public function validate($collection, Constraint $constraint): void
     {
-        Assert::object($collection);
-        Assert::implementsInterface($collection, Collection::class);
+        Assert::isInstanceOf($collection, Collection::class);
         Assert::allObject($collection);
         Assert::allImplementsInterface($collection, CustomerOptionValuePriceInterface::class);
 
@@ -39,7 +38,7 @@ class ProductCustomerOptionValuePriceConstraintValidator extends ConstraintValid
         }
 
         $existingValues = [];
-        foreach ($collection as $price) {
+        foreach ($collection->toArray() as $price) {
             /** @var CustomerOptionValuePriceInterface $price */
             $priceChannel = $price->getChannel();
             if ($priceChannel === null) {

@@ -56,7 +56,7 @@ class CustomerOptionAssociationConstraintValidatorTest extends TestCase
     public function testWrongElementType(): void
     {
         self::expectException(\InvalidArgumentException::class);
-        self::expectExceptionMessage('Expected an object. Got: integer');
+        self::expectExceptionMessage('Expected an instance of Doctrine\Common\Collections\Collection. Got: integer');
 
         $constraint = self::createMock(Constraint::class);
         $this->customerOptionAssociationConstraintValidator->validate(1, $constraint);

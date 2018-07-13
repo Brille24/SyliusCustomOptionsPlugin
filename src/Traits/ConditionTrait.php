@@ -18,7 +18,7 @@ trait ConditionTrait
     /** @var string|null */
     protected $comparator;
 
-    /** @var array */
+    /** @var array|null */
     protected $value;
 
     /** @var ValidatorInterface|null */
@@ -58,7 +58,7 @@ trait ConditionTrait
     public function getValue(): ?array
     {
         $value = null;
-        if (is_array($this->value)
+        if ($this->value !== null
             && array_key_exists('value', $this->value)
             && $this->value['value'] !== null
         ) {
