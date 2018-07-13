@@ -58,7 +58,10 @@ trait ConditionTrait
     public function getValue(): ?array
     {
         $value = null;
-        if (array_key_exists('value', $this->value) && $this->value['value'] !== null) {
+        if (is_array($this->value)
+            && array_key_exists('value', $this->value)
+            && $this->value['value'] !== null
+        ) {
             $value = $this->value['value'];
         }
 
@@ -87,7 +90,7 @@ trait ConditionTrait
         } elseif ($newValue['type'] === 'date') {
             $newValue['value'] = $value instanceof \DateTime ? $value : null;
         } elseif ($newValue['type'] === 'boolean') {
-            $newValue['value'] = (bool) $value;
+            $newValue['value'] = (bool)$value;
         } else {
             if (is_array($value) || $value instanceof \DateTime) {
                 $newValue['value'] = null;
@@ -201,7 +204,7 @@ trait ConditionTrait
                     $date   = $value['date'];
                     $time   = $value['time'];
                     $result = new \DateTime(sprintf('%d-%d-%d', $date['year'], $date['month'], $date['day']));
-                    $result->setTime((int) ($time['hour']), (int) ($time['minute']));
+                    $result->setTime((int)($time['hour']), (int)($time['minute']));
                 } else {
                     $result = new \DateTime(sprintf('%d-%d-%d', $value['year'], $value['month'], $value['day']));
                 }

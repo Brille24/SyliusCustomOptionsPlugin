@@ -8,10 +8,11 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAs
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionAssociationConstraintValidator;
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class CustomerOptionAssociationConstraintValidatorTest extends \PHPUnit_Framework_TestCase
+class CustomerOptionAssociationConstraintValidatorTest extends TestCase
 {
     /** @var CustomerOptionAssociationConstraintValidator */
     private $customerOptionAssociationConstraintValidator;
