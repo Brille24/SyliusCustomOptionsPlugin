@@ -27,6 +27,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Faker\Factory;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
+use Sylius\Component\Resource\Model\CodeAwareInterface;
 use Webmozart\Assert\Assert;
 
 class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
@@ -52,19 +53,10 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 
     public function generateRandom(int $amount): array
     {
-        $customerOptionsCodes = [];
+        $productCodeGetter = function (CodeAwareInterface $codeAware) { return $codeAware->getCode(); };
 
-        /** @var CustomerOptionInterface $customerOption */
-        foreach ($this->customerOptionRepository->findAll() as $customerOption) {
-            $customerOptionsCodes[] = $customerOption->getCode();
-        }
-
-        $productCodes = [];
-
-        foreach ($this->productRepository->findAll() as $product) {
-            /** @var ProductInterface $product */
-            $productCodes[] = $product->getCode();
-        }
+        $customerOptionsCodes = array_map($productCodeGetter, $this->customerOptionRepository->findAll());
+        $productCodes         = array_map($productCodeGetter, $this->productRepository->findAll());
 
         $names = $this->getUniqueNames($amount);
 
@@ -204,11 +196,11 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
     private function getOptionsSkeleton(): array
     {
         return [
-            'code'         => null,
+            'code' => null,
             'translations' => [],
-            'options'      => [],
-            'validators'   => [],
-            'products'     => [],
+            'options' => [],
+            'validators' => [],
+            'products' => [],
         ];
     }
 
