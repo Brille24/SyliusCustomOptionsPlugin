@@ -37,7 +37,10 @@ services:
     PhpCsFixer\Fixer\ClassNotation\ProtectedToPrivateFixer: ~
     PhpCsFixer\Fixer\ClassNotation\SelfAccessorFixer: ~
     PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer: ~
-    PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer: ~
+    PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer:
+      - property
+      - method
+    PhpCsFixer\Fixer\Comment\MultilineCommentOpeningClosingFixer: ~
     PhpCsFixer\Fixer\Comment\NoEmptyCommentFixer: ~
     PhpCsFixer\Fixer\Comment\NoTrailingWhitespaceInCommentFixer: ~
     PhpCsFixer\Fixer\ControlStructure\ElseifFixer: ~
@@ -62,11 +65,11 @@ services:
     PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer: ~
     PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveIssetsFixer: ~
     PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveUnsetsFixer: ~
-    PhpCsFixer\Fixer\LanguageConstruct\DeclareEqualNormalizeFixer: ~
+    PhpCsFixer\Fixer\LanguageConstruct\DeclareEqualNormalizeFixer:
+      space: 'none'
     PhpCsFixer\Fixer\LanguageConstruct\DirConstantFixer: ~
     PhpCsFixer\Fixer\LanguageConstruct\FunctionToConstantFixer: ~
     PhpCsFixer\Fixer\LanguageConstruct\IsNullFixer: ~
-    PhpCsFixer\Fixer\LanguageConstruct\SilencedDeprecationErrorFixer: ~
     PhpCsFixer\Fixer\ListNotation\ListSyntaxFixer:
         syntax: 'short'
     PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer: ~
@@ -87,6 +90,8 @@ services:
     PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
     PhpCsFixer\Fixer\Phpdoc\NoBlankLinesAfterPhpdocFixer: ~
     PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocAddMissingParamAnnotationFixer:
+          only_untyped: false
     PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer: ~
     PhpCsFixer\Fixer\Phpdoc\PhpdocInlineTagFixer: ~
     PhpCsFixer\Fixer\Phpdoc\PhpdocNoAccessFixer: ~
