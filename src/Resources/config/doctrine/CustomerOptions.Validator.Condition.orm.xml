@@ -14,6 +14,7 @@
         <many-to-one
                 target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator"
                 field="validator"
+                inversed-by="conditions"
         >
             <cascade>
                 <cascade-persist/>

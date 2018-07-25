@@ -42,6 +42,7 @@
         <many-to-one
                 target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup"
                 field="customerOptionGroup"
+                inversed-by="validators"
         />
     </entity>
 </doctrine-mapping>
