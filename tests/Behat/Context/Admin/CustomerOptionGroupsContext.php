@@ -11,6 +11,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionIn
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use InvalidArgumentException;
 use Sylius\Behat\Page\Admin\Crud\CreatePageInterface;
 use Sylius\Behat\Page\Admin\Crud\IndexPageInterface;
 use Sylius\Behat\Page\Admin\Crud\UpdatePageInterface;
@@ -371,7 +372,7 @@ class CustomerOptionGroupsContext implements Context
     }
 
     /**
-     * @Then /^the customer option group ("[^"]+") should have (condition|constraint)s:$/
+     * @Then the customer option group :customerOptionGroup should have :conditionType:
      */
     public function theCustomerOptionGroupShouldHaveAValidator(
         CustomerOptionGroupInterface $customerOptionGroup,
@@ -382,13 +383,13 @@ class CustomerOptionGroupsContext implements Context
         $conditionsToCheck = array_map(
             function (ValidatorInterface $validator) use ($conditionType): array {
                 switch ($conditionType) {
-                    case 'condition':
+                    case 'conditions':
                         return $validator->getConditions()->toArray();
-                    case 'constraint':
+                    case 'constraints':
                         return $validator->getConstraints()->toArray();
-                    default:
-                        return [];
                 }
+
+                throw new InvalidArgumentException('the condition type has to be either conditions or constraints');
             },
             $customerOptionGroup->getValidators()
         );
