@@ -96,9 +96,9 @@ Feature: Configuring validators
         And I define the validators error message as <error_message>
         And I save my changes
 
-        Then the customer option group "Some Group" should have a validator:
-            | condition_option | condition_comparator | condition_value | constraint_option | constraint_comparator | constraint_value | error_message   |
-            | <option_name>    | <comparator>         | <value>         |                   |                       |                  | <error_message> |
+        Then the customer option group "Some Group" should have conditions:
+            | option        | comparator   | value   | error_message   |
+            | <option_name> | <comparator> | <value> | <error_message> |
 
         Examples:
             | option_name      | comparator      | value                       | error_message           |
@@ -120,9 +120,9 @@ Feature: Configuring validators
         And I define the validators error message as <error_message>
         And I save my changes
 
-        Then the customer option group "Some Group" should have a validator:
-            | condition_option | condition_comparator | condition_value | constraint_option | constraint_comparator | constraint_value | error_message   |
-            |                  |                      |                 | <option_name>     | <comparator>          | <value>          | <error_message> |
+        Then the customer option group "Some Group" should have constraints:
+            | option        | comparator   | value   | error_message   |
+            | <option_name> | <comparator> | <value> | <error_message> |
 
         Examples:
             | option_name      | comparator      | value                       | error_message           |
@@ -156,11 +156,11 @@ Feature: Configuring validators
 
         And I save my changes
 
-        Then the customer option group "Some Group" should have a validator:
-            | condition_option | condition_comparator | condition_value    | constraint_option | constraint_comparator | constraint_value | error_message |
-            | "Text Option"    | "equal"              | 5                  |                   |                       |                  | "Oops"        |
-            | "Select Option"  | "in_set"             | "Value-1, Value-3" |                   |                       |                  |               |
-            | "Boolean Option" | "equal"              | true               |                   |                       |                  |               |
+        Then the customer option group "Some Group" should have conditions:
+            | option         | comparator | value            | error_message |
+            | Text Option    | equal      | 5                | Oops          |
+            | Select Option  | in_set     | Value-1, Value-3 |               |
+            | Boolean Option | equal      | true             |               |
 
     @ui
     Scenario: Multiple constraints are saved correctly
@@ -186,11 +186,11 @@ Feature: Configuring validators
 
         And I save my changes
 
-        Then the customer option group "Some Group" should have a validator:
-            | condition_option | condition_comparator | condition_value | constraint_option | constraint_comparator | constraint_value   | error_message |
-            |                  |                      |                 | "Text Option"     | "equal"               | 5                  | "Oops"        |
-            |                  |                      |                 | "Select Option"   | "in_set"              | "Value-1, Value-3" |               |
-            |                  |                      |                 | "Boolean Option"  | "equal"               | true               |               |
+        Then the customer option group "Some Group" should have constraints:
+            | option            | comparator | value              | error_message |
+            | Text Option       | equal      | 5                  | Oops          |
+            | Select Option     | in_set     | "Value-1, Value-3" |               |
+            | Boolean Option    | equal      | true               |               |
 
     @ui
     Scenario: Saving multiple validators
@@ -222,14 +222,11 @@ Feature: Configuring validators
 
         And I save my changes
 
-        Then the customer option group "Some Group" should have a validator:
-            | condition_option | condition_comparator | condition_value | constraint_option | constraint_comparator | constraint_value | error_message |
-            | "Text Option"    | "lesser"             | 10              |                   |                       |                  | "msg 1"       |
+        Then the customer option group "Some Group" should have conditions:
+            | condition_option | condition_comparator | condition_value | error_message |
+            |  Text Option     |  lesser              | 10              |  msg 1        |
+            |  Number Option   |  equal               | 10              |  msg 2        |
 
-        And the customer option group "Some Group" should have a validator:
-            | condition_option | condition_comparator | condition_value | constraint_option | constraint_comparator | constraint_value | error_message |
-            | "Number Option"  | "equal"              | 10              |                   |                       |                  | "msg 2"       |
-
-        And the customer option group "Some Group" should have a validator:
-            | condition_option | condition_comparator | condition_value | constraint_option | constraint_comparator | constraint_value | error_message |
-            |                  |                      |                 | "Text Option"     | "greater"             | 10               | "msg 3"       |
+      And the customer option group "Some Group" should have constraints:
+            | option        | comparator | value | error_message |
+            | Text Option   | greater    | 10    | msg 3         |

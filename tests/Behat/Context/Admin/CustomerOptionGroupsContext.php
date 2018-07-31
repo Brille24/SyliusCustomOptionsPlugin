@@ -35,9 +35,9 @@ class CustomerOptionGroupsContext implements Context
         IndexPageInterface $indexPage,
         CurrentPageResolverInterface $currentPageResolver
     ) {
-        $this->createPage = $createPage;
-        $this->updatePage = $updatePage;
-        $this->indexPage = $indexPage;
+        $this->createPage          = $createPage;
+        $this->updatePage          = $updatePage;
+        $this->indexPage           = $indexPage;
         $this->currentPageResolver = $currentPageResolver;
     }
 
@@ -347,7 +347,15 @@ class CustomerOptionGroupsContext implements Context
         $currentPage->setConstraintValue($value, $customerOption->getType());
     }
 
-    private function prepareValue($value, $optionType)
+    /**
+     * Prepares a value for comparision (resolves arrays etc.)
+     *
+     * @param        $value
+     * @param string $optionType
+     *
+     * @return array|mixed|null|string|string[]
+     */
+    private function prepareValue($value, string $optionType)
     {
         if (is_string($value)) {
             $value = preg_replace('/\s+/', '', $value);
@@ -363,96 +371,49 @@ class CustomerOptionGroupsContext implements Context
     }
 
     /**
-     * @Then the customer option group :customerOptionGroup should have a validator:
+     * @Then /^the customer option group ("[^"]+") should have (condition|constraint)s:$/
      */
-    public function theCustomerOptionGroupShouldHaveAValidator(CustomerOptionGroupInterface $customerOptionGroup, TableNode $table)
-    {
-        $validatorConfig = $table->getHash();
-
-        $errorMessage = str_replace('"', '', $validatorConfig[0]['error_message']);
-
-        $hasValidator = false;
-
-        /** @var ValidatorInterface $validator */
-        foreach ($customerOptionGroup->getValidators() as $validator) {
-            /** @var ConditionInterface[] $conditions */
-            $conditions = $validator->getConditions();
-
-            /** @var ConditionInterface[] $conditions */
-            $constraints = $validator->getConstraints();
-
-            $result = true;
-
-            foreach ($validatorConfig as $row) {
-                foreach ($row as &$value) {
-                    $value = str_replace('"', '', $value);
+    public function theCustomerOptionGroupShouldHaveAValidator(
+        CustomerOptionGroupInterface $customerOptionGroup,
+        string $conditionType,
+        TableNode $table
+    ) {
+        /** @var ConditionInterface[] $conditionsToCheck */
+        $conditionsToCheck = array_map(
+            function (ValidatorInterface $validator) use ($conditionType): array {
+                switch ($conditionType) {
+                    case 'condition':
+                        return $validator->getConditions()->toArray();
+                    case 'constraint':
+                        return $validator->getConstraints()->toArray();
+                    default:
+                        return [];
                 }
-                $row['condition_value'] = strtolower($row['condition_value']);
-                $row['constraint_value'] = strtolower($row['constraint_value']);
+            },
+            $customerOptionGroup->getValidators()
+        );
 
-                $hasCondition = $hasConstraint = true;
+        foreach ($table->getHash() as $row) {
+            foreach ($conditionsToCheck as $condition) {
+                $customerOption = $condition->getCustomerOption();
 
-                // Check for condition
-                if (!empty($row['condition_option'])) {
-                    $hasCondition = false;
+                if ($customerOption->getName() == $row['option']) {
+                    $val = $this->prepareValue($row['value'], $customerOption->getType());
 
-                    foreach ($conditions as $condition) {
-                        $customerOption = $condition->getCustomerOption();
+                    $sameComp = $condition->getComparator() == $row['condition_comparator'];
+                    $sameVal  = $this->values_are_equal(
+                        $condition->getValue()['value'], $val, $customerOption->getType()
+                    );
 
-                        if ($customerOption->getName() == $row['condition_option']) {
-                            $val = $this->prepareValue($row['condition_value'], $customerOption->getType());
-
-                            $sameComp = $condition->getComparator() == $row['condition_comparator'];
-                            $sameVal = $this->values_are_equal($condition->getValue()['value']['value'], $val, $customerOption->getType());
-
-                            if ($sameComp && $sameVal) {
-                                $hasCondition = true;
-
-                                break;
-                            }
-                        }
+                    if ($sameComp && $sameVal) {
+                        $expectedMessage = $row['error_message'];
+                        return $condition->getValidator()->getErrorMessage()->getMessage() === $expectedMessage;
                     }
-                }
-
-                //Check for constraint
-                if (!empty($row['constraint_option'])) {
-                    $hasConstraint = false;
-
-                    foreach ($constraints as $constraint) {
-                        $customerOption = $constraint->getCustomerOption();
-
-                        if ($customerOption->getName() == $row['constraint_option']) {
-                            $val = $this->prepareValue($row['constraint_value'], $customerOption->getType());
-
-                            $sameComp = $constraint->getComparator() == $row['constraint_comparator'];
-                            $sameVal = $this->values_are_equal($constraint->getValue()['value']['value'], $val, $customerOption->getType());
-
-                            if ($sameComp && $sameVal) {
-                                $hasConstraint = true;
-
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (!$hasCondition || !$hasConstraint) {
-                    $result = false;
-
-                    break;
-                }
-            }
-
-            if ($result) {
-                if (empty($errorMessage)) {
-                    $hasValidator = true;
-                } else {
-                    $hasValidator = $validator->getErrorMessage()->getMessage() === $errorMessage;
                 }
             }
         }
 
-        Assert::true($hasValidator);
+        Assert::false(true, 'The validator does not contain the condition');
     }
 
     private function values_are_equal($a, $b, string $optionType)
