@@ -389,7 +389,7 @@ class CustomerOptionGroupsContext implements Context
                         return $validator->getConstraints()->toArray();
                 }
 
-                throw new InvalidArgumentException('the condition type has to be either conditions or constraints');
+                throw new InvalidArgumentException('The condition type has to be either conditions or constraints');
             },
             $customerOptionGroup->getValidators()
         );
@@ -398,6 +398,8 @@ class CustomerOptionGroupsContext implements Context
         foreach ($conditionsToCheck as $conditionsArray) {
             $flatConditionsToCheck = array_merge($flatConditionsToCheck, $conditionsArray);
         }
+
+        $result = false;
 
         foreach ($table->getHash() as $row) {
             foreach ($flatConditionsToCheck as $condition) {
@@ -413,13 +415,13 @@ class CustomerOptionGroupsContext implements Context
 
                     if ($sameComp && $sameVal) {
                         $expectedMessage = $row['error_message'];
-                        return $condition->getValidator()->getErrorMessage()->getMessage() === $expectedMessage;
+                        $result = $condition->getValidator()->getErrorMessage()->getMessage() === $expectedMessage;
                     }
                 }
             }
         }
 
-        Assert::false(true, 'The validator does not contain the condition');
+        Assert::true($result, 'The validator does not contain the condition');
     }
 
     private function values_are_equal($a, $b, string $optionType)
