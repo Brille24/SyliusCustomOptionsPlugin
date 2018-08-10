@@ -406,7 +406,7 @@ class CustomerOptionGroupsContext implements Context
                 if ($customerOption->getName() == $row['option']) {
                     $val = $this->prepareValue($row['value'], $customerOption->getType());
 
-                    $sameComp = $condition->getComparator() == $row['condition_comparator'];
+                    $sameComp = $condition->getComparator() == $row['comparator'];
                     $sameVal  = $this->values_are_equal(
                         $condition->getValue()['value'], $val, $customerOption->getType()
                     );
