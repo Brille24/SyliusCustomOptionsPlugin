@@ -394,8 +394,13 @@ class CustomerOptionGroupsContext implements Context
             $customerOptionGroup->getValidators()
         );
 
+        $flatConditionsToCheck = [];
+        foreach ($conditionsToCheck as $conditionsArray) {
+            $flatConditionsToCheck = array_merge($flatConditionsToCheck, $conditionsArray);
+        }
+
         foreach ($table->getHash() as $row) {
-            foreach ($conditionsToCheck as $condition) {
+            foreach ($flatConditionsToCheck as $condition) {
                 $customerOption = $condition->getCustomerOption();
 
                 if ($customerOption->getName() == $row['option']) {
