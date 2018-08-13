@@ -399,12 +399,14 @@ class CustomerOptionGroupsContext implements Context
             $flatConditionsToCheck = array_merge($flatConditionsToCheck, $conditionsArray);
         }
 
-        $result = false;
+        $result = true;
 
         foreach ($table->getHash() as $row) {
             foreach ($row as $key => $value) {
                 $row[$key] = str_replace('"', '', $value);
             }
+
+            $hasCondition = false;
 
             foreach ($flatConditionsToCheck as $condition) {
                 /** @var CustomerOptionInterface $customerOption */
@@ -428,10 +430,14 @@ class CustomerOptionGroupsContext implements Context
 
                     if ($sameComp && $sameVal) {
                         $expectedMessage = $row['error_message'];
-                        $result = $condition->getValidator()->getErrorMessage()->getMessage() === $expectedMessage;
+                        if ($condition->getValidator()->getErrorMessage()->getMessage() === $expectedMessage) {
+                            $hasCondition = true;
+                        }
                     }
                 }
             }
+
+            $result = $result && $hasCondition;
         }
 
         Assert::true($result, 'The validator does not contain the condition');

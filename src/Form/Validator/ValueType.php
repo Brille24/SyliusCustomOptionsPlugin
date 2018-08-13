@@ -42,7 +42,8 @@ class ValueType extends AbstractType
                 if ($modelData !== null
                     && is_array($modelData)
                     && array_key_exists('type', $modelData)
-                    && $modelData['type'] === $newConfig['type']) {
+                    && $modelData['type'] === $newConfig['type']
+                ) {
                     $modelData = $modelData['value'];
                     $result = $modelData;
                 }
@@ -60,6 +61,8 @@ class ValueType extends AbstractType
                         if (isset($modelData['timezone'])) {
                             $result->setTimezone(new \DateTimeZone($modelData['timezone']));
                         }
+                    } else {
+                        $result = $modelData;
                     }
                 }
 
