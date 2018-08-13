@@ -402,11 +402,24 @@ class CustomerOptionGroupsContext implements Context
         $result = false;
 
         foreach ($table->getHash() as $row) {
+            foreach ($row as $key => $value) {
+                $row[$key] = str_replace('"', '', $value);
+            }
+
             foreach ($flatConditionsToCheck as $condition) {
+                /** @var CustomerOptionInterface $customerOption */
                 $customerOption = $condition->getCustomerOption();
 
-                if ($customerOption->getName() == $row['option']) {
+                $optionName = $customerOption->getName();
+
+                if ($optionName == $row['option']) {
                     $val = $this->prepareValue($row['value'], $customerOption->getType());
+
+                    if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
+                        foreach ($val as $key => $value) {
+                            $val[$key] = strtolower($value);
+                        }
+                    }
 
                     $sameComp = $condition->getComparator() == $row['comparator'];
                     $sameVal  = $this->values_are_equal(
