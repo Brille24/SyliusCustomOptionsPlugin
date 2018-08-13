@@ -159,8 +159,8 @@ Feature: Configuring validators
         Then the customer option group "Some Group" should have conditions:
             | option         | comparator | value            | error_message |
             | Text Option    | equal      | 5                | Oops          |
-            | Select Option  | in_set     | Value-1, Value-3 |               |
-            | Boolean Option | equal      | true             |               |
+            | Select Option  | in_set     | Value-1, Value-3 | Oops          |
+            | Boolean Option | equal      | true             | Oops          |
 
     @ui
     Scenario: Multiple constraints are saved correctly
@@ -187,10 +187,10 @@ Feature: Configuring validators
         And I save my changes
 
         Then the customer option group "Some Group" should have constraints:
-            | option            | comparator | value              | error_message |
-            | Text Option       | equal      | 5                  | Oops          |
-            | Select Option     | in_set     | "Value-1, Value-3" |               |
-            | Boolean Option    | equal      | true               |               |
+            | option         | comparator | value              | error_message |
+            | Text Option    | equal      | 5                  | Oops          |
+            | Select Option  | in_set     | "Value-1, Value-3" | Oops          |
+            | Boolean Option | equal      | true               | Oops          |
 
     @ui
     Scenario: Saving multiple validators
@@ -223,10 +223,10 @@ Feature: Configuring validators
         And I save my changes
 
         Then the customer option group "Some Group" should have conditions:
-            | condition_option | condition_comparator | condition_value | error_message |
-            |  Text Option     |  lesser              | 10              |  msg 1        |
-            |  Number Option   |  equal               | 10              |  msg 2        |
+            | option         | comparator | value | error_message |
+            |  Text Option   |  lesser    | 10    | msg 1         |
+            |  Number Option |  equal     | 10    | msg 2         |
 
-      And the customer option group "Some Group" should have constraints:
-            | option        | comparator | value | error_message |
-            | Text Option   | greater    | 10    | msg 3         |
+        And the customer option group "Some Group" should have constraints:
+            | option      | comparator | value | error_message |
+            | Text Option | greater    | 10    | msg 3         |
