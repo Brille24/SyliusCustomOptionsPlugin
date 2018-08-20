@@ -1,7 +1,7 @@
 {
     "name": "sylius/plugin-skeleton",
     "type": "sylius-plugin",
-    "description": "Acme example plugin for Sylius.",
+    "description": "Adds product customizing to Sylius",
     "license": "MIT",
     "require": {
         "php": "^7.2",
