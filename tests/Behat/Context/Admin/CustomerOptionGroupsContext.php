@@ -389,32 +389,58 @@ class CustomerOptionGroupsContext implements Context
                         return $validator->getConstraints()->toArray();
                 }
 
-                throw new InvalidArgumentException('the condition type has to be either conditions or constraints');
+                throw new InvalidArgumentException('The condition type has to be either conditions or constraints');
             },
             $customerOptionGroup->getValidators()
         );
 
+        $flatConditionsToCheck = [];
+        foreach ($conditionsToCheck as $conditionsArray) {
+            $flatConditionsToCheck = array_merge($flatConditionsToCheck, $conditionsArray);
+        }
+
+        $result = true;
+
         foreach ($table->getHash() as $row) {
-            foreach ($conditionsToCheck as $condition) {
+            foreach ($row as $key => $value) {
+                $row[$key] = str_replace('"', '', $value);
+            }
+
+            $hasCondition = false;
+
+            foreach ($flatConditionsToCheck as $condition) {
+                /** @var CustomerOptionInterface $customerOption */
                 $customerOption = $condition->getCustomerOption();
 
-                if ($customerOption->getName() == $row['option']) {
+                $optionName = $customerOption->getName();
+
+                if ($optionName == $row['option']) {
                     $val = $this->prepareValue($row['value'], $customerOption->getType());
 
-                    $sameComp = $condition->getComparator() == $row['condition_comparator'];
+                    if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
+                        foreach ($val as $key => $value) {
+                            $val[$key] = strtolower($value);
+                        }
+                    }
+
+                    $sameComp = $condition->getComparator() == $row['comparator'];
                     $sameVal  = $this->values_are_equal(
                         $condition->getValue()['value'], $val, $customerOption->getType()
                     );
 
                     if ($sameComp && $sameVal) {
                         $expectedMessage = $row['error_message'];
-                        return $condition->getValidator()->getErrorMessage()->getMessage() === $expectedMessage;
+                        if ($condition->getValidator()->getErrorMessage()->getMessage() === $expectedMessage) {
+                            $hasCondition = true;
+                        }
                     }
                 }
             }
+
+            $result = $result && $hasCondition;
         }
 
-        Assert::false(true, 'The validator does not contain the condition');
+        Assert::true($result, 'The validator does not contain the condition');
     }
 
     private function values_are_equal($a, $b, string $optionType)

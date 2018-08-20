@@ -18,11 +18,9 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 class CustomerOptionGroupRepository extends EntityRepository implements CustomerOptionGroupRepositoryInterface
 {
     /**
-     * @param string $code
-     *
-     * @return CustomerOptionGroupInterface
+     * {@inheritdoc}
      */
-    public function findOneByCode(string $code): CustomerOptionGroupInterface
+    public function findOneByCode(string $code): ?CustomerOptionGroupInterface
     {
         return $this->createQueryBuilder('o')
             ->where('o.code = :code')
@@ -34,8 +32,6 @@ class CustomerOptionGroupRepository extends EntityRepository implements Customer
 
     /**
      * {@inheritdoc}
-     *
-     * @return CustomerOptionGroupInterface[]
      */
     public function findByName(string $name, string $locale): array
     {
