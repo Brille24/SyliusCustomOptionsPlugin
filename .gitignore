@@ -12,3 +12,6 @@
 /tests/Application/app/sqlite.db
 
 /web
+
+# PHP-Storm
+.idea/

@@ -42,6 +42,17 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         return $this->configuration->toArray();
     }
 
+    public function getCustomerOptionConfigurationAsSimpleArray(): array
+    {
+        $result = null;
+        /** @var OrderItemOptionInterface $config */
+        foreach ($this->configuration as $config) {
+            $result[$config->getCustomerOptionCode()] = $config->getScalarValue();
+        }
+
+        return $result;
+    }
+
     /** {@inheritdoc} */
     public function getSubtotal(): int
     {

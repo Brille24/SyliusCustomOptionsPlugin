@@ -25,4 +25,11 @@ interface OrderItemInterface extends BaseOrderItemInterface
      * @return OrderItemOptionInterface[]
      */
     public function getCustomerOptionConfiguration(): array;
+
+    /**
+     * Returns the compressed version of the customer option configuration as though it was sent through a web-request.
+     *
+     * @return array
+     */
+    public function getCustomerOptionConfigurationAsSimpleArray(): array;
 }
