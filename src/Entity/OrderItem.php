@@ -44,7 +44,7 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
 
     public function getCustomerOptionConfigurationAsSimpleArray(): array
     {
-        $result = null;
+        $result = [];
         /** @var OrderItemOptionInterface $config */
         foreach ($this->configuration as $config) {
             $result[$config->getCustomerOptionCode()] = $config->getScalarValue();
