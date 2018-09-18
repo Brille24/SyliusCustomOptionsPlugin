@@ -33,9 +33,9 @@ trait OrderItemCustomerOptionCapableTrait
     /**
      * {@inheritdoc}
      */
-    public function getCustomerOptionConfiguration(): array
+    public function getCustomerOptionConfiguration(): Collection
     {
-        return $this->configuration->toArray();
+        return $this->configuration;
     }
 
     /**
