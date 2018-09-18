@@ -23,7 +23,7 @@ use Sylius\Component\Order\Model\OrderItemInterface as BaseOrderItemInterface;
 class OrderItem extends SyliusOrderItem implements OrderItemInterface
 {
     use OrderItemCustomerOptionCapableTrait {
-        __construct as customerOptionCapableConstructor();
+        __construct as customerOptionCapableConstructor;
     }
 
     public function __construct()
