@@ -12,81 +12,19 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Entity;
 
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Traits\CustomerOptionableTrait;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Core\Model\Product as BaseProduct;
+use Brille24\SyliusCustomerOptionsPlugin\Traits\ProductCustomerOptionCapableTrait;
+use Sylius\Component\Core\Model\Product as SyliusProduct;
 
-class Product extends BaseProduct implements ProductInterface
+class Product extends SyliusProduct implements ProductInterface
 {
-    use CustomerOptionableTrait {
-        __construct as protected initializeCustomerOptionGroup;
+    use ProductCustomerOptionCapableTrait {
+        __construct as protected customerOptionCapableConstructor;
     }
-
-    /** @var Collection|CustomerOptionValuePriceInterface[] */
-    protected $customerOptionValuePrices;
 
     public function __construct()
     {
         parent::__construct();
-        $this->initializeCustomerOptionGroup();
-        $this->customerOptionValuePrices = new ArrayCollection();
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCustomerOptionValuePrices(): Collection
-    {
-        return $this->customerOptionValuePrices;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setCustomerOptionValuePrices(?Collection $prices): void
-    {
-        if ($prices === null) {
-            $this->customerOptionValuePrices->clear();
-
-            return;
-        }
-
-        $this->customerOptionValuePrices = $prices;
-
-        foreach ($prices as $price) {
-            $price->setProduct($this);
-        }
-    }
-
-    public function addCustomerOptionValuePrice(CustomerOptionValuePriceInterface $price): void
-    {
-        $this->customerOptionValuePrices->add($price);
-        $price->setProduct($this);
-    }
-
-    public function removeCustomerOptionValuePrice(CustomerOptionValuePriceInterface $price): void
-    {
-        $this->customerOptionValuePrices->removeElement($price);
-        $price->setProduct(null);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCustomerOptions(): array
-    {
-        $options = [];
-
-        $customerOptionGroup = $this->getCustomerOptionGroup();
-
-        if (null !== $customerOptionGroup) {
-            foreach ($customerOptionGroup->getOptionAssociations() as $assoc) {
-                $options[] = $assoc->getOption();
-            }
-        }
-
-        return $options;
+        $this->customerOptionCapableConstructor();
     }
 }
