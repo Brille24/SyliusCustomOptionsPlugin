@@ -13,23 +13,10 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Entity;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Traits\CustomerOptionableTraitInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Traits\ProductCustomerOptionCapableTraitInterface;
 use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Core\Model\ProductInterface as BaseProductInterface;
+use Sylius\Component\Core\Model\ProductInterface as SyliusProductInterface;
 
-interface ProductInterface extends BaseProductInterface, CustomerOptionableTraitInterface
+interface ProductInterface extends SyliusProductInterface, ProductCustomerOptionCapableTraitInterface
 {
-    /**
-     * @return Collection
-     */
-    public function getCustomerOptionValuePrices(): Collection;
-
-    /**
-     * @param Collection|null $prices
-     */
-    public function setCustomerOptionValuePrices(?Collection $prices): void;
-
-    public function addCustomerOptionValuePrice(CustomerOptionValuePriceInterface $price): void;
-
-    public function removeCustomerOptionValuePrice(CustomerOptionValuePriceInterface $price): void;
 }
