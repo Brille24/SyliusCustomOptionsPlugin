@@ -1,5 +1,5 @@
 <h1 align="center">Customer Options</h1>
-[![Build Status](https://travis-ci.org/Brille24/SyliusCustomOptionsPlugin.svg?branch=master)](https://travis-ci.org/Brille24/SyliusCustomOptionsPlugin)
+<img src="https://travis-ci.org/Brille24/SyliusCustomOptionsPlugin.svg?branch=master" alt="Build status" />
 This bundle gives the customer the ability to customize the product to his/her liking. This is a different from Sylius internal product variant structure, as it is more flexible and allows to use them without pre-generating a lot of data.
 
 ## Installation

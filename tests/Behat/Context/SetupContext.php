@@ -271,7 +271,7 @@ class SetupContext implements Context
             }
         }
 
-        $orderItem->setCustomerOptionConfiguration($config);
+        $orderItem->setCustomerOptionConfiguration($config->toArray());
 
         $this->em->persist($orderItem);
         $this->em->flush();
