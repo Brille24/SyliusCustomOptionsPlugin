@@ -12,13 +12,8 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Entity;
 
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Traits\OrderItemCustomerOptionCapableTrait;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\OrderItem as SyliusOrderItem;
-use Sylius\Component\Core\Model\OrderItemInterface as BaseCoreOrderItemInterface;
-use Sylius\Component\Order\Model\OrderItemInterface as BaseOrderItemInterface;
 
 class OrderItem extends SyliusOrderItem implements OrderItemInterface
 {

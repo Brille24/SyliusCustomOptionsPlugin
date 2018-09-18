@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Traits;
 
-
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
-use Sylius\Component\Order\Model\OrderItemInterface;
+use Sylius\Component\Order\Model\OrderItemInterface as SyliusOrderItemInterface;
 
 trait OrderItemCustomerOptionCapableTrait
 {
@@ -65,7 +66,7 @@ trait OrderItemCustomerOptionCapableTrait
     /**
      * {@inheritdoc}
      */
-    public function equals(OrderItemInterface $item): bool
+    public function equals(SyliusOrderItemInterface $item): bool
     {
         $parentEquals = parent::equals($item);
 

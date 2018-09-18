@@ -12,9 +12,7 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Entity;
 
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Traits\ProductCustomerOptionCapableTraitInterface;
-use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ProductInterface as SyliusProductInterface;
 
 interface ProductInterface extends SyliusProductInterface, ProductCustomerOptionCapableTraitInterface
