@@ -14,8 +14,10 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Traits;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Doctrine\Common\Collections\Collection;
 
-interface CustomerOptionableTraitInterface
+interface ProductCustomerOptionCapableTraitInterface
 {
     /**
      * @return CustomerOptionGroupInterface|null
@@ -38,4 +40,24 @@ interface CustomerOptionableTraitInterface
      * @return bool
      */
     public function hasCustomerOptions(): bool;
+
+    /**
+     * @return Collection
+     */
+    public function getCustomerOptionValuePrices(): Collection;
+
+    /**
+     * @param Collection|null $prices
+     */
+    public function setCustomerOptionValuePrices(?Collection $prices): void;
+
+    /**
+     * @param CustomerOptionValuePriceInterface $price
+     */
+    public function addCustomerOptionValuePrice(CustomerOptionValuePriceInterface $price): void;
+
+    /**
+     * @param CustomerOptionValuePriceInterface $price
+     */
+    public function removeCustomerOptionValuePrice(CustomerOptionValuePriceInterface $price): void;
 }
