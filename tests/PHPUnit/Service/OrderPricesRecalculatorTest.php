@@ -107,7 +107,7 @@ class OrderPricesRecalculatorTest extends TestCase
         if (!is_array($orderItemOption)) {
             $orderItemOption = [$orderItemOption];
         }
-        $orderItem->method('getCustomerOptionConfiguration')->willReturn(new ArrayCollection($orderItemOption));
+        $orderItem->method('getCustomerOptionConfiguration')->willReturn($orderItemOption);
 
         return $orderItem;
     }

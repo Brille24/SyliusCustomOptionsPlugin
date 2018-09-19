@@ -6,7 +6,6 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
-use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
@@ -36,11 +35,10 @@ final class OrderPricesRecalculator implements OrderProcessorInterface
     }
 
     /**
-     * @param Collection $orderItemConfiguration
+     * @param OrderItemOptionInterface[] $orderItemConfiguration
      */
-    private function updateOrderItemConfiguration(Collection $orderItemConfiguration): void
+    private function updateOrderItemConfiguration(array $orderItemConfiguration): void
     {
-        /** @var OrderItemOptionInterface $configuration */
         foreach ($orderItemConfiguration as $configuration) {
             $customerOptionValue = $configuration->getCustomerOptionValue();
             if ($customerOptionValue === null) {
