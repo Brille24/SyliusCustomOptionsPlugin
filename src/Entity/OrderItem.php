@@ -42,6 +42,9 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         return $this->configuration->toArray();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCustomerOptionConfigurationAsSimpleArray(): array
     {
         $result = null;

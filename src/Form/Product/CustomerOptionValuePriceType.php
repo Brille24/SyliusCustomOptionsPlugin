@@ -124,7 +124,7 @@ final class CustomerOptionValuePriceType extends AbstractType
                               'data_class' => CustomerOptionValuePrice::class,
                           ])
             ->setDefined('product')
-            ->setAllowedTypes('product', Product::class);
+            ->setAllowedTypes('product', ProductInterface::class);
     }
 
     public function getBlockPrefix(): string

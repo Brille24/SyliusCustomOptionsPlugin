@@ -1,5 +1,5 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
-    <entity name="Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem" table="sylius_order_item">
+    <mapped-superclass name="Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem" table="sylius_order_item">
 
         <one-to-many target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption" mapped-by="orderItem" field="configuration">
             <cascade>
@@ -7,5 +7,5 @@
                 <cascade-remove/>
             </cascade>
         </one-to-many>
-    </entity>
+    </mapped-superclass>
 </doctrine-mapping>

@@ -5,7 +5,7 @@
             <generator strategy="AUTO"/>
         </id>
 
-        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem" field="orderItem" inversed-by="configuration"/>
+        <many-to-one target-entity="Sylius\Component\Order\Model\OrderItemInterface" field="orderItem" inversed-by="configuration"/>
 
         <field name="customerOptionCode"/>
         <field name="customerOptionName"/>
@@ -20,7 +20,7 @@
         <field name="customerOptionValueName" nullable="true"/>
         <field name="optionValue" nullable="true"/>
 
-        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface"
                      field="customerOptionValue" optional="true"
         >
             <join-column on-delete="SET NULL" nullable="true"/>
