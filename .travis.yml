@@ -7,6 +7,9 @@ sudo: false
 php:
     - 7.2
 
+services:
+    - mysql
+
 cache:
     yarn: true
     directories:

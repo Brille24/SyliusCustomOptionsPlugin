@@ -3,4 +3,8 @@ imports:
 
 doctrine:
     dbal:
-        path: "%kernel.project_dir%/var/db_test.sql"
+        path: ~
+        driver: pdo_mysql
+        host: localhost
+        user: root
+        password: ~
