@@ -8,3 +8,4 @@ doctrine:
         host: localhost
         user: root
         password: ~
+        dbname: sylius
