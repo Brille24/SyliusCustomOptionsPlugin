@@ -126,6 +126,10 @@ class OrderItemOption implements OrderItemOptionInterface
     /** {@inheritdoc} */
     public function getCustomerOptionName(): string
     {
+        if (null !== $this->customerOption) {
+            return $this->customerOption->getName();
+        }
+
         return $this->customerOptionName;
     }
 
@@ -159,6 +163,10 @@ class OrderItemOption implements OrderItemOptionInterface
     /** {@inheritdoc} */
     public function getCustomerOptionValueName(): string
     {
+        if (null !== $this->customerOptionValue) {
+            return $this->customerOptionValue->getName();
+        }
+
         return $this->customerOptionValueName ?? ($this->optionValue ?? '');
     }
 
