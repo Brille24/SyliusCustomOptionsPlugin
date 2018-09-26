@@ -4,24 +4,28 @@ sylius:
         admin:
             main:
                 catalog:
-                    customer_options: Kunden Optionen
-                    customer_option_groups: Kunden Option Gruppen
+                    customer_options: Kundenoptionen
+                    customer_option_groups: Kundenoptionengruppen
 
 
 # Brille24
 brille24:
     ui:
-        customer_options: Kunden Optionen
-        customer_option_groups: Kunden Option Gruppen
+        customer_options: Kundenoptionen
+        customer_option_group: Kundenoptionengruppe
+        customer_option_groups: Kundenoptionengruppen
         required: Erforderlich
-        product_customization: Produkt Anpassung
+        product_customization: Produktanpassung
         pricing:
             fixed_amount: Feste Menge
             percent: Prozent
+
     form:
         customer_options:
-            subheader: Verwalten der Kunden Optionen
+            subheader: Verwalten der Kundenoptionen
             unique: Der Code muss einzigartig sein
+            not_null: Der Wert darf nicht leer sein
+            required: Diese Option wird benötigt
             type:
                 text: Text
                 select: Auswahlfeld
@@ -31,10 +35,16 @@ brille24:
                 datetime: Datum und Zeit
                 number: Zahl
                 boolean: Wahrheitswert
+
         customer_option_groups:
-            subheader: Verwalten der Kunden Option Gruppen
+            subheader: Verwalten der Kundenoptionengruppen
             select: Auswahl
-            duplicate_option: A group can not have an option twice
+            duplicate_option: Optionen können nur einmal pro Gruppe enthalten sein.
+            buttons:
+                add_option: Option hinzufügen
+                delete_option: Option entfernen
+                add_validator: Validierer hinzufügen
+                delete_validator: Validierer entfernen
         config:
             min:
                 length: Minimum Länge
@@ -58,14 +68,19 @@ brille24:
                 in_set: In Menge enthalten
                 not_in_set: Nicht in Menge enthalten
             fields:
-                customer_option: Kunden Option
+                customer_option: Kundenoption
                 comparator: Vergleich
                 value:
                     default: Wert
                     text: Textlänge
                     set: Menge
+                message: Nachricht
             error_message: Fehlermeldung
-
+            buttons:
+                add_condition: Bedingung hinzufügen
+                delete_condition: Bedingung entfernen
+                add_constraint: Einschränkung hinzufügen
+                delete_constraint: Einschränkung entfernen
     grid:
-        options_remaining: "{0} |]0,Inf]and %count% more"
-        options_empty: Nothing to display
+        options_remaining: "{0} |]0,Inf]und %count% weitere"
+        options_empty: Leer
