@@ -121,7 +121,7 @@ class ConditionTest extends TestCase
     /**
      * @dataProvider compareProvider
      */
-    public function testIsMet($type, $value, $comparators, $testValues)
+    public function testIsMet(string $type, $value, array $comparators, $testValues)
     {
         $customerOption = self::createMock(CustomerOptionInterface::class);
         $customerOption->method('getType')->willReturn($type);
@@ -173,7 +173,7 @@ class ConditionTest extends TestCase
 
                             break;
                         case ConditionComparatorEnum::EQUAL:
-                            $expected = $expected ? $val == $value : false;
+                            $expected = $expected ? $val === $value : false;
 
                             break;
                         case ConditionComparatorEnum::LESSER_OR_EQUAL:
