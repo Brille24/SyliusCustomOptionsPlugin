@@ -19,7 +19,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Form\Product\ShopCustomerOptionType;
 use Brille24\SyliusCustomerOptionsPlugin\Services\ConstraintCreator;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
 use Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType;
-use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -28,14 +27,6 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 final class AddToCartTypeExtension extends AbstractTypeExtension
 {
-    /** @var LocaleContextInterface */
-    private $localeContext;
-
-    public function __construct(LocaleContextInterface $localeContext)
-    {
-        $this->localeContext = $localeContext;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('customer_options', ShopCustomerOptionType::class, [

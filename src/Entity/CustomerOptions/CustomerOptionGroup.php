@@ -187,9 +187,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     public function getTranslation(?string $locale = null): TranslationInterface
     {
         /** TranslationInterface $translation */
-        $translation = $this->doGetTranslation($locale);
-
-        return $translation;
+        return $this->doGetTranslation($locale);
     }
 
     /**

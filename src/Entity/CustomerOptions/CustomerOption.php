@@ -278,9 +278,7 @@ class CustomerOption implements CustomerOptionInterface
     public function getTranslation(?string $locale = null): TranslationInterface
     {
         /** @var CustomerOptionTranslationInterface $translation */
-        $translation = $this->doGetTranslation($locale);
-
-        return $translation;
+        return $this->doGetTranslation($locale);
     }
 
     /**
