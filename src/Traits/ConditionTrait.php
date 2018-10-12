@@ -159,7 +159,7 @@ trait ConditionTrait
 
                     break;
                 case ConditionComparatorEnum::EQUAL:
-                    $result = $result ? $val == $target : false;
+                    $result = $result ? $val === $target : false;
 
                     break;
                 case ConditionComparatorEnum::LESSER_OR_EQUAL:

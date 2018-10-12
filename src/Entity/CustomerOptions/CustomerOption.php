@@ -18,6 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
+use Webmozart\Assert\Assert;
 
 class CustomerOption implements CustomerOptionInterface
 {
@@ -277,8 +278,8 @@ class CustomerOption implements CustomerOptionInterface
      */
     public function getTranslation(?string $locale = null): TranslationInterface
     {
-        /** @var CustomerOptionTranslationInterface $translation */
         $translation = $this->doGetTranslation($locale);
+        Assert::isInstanceOf($translation, CustomerOptionTranslationInterface::class);
 
         return $translation;
     }
