@@ -10,6 +10,7 @@ default:
                 - tests/Behat/Resources/services.xml
 
         FriendsOfBehat\SymfonyExtension:
+            env_file: ~
             kernel:
                 class: AppKernel
                 path: tests/Application/app/AppKernel.php
