@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints;
 
+use Brille24\SyliusCustomerOptionsPlugin\Validator\ConditionalConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\MissingOptionsException;
 

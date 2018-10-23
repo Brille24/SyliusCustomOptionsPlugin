@@ -10,8 +10,9 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints;
+namespace Brille24\SyliusCustomerOptionsPlugin\Validator;
 
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionConfigurationConstraint;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Webmozart\Assert\Assert;

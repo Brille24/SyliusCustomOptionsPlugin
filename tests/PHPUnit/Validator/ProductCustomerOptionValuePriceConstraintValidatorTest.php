@@ -6,7 +6,7 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Validator;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ProductCustomerOptionValuePriceConstraintValidator;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\ProductCustomerOptionValuePriceConstraintValidator;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use stdClass;

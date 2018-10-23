@@ -140,6 +140,8 @@ trait ConditionTrait
 
         if (CustomerOptionTypeEnum::isDate($optionType)) {
             $target = $target instanceof \DateTime ? $target : $this->formatValue($target, $optionType);
+        } elseif (CustomerOptionTypeEnum::BOOLEAN === $optionType) {
+            $target = $this->formatValue($target, $optionType);
         }
 
         if (!is_array($actual)) {

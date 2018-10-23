@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints;
+namespace Brille24\SyliusCustomerOptionsPlugin\Validator;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociationInterface;
 use Doctrine\Common\Collections\Collection;

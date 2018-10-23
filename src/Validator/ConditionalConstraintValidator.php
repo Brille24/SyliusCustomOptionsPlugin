@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints;
+namespace Brille24\SyliusCustomerOptionsPlugin\Validator;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraint;
@@ -39,9 +40,10 @@ class ConditionalConstraintValidator extends ConstraintValidator
             }
 
             $allConditionsMet = $this->allConditionsMet($constraint->conditions, $configuration);
+            $allConstraintsMet = $this->allConditionsMet($constraint->constraints, $configuration);
 
             if ($allConditionsMet) {
-                if (!$this->allConditionsMet($constraint->constraints, $configuration)) {
+                if (!$allConstraintsMet) {
                     $this->context->addViolation($constraint->message);
                 }
             }
