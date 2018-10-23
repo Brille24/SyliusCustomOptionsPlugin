@@ -1,5 +1,5 @@
 {
-    "name": "sylius/plugin-skeleton",
+    "name": "brille24/sylius-customer-options-plugin",
     "type": "sylius-plugin",
     "description": "Adds product customizing to Sylius",
     "keywords": ["sylius", "sylius-plugin"],
@@ -7,8 +7,7 @@
     "require": {
         "php": "^7.2",
 
-        "sylius/sylius": "~1.3",
-        "symfony/symfony": "^3.4"
+        "sylius/sylius": "^1.3"
     },
     "require-dev": {
         "behat/behat": "^3.4",
@@ -47,7 +46,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.3-dev"
+            "dev-master": "1.4-dev"
         }
     }
 }

@@ -39,8 +39,8 @@ class ConditionalConstraintValidator extends ConstraintValidator
                 $configuration = is_array($value) ? $value : [$value];
             }
 
-            $allConditionsMet = $this->allConditionsMet($constraint->conditions, $configuration);
-            $allConstraintsMet = $this->allConditionsMet($constraint->constraints, $configuration);
+            $allConditionsMet   = $this->allConditionsMet($constraint->conditions, $configuration);
+            $allConstraintsMet  = $this->allConditionsMet($constraint->constraints, $configuration);
 
             if ($allConditionsMet) {
                 if (!$allConstraintsMet) {

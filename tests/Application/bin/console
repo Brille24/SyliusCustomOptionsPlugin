@@ -7,7 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
-use Tests\Acme\SyliusExamplePlugin\Application\Kernel;
 
 set_time_limit(0);
 
@@ -38,6 +37,6 @@ if ($debug) {
     }
 }
 
-$kernel = new Kernel($env, $debug);
+$kernel = new \Tests\Brille24\SyliusCustomerOptionsPlugin\Application\Kernel($env, $debug);
 $application = new Application($kernel);
 $application->run($input);
