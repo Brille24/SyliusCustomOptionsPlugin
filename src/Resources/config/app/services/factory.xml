@@ -4,6 +4,7 @@
         <service
                 class="Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactory"
                 id="brille24.customer_options_plugin.factory.order_item_option_factory"
+                decorates="brille24.factory.order_item_option"
         >
             <argument type="expression">service('sylius.context.channel').getChannel()</argument>
 
@@ -13,27 +14,33 @@
 
         <service
                 class="Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionFactory"
-                id="brille24.factory.customer_option"
+                id="brille24.sylius_customer_options_plugin.factory.customer_option_factory"
+                decorates="brille24.factory.customer_option"
         >
-            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_group"/>
-            <argument type="service" id="brille24.customer_options_plugin.factory.customer_option_value_factory"/>
+            <argument type="service" id="brille24.repository.customer_option_group"/>
+            <argument type="service" id="brille24.factory.customer_option_value"/>
         </service>
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValueFactory"
-                 id="brille24.customer_options_plugin.factory.customer_option_value_factory">
-            <argument id="brille24.customer_options_plugin.factory.customer_option_value_price_factory" type="service"/>
+                 id="brille24.customer_options_plugin.factory.customer_option_value_factory"
+                 decorates="brille24.factory.customer_option_value"
+        >
+            <argument id="brille24.factory.customer_option_value_price" type="service"/>
         </service>
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactory"
-                 id="brille24.customer_options_plugin.factory.customer_option_value_price_factory">
+                 id="brille24.customer_options_plugin.factory.customer_option_value_price_factory"
+                 decorates="brille24.factory.customer_option_value_price"
+        >
             <argument id="sylius.repository.channel" type="service"/>
         </service>
 
         <service
                 class="Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionGroupFactory"
-                id="brille24.factory.customer_option_group"
+                id="brille24.sylius_customer_options_plugin.factory.customer_option_group_factory"
+                decorates="brille24.factory.customer_option_group"
         >
-            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option"/>
+            <argument type="service" id="brille24.repository.customer_option"/>
             <argument type="service" id="sylius.repository.product"/>
         </service>
 
@@ -43,8 +50,8 @@
         >
             <argument type="service" id="sylius.fixture.example_factory.product"/>
             <argument type="service" id="sylius.repository.channel"/>
-            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_group"/>
-            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_value"/>
+            <argument type="service" id="brille24.repository.customer_option_group"/>
+            <argument type="service" id="brille24.repository.customer_option_value"/>
         </service>
     </services>
 </container>

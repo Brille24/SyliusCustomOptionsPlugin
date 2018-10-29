@@ -73,19 +73,6 @@
         </service>
 
 
-
-        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomDateType"
-                 id="brille24.customer_options_plugin.form.custom_date_type"
-        >
-            <tag name="form.type" alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomDateType" />
-        </service>
-
-        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomDateTimeType"
-                 id="brille24.customer_options_plugin.form.custom_datetime_type"
-        >
-            <tag name="form.type" alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomDateTimeType" />
-        </service>
-
         <service class="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ValueType"
                  id="brille24.customer_options_plugin.form.validator.test_type"
         >
@@ -93,7 +80,7 @@
             <tag name="form.type" alias="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ValueType" />
         </service>
 
-        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ErrorMessage"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ErrorMessageType"
                 id="brille24.customer_options_plugin.form.validator.error_message_type">
             <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>

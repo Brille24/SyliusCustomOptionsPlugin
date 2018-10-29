@@ -16,8 +16,9 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Resource\Model\ResourceInterface;
 
-interface CustomerOptionValuePriceInterface
+interface CustomerOptionValuePriceInterface extends ResourceInterface
 {
     const TYPE_FIXED_AMOUNT = 'FIXED_AMOUNT';
     const TYPE_PERCENT      = 'PERCENT';

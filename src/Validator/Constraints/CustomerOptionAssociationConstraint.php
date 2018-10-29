@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints;
 
+use Brille24\SyliusCustomerOptionsPlugin\Validator\CustomerOptionAssociationConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 
 class CustomerOptionAssociationConstraint extends Constraint

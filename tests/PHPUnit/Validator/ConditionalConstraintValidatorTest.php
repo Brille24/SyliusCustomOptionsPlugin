@@ -12,7 +12,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
-use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraintValidator;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\ConditionalConstraintValidator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;

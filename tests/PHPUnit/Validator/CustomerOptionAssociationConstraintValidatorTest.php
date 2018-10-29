@@ -6,7 +6,7 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Validator;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociationInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionAssociationConstraintValidator;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\CustomerOptionAssociationConstraintValidator;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Constraint;
