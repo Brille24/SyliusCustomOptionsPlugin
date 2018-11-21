@@ -17,8 +17,22 @@ class CreatePage extends BaseCreatePage
     /** @var TranslatorInterface */
     private $translator;
 
-    public function __construct(Session $session, array $parameters, RouterInterface $router, string $routeName, TranslatorInterface $translator)
-    {
+    /**
+     * CreatePage constructor.
+     *
+     * @param Session $session
+     * @param array $parameters
+     * @param RouterInterface $router
+     * @param string $routeName
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(
+        Session $session,
+        array $parameters,
+        RouterInterface $router,
+        string $routeName,
+        TranslatorInterface $translator
+    ) {
         parent::__construct($session, $parameters, $router, $routeName);
 
         $this->translator = $translator;
@@ -30,7 +44,7 @@ class CreatePage extends BaseCreatePage
      *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
-    public function fillField(string $field, string $value)
+    public function fillField(string $field, string $value): void
     {
         $this->getDocument()->fillField($field, $value);
     }
@@ -38,7 +52,7 @@ class CreatePage extends BaseCreatePage
     /**
      * @throws ElementNotFoundException
      */
-    public function addOption()
+    public function addOption(): void
     {
         $this->getDocument()->clickLink($this->translator->trans('brille24.form.customer_option_groups.buttons.add_option'));
     }
@@ -49,7 +63,7 @@ class CreatePage extends BaseCreatePage
      *
      * @throws ElementNotFoundException
      */
-    public function chooseOption(string $name, int $position)
+    public function chooseOption(string $name, int $position): void
     {
         $selectItems = $this->getDocument()->waitFor(2, function () {
             return $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="option_associations"] select');
@@ -75,7 +89,7 @@ class CreatePage extends BaseCreatePage
     /**
      * @throws ElementNotFoundException
      */
-    public function addValidator()
+    public function addValidator(): void
     {
         $this->getDocument()->clickLink($this->translator->trans('brille24.form.customer_option_groups.buttons.add_validator'));
     }
@@ -83,7 +97,7 @@ class CreatePage extends BaseCreatePage
     /**
      * @throws ElementNotFoundException
      */
-    public function addCondition()
+    public function addCondition(): void
     {
         $this->getDocument()->clickLink($this->translator->trans('brille24.form.validators.buttons.add_condition'));
     }
@@ -91,7 +105,7 @@ class CreatePage extends BaseCreatePage
     /**
      * @throws ElementNotFoundException
      */
-    public function addConstraint()
+    public function addConstraint(): void
     {
         $this->getDocument()->clickLink($this->translator->trans('brille24.form.validators.buttons.add_constraint'));
     }
@@ -101,7 +115,7 @@ class CreatePage extends BaseCreatePage
      *
      * @throws ElementNotFoundException
      */
-    public function chooseOptionForCondition(string $name)
+    public function chooseOptionForCondition(string $name): void
     {
         /** @var NodeElement[] $conditionDiv */
         $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
@@ -126,7 +140,7 @@ class CreatePage extends BaseCreatePage
      *
      * @throws ElementNotFoundException
      */
-    public function chooseComparatorForCondition(string $name)
+    public function chooseComparatorForCondition(string $name): void
     {
         /** @var NodeElement[] $conditionDiv */
         $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
@@ -146,6 +160,11 @@ class CreatePage extends BaseCreatePage
         $lastSelectItem->selectOption($name);
     }
 
+    /**
+     * @param string $optionType
+     *
+     * @return null|string
+     */
     public function getConditionValueType(string $optionType): ?string
     {
         $valueSuffix = '.default';
@@ -170,7 +189,10 @@ class CreatePage extends BaseCreatePage
         return $lastValueItem->getAttribute('type') ?? $lastValueItem->getTagName();
     }
 
-    public function countValidators()
+    /**
+     * @return int
+     */
+    public function countValidators(): int
     {
         $validators = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"] > div > div');
 

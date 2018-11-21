@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Product;
 
 use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Exception\DriverException;
+use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Sylius\Behat\Page\Shop\Product\ShowPage as BaseShowPage;
@@ -15,10 +18,10 @@ class ShowPage extends BaseShowPage
      * @param $name
      * @param $value
      *
-     * @throws \Behat\Mink\Exception\DriverException
-     * @throws \Behat\Mink\Exception\UnsupportedDriverActionException
+     * @throws DriverException
+     * @throws UnsupportedDriverActionException
      */
-    public function setCookie($name, $value)
+    public function setCookie($name, $value): void
     {
         $driver = $this->getSession()->getDriver();
 
@@ -30,7 +33,7 @@ class ShowPage extends BaseShowPage
      *
      * @return bool
      */
-    public function hasCustomizationFor(CustomerOptionInterface $customerOption)
+    public function hasCustomizationFor(CustomerOptionInterface $customerOption): bool
     {
         $result = $this->getDocument()->hasField($customerOption->getName());
 
@@ -56,9 +59,9 @@ class ShowPage extends BaseShowPage
      * @param CustomerOptionInterface $customerOption
      * @param string $value
      *
-     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
-    public function fillCustomerOption(CustomerOptionInterface $customerOption, string $value)
+    public function fillCustomerOption(CustomerOptionInterface $customerOption, string $value): void
     {
         if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
             $this->getDocument()->selectFieldOption(
@@ -109,7 +112,14 @@ class ShowPage extends BaseShowPage
         }
     }
 
-    private function checkField(string $fieldName, bool $state)
+    /**
+     * @param string $fieldName
+     * @param bool $state
+     *
+     * @throws DriverException
+     * @throws UnsupportedDriverActionException
+     */
+    private function checkField(string $fieldName, bool $state): void
     {
         /** @var NodeElement $field */
         $field = $this->getDocument()->findField($fieldName);
@@ -124,7 +134,7 @@ class ShowPage extends BaseShowPage
      *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
-    public function hasRequiredCustomerOptionValidationMessage()
+    public function hasRequiredCustomerOptionValidationMessage(): bool
     {
         $message = 'brille24.form.customer_options.required';
 
@@ -136,7 +146,7 @@ class ShowPage extends BaseShowPage
      *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
-    public function hasInvalidCustomerOptionValidationMessage()
+    public function hasInvalidCustomerOptionValidationMessage(): bool
     {
         $message = 'This value is not valid.';
 
@@ -148,7 +158,7 @@ class ShowPage extends BaseShowPage
      *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
-    public function hasOptionOutOfBoundsValidationMessage()
+    public function hasOptionOutOfBoundsValidationMessage(): bool
     {
         $message = 'This value';
 
@@ -168,7 +178,7 @@ class ShowPage extends BaseShowPage
      *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
-    private function hasValidationMessage(string $message)
+    private function hasValidationMessage(string $message): bool
     {
         if (!$this->hasElement('validation_errors')) {
             return false;
@@ -177,7 +187,10 @@ class ShowPage extends BaseShowPage
         return $this->getElement('validation_errors')->getText() === $message;
     }
 
-    public function hasValidationErrors()
+    /**
+     * @return bool
+     */
+    public function hasValidationErrors(): bool
     {
         return $this->hasElement('validation_errors');
     }

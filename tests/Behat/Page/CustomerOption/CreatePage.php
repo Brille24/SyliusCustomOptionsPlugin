@@ -13,9 +13,9 @@ class CreatePage extends BaseCreatePage
     /**
      * @param string $name
      *
-     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->getDocument()->fillField('Name', $name);
     }
@@ -23,9 +23,9 @@ class CreatePage extends BaseCreatePage
     /**
      * @param string $code
      *
-     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
-    public function setCode(string $code)
+    public function setCode(string $code): void
     {
         $this->getDocument()->fillField('Code', $code);
     }
@@ -33,17 +33,17 @@ class CreatePage extends BaseCreatePage
     /**
      * @param string $type
      *
-     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
-    public function chooseType(string $type)
+    public function chooseType(string $type): void
     {
         $this->getDocument()->selectFieldOption('Type', $type);
     }
 
     /**
-     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
-    public function setRequired()
+    public function setRequired(): void
     {
         $this->getDocument()->checkField('Required');
     }
@@ -53,7 +53,7 @@ class CreatePage extends BaseCreatePage
      *
      * @return bool
      */
-    public function hasConfiguration(string $config)
+    public function hasConfiguration(string $config): bool
     {
         $result = $this->getDocument()->hasField($config);
 
@@ -81,7 +81,7 @@ class CreatePage extends BaseCreatePage
      *
      * @return bool
      */
-    public function hasPriceConfiguration($valueName, $channelName)
+    public function hasPriceConfiguration($valueName, $channelName): bool
     {
         $pricingTab = $this->getDocument()->find('css', 'div[data-tab="pricing"]');
 
@@ -96,12 +96,12 @@ class CreatePage extends BaseCreatePage
      *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
-    public function setField(string $field, string $value)
+    public function setField(string $field, string $value): void
     {
         $this->getDocument()->fillField($field, $value);
     }
 
-    public function hasLink(string $name)
+    public function hasLink(string $name): bool
     {
         return $this->getDocument()->hasLink($name);
     }
@@ -112,7 +112,7 @@ class CreatePage extends BaseCreatePage
      *
      * @throws ElementNotFoundException
      */
-    public function addValue(string $code, string $name)
+    public function addValue(string $code, string $name): void
     {
         $this->getDocument()->clickLink('Add');
 
@@ -127,7 +127,10 @@ class CreatePage extends BaseCreatePage
         $lastValueItem->fillField('Name', $name);
     }
 
-    protected function getDefinedElements()
+    /**
+     * @return array
+     */
+    protected function getDefinedElements(): array
     {
         return [
             'code' => '#brille24_customer_option_code',

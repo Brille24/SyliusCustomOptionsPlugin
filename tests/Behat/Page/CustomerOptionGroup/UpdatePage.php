@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOptionGroup;
 
 use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Mink\Session;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Sylius\Behat\Page\Admin\Crud\UpdatePage as BaseUpdatePage;
@@ -17,8 +19,22 @@ class UpdatePage extends BaseUpdatePage
     /** @var TranslatorInterface */
     private $translator;
 
-    public function __construct(Session $session, array $parameters, RouterInterface $router, string $routeName, TranslatorInterface $translator)
-    {
+    /**
+     * UpdatePage constructor.
+     *
+     * @param Session $session
+     * @param array $parameters
+     * @param RouterInterface $router
+     * @param string $routeName
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(
+        Session $session,
+        array $parameters,
+        RouterInterface $router,
+        string $routeName,
+        TranslatorInterface $translator
+    ) {
         parent::__construct($session, $parameters, $router, $routeName);
 
         $this->translator = $translator;
@@ -30,7 +46,7 @@ class UpdatePage extends BaseUpdatePage
      *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
-    public function fillField(string $field, string $value)
+    public function fillField(string $field, string $value): void
     {
         $this->getDocument()->fillField($field, $value);
     }
@@ -38,7 +54,7 @@ class UpdatePage extends BaseUpdatePage
     /**
      * @throws ElementNotFoundException
      */
-    public function addOption()
+    public function addOption(): void
     {
         $this->getDocument()->clickLink($this->translator->trans('brille24.form.customer_option_groups.buttons.add_option'));
     }
@@ -49,7 +65,7 @@ class UpdatePage extends BaseUpdatePage
      *
      * @throws ElementNotFoundException
      */
-    public function chooseOption(string $name, int $position)
+    public function chooseOption(string $name, int $position): void
     {
         $selectItems = $this->getDocument()->waitFor(2, function () {
             return $this->getDocument()->findAll('css', 'div[data-form-type="collection"] select');
@@ -72,10 +88,7 @@ class UpdatePage extends BaseUpdatePage
         $lastNumberItem->setValue($position);
     }
 
-    /**
-     * @throws ElementNotFoundException
-     */
-    public function addValidator()
+    public function addValidator(): void
     {
         $validatorDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"]');
         $lastValidatorDiv = end($validatorDivs);
@@ -86,7 +99,7 @@ class UpdatePage extends BaseUpdatePage
     /**
      * @throws ElementNotFoundException
      */
-    public function addCondition()
+    public function addCondition(): void
     {
         /** @var NodeElement[] $conditionDivs */
         $conditionDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
@@ -98,7 +111,7 @@ class UpdatePage extends BaseUpdatePage
     /**
      * @throws ElementNotFoundException
      */
-    public function addConstraint()
+    public function addConstraint(): void
     {
         /** @var NodeElement[] $constraintDivs */
         $constraintDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="constraints"]');
@@ -107,10 +120,7 @@ class UpdatePage extends BaseUpdatePage
         $lastConstraintDiv->clickLink($this->translator->trans('brille24.form.validators.buttons.add_constraint'));
     }
 
-    /**
-     * @throws ElementNotFoundException
-     */
-    public function deleteValidator()
+    public function deleteValidator(): void
     {
         $validatorDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"]');
         $lastValidatorDiv = end($validatorDivs);
@@ -121,7 +131,7 @@ class UpdatePage extends BaseUpdatePage
     /**
      * @throws ElementNotFoundException
      */
-    public function deleteCondition()
+    public function deleteCondition(): void
     {
         /** @var NodeElement[] $conditionDivs */
         $conditionDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
@@ -133,7 +143,7 @@ class UpdatePage extends BaseUpdatePage
     /**
      * @throws ElementNotFoundException
      */
-    public function deleteConstraint()
+    public function deleteConstraint(): void
     {
         /** @var NodeElement[] $constraintDivs */
         $constraintDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="constraints"]');
@@ -147,7 +157,7 @@ class UpdatePage extends BaseUpdatePage
      *
      * @throws ElementNotFoundException
      */
-    public function chooseOptionForCondition(string $name)
+    public function chooseOptionForCondition(string $name): void
     {
         /** @var NodeElement[] $conditionDiv */
         $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
@@ -161,7 +171,7 @@ class UpdatePage extends BaseUpdatePage
      *
      * @throws ElementNotFoundException
      */
-    public function chooseComparatorForCondition(string $name)
+    public function chooseComparatorForCondition(string $name): void
     {
         /** @var NodeElement[] $conditionDiv */
         $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
@@ -170,6 +180,11 @@ class UpdatePage extends BaseUpdatePage
         $this->selectItemInContainer($lastConditionDiv, $name, $this->translator->trans('brille24.form.validators.fields.comparator'));
     }
 
+    /**
+     * @param string $optionType
+     *
+     * @return null|string
+     */
     public function getConditionValueType(string $optionType): ?string
     {
         /** @var NodeElement[] $conditionDiv */
@@ -186,7 +201,7 @@ class UpdatePage extends BaseUpdatePage
      *
      * @throws ElementNotFoundException
      */
-    public function chooseOptionForConstraint(string $name)
+    public function chooseOptionForConstraint(string $name): void
     {
         /** @var NodeElement[] $conditionDiv */
         $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="constraints"]');
@@ -200,7 +215,7 @@ class UpdatePage extends BaseUpdatePage
      *
      * @throws ElementNotFoundException
      */
-    public function chooseComparatorForConstraint(string $name)
+    public function chooseComparatorForConstraint(string $name): void
     {
         /** @var NodeElement[] $conditionDiv */
         $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="constraints"]');
@@ -209,6 +224,11 @@ class UpdatePage extends BaseUpdatePage
         $this->selectItemInContainer($lastConditionDiv, $name, $this->translator->trans('brille24.form.validators.fields.comparator'));
     }
 
+    /**
+     * @param string $optionType
+     *
+     * @return null|string
+     */
     public function getConstraintValueType(string $optionType): ?string
     {
         /** @var NodeElement[] $conditionDiv */
@@ -220,7 +240,14 @@ class UpdatePage extends BaseUpdatePage
         return $this->getValueItemType($lastConditionDiv, $optionType);
     }
 
-    private function selectItemInContainer(NodeElement $container, string $name, string $fieldName)
+    /**
+     * @param NodeElement $container
+     * @param string $name
+     * @param string $fieldName
+     *
+     * @throws ElementNotFoundException
+     */
+    private function selectItemInContainer(NodeElement $container, string $name, string $fieldName): void
     {
         $selectItems = $container->findAll('named', [
             'field',
@@ -236,7 +263,13 @@ class UpdatePage extends BaseUpdatePage
         $lastSelectItem->selectOption($name);
     }
 
-    private function getValueItemType(NodeElement $container, string $optionType)
+    /**
+     * @param NodeElement $container
+     * @param string $optionType
+     *
+     * @return string
+     */
+    private function getValueItemType(NodeElement $container, string $optionType): string
     {
         /** @var NodeElement[] $valueItems */
         $valueItems = $container->findAll('named', [
@@ -255,14 +288,20 @@ class UpdatePage extends BaseUpdatePage
         return $lastValueItem->getAttribute('type') ?? $lastValueItem->getTagName();
     }
 
-    public function countValidators()
+    /**
+     * @return int
+     */
+    public function countValidators(): int
     {
         $validators = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"] > div > div');
 
         return count($validators);
     }
 
-    public function getAvailableConditionComparators()
+    /**
+     * @return array
+     */
+    public function getAvailableConditionComparators(): array
     {
         /** @var NodeElement[] $conditionDiv */
         $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
@@ -271,7 +310,10 @@ class UpdatePage extends BaseUpdatePage
         return $this->getAvailableComparators($lastConditionDiv);
     }
 
-    public function getAvailableConstraintComparators()
+    /**
+     * @return array
+     */
+    public function getAvailableConstraintComparators(): array
     {
         /** @var NodeElement[] $constraintDiv */
         $constraintDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="constraints"]');
@@ -280,7 +322,12 @@ class UpdatePage extends BaseUpdatePage
         return $this->getAvailableComparators($lastConstraintDiv);
     }
 
-    private function getAvailableComparators(NodeElement $container)
+    /**
+     * @param NodeElement $container
+     *
+     * @return array
+     */
+    private function getAvailableComparators(NodeElement $container): array
     {
         /** @var NodeElement[] $selectItems */
         $selectItems = $container->findAll('named', [
@@ -306,8 +353,10 @@ class UpdatePage extends BaseUpdatePage
      * @param string $optionType
      *
      * @throws ElementNotFoundException
+     * @throws DriverException
+     * @throws UnsupportedDriverActionException
      */
-    public function setConditionValue($value, string $optionType)
+    public function setConditionValue($value, string $optionType): void
     {
         /** @var NodeElement[] $conditionDiv */
         $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
@@ -320,9 +369,11 @@ class UpdatePage extends BaseUpdatePage
      * @param $value
      * @param string $optionType
      *
+     * @throws DriverException
      * @throws ElementNotFoundException
+     * @throws UnsupportedDriverActionException
      */
-    public function setConstraintValue($value, string $optionType)
+    public function setConstraintValue($value, string $optionType): void
     {
         /** @var NodeElement[] $constraintDiv */
         $constraintDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="constraints"]');
@@ -337,10 +388,10 @@ class UpdatePage extends BaseUpdatePage
      * @param $value
      *
      * @throws ElementNotFoundException
-     * @throws \Behat\Mink\Exception\DriverException
-     * @throws \Behat\Mink\Exception\UnsupportedDriverActionException
+     * @throws DriverException
+     * @throws UnsupportedDriverActionException
      */
-    private function setValue(NodeElement $container, string $optionType, $value)
+    private function setValue(NodeElement $container, string $optionType, $value): void
     {
         $label = $this->translator->trans('brille24.form.validators.fields.value' . $this->getValueNameSuffix($optionType));
 
@@ -381,7 +432,10 @@ class UpdatePage extends BaseUpdatePage
         }
     }
 
-    public function setErrorMessage(string $message)
+    /**
+     * @param string $message
+     */
+    public function setErrorMessage(string $message): void
     {
         $validators = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"] > div > div');
         $lastValidator = end($validators);
@@ -389,7 +443,12 @@ class UpdatePage extends BaseUpdatePage
         $lastValidator->fillField('Message', $message);
     }
 
-    private function getValueNameSuffix(string $optionType)
+    /**
+     * @param string $optionType
+     *
+     * @return string
+     */
+    private function getValueNameSuffix(string $optionType): string
     {
         $valueSuffix = '.default';
         if ($optionType === CustomerOptionTypeEnum::TEXT) {

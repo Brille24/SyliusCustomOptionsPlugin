@@ -15,7 +15,7 @@ class CreateSimpleProductPage extends BaseCreatePage
      *
      * @throws ElementNotFoundException
      */
-    public function selectCustomerOptionGroup(string $name)
+    public function selectCustomerOptionGroup(string $name): void
     {
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
@@ -34,7 +34,7 @@ class CreateSimpleProductPage extends BaseCreatePage
     /**
      * @throws ElementNotFoundException
      */
-    public function addCustomerOptionValuePrice()
+    public function addCustomerOptionValuePrice(): void
     {
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
         $customerOptionsTab->clickLink('Add');
@@ -45,7 +45,7 @@ class CreateSimpleProductPage extends BaseCreatePage
      *
      * @throws ElementNotFoundException
      */
-    public function chooseOptionValue(string $valueName)
+    public function chooseOptionValue(string $valueName): void
     {
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
@@ -68,7 +68,7 @@ class CreateSimpleProductPage extends BaseCreatePage
      *
      * @throws ElementNotFoundException
      */
-    public function setValuePriceAmount(int $amount)
+    public function setValuePriceAmount(int $amount): void
     {
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
@@ -91,7 +91,7 @@ class CreateSimpleProductPage extends BaseCreatePage
      *
      * @throws ElementNotFoundException
      */
-    public function setValuePriceType(string $type)
+    public function setValuePriceType(string $type): void
     {
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
@@ -109,7 +109,7 @@ class CreateSimpleProductPage extends BaseCreatePage
         $lastValuePrice->selectFieldOption('Type', $type);
     }
 
-    public function openCustomerOptionsTab()
+    public function openCustomerOptionsTab(): void
     {
         $customerOptionsTab = $this->getDocument()->find('css', 'a[data-tab="customer_options"]');
 

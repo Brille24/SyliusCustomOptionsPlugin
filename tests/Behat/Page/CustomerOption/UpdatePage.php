@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOption;
 
 use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Exception\ElementNotFoundException;
 use Sylius\Behat\Page\Admin\Crud\UpdatePage as BaseUpdatePage;
 
 class UpdatePage extends BaseUpdatePage
@@ -12,9 +13,9 @@ class UpdatePage extends BaseUpdatePage
     /**
      * @param string $name
      *
-     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->getDocument()->fillField('Name', $name);
     }
@@ -22,9 +23,9 @@ class UpdatePage extends BaseUpdatePage
     /**
      * @param string $code
      *
-     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
-    public function setCode(string $code)
+    public function setCode(string $code): void
     {
         $this->getDocument()->fillField('Code', $code);
     }
@@ -32,17 +33,17 @@ class UpdatePage extends BaseUpdatePage
     /**
      * @param string $type
      *
-     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
-    public function chooseType(string $type)
+    public function chooseType(string $type): void
     {
         $this->getDocument()->selectFieldOption('Type', $type);
     }
 
     /**
-     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
-    public function setRequired()
+    public function setRequired(): void
     {
         $this->getDocument()->checkField('Required');
     }
@@ -52,7 +53,7 @@ class UpdatePage extends BaseUpdatePage
      *
      * @return bool
      */
-    public function hasConfiguration(string $config)
+    public function hasConfiguration(string $config): bool
     {
         $result = $this->getDocument()->hasField($config);
 
@@ -80,7 +81,7 @@ class UpdatePage extends BaseUpdatePage
      *
      * @return bool
      */
-    public function hasPriceConfiguration($valueName, $channelName)
+    public function hasPriceConfiguration($valueName, $channelName): bool
     {
         $pricingTab = $this->getDocument()->find('css', 'div[data-tab="pricing"]');
 
@@ -89,7 +90,10 @@ class UpdatePage extends BaseUpdatePage
         return $channelTab->has('css', sprintf('input[value="%s"][readonly="readonly"]', $valueName));
     }
 
-    protected function getDefinedElements()
+    /**
+     * @return array
+     */
+    protected function getDefinedElements(): array
     {
         return [
             'code' => '#brille24_customer_option_code',
