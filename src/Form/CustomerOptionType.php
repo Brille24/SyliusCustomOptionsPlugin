@@ -13,8 +13,10 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Form;
 
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Doctrine\Common\Collections\Collection;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -60,6 +62,16 @@ final class CustomerOptionType extends AbstractResourceType
                 'by_reference' => false,
             ])
         ;
+
+        $builder->get('values')->addModelTransformer(new CallbackTransformer(
+            function ($a) {
+                if($a instanceof Collection){
+                    return $a->toArray();
+                }
+                return $a;
+            },
+            function ($a) { return $a; }
+        ));
     }
 
     public function getBlockPrefix(): string
