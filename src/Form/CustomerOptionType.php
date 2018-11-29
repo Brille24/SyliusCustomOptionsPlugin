@@ -65,9 +65,10 @@ final class CustomerOptionType extends AbstractResourceType
 
         $builder->get('values')->addModelTransformer(new CallbackTransformer(
             function ($a) {
-                if($a instanceof Collection){
+                if ($a instanceof Collection) {
                     return $a->toArray();
                 }
+
                 return $a;
             },
             function ($a) { return $a; }
