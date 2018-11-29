@@ -1,0 +1,3 @@
+edit_order_item_configuration:
+  path: 'order-item/{orderItem}'
+  controller: "brille24.sylius_customer_options_plugin.controller.edit_customer_options_action"

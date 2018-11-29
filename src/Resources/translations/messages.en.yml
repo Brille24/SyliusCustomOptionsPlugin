@@ -6,6 +6,8 @@ sylius:
                 catalog:
                     customer_options: Customer Options
                     customer_option_groups: Customer Option Groups
+                order_item:
+                    edit: Edit customer options for order item
 
 
 # Brille24

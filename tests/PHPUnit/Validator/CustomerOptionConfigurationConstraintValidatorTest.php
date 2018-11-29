@@ -49,7 +49,7 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
 
         $this->customerOptionConfigurationValidator->validate($input, $constraint);
 
-        self::assertEquals(0, count($this->violations));
+        self::assertCount(0, $this->violations);
     }
 
     public function testWithValidKeysAndValidOrder(): void
@@ -60,7 +60,7 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
 
         $this->customerOptionConfigurationValidator->validate($input, $constraint);
 
-        self::assertEquals(0, count($this->violations));
+        self::assertCount(0, $this->violations);
     }
 
     /** @dataProvider dataWithValidKeysAndInvalidOrder
@@ -75,17 +75,17 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
 
         $this->customerOptionConfigurationValidator->validate($input, $constraint);
 
-        self::assertEquals(1, count($this->violations));
+        self::assertCount(1, $this->violations);
     }
 
     public function dataWithValidKeysAndInvalidOrder(): array
     {
-        $dateTime = new DateTime('now');
+        $dateTime      = new DateTime('now');
         $dateTimeLater = clone $dateTime;
         $dateTimeLater->add(new DateInterval('P10D')); // 10 days later
         return
             [
-                'int' => [0, 23],
+                'int'      => [0, 23],
                 'datetime' => [$dateTime, $dateTimeLater],
             ];
     }

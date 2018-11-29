@@ -83,8 +83,8 @@ class CustomerOptionValueListenerTest extends TestCase
     public function testPrePersist()
     {
         $customerOptionValue = $this->createEntity([]);
-        $arguments = $this->createArguments($customerOptionValue);
-        $this->channels = [self::createMock(ChannelInterface::class)];
+        $arguments           = $this->createArguments($customerOptionValue);
+        $this->channels      = [self::createMock(ChannelInterface::class)];
 
         $this->customerOptionValueListener->prePersist($arguments);
 
@@ -94,12 +94,12 @@ class CustomerOptionValueListenerTest extends TestCase
     public function testPrePersistWithExistingChannels()
     {
         $channel = self::createMock(ChannelInterface::class);
-        $price = self::createMock(CustomerOptionValuePriceInterface::class);
+        $price   = self::createMock(CustomerOptionValuePriceInterface::class);
         $price->method('getChannel')->willReturn($channel);
 
         $customerOptionValue = $this->createEntity([$price]);
-        $arguments = $this->createArguments($customerOptionValue);
-        $this->channels = [$channel];
+        $arguments           = $this->createArguments($customerOptionValue);
+        $this->channels      = [$channel];
 
         $this->customerOptionValueListener->prePersist($arguments);
 

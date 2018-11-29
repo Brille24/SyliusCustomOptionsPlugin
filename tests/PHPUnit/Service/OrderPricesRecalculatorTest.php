@@ -22,20 +22,19 @@ class OrderPricesRecalculatorTest extends TestCase
     /** @var OrderPricesRecalculator */
     private $priceRecalculator;
 
-    /** @var array CustomerOptionValues[] */
-    private $customerOptionValues = [];
-
     /** @var int */
     private $updateCount = 0;
 
+    /** @var string */
     private $nameUpdate = 'no-update';
 
+    /** @var int */
     private $priceUpdate;
 
     //<editor-fold desc="Helper function for setup">
     public function setUp()
     {
-        $channel = self::createMock(ChannelInterface::class);
+        $channel                 = self::createMock(ChannelInterface::class);
         $this->priceRecalculator = new OrderPricesRecalculator($channel);
     }
 
@@ -57,13 +56,15 @@ class OrderPricesRecalculatorTest extends TestCase
         $orderItemOption->method('getCustomerOptionValue')->willReturnCallback(
             function () use ($stillExists, $customerOptionValue) {
                 return $stillExists ? $customerOptionValue : null;
-            });
+            }
+        );
 
         $orderItemOption->method('setCustomerOptionValue')->willReturnCallback(
             function (CustomerOptionValueInterface $value) {
                 $this->nameUpdate = $value->getName();
                 ++$this->updateCount;
-            });
+            }
+        );
 
         $orderItemOption->method('setPrice')->willReturnCallback(
             function (CustomerOptionValuePriceInterface $price) {
@@ -127,19 +128,18 @@ class OrderPricesRecalculatorTest extends TestCase
     public function dataItemsDontNeedProcessing(): array
     {
         return [
-            'no items' => [[]],
+            'no items'         => [[]],
             'sylius base item' => [[new OrderItem()]],
         ];
     }
 
     public function testUpdate(): void
     {
-        $orderItemOption =
-            $this->createOrderItemOption(
-                new CustomerOption(),
-                $this->createCustomerOptionValue(['code' => 'hello', 'name' => 'something', 'price' => 10]),
-                true
-            );
+        $orderItemOption = $this->createOrderItemOption(
+            new CustomerOption(),
+            $this->createCustomerOptionValue(['code' => 'hello', 'name' => 'something', 'price' => 10]),
+            true
+        );
 
         $order = $this->createOrder([$this->createOrderItem($orderItemOption)]);
         $this->priceRecalculator->process($order);
@@ -151,12 +151,11 @@ class OrderPricesRecalculatorTest extends TestCase
 
     public function testBrokenUpdate(): void
     {
-        $orderItemOption =
-            $this->createOrderItemOption(
-                new CustomerOption(),
-                $this->createCustomerOptionValue(['code' => 'hello']),
-                false
-            );
+        $orderItemOption = $this->createOrderItemOption(
+            new CustomerOption(),
+            $this->createCustomerOptionValue(['code' => 'hello']),
+            false
+        );
 
         $order = $this->createOrder([$this->createOrderItem($orderItemOption)]);
         $this->priceRecalculator->process($order);

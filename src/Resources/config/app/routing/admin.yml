@@ -3,3 +3,6 @@ brille24_customer_options_admin:
 
 brille24_customer_option_groups_admin:
     resource: "@Brille24SyliusCustomerOptionsPlugin/Resources/config/app/routing/admin/customer_option_groups.yml"
+
+brille24_order_item_configuration:
+    resource: "@Brille24SyliusCustomerOptionsPlugin/Resources/config/app/routing/admin/order_item_configuration.yml"

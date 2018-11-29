@@ -46,6 +46,8 @@ class ConditionTest extends TestCase
     /**
      * @test
      * @dataProvider comparatorProvider
+     *
+     * @param string $comparator
      */
     public function testSetComparator(string $comparator)
     {
@@ -76,6 +78,9 @@ class ConditionTest extends TestCase
 
     /**
      * @dataProvider valueProvider
+     *
+     * @param mixed $type
+     * @param mixed $value
      */
     public function testSetValue($type, $value)
     {
@@ -120,6 +125,11 @@ class ConditionTest extends TestCase
 
     /**
      * @dataProvider compareProvider
+     *
+     * @param mixed $type
+     * @param mixed $value
+     * @param mixed $comparators
+     * @param mixed $testValues
      */
     public function testIsMet($type, $value, $comparators, $testValues)
     {
@@ -139,8 +149,8 @@ class ConditionTest extends TestCase
                     $testValue = strlen($testValue);
                 } elseif (CustomerOptionTypeEnum::isDate($type)) {
                     if ($type === CustomerOptionTypeEnum::DATETIME) {
-                        $date = $testValue['date'];
-                        $time = $testValue['time'];
+                        $date   = $testValue['date'];
+                        $time   = $testValue['time'];
                         $newVal = new \DateTime(
                             sprintf(
                                 '%d-%d-%d %d:%d',
@@ -249,19 +259,19 @@ class ConditionTest extends TestCase
                 ConditionComparatorEnum::getValuesForCustomerOptionType(CustomerOptionTypeEnum::DATE),
                 [
                     [
-                        'year' => 1900,
+                        'year'  => 1900,
                         'month' => 5,
-                        'day' => 7,
+                        'day'   => 7,
                     ],
                     [
-                        'year' => 2018,
+                        'year'  => 2018,
                         'month' => 6,
-                        'day' => 18,
+                        'day'   => 18,
                     ],
                     [
-                        'year' => 2048,
+                        'year'  => 2048,
                         'month' => 8,
-                        'day' => 16,
+                        'day'   => 16,
                     ],
                 ],
             ],
@@ -272,34 +282,34 @@ class ConditionTest extends TestCase
                 [
                     [
                         'date' => [
-                            'year' => 1900,
+                            'year'  => 1900,
                             'month' => 5,
-                            'day' => 7,
+                            'day'   => 7,
                         ],
                         'time' => [
-                            'hour' => 5,
+                            'hour'   => 5,
                             'minute' => 8,
                         ],
                     ],
                     [
                         'date' => [
-                            'year' => 2018,
+                            'year'  => 2018,
                             'month' => 6,
-                            'day' => 18,
+                            'day'   => 18,
                         ],
                         'time' => [
-                            'hour' => 12,
+                            'hour'   => 12,
                             'minute' => 42,
                         ],
                     ],
                     [
                         'date' => [
-                            'year' => 2048,
+                            'year'  => 2048,
                             'month' => 8,
-                            'day' => 16,
+                            'day'   => 16,
                         ],
                         'time' => [
-                            'hour' => 8,
+                            'hour'   => 8,
                             'minute' => 10,
                         ],
                     ],

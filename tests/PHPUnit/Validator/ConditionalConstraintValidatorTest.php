@@ -11,8 +11,8 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\ConditionalConstraintValidator;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,10 +48,12 @@ class ConditionalConstraintValidatorTest extends TestCase
 
     /**
      * @dataProvider requestParamsProvider
+     *
+     * @param mixed $params
      */
     public function testValidate($params)
     {
-        $request = self::createMock(Request::class);
+        $request          = self::createMock(Request::class);
         $request->request = self::createMock(ParameterBag::class);
         $this->requestStack->method('getCurrentRequest')->willReturn($request);
 
@@ -59,7 +61,7 @@ class ConditionalConstraintValidatorTest extends TestCase
             ->willReturn($params);
 
         $customerOptions = $this->createMockCustomerOptions();
-        $product = self::createMock(ProductInterface::class);
+        $product         = self::createMock(ProductInterface::class);
 
         $product->method('getCustomerOptions')->willReturn($customerOptions);
 
@@ -87,7 +89,7 @@ class ConditionalConstraintValidatorTest extends TestCase
         $constraints[] = $constraint;
 
         $conditionalConstraint = new ConditionalConstraint([
-            'conditions' => $conditions,
+            'conditions'  => $conditions,
             'constraints' => $constraints,
         ]);
 

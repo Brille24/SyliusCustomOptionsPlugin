@@ -52,10 +52,12 @@ class ValidatorTest extends TestCase
     /**
      * @test
      * @depends testAddConditions
+     *
+     * @param Validator $validator
      */
     public function testRemoveConditions(Validator $validator)
     {
-        $count = $validator->getConditions()->count();
+        $count     = $validator->getConditions()->count();
         $condition = $validator->getConditions()->first();
 
         $validator->removeCondition($condition);
@@ -84,10 +86,12 @@ class ValidatorTest extends TestCase
     /**
      * @test
      * @depends testAddConstraints
+     *
+     * @param Validator $validator
      */
     public function testRemoveConstraint(Validator $validator)
     {
-        $count = $validator->getConstraints()->count();
+        $count      = $validator->getConstraints()->count();
         $constraint = $validator->getConstraints()->first();
 
         $validator->removeConstraint($constraint);

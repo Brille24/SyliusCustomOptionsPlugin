@@ -25,6 +25,8 @@ use Sylius\Component\Currency\Context\CurrencyContextInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -71,8 +73,24 @@ final class ShopCustomerOptionType extends AbstractType
 
             [$class, $formOptions] = CustomerOptionTypeEnum::getFormTypeArray()[$customerOptionType];
 
-            $builder->add($fieldName, $class, $this->getFormConfiguration($formOptions, $customerOption, $product));
+            $fieldConfig           = $this->getFormConfiguration($formOptions, $customerOption, $product);
+            $fieldConfig['mapped'] = $options['mapped'];
+
+            $builder->add($fieldName, $class, $fieldConfig);
         }
+
+        $builder->addEventListener(
+            FormEvents::POST_SET_DATA, function (FormEvent $event) {
+                $data = $event->getData();
+                $form = $event->getForm();
+                if (!is_array($data)) {
+                    return;
+                }
+                foreach ($data as $key => $value) {
+                    $form->get($key)->setData($value);
+                }
+            }
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -104,7 +122,6 @@ final class ShopCustomerOptionType extends AbstractType
     ): array {
         $defaultOptions = [
             'label'    => $customerOption->getName(),
-            'mapped'   => false,
             'required' => $customerOption->isRequired(),
         ];
 
@@ -187,7 +204,7 @@ final class ShopCustomerOptionType extends AbstractType
         $valueString = $price->getValueString(
             $this->currencyContext->getCurrencyCode(), $this->localeContext->getLocaleCode(), $this->moneyFormatter
         );
-        $name = $value->getName();
+        $name        = $value->getName();
 
         return "{$name} ($valueString)";
     }

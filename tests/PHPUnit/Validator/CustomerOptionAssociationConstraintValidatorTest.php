@@ -78,7 +78,7 @@ class CustomerOptionAssociationConstraintValidatorTest extends TestCase
 
         $this->customerOptionAssociationConstraintValidator->validate($collection, $constraint);
 
-        self::assertEquals(0, count($this->violations));
+        self::assertCount(0, $this->violations);
     }
 
     public function testValidateWithDuplicate(): void
@@ -92,7 +92,7 @@ class CustomerOptionAssociationConstraintValidatorTest extends TestCase
 
         $this->customerOptionAssociationConstraintValidator->validate($collection, $constraint);
 
-        self::assertEquals(1, count($this->violations));
+        self::assertCount(1, $this->violations);
     }
 
     public function testValidValidate(): void
@@ -106,6 +106,6 @@ class CustomerOptionAssociationConstraintValidatorTest extends TestCase
 
         $this->customerOptionAssociationConstraintValidator->validate($collection, $constraint);
 
-        self::assertEquals(0, count($this->violations));
+        self::assertCount(0, $this->violations);
     }
 }

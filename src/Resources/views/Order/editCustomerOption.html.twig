@@ -1,0 +1,43 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% form_theme customerOptionForm '@SyliusUi/Form/theme.html.twig' %}
+
+{% block title %} {{ 'sylius.menu.admin.main.order_item.edit'|trans }} {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    {# Adding breadcrum #}
+    {% import '@SyliusAdmin/Macro/breadcrumb.html.twig' as breadcrumb %}
+
+    {% set breadcrumbs = [
+        { label: 'sylius.ui.administration'|trans, url: path('sylius_admin_dashboard') },
+        { label: 'sylius.ui.orders'|trans, url: path('sylius_admin_order_index') },
+        { label: '#'~order.number, url: path('sylius_admin_order_show', {'id': order.id}) },
+        { label: 'sylius.ui.edit'|trans }
+    ] %}
+
+    {{ breadcrumb.crumble(breadcrumbs) }}
+
+    <div class="ui segment">
+        <h3 class="ui dividing header">{{- 'sylius.menu.admin.main.catalog.customer_options' |trans -}}</h3>
+
+        {{ form_start(customerOptionForm, {'attr': {'class': 'ui loadable form'}}) }}
+        {% for form_field in customerOptionForm %}
+            {% if loop.index % 2 == 1 %}
+                <div class="two fields">
+            {% endif %}
+            {{ form_row(form_field) }}
+            {% if loop.index % 2 == 0 %}
+                </div>
+            {% endif %}
+        {% endfor %}
+        {% include '@SyliusUi/Form/Buttons/_update.html.twig' with {'path':
+            {'cancle': path('sylius_admin_order_show', {'id': order.id })}
+        } %}
+
+        {{ form_end(customerOptionForm) }}
+    </div>
+{% endblock %}

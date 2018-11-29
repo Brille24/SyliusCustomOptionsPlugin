@@ -6,7 +6,6 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Factory;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactory;
@@ -27,7 +26,7 @@ class OrderItemOptionFactoryTest extends TestCase
 
     public function setUp()
     {
-        $channel = self::createMock(ChannelInterface::class);
+        $channel            = self::createMock(ChannelInterface::class);
         $customerOptionRepo = self::createMock(CustomerOptionRepositoryInterface::class);
         $customerOptionRepo->method('findOneByCode')->willReturnCallback(function (string $code) {
             if (array_key_exists($code, $this->customerOptions)) {
@@ -70,7 +69,7 @@ class OrderItemOptionFactoryTest extends TestCase
     public function testCreateNew(): void
     {
         $customerOption = self::createMock(CustomerOptionInterface::class);
-        $value = 'something';
+        $value          = 'something';
 
         $orderItemOption = $this->orderItemOptionFactory->createNew($customerOption, $value);
         $this->assertInstanceOf(OrderItemOptionInterface::class, $orderItemOption);

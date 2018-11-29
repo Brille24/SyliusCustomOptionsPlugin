@@ -6,7 +6,8 @@ sylius:
                 catalog:
                     customer_options: Kundenoptionen
                     customer_option_groups: Kundenoptionengruppen
-
+                order_item:
+                    edit: Bearbeiten von Kundenoptionen für das Bestellitem
 
 # Brille24
 brille24:

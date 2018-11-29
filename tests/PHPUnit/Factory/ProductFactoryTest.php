@@ -90,8 +90,8 @@ class ProductFactoryTest extends TestCase
         ;
 
         $options = [
-            'code' => 'some_product',
-            'name' => 'Some Product',
+            'code'                  => 'some_product',
+            'name'                  => 'Some Product',
             'customer_option_group' => 'some_group',
         ];
 
@@ -118,7 +118,7 @@ class ProductFactoryTest extends TestCase
         $customerOptionValues = [];
         for ($i = 0; $i < 2; ++$i) {
             $customerOptionValue = new CustomerOptionValue();
-            $customerOptionValue->setCode('val_' . $i);
+            $customerOptionValue->setCode('val_'.$i);
             $customerOptionValue->setCustomerOption($this->customerOption);
             $customerOptionValues[] = $customerOptionValue;
 
@@ -131,30 +131,30 @@ class ProductFactoryTest extends TestCase
         $this->customerOption->setValues($customerOptionValues);
 
         $options = [
-            'code' => 'some_product',
-            'name' => 'Some Product',
-            'customer_option_group' => 'some_group',
+            'code'                         => 'some_product',
+            'name'                         => 'Some Product',
+            'customer_option_group'        => 'some_group',
             'customer_option_value_prices' => [
                 [
                     'value_code' => 'val_0',
-                    'type' => 'fixed',
-                    'amount' => 1234,
-                    'percent' => 0.12,
-                    'channel' => 'US_WEB',
+                    'type'       => 'fixed',
+                    'amount'     => 1234,
+                    'percent'    => 0.12,
+                    'channel'    => 'US_WEB',
                 ],
                 [
                     'value_code' => 'val_1',
-                    'type' => 'percent',
-                    'amount' => 12,
-                    'percent' => 0.123,
-                    'channel' => 'US_WEB',
+                    'type'       => 'percent',
+                    'amount'     => 12,
+                    'percent'    => 0.123,
+                    'channel'    => 'US_WEB',
                 ],
                 [
                     'value_code' => 'non_existent',
-                    'type' => 'percent',
-                    'amount' => 12,
-                    'percent' => 0.123,
-                    'channel' => 'US_WEB',
+                    'type'       => 'percent',
+                    'amount'     => 12,
+                    'percent'    => 0.123,
+                    'channel'    => 'US_WEB',
                 ],
             ],
         ];
@@ -175,8 +175,8 @@ class ProductFactoryTest extends TestCase
     public function testCreateWithNonExistentGroup()
     {
         $options = [
-            'code' => 'some_product',
-            'name' => 'Some Product',
+            'code'                  => 'some_product',
+            'name'                  => 'Some Product',
             'customer_option_group' => 'another_group',
         ];
 
@@ -190,7 +190,7 @@ class ProductFactoryTest extends TestCase
      */
     private function setUpCustomerOptionGroupRepository()
     {
-        $customerOption = new CustomerOption();
+        $customerOption       = new CustomerOption();
         $this->customerOption = $customerOption;
         $customerOption->setCode('some_option');
         $customerOption->setType(CustomerOptionTypeEnum::SELECT);

@@ -84,7 +84,7 @@ class OrderItemTest extends TestCase
     {
         return
             [
-                'one item' => [1, 110],
+                'one item'  => [1, 110],
                 'two items' => [2, 220],
             ];
     }

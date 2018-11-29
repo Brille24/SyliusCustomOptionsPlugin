@@ -59,7 +59,7 @@ class ChannelListenerTest extends TestCase
     private function createValue(): CustomerOptionValueInterface
     {
         $prices = new ArrayCollection();
-        $value = self::createMock(CustomerOptionValueInterface::class);
+        $value  = self::createMock(CustomerOptionValueInterface::class);
         $value->method('getPrices')->willReturnCallback(function () use ($prices) {
             return $prices;
         });
@@ -85,7 +85,7 @@ class ChannelListenerTest extends TestCase
     public function dataPrePersistWithWrongEntity(): array
     {
         return [
-            'non entity' => ['hello'],
+            'non entity'   => ['hello'],
             'wrong entity' => [new CustomerOption()],
         ];
     }
@@ -103,13 +103,13 @@ class ChannelListenerTest extends TestCase
     {
         $this->customerOptionValue = [$this->createValue()];
 
-        $channel = new Channel();
+        $channel   = new Channel();
         $arguments = $this->createArguments($channel);
 
         $this->channelCreateListener->prePersist($arguments);
 
         self::assertEquals(1, $this->persistCount);
-        self::assertEquals(1, count($this->customerOptionValue[0]->getPrices()));
+        self::assertCount(1, $this->customerOptionValue[0]->getPrices());
     }
 
     public function testPrePersistWithMultiple(): void
@@ -122,7 +122,7 @@ class ChannelListenerTest extends TestCase
 
         self::assertEquals(2, $this->persistCount);
         foreach ($this->customerOptionValue as $customerOptionValue) {
-            self::assertEquals(1, count($customerOptionValue->getPrices()));
+            self::assertCount(1, $customerOptionValue->getPrices());
         }
     }
 }

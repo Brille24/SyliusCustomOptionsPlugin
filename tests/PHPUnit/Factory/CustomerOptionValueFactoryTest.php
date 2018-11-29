@@ -30,6 +30,9 @@ class CustomerOptionValueFactoryTest extends TestCase
      * @dataProvider dataValidateWithInvalidConfiguration
      *
      * @throws ConfigurationException
+     *
+     * @param array $configuration
+     * @param string $exceptionMessage
      */
     public function testValidateWithInvalidConfiguration(array $configuration, string $exceptionMessage): void
     {

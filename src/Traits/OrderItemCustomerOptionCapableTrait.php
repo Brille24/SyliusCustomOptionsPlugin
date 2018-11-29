@@ -10,12 +10,13 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Exception;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Order\Model\OrderItemInterface as SyliusOrderItemInterface;
 
 trait OrderItemCustomerOptionCapableTrait
 {
-    /** @var Collection */
+    /** @var Collection|OrderItemOptionInterface[] */
     protected $configuration;
 
     public function __construct()
@@ -34,9 +35,23 @@ trait OrderItemCustomerOptionCapableTrait
     /**
      * {@inheritdoc}
      */
-    public function getCustomerOptionConfiguration(): array
+    public function getCustomerOptionConfiguration(bool $assoc=false): array
     {
-        return $this->configuration->toArray();
+        /** @var OrderItemInterface[] $orderItemOptionList */
+        $orderItemOptionList = $this->configuration->toArray();
+        if ($assoc) {
+            $orderItemOptionList = array_combine(
+                array_map(function (OrderItemOptionInterface $config) {
+                    return $config->getCustomerOptionCode();
+                }, $orderItemOptionList),
+                $orderItemOptionList
+            );
+            if ($orderItemOptionList === false) {
+                throw new Exception('Could not build associative array');
+            }
+        }
+
+        return $orderItemOptionList;
     }
 
     /**

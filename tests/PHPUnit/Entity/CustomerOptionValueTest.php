@@ -66,7 +66,7 @@ class CustomerOptionValueTest extends TestCase
 
     public function dataGetPriceForChannel(): array
     {
-        $channel = $this->createChannel(1, 'en_us');
+        $channel  = $this->createChannel(1, 'en_us');
         $channel1 = $this->createChannel(1, 'some_other_code');
 
         $otherChannel = $this->createChannel(2, 'de_DE');
@@ -79,8 +79,8 @@ class CustomerOptionValueTest extends TestCase
 
         return [
             'one channel identical reference' => $createTestData($channel, 10),
-            'one channel copy (id equal)' => $createTestData($channel1, 20),
-            'multiple channels (first)' => [
+            'one channel copy (id equal)'     => $createTestData($channel1, 20),
+            'multiple channels (first)'       => [
                 [$this->createPrice($channel1, 20), $this->createPrice($otherChannel, 30)],
                 $channel,
                 20,
@@ -96,7 +96,7 @@ class CustomerOptionValueTest extends TestCase
     public function testGetPriceForChannelChannelNotFound(): void
     {
         $channel = $this->createChannel(1, 'en_US');
-        $price = $this->createPrice($channel, 10);
+        $price   = $this->createPrice($channel, 10);
         $this->customerOptionValue->setPrices(new ArrayCollection([$price]));
 
         $priceObject = $this->customerOptionValue->getPriceForChannel($this->createChannel(2, 'de_DE'));
@@ -120,7 +120,7 @@ class CustomerOptionValueTest extends TestCase
         $channel = self::createMock(ChannelInterface::class);
 
         return [
-            'no override' => [[$this->createPrice($channel, 10)], $channel, 10],
+            'no override'   => [[$this->createPrice($channel, 10)], $channel, 10],
             'with override' => [
                 [$this->createPrice($channel, 10), $this->createPrice($channel, 20, $product)],
                 $channel,
@@ -146,9 +146,9 @@ class CustomerOptionValueTest extends TestCase
         $activePrice = $this->createDatedPrice(true, $channel);
 
         return [
-            'no active price' => [[$this->createDatedPrice(false, $channel)], $channel, null],
+            'no active price'  => [[$this->createDatedPrice(false, $channel)], $channel, null],
             'one active price' => [[$activePrice], $channel, $activePrice],
-            'multiple prices' => [
+            'multiple prices'  => [
                 [
                     $this->createDatedPrice(false, $channel),
                     $activePrice,

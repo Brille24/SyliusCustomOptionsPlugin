@@ -103,7 +103,7 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
         $constraint = self::createMock(Constraint::class);
         $this->productCustomerOptionPriceValidator->validate(new ArrayCollection(), $constraint);
 
-        self::assertEquals(0, count($this->violations));
+        self::assertCount(0, $this->violations);
     }
 
     public function testWithPricesInDifferentChannels(): void
@@ -119,7 +119,7 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
         $constraint = self::createMock(Constraint::class);
         $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
 
-        self::assertEquals(0, count($this->violations));
+        self::assertCount(0, $this->violations);
     }
 
     public function testWithPricesInSameChannel(): void
@@ -134,6 +134,6 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
         $constraint = self::createMock(Constraint::class);
         $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
 
-        self::assertEquals(1, count($this->violations));
+        self::assertCount(1, $this->violations);
     }
 }

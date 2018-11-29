@@ -83,7 +83,7 @@ class AddToCartListenerTest extends TestCase
     {
         $product = self::createConfiguredMock(ProductInterface::class, []);
 
-        $order = self::createMock(OrderInterface::class);
+        $order     = self::createMock(OrderInterface::class);
         $orderItem = self::createMock(OrderItemInterface::class);
         $orderItem->method('getOrder')->willReturn($hasOrder ? $order : null);
         $orderItem->method('getProduct')->willReturn($product);
@@ -119,26 +119,26 @@ class AddToCartListenerTest extends TestCase
         $this->addToCartListener->addItemToCart($event);
 
         // ASSERT
-        self::assertEquals(0, count($this->entitiesPersisted));
+        self::assertCount(0, $this->entitiesPersisted);
     }
 
     public function testWithEmptyCustomerOptions(): void
     {
         // SETUP
-        $event = $this->createEvent(true);
+        $event         = $this->createEvent(true);
         $this->request = $this->createRequest([]);
 
         // EXECUTE
         $this->addToCartListener->addItemToCart($event);
 
         // ASSERT
-        self::assertEquals(1, count($this->entitiesPersisted));
+        self::assertCount(1, $this->entitiesPersisted);
     }
 
     public function testInvalidCustomerOptionCode(): void
     {
         // SETUP
-        $event = $this->createEvent(true);
+        $event         = $this->createEvent(true);
         $this->request = $this->createRequest(['customer_options' => ['customerOptionCode' => 'value']]);
 
         self::expectException(\Exception::class);
@@ -153,13 +153,13 @@ class AddToCartListenerTest extends TestCase
         // SETUP
         $this->customerOptions['customerOptionCode'] = self::createMock(CustomerOptionInterface::class);
 
-        $event = $this->createEvent(true);
+        $event         = $this->createEvent(true);
         $this->request = $this->createRequest(['customer_options' => ['customerOptionCode' => 'value']]);
 
         // EXECUTE
         $this->addToCartListener->addItemToCart($event);
 
         // ASSERT
-        self::assertEquals(2, count($this->entitiesPersisted));
+        self::assertCount(2, $this->entitiesPersisted);
     }
 }

@@ -1,0 +1,13 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <defaults public="true" />
+
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Controller\EditCustomerOptionsAction"
+                 id="brille24.sylius_customer_options_plugin.controller.edit_customer_options_action">
+            <argument type="service" id="sylius.repository.order_item" />
+            <argument type="service" id="brille24.sylius_customer_options_plugin.services.order_item_option_updater" />
+
+            <tag name="controller.service_arguments" />
+        </service>
+    </services>
+</container>

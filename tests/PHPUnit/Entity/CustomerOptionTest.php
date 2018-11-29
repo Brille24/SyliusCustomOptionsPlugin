@@ -40,9 +40,9 @@ class CustomerOptionTest extends TestCase
     public function dataSetTypeToSelect(): array
     {
         return [
-            'select' => [CustomerOptionTypeEnum::SELECT, []],
+            'select'       => [CustomerOptionTypeEnum::SELECT, []],
             'multi-select' => [CustomerOptionTypeEnum::MULTI_SELECT, []],
-            'boolean' => [
+            'boolean'      => [
                 CustomerOptionTypeEnum::BOOLEAN,
                 CustomerOptionTypeEnum::getConfigurationArray()['boolean'],
             ],
