@@ -129,7 +129,14 @@ class CustomerOptionGroupsContext implements Context
      */
     public function iSaveMyChanges()
     {
-        $this->updatePage->saveChanges();
+        /** @var CreatePage|UpdatePage $currentPage */
+        $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
+
+        if ($currentPage instanceof CreatePage) {
+            $currentPage->create();
+        } else {
+            $currentPage->saveChanges();
+        }
     }
 
     /**
