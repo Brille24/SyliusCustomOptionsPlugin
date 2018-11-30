@@ -160,6 +160,7 @@ class CustomerOption implements CustomerOptionInterface
     public function removeValue(CustomerOptionValueInterface $value): void
     {
         $this->values->removeElement($value);
+        $value->setCustomerOption(null);
     }
 
     /**
@@ -167,7 +168,10 @@ class CustomerOption implements CustomerOptionInterface
      */
     public function setValues(array $values): void
     {
-        $this->values = new ArrayCollection($values);
+        $this->values->clear();
+        foreach ($values as $value) {
+            $this->addValue($value);
+        }
     }
 
     //endregion

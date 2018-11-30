@@ -48,19 +48,16 @@ class Validator implements ValidatorInterface
     }
 
     /** {@inheritdoc} */
-    public function setConditions(?Collection $conditions): void
+    public function setConditions(?array $conditions): void
     {
+        $this->conditions->clear();
         if ($conditions === null) {
-            $this->conditions->clear();
-
             return;
         }
 
         foreach ($conditions as $condition) {
-            $condition->setValidator($this);
+            $this->addCondition($condition);
         }
-
-        $this->conditions = $conditions;
     }
 
     /** {@inheritdoc} */
@@ -86,13 +83,13 @@ class Validator implements ValidatorInterface
     }
 
     /** {@inheritdoc} */
-    public function setConstraints(?Collection $constraints): void
+    public function setConstraints(?array $constraints): void
     {
-        foreach ($constraints as $constraint) {
-            $constraint->setValidator($this);
-        }
+        $this->constraints->clear();
 
-        $this->constraints = $constraints;
+        foreach ($constraints as $constraint) {
+            $this->addConstraint($constraint);
+        }
     }
 
     /** {@inheritdoc} */

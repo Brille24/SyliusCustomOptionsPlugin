@@ -100,6 +100,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     public function removeOptionAssociation(CustomerOptionAssociationInterface $association): void
     {
         $this->optionAssociations->removeElement($association);
+        $association->setGroup(null);
     }
 
     public function hasOptionAssociations(): bool
@@ -149,20 +150,22 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
             })->toArray();
     }
 
+    /** {@inheritdoc} */
     public function getValidators(): array
     {
         return $this->validators->getValues();
     }
 
+    /** {@inheritdoc} */
     public function setValidators(array $validators): void
     {
+        $this->validators->clear();
         foreach ($validators as $validator) {
-            $validator->setCustomerOptionGroup($this);
+            $this->validators->add($validator);
         }
-
-        $this->validators = new ArrayCollection($validators);
     }
 
+    /** {@inheritdoc} */
     public function addValidator(ValidatorInterface $validator): void
     {
         $validator->setCustomerOptionGroup($this);
@@ -170,6 +173,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
         $this->validators->add($validator);
     }
 
+    /** {@inheritdoc} */
     public function removeValidator(ValidatorInterface $validator): void
     {
         $validator->setCustomerOptionGroup(null);

@@ -22,10 +22,14 @@ use Webmozart\Assert\Assert;
 
 class CustomerOptionGroupsContext implements Context
 {
+
+    /** @var CreatePageInterface */
     private $createPage;
 
+    /** @var UpdatePageInterface */
     private $updatePage;
 
+    /** @var IndexPageInterface */
     private $indexPage;
 
     private $currentPageResolver;

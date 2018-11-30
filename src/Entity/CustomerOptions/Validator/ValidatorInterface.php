@@ -16,9 +16,9 @@ interface ValidatorInterface extends ResourceInterface
     public function getConditions(): Collection;
 
     /**
-     * @param Collection|null $conditions
+     * @param ConditionInterface[]|null $conditions
      */
-    public function setConditions(?Collection $conditions): void;
+    public function setConditions(?array $conditions): void;
 
     /**
      * @param ConditionInterface $condition
@@ -36,9 +36,9 @@ interface ValidatorInterface extends ResourceInterface
     public function getConstraints(): Collection;
 
     /**
-     * @param Collection $constraints
+     * @param ConditionInterface[]|null $constraints
      */
-    public function setConstraints(?Collection $constraints): void;
+    public function setConstraints(?array $constraints): void;
 
     /**
      * @param ConditionInterface $constraint

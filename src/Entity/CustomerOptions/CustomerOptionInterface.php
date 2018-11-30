@@ -70,7 +70,7 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     public function setConfiguration(array $configuration): void;
 
     /**
-     * @param array $values
+     * @param CustomerOptionValueInterface[] $values
      */
     public function setValues(array $values): void;
 
