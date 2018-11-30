@@ -42,9 +42,9 @@ class Validator implements ValidatorInterface
     }
 
     /** {@inheritdoc} */
-    public function getConditions(): Collection
+    public function getConditions(): array
     {
-        return $this->conditions;
+        return $this->conditions->toArray();
     }
 
     /** {@inheritdoc} */
@@ -77,9 +77,9 @@ class Validator implements ValidatorInterface
     }
 
     /** {@inheritdoc} */
-    public function getConstraints(): Collection
+    public function getConstraints(): array
     {
-        return $this->constraints;
+        return $this->constraints->toArray();
     }
 
     /** {@inheritdoc} */

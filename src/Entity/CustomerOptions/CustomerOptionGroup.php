@@ -84,63 +84,38 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
         $translations->setName($name);
     }
 
+    //<editor-fold "Customer option association">
+
     /** {@inheritdoc} */
     public function getOptionAssociations(): Collection
     {
         return $this->optionAssociations;
     }
 
+    /** {@inheritdoc} */
     public function addOptionAssociation(CustomerOptionAssociationInterface $association): void
     {
         $this->optionAssociations->add($association);
-
         $association->setGroup($this);
     }
 
+    /** {@inheritdoc} */
     public function removeOptionAssociation(CustomerOptionAssociationInterface $association): void
     {
         $this->optionAssociations->removeElement($association);
         $association->setGroup(null);
     }
 
+    /** {@inheritdoc} */
     public function hasOptionAssociations(): bool
     {
         return !$this->optionAssociations->isEmpty();
     }
 
-    /** {@inheritdoc} */
-    public function getProducts(): array
-    {
-        return $this->products->getValues();
-    }
-
     /**
-     * @param array $products
-     */
-    public function setProducts(array $products): void
-    {
-        $products = array_filter(
-            $products,
-            function ($value) { return $value instanceof ProductInterface; });
-
-        $this->products = new ArrayCollection($products);
-
-        /** @var ProductInterface $product */
-        foreach ($products as $product) {
-            $product->setCustomerOptionGroup($this);
-        }
-    }
-
-    public function addProduct(ProductInterface $product): void
-    {
-        $this->products->add($product);
-        $product->setCustomerOptionGroup($this);
-    }
-
-    /**
-     * Returns the first $count options of the group
+     * Returns the first options of the group
      *
-     * @return array
+     * @return CustomerOptionInterface[]
      */
     public function getOptions(): array
     {
@@ -150,35 +125,39 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
             })->toArray();
     }
 
+    //</editor-fold>
+
     /** {@inheritdoc} */
-    public function getValidators(): array
+    public function getProducts(): array
     {
-        return $this->validators->getValues();
+        return $this->products->getValues();
     }
 
     /** {@inheritdoc} */
-    public function setValidators(array $validators): void
+    public function addProduct(ProductInterface $product): void
     {
-        $this->validators->clear();
-        foreach ($validators as $validator) {
-            $this->validators->add($validator);
-        }
+        $this->products->add($product);
+        $product->setCustomerOptionGroup($this);
+    }
+
+    /** {@inheritdoc} */
+    public function getValidators(): Collection
+    {
+        return $this->validators;
     }
 
     /** {@inheritdoc} */
     public function addValidator(ValidatorInterface $validator): void
     {
-        $validator->setCustomerOptionGroup($this);
-
         $this->validators->add($validator);
+        $validator->setCustomerOptionGroup($this);
     }
 
     /** {@inheritdoc} */
     public function removeValidator(ValidatorInterface $validator): void
     {
-        $validator->setCustomerOptionGroup(null);
-
         $this->validators->removeElement($validator);
+        $validator->setCustomerOptionGroup(null);
     }
 
     //<editor-fold "Translations">

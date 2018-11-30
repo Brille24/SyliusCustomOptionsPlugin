@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
-use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface ValidatorInterface extends ResourceInterface
 {
     /**
-     * @return Collection
+     * @return ConditionInterface[]
      */
-    public function getConditions(): Collection;
+    public function getConditions(): array;
 
     /**
      * @param ConditionInterface[]|null $conditions
@@ -31,9 +30,9 @@ interface ValidatorInterface extends ResourceInterface
     public function removeCondition(ConditionInterface $condition): void;
 
     /**
-     * @return Collection
+     * @return ConditionInterface[]
      */
-    public function getConstraints(): Collection;
+    public function getConstraints(): array;
 
     /**
      * @param ConditionInterface[]|null $constraints

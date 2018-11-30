@@ -32,7 +32,7 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
     public function setName(?string $name): void;
 
     /**
-     * @return Collection
+     * @return Collection|CustomerOptionInterface[]
      */
     public function getOptionAssociations(): Collection;
 
@@ -56,22 +56,24 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
      */
     public function getProducts(): array;
 
-    public function setProducts(array $products): void;
-
+    /**
+     * @param ProductInterface $product
+     */
     public function addProduct(ProductInterface $product): void;
 
     /**
-     * @return array<ValidatorInterface>
+     * @return ValidatorInterface[]|Collection
      */
-    public function getValidators(): array;
+    public function getValidators(): Collection;
 
     /**
-     * @param ValidatorInterface[] $validators
+     * @param ValidatorInterface $validator
      */
-    public function setValidators(array $validators): void;
-
     public function addValidator(ValidatorInterface $validator): void;
 
+    /**
+     * @param ValidatorInterface $validator
+     */
     public function removeValidator(ValidatorInterface $validator): void;
 
     /**

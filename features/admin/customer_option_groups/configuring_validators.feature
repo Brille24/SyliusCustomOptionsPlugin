@@ -25,9 +25,9 @@ Feature: Configuring validators
 
         And customer option group "Some Group" has option "Select Option"
         And customer option group "Some Group" has option "Text Option"
-#        And customer option group "Some Group" has option "Number Option"
-#        And customer option group "Some Group" has option "Date Option"
-#        And customer option group "Some Group" has option "Boolean Option"
+        And customer option group "Some Group" has option "Number Option"
+        And customer option group "Some Group" has option "Date Option"
+        And customer option group "Some Group" has option "Boolean Option"
 
         And I am logged in as an administrator
 
@@ -50,7 +50,7 @@ Feature: Configuring validators
         When I delete a validator
         Then I should see 0 validators
 
-    @ui @test_now
+    @ui
     Scenario Outline: The condition value type and available comparators change based on customer option type
         Given I want to edit customer option group "Some Group"
         When I add a validator

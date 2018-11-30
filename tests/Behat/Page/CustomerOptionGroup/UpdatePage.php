@@ -188,7 +188,7 @@ class UpdatePage extends BaseUpdatePage
     public function getConditionValueType(string $optionType): ?string
     {
         /** @var NodeElement[] $conditionDiv */
-        $conditionDiv = $this->getDocument()->waitFor(2, function () {
+        $conditionDiv = $this->getDocument()->waitFor(5, function () {
             return $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
         });
         $lastConditionDiv = end($conditionDiv);
