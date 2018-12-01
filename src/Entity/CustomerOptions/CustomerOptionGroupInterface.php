@@ -24,12 +24,12 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
     /**
      * @return string|null
      */
-    public function getName(): ?string;
+    public function getName(): ? string;
 
     /**
      * @param string|null $name
      */
-    public function setName(?string $name): void;
+    public function setName(? string $name): void;
 
     /**
      * @return Collection|CustomerOptionInterface[]
@@ -55,6 +55,12 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
      * @return ProductInterface[]
      */
     public function getProducts(): array;
+
+    /**
+     * @* @param ProductInterface[] $product
+     * @param array $products
+     */
+    public function setProducts(array $products): void;
 
     /**
      * @param ProductInterface $product

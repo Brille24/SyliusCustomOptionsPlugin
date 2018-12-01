@@ -50,25 +50,25 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     }
 
     /** {@inheritdoc} */
-    public function getId(): ?int
+    public function getId(): ? int
     {
         return $this->id;
     }
 
     /** {@inheritdoc} */
-    public function getCode(): ?string
+    public function getCode(): ? string
     {
         return $this->code;
     }
 
     /** {@inheritdoc} */
-    public function setCode(?string $code): void
+    public function setCode(? string $code): void
     {
         $this->code = $code;
     }
 
     /** {@inheritdoc} */
-    public function getName(): ?string
+    public function getName(): ? string
     {
         /** @var CustomerOptionGroupTranslationInterface $translations */
         $translations = $this->getTranslation();
@@ -77,7 +77,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     }
 
     /** {@inheritdoc} */
-    public function setName(?string $name): void
+    public function setName(? string $name): void
     {
         /** @var CustomerOptionGroupTranslationInterface $translations */
         $translations = $this->getTranslation();
@@ -134,6 +134,15 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     }
 
     /** {@inheritdoc} */
+    public function setProducts(array $products): void
+    {
+        $this->products->clear();
+        foreach ($products as $product) {
+            $this->addProduct($product);
+        }
+    }
+
+    /** {@inheritdoc} */
     public function addProduct(ProductInterface $product): void
     {
         $this->products->add($product);
@@ -167,7 +176,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
      *
      * @return TranslationInterface
      */
-    public function getTranslation(?string $locale = null): TranslationInterface
+    public function getTranslation(? string $locale = null): TranslationInterface
     {
         /** TranslationInterface $translation */
         $translation = $this->doGetTranslation($locale);

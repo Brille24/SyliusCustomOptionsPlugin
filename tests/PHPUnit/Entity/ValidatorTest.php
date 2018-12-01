@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Entity;
 
@@ -57,8 +57,9 @@ class ValidatorTest extends TestCase
      */
     public function testRemoveConditions(Validator $validator)
     {
-        $count     = $validator->getConditions()->count();
-        $condition = $validator->getConditions()->first();
+        $conditions = $validator->getConditions();
+        $count = count($conditions);
+        $condition = reset($conditions);
 
         $validator->removeCondition($condition);
 
@@ -91,8 +92,9 @@ class ValidatorTest extends TestCase
      */
     public function testRemoveConstraint(Validator $validator)
     {
-        $count      = $validator->getConstraints()->count();
-        $constraint = $validator->getConstraints()->first();
+        $constraints = $validator->getConstraints();
+        $count = count($constraints);
+        $constraint = reset($constraints);
 
         $validator->removeConstraint($constraint);
 
