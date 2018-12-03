@@ -32,7 +32,7 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
     public function setName(? string $name): void;
 
     /**
-     * @return Collection|CustomerOptionInterface[]
+     * @return Collection|CustomerOptionAssociationInterface[]
      */
     public function getOptionAssociations(): Collection;
 
