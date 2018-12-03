@@ -11,5 +11,8 @@
 
 /web
 
+# Exluding individual behat config
+/behat.yml
+
 # PHP-Storm
 .idea/
