@@ -395,9 +395,9 @@ class CustomerOptionGroupsContext implements Context
             function (ValidatorInterface $validator) use ($conditionType): array {
                 switch ($conditionType) {
                     case 'conditions':
-                        return $validator->getConditions()->toArray();
+                        return $validator->getConditions();
                     case 'constraints':
-                        return $validator->getConstraints()->toArray();
+                        return $validator->getConstraints();
                 }
 
                 throw new InvalidArgumentException('The condition type has to be either conditions or constraints');
@@ -424,11 +424,12 @@ class CustomerOptionGroupsContext implements Context
                 $customerOption = $condition->getCustomerOption();
 
                 $optionName = $customerOption->getName();
+                $customerOptionType = $customerOption->getType();
 
                 if ($optionName == $row['option']) {
-                    $val = $this->prepareValue($row['value'], $customerOption->getType());
+                    $val = $this->prepareValue($row['value'], $customerOptionType);
 
-                    if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
+                    if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
                         foreach ($val as $key => $value) {
                             $val[$key] = strtolower($value);
                         }
@@ -436,7 +437,7 @@ class CustomerOptionGroupsContext implements Context
 
                     $sameComp = $condition->getComparator() == $row['comparator'];
                     $sameVal  = $this->values_are_equal(
-                        $condition->getValue()['value'], $val, $customerOption->getType()
+                        $condition->getValue()['value'], $val, $customerOptionType
                     );
 
                     if ($sameComp && $sameVal) {
