@@ -3,6 +3,7 @@
 
 /etc/build/*
 !/etc/build/.gitignore
+/composer.lock
 
 # Excluding the test application
 /tests/Application/yarn.lock
