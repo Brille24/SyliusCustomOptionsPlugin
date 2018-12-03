@@ -402,7 +402,7 @@ class CustomerOptionGroupsContext implements Context
 
                 throw new InvalidArgumentException('The condition type has to be either conditions or constraints');
             },
-            $customerOptionGroup->getValidators()
+            $customerOptionGroup->getValidators()->toArray()
         );
 
         $flatConditionsToCheck = [];
