@@ -79,7 +79,7 @@ class CustomerOptionFactoryTest extends TestCase
             ],
             'type invalid' => [
                 ['code' => 'something', 'translations' => ['en'], 'type' => 'something'],
-                '\'something\' should be in array text,select,multi_select,date,datetime,number,boolean',
+                '\'something\' should be in array file,text,select,multi_select,date,datetime,number,boolean',
             ],
             'select missing values' => [
                 ['code' => 'something', 'translations' => ['en'], 'type' => CustomerOptionTypeEnum::MULTI_SELECT],
