@@ -39,10 +39,9 @@ class EditCustomerOptionsAction extends Controller
 
         $orderItemForm = $this->createForm(
             ShopCustomerOptionType::class,
-            null,
+            $this->getCustomerOptionValues($orderItem),
             ['product' => $orderItem->getProduct(), 'mapped' => true]
         );
-        $orderItemForm->setData($this->getCustomerOptionValues($orderItem));
 
         $orderItemForm->handleRequest($request);
 

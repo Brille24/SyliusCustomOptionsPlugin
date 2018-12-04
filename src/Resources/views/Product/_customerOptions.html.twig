@@ -1,7 +1,7 @@
 {% if configuration|length > 0 %}
     {% from 'Brille24SyliusCustomerOptionsPlugin:all:_orderItem.html.twig' import renderPrice %}
 
-    <h4>Customer Options</h4>
+    <h4>{{ 'sylius.menu.admin.main.catalog.customer_options'|trans }}</h4>
     <div class="ui list sylius-product-options">
         {% for orderItemOption in configuration %}
             <div class="item" data-sylius-option-name="{{ orderItemOption.customerOptionCode }}">
