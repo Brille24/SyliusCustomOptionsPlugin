@@ -191,7 +191,7 @@ class CustomerOption implements CustomerOptionInterface
     {
         // Setting the new values
         foreach ($configuration as $key => $value) {
-            $optionKey                                = str_replace('_', '.', $key);
+            $optionKey                                = str_replace(':', '.', $key);
             $this->configuration[$optionKey]['value'] = $value;
         }
 
