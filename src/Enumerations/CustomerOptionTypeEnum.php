@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Enumerations;
 
-// TODO: Wait to see if sylius has something like this.
 use DateTime;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -37,6 +37,7 @@ final class CustomerOptionTypeEnum implements EnumInterface
     public static function getConstList(): array
     {
         return [
+            self::FILE,
             self::TEXT,
             self::SELECT,
             self::MULTI_SELECT,
@@ -102,6 +103,10 @@ final class CustomerOptionTypeEnum implements EnumInterface
                 CheckboxType::class,
                 [],
             ],
+            self::FILE => [
+                FileType::class,
+                []
+            ]
         ];
     }
 
@@ -132,6 +137,10 @@ final class CustomerOptionTypeEnum implements EnumInterface
             self::BOOLEAN => [
                 'brille24.form.config.default_value' => ['type' => 'boolean', 'value' => true],
             ],
+            self::FILE => [
+                'brille24.form.config.max.file_size' => ['type' => 'text', 'value' => '10MB'],
+                'brille24.form.config.min.file_size' => ['type' => 'text', 'value' => '0B'],
+            ]
         ];
     }
 

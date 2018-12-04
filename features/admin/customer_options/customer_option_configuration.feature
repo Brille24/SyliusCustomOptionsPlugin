@@ -27,6 +27,12 @@ Feature: Checking if configuration is available
         And I should see configuration for "Minimum date"
 
     @ui
+    Scenario: Creating a new file option
+        Given I specify its type as "File"
+        And I add it
+        Then I should see configuration for "Maximum size"
+        Then I should see configuration for "Minimum size"
+    @ui
     Scenario: Creating a new datetime option
         Given I specify its type as "Datetime"
         And I add it
