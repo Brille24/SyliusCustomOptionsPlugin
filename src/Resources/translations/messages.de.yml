@@ -59,6 +59,7 @@ brille24:
                 number: Maximum Zahl
             invalid_min_max: Das konfigurierte Minimum ist größer als das Maximum
             default_value: Standard-Wert
+            allowed_types: Erlaubte Dateitypen
         validators:
             condition:
                 greater: ">"

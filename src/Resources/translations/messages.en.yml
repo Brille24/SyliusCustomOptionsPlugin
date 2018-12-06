@@ -58,6 +58,7 @@ brille24:
                 number: Maximum number
             invalid_min_max: The configurations minimum value is greater then the maximum
             default_value: Default value
+            allowed_types: Allowed file types
         validators:
             condition:
                 greater: ">"
