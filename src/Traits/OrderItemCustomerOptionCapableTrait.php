@@ -11,6 +11,9 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Exception;
+use spec\Sylius\Component\Core\Customer\CustomerOrderAddressesSaverSpec;
+use spec\Sylius\Component\Core\Promotion\Action\UnitFixedDiscountPromotionActionCommandSpec;
+use spec\Sylius\Component\Core\Promotion\Action\UnitPercentageDiscountPromotionActionCommandSpec;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Order\Model\OrderItemInterface as SyliusOrderItemInterface;
 
@@ -71,11 +74,11 @@ trait OrderItemCustomerOptionCapableTrait
     /**
      * {@inheritdoc}
      */
-    public function getSubtotal(): int
+    public function setUnitPrice(int $unitPrice): void
     {
-        $basePrice = parent::getSubtotal();
-
-        return $this->applyConfigurationPrices($basePrice, $this->getQuantity());
+        $customerOptionAwareUnitPrice = $this->applyConfigurationPrices($unitPrice);
+        $this->unitPrice = $customerOptionAwareUnitPrice;
+        $this->recalculateUnitsTotal();
     }
 
     /**
@@ -96,21 +99,6 @@ trait OrderItemCustomerOptionCapableTrait
         }
 
         return ($product instanceof ProductInterface) ? !$product->hasCustomerOptions() : true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function recalculateUnitsTotal(): void
-    {
-        $this->unitsTotal = 0;
-
-        /** @var OrderItemUnitInterface $unit */
-        foreach ($this->units as $unit) {
-            $this->unitsTotal += $this->applyConfigurationPrices($unit->getTotal());
-        }
-
-        $this->recalculateTotal();
     }
 
     /**
