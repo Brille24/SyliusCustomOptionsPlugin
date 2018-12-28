@@ -11,9 +11,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Exception;
-use spec\Sylius\Component\Core\Customer\CustomerOrderAddressesSaverSpec;
-use spec\Sylius\Component\Core\Promotion\Action\UnitFixedDiscountPromotionActionCommandSpec;
-use spec\Sylius\Component\Core\Promotion\Action\UnitPercentageDiscountPromotionActionCommandSpec;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Order\Model\OrderItemInterface as SyliusOrderItemInterface;
 
