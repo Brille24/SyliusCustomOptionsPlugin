@@ -71,11 +71,11 @@ trait OrderItemCustomerOptionCapableTrait
     /**
      * {@inheritdoc}
      */
-    public function getSubtotal(): int
+    public function setUnitPrice(int $unitPrice): void
     {
-        $basePrice = parent::getSubtotal();
-
-        return $this->applyConfigurationPrices($basePrice, $this->getQuantity());
+        $customerOptionAwareUnitPrice = $this->applyConfigurationPrices($unitPrice);
+        $this->unitPrice = $customerOptionAwareUnitPrice;
+        $this->recalculateUnitsTotal();
     }
 
     /**
@@ -96,21 +96,6 @@ trait OrderItemCustomerOptionCapableTrait
         }
 
         return ($product instanceof ProductInterface) ? !$product->hasCustomerOptions() : true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function recalculateUnitsTotal(): void
-    {
-        $this->unitsTotal = 0;
-
-        /** @var OrderItemUnitInterface $unit */
-        foreach ($this->units as $unit) {
-            $this->unitsTotal += $this->applyConfigurationPrices($unit->getTotal());
-        }
-
-        $this->recalculateTotal();
     }
 
     /**
