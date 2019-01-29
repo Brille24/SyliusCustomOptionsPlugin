@@ -11,7 +11,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Exception;
-use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Order\Model\OrderItemInterface as SyliusOrderItemInterface;
 
 trait OrderItemCustomerOptionCapableTrait
@@ -74,7 +73,7 @@ trait OrderItemCustomerOptionCapableTrait
     public function setUnitPrice(int $unitPrice): void
     {
         $customerOptionAwareUnitPrice = $this->applyConfigurationPrices($unitPrice);
-        $this->unitPrice = $customerOptionAwareUnitPrice;
+        $this->unitPrice              = $customerOptionAwareUnitPrice;
         $this->recalculateUnitsTotal();
     }
 

@@ -55,8 +55,9 @@ class ConstraintCreator
                 return new Length($lengthRange);
             case CustomerOptionTypeEnum::FILE:
                 $allowedFileTypes = explode(',', (string) $getFromConfiguration('brille24.form.config.allowed_types'));
+
                 return new File([
-                    'maxSize' => $getFromConfiguration('brille24.form.config.max.file_size'),
+                    'maxSize'   => $getFromConfiguration('brille24.form.config.max.file_size'),
                     'mimeTypes' => array_map('trim', $allowedFileTypes),
                 ]);
             case CustomerOptionTypeEnum::DATE:
