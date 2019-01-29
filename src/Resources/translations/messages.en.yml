@@ -18,6 +18,7 @@ brille24:
         customer_option_group: Customer Option Group
         required: Required
         product_customization: Product customization
+        file_content: File content
         pricing:
             fixed_amount: Fixed amount
             percent: Percent

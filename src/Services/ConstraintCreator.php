@@ -24,7 +24,7 @@ class ConstraintCreator
      */
     public static function getValueFromConfiguration(array $configuration, string $key)
     {
-        if ($configuration[$key]['value'] ?? null === null) {
+        if (!array_key_exists($key, $configuration)) {
             return null;
         }
 
@@ -58,7 +58,7 @@ class ConstraintCreator
                 return new File([
                     'maxSize' => $getFromConfiguration('brille24.form.config.max.file_size'),
                     'mimeTypes' => array_map('trim', $allowedFileTypes),
-                    ]);
+                ]);
             case CustomerOptionTypeEnum::DATE:
             case CustomerOptionTypeEnum::DATETIME:
                 $dateRange = [

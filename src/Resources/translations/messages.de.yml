@@ -17,6 +17,7 @@ brille24:
         customer_option_groups: Kundenoptionengruppen
         required: Erforderlich
         product_customization: Produktanpassung
+        file_content: Dateiinhalt
         pricing:
             fixed_amount: Feste Menge
             percent: Prozent
