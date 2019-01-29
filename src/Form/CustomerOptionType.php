@@ -71,7 +71,9 @@ final class CustomerOptionType extends AbstractResourceType
 
                 return $a;
             },
-            function ($a) { return $a; }
+            function ($a) {
+                return $a;
+            }
         ));
     }
 

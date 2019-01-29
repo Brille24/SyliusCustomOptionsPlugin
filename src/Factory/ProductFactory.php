@@ -79,7 +79,8 @@ class ProductFactory implements ExampleFactoryInterface
             [
                 'customer_option_group'        => null,
                 'customer_option_value_prices' => [],
-            ], $options
+            ],
+            $options
         );
 
         $customerOptionGroupConfig       = $options['customer_option_group'];

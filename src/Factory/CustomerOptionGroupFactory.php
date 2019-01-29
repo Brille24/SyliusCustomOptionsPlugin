@@ -52,7 +52,9 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 
     public function generateRandom(int $amount): array
     {
-        $productCodeGetter = function (CodeAwareInterface $codeAware) { return $codeAware->getCode(); };
+        $productCodeGetter = function (CodeAwareInterface $codeAware) {
+            return $codeAware->getCode();
+        };
 
         $customerOptionsCodes = array_map($productCodeGetter, $this->customerOptionRepository->findAll());
         $productCodes         = array_map($productCodeGetter, $this->productRepository->findAll());

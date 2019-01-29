@@ -80,7 +80,8 @@ final class ShopCustomerOptionType extends AbstractType
         }
 
         $builder->addEventListener(
-            FormEvents::POST_SET_DATA, function (FormEvent $event) {
+            FormEvents::POST_SET_DATA,
+            function (FormEvent $event) {
                 $data = $event->getData();
                 $form = $event->getForm();
                 if (!is_array($data)) {
@@ -212,7 +213,9 @@ final class ShopCustomerOptionType extends AbstractType
         }
 
         $valueString = $price->getValueString(
-            $this->currencyContext->getCurrencyCode(), $this->localeContext->getLocaleCode(), $this->moneyFormatter
+            $this->currencyContext->getCurrencyCode(),
+            $this->localeContext->getLocaleCode(),
+            $this->moneyFormatter
         );
         $name        = $value->getName();
 
