@@ -1,0 +1,43 @@
+{% set channels = {} %}
+
+{% for price in form %}
+    {% set code = price.channel.code.vars.value %}
+
+    {% if channels[code] is not defined %}
+        {% set channels = channels|merge({
+            (code): [price]
+        }) %}
+    {% else %}
+        {% set channel = channels[code] %}
+        {% set channel = channel|merge([price]) %}
+        {% set channels = channels|merge({
+            (code): channel
+        }) %}
+    {% endif %}
+{% endfor %}
+
+<div class="ui segment">
+    <div class="ui top attached tabular menu">
+        {% for channel in channels %}
+            {% set class = loop.first ? "item active" : "item" %}
+
+            <a class="{{ class }}" data-tab="{{ channel[0].channel.code.vars.value }}">
+                {{ channel[0].channel.name.vars.value }}
+            </a>
+        {% endfor %}
+    </div>
+
+    {% for channel in channels %}
+        {% set class = loop.first ? "ui bottom attached tab segment active" : "ui bottom attached tab segment" %}
+
+        <div class="{{ class }}" data-tab="{{ channel[0].channel.code.vars.value }}">
+            {% for price in channel %}
+                <div class="ui field">
+                    {{ form_row(price.percent) }}
+                    {{ form_row(price.amount, {'currency': price.channel.baseCurrency.vars.value }) }}
+                    {{ form_row(price.type) }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>

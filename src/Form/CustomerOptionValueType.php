@@ -15,6 +15,7 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Form;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,6 +28,10 @@ final class CustomerOptionValueType extends AbstractResourceType
             ->add('code', TextType::class, ['label' => 'sylius.ui.code'])
             ->add('translations', ResourceTranslationsType::class, [
                 'entry_type' => CustomerOptionValueTranslationType::class,
+            ])
+            ->add('prices', CollectionType::class, [
+                'entry_type' => CustomerOptionValuePriceType::class,
+                'label'      => 'brille24.form.customer_option_value.price',
             ])
         ;
     }

@@ -4,5 +4,21 @@
     {{ form_row(form.code) }}
 
     {{ translationForm(form.translations) }}
+
+    <br />
+
+    {% if form.prices.vars.value is not null %}
+        <div class="ui styled fluid accordion">
+            <div class="title">
+                <i class="dropdown icon"></i>
+                {{ form_label(form.prices) }}
+            </div>
+            <div class="ui content">
+                {% include 'Brille24SyliusCustomerOptionsPlugin:CustomerOption:_pricing.html.twig' with {
+                    'form': form.prices
+                } %}
+            </div>
+        </div>
+    {% endif %}
     <br />
 {% endblock %}
