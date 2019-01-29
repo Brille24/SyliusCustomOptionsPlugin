@@ -8,7 +8,7 @@
     <br />
 
     {% if form.prices.vars.value is not null %}
-        <div class="ui styled fluid accordion">
+        <div class="ui styled fluid accordion pricing-modal" data-customer-option-value="{{ form.code.vars.value }}">
             <div class="title">
                 <i class="dropdown icon"></i>
                 {{ form_label(form.prices) }}
