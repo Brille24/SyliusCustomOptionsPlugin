@@ -76,18 +76,16 @@ class UpdatePage extends BaseUpdatePage
     }
 
     /**
-     * @param $valueName
-     * @param $channelName
+     * @param string $valueCode
+     * @param string $channelName
      *
      * @return bool
      */
-    public function hasPriceConfiguration($valueName, $channelName): bool
+    public function hasPriceConfigurationForValue(string $valueCode, string $channelName): bool
     {
-        $pricingTab = $this->getDocument()->find('css', 'div[data-tab="pricing"]');
+        $pricingModal = $this->getDocument()->find('css', sprintf('.pricing-modal[data-customer-option-value="%s"]', $valueCode));
 
-        $channelTab = $pricingTab->find('css', sprintf('div[data-tab="%s"]', $channelName));
-
-        return $channelTab->has('css', sprintf('input[value="%s"][readonly="readonly"]', $valueName));
+        return null !== $pricingModal && $pricingModal->has('css', sprintf('div[data-tab="%s"]', $channelName));
     }
 
     /**
