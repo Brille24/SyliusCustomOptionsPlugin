@@ -43,7 +43,7 @@ Feature: Viewing product with customer options in cart
         And I should see "Date Option: 06"
         And I should see "Date Option: 2018"
         And I should see "Number Option: 42"
-        And I should see "File Option: /hello"
+        And I should see "File Option: File content"
 
     @ui
     Scenario: Having a product without options in the cart
