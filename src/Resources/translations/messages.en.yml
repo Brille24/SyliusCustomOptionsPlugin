@@ -50,10 +50,12 @@ brille24:
         config:
             min:
                 length: Minimum length
+                choice_number: Minimum number of selected items
                 file_size: Minimum size
                 date: Minimum date
                 number: Minimum number
             max:
+                choice_number: Maximum number of selected items
                 length: Maximum length
                 file_size: Maximum size
                 date: Maximum date
