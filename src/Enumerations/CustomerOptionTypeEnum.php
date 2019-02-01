@@ -118,6 +118,10 @@ final class CustomerOptionTypeEnum implements EnumInterface
     public static function getConfigurationArray(): array
     {
         return [
+            self::MULTI_SELECT => [
+                'brille24.form.config.min.choice_number' => ['type' => 'number', 'value' => 0],
+                'brille24.form.config.max.choice_number' => ['type' => 'number', 'value' => 1000],
+            ],
             self::TEXT => [
                 'brille24.form.config.min.length' => ['type' => 'number', 'value' => 0],
                 'brille24.form.config.max.length' => ['type' => 'number', 'value' => 255],

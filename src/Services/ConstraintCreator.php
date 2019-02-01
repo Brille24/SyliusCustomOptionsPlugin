@@ -17,7 +17,7 @@ class ConstraintCreator
     /**
      * Gets the value from the Customer Option value configuration
      *
-     * @param array  $configuration
+     * @param array $configuration
      * @param string $key
      *
      * @return mixed
@@ -35,7 +35,7 @@ class ConstraintCreator
      * Creates a constraint form the configuration based on the type of Custom Option
      *
      * @param string $type
-     * @param array  $configuration
+     * @param array $configuration
      *
      * @return Constraint|null
      */
@@ -53,6 +53,13 @@ class ConstraintCreator
                 ];
 
                 return new Length($lengthRange);
+            case CustomerOptionTypeEnum::MULTI_SELECT:
+                $choiceNumberRange = [
+                    'min' => $getFromConfiguration('brille24.form.config.min.choice_number'),
+                    'max' => $getFromConfiguration('brille24.form.config.max.choice_number'),
+                    'multiple' => true,
+                ];
+                return new Choice($choiceNumberRange);
             case CustomerOptionTypeEnum::FILE:
                 return new File(['maxSize' => $getFromConfiguration('brille24.form.config.max.file_size')]);
             case CustomerOptionTypeEnum::DATE:
@@ -78,7 +85,7 @@ class ConstraintCreator
     public static function createConditionalConstraint(array $conditions, array $constraints): Constraint
     {
         return new ConditionalConstraint([
-            'conditions'  => $conditions,
+            'conditions' => $conditions,
             'constraints' => $constraints,
         ]);
     }
