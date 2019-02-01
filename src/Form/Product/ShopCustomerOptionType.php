@@ -147,7 +147,7 @@ final class ShopCustomerOptionType extends AbstractType
 
         if ($constraint !== null) {
             $constraint->groups = ['sylius'];
-            $configuration = ['constraints' => [$constraint]];
+            $configuration['constraints'] = [$constraint];
         }
 
         if ($customerOption->isRequired()) {
