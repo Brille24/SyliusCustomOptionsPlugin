@@ -142,7 +142,7 @@ final class ShopCustomerOptionType extends AbstractType
         }
         $constraint = ConstraintCreator::createFromConfiguration(
             $customerOptionType,
-            $customerOption->getConfiguration()
+            array_merge($customerOption->getConfiguration(), $configuration)
         );
 
         if ($constraint !== null) {

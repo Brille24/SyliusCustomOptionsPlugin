@@ -58,6 +58,7 @@ class ConstraintCreator
                 $choiceNumberRange = [
                     'min' => $getFromConfiguration('brille24.form.config.min.choice_number'),
                     'max' => $getFromConfiguration('brille24.form.config.max.choice_number'),
+                    'choices' =>  $configuration['choices'],
                     'multiple' => true,
                 ];
                 return new Choice($choiceNumberRange);
