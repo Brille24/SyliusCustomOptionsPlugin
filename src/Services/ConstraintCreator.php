@@ -56,8 +56,8 @@ class ConstraintCreator
                 return new Length($lengthRange);
             case CustomerOptionTypeEnum::MULTI_SELECT:
                 $choiceNumberRange = [
-                    'min' => $getFromConfiguration('brille24.form.config.min.choice_number'),
-                    'max' => $getFromConfiguration('brille24.form.config.max.choice_number'),
+                    'min' => $getFromConfiguration('brille24.form.config.min.choice'),
+                    'max' => $getFromConfiguration('brille24.form.config.max.choice'),
                     'choices' =>  $configuration['choices'],
                     'multiple' => true,
                 ];
