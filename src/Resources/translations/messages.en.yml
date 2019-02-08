@@ -46,6 +46,8 @@ brille24:
                 delete_option: Delete Option
                 add_validator: Add Validator
                 delete_validator: Delete Validator
+        customer_option_value:
+            price: Price
         config:
             min:
                 length: Minimum length

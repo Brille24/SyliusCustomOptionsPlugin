@@ -67,4 +67,4 @@ Feature: Checking if configuration is available
         And I add a value "val_1" with name "Value 1"
         And I save my changes
         Then I should be notified that it has been successfully edited
-        And I should see price configuration for value "Value 1"
+        And I should see price configuration for value "val_1"

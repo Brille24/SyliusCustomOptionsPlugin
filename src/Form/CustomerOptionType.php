@@ -56,11 +56,6 @@ final class CustomerOptionType extends AbstractResourceType
             ->add('configuration', CustomerOptionConfigurationType::class, [
                 'label' => false,
             ])
-            ->add('prices', CollectionType::class, [
-                'entry_type'   => CustomerOptionValuePriceType::class,
-                'label'        => false,
-                'by_reference' => false,
-            ])
         ;
 
         $builder->get('values')->addModelTransformer(new CallbackTransformer(

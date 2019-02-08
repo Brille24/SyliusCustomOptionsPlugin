@@ -114,11 +114,13 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         $this->customerOptionValue = $customerOptionValue;
     }
 
+    /** {@inheritdoc} */
     public function __toString(): string
     {
         return $this->getValueString('USD', 'en_US', new MoneyFormatter());
     }
 
+    /** {@inheritdoc} */
     public function getValueString(string $currencyCode, string $locale, MoneyFormatterInterface $formatter): string
     {
         if ($this->getType() === CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT) {
@@ -130,31 +132,13 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         return "{$percent}%";
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCustomerOptionValueName(): ?string
-    {
-        if ($this->customerOptionValue === null) {
-            return null;
-        }
-
-        return $this->customerOptionValue->getName();
-    }
-
-    public function setCustomerOptionValueName(string $name): void
-    {
-        if ($this->customerOptionValue === null) {
-            return;
-        }
-        $this->customerOptionValue->setName($name);
-    }
-
+    /** {@inheritdoc} */
     public function getProduct(): ?ProductInterface
     {
         return $this->product;
     }
 
+    /** {@inheritdoc} */
     public function setProduct(ProductInterface $product): void
     {
         $this->product = $product;
@@ -172,16 +156,19 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         return $this->channel;
     }
 
+    /** {@inheritdoc} */
     public function getDateValid(): ?DateRange
     {
         return $this->dateValid;
     }
 
+    /** {@inheritdoc} */
     public function setDateValid(?DateRange $dateRange): void
     {
         $this->dateValid = $dateRange;
     }
 
+    /** {@inheritdoc} */
     public function isActive(): bool
     {
         if ($this->dateValid === null) {

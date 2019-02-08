@@ -189,7 +189,7 @@ class CustomerOptionsContext implements Context
         /** @var CreatePage|UpdatePage $currentPage */
         $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
 
-        Assert::true($currentPage->hasPriceConfiguration($valueName, $channelName));
+        Assert::true($currentPage->hasPriceConfigurationForValue($valueName, $channelName));
     }
 
     /**
