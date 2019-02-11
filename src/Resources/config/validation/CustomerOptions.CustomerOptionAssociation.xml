@@ -3,6 +3,7 @@
         <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
             <option name="fields">
                 <value>option</value>
+                <value>group</value>
             </option>
             <option name="message">brille24.form.customer_option_groups.unique</option>
             <option name="groups">sylius</option>
