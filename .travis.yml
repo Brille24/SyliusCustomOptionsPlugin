@@ -6,6 +6,7 @@ sudo: false
 
 php:
     - 7.2
+    - 7.3
 
 cache:
     yarn: true
@@ -15,33 +16,25 @@ cache:
 
 env:
     global:
+        - APP_ENV=test
         - SYLIUS_CACHE_DIR=$HOME/.sylius-cache
         - SYLIUS_BUILD_DIR=etc/build
-    matrix:
-        - SYMFONY_VERSION="3.4.*"
-        - SYMFONY_VERSION="4.1.*"
-
-services:
-    - mysql
 
 before_install:
     - phpenv config-rm xdebug.ini
     - echo "memory_limit=4096M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     - mkdir -p "${SYLIUS_CACHE_DIR}"
-
-    - cp tests/Application/.env.test.dist tests/Application/.env.test
-    - set -a && source tests/Application/.env.test && set +a
+    - mkdir -p tests/Application/web/media/image
 
 install:
-    - composer require "symfony/symfony:${SYMFONY_VERSION}" --no-interaction --no-update
     - composer install --no-interaction --prefer-dist
     - (cd tests/Application && yarn install)
 
 before_script:
-    - (cd tests/Application && bin/console doctrine:database:create --env=test -vvv)
-    - (cd tests/Application && bin/console doctrine:schema:create --env=test -vvv)
-    - (cd tests/Application && bin/console assets:install public --env=test -vvv)
-    - (cd tests/Application && bin/console cache:warmup --env=test -vvv)
+    - (cd tests/Application && bin/console doctrine:database:create -vvv)
+    - (cd tests/Application && bin/console doctrine:schema:create -vvv)
+    - (cd tests/Application && bin/console assets:install public -vvv)
+    - (cd tests/Application && bin/console cache:warmup -vvv)
     - (cd tests/Application && yarn build)
 
     # Configure display
@@ -56,7 +49,6 @@ before_script:
             chmod +x chromedriver
             mv chromedriver $SYLIUS_CACHE_DIR
         fi
-
     # Run ChromeDriver
     - $SYLIUS_CACHE_DIR/chromedriver > /dev/null 2>&1 &
 
@@ -66,12 +58,11 @@ before_script:
             curl http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar > selenium.jar
             mv selenium.jar $SYLIUS_CACHE_DIR
         fi
-
     # Run Selenium
     - java -Dwebdriver.chrome.driver=$SYLIUS_CACHE_DIR/chromedriver -jar $SYLIUS_CACHE_DIR/selenium.jar > /dev/null 2>&1 &
 
     # Run webserver
-    - (cd tests/Application && bin/console server:run 127.0.0.1:8080 -d public --env=test --quiet > /dev/null 2>&1 &)
+    - (cd tests/Application && bin/console server:run 127.0.0.1:8080 --quiet > /dev/null 2>&1 &)
 
 script:
     - composer validate --strict
@@ -79,6 +70,7 @@ script:
     - vendor/bin/phpstan analyse -c phpstan.neon -l max src/
 
     - vendor/bin/phpunit
+    - vendor/bin/phpspec run
     - vendor/bin/behat --strict -vvv --no-interaction || vendor/bin/behat --strict -vvv --no-interaction --rerun
 
 after_failure:

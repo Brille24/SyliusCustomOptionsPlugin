@@ -3,7 +3,7 @@
 default:
     suites:
         ui_admin_customer_options:
-            contexts_services:
+            contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
                 - sylius.behat.context.setup.admin_security
@@ -20,7 +20,7 @@ default:
                 tags: "@admin && @customer_options && @ui"
 
         ui_admin_customer_option_groups:
-            contexts_services:
+            contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
                 - sylius.behat.context.setup.admin_security
@@ -37,7 +37,7 @@ default:
                 tags: "@admin && @customer_option_groups && @ui"
 
         ui_admin_products_with_customer_options:
-            contexts_services:
+            contexts:
                 - sylius.behat.context.hook.doctrine_orm
                 - sylius.behat.context.setup.admin_security
                 - sylius.behat.context.setup.channel
@@ -54,7 +54,7 @@ default:
                 tags: "@admin && @products && @ui"
 
         ui_shop_products_with_customer_options:
-            contexts_services:
+            contexts:
                 - sylius.behat.context.hook.doctrine_orm
                 - sylius.behat.context.setup.product
                 - sylius.behat.context.setup.channel

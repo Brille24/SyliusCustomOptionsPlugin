@@ -4,30 +4,30 @@
     <imports>
         <import resource="pages.xml"/>
     </imports>
-    
+
     <services>
+        <defaults public="true" />
+
         <service
                 id="brille24.behat.context.setup"
                 class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\SetupContext"
         >
-            <argument type="service" id="__symfony__.doctrine.orm.default_entity_manager" />
-            <argument type="service" id="__symfony__.brille24.repository.customer_option" />
-            <argument type="service" id="__symfony__.brille24.repository.customer_option_group" />
-            <argument type="service" id="__symfony__.sylius.repository.order_item" />
-            <argument type="service" id="__symfony__.sylius.context.channel" />
-            <argument type="service" id="__symfony__.sylius.repository.channel" />
-            <tag name="fob.context_service" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument type="service" id="brille24.repository.customer_option" />
+            <argument type="service" id="brille24.repository.customer_option_group" />
+            <argument type="service" id="sylius.repository.order_item" />
+            <argument type="service" id="sylius.context.channel" />
+            <argument type="service" id="sylius.repository.channel" />
         </service>
 
         <service
                 id="brille24.behat.context.transform"
                 class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\TransformContext"
         >
-            <argument type="service" id="__symfony__.brille24.repository.customer_option" />
-            <argument type="service" id="__symfony__.brille24.repository.customer_option_group" />
-            <argument type="service" id="__symfony__.sylius.repository.product" />
-            <argument type="service" id="__symfony__.doctrine.orm.default_entity_manager" />
-            <tag name="fob.context_service" />
+            <argument type="service" id="brille24.repository.customer_option" />
+            <argument type="service" id="brille24.repository.customer_option_group" />
+            <argument type="service" id="sylius.repository.product" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
         </service>
 
         <!-- Admin -->
@@ -39,7 +39,6 @@
             <argument type="service" id="brille24.behat.page.admin.customer_options.create" />
             <argument type="service" id="brille24.behat.page.admin.customer_options.update" />
             <argument type="service" id="sylius.behat.current_page_resolver" />
-            <tag name="fob.context_service" />
         </service>
 
         <service
@@ -50,7 +49,6 @@
             <argument type="service" id="brille24.behat.page.admin.customer_option_groups.update" />
             <argument type="service" id="brille24.behat.page.admin.customer_option_groups.index" />
             <argument type="service" id="sylius.behat.current_page_resolver" />
-            <tag name="fob.context_service" />
         </service>
 
         <service
@@ -62,8 +60,7 @@
             <argument type="service" id="brille24.behat.page.admin.product.create_simple" />
             <argument type="service" id="brille24.behat.page.admin.product.create_configurable" />
             <argument type="service" id="sylius.behat.current_page_resolver" />
-            <argument type="service" id="__symfony__.brille24.repository.customer_option_value_price" />
-            <tag name="fob.context_service" />
+            <argument type="service" id="brille24.repository.customer_option_value_price" />
         </service>
 
         <!-- Shop -->
@@ -72,15 +69,12 @@
             class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\Shop\ProductContext"
         >
             <argument type="service" id="brille24.behat.page.shop.product.show" />
-            <tag name="fob.context_service" />
         </service>
 
         <!-- Mink -->
         <service
             id="mink.behat.context.mink"
             class="Behat\MinkExtension\Context\MinkContext"
-        >
-            <tag name="fob.context_service" />
-        </service>
+        />
     </services>
 </container>
