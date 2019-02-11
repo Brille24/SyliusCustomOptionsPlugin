@@ -46,6 +46,14 @@ final class CustomerOptionValuePriceChannelType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefault('data_class', Channel::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getBlockPrefix(): string
     {
         return 'brille24_value_price_channel';

@@ -23,9 +23,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class CustomerOptionValuePriceType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -58,9 +55,13 @@ final class CustomerOptionValuePriceType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => CustomerOptionValuePrice::class,
+        ]);
+    }
+
     public function getBlockPrefix(): string
     {
         return 'brille24_customer_option_value_price';
