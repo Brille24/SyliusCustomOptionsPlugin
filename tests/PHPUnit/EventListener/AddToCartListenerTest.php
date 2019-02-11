@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -72,10 +73,13 @@ class AddToCartListenerTest extends TestCase
             }
         );
 
+        $orderProcessor = self::createMock(OrderProcessorInterface::class);
+
         $this->addToCartListener = new AddToCartListener(
             $requestStack,
             $entityManager,
-            $orderItemOptionFactory
+            $orderItemOptionFactory,
+            $orderProcessor
         );
     }
 
