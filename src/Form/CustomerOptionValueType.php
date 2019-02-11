@@ -22,6 +22,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class CustomerOptionValueType extends AbstractResourceType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -36,15 +39,20 @@ final class CustomerOptionValueType extends AbstractResourceType
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $defaults = [
+        parent::configureOptions($resolver);
+        $resolver->setDefaults([
             'error_bubbling' => true,
-            'data_class'     => CustomerOptionValue::class,
-        ];
-        $resolver->setDefaults($defaults);
+        ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getBlockPrefix(): string
     {
         return 'brille24_customer_option_value';

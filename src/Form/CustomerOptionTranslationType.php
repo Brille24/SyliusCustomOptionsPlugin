@@ -18,6 +18,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class CustomerOptionTranslationType extends AbstractResourceType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -25,6 +28,9 @@ final class CustomerOptionTranslationType extends AbstractResourceType
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getBlockPrefix(): string
     {
         return 'brille24_customer_options_translation';

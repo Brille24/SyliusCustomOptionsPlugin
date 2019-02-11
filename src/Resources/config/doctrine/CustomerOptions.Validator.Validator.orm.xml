@@ -9,8 +9,7 @@
 
         <one-to-one field="errorMessage" target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage">
             <cascade>
-                <cascade-persist/>
-                <cascade-remove/>
+                <cascade-all/>
             </cascade>
             <join-column on-delete="SET NULL" />
         </one-to-one>
@@ -22,8 +21,7 @@
                 orphan-removal="true"
         >
             <cascade>
-                <cascade-persist/>
-                <cascade-remove/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 
@@ -34,8 +32,7 @@
                 orphan-removal="true"
         >
             <cascade>
-                <cascade-persist/>
-                <cascade-remove/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 

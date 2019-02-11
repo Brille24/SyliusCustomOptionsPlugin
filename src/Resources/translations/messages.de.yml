@@ -12,6 +12,7 @@ sylius:
 # Brille24
 brille24:
     ui:
+        customer_option: Kundenoption
         customer_options: Kundenoptionen
         customer_option_group: Kundenoptionengruppe
         customer_option_groups: Kundenoptionengruppen
@@ -24,9 +25,6 @@ brille24:
     form:
         customer_options:
             subheader: Verwalten der Kundenoptionen
-            unique: Der Code muss einzigartig sein
-            not_null: Der Wert darf nicht leer sein
-            required: Diese Option wird benötigt
             type:
                 text: Text
                 select: Auswahlfeld
@@ -40,7 +38,6 @@ brille24:
         customer_option_groups:
             subheader: Verwalten der Kundenoptionengruppen
             select: Auswahl
-            duplicate_option: Optionen können nur einmal pro Gruppe enthalten sein.
             buttons:
                 add_option: Option hinzufügen
                 delete_option: Option entfernen
@@ -59,7 +56,6 @@ brille24:
                 file_size: Maximum Größe
                 date: Maximum Datum
                 number: Maximum Zahl
-            invalid_min_max: Das konfigurierte Minimum ist größer als das Maximum
             default_value: Standard-Wert
         validators:
             condition:

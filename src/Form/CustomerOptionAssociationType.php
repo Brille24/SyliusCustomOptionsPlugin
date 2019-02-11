@@ -14,14 +14,19 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Form;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
+use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Mapping\Factory\MetadataFactoryInterface;
 
-final class CustomerOptionAssociationType extends AbstractType
+final class CustomerOptionAssociationType extends AbstractResourceType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -30,17 +35,12 @@ final class CustomerOptionAssociationType extends AbstractType
                 'placeholder'  => 'brille24.form.customer_option_groups.select',
                 'required'     => true,
                 'choice_label' => 'name',
-                'label'        => 'brille24.ui.customer_options',
+                'label'        => 'brille24.ui.customer_option',
             ])
-            ->add('position', IntegerType::class, ['label' => 'sylius.ui.position']);
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'error_bubbling' => true,
-            'data_class'     => CustomerOptionAssociation::class,
-        ]);
+            ->add('position', IntegerType::class, [
+                'label' => 'sylius.ui.position',
+                'empty_data' => null,
+            ]);
     }
 
     /**

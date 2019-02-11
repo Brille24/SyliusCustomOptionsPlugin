@@ -9,16 +9,32 @@
         </constraint>
 
         <property name="code">
-            <constraint name="NotNull">
+            <constraint name="NotBlank">
+                <option name="message">brille24.form.customer_option_groups.code.not_blank</option>
+                <option name="groups">sylius</option>
+            </constraint>
+            <constraint name="Regex">
+                <option name="message">brille24.form.customer_option_groups.code.regex</option>
+                <option name="pattern">/^[\w-]*$/</option>
                 <option name="groups">sylius</option>
             </constraint>
         </property>
 
         <property name="optionAssociations">
+            <constraint name="Valid" />
+
             <constraint name="Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionAssociationConstraint">
                 <option name="message">brille24.form.customer_option_groups.duplicate_option</option>
+                <option name="groups">sylius</option>
             </constraint>
         </property>
 
+        <property name="translations">
+            <constraint name="Valid" />
+        </property>
+
+        <property name="validators">
+            <constraint name="Valid" />
+        </property>
     </class>
 </constraint-mapping>

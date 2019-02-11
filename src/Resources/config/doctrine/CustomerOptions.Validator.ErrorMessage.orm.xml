@@ -6,7 +6,9 @@
             <generator strategy="AUTO" />
         </id>
 
-        <one-to-one field="validator" target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator" />
+        <one-to-one field="validator" target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator">
+            <join-column on-delete="CASCADE"/>
+        </one-to-one>
 
     </entity>
 </doctrine-mapping>
