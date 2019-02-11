@@ -105,8 +105,8 @@ final class CustomerOptionTypeEnum implements EnumInterface
             ],
             self::FILE => [
                 FileType::class,
-                []
-            ]
+                [],
+            ],
         ];
     }
 
@@ -140,7 +140,7 @@ final class CustomerOptionTypeEnum implements EnumInterface
             self::FILE => [
                 'brille24.form.config.max.file_size' => ['type' => 'text', 'value' => '10MB'],
                 'brille24.form.config.min.file_size' => ['type' => 'text', 'value' => '0B'],
-            ]
+            ],
         ];
     }
 

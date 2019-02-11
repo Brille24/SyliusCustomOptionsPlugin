@@ -13,14 +13,10 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Form;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Mapping\Factory\MetadataFactoryInterface;
 
 final class CustomerOptionAssociationType extends AbstractResourceType
 {
@@ -38,7 +34,7 @@ final class CustomerOptionAssociationType extends AbstractResourceType
                 'label'        => 'brille24.ui.customer_option',
             ])
             ->add('position', IntegerType::class, [
-                'label' => 'sylius.ui.position',
+                'label'      => 'sylius.ui.position',
                 'empty_data' => null,
             ]);
     }

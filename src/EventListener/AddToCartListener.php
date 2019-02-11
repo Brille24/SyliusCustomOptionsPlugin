@@ -48,7 +48,7 @@ final class AddToCartListener
         $this->requestStack           = $requestStack;
         $this->entityManager          = $entityManager;
         $this->orderItemOptionFactory = $itemOptionFactory;
-        $this->orderProcessor = $orderProcessor;
+        $this->orderProcessor         = $orderProcessor;
     }
 
     public function addItemToCart(ResourceControllerEvent $event): void
