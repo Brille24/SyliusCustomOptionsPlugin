@@ -136,7 +136,7 @@ class ShowPage extends BaseShowPage
      */
     public function hasRequiredCustomerOptionValidationMessage(): bool
     {
-        $message = 'brille24.form.customer_options.required';
+        $message = 'This option is required';
 
         return $this->hasValidationMessage($message);
     }
