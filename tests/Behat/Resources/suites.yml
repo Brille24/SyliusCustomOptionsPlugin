@@ -74,7 +74,7 @@ default:
                 - sylius.behat.context.ui.shop.checkout.shipping
                 - sylius.behat.context.ui.shop.account
 
-                - mink.behat.context.mink
+                - Behat\MinkExtension\Context\MinkContext
 
                 - brille24.behat.context.setup
                 - brille24.behat.context.transform
