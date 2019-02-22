@@ -70,11 +70,5 @@
         >
             <argument type="service" id="brille24.behat.page.shop.product.show" />
         </service>
-
-        <!-- Mink -->
-        <service
-            id="mink.behat.context.mink"
-            class="Behat\MinkExtension\Context\MinkContext"
-        />
     </services>
 </container>

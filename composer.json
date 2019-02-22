@@ -10,7 +10,6 @@
     },
     "require-dev": {
         "behat/behat": "^3.4",
-        "behat/mink": "^1.7@dev",
         "behat/mink-browserkit-driver": "^1.3",
         "behat/mink-extension": "^2.2",
         "behat/mink-selenium2-driver": "^1.3",
@@ -33,7 +32,8 @@
         "symfony/dotenv": "^4.2",
         "symfony/intl": "^3.4|^4.1",
         "symfony/web-profiler-bundle": "^3.4|^4.1",
-        "symfony/web-server-bundle": "^3.4|^4.1"
+        "symfony/web-server-bundle": "^3.4|^4.1",
+        "behat/mink": "^1.7"
     },
     "conflict": {
         "symfony/symfony": "4.1.8",
