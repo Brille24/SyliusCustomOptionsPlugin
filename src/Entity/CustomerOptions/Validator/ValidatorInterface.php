@@ -30,24 +30,24 @@ interface ValidatorInterface extends ResourceInterface
     public function removeCondition(ConditionInterface $condition): void;
 
     /**
-     * @return ConditionInterface[]
+     * @return ConstraintInterface[]
      */
     public function getConstraints(): array;
 
     /**
-     * @param ConditionInterface[]|null $constraints
+     * @param ConstraintInterface[]|null $constraints
      */
     public function setConstraints(?array $constraints): void;
 
     /**
-     * @param ConditionInterface $constraint
+     * @param ConstraintInterface $constraint
      */
-    public function addConstraint(ConditionInterface $constraint): void;
+    public function addConstraint(ConstraintInterface $constraint): void;
 
     /**
-     * @param ConditionInterface $constraint
+     * @param ConstraintInterface $constraint
      */
-    public function removeConstraint(ConditionInterface $constraint): void;
+    public function removeConstraint(ConstraintInterface $constraint): void;
 
     /**
      * @return CustomerOptionGroupInterface

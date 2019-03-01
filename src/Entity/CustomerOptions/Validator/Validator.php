@@ -93,7 +93,7 @@ class Validator implements ValidatorInterface
     }
 
     /** {@inheritdoc} */
-    public function addConstraint(ConditionInterface $constraint): void
+    public function addConstraint(ConstraintInterface $constraint): void
     {
         $constraint->setValidator($this);
 
@@ -101,7 +101,7 @@ class Validator implements ValidatorInterface
     }
 
     /** {@inheritdoc} */
-    public function removeConstraint(ConditionInterface $constraint): void
+    public function removeConstraint(ConstraintInterface $constraint): void
     {
         $constraint->setValidator(null);
 

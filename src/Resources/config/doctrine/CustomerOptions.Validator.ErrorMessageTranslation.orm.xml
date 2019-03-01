@@ -14,7 +14,7 @@
 
         <field name="message" nullable="true"/>
 
-        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage"
+        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessageInterface"
                      field="translatable" inversed-by="translations"
         >
             <join-column on-delete="CASCADE" />

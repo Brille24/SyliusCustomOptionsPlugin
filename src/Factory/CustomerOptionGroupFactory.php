@@ -19,6 +19,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionIn
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConstraintInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
@@ -152,7 +153,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
         return $customerOptionGroup;
     }
 
-    private function setupConstraint(ConditionInterface $constraint, array $config): void
+    private function setupConstraint(ConstraintInterface $constraint, array $config): void
     {
         /** @var CustomerOptionInterface|null $customerOption */
         $customerOption = $this->customerOptionRepository->findOneByCode($config['customer_option']);
