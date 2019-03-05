@@ -12,7 +12,7 @@
         <field name="value" type="json_array" nullable="true" />
 
         <many-to-one
-                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface"
                 field="validator"
                 inversed-by="constraints"
         >
@@ -23,7 +23,7 @@
         </many-to-one>
 
         <many-to-one
-                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface"
                 field="customerOption"
         >
             <join-column on-delete="SET NULL" />

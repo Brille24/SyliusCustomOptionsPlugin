@@ -8,6 +8,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConstraintInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Symfony\Component\Form\AbstractType;
@@ -44,7 +45,10 @@ class ConditionType extends AbstractType
 
             $customerOptionType = CustomerOptionTypeEnum::TEXT;
 
-            if ($condition instanceof ConditionInterface && $customerOption instanceof CustomerOption) {
+            if (
+                ($condition instanceof ConditionInterface || $condition instanceof ConstraintInterface)
+                && $customerOption instanceof CustomerOption
+            ) {
                 $customerOptionType = $customerOption->getType();
                 $comparatorChoices = ConditionComparatorEnum::getValuesForCustomerOptionType($customerOptionType);
 

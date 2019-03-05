@@ -16,13 +16,13 @@
         <field name="code"/>
 
         <one-to-many
-                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\Product"
+                target-entity="Sylius\Component\Product\Model\ProductInterface"
                 mapped-by="customerOptionGroup"
                 field="products"
         />
-        
+
         <one-to-many
-                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociationInterface"
                 mapped-by="group" field="optionAssociations"
                 orphan-removal="true"
         >
@@ -36,7 +36,7 @@
         </one-to-many>
 
         <one-to-many
-                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface"
                 mapped-by="customerOptionGroup"
                 field="validators"
         >

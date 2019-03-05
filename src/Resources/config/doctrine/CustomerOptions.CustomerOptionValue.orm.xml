@@ -16,7 +16,7 @@
 
         <one-to-many
                 field="prices"
-                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface"
                 mapped-by="customerOptionValue"
         >
             <cascade>
@@ -26,7 +26,7 @@
         </one-to-many>
 
         <many-to-one
-                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface"
                 field="customerOption"
                 inversed-by="values"
         />

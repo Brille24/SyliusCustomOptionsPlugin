@@ -71,11 +71,27 @@ sylius_resource:
                 interface: Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface
                 factory: Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactory
 
+        brille24.customer_option_validator:
+            classes:
+                model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator
+                interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface
+
         brille24.customer_option_validator_error_message:
             classes:
                 model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage
+                interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessageInterface
                 form: Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ErrorMessageType
             translation:
                 classes:
                     model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessageTranslation
                     form: Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ErrorMessageTranslationType
+
+        brille24.customer_option_validator_condition:
+            classes:
+                model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition
+                interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface
+
+        brille24.customer_option_validator_constraint:
+            classes:
+                model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint
+                interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConstraintInterface
