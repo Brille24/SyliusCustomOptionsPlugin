@@ -18,7 +18,7 @@
 
         <field name="customerOptionValueCode" nullable="true"/>
         <field name="customerOptionValueName" nullable="true"/>
-        <field name="optionValue" nullable="true"/>
+        <field name="optionValue" nullable="true" type="text"/>
 
         <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface"
                      field="customerOptionValue" optional="true"
