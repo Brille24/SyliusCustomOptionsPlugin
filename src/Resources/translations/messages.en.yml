@@ -13,6 +13,7 @@ sylius:
 # Brille24
 brille24:
     ui:
+        customer_option: Customer Option
         customer_options: Customer Options
         customer_option_groups: Customer Option Groups
         customer_option_group: Customer Option Group
@@ -25,9 +26,6 @@ brille24:
     form:
         customer_options:
             subheader: Manage your Customer Options
-            unique: The code has to be unique
-            not_null: The value cannot be blank
-            required: This option is required
             type:
                 text: Text
                 select: Select
@@ -40,7 +38,6 @@ brille24:
         customer_option_groups:
             subheader: Manage your Customer Option Groups
             select: Select
-            duplicate_option: A group can not have an option twice
             buttons:
                 add_option: Add Option
                 delete_option: Delete Option
@@ -59,7 +56,6 @@ brille24:
                 file_size: Maximum size
                 date: Maximum date
                 number: Maximum number
-            invalid_min_max: The configurations minimum value is greater then the maximum
             default_value: Default value
             allowed_types: Allowed file types
         validators:

@@ -6,6 +6,7 @@
            <argument type="service" id="request_stack"/>
            <argument type="service" id="doctrine.orm.default_entity_manager"/>
            <argument type="service" id="brille24.factory.order_item_option"/>
+           <argument type="service" id="sylius.order_processing.order_processor.composite"/>
        </service>
 
         <service

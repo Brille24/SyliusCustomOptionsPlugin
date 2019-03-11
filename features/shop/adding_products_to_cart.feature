@@ -1,5 +1,7 @@
 @shop
 @customer_options
+@ui
+@javascript
 Feature: Adding products with customer options to cart
     In order to buy a configured product
     As a customer
@@ -25,7 +27,6 @@ Feature: Adding products with customer options to cart
         And the store has a product "Cool Product" priced at "$10.00"
         And product "Cool Product" has the customer option group "Some Group"
 
-    @ui @javascript
     Scenario: Adding a product without required customer options to the cart
         Given I view product "Cool Product"
         When I enter value "some text" for customer option "Text Option"
@@ -36,8 +37,6 @@ Feature: Adding products with customer options to cart
         And I should see "Cool Product" with unit price "$10.00" in my cart
         And my cart's total should be "$10.00"
 
-    @ui
-    @javascript
     Scenario: Adding a product with a priced value to the cart
         Given I view product "Cool Product"
         When I enter value "some text" for customer option "Text Option"
@@ -45,11 +44,9 @@ Feature: Adding products with customer options to cart
         And I enter value "42" for customer option "Number Option"
         And I add it to the cart
         Then I should be notified that the product has been successfully added
-        And I should see "Cool Product" with unit price "$10.00" in my cart
+        And I should see "Cool Product" with unit price "$15.00" in my cart
         And my cart's total should be "$15.00"
 
-    @ui
-    @javascript
     Scenario: Trying to add a product with unfilled required customer options to the cart
         Given customer option "Number Option" is required
         And I view product "Cool Product"
@@ -58,8 +55,6 @@ Feature: Adding products with customer options to cart
         Then I should be notified that an option is required
         And my cart should be empty
 
-    @ui
-    @javascript
     Scenario: Trying to add a product with filled required customer options to the cart
         Given customer option "Number Option" is required
         And I view product "Cool Product"
@@ -68,8 +63,6 @@ Feature: Adding products with customer options to cart
         Then I should be notified that the product has been successfully added
         And I should see "Cool Product" with quantity 1 in my cart
 
-    @ui
-    @javascript
     Scenario: Trying to add a product with invalid customer option input to the cart
         Given I view product "Cool Product"
         When I enter value "not a number" for customer option "Number Option"
@@ -77,8 +70,6 @@ Feature: Adding products with customer options to cart
         Then I should be notified that an option is invalid
         And my cart should be empty
 
-    @ui
-    @javascript
     Scenario: Trying to add a product with customer option value not meeting constraint
         Given customer option "Number Option" has constraint 0 to 10
         And I view product "Cool Product"

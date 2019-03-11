@@ -6,7 +6,7 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator;
 
 use Brille24\SyliusCustomerOptionsPlugin\Traits\ConditionTrait;
 
-class Constraint implements ConditionInterface
+class Constraint implements ConstraintInterface
 {
     use ConditionTrait;
 

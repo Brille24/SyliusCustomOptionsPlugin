@@ -16,6 +16,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
+use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -33,15 +34,21 @@ final class AddToCartListener
 
     /** @var OrderItemOptionFactoryInterface */
     private $orderItemOptionFactory;
+    /**
+     * @var OrderProcessorInterface
+     */
+    private $orderProcessor;
 
     public function __construct(
         RequestStack $requestStack,
         EntityManagerInterface $entityManager,
-        OrderItemOptionFactoryInterface $itemOptionFactory
+        OrderItemOptionFactoryInterface $itemOptionFactory,
+        OrderProcessorInterface $orderProcessor
     ) {
         $this->requestStack           = $requestStack;
         $this->entityManager          = $entityManager;
         $this->orderItemOptionFactory = $itemOptionFactory;
+        $this->orderProcessor         = $orderProcessor;
     }
 
     public function addItemToCart(ResourceControllerEvent $event): void
@@ -85,7 +92,8 @@ final class AddToCartListener
         }
 
         $orderItem->setCustomerOptionConfiguration($salesOrderConfigurations);
-        $orderItem->recalculateUnitsTotal();
+
+        $this->orderProcessor->process($orderItem->getOrder());
 
         $this->entityManager->persist($orderItem);
         $this->entityManager->flush();
