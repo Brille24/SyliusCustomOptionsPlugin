@@ -1,7 +1,7 @@
 {# We are overriding the customer option file type. For more information see: ShopCustomerOptionType.php #}
 {% block _sylius_add_to_cart_customer_options_file_type_widget %}
-    <input type="{{type}}" name="{{full_name}}" id="{{full_name}}" onChange="uploadPicture(event)" />
-    <input type="hidden" name="{{full_name ~ '[data]' }}" id="{{ full_name ~ 'data'}}" />
+    <input type="{{type}}" name="{{full_name}}" id="{{id}}" onChange="uploadPicture(event)" />
+    <input type="hidden" name="{{full_name ~ '[data]' }}" id="{{ id ~ '_data'}}" />
 
     <script>
         fr = new FileReader();
@@ -20,7 +20,7 @@
                 }
                 dataTag.value += content;
 
-            }
+            };
 
             dataTag.value = '';
             Array.from(evt.target.files).forEach(file => fr.readAsDataURL(file));
