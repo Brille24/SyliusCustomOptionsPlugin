@@ -18,6 +18,7 @@ brille24:
         customer_option_groups: Kundenoptionengruppen
         required: Erforderlich
         product_customization: Produktanpassung
+        file_content: Dateiinhalt
         pricing:
             fixed_amount: Feste Menge
             percent: Prozent
@@ -57,6 +58,7 @@ brille24:
                 date: Maximum Datum
                 number: Maximum Zahl
             default_value: Standard-Wert
+            allowed_types: Erlaubte Dateitypen
         validators:
             condition:
                 greater: ">"

@@ -30,7 +30,9 @@ class CustomerOptionFactoryTest extends TestCase
 
         $customerOptionGroupRepository = self::createMock(CustomerOptionGroupRepositoryInterface::class);
         $customerOptionGroupRepository->method('findAll')->willReturnCallback(
-            function () { return $this->customerOptionGroupRepository; }
+            function () {
+                return $this->customerOptionGroupRepository;
+            }
         );
         $customerOptionGroupRepository->method('findOneBy')->willReturnCallback(function (array $config) {
             $code = $config['code'];

@@ -15,12 +15,14 @@ Feature: Viewing product with customer options in cart
         And I have a customer option named "Text Option" with type "text"
         And I have a customer option named "Date Option" with type "date"
         And I have a customer option named "Number Option" with type "number"
+        And I have a customer option named "File Option" with type "file"
 
         And I have a customer option group named "Some Group"
         And customer option group "Some Group" has option "Select Option"
         And customer option group "Some Group" has option "Text Option"
         And customer option group "Some Group" has option "Date Option"
         And customer option group "Some Group" has option "Number Option"
+        And customer option group "Some Group" has option "File Option"
 
         And the store has a product "Cool Product"
         And product "Cool Product" has the customer option group "Some Group"
@@ -32,6 +34,7 @@ Feature: Viewing product with customer options in cart
         And I entered value "Custom text" for option "Text Option" for this order
         And I entered value "2018-06-18" for option "Date Option" for this order
         And I entered value "42" for option "Number Option" for this order
+        And I entered value "/hello" for option "File Option" for this order
         When I see the summary of my cart
         Then I should see "Customer Options"
         And I should see "Select Option: Value 1"
@@ -40,6 +43,7 @@ Feature: Viewing product with customer options in cart
         And I should see "Date Option: 06"
         And I should see "Date Option: 2018"
         And I should see "Number Option: 42"
+        And I should see "File Option: File content"
 
     @ui
     Scenario: Having a product without options in the cart

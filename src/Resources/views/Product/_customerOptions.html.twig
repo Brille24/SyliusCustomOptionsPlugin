@@ -6,7 +6,15 @@
         {% for orderItemOption in configuration %}
             <div class="item" data-sylius-option-name="{{ orderItemOption.customerOptionCode }}">
                 {{ orderItemOption.customerOptionName }}:
-                {{ orderItemOption.customerOptionValueName }}
+                {% if(orderItemOption.customerOption.type == 'file') %}
+                    {% if 'image' in orderItemOption.customerOptionValueName %}
+                        <img src="{{ orderItemOption.customerOptionValueName }}" style="max-width: 200px" />
+                    {% else %}
+                        {{ 'brille24.ui.file_content'|trans }}
+                    {% endif %}
+                {% else %}
+                    {{ orderItemOption.customerOptionValueName }}
+                {% endif %}
                 {{ renderPrice(orderItemOption) }}
             </div>
         {% endfor %}

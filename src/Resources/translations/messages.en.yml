@@ -19,6 +19,7 @@ brille24:
         customer_option_group: Customer Option Group
         required: Required
         product_customization: Product customization
+        file_content: File content
         pricing:
             fixed_amount: Fixed amount
             percent: Percent
@@ -56,6 +57,7 @@ brille24:
                 date: Maximum date
                 number: Maximum number
             default_value: Default value
+            allowed_types: Allowed file types
         validators:
             condition:
                 greater: ">"

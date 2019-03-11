@@ -72,7 +72,8 @@ class OrderItemOptionUpdaterTest extends TestCase
         $producedOption = $this->addFactoriedOrderItem();
 
         $orderItem = $this->createConfiguredMock(
-            OrderItemInterface::class, ['getCustomerOptionConfiguration' => []]
+            OrderItemInterface::class,
+            ['getCustomerOptionConfiguration' => []]
         );
 
         $orderItem->expects($this->once())
@@ -95,7 +96,8 @@ class OrderItemOptionUpdaterTest extends TestCase
         $producedOption->expects($this->never())->method('setOptionValue');
 
         $orderItem = $this->createConfiguredMock(
-            OrderItemInterface::class, ['getCustomerOptionConfiguration' => ['some_custom_option' => $producedOption]]
+            OrderItemInterface::class,
+            ['getCustomerOptionConfiguration' => ['some_custom_option' => $producedOption]]
         );
         $orderItem->expects($this->never())->method('setCustomerOptionConfiguration');
 
@@ -116,7 +118,8 @@ class OrderItemOptionUpdaterTest extends TestCase
         $producedOption->expects($this->never())->method('setCustomerOptionValue');
 
         $orderItem = $this->createConfiguredMock(
-            OrderItemInterface::class, ['getCustomerOptionConfiguration' => ['some_custom_option' => $producedOption]]
+            OrderItemInterface::class,
+            ['getCustomerOptionConfiguration' => ['some_custom_option' => $producedOption]]
         );
         $orderItem->expects($this->never())->method('setCustomerOptionConfiguration');
 

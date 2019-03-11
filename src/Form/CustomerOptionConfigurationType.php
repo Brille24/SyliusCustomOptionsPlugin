@@ -44,7 +44,8 @@ final class CustomerOptionConfigurationType extends AbstractType
 
                 // Adding form field for configuration option based on type
                 $form->add(
-                    str_replace('.', '_', $key), $formTypeClass,
+                    str_replace('.', ':', $key),
+                    $formTypeClass,
                     array_merge(['data' => $data, 'label' => $key], $formTypeConfig)
                 );
             }

@@ -154,7 +154,11 @@ class ConditionTest extends TestCase
                         $newVal = new \DateTime(
                             sprintf(
                                 '%d-%d-%d %d:%d',
-                                $date['year'], $date['month'], $date['day'], $time['hour'], $time['minute']
+                                $date['year'],
+                                $date['month'],
+                                $date['day'],
+                                $time['hour'],
+                                $time['minute']
                             )
                         );
                     } else {

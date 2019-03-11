@@ -143,7 +143,9 @@ class CustomerOptionValue implements CustomerOptionValueInterface
         $prices = $this->getPricesForChannel($channel);
 
         if (!$ignoreActive) {
-            $prices = $prices->filter(function (COValuePriceInterface $price) { return $price->isActive(); });
+            $prices = $prices->filter(function (COValuePriceInterface $price) {
+                return $price->isActive();
+            });
         }
 
         if (count($prices) > 1) {
@@ -151,9 +153,11 @@ class CustomerOptionValue implements CustomerOptionValueInterface
             $prices = $prices->toArray();
 
             return array_reduce(
-                $prices, function ($accumulator, COValuePriceInterface $price): COValuePriceInterface {
+                $prices,
+                function ($accumulator, COValuePriceInterface $price): COValuePriceInterface {
                     return $price->getProduct() !== null ? $price : $accumulator;
-                }, reset($prices)
+                },
+                reset($prices)
             );
         } elseif (count($prices) === 1) {
             return $prices->first();
