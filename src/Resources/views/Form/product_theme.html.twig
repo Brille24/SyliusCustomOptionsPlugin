@@ -6,7 +6,7 @@
     <script>
         fr = new FileReader();
         function uploadPicture(evt) {
-            const dataTag = document.getElementById(`${evt.target.id}data`);
+            const dataTag = document.getElementById(`${evt.target.id}_data`);
 
             fr.onload = (e) => {
                 const content = e.target.result;
