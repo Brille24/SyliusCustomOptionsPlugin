@@ -95,7 +95,10 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
         }
 
         $customerOption->setType($configuration['type']);
-        $customerOption->setConfiguration($configuration['configuration']);
+
+        if (isset($configuration['configuration'])) {
+            $customerOption->setConfiguration($configuration['configuration']);
+        }
 
         if (CustomerOptionTypeEnum::isSelect($configuration['type'])) {
             foreach ($configuration['values'] as $valueConfig) {
