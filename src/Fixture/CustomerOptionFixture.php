@@ -96,6 +96,14 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
                                 ->defaultFalse()
                             ->end()
 
+                            ->arrayNode('configuration')
+                                ->arrayPrototype()
+                                    ->scalarPrototype()
+                                        ->cannotBeEmpty()
+                                    ->end()
+                                ->end()
+                            ->end()
+
                             ->arrayNode('values')
                                 ->arrayPrototype()
                                     ->children()
