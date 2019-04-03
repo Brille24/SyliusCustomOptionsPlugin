@@ -8,26 +8,22 @@
 
 * Run `composer require brille24/sylius-customer-options-plugin`.
 
-* Register the Plugin in your `AppKernel` file:
+* Register the Plugin in your `config/bundles.php`:
 
 ```php
-public function registerBundles()
-{
-    return array_merge(parent::registerBundles(), [
-        ...
-
-        new \Brille24\SyliusCustomerOptionsPlugin\Brille24SyliusCustomerOptionsPlugin(),
-    ]);
-}
+return [
+    ...
+    Brille24\SyliusCustomerOptionsPlugin\Brille24SyliusCustomerOptionsPlugin::class => ['all' => true],
+];
 ```
-* Add the `config.yml` to your local `app/config/config.yml`:
+* Add the `config.yml` to your local `config/packages/_sylius.yaml`:
 ```yaml
 imports:
     ...
     - { resource: "@Brille24SyliusCustomerOptionsPlugin/Resources/config/app/config.yml" }
 ```
 
-* Add the `routing.yml` to your local `app/config/routing.yml`:
+* Add the `routing.yml` to your local `config/routes.yaml`:
 ```yaml
 brille24_customer_options:
     resource: "@Brille24SyliusCustomerOptionsPlugin/Resources/config/app/routing.yml"
@@ -35,8 +31,8 @@ brille24_customer_options:
 
 * Copy the template overrides from the plugin directory
 ```
-From: [shop_dir]/vendor/brille24/customer-options/test/Application/app/Resources
-To: [shop_dir]/app/Resources
+From: [shop_dir]/vendor/brille24/sylius-customer-options-plugin/test/Application/templates
+To: [shop_dir]/templates
 ```
 
 * Finally update the database and update the translations:
@@ -88,7 +84,7 @@ The validation works as follows:
 3. If all validators say the customer options are valid, the product is added to the cart
 
 ### Generating Customer Options with fixtures
-Add the following to your `app/config/fixtures.yml`:
+Add the following to your `config/fixtures.yaml`:
 ```yaml
 sylius_fixtures:
     suites:
