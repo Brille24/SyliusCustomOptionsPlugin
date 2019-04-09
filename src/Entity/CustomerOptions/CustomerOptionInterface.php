@@ -55,9 +55,9 @@ interface CustomerOptionInterface extends ResourceInterface, TranslatableInterfa
     public function setRequired(bool $required): void;
 
     /**
-     * @return bool|null
+     * @return bool
      */
-    public function isRequired(): ?bool;
+    public function isRequired(): bool;
 
     /**
      * @return array
