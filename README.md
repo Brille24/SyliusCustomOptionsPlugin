@@ -41,6 +41,22 @@ bin/console doctrine:schema:update --force
 bin/console translation:update
 ```
 
+In order to use the customer options, you need to override the product/product variant or whatever entity you want to price.
+```php
+class Product implements ProductInterface {
+    use ProductCustomerOptionCapableTrait {
+        __construct as protected customerOptionCapableConstructor;
+    }
+    
+     public function __construct()
+    {
+        parent::__construct();
+
+        $this->customerOptionCapableConstructor();
+    }
+    // ...
+}
+```
 ## Usage
 There are two cases that we want to describe. In the first case of "Making a product customizable" we go through the process
 of creating everything from scratch. In the "Generating Customer Options with fixtures" we use fixtures to generate 
