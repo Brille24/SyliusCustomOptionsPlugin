@@ -9,7 +9,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Webmozart\Assert\Assert;
 
@@ -44,10 +43,6 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
             $orderItemOption = $orderItemOptions[$customerOptionCode] ?? null;
             Assert::isInstanceOf($orderItemOption, OrderItemOptionInterface::class);
 
-            if ($orderItemOption === null) {
-                continue;
-            }
-
             if ($newValue instanceof CustomerOptionValueInterface) {
                 $orderItemOption->setCustomerOptionValue($newValue);
             } else {
@@ -60,18 +55,23 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
 
     private function createMissingOrderItemOptions(OrderItemInterface $orderItem, array $data): void
     {
+        // Get the possible customer options
         /** @var ProductInterface $product */
-        $product = $orderItem->getProduct();
-
-        $customerOptions = $product->getCustomerOptions();
+        $product            = $orderItem->getProduct();
+        $customerOptions    = $product->getCustomerOptions();
 
         $customerOptionConfiguration = $orderItem->getCustomerOptionConfiguration();
 
+        // For each possible customer option
         foreach ($customerOptions as $customerOption) {
-            if (array_key_exists($customerOption->getCode(), $data) &&
-                !array_key_exists($customerOption->getCode(), $customerOptionConfiguration)
+            $customerOptionCode = $customerOption->getCode();
+
+            // If the order item doesn't have this option already and the option is provided in the data
+            if (array_key_exists($customerOptionCode, $data) &&
+                !array_key_exists($customerOptionCode, $customerOptionConfiguration)
             ) {
-                $orderItemOption = $this->orderItemOptionFactory->createNew($customerOption, $data[$customerOption->getCode()]);
+                // Add that option to the order item
+                $orderItemOption = $this->orderItemOptionFactory->createNew($customerOption, $data[$customerOptionCode]);
 
                 $orderItemOption->setOrderItem($orderItem);
 
@@ -80,8 +80,7 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
             }
         }
 
+        // Update the order items option config
         $orderItem->setCustomerOptionConfiguration($customerOptionConfiguration);
-
-        $this->entityManager->flush();
     }
 }
