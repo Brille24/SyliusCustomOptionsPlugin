@@ -35,15 +35,12 @@ From: [shop_dir]/vendor/brille24/sylius-customer-options-plugin/test/Application
 To: [shop_dir]/templates
 ```
 
-* Finally update the database and update the translations:
-```bash
-bin/console doctrine:schema:update --force
-bin/console translation:update
-```
-
-In order to use the customer options, you need to override the product/product variant or whatever entity you want to price.
+In order to use the customer options, you need to override the product and order item.
 ```php
-class Product implements ProductInterface {
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Traits\ProductCustomerOptionCapableTrait;
+
+class Product extends BaseProduct implements ProductInterface {
     use ProductCustomerOptionCapableTrait {
         __construct as protected customerOptionCapableConstructor;
     }
@@ -57,6 +54,33 @@ class Product implements ProductInterface {
     // ...
 }
 ```
+
+```php
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Traits\OrderItemCustomerOptionCapableTrait;
+
+class OrderItem extends BaseOrderItem implements OrderItemInterface
+{
+    use OrderItemCustomerOptionCapableTrait {
+        __construct as protected customerOptionCapableConstructor;
+    }
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->customerOptionCapableConstructor();
+    }
+    // ...
+}
+```
+
+* Finally update the database and update the translations:
+```bash
+bin/console doctrine:schema:update --force
+bin/console translation:update
+```
+
 ## Usage
 There are two cases that we want to describe. In the first case of "Making a product customizable" we go through the process
 of creating everything from scratch. In the "Generating Customer Options with fixtures" we use fixtures to generate 
