@@ -22,7 +22,6 @@
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Services\OrderItemOptionUpdater"
                  id="brille24.sylius_customer_options_plugin.services.order_item_option_updater">
-            <argument type="service" id="brille24.repository.customer_option" />
             <argument type="service" id="brille24.customer_options_plugin.factory.order_item_option_factory" />
             <argument type="service" id="brille24.manager.order_item_option" />
         </service>

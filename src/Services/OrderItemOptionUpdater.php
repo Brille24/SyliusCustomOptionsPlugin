@@ -7,18 +7,13 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Webmozart\Assert\Assert;
 
 final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
 {
-    /**
-     * @var CustomerOptionRepositoryInterface
-     */
-    private $customerOptionRepository;
-
     /**
      * @var OrderItemOptionFactoryInterface
      */
@@ -30,11 +25,9 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
     private $entityManager;
 
     public function __construct(
-        CustomerOptionRepositoryInterface $customerOptionRepository,
         OrderItemOptionFactoryInterface $orderItemOptionFactory,
         EntityManagerInterface $entityManager
     ) {
-        $this->customerOptionRepository = $customerOptionRepository;
         $this->orderItemOptionFactory   = $orderItemOptionFactory;
         $this->entityManager            = $entityManager;
     }
@@ -42,21 +35,13 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
     /** {@inheritdoc} */
     public function updateOrderItemOptions(OrderItemInterface $orderItem, array $data): void
     {
+        $this->createMissingOrderItemOptions($orderItem, $data);
+
         $orderItemOptions = $orderItem->getCustomerOptionConfiguration(true);
-
-        if (count($orderItemOptions) === 0) {
-            $this->createNewOrderItemOptions($orderItem, $data);
-
-            return;
-        }
 
         foreach ($data as $customerOptionCode => $newValue) {
             $orderItemOption = $orderItemOptions[$customerOptionCode] ?? null;
             Assert::isInstanceOf($orderItemOption, OrderItemOptionInterface::class);
-
-            if ($orderItemOption === null) {
-                continue;
-            }
 
             if ($newValue instanceof CustomerOptionValueInterface) {
                 $orderItemOption->setCustomerOptionValue($newValue);
@@ -68,22 +53,34 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
         $this->entityManager->flush();
     }
 
-    private function createNewOrderItemOptions(OrderItemInterface $orderItem, array $data): void
+    private function createMissingOrderItemOptions(OrderItemInterface $orderItem, array $data): void
     {
-        $customerOptionConfiguration = [];
+        // Get the possible customer options
+        /** @var ProductInterface $product */
+        $product            = $orderItem->getProduct();
+        $customerOptions    = $product->getCustomerOptions();
 
-        foreach ($data as $customerOptionCode => $value) {
-            $customerOption  = $this->customerOptionRepository->findOneByCode($customerOptionCode);
-            $orderItemOption = $this->orderItemOptionFactory->createNew($customerOption, $value);
+        $customerOptionConfiguration = $orderItem->getCustomerOptionConfiguration();
 
-            $orderItemOption->setOrderItem($orderItem);
+        // For each possible customer option
+        foreach ($customerOptions as $customerOption) {
+            $customerOptionCode = $customerOption->getCode();
 
-            $this->entityManager->persist($orderItemOption);
-            $customerOptionConfiguration[] = $orderItemOption;
+            // If the order item doesn't have this option already and the option is provided in the data
+            if (array_key_exists($customerOptionCode, $data) &&
+                !array_key_exists($customerOptionCode, $customerOptionConfiguration)
+            ) {
+                // Add that option to the order item
+                $orderItemOption = $this->orderItemOptionFactory->createNew($customerOption, $data[$customerOptionCode]);
+
+                $orderItemOption->setOrderItem($orderItem);
+
+                $this->entityManager->persist($orderItemOption);
+                $customerOptionConfiguration[] = $orderItemOption;
+            }
         }
 
+        // Update the order items option config
         $orderItem->setCustomerOptionConfiguration($customerOptionConfiguration);
-
-        $this->entityManager->flush();
     }
 }

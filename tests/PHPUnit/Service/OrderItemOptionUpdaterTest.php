@@ -8,6 +8,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionIn
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Services\OrderItemOptionUpdater;
@@ -18,9 +19,6 @@ use PHPUnit\Framework\TestCase;
 
 class OrderItemOptionUpdaterTest extends TestCase
 {
-    /** @var CustomerOptionRepositoryInterface */
-    private $customerOptionRepository;
-
     /** @var OrderItemOptionFactoryInterface */
     private $orderItemOptionFactory;
 
@@ -35,11 +33,6 @@ class OrderItemOptionUpdaterTest extends TestCase
 
     public function setup(): void
     {
-        $this->customerOptionRepository = $this->createMock(CustomerOptionRepositoryInterface::class);
-        $this->customerOptionRepository->method('findOneByCode')->withAnyParameters()->willReturn(
-            $this->createMock(CustomerOptionInterface::class)
-        );
-
         // OrderItemOptionFactory
         $this->orderItemOptionFactory = $this->createMock(OrderItemOptionFactoryInterface::class);
         $this->orderItemOptionFactory->method('createNew')->willReturnCallback(
@@ -52,7 +45,6 @@ class OrderItemOptionUpdaterTest extends TestCase
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
 
         $this->orderItemUpdater = new OrderItemOptionUpdater(
-            $this->customerOptionRepository,
             $this->orderItemOptionFactory,
             $this->entityManager
         );
@@ -66,21 +58,34 @@ class OrderItemOptionUpdaterTest extends TestCase
         return $producedOption;
     }
 
+    private function setupProduct(): ProductInterface
+    {
+        $customerOption = $this->createMock(CustomerOptionInterface::class);
+        $customerOption->method('getCode')->willReturn('some_custom_option');
+
+        $product = $this->createMock(ProductInterface::class);
+        $product->method('getCustomerOptions')->willReturn([$customerOption]);
+
+        return $product;
+    }
+
     public function testUpdateOrderItemOptionsWithNewConfig(): void
     {
         ### PREPARE
         $producedOption = $this->addFactoriedOrderItem();
+        $product        = $this->setupProduct();
 
-        $orderItem = $this->createConfiguredMock(
-            OrderItemInterface::class,
-            ['getCustomerOptionConfiguration' => []]
-        );
+        $orderItem = $this->createMock(OrderItemInterface::class);
+        $orderItem->method('getCustomerOptionConfiguration')->will($this->onConsecutiveCalls([], ['some_custom_option' => $producedOption]));
+
+        $orderItem->expects($this->once())->method('getProduct')->willReturn($product);
 
         $orderItem->expects($this->once())
             ->method('setCustomerOptionConfiguration')
             ->with($this->equalTo([$producedOption]));
 
         $this->entityManager->expects($this->once())->method('persist')->with($this->equalTo($producedOption));
+        $this->entityManager->expects($this->once())->method('flush');
 
         ### EXECUTE
         $this->orderItemUpdater->updateOrderItemOptions($orderItem, ['some_custom_option' => 'hello']);
@@ -89,6 +94,8 @@ class OrderItemOptionUpdaterTest extends TestCase
     public function testUpdateOrderItemOptionsWithCustomerOptionValue(): void
     {
         ### PREPARE
+        $product = $this->setupProduct();
+
         $expectedValue = $this->createMock(CustomerOptionValueInterface::class);
 
         $producedOption = $this->addFactoriedOrderItem();
@@ -99,7 +106,7 @@ class OrderItemOptionUpdaterTest extends TestCase
             OrderItemInterface::class,
             ['getCustomerOptionConfiguration' => ['some_custom_option' => $producedOption]]
         );
-        $orderItem->expects($this->never())->method('setCustomerOptionConfiguration');
+        $orderItem->expects($this->once())->method('getProduct')->willReturn($product);
 
         $this->entityManager->expects($this->never())->method('persist')->withAnyParameters();
 
@@ -110,6 +117,8 @@ class OrderItemOptionUpdaterTest extends TestCase
     public function testUpdateOrderItemOptionsWithValue(): void
     {
         ### PREPARE
+        $product = $this->setupProduct();
+
         $expectedValue = 'some_beep';
 
         /** @var MockObject $producedOption */
@@ -121,7 +130,7 @@ class OrderItemOptionUpdaterTest extends TestCase
             OrderItemInterface::class,
             ['getCustomerOptionConfiguration' => ['some_custom_option' => $producedOption]]
         );
-        $orderItem->expects($this->never())->method('setCustomerOptionConfiguration');
+        $orderItem->expects($this->once())->method('getProduct')->willReturn($product);
 
         $this->entityManager->expects($this->never())->method('persist')->withAnyParameters();
 
