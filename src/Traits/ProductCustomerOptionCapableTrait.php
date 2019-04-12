@@ -9,13 +9,31 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGr
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 trait ProductCustomerOptionCapableTrait
 {
-    /** @var CustomerOptionGroupInterface|null */
+    /**
+     * @var CustomerOptionGroupInterface|null
+     *
+     * @ORM\ManyToOne(
+     *     targetEntity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface",
+     *     inversedBy="products"
+     * )
+     * @ORM\JoinColumn(onDelete="SET NULL")
+     */
     protected $customerOptionGroup;
 
-    /** @var Collection|CustomerOptionValuePriceInterface[] */
+    /**
+     * @var Collection|CustomerOptionValuePriceInterface[]
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface",
+     *     mappedBy="product",
+     *     orphanRemoval=true,
+     *     cascade={"persist", "remove"}
+     * )
+     */
     protected $customerOptionValuePrices;
 
     public function __construct()

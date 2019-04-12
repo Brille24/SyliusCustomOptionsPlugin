@@ -10,12 +10,21 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Sylius\Component\Order\Model\OrderItemInterface as SyliusOrderItemInterface;
 
 trait OrderItemCustomerOptionCapableTrait
 {
-    /** @var Collection|OrderItemOptionInterface[] */
+    /**
+     * @var Collection|OrderItemOptionInterface[]
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface",
+     *     mappedBy="orderItem",
+     *     cascade={"persist", "remove"}
+     * )
+     */
     protected $configuration;
 
     public function __construct()
