@@ -39,6 +39,7 @@ In order to use the customer options, you need to override the product and order
 ```php
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Traits\ProductCustomerOptionCapableTrait;
+use Sylius\Component\Core\Model\Product as BaseProduct;
 
 class Product extends BaseProduct implements ProductInterface {
     use ProductCustomerOptionCapableTrait {
@@ -58,6 +59,7 @@ class Product extends BaseProduct implements ProductInterface {
 ```php
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Traits\OrderItemCustomerOptionCapableTrait;
+use Sylius\Component\Core\Model\OrderItem as BaseOrderItem;
 
 class OrderItem extends BaseOrderItem implements OrderItemInterface
 {
