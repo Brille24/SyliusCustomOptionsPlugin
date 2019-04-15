@@ -13,7 +13,9 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\EventListener;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
@@ -34,21 +36,27 @@ final class AddToCartListener
 
     /** @var OrderItemOptionFactoryInterface */
     private $orderItemOptionFactory;
+
     /**
      * @var OrderProcessorInterface
      */
     private $orderProcessor;
 
+    /** @var CustomerOptionRepositoryInterface */
+    private $customerOptionRepository;
+
     public function __construct(
         RequestStack $requestStack,
         EntityManagerInterface $entityManager,
         OrderItemOptionFactoryInterface $itemOptionFactory,
-        OrderProcessorInterface $orderProcessor
+        OrderProcessorInterface $orderProcessor,
+        CustomerOptionRepositoryInterface $customerOptionRepository
     ) {
-        $this->requestStack           = $requestStack;
-        $this->entityManager          = $entityManager;
-        $this->orderItemOptionFactory = $itemOptionFactory;
-        $this->orderProcessor         = $orderProcessor;
+        $this->requestStack             = $requestStack;
+        $this->entityManager            = $entityManager;
+        $this->orderItemOptionFactory   = $itemOptionFactory;
+        $this->orderProcessor           = $orderProcessor;
+        $this->customerOptionRepository = $customerOptionRepository;
     }
 
     public function addItemToCart(ResourceControllerEvent $event): void
@@ -112,6 +120,35 @@ final class AddToCartListener
 
         if (!isset($addToCart['customer_options'])) {
             return [];
+        }
+
+        // Date options need a little extra attention
+        // We transform the date fields into a single date string
+        foreach ($addToCart['customer_options'] as $code => $value) {
+            $customerOption = $this->customerOptionRepository->findOneByCode($code);
+
+            switch ($customerOption->getType()) {
+                case CustomerOptionTypeEnum::DATE:
+                    $day                                  = $value['day'];
+                    $month                                = $value['month'];
+                    $year                                 = $value['year'];
+                    $addToCart['customer_options'][$code] = sprintf('%d-%d-%d', $year, $month, $day);
+
+                    break;
+                case CustomerOptionTypeEnum::DATETIME:
+                    $date  = $value['date'];
+                    $time  = $value['time'];
+                    $day   = $date['day'];
+                    $month = $date['month'];
+                    $year  = $date['year'];
+
+                    $hour   = $time['hour'] ?? 0;
+                    $minute = $time['minute'] ?? 0;
+
+                    $addToCart['customer_options'][$code] = sprintf('%d-%d-%d %d:%d', $year, $month, $day, $hour, $minute);
+
+                    break;
+            }
         }
 
         return $addToCart['customer_options'];
