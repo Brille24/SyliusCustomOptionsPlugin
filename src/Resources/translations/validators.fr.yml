@@ -1,0 +1,15 @@
+brille24:
+    form:
+        customer_options:
+            unique: Le code doit être unique
+            not_null: La valeur ne peut pas être vide
+            required: Cette option est obligatoire
+
+        customer_option_groups:
+            code:
+                not_blank: Veuillez entrer un code.
+                regex: Le code peut uniquement être composé de lettres, nombres et d'underscores.
+            duplicate_option: Un groupe ne peut pas avoir deux fois la même option
+
+        config:
+            invalid_min_max: La valeur minimum en configuration est supérieure à la valeur maximum
