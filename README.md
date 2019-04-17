@@ -29,37 +29,6 @@ brille24_customer_options:
     resource: "@Brille24SyliusCustomerOptionsPlugin/Resources/config/app/routing.yml"
 ```
 
-* [Optional] If you're using annotations in the entities definition. Please inherit the class `Product` of the SyliusCustomerOptionsPlugin's `Product` class and the class `OrderItem` of the SyliusCustomerOptionsPlugin's `OrderItem` class: 
-```php
-use Brille24\SyliusCustomerOptionsPlugin\Entity\Product as BaseProduct;
-
-/*
-...
-*/
-
-class Product extends BaseProduct
-{
-	/*
-	...
-	*/
-}
-```
-
-```php
-use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem as BaseOrderItem;
-
-/*
-...
-*/
-
-class OrderItem extends BaseOrderItem
-{
-	/*
-	...
-	*/
-}
-```
-
 * Copy the template overrides from the plugin directory
 ```
 From: [shop_dir]/vendor/brille24/sylius-customer-options-plugin/test/Application/templates
