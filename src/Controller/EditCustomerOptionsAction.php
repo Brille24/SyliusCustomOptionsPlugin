@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Controller;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Form\Product\ShopCustomerOptionType;
 use Brille24\SyliusCustomerOptionsPlugin\Services\OrderItemOptionUpdaterInterface;
+use DateTime;
+use Exception;
 use Sylius\Component\Order\Repository\OrderItemRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +32,13 @@ class EditCustomerOptionsAction extends Controller
         $this->orderItemOptionUpdater = $orderItemOptionUpdater;
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     *
+     * @throws Exception
+     */
     public function __invoke(Request $request): Response
     {
         /** @var OrderItemInterface|null $orderItem */
@@ -61,18 +71,60 @@ class EditCustomerOptionsAction extends Controller
         );
     }
 
+    /**
+     * @param OrderItemInterface $orderItem
+     *
+     * @return array
+     *
+     * @throws Exception
+     */
     private function getCustomerOptionValues(OrderItemInterface $orderItem): array
     {
         $optionAsAssociativeArray = [];
         $orderItemOptions         = $orderItem->getCustomerOptionConfiguration();
 
         foreach ($orderItemOptions as $orderItemOption) {
-            $code  = $orderItemOption->getCustomerOptionCode();
-            $value = $orderItemOption->getScalarValue();
+            $customerOption     = $orderItemOption->getCustomerOption();
+            $customerOptionType = $customerOption->getType();
+            $code               = $orderItemOption->getCustomerOptionCode();
 
-            $optionAsAssociativeArray[$code] = $value;
+            // Select options use CustomerOptionValues
+            if ($customerOptionType === CustomerOptionTypeEnum::MULTI_SELECT) {
+                $optionAsAssociativeArray[$code][] = $orderItemOption->getCustomerOptionValue();
+            } elseif ($customerOptionType === CustomerOptionTypeEnum::SELECT) {
+                $optionAsAssociativeArray[$code] = $orderItemOption->getCustomerOptionValue();
+            } else {
+                $optionAsAssociativeArray[$code] = $this->transformValue($customerOptionType, $orderItemOption->getScalarValue());
+            }
         }
 
         return $optionAsAssociativeArray;
+    }
+
+    /**
+     * @param string $customerOptionType
+     * @param string|null $value
+     *
+     * @return bool|DateTime|float|string|null
+     *
+     * @throws Exception
+     */
+    private function transformValue(string $customerOptionType, ?string $value)
+    {
+        if (null === $value) {
+            return null;
+        }
+
+        switch ($customerOptionType) {
+            case CustomerOptionTypeEnum::BOOLEAN:
+                return (bool) $value;
+            case CustomerOptionTypeEnum::NUMBER:
+                return (float) $value;
+            case CustomerOptionTypeEnum::DATE:
+            case CustomerOptionTypeEnum::DATETIME:
+                return new DateTime($value);
+            default:
+                return $value;
+        }
     }
 }

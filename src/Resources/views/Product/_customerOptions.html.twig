@@ -7,11 +7,13 @@
             <div class="item" data-sylius-option-name="{{ orderItemOption.customerOptionCode }}">
                 {{ orderItemOption.customerOptionName }}:
                 {% if(orderItemOption.customerOption.type == 'file') %}
-                    {% if 'image' in orderItemOption.customerOptionValueName %}
-                        <img src="{{ orderItemOption.customerOptionValueName }}" style="max-width: 200px" />
-                    {% else %}
-                        {{ 'brille24.ui.file_content'|trans }}
-                    {% endif %}
+                    <a href="{{ orderItemOption.customerOptionValueName }}" download>
+                        {% if 'image' in orderItemOption.customerOptionValueName %}
+                            <img src="{{ orderItemOption.customerOptionValueName }}" style="max-width: 200px" />
+                        {% else %}
+                            {{ 'brille24.ui.file_content'|trans }}
+                        {% endif %}
+                    </a>
                 {% else %}
                     {{ orderItemOption.customerOptionValueName }}
                 {% endif %}
