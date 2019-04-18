@@ -39,9 +39,7 @@ Feature: Viewing product with customer options in cart
         Then I should see "Customer Options"
         And I should see "Select Option: Value 1"
         And I should see "Text Option: Custom text"
-        And I should see "Date Option: 18"
-        And I should see "Date Option: 06"
-        And I should see "Date Option: 2018"
+        And I should see "Date Option: 2018-6-18"
         And I should see "Number Option: 42"
         And I should see "File Option: File content"
 

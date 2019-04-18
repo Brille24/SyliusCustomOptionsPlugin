@@ -49,7 +49,7 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
                 continue;
             }
 
-            // If the new value is null, remove it
+            // If the new value is null, remove the option
             if (null === $newValue) {
                 if (null !== $orderItemOption) {
                     $this->entityManager->remove($orderItemOption);
@@ -57,18 +57,22 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
 
                 continue;
             }
-            // If the option is an array, it means the option is a multi select. We have to remove the old values before we can add new ones.
+
+            // If the option is an array, it means the option is a multi select.
+            // We have to remove the old values before we can add new ones.
             if (is_array($orderItemOption)) {
                 foreach ($orderItemOption as $value) {
                     $this->entityManager->remove($value);
                 }
             }
 
+            // Make sure we have an OrderItemOption
             if (null === $orderItemOption) {
                 $orderItemOption = $this->orderItemOptionFactory->createNew($customerOption, '');
                 $orderItemOption->setOrderItem($orderItem);
             }
 
+            // Select & Date options need to be handled differently
             switch ($customerOption->getType()) {
                 case CustomerOptionTypeEnum::SELECT:
                     $orderItemOption->setCustomerOptionValue($newValue);
@@ -96,6 +100,7 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
 
                     break;
                 default:
+                    // Every other option can just be casted
                     $orderItemOption->setOptionValue((string) $newValue);
                     $newConfig[] = $orderItemOption;
             }
