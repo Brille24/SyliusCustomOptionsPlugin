@@ -123,6 +123,9 @@ class EditCustomerOptionsAction extends Controller
             case CustomerOptionTypeEnum::DATE:
             case CustomerOptionTypeEnum::DATETIME:
                 return new DateTime($value);
+            case CustomerOptionTypeEnum::FILE:
+                // @TODO: Find a way to handle file options
+                return null;
             default:
                 return $value;
         }

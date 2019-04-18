@@ -42,6 +42,12 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
         $newConfig = [];
         foreach ($data as $customerOptionCode => $newValue) {
             $orderItemOption = $orderItemOptions[$customerOptionCode] ?? null;
+            $customerOption  = $this->customerOptionRepository->findOneByCode($customerOptionCode);
+
+            if (CustomerOptionTypeEnum::FILE === $customerOption->getType()) {
+                // @TODO: Find a way to handle file options
+                continue;
+            }
 
             // If the new value is null, remove it
             if (null === $newValue) {
@@ -57,8 +63,6 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
                     $this->entityManager->remove($value);
                 }
             }
-
-            $customerOption = $this->customerOptionRepository->findOneByCode($customerOptionCode);
 
             if (null === $orderItemOption) {
                 $orderItemOption = $this->orderItemOptionFactory->createNew($customerOption, '');
