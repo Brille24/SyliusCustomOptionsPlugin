@@ -11,6 +11,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Order\Model\OrderItemInterface as SyliusOrderItemInterface;
 
 trait OrderItemCustomerOptionCapableTrait
