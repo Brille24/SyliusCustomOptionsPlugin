@@ -235,38 +235,22 @@ class SetupContext implements Context
         $orderItem = end($orderItems);
 
         Assert::notNull($orderItem);
-
-        $values = [$value];
-
-        if (CustomerOptionTypeEnum::isDate($customerOption->getType())) {
-            $date = new \DateTime($value);
-
-            $values = [
-                $date->format('d'),
-                $date->format('m'),
-                $date->format('Y'),
-            ];
-        }
+        Assert::true(in_array($customerOption, $orderItem->getProduct()->getCustomerOptions()));
 
         $config = $orderItem->getCustomerOptionConfiguration();
 
-        foreach ($values as $value) {
-            foreach ($config as $itemOption) {
-                if ($itemOption->getCustomerOption() === $customerOption) {
-                    if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
-                        $customerOptionValue = $this->getCustomerOptionValueByName($customerOption, $value);
+        foreach ($config as $itemOption) {
 
-                        Assert::notNull($customerOptionValue);
+            if ($itemOption->getCustomerOption() === $customerOption) {
+                if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
+                    $customerOptionValue = $this->getCustomerOptionValueByName($customerOption, $value);
 
-                        $itemOption->setCustomerOptionValue($customerOptionValue);
-                        $itemOption->setPrice($customerOptionValue->getPriceForChannel($this->channelContext->getChannel()));
-                    } else {
-                        if (empty($itemOption->getOptionValue())) {
-                            $itemOption->setOptionValue($value);
+                    Assert::notNull($customerOptionValue);
 
-                            break;
-                        }
-                    }
+                    $itemOption->setCustomerOptionValue($customerOptionValue);
+                    $itemOption->setPrice($customerOptionValue->getPriceForChannel($this->channelContext->getChannel()));
+                } else {
+                    $itemOption->setOptionValue($value);
                 }
             }
         }

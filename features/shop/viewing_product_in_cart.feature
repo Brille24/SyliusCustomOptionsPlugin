@@ -32,16 +32,14 @@ Feature: Viewing product with customer options in cart
         Given I have 1 products "Cool Product" in the cart
         And I chose value "Value 1" for option "Select Option" for this order
         And I entered value "Custom text" for option "Text Option" for this order
-        And I entered value "2018-06-18" for option "Date Option" for this order
+        And I entered value "2018-6-18" for option "Date Option" for this order
         And I entered value "42" for option "Number Option" for this order
         And I entered value "/hello" for option "File Option" for this order
         When I see the summary of my cart
         Then I should see "Customer Options"
         And I should see "Select Option: Value 1"
         And I should see "Text Option: Custom text"
-        And I should see "Date Option: 18"
-        And I should see "Date Option: 06"
-        And I should see "Date Option: 2018"
+        And I should see "Date Option: 2018-6-18"
         And I should see "Number Option: 42"
         And I should see "File Option: File content"
 
