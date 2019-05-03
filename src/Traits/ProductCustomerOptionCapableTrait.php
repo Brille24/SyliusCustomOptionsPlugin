@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Traits;
 
@@ -70,7 +70,8 @@ trait ProductCustomerOptionCapableTrait
      */
     public function getCustomerOptionValuePrices(): Collection
     {
-        return $this->customerOptionValuePrices;
+        // We can not rely on the prices being set because Doctrine doesn't call the constructor for loaded entited
+        return $this->customerOptionValuePrices ?? new ArrayCollection();
     }
 
     /**
