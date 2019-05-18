@@ -9,6 +9,7 @@ use Behat\Gherkin\Node\TableNode;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConstraintInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use InvalidArgumentException;
@@ -390,7 +391,7 @@ class CustomerOptionGroupsContext implements Context
         string $conditionType,
         TableNode $table
     ) {
-        /** @var ConditionInterface[] $conditionsToCheck */
+        /** @var ConditionInterface|ConstraintInterface[] $conditionsToCheck */
         $conditionsToCheck = array_map(
             function (ValidatorInterface $validator) use ($conditionType): array {
                 switch ($conditionType) {

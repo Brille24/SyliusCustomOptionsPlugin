@@ -10,11 +10,13 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\EventListener\AddToCartListener;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -35,6 +37,9 @@ class AddToCartListenerTest extends TestCase
 
     /** @var ChannelInterface */
     private $channel;
+
+    /** @var CustomerOptionRepositoryInterface */
+    private $customerOptionRepository;
 
     public function __construct()
     {
@@ -72,10 +77,16 @@ class AddToCartListenerTest extends TestCase
             }
         );
 
+        $orderProcessor = self::createMock(OrderProcessorInterface::class);
+
+        $this->customerOptionRepository = self::createMock(CustomerOptionRepositoryInterface::class);
+
         $this->addToCartListener = new AddToCartListener(
             $requestStack,
             $entityManager,
-            $orderItemOptionFactory
+            $orderItemOptionFactory,
+            $orderProcessor,
+            $this->customerOptionRepository
         );
     }
 
@@ -138,6 +149,7 @@ class AddToCartListenerTest extends TestCase
     public function testInvalidCustomerOptionCode(): void
     {
         // SETUP
+        $this->customerOptionRepository->method('findOneByCode')->with('customerOptionCode')->willReturn(self::createMock(CustomerOptionInterface::class));
         $event         = $this->createEvent(true);
         $this->request = $this->createRequest(['customer_options' => ['customerOptionCode' => 'value']]);
 
@@ -152,6 +164,7 @@ class AddToCartListenerTest extends TestCase
     {
         // SETUP
         $this->customerOptions['customerOptionCode'] = self::createMock(CustomerOptionInterface::class);
+        $this->customerOptionRepository->method('findOneByCode')->with('customerOptionCode')->willReturn($this->customerOptions['customerOptionCode']);
 
         $event         = $this->createEvent(true);
         $this->request = $this->createRequest(['customer_options' => ['customerOptionCode' => 'value']]);

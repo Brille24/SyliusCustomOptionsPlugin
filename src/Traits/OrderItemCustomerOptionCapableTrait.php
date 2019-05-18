@@ -8,15 +8,23 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Exception;
-use Sylius\Component\Core\Model\OrderItemUnitInterface;
+use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Order\Model\OrderItemInterface as SyliusOrderItemInterface;
 
 trait OrderItemCustomerOptionCapableTrait
 {
-    /** @var Collection|OrderItemOptionInterface[] */
+    /**
+     * @var Collection|OrderItemOptionInterface[]
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface",
+     *     mappedBy="orderItem",
+     *     cascade={"persist", "remove"}
+     * )
+     */
     protected $configuration;
 
     public function __construct()
@@ -37,18 +45,21 @@ trait OrderItemCustomerOptionCapableTrait
      */
     public function getCustomerOptionConfiguration(bool $assoc=false): array
     {
-        /** @var OrderItemInterface[] $orderItemOptionList */
+        /** @var OrderItemOptionInterface[] $orderItemOptionList */
         $orderItemOptionList = $this->configuration->toArray();
         if ($assoc) {
-            $orderItemOptionList = array_combine(
-                array_map(function (OrderItemOptionInterface $config) {
-                    return $config->getCustomerOptionCode();
-                }, $orderItemOptionList),
-                $orderItemOptionList
-            );
-            if ($orderItemOptionList === false) {
-                throw new Exception('Could not build associative array');
+            $assocArray = [];
+
+            foreach ($orderItemOptionList as $orderItemOption) {
+                // Multiselect needs to be an array
+                if ($orderItemOption->getCustomerOption()->getType() === CustomerOptionTypeEnum::MULTI_SELECT) {
+                    $assocArray[$orderItemOption->getCustomerOptionCode()][] = $orderItemOption;
+                } else {
+                    $assocArray[$orderItemOption->getCustomerOptionCode()] = $orderItemOption;
+                }
             }
+
+            $orderItemOptionList = $assocArray;
         }
 
         return $orderItemOptionList;
@@ -74,7 +85,7 @@ trait OrderItemCustomerOptionCapableTrait
     public function setUnitPrice(int $unitPrice): void
     {
         $customerOptionAwareUnitPrice = $this->applyConfigurationPrices($unitPrice);
-        $this->unitPrice = $customerOptionAwareUnitPrice;
+        $this->unitPrice              = $customerOptionAwareUnitPrice;
         $this->recalculateUnitsTotal();
     }
 

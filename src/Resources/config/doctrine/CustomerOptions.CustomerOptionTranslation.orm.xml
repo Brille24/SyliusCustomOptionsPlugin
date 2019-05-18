@@ -11,6 +11,6 @@
 
         <field name="name" nullable="true"/>
 
-        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption" field="translatable" inversed-by="translations"/>
+        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface" field="translatable" inversed-by="translations"/>
     </entity>
 </doctrine-mapping>

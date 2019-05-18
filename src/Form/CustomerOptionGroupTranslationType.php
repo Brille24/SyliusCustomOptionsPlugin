@@ -18,11 +18,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class CustomerOptionGroupTranslationType extends AbstractResourceType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name', TextType::class, ['label' => 'sylius.form.product.name']);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getBlockPrefix(): string
     {
         return 'brille24_customer_option_groups_translation';

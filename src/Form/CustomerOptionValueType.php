@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Form;
 
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -22,6 +21,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class CustomerOptionValueType extends AbstractResourceType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -36,15 +38,20 @@ final class CustomerOptionValueType extends AbstractResourceType
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $defaults = [
+        parent::configureOptions($resolver);
+        $resolver->setDefaults([
             'error_bubbling' => true,
-            'data_class'     => CustomerOptionValue::class,
-        ];
-        $resolver->setDefaults($defaults);
+        ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getBlockPrefix(): string
     {
         return 'brille24_customer_option_value';

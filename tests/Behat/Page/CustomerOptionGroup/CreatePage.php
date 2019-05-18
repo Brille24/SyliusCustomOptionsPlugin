@@ -21,19 +21,19 @@ class CreatePage extends BaseCreatePage
      * CreatePage constructor.
      *
      * @param Session $session
-     * @param array $parameters
+     * @param array|\ArrayAccess $minkParameters
      * @param RouterInterface $router
      * @param string $routeName
      * @param TranslatorInterface $translator
      */
     public function __construct(
         Session $session,
-        array $parameters,
+        $minkParameters,
         RouterInterface $router,
         string $routeName,
         TranslatorInterface $translator
     ) {
-        parent::__construct($session, $parameters, $router, $routeName);
+        parent::__construct($session, $minkParameters, $router, $routeName);
 
         $this->translator = $translator;
     }

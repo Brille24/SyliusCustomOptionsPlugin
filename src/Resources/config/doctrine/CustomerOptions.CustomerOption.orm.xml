@@ -18,7 +18,7 @@
         <field name="required" type="boolean"/>
 
         <one-to-many
-                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociationInterface"
                 mapped-by="option"
                 field="groupAssociations"
                 orphan-removal="true"
@@ -32,7 +32,7 @@
         </one-to-many>
 
         <one-to-many
-                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface"
                 mapped-by="customerOption"
                 field="values"
                 orphan-removal="true"

@@ -40,7 +40,7 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getId(): string
     {
@@ -48,7 +48,7 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getPosition(): int
     {
@@ -56,7 +56,7 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     }
 
     /**
-     * @param int $position
+     * {@inheritdoc}
      */
     public function setPosition(int $position): void
     {
@@ -64,7 +64,7 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     }
 
     /**
-     * @return CustomerOptionGroupInterface
+     * {@inheritdoc}
      */
     public function getGroup(): ?CustomerOptionGroupInterface
     {
@@ -72,15 +72,15 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     }
 
     /**
-     * @param CustomerOptionGroupInterface $group
+     * {@inheritdoc}
      */
-    public function setGroup(CustomerOptionGroupInterface $group): void
+    public function setGroup(?CustomerOptionGroupInterface $group): void
     {
         $this->group = $group;
     }
 
     /**
-     * @return CustomerOptionInterface
+     * {@inheritdoc}
      */
     public function getOption(): ?CustomerOptionInterface
     {
@@ -88,9 +88,9 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     }
 
     /**
-     * @param CustomerOptionInterface $option
+     * {@inheritdoc}
      */
-    public function setOption(CustomerOptionInterface $option): void
+    public function setOption(?CustomerOptionInterface $option): void
     {
         $this->option = $option;
     }

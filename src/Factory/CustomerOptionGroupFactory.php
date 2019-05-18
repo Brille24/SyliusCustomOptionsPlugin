@@ -17,13 +17,13 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGr
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Traits\ConditionTraitInterface;
 use Faker\Factory;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Resource\Model\CodeAwareInterface;
@@ -52,7 +52,9 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 
     public function generateRandom(int $amount): array
     {
-        $productCodeGetter = function (CodeAwareInterface $codeAware) { return $codeAware->getCode(); };
+        $productCodeGetter = function (CodeAwareInterface $codeAware) {
+            return $codeAware->getCode();
+        };
 
         $customerOptionsCodes = array_map($productCodeGetter, $this->customerOptionRepository->findAll());
         $productCodes         = array_map($productCodeGetter, $this->productRepository->findAll());
@@ -121,7 +123,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
             if (isset($validatorConfig['conditions'])) {
                 foreach ($validatorConfig['conditions'] as $conditionConfig) {
                     $condition = new Condition();
-                    $this->setupConstraint($condition, $conditionConfig);
+                    $this->setupCondition($condition, $conditionConfig);
                     $validator->addCondition($condition);
                 }
             }
@@ -129,7 +131,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
             if (isset($validatorConfig['constraints'])) {
                 foreach ($validatorConfig['constraints'] as $constraintConfig) {
                     $constraint = new Constraint();
-                    $this->setupConstraint($constraint, $constraintConfig);
+                    $this->setupCondition($constraint, $constraintConfig);
                     $validator->addConstraint($constraint);
                 }
             }
@@ -152,16 +154,16 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
         return $customerOptionGroup;
     }
 
-    private function setupConstraint(ConditionInterface $constraint, array $config): void
+    private function setupCondition(ConditionTraitInterface $condition, array $config): void
     {
         /** @var CustomerOptionInterface|null $customerOption */
         $customerOption = $this->customerOptionRepository->findOneByCode($config['customer_option']);
         Assert::notNull($customerOption);
 
-        $constraint->setCustomerOption($customerOption);
+        $condition->setCustomerOption($customerOption);
         Assert::true(ConditionComparatorEnum::isValid($config['comparator']));
 
-        $constraint->setComparator($config['comparator']);
+        $condition->setComparator($config['comparator']);
 
         $value = $config['value'];
 
@@ -173,7 +175,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
             $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
         }
 
-        $constraint->setValue($value);
+        $condition->setValue($value);
     }
 
     /**

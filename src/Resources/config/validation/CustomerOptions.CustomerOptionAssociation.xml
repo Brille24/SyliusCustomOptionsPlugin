@@ -2,7 +2,8 @@
     <class name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation">
         <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
             <option name="fields">
-                <value>option,position</value>
+                <value>option</value>
+                <value>group</value>
             </option>
             <option name="message">brille24.form.customer_option_groups.unique</option>
             <option name="groups">sylius</option>
@@ -15,6 +16,9 @@
         </property>
 
         <property name="position">
+            <constraint name="NotNull">
+                <option name="groups">sylius</option>
+            </constraint>
             <constraint name="Type">
                 <option name="type">integer</option>
                 <option name="message">brille24.form.customer_option_groups.duplicate_option</option>

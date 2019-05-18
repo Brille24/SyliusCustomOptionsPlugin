@@ -96,6 +96,10 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
 
         $customerOption->setType($configuration['type']);
 
+        if (isset($configuration['configuration'])) {
+            $customerOption->setConfiguration($configuration['configuration']);
+        }
+
         if (CustomerOptionTypeEnum::isSelect($configuration['type'])) {
             foreach ($configuration['values'] as $valueConfig) {
                 /** @var CustomerOptionValueInterface $value */
@@ -151,8 +155,12 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
 
             /** @var CustomerOptionGroupInterface[] $groups */
             $groups     = $this->customerOptionGroupRepository->findAll();
-            $groupCodes = array_map(function (CustomerOptionGroupInterface $group) { return $group->getCode(); },
-                $groups);
+            $groupCodes = array_map(
+                function (CustomerOptionGroupInterface $group) {
+                    return $group->getCode();
+                },
+                $groups
+            );
 
             $options['groups'] = [];
             if (count($groupCodes) > 0) {

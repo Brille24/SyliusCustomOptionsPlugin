@@ -27,22 +27,22 @@ interface CustomerOptionAssociationInterface extends ResourceInterface
     public function setPosition(int $position): void;
 
     /**
-     * @return CustomerOptionGroupInterface
+     * @return CustomerOptionGroupInterface|null
      */
     public function getGroup(): ?CustomerOptionGroupInterface;
 
     /**
-     * @param CustomerOptionGroupInterface $group
+     * @param CustomerOptionGroupInterface|null $group
      */
-    public function setGroup(CustomerOptionGroupInterface $group): void;
+    public function setGroup(?CustomerOptionGroupInterface $group): void;
 
     /**
-     * @return CustomerOptionInterface
+     * @return CustomerOptionInterface|null
      */
     public function getOption(): ?CustomerOptionInterface;
 
     /**
-     * @param CustomerOptionInterface $option
+     * @param CustomerOptionInterface|null $option
      */
-    public function setOption(CustomerOptionInterface $option): void;
+    public function setOption(?CustomerOptionInterface $option): void;
 }

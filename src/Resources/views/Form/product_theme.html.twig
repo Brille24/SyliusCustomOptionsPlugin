@@ -1,0 +1,29 @@
+{# We are overriding the customer option file type. For more information see: ShopCustomerOptionType.php #}
+{% block _sylius_add_to_cart_customer_options_file_type_widget %}
+    <input type="{{type}}" name="{{full_name}}" id="{{id}}" onChange="uploadPicture(event)" />
+    <input type="hidden" name="{{full_name ~ '[data]' }}" id="{{ id ~ '_data'}}" />
+
+    <script>
+        fr = new FileReader();
+        function uploadPicture(evt) {
+            const dataTag = document.getElementById(`${evt.target.id}_data`);
+
+            fr.onload = (e) => {
+                const content = e.target.result;
+                const base64Encoding = content.indexOf('base64,');
+                if(base64Encoding === -1) {
+                    throw Error('Source did not decode to base64');
+                }
+
+                if(dataTag.value.length > 0) {
+                    dataTag.value += '|';
+                }
+                dataTag.value += content;
+
+            };
+
+            dataTag.value = '';
+            Array.from(evt.target.files).forEach(file => fr.readAsDataURL(file));
+        }
+    </script>
+{% endblock %}

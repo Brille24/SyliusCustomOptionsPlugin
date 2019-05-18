@@ -4,7 +4,7 @@
                  id="brille24.customer_options_plugin.form.extensions.product_type_extension">
             <tag name="form.type_extension" extended_type="Sylius\Bundle\ProductBundle\Form\Type\ProductType"/>
         </service>
-        
+
         <service class="Brille24\SyliusCustomerOptionsPlugin\Form\Extensions\AddToCartTypeExtension"
                  id="brille24.customer_options_plugin.form.extension.add_to_cart_type_extension">
             <argument type="service" id="sylius.context.locale" />
@@ -14,14 +14,14 @@
         <!-- Translation Type -->
         <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionValueType"
                  id="brille24.customer_options_plugin.form.customer_option_value_type">
-            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue</argument>
+            <argument>%brille24.model.customer_option_value.class%</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
             <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionValueType" name="form.type"/>
         </service>
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionValueTranslationType"
                  id="brille24.customer_options_plugin.form.customer_option_value_translation_type">
-            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueTranslation</argument>
+            <argument>%brille24.model.customer_option_value_translation.class%</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
             <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionValueTranslationType" name="form.type"/>
         </service>
@@ -29,14 +29,14 @@
         <!-- Customer Options -->
         <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionType"
                  id="brille24.customer_options_plugin.form.customer_option_type">
-            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption</argument>
+            <argument>%brille24.model.customer_option.class%</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
             <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionType" name="form.type"/>
         </service>
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionTranslationType"
                  id="brille24.customer_options_plugin.form.customer_option_translation_type">
-            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionTranslation</argument>
+            <argument>%brille24.model.customer_option_translation.class%</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
             <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionTranslationType" name="form.type"/>
         </service>
@@ -53,26 +53,27 @@
         <!-- Customer Option Group -->
         <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionGroupType"
                  id="brille24.customer_options_plugin.form.customer_option_group_type">
-            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup</argument>
+            <argument>%brille24.model.customer_option_group.class%</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
             <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionGroupType" name="form.type"/>
         </service>
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionGroupTranslationType"
                  id="brille24.customer_options_plugin.form.customer_option_group_translation_type">
-            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTranslation</argument>
+            <argument>%brille24.model.customer_option_group_translation.class%</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
             <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionGroupTranslationType" name="form.type"/>
         </service>
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionAssociationType"
                 id="brille24.customer_options_plugin.form.customer_option_association_type">
-            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation</argument>
+            <argument>%brille24.model.customer_option_association.class%</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
             <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionAssociationType" name="form.type" />
         </service>
 
 
+        <!-- Validator -->
         <service class="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ValueType"
                  id="brille24.customer_options_plugin.form.validator.test_type"
         >
@@ -82,14 +83,14 @@
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ErrorMessageType"
                 id="brille24.customer_options_plugin.form.validator.error_message_type">
-            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage</argument>
+            <argument>%brille24.model.customer_option_validator_error_message.class%</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
             <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ErrorMessageType" name="form.type"/>
         </service>
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ErrorMessageTranslationType"
                  id="brille24.customer_options_plugin.form.validator.error_message_translation_type">
-            <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessageTranslation</argument>
+            <argument>%brille24.model.customer_option_validator_error_message_translation.class%</argument>
             <argument>%sylius.form.type.product.validation_groups%</argument>
             <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ErrorMessageTranslationType" name="form.type"/>
         </service>

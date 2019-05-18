@@ -94,8 +94,12 @@ class ConstraintCreatorTest extends TestCase
             // FILES
             'file with file size' => [
                 CustomerOptionTypeEnum::FILE,
-                $this->createValue('brille24.form.config.max.file_size', 10),
-                new File(['maxSize' => 10]),
+                array_merge(
+                    $this->createValue('brille24.form.config.max.file_size', 10),
+                    $this->createValue('brille24.form.config.min.file_size', 0),
+                    $this->createValue('brille24.form.config.allowed_types', 'text/text')
+                ),
+                new File(['maxSize' => 10, 'mimeTypes' => ['text/text']]),
             ],
             //DATE
             'date with min' => [

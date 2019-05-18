@@ -9,38 +9,35 @@
 
         <one-to-one field="errorMessage" target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage">
             <cascade>
-                <cascade-persist/>
-                <cascade-remove/>
+                <cascade-all/>
             </cascade>
             <join-column on-delete="SET NULL" />
         </one-to-one>
 
         <one-to-many
-                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface"
                 mapped-by="validator"
                 field="conditions"
                 orphan-removal="true"
         >
             <cascade>
-                <cascade-persist/>
-                <cascade-remove/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 
         <one-to-many
-                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConstraintInterface"
                 mapped-by="validator"
                 field="constraints"
                 orphan-removal="true"
         >
             <cascade>
-                <cascade-persist/>
-                <cascade-remove/>
+                <cascade-all/>
             </cascade>
         </one-to-many>
 
         <many-to-one
-                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup"
+                target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface"
                 field="customerOptionGroup"
                 inversed-by="validators"
         />

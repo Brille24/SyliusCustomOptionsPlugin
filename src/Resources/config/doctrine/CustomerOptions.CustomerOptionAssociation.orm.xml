@@ -15,13 +15,13 @@
 
         <field name="position" type="integer" />
 
-        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption" field="option" inversed-by="groupAssociations">
+        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface" field="option" inversed-by="groupAssociations">
             <cascade>
                 <cascade-persist/>
             </cascade>
             <join-column nullable="false" on-delete="CASCADE"/>
         </many-to-one>
-        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup" field="group" inversed-by="optionAssociations">
+        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface" field="group" inversed-by="optionAssociations">
             <cascade>
                 <cascade-persist/>
             </cascade>

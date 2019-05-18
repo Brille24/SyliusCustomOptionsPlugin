@@ -10,7 +10,7 @@
         <field name="customerOptionCode"/>
         <field name="customerOptionName"/>
 
-        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
+        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface"
                      field="customerOption" optional="true"
         >
             <join-column on-delete="SET NULL" nullable="true"/>
@@ -18,9 +18,9 @@
 
         <field name="customerOptionValueCode" nullable="true"/>
         <field name="customerOptionValueName" nullable="true"/>
-        <field name="optionValue" nullable="true"/>
+        <field name="optionValue" nullable="true" type="text"/>
 
-        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface"
                      field="customerOptionValue" optional="true"
         >
             <join-column on-delete="SET NULL" nullable="true"/>

@@ -35,7 +35,7 @@ class CustomerOption implements CustomerOptionInterface
     /** @var string */
     private $code = '';
 
-    /** @var bool|null */
+    /** @var bool */
     private $required = false;
 
     /** @var Collection|CustomerOptionValueInterface[] */
@@ -126,7 +126,7 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function isRequired(): ?bool
+    public function isRequired(): bool
     {
         return $this->required;
     }
@@ -187,7 +187,7 @@ class CustomerOption implements CustomerOptionInterface
     {
         // Setting the new values
         foreach ($configuration as $key => $value) {
-            $optionKey = str_replace('_', '.', $key);
+            $optionKey                                = str_replace(':', '.', $key);
             $this->configuration[$optionKey]['value'] = $value;
         }
 

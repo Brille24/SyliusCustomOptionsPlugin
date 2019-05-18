@@ -22,6 +22,9 @@ use Symfony\Component\Form\FormEvents;
 
 final class CustomerOptionConfigurationType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -41,13 +44,17 @@ final class CustomerOptionConfigurationType extends AbstractType
 
                 // Adding form field for configuration option based on type
                 $form->add(
-                    str_replace('.', '_', $key), $formTypeClass,
+                    str_replace('.', ':', $key),
+                    $formTypeClass,
                     array_merge(['data' => $data, 'label' => $key], $formTypeConfig)
                 );
             }
         });
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getBlockPrefix(): string
     {
         return 'brille24_customer_option_configuration';

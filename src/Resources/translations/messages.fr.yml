@@ -1,0 +1,87 @@
+# Message for the menu entry
+sylius:
+    menu:
+        admin:
+            main:
+                catalog:
+                    customer_options: Options client
+                    customer_option_groups: Groupes d'options client
+                order_item:
+                    edit: Modifier une option client pour un article
+
+
+# Brille24
+brille24:
+    ui:
+        customer_option: Option client
+        customer_options: Options client
+        customer_option_groups: Groupes d'options client
+        customer_option_group: Groupe d'options client
+        required: Obligatoire
+        product_customization: Personnalisation produit
+        file_content: Fichier
+        pricing:
+            fixed_amount: Montant fixe
+            percent: Pourcentage
+    form:
+        customer_options:
+            subheader: Gérez vos options client
+            type:
+                text: Texte
+                select: Liste déroulante
+                multi_select: Liste déroulante multichoix
+                file: Fichier
+                date: Date
+                datetime: Date et heure
+                number: Nombre
+                boolean: Booléen
+        customer_option_groups:
+            subheader: Gérez vos options client
+            select: Liste déroulante
+            buttons:
+                add_option: Ajouter une option
+                delete_option: Supprimer l'option
+                add_validator: Ajouter une validateur
+                delete_validator: Supprimer le validateur
+        customer_option_value:
+            price: Prix
+        config:
+            min:
+                length: Longueur minimum
+                file_size: Taille minimum
+                date: Date minimum
+                number: Nombre minmum
+            max:
+                length: Longueur maximum
+                file_size: Taille maximum
+                date: Date maximum
+                number: Nombre maximum
+            default_value: Valeur par défaut
+            allowed_types: Types de fichiers authorisés
+        validators:
+            condition:
+                greater: ">"
+                greater_equal: ">="
+                equal: "=="
+                lesser_equal: "<="
+                lesser: "<"
+                in_set: Est dans la liste
+                not_in_set: N'est pas dans la liste
+            fields:
+                customer_option: Option client
+                comparator: Comparateur
+                value:
+                    default: Valeur
+                    text: Longueur du texte
+                    set: Liste
+                message: Message
+            error_message: Message d'erreur
+            buttons:
+                add_condition: Ajouter une condition
+                delete_condition: Supprimer la condition
+                add_constraint: Ajouter une contrainte
+                delete_constraint: Supprimer la contrainte
+
+    grid:
+        options_remaining: "{0} |]0,Inf]et %count% plus"
+        options_empty: Rien à afficher

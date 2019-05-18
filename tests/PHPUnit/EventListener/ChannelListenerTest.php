@@ -47,7 +47,8 @@ class ChannelListenerTest extends TestCase
                 self::assertEquals(CustomerOptionValue::class, $entityClass);
 
                 return $customerOptionValueRepository;
-            });
+            }
+        );
 
         $arguments = self::createMock(LifecycleEventArgs::class);
         $arguments->method('getEntityManager')->willReturn($entityManger);

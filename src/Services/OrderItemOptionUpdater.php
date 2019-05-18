@@ -4,21 +4,14 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Webmozart\Assert\Assert;
 
 final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
 {
-    /**
-     * @var CustomerOptionRepositoryInterface
-     */
-    private $customerOptionRepository;
-
     /**
      * @var OrderItemOptionFactoryInterface
      */
@@ -28,15 +21,17 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /** @var CustomerOptionRepositoryInterface */
+    private $customerOptionRepository;
 
     public function __construct(
-        CustomerOptionRepositoryInterface $customerOptionRepository,
         OrderItemOptionFactoryInterface $orderItemOptionFactory,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        CustomerOptionRepositoryInterface $customerOptionRepository
     ) {
-        $this->customerOptionRepository = $customerOptionRepository;
         $this->orderItemOptionFactory   = $orderItemOptionFactory;
         $this->entityManager            = $entityManager;
+        $this->customerOptionRepository = $customerOptionRepository;
     }
 
     /** {@inheritdoc} */
@@ -44,45 +39,74 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
     {
         $orderItemOptions = $orderItem->getCustomerOptionConfiguration(true);
 
-        if (count($orderItemOptions) === 0) {
-            $this->createNewOrderItemOptions($orderItem, $data);
-
-            return;
-        }
-
+        $newConfig = [];
         foreach ($data as $customerOptionCode => $newValue) {
             $orderItemOption = $orderItemOptions[$customerOptionCode] ?? null;
-            Assert::isInstanceOf($orderItemOption, OrderItemOptionInterface::class);
+            $customerOption  = $this->customerOptionRepository->findOneByCode($customerOptionCode);
 
-            if ($orderItemOption === null) {
+            if (CustomerOptionTypeEnum::FILE === $customerOption->getType()) {
+                // @TODO: Find a way to handle file options
                 continue;
             }
 
-            if ($newValue instanceof CustomerOptionValueInterface) {
-                $orderItemOption->setCustomerOptionValue($newValue);
-            } else {
-                $orderItemOption->setOptionValue($newValue);
+            // If the new value is null, remove the option
+            if (null === $newValue) {
+                if (null !== $orderItemOption) {
+                    $this->entityManager->remove($orderItemOption);
+                }
+
+                continue;
+            }
+
+            // If the option is an array, it means the option is a multi select.
+            // We have to remove the old values before we can add new ones.
+            if (is_array($orderItemOption)) {
+                foreach ($orderItemOption as $value) {
+                    $this->entityManager->remove($value);
+                }
+            }
+
+            // Make sure we have an OrderItemOption
+            if (null === $orderItemOption) {
+                $orderItemOption = $this->orderItemOptionFactory->createNew($customerOption, '');
+                $orderItemOption->setOrderItem($orderItem);
+            }
+
+            // Select & Date options need to be handled differently
+            switch ($customerOption->getType()) {
+                case CustomerOptionTypeEnum::SELECT:
+                    $orderItemOption->setCustomerOptionValue($newValue);
+                    $newConfig[] = $orderItemOption;
+
+                    break;
+                case CustomerOptionTypeEnum::MULTI_SELECT:
+                    // Create an option value for every selected value
+                    foreach ($newValue as $value) {
+                        $orderItemOption = $this->orderItemOptionFactory->createNew($customerOption, '');
+                        $orderItemOption->setOrderItem($orderItem);
+                        $orderItemOption->setCustomerOptionValue($value);
+                        $newConfig[] = $orderItemOption;
+                    }
+
+                    break;
+                case CustomerOptionTypeEnum::DATE:
+                    $orderItemOption->setOptionValue($newValue->format('Y-m-d'));
+                    $newConfig[] = $orderItemOption;
+
+                    break;
+                case CustomerOptionTypeEnum::DATETIME:
+                    $orderItemOption->setOptionValue($newValue->format('Y-m-d h:i'));
+                    $newConfig[] = $orderItemOption;
+
+                    break;
+                default:
+                    // Every other option can just be casted
+                    $orderItemOption->setOptionValue((string) $newValue);
+                    $newConfig[] = $orderItemOption;
             }
         }
 
-        $this->entityManager->flush();
-    }
-
-    private function createNewOrderItemOptions(OrderItemInterface $orderItem, array $data): void
-    {
-        $customerOptionConfiguration = [];
-
-        foreach ($data as $customerOptionCode => $value) {
-            $customerOption  = $this->customerOptionRepository->findOneByCode($customerOptionCode);
-            $orderItemOption = $this->orderItemOptionFactory->createNew($customerOption, $value);
-
-            $orderItemOption->setOrderItem($orderItem);
-
-            $this->entityManager->persist($orderItemOption);
-            $customerOptionConfiguration[] = $orderItemOption;
-        }
-
-        $orderItem->setCustomerOptionConfiguration($customerOptionConfiguration);
+        $orderItem->setCustomerOptionConfiguration($newConfig);
 
         $this->entityManager->flush();
     }

@@ -12,6 +12,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
+use Sylius\Component\Order\Processor\OrderProcessorInterface;
 
 class OrderItemTest extends TestCase
 {
@@ -65,17 +66,16 @@ class OrderItemTest extends TestCase
     /** @dataProvider dataGetSubtotalForConfiguredProductFixed */
     public function testGetSubtotalForConfiguredProductFixed(int $amount, int $expectedTotal): void
     {
-        $this->orderItem->setUnitPrice(10);
-
-        for ($i = 0; $i < $amount; ++$i) {
-            $this->orderItem->addUnit($this->createOrderItemUnit($this->orderItem));
-        }
-
         $configuration = [
             $this->createCustomerOptionConfiguration(CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT, 100),
         ];
 
         $this->orderItem->setCustomerOptionConfiguration($configuration);
+        $this->orderItem->setUnitPrice(10);
+
+        for ($i = 0; $i < $amount; ++$i) {
+            $this->orderItem->addUnit($this->createOrderItemUnit($this->orderItem));
+        }
 
         self::assertEquals($expectedTotal, $this->orderItem->getSubtotal());
     }
@@ -91,15 +91,14 @@ class OrderItemTest extends TestCase
 
     public function testGetSubtotalForConfiguredProductPercent(): void
     {
-        $this->orderItem->setUnitPrice(10);
-
-        $this->orderItem->addUnit($this->createOrderItemUnit($this->orderItem));
-
         $configuration = [
             $this->createCustomerOptionConfiguration(CustomerOptionValuePriceInterface::TYPE_PERCENT, 0.32),
         ];
 
         $this->orderItem->setCustomerOptionConfiguration($configuration);
+        $this->orderItem->setUnitPrice(10);
+
+        $this->orderItem->addUnit($this->createOrderItemUnit($this->orderItem));
 
         // 10*0.32 rounded to the next bigger int
         self::assertEquals(13, $this->orderItem->getSubtotal());
@@ -107,16 +106,15 @@ class OrderItemTest extends TestCase
 
     public function testGetSubtotalForConfiguredProductMultiple(): void
     {
-        $this->orderItem->setUnitPrice(10);
-
-        $this->orderItem->addUnit($this->createOrderItemUnit($this->orderItem));
-
         $configuration = [
             $this->createCustomerOptionConfiguration(CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT, 100),
             $this->createCustomerOptionConfiguration(CustomerOptionValuePriceInterface::TYPE_PERCENT, 0.32),
         ];
 
         $this->orderItem->setCustomerOptionConfiguration($configuration);
+        $this->orderItem->setUnitPrice(10);
+
+        $this->orderItem->addUnit($this->createOrderItemUnit($this->orderItem));
 
         // 10*0.32 rounded to the next bigger int
         self::assertEquals(113, $this->orderItem->getSubtotal());

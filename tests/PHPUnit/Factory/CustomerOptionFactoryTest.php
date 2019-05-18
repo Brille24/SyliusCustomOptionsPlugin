@@ -30,7 +30,9 @@ class CustomerOptionFactoryTest extends TestCase
 
         $customerOptionGroupRepository = self::createMock(CustomerOptionGroupRepositoryInterface::class);
         $customerOptionGroupRepository->method('findAll')->willReturnCallback(
-            function () { return $this->customerOptionGroupRepository; }
+            function () {
+                return $this->customerOptionGroupRepository;
+            }
         );
         $customerOptionGroupRepository->method('findOneBy')->willReturnCallback(function (array $config) {
             $code = $config['code'];
@@ -79,7 +81,7 @@ class CustomerOptionFactoryTest extends TestCase
             ],
             'type invalid' => [
                 ['code' => 'something', 'translations' => ['en'], 'type' => 'something'],
-                '\'something\' should be in array text,select,multi_select,date,datetime,number,boolean',
+                '\'something\' should be in array file,text,select,multi_select,date,datetime,number,boolean',
             ],
             'select missing values' => [
                 ['code' => 'something', 'translations' => ['en'], 'type' => CustomerOptionTypeEnum::MULTI_SELECT],

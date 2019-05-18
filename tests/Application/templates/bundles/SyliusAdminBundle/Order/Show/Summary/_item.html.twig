@@ -15,6 +15,11 @@
             {% include '@Brille24SyliusCustomerOptionsPlugin/Product/_customerOptions.html.twig' with {
                 'configuration': item.customerOptionConfiguration
             } %}
+            {% if item.order.state != constant('Sylius\\Component\\Order\\Model\\Order::STATE_CANCELLED') %}
+                <a href="{{ path('edit_order_item_configuration', {'orderItem': item.id}) }}" class="button ui">
+                    {{ 'brille24.ui.customer_options'|trans }}
+                </a>
+            {% endif %}
         {% endif %}
     </td>
     <td class="right aligned unit-price">

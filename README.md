@@ -1,4 +1,5 @@
-<h1 align="center">Customer Options</h1>
+# Customer Options
+<p align="center"><img src="https://sylius.com/assets/badge-approved-by-sylius.png" width="100px"></p>
 <a href="https://travis-ci.org/Brille24/SyliusCustomOptionsPlugin">
 	<img src="https://travis-ci.org/Brille24/SyliusCustomOptionsPlugin.svg?branch=master" />
 </a>
@@ -7,26 +8,22 @@
 
 * Run `composer require brille24/sylius-customer-options-plugin`.
 
-* Register the Plugin in your `AppKernel` file:
+* Register the Plugin in your `config/bundles.php`:
 
 ```php
-public function registerBundles()
-{
-    return array_merge(parent::registerBundles(), [
-        ...
-
-        new \Brille24\SyliusCustomerOptionsPlugin\Brille24SyliusCustomerOptionsPlugin(),
-    ]);
-}
+return [
+    ...
+    Brille24\SyliusCustomerOptionsPlugin\Brille24SyliusCustomerOptionsPlugin::class => ['all' => true],
+];
 ```
-* Add the `config.yml` to your local `app/config/config.yml`:
+* Add the `config.yml` to your local `config/packages/_sylius.yaml`:
 ```yaml
 imports:
     ...
     - { resource: "@Brille24SyliusCustomerOptionsPlugin/Resources/config/app/config.yml" }
 ```
 
-* Add the `routing.yml` to your local `app/config/routing.yml`:
+* Add the `routing.yml` to your local `config/routes.yaml`:
 ```yaml
 brille24_customer_options:
     resource: "@Brille24SyliusCustomerOptionsPlugin/Resources/config/app/routing.yml"
@@ -34,8 +31,50 @@ brille24_customer_options:
 
 * Copy the template overrides from the plugin directory
 ```
-From: [shop_dir]/vendor/brille24/customer-options/test/Application/app/Resources
-To: [shop_dir]/app/Resources
+From: [shop_dir]/vendor/brille24/sylius-customer-options-plugin/test/Application/templates
+To: [shop_dir]/templates
+```
+
+In order to use the customer options, you need to override the product and order item.
+```php
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Traits\ProductCustomerOptionCapableTrait;
+use Sylius\Component\Core\Model\Product as BaseProduct;
+
+class Product extends BaseProduct implements ProductInterface {
+    use ProductCustomerOptionCapableTrait {
+        __construct as protected customerOptionCapableConstructor;
+    }
+    
+     public function __construct()
+    {
+        parent::__construct();
+
+        $this->customerOptionCapableConstructor();
+    }
+    // ...
+}
+```
+
+```php
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Traits\OrderItemCustomerOptionCapableTrait;
+use Sylius\Component\Core\Model\OrderItem as BaseOrderItem;
+
+class OrderItem extends BaseOrderItem implements OrderItemInterface
+{
+    use OrderItemCustomerOptionCapableTrait {
+        __construct as protected customerOptionCapableConstructor;
+    }
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->customerOptionCapableConstructor();
+    }
+    // ...
+}
 ```
 
 * Finally update the database and update the translations:
@@ -87,7 +126,7 @@ The validation works as follows:
 3. If all validators say the customer options are valid, the product is added to the cart
 
 ### Generating Customer Options with fixtures
-Add the following to your `app/config/fixtures.yml`:
+Add the following to your `config/fixtures.yaml`:
 ```yaml
 sylius_fixtures:
     suites:
@@ -122,59 +161,62 @@ themselves (of course only, if there are any defined). But they won't create con
         brille24_customer_option:
             options:
                 custom:
-                    - code: some_option #Required
+                -   code: some_option #Required
                     
-                      translations: #Required
-                          en_US: Some Option #Every option needs at least one translation.
-                          
-                      type: select #Can be any of the defined option types. Defaults to 'text'.
+                    translations: #Required
+                      en_US: Some Option #Every option needs at least one translation.
                       
-                      values: #Value definitions only do something, if the type is 'select' or 'multi_select'.
-                          - code: some_value #Required
-                          
-                            translations: #Required
-                                en_US: Some Value #Also needs at least one translation.
+                    type: select #Can be any of the defined option types. Defaults to 'text'.
+                    
+                    values: #Value definitions only do something, if the type is 'select' or 'multi_select'.
+                    -   code: some_value #Required
+                      
+                        translations: #Required
+                            en_US: Some Value #Also needs at least one translation.
+                        
+                        prices: #Undefined prices are generated automatically for every option value and channel with default values.
                             
-                            prices: #Undefined prices are generated automatically for every option value and channel with default values.
-                                
-                                - type: fixed #Can be 'fixed' or 'percent'. Defaults to 'fixed'.
-                                
-                                  amount: 100 #The fixed amount in cents. Defaults to 0.
-                                
-                                  percent: 0 #The percentage of the base price. Defaults to 0.
-                                
-                                  channel: US_WEB #The channel code. Defaults to 'default'.
-                                  
-                      required: false #Defaults to false.
-                      
-                      groups: ~ #Put codes of defined groups here.
+                        -   type: fixed #Can be 'fixed' or 'percent'. Defaults to 'fixed'.
+                            
+                            amount: 100 #The fixed amount in cents. Defaults to 0.
+                            
+                            percent: 0 #The percentage of the base price. Defaults to 0.
+                            
+                            channel: US_WEB #The channel code. Defaults to 'default'.
+                              
+                    configuration: #Configuration definitions can only be used with non select options
+                        brille24.form.config.max.length: 100 #For a list of available options refer to 'src/Enumerations/CustomerOptionTypeEnum.php:118'
+                              
+                    required: false #Defaults to false.
+                    
+                    groups: ~ #Put codes of defined groups here.
                       
         brille24_customer_option_group:
             options:
                 custom:
-                    - code: some_group #Required
+                -   code: some_group #Required
                       
-                      translations: #Required
-                          en_US: Some Group #Needs at least one translation.
+                    translations: #Required
+                        en_US: Some Group #Needs at least one translation.
                           
-                      options: #Put codes of defined options here.
+                    options: #Put codes of defined options here.
                           - some_option
                           
-                      validators:
-                          - conditions: #Not required
-                                - customer_option: some_option #Required
-                                  comparator: in_set #Required, must be one of the defined comparators in Enumerations/ConditionComparatorEnum.php
-                                  value: val_1 #Required, for select options put the value codes seperated with commas here
+                    validators:
+                    -   conditions: #Not required
+                        -   customer_option: some_option #Required
+                            comparator: in_set #Required, must be one of the defined comparators in Enumerations/ConditionComparatorEnum.php
+                            value: val_1 #Required, for select options put the value codes seperated with commas here
                           
-                            constraints: #Same as conditions
-                                - customer_option: some_option
-                                  comparator: not_in_set
-                                  value: val_2
+                        constraints: #Same as conditions
+                        -   customer_option: some_option
+                            comparator: not_in_set
+                            value: val_2
                                   
-                            error_messages: #Not required
-                                en_US: Oops! #At least one required
+                        error_messages: #Not required
+                            en_US: Oops! #At least one required
                           
-                      products: ~ #Put codes of defined products here.
+                    products: ~ #Put codes of defined products here.
 ```
 
 You can also assign a group and override value prices in the product fixture.
@@ -183,26 +225,25 @@ You can also assign a group and override value prices in the product fixture.
     fixtures:
         product:
             custom:
-                - ... #The usual product definitions.
+            - ... #The usual product definitions.
                 
-                  customer_option_group: some_group #The code of the customer option group the product should have assigned.
+                customer_option_group: some_group #The code of the customer option group the product should have assigned.
                   
-                  customer_option_value_prices: #Override the prices for customer option values per channel.
+                customer_option_value_prices: #Override the prices for customer option values per channel.
                       
-                      - value_code: some_value #Required. Values that are not present in the assigned group are ignored.
+                -   value_code: some_value #Required. Values that are not present in the assigned group are ignored.
                        
-                        type: percent #Defaults to 'fixed'.
+                    type: percent #Defaults to 'fixed'.
                        
-                        amount: 0 #Defaults to 0.
+                    amount: 0 #Defaults to 0.
                        
-                        percent: 10 #Defaults to 0.
+                    percent: 10 #Defaults to 0.
                       
-                        channel: US_WEB #Defaults to 'default'.
+                    channel: US_WEB #Defaults to 'default'.
 ```
 
 When you finished defining all your fixtures, run `bin/console sylius:fixtures:load` to load your fixtures.
 
 ## Things to consider
-* This plugin does not take the [tier price plugin](https://packagist.org/packages/brille24/tierprice-plugin) into account. The tier prices will override the pricing model that is implemented here (if you use the default implementation that comes with the plugin)
 * Just like the tier price plugin, this plugin overrides the update cart functionality if you want to implement an event bases solution, you need to comment out the `Brille24\SyliusCustomerOptionsPlugin\Services\OrderPricesRecalculator` in the `services.xml` in the plugin's resource folder.
 * Saving files as customer defined values as the values are currently stored as a string in the database
