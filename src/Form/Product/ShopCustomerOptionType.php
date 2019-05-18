@@ -92,10 +92,6 @@ final class ShopCustomerOptionType extends AbstractType
                     $form->get($key)->setData($value);
                 }
             }
-            foreach ($data as $key => $value) {
-                $form->get($key)->setData($value);
-            }
-        }
         );
     }
 
