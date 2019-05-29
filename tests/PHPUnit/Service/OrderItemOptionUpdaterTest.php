@@ -39,7 +39,7 @@ class OrderItemOptionUpdaterTest extends TestCase
     {
         // OrderItemOptionFactory
         $this->orderItemOptionFactory = $this->createMock(OrderItemOptionFactoryInterface::class);
-        $this->orderItemOptionFactory->method('createNew')->willReturnCallback(
+        $this->orderItemOptionFactory->method('createForOptionAndValue')->willReturnCallback(
             function ($customerOption, $value) {
                 return array_shift($this->factoryObjects);
             }

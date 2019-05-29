@@ -14,9 +14,8 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
+use Webmozart\Assert\Assert;
 
 class OrderItemOption implements OrderItemOptionInterface
 {
@@ -55,31 +54,6 @@ class OrderItemOption implements OrderItemOptionInterface
 
     /** @var float */
     private $percent = 0;
-
-    /**
-     * OrderItemOption constructor.
-     *
-     * @param ChannelInterface        $channel
-     * @param CustomerOptionInterface $customerOption
-     * @param mixed                   $customerOptionValue
-     */
-    public function __construct(
-        ChannelInterface $channel,
-        CustomerOptionInterface $customerOption,
-        $customerOptionValue
-    ) {
-        $this->setCustomerOption($customerOption);
-
-        // Copying the customer option value
-        if (is_scalar($customerOptionValue)) {
-            $this->optionValue = (string) $customerOptionValue;
-        } elseif ($customerOptionValue instanceof CustomerOptionValueInterface) {
-            $this->setCustomerOptionValue($customerOptionValue);
-
-            $price = $customerOptionValue->getPriceForChannel($channel);
-            $this->setPrice($price ?? new CustomerOptionValuePrice());
-        }
-    }
 
     /** {@inheritdoc} */
     public function getId(): ?int
@@ -136,16 +110,30 @@ class OrderItemOption implements OrderItemOptionInterface
     //</editor-fold>
 
     //<editor-fold desc="CustomerOptionValue">
-    public function setCustomerOptionValue(?CustomerOptionValueInterface $value): void
+
+    /**
+     * @param mixed $value
+     */
+    public function setCustomerOptionValue($value): void
     {
-        $this->customerOptionValue = $value;
+        if (is_scalar($value)) {
+            $this->optionValue          = (string) $value;
+            $this->customerOptionValue  = null;
+
+            return;
+        }
+
         if ($value !== null) {
+            Assert::isInstanceOf($value, CustomerOptionValueInterface::class);
+
             $this->customerOptionValueCode = $value->getCode() ?? 'code';
             $this->customerOptionValueName = $value->getName() ?? 'name';
             $this->optionValue             = null;
         } else {
-            $this->optionValue = $value ?? '';
+            $this->optionValue = '';
         }
+
+        $this->customerOptionValue = $value;
     }
 
     /** {@inheritdoc} */
