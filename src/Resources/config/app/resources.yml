@@ -69,7 +69,6 @@ sylius_resource:
             classes:
                 model: Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption
                 interface: Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface
-                factory: Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactory
 
         brille24.customer_option_validator:
             classes:

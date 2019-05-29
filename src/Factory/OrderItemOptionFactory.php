@@ -25,6 +25,11 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, FactoryInterface
 {
     /**
+     * @var FactoryInterface
+     */
+    private $factory;
+
+    /**
      * @var ChannelInterface
      */
     private $channel;
@@ -40,29 +45,36 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
     private $valueResolver;
 
     public function __construct(
+        FactoryInterface $factory,
         ChannelInterface $channel,
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionValueResolverInterface $valueResolver
     ) {
+        $this->factory                  = $factory;
         $this->channel                  = $channel;
         $this->customerOptionRepository = $customerOptionRepository;
         $this->valueResolver            = $valueResolver;
     }
 
-    public function createNew()
+    /** {@inheritdoc} */
+    public function createNew(): object
     {
-        throw new Exception("Please implement this with proper default values!");
-        return $orderItemOption;
+        return $this->factory->createNew();
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @deprecated
-     */
+    /** {@inheritdoc} */
     public function createForOptionAndValue(CustomerOptionInterface $customerOption, $customerOptionValue): OrderItemOptionInterface
     {
-        return new OrderItemOption($this->channel, $customerOption, $customerOptionValue);
+        /** @var OrderItemOptionInterface $orderItemOption */
+        $orderItemOption = $this->createNew();
+
+        $orderItemOption->setCustomerOption($customerOption);
+        $orderItemOption->setCustomerOptionValue($customerOptionValue);
+
+        $price = $customerOptionValue->getPriceForChannel($this->channel);
+        $orderItemOption->setPrice($price);
+
+        return $orderItemOption;
     }
 
     /** {@inheritdoc} */
@@ -79,6 +91,6 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
             $customerOptionValue = $this->valueResolver->resolve($customerOption, $customerOptionValue);
         }
 
-        return $this->createNew($customerOption, $customerOptionValue);
+        return $this->createForOptionAndValue($customerOption, $customerOptionValue);
     }
 }
