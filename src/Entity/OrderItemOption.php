@@ -15,6 +15,7 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Webmozart\Assert\Assert;
 
 class OrderItemOption implements OrderItemOptionInterface
 {
@@ -110,23 +111,29 @@ class OrderItemOption implements OrderItemOptionInterface
 
     //<editor-fold desc="CustomerOptionValue">
 
-    /** {@inheritdoc} */
+    /**
+     * @param mixed $value
+     */
     public function setCustomerOptionValue($value): void
     {
         if (is_scalar($value)) {
-            $this->optionValue = (string) $value;
+            $this->optionValue          = (string) $value;
+            $this->customerOptionValue  = null;
 
             return;
         }
 
-        $this->customerOptionValue = $value;
         if ($value !== null) {
+            Assert::isInstanceOf($value, CustomerOptionValueInterface::class);
+
             $this->customerOptionValueCode = $value->getCode() ?? 'code';
             $this->customerOptionValueName = $value->getName() ?? 'name';
             $this->optionValue             = null;
         } else {
             $this->optionValue = '';
         }
+
+        $this->customerOptionValue = $value;
     }
 
     /** {@inheritdoc} */
