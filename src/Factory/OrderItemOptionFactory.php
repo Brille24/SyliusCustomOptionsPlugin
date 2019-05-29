@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
@@ -71,8 +72,10 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
         $orderItemOption->setCustomerOption($customerOption);
         $orderItemOption->setCustomerOptionValue($customerOptionValue);
 
-        $price = $customerOptionValue->getPriceForChannel($this->channel);
-        $orderItemOption->setPrice($price);
+        if ($customerOptionValue instanceof CustomerOptionValueInterface) {
+            $price = $customerOptionValue->getPriceForChannel($this->channel);
+            $orderItemOption->setPrice($price);
+        }
 
         return $orderItemOption;
     }
