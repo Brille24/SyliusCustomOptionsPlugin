@@ -68,7 +68,7 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
 
             // Make sure we have an OrderItemOption
             if (null === $orderItemOption) {
-                $orderItemOption = $this->orderItemOptionFactory->createNew($customerOption, '');
+                $orderItemOption = $this->orderItemOptionFactory->createForOptionAndValue($customerOption, '');
                 $orderItemOption->setOrderItem($orderItem);
             }
 
@@ -82,7 +82,7 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
                 case CustomerOptionTypeEnum::MULTI_SELECT:
                     // Create an option value for every selected value
                     foreach ($newValue as $value) {
-                        $orderItemOption = $this->orderItemOptionFactory->createNew($customerOption, '');
+                        $orderItemOption = $this->orderItemOptionFactory->createForOptionAndValue($customerOption, '');
                         $orderItemOption->setOrderItem($orderItem);
                         $orderItemOption->setCustomerOptionValue($value);
                         $newConfig[] = $orderItemOption;

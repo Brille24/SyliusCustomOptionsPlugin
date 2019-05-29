@@ -20,8 +20,9 @@ use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInte
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Exception;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Resource\Factory\FactoryInterface;
 
-class OrderItemOptionFactory implements OrderItemOptionFactoryInterface
+class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, FactoryInterface
 {
     /**
      * @var ChannelInterface
@@ -48,8 +49,18 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface
         $this->valueResolver            = $valueResolver;
     }
 
-    /** {@inheritdoc} */
-    public function createNew(CustomerOptionInterface $customerOption, $customerOptionValue): OrderItemOptionInterface
+    public function createNew()
+    {
+        throw new Exception("Please implement this with proper default values!");
+        return $orderItemOption;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @deprecated
+     */
+    public function createForOptionAndValue(CustomerOptionInterface $customerOption, $customerOptionValue): OrderItemOptionInterface
     {
         return new OrderItemOption($this->channel, $customerOption, $customerOptionValue);
     }

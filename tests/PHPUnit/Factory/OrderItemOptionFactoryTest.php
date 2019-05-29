@@ -71,7 +71,7 @@ class OrderItemOptionFactoryTest extends TestCase
         $customerOption = self::createMock(CustomerOptionInterface::class);
         $value          = 'something';
 
-        $orderItemOption = $this->orderItemOptionFactory->createNew($customerOption, $value);
+        $orderItemOption = $this->orderItemOptionFactory->createForOptionAndValue($customerOption, $value);
         $this->assertInstanceOf(OrderItemOptionInterface::class, $orderItemOption);
     }
 

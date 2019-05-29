@@ -23,7 +23,7 @@ interface OrderItemOptionFactoryInterface
      *
      * @return OrderItemOptionInterface
      */
-    public function createNew(CustomerOptionInterface $customerOption, $customerOptionValue): OrderItemOptionInterface;
+    public function createForOptionAndValue(CustomerOptionInterface $customerOption, $customerOptionValue): OrderItemOptionInterface;
 
     /**
      * Creates an OrderItemOption based on the two input strings
