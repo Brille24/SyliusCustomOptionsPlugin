@@ -1,0 +1,87 @@
+# Message for the menu entry
+sylius:
+    menu:
+        admin:
+            main:
+                catalog:
+                    customer_options: Klant opties
+                    customer_option_groups: Klant optie groepen
+                order_item:
+                    edit: Bewerk klant opties voor bestel item
+
+
+# Brille24
+brille24:
+    ui:
+        customer_option: Klant optie
+        customer_options: Klant opties
+        customer_option_groups: Klant optie groepen
+        customer_option_group: Klant optie groep
+        required: Verplicht
+        product_customization: Productaanpassing
+        file_content: Bestand inhoud
+        pricing:
+            fixed_amount: Vast bedrag
+            percent: Percentage
+    form:
+        customer_options:
+            subheader: Beheer uw klant opties
+            type:
+                text: Tekst
+                select: Selecteer
+                multi_select: Selecteer meerdere
+                file: Bestand
+                date: Datum
+                datetime: Datum / Tijd
+                number: Nummer
+                boolean: Boolean
+        customer_option_groups:
+            subheader: Beheer uw klant groep opties
+            select: Selecteer
+            buttons:
+                add_option: Voeg optie toe
+                delete_option: Verwijder optie
+                add_validator: Voeg validatie regel toe
+                delete_validator: Verwijder validatie regel
+        customer_option_value:
+            price: Prijs
+        config:
+            min:
+                length: Minimum lengte
+                file_size: Minimum grootte
+                date: Minimum datum
+                number: Minimum nummer
+            max:
+                length: Maximum lengte
+                file_size: Maximum grootte
+                date: Maximum datum
+                number: Maximum nummer
+            default_value: Standaard waarde
+            allowed_types: Toegestane bestand types
+        validators:
+            condition:
+                greater: ">"
+                greater_equal: ">="
+                equal: "=="
+                lesser_equal: "<="
+                lesser: "<"
+                in_set: Zit in reeks
+                not_in_set: Zit niet in reeks
+            fields:
+                customer_option: Klant optie
+                comparator: Vergelijker
+                value:
+                    default: Waarde
+                    text: Tekst lengte
+                    set: Reeks
+                message: Bericht
+            error_message: Foutmelding
+            buttons:
+                add_condition: Voeg voorwaarde toe
+                delete_condition: Verwijder voorwaarde
+                add_constraint: Voeg beperking toe
+                delete_constraint: Verwijder beperking
+
+    grid:
+        options_remaining: "{0} |]0,Inf]en %count% meer"
+        options_empty: Niks te tonen
