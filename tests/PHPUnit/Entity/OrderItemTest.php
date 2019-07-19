@@ -9,10 +9,11 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Exception;
 use PHPUnit\Framework\TestCase;
+use Sylius\Component\Core\Model\OrderItemInterface as SyliusOrderItemInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
-use Sylius\Component\Order\Processor\OrderProcessorInterface;
 
 class OrderItemTest extends TestCase
 {
@@ -118,5 +119,39 @@ class OrderItemTest extends TestCase
 
         // 10*0.32 rounded to the next bigger int
         self::assertEquals(113, $this->orderItem->getSubtotal());
+    }
+
+    /** @dataProvider dataItChecksIfTwoItemsAreEqual */
+    public function testItChecksIfTwoItemsAreEqual(
+        SyliusOrderItemInterface $item1,
+        SyliusOrderItemInterface $item2,
+        bool $equals
+    ): void {
+        $this->assertEquals($equals, $item1->equals($item2));
+    }
+
+    public function dataItChecksIfTwoItemsAreEqual(): array
+    {
+        $item1 = $this->createMock(SyliusOrderItemInterface::class);
+        $item1->method('equals')->willReturnCallback(function ($otherItem) use ($item1) {
+            return $otherItem === $item1;
+        });
+
+        $item2 = $this->createMock(SyliusOrderItemInterface::class);
+
+        $productWithCustomerOptions = $this->createMock(ProductInterface::class);
+        $productWithCustomerOptions->method('hasCustomerOptions')->willReturn(true);
+
+        $orderItemWithCustomOption = $this->createMock(OrderItemInterface::class);
+        $orderItemWithCustomOption->method('getProduct')->willReturn($productWithCustomerOptions);
+
+        $orderItemWithCustomOption2 = $this->createMock(OrderItemInterface::class);
+        $orderItemWithCustomOption2->method('getProduct')->willReturn($productWithCustomerOptions);
+
+        return [
+            'two identical items' => [$item1, $item1, true],
+            'one item with custom options' => [$orderItemWithCustomOption, $item2, false],
+            'two items with custom options' => [$orderItemWithCustomOption, $orderItemWithCustomOption2, false],
+        ];
     }
 }
