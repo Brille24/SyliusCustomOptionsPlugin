@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Traits;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
@@ -94,10 +93,9 @@ trait OrderItemCustomerOptionCapableTrait
      */
     public function equals(SyliusOrderItemInterface $item): bool
     {
-        $parentEquals = parent::equals($item);
-
-        if (!$parentEquals && !$item instanceof OrderItemInterface) {
-            return $parentEquals;
+        // If the product doesn't match for the Sylius implementation then it's not the same.
+        if (!parent::equals($item)) {
+            return false;
         }
 
         if ($item instanceof self) {
