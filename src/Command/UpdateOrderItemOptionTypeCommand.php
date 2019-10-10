@@ -32,7 +32,7 @@ final class UpdateOrderItemOptionTypeCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('b24:customer-options:update-order-item-options:type')
+            ->setName('b24:customer-options:update-order-item-options-type')
             ->setDescription('Updates the CustomerOption type on all OrderItemOptions if possible.')
         ;
     }
