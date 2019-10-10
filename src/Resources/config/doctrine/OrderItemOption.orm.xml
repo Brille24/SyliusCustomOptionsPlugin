@@ -9,6 +9,7 @@
 
         <field name="customerOptionCode"/>
         <field name="customerOptionName"/>
+        <field name="customerOptionType"/>
 
         <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface"
                      field="customerOption" optional="true"
