@@ -29,6 +29,9 @@ class OrderItemOption implements OrderItemOptionInterface
     private $customerOption;
 
     /** @var string */
+    private $customerOptionType;
+
+    /** @var string */
     private $customerOptionCode;
 
     /** @var string */
@@ -82,6 +85,7 @@ class OrderItemOption implements OrderItemOptionInterface
         if ($customerOption !== null) {
             $this->customerOptionCode = $customerOption->getCode() ?? 'code';
             $this->customerOptionName = $customerOption->getName() ?? 'name';
+            $this->customerOptionType = $customerOption->getType() ?? 'type';
         }
     }
 
@@ -92,9 +96,27 @@ class OrderItemOption implements OrderItemOptionInterface
     }
 
     /** {@inheritdoc} */
+    public function getCustomerOptionType(): string
+    {
+        return $this->customerOptionType;
+    }
+
+    /** {@inheritdoc} */
+    public function setCustomerOptionType(string $type): void
+    {
+        $this->customerOptionType = $type;
+    }
+
+    /** {@inheritdoc} */
     public function getCustomerOptionCode(): string
     {
         return $this->customerOptionCode;
+    }
+
+    /** {@inheritdoc} */
+    public function setCustomerOptionCode(string $code): void
+    {
+        $this->customerOptionCode = $code;
     }
 
     /** {@inheritdoc} */
@@ -105,6 +127,12 @@ class OrderItemOption implements OrderItemOptionInterface
         }
 
         return $this->customerOptionName;
+    }
+
+    /** {@inheritdoc} */
+    public function setCustomerOptionName(string $name): void
+    {
+        $this->customerOptionName = $name;
     }
 
     //</editor-fold>
@@ -143,9 +171,21 @@ class OrderItemOption implements OrderItemOptionInterface
     }
 
     /** {@inheritdoc} */
+    public function setCustomerOptionValueCode(?string $code): void
+    {
+        $this->customerOptionValueCode = $code;
+    }
+
+    /** {@inheritdoc} */
     public function getCustomerOptionValueCode(): ?string
     {
         return $this->customerOptionValueCode;
+    }
+
+    /** {@inheritdoc} */
+    public function setCustomerOptionValueName(?string $name): void
+    {
+        $this->customerOptionValueName = $name;
     }
 
     /** {@inheritdoc} */
@@ -180,6 +220,7 @@ class OrderItemOption implements OrderItemOptionInterface
         $this->pricingType = $price->getType();
     }
 
+    /** {@inheritdoc} */
     public function setFixedPrice(int $price): void
     {
         $this->fixedPrice = $price;
@@ -201,6 +242,12 @@ class OrderItemOption implements OrderItemOptionInterface
     public function getPercent(): float
     {
         return $this->percent;
+    }
+
+    /** {@inheritdoc} */
+    public function setPricingType(string $type): void
+    {
+        $this->pricingType = $type;
     }
 
     /** {@inheritdoc} */

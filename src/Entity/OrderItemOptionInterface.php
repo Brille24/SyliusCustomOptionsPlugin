@@ -47,12 +47,32 @@ interface OrderItemOptionInterface extends ResourceInterface
     /**
      * @return string
      */
-    public function getCustomerOptionCode(): ?string;
+    public function getCustomerOptionType(): string;
+
+    /**
+     * @param string $type
+     */
+    public function setCustomerOptionType(string $type): void;
+
+    /**
+     * @return string
+     */
+    public function getCustomerOptionCode(): string;
+
+    /**
+     * @param string $code
+     */
+    public function setCustomerOptionCode(string $code): void;
 
     /**
      * @return string
      */
     public function getCustomerOptionName(): string;
+
+    /**
+     * @param string $name
+     */
+    public function setCustomerOptionName(string $name): void;
 
     /**
      * @param string|null $value
@@ -80,9 +100,19 @@ interface OrderItemOptionInterface extends ResourceInterface
     public function getCustomerOptionValueCode(): ?string;
 
     /**
+     * @param string|null $code
+     */
+    public function setCustomerOptionValueCode(?string $code): void;
+
+    /**
      * @return string
      */
     public function getCustomerOptionValueName(): string;
+
+    /**
+     * @param string|null $name
+     */
+    public function setCustomerOptionValueName(?string $name): void;
 
     /**
      * @param CustomerOptionValuePriceInterface $price
@@ -110,6 +140,11 @@ interface OrderItemOptionInterface extends ResourceInterface
     public function getPercent(): float;
 
     /**
+     * @param string $type
+     */
+    public function setPricingType(string $type): void;
+
+    /**
      * @return string
      */
     public function getPricingType(): string;
@@ -119,5 +154,10 @@ interface OrderItemOptionInterface extends ResourceInterface
      */
     public function getScalarValue();
 
+    /**
+     * @param OrderItemOptionInterface $orderItemOption
+     *
+     * @return bool
+     */
     public function equals(self $orderItemOption): bool;
 }

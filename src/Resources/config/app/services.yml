@@ -1,4 +1,5 @@
 imports:
+  - { resource: "services/command.xml" }
   - { resource: "services/controller.xml" }
   - { resource: "services/eventListener.xml" }
   - { resource: "services/repositories.xml" }

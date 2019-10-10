@@ -1,0 +1,11 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Command\UpdateOrderItemOptionTypeCommand"
+                 id="brille24.sylius_customer_options_plugin.command.update_order_item_options_command"
+        >
+            <tag name="console.command" />
+            <argument type="service" id="brille24.repository.order_item_option" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+    </services>
+</container>
