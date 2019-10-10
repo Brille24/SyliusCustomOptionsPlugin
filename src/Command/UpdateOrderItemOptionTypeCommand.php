@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Command;
 
-
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -29,7 +28,7 @@ final class UpdateOrderItemOptionTypeCommand extends Command
     }
 
     /** {@inheritdoc} */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('b24:customer-options:update-order-item-options-type')
@@ -38,7 +37,7 @@ final class UpdateOrderItemOptionTypeCommand extends Command
     }
 
     /** {@inheritdoc} */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $i = 0;
 
