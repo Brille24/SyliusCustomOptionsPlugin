@@ -77,6 +77,11 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
 }
 ```
 
+* If you also want default data you need to copy over the `brille24_sylius_customer_options_plugin_fixtures.yaml` file from the package directory and run
+```bash
+bin/console sylius:fixtures:load
+```
+
 * Finally update the database and update the translations:
 ```bash
 bin/console doctrine:schema:update --force

@@ -74,5 +74,7 @@ script:
     - vendor/bin/behat --tags="~@javascript" --strict -vvv --no-interaction || vendor/bin/behat --tags="~@javascript" --strict -vvv --no-interaction --rerun
     - vendor/bin/behat --tags="@javascript" --strict -vvv --no-interaction || vendor/bin/behat --tags="@javascript" --strict -vvv --no-interaction --rerun
 
+    -  (cd tests/Application && bin/console sylius:fixtures:load --no-interaction)
+
 after_failure:
     - vendor/lakion/mink-debug-extension/travis/tools/upload-textfiles "${SYLIUS_BUILD_DIR}/*.log"
