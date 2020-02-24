@@ -43,11 +43,11 @@ class ConstraintCreatorTest extends TestCase
         return [
             'integer' => [
                 CustomerOptionTypeEnum::NUMBER,
-                'Either option "min" or "max" must be given for constraint Symfony\Component\Validator\Constraints\Range',
+                'Either option "min", "minPropertyPath", "max" or "maxPropertyPath" must be given for constraint '. Range::class,
             ],
             'string' => [
                 CustomerOptionTypeEnum::TEXT,
-                'Either option "min" or "max" must be given for constraint Symfony\Component\Validator\Constraints\Length',
+                'Either option "min" or "max" must be given for constraint '.Length::class,
             ],
         ];
     }
