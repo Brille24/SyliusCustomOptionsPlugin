@@ -10,7 +10,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface as Brille24OrderItem;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Services\OrderPricesRecalculator;
+use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionRecalculator;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -19,7 +19,7 @@ use Sylius\Component\Core\Model\OrderItem;
 
 class OrderPricesRecalculatorTest extends TestCase
 {
-    /** @var OrderPricesRecalculator */
+    /** @var CustomerOptionRecalculator */
     private $priceRecalculator;
 
     /** @var int */
@@ -35,7 +35,7 @@ class OrderPricesRecalculatorTest extends TestCase
     public function setUp()
     {
         $channel                 = self::createMock(ChannelInterface::class);
-        $this->priceRecalculator = new OrderPricesRecalculator($channel);
+        $this->priceRecalculator = new CustomerOptionRecalculator($channel);
     }
 
     private function createOrder(array $orderItems): OrderInterface

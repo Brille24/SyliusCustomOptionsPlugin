@@ -9,8 +9,9 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
+use Webmozart\Assert\Assert;
 
-final class OrderPricesRecalculator implements OrderProcessorInterface
+final class CustomerOptionRecalculator implements OrderProcessorInterface
 {
     /** @var ChannelInterface */
     private $currentChannel;
@@ -46,7 +47,10 @@ final class OrderPricesRecalculator implements OrderProcessorInterface
             }
 
             $configuration->setCustomerOptionValue($customerOptionValue);
+
             $price = $customerOptionValue->getPriceForChannel($this->currentChannel);
+            Assert::notNull($price);
+
             $configuration->setPrice($price);
         }
     }

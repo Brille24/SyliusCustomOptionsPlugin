@@ -9,6 +9,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Webmozart\Assert\Assert;
 
 final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
 {
@@ -21,6 +22,7 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
      * @var EntityManagerInterface
      */
     private $entityManager;
+
     /** @var CustomerOptionRepositoryInterface */
     private $customerOptionRepository;
 
@@ -43,6 +45,7 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
         foreach ($data as $customerOptionCode => $newValue) {
             $orderItemOption = $orderItemOptions[$customerOptionCode] ?? null;
             $customerOption  = $this->customerOptionRepository->findOneByCode($customerOptionCode);
+            Assert::notNull($customerOption);
 
             if (CustomerOptionTypeEnum::FILE === $customerOption->getType()) {
                 // @TODO: Find a way to handle file options

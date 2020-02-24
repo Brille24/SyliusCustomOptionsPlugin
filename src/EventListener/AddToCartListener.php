@@ -21,6 +21,7 @@ use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Webmozart\Assert\Assert;
 
 final class AddToCartListener
 {
@@ -126,6 +127,7 @@ final class AddToCartListener
         // We transform the date fields into a single date string
         foreach ($addToCart['customer_options'] as $code => $value) {
             $customerOption = $this->customerOptionRepository->findOneByCode($code);
+            Assert::notNull($customerOption);
 
             switch ($customerOption->getType()) {
                 case CustomerOptionTypeEnum::DATE:
