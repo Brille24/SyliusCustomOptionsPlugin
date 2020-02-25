@@ -18,7 +18,7 @@
             <argument type="service" id="brille24.repository.customer_option" />
         </service>
 
-        <service class="Tests\Brille24\SyliusCustomerOptionsPlugin\Service\CustomerOptionValueClearerTest"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueRefresher"
                  id="brille24.sylius_customer_options_plugin.services.customer_option_value_refresher">
             <argument type="expression">service('sylius.context.channel').getChannel()</argument>
 

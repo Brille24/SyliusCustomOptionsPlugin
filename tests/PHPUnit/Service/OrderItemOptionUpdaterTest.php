@@ -102,7 +102,7 @@ class OrderItemOptionUpdaterTest extends TestCase
     {
         ### PREPARE
         $customerOptionCode = 'some_custom_option';
-        $customerOption = $this->createMock(CustomerOptionInterface::class);
+        $customerOption     = $this->createMock(CustomerOptionInterface::class);
         $customerOption->method('getType')->willReturn(CustomerOptionTypeEnum::SELECT);
         $this->customerOptionRepository->method('findOneByCode')->with($customerOptionCode)->willReturn($customerOption);
         $product = $this->setupProduct();

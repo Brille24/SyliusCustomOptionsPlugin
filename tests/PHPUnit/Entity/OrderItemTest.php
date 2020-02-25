@@ -84,8 +84,8 @@ class OrderItemTest extends TestCase
         $orderItemWithCustomOption2->method('getProduct')->willReturn($productWithCustomerOptions);
 
         return [
-            'two identical items' => [$item1, $item1, true],
-            'one item with custom options' => [$orderItemWithCustomOption, $item2, false],
+            'two identical items'           => [$item1, $item1, true],
+            'one item with custom options'  => [$orderItemWithCustomOption, $item2, false],
             'two items with custom options' => [$orderItemWithCustomOption, $orderItemWithCustomOption2, false],
         ];
     }

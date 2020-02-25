@@ -10,7 +10,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface as Brille24OrderItem;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionRecalculator;
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueRefresher;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +17,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItem;
 
-class CustomerOptionValueClearerTest extends TestCase
+class CustomerOptionValueRefresherTest extends TestCase
 {
     /** @var CustomerOptionValueRefresher */
     private $customerOptionValueRefresher;
@@ -35,7 +34,7 @@ class CustomerOptionValueClearerTest extends TestCase
     //<editor-fold desc="Helper function for setup">
     public function setUp()
     {
-        $channel                 = self::createMock(ChannelInterface::class);
+        $channel                            = self::createMock(ChannelInterface::class);
         $this->customerOptionValueRefresher = new CustomerOptionValueRefresher($channel);
     }
 
@@ -150,6 +149,7 @@ class CustomerOptionValueClearerTest extends TestCase
         self::assertEquals('something', $this->nameUpdate);
         self::assertEquals(10, $this->priceUpdate);
     }
+
     public function testUpdate(): void
     {
         $orderItemOption = $this->createOrderItemOption(
