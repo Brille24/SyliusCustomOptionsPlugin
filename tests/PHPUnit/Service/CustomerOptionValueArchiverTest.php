@@ -11,15 +11,16 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface as Brille24OrderItem;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionRecalculator;
+use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueArchiver;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItem;
 
-class OrderPricesRecalculatorTest extends TestCase
+class CustomerOptionValueArchiverTest extends TestCase
 {
-    /** @var CustomerOptionRecalculator */
+    /** @var CustomerOptionValueArchiver */
     private $priceRecalculator;
 
     /** @var int */
@@ -35,7 +36,7 @@ class OrderPricesRecalculatorTest extends TestCase
     public function setUp()
     {
         $channel                 = self::createMock(ChannelInterface::class);
-        $this->priceRecalculator = new CustomerOptionRecalculator($channel);
+        $this->priceRecalculator = new CustomerOptionValueArchiver($channel);
     }
 
     private function createOrder(array $orderItems): OrderInterface
@@ -120,7 +121,7 @@ class OrderPricesRecalculatorTest extends TestCase
     {
         $order = $this->createOrder($elements);
 
-        $this->priceRecalculator->process($order);
+        $this->priceRecalculator->copyOverValues($order);
 
         self::assertEquals(0, $this->updateCount);
     }
@@ -133,6 +134,22 @@ class OrderPricesRecalculatorTest extends TestCase
         ];
     }
 
+    public function testUpdateForSingleItem(): void
+    {
+        $orderItemOption = $this->createOrderItemOption(
+            new CustomerOption(),
+            $this->createCustomerOptionValue(['code' => 'hello', 'name' => 'something', 'price' => 10]),
+            true
+        );
+
+        $this->priceRecalculator->copyOverValuesForOrderItem(
+            $this->createOrderItem($orderItemOption)
+        );
+
+        self::assertEquals(2, $this->updateCount);
+        self::assertEquals('something', $this->nameUpdate);
+        self::assertEquals(10, $this->priceUpdate);
+    }
     public function testUpdate(): void
     {
         $orderItemOption = $this->createOrderItemOption(
@@ -142,7 +159,7 @@ class OrderPricesRecalculatorTest extends TestCase
         );
 
         $order = $this->createOrder([$this->createOrderItem($orderItemOption)]);
-        $this->priceRecalculator->process($order);
+        $this->priceRecalculator->copyOverValues($order);
 
         self::assertEquals(2, $this->updateCount);
         self::assertEquals('something', $this->nameUpdate);
@@ -158,7 +175,7 @@ class OrderPricesRecalculatorTest extends TestCase
         );
 
         $order = $this->createOrder([$this->createOrderItem($orderItemOption)]);
-        $this->priceRecalculator->process($order);
+        $this->priceRecalculator->copyOverValues($order);
 
         self::assertEquals(0, $this->updateCount);
         self::assertEquals('no-update', $this->nameUpdate);

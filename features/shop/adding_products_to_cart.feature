@@ -44,7 +44,7 @@ Feature: Adding products with customer options to cart
         And I enter value "42" for customer option "Number Option"
         And I add it to the cart
         Then I should be notified that the product has been successfully added
-        And I should see "Cool Product" with unit price "$15.00" in my cart
+        And I should see "Cool Product" with unit price "$10.00" in my cart
         And my cart's total should be "$15.00"
 
     Scenario: Trying to add a product with unfilled required customer options to the cart
