@@ -6,8 +6,7 @@
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionRecalculator"
                  id="brille24.customer_options_plugin.services.order_prices_recalculator">
-            <!-- Pass the current channel -->
-            <argument type="expression">service('sylius.context.channel').getChannel()</argument>
+            <argument type="service" id="sylius.custom_factory.adjustment" />
 
             <tag name="sylius.order_processor" priority="40" />
         </service>

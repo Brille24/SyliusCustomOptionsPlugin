@@ -6,24 +6,23 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Order\Factory\AdjustmentFactoryInterface;
+use Sylius\Component\Order\Model\AdjustmentInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
-use Webmozart\Assert\Assert;
 
 final class CustomerOptionRecalculator implements OrderProcessorInterface
 {
-    /** @var ChannelInterface */
-    private $currentChannel;
+    public const CUSTOMER_OPTION_ADJUSTMENT = 'CUSTOMER_OPTION_ADJUSTMENT';
 
-    public function __construct(ChannelInterface $currentChannel)
+    /** @var AdjustmentFactoryInterface */
+    private $adjustmentFactory;
+
+    public function __construct(AdjustmentFactoryInterface $adjustmentFactory)
     {
-        $this->currentChannel = $currentChannel;
+        $this->adjustmentFactory = $adjustmentFactory;
     }
 
-    /**
-     * @param OrderInterface $order
-     */
     public function process(OrderInterface $order): void
     {
         foreach ($order->getItems() as $orderItem) {
@@ -31,27 +30,33 @@ final class CustomerOptionRecalculator implements OrderProcessorInterface
                 continue;
             }
 
-            $this->updateOrderItemConfiguration($orderItem->getCustomerOptionConfiguration());
+            $this->addOrderItemAdjustment($orderItem, $orderItem->getCustomerOptionConfiguration());
         }
     }
 
-    /**
-     * @param OrderItemOptionInterface[] $orderItemConfiguration
-     */
-    private function updateOrderItemConfiguration(array $orderItemConfiguration): void
+    private function addOrderItemAdjustment(OrderItemInterface $orderItem, array $configuration): void
     {
-        foreach ($orderItemConfiguration as $configuration) {
-            $customerOptionValue = $configuration->getCustomerOptionValue();
-            if ($customerOptionValue === null) {
-                continue;
+        foreach ($configuration as $value) {
+            /** @var OrderItemOptionInterface $value */
+            if ($value->getCustomerOptionValue() === null) {
+                continue; // Skip all values where the value is not an object (value objects can be priced)
             }
 
-            $configuration->setCustomerOptionValue($customerOptionValue);
+            $adjustment = $this->adjustmentFactory->createWithData(
+                self::CUSTOMER_OPTION_ADJUSTMENT,
+                $value->getCustomerOptionName(),
+                $value->getCalculatedPrice($orderItem->getUnitPrice())
+            );
+            $this->assignAdjustmentToOrderItemUnit($adjustment, $orderItem);
+        }
+    }
 
-            $price = $customerOptionValue->getPriceForChannel($this->currentChannel);
-            Assert::notNull($price);
-
-            $configuration->setPrice($price);
+    private function assignAdjustmentToOrderItemUnit(
+        AdjustmentInterface $adjustment,
+        OrderItemInterface $orderItem
+    ): void {
+        foreach ($orderItem->getUnits() as $unit) {
+            $unit->addAdjustment($adjustment);
         }
     }
 }

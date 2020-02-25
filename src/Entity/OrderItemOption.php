@@ -14,6 +14,7 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Webmozart\Assert\Assert;
 
@@ -264,6 +265,15 @@ class OrderItemOption implements OrderItemOptionInterface
         }
 
         return $this->customerOptionValueCode;
+    }
+
+    public function getCalculatedPrice(int $basePrice): int
+    {
+        if ($this->getPricingType() === CustomerOptionValuePrice::TYPE_PERCENT) {
+            return (int) round($basePrice * $this->getPercent());
+        }
+
+        return $this->getFixedPrice();
     }
 
     /** {@inheritdoc} */

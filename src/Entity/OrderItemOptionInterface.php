@@ -155,6 +155,13 @@ interface OrderItemOptionInterface extends ResourceInterface
     public function getScalarValue();
 
     /**
+     * @param int $basePrice
+     *
+     * @return int
+     */
+    public function getCalculatedPrice(int $basePrice): int;
+
+    /**
      * @param OrderItemOptionInterface $orderItemOption
      *
      * @return bool
