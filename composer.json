@@ -51,5 +51,14 @@
     },
     "autoload-dev": {
         "classmap": ["tests/Application/Kernel.php"]
+    },
+    "scripts": {
+        "analyse": [
+            "vendor/bin/ecs check --ansi --no-progress-bar src/ --config etc/coding-standard.yml",
+            "vendor/bin/phpstan analyse -c phpstan.neon --no-progress -l max src/"
+        ],
+        "fix": [
+            "vendor/bin/ecs check --ansi --no-progress-bar src/ --config etc/coding-standard.yml --fix"
+        ]
     }
 }
