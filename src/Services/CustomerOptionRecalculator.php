@@ -7,7 +7,6 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Sylius\Component\Order\Factory\AdjustmentFactoryInterface;
-use Sylius\Component\Order\Model\AdjustmentInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 
@@ -30,33 +29,30 @@ final class CustomerOptionRecalculator implements OrderProcessorInterface
                 continue;
             }
 
-            $this->addOrderItemAdjustment($orderItem, $orderItem->getCustomerOptionConfiguration());
+            $this->addOrderItemAdjustment($orderItem);
         }
     }
 
-    private function addOrderItemAdjustment(OrderItemInterface $orderItem, array $configuration): void
+    private function addOrderItemAdjustment(OrderItemInterface $orderItem): void
     {
-        foreach ($configuration as $value) {
-            /** @var OrderItemOptionInterface $value */
-            if ($value->getCustomerOptionValue() === null) {
-                continue; // Skip all values where the value is not an object (value objects can be priced)
+        /** @var OrderItemOptionInterface[] $configuration */
+        $configuration = $orderItem->getCustomerOptionConfiguration();
+        foreach ($configuration as $orderItemOption) {
+            // Skip all customer options that don't have customer option values as they can not have a price like
+            // text options
+            if ($orderItemOption->getCustomerOptionValue() === null) {
+                continue;
             }
 
             $adjustment = $this->adjustmentFactory->createWithData(
                 self::CUSTOMER_OPTION_ADJUSTMENT,
-                $value->getCustomerOptionName(),
-                $value->getCalculatedPrice($orderItem->getUnitPrice())
+                $orderItemOption->getCustomerOptionName(),
+                $orderItemOption->getCalculatedPrice($orderItem->getUnitPrice())
             );
-            $this->assignAdjustmentToOrderItemUnit($adjustment, $orderItem);
-        }
-    }
 
-    private function assignAdjustmentToOrderItemUnit(
-        AdjustmentInterface $adjustment,
-        OrderItemInterface $orderItem
-    ): void {
-        foreach ($orderItem->getUnits() as $unit) {
-            $unit->addAdjustment($adjustment);
+            foreach ($orderItem->getUnits() as $unit) {
+                $unit->addAdjustment($adjustment);
+            }
         }
     }
 }
