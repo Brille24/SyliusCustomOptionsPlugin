@@ -1,0 +1,8 @@
+winzou_state_machine:
+  sylius_order_checkout:
+    callbacks:
+      after:
+        brille24_activate_pd_task:
+          on: ["complete"]
+          do: ["@brille24.sylius_customer_options_plugin.services.customer_option_value_archiver", "copyOverValues"]
+          args: ["object"]
