@@ -250,5 +250,7 @@ You can also assign a group and override value prices in the product fixture.
 When you finished defining all your fixtures, run `bin/console sylius:fixtures:load` to load your fixtures.
 
 ## Things to consider
-* Just like the tier price plugin, this plugin overrides the update cart functionality if you want to implement an event bases solution, you need to comment out the `Brille24\SyliusCustomerOptionsPlugin\Services\OrderPricesRecalculator` in the `services.xml` in the plugin's resource folder.
 * Saving files as customer defined values as the values are currently stored as a string in the database
+
+## Developing
+When developing it is recommended to use git hooks for this just copy the `docs/pre-commit` to `.git/hooks/pre-commit` and make it executable. Then you will check your codestyle before committing.
