@@ -11,17 +11,17 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface as Brille24OrderItem;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionRecalculator;
-use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueArchiver;
+use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueRefresher;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItem;
 
-class CustomerOptionValueArchiverTest extends TestCase
+class CustomerOptionValueClearerTest extends TestCase
 {
-    /** @var CustomerOptionValueArchiver */
-    private $priceRecalculator;
+    /** @var CustomerOptionValueRefresher */
+    private $customerOptionValueRefresher;
 
     /** @var int */
     private $updateCount = 0;
@@ -36,7 +36,7 @@ class CustomerOptionValueArchiverTest extends TestCase
     public function setUp()
     {
         $channel                 = self::createMock(ChannelInterface::class);
-        $this->priceRecalculator = new CustomerOptionValueArchiver($channel);
+        $this->customerOptionValueRefresher = new CustomerOptionValueRefresher($channel);
     }
 
     private function createOrder(array $orderItems): OrderInterface
@@ -121,7 +121,7 @@ class CustomerOptionValueArchiverTest extends TestCase
     {
         $order = $this->createOrder($elements);
 
-        $this->priceRecalculator->copyOverValues($order);
+        $this->customerOptionValueRefresher->process($order);
 
         self::assertEquals(0, $this->updateCount);
     }
@@ -142,7 +142,7 @@ class CustomerOptionValueArchiverTest extends TestCase
             true
         );
 
-        $this->priceRecalculator->copyOverValuesForOrderItem(
+        $this->customerOptionValueRefresher->copyOverValuesForOrderItem(
             $this->createOrderItem($orderItemOption)
         );
 
@@ -159,7 +159,7 @@ class CustomerOptionValueArchiverTest extends TestCase
         );
 
         $order = $this->createOrder([$this->createOrderItem($orderItemOption)]);
-        $this->priceRecalculator->copyOverValues($order);
+        $this->customerOptionValueRefresher->process($order);
 
         self::assertEquals(2, $this->updateCount);
         self::assertEquals('something', $this->nameUpdate);
@@ -175,7 +175,7 @@ class CustomerOptionValueArchiverTest extends TestCase
         );
 
         $order = $this->createOrder([$this->createOrderItem($orderItemOption)]);
-        $this->priceRecalculator->copyOverValues($order);
+        $this->customerOptionValueRefresher->process($order);
 
         self::assertEquals(0, $this->updateCount);
         self::assertEquals('no-update', $this->nameUpdate);

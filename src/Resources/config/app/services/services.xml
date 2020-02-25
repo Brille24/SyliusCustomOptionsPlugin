@@ -18,9 +18,11 @@
             <argument type="service" id="brille24.repository.customer_option" />
         </service>
 
-        <service class="Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueArchiver"
-                 id="brille24.sylius_customer_options_plugin.services.customer_option_value_archiver">
+        <service class="Tests\Brille24\SyliusCustomerOptionsPlugin\Service\CustomerOptionValueClearerTest"
+                 id="brille24.sylius_customer_options_plugin.services.customer_option_value_refresher">
             <argument type="expression">service('sylius.context.channel').getChannel()</argument>
+
+            <tag name="sylius.order_processor" priority="100" />
         </service>
 
     </services>
