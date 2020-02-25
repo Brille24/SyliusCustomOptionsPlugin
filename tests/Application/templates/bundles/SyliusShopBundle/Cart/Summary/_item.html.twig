@@ -2,6 +2,8 @@
 
 {% set product = item.product %}
 {% set product_variant = item.variant %}
+{% set customerOptionAdjustment = constant('Brille24\\SyliusCustomerOptionsPlugin\\Services\\CustomerOptionRecalculator::CUSTOMER_OPTION_ADJUSTMENT') %}
+
 <tr>
     <td class="single line">
         {% include '@SyliusShop/Product/_info.html.twig' with {
@@ -23,5 +25,7 @@
     </td>
     <td class="right aligned">
         <span class="sylius-total">{{ money.convertAndFormat(item.subtotal) }}</span>
+        <br />
+        <span class="tax-disabled">+ {{ money.convertAndFormat(item.getAdjustmentsTotalRecursively(customerOptionAdjustment)) }}</span>
     </td>
 </tr>

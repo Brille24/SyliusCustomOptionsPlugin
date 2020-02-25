@@ -103,6 +103,8 @@ final class Kernel extends BaseKernel
 
     /**
      * Remove all container references from all loaded services
+     *
+     * @param ContainerInterface $container
      */
     private function cleanupContainer(ContainerInterface $container): void
     {
