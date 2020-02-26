@@ -9,6 +9,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Webmozart\Assert\Assert;
 
 final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
@@ -26,14 +27,24 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
     /** @var CustomerOptionRepositoryInterface */
     private $customerOptionRepository;
 
+    /** @var OrderProcessorInterface */
+    private $customerOptionRefresher;
+
+    /** @var OrderProcessorInterface */
+    private $customerOptionRecalculator;
+
     public function __construct(
         OrderItemOptionFactoryInterface $orderItemOptionFactory,
         EntityManagerInterface $entityManager,
-        CustomerOptionRepositoryInterface $customerOptionRepository
+        CustomerOptionRepositoryInterface $customerOptionRepository,
+        OrderProcessorInterface $customerOptionRefresher,
+        OrderProcessorInterface $customerOptionRecalculator
     ) {
-        $this->orderItemOptionFactory   = $orderItemOptionFactory;
-        $this->entityManager            = $entityManager;
-        $this->customerOptionRepository = $customerOptionRepository;
+        $this->orderItemOptionFactory     = $orderItemOptionFactory;
+        $this->entityManager              = $entityManager;
+        $this->customerOptionRepository   = $customerOptionRepository;
+        $this->customerOptionRefresher    = $customerOptionRefresher;
+        $this->customerOptionRecalculator = $customerOptionRecalculator;
     }
 
     /** {@inheritdoc} */
@@ -110,6 +121,9 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
         }
 
         $orderItem->setCustomerOptionConfiguration($newConfig);
+
+        $this->customerOptionRefresher->process($orderItem->getOrder());
+        $this->customerOptionRecalculator->process($orderItem->getOrder());
 
         $this->entityManager->flush();
     }

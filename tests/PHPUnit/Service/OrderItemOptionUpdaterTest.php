@@ -17,6 +17,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Services\OrderItemOptionUpdaterInterfac
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Sylius\Component\Order\Processor\OrderProcessorInterface;
 
 class OrderItemOptionUpdaterTest extends TestCase
 {
@@ -53,7 +54,9 @@ class OrderItemOptionUpdaterTest extends TestCase
         $this->orderItemUpdater = new OrderItemOptionUpdater(
             $this->orderItemOptionFactory,
             $this->entityManager,
-            $this->customerOptionRepository
+            $this->customerOptionRepository,
+            $this->createMock(OrderProcessorInterface::class),
+            $this->createMock(OrderProcessorInterface::class)
         );
     }
 

@@ -24,6 +24,8 @@ final class CustomerOptionRecalculator implements OrderProcessorInterface
 
     public function process(OrderInterface $order): void
     {
+        $order->removeAdjustmentsRecursively(self::CUSTOMER_OPTION_ADJUSTMENT);
+
         foreach ($order->getItems() as $orderItem) {
             if (!$orderItem instanceof OrderItemInterface) {
                 continue;
