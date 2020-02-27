@@ -28,7 +28,7 @@
         + {{ money.format(item.getAdjustmentsTotalRecursively(customerOptionAdjustment), order.currencyCode) }}
     </td>
     <td class="right aligned unit-order-discount">
-        <span style="font-style: italic;">{{ money.format(item.units.first.adjustmentsTotal(orderPromotionAdjustment), order.currencyCode) }}</span>
+        <span style="font-style: italic;">~ {{ money.format(item.units.first.adjustmentsTotal(orderPromotionAdjustment), order.currencyCode) }}</span>
     </td>
     <td class="right aligned discounted-unit-price">
         {{ money.format(item.discountedUnitPrice, order.currencyCode) }}
