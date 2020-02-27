@@ -20,7 +20,11 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
         $this->currentChannel = $currentChannel;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     *
+     * For more info have a look at this graphic `docs/OrderProcessor_Usage.png`
+     */
     public function process(OrderInterface $order): void
     {
         foreach ($order->getItems() as $orderItem) {
