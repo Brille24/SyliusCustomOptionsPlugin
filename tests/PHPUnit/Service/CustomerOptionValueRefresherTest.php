@@ -10,17 +10,17 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface as Brille24OrderItem;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Services\OrderPricesRecalculator;
+use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueRefresher;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItem;
 
-class OrderPricesRecalculatorTest extends TestCase
+class CustomerOptionValueRefresherTest extends TestCase
 {
-    /** @var OrderPricesRecalculator */
-    private $priceRecalculator;
+    /** @var CustomerOptionValueRefresher */
+    private $customerOptionValueRefresher;
 
     /** @var int */
     private $updateCount = 0;
@@ -34,8 +34,8 @@ class OrderPricesRecalculatorTest extends TestCase
     //<editor-fold desc="Helper function for setup">
     public function setUp()
     {
-        $channel                 = self::createMock(ChannelInterface::class);
-        $this->priceRecalculator = new OrderPricesRecalculator($channel);
+        $channel                            = self::createMock(ChannelInterface::class);
+        $this->customerOptionValueRefresher = new CustomerOptionValueRefresher($channel);
     }
 
     private function createOrder(array $orderItems): OrderInterface
@@ -120,7 +120,7 @@ class OrderPricesRecalculatorTest extends TestCase
     {
         $order = $this->createOrder($elements);
 
-        $this->priceRecalculator->process($order);
+        $this->customerOptionValueRefresher->process($order);
 
         self::assertEquals(0, $this->updateCount);
     }
@@ -133,6 +133,23 @@ class OrderPricesRecalculatorTest extends TestCase
         ];
     }
 
+    public function testUpdateForSingleItem(): void
+    {
+        $orderItemOption = $this->createOrderItemOption(
+            new CustomerOption(),
+            $this->createCustomerOptionValue(['code' => 'hello', 'name' => 'something', 'price' => 10]),
+            true
+        );
+
+        $this->customerOptionValueRefresher->copyOverValuesForOrderItem(
+            $this->createOrderItem($orderItemOption)
+        );
+
+        self::assertEquals(2, $this->updateCount);
+        self::assertEquals('something', $this->nameUpdate);
+        self::assertEquals(10, $this->priceUpdate);
+    }
+
     public function testUpdate(): void
     {
         $orderItemOption = $this->createOrderItemOption(
@@ -142,7 +159,7 @@ class OrderPricesRecalculatorTest extends TestCase
         );
 
         $order = $this->createOrder([$this->createOrderItem($orderItemOption)]);
-        $this->priceRecalculator->process($order);
+        $this->customerOptionValueRefresher->process($order);
 
         self::assertEquals(2, $this->updateCount);
         self::assertEquals('something', $this->nameUpdate);
@@ -158,7 +175,7 @@ class OrderPricesRecalculatorTest extends TestCase
         );
 
         $order = $this->createOrder([$this->createOrderItem($orderItemOption)]);
-        $this->priceRecalculator->process($order);
+        $this->customerOptionValueRefresher->process($order);
 
         self::assertEquals(0, $this->updateCount);
         self::assertEquals('no-update', $this->nameUpdate);

@@ -80,6 +80,7 @@ default:
                 - brille24.behat.context.transform
 
                 - brille24.behat.context.shop.product
+                - brille24.behat.context.shop.checkout
 
             filters:
                 tags: "@shop && @customer_options"

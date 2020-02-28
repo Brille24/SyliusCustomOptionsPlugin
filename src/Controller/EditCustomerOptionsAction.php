@@ -57,7 +57,6 @@ class EditCustomerOptionsAction extends Controller
 
         if ($orderItemForm->isSubmitted() && $orderItemForm->isValid()) {
             $this->orderItemOptionUpdater->updateOrderItemOptions($orderItem, $orderItemForm->getData());
-            $orderItem->recalculateUnitsTotal();
 
             return $this->redirectToRoute('sylius_admin_order_show', ['id' => $order->getId()]);
         }

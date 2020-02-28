@@ -74,5 +74,11 @@
                 parent="sylius.behat.page.shop.product.show"
         />
 
+        <service
+            id="brille24.behat.page.checkout.checkout_page"
+            class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Checkout\CheckoutPage"
+            parent="sylius.behat.page.shop.checkout.complete"
+        />
+
     </services>
 </container>

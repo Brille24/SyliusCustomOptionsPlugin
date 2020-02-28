@@ -70,5 +70,11 @@
         >
             <argument type="service" id="brille24.behat.page.shop.product.show" />
         </service>
+
+        <service
+            id="brille24.behat.context.shop.checkout"
+            class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\Shop\CheckoutContext">
+            <argument type="service" id="brille24.behat.page.checkout.checkout_page" />
+        </service>
     </services>
 </container>

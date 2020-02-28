@@ -43,7 +43,7 @@ class ConstraintCreatorTest extends TestCase
         return [
             'integer' => [
                 CustomerOptionTypeEnum::NUMBER,
-                'Either option "min", "minPropertyPath", "max" or "maxPropertyPath" must be given for constraint '. Range::class,
+                'Either option "min", "minPropertyPath", "max" or "maxPropertyPath" must be given for constraint '.Range::class,
             ],
             'string' => [
                 CustomerOptionTypeEnum::TEXT,

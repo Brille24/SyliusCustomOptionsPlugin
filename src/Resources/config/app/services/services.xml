@@ -4,20 +4,11 @@
                 class="Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolver"
                 id="brille24.customer_options_plugin.services.customer_option_value_resolver"/>
 
-        <service class="Brille24\SyliusCustomerOptionsPlugin\Services\OrderPricesRecalculator"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionRecalculator"
                  id="brille24.customer_options_plugin.services.order_prices_recalculator">
-            <!-- Pass the current channel -->
-            <argument type="expression">service('sylius.context.channel').getChannel()</argument>
+            <argument type="service" id="sylius.custom_factory.adjustment" />
 
-            <tag name="sylius.order_processor"/>
-        </service>
-
-        <!-- Overriding the Sylius default order processor -->
-        <service class="Brille24\SyliusCustomerOptionsPlugin\Services\OrderPricesRecalculator"
-                 id="brille24.order_processing.order_prices_recalculator">
-            <argument type="expression">service('sylius.context.channel').getChannel()</argument>
-
-            <tag name="sylius.order_processor"/>
+            <tag name="sylius.order_processor" priority="40" />
         </service>
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Services\OrderItemOptionUpdater"
@@ -25,6 +16,15 @@
             <argument type="service" id="brille24.customer_options_plugin.factory.order_item_option_factory" />
             <argument type="service" id="brille24.manager.order_item_option" />
             <argument type="service" id="brille24.repository.customer_option" />
+            <argument type="service" id="brille24.sylius_customer_options_plugin.services.customer_option_value_refresher" />
+            <argument type="service" id="brille24.customer_options_plugin.services.order_prices_recalculator" />
+        </service>
+
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueRefresher"
+                 id="brille24.sylius_customer_options_plugin.services.customer_option_value_refresher">
+            <argument type="expression">service('sylius.context.channel').getChannel()</argument>
+
+            <tag name="sylius.order_processor" priority="60" />
         </service>
 
     </services>

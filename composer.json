@@ -24,9 +24,9 @@
         "phpstan/phpstan-strict-rules": "^0.10.0",
         "phpstan/phpstan-symfony": "^0.10",
         "phpstan/phpstan-webmozart-assert": "^0.10",
-        "phpunit/phpunit": "^6.5",
+        "phpunit/phpunit": "^7.0",
         "sensiolabs/security-checker": "^5.0",
-        "sylius-labs/coding-standard": "^2.0",
+        "sylius-labs/coding-standard": "^3.0",
         "symfony/browser-kit": "^3.4|^4.1",
         "symfony/debug-bundle": "^3.4|^4.1",
         "symfony/dotenv": "^4.2",
@@ -51,5 +51,14 @@
     },
     "autoload-dev": {
         "classmap": ["tests/Application/Kernel.php"]
+    },
+    "scripts": {
+        "analyse": [
+            "vendor/bin/ecs check --ansi --no-progress-bar src/ tests/PHPUnit --config etc/coding-standard.yml",
+            "vendor/bin/phpstan analyse -c phpstan.neon --no-progress -l max src/"
+        ],
+        "fix": [
+            "vendor/bin/ecs check --ansi --no-progress-bar src/ tests/PHPUnit --config etc/coding-standard.yml --fix"
+        ]
     }
 }

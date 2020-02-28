@@ -54,4 +54,5 @@ Feature: Viewing products after completed checkout
         And I should see "Date Option: 2013-8-5"
         And I should see "Number Option: 123"
         And I should see "Boolean Option: 1"
+        And I should have a configuration price of "$42.00"
         And I should not see "Other Boolean Option"

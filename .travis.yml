@@ -2,7 +2,7 @@ language: php
 
 dist: trusty
 
-sudo: false
+os: linux
 
 php:
     - 7.2
@@ -27,7 +27,7 @@ before_install:
     - mkdir -p tests/Application/web/media/image
 
 install:
-    - composer install --no-interaction --prefer-dist
+    - composer install --no-interaction --prefer-dist --no-suggest
     - (cd tests/Application && yarn install)
 
 before_script:
@@ -66,8 +66,7 @@ before_script:
 
 script:
     - composer validate --strict
-    - vendor/bin/ecs check src/ --config etc/coding-standard.yml
-    - vendor/bin/phpstan analyse -c phpstan.neon -l max src/
+    - composer analyse
 
     - vendor/bin/phpunit
     - vendor/bin/phpspec run

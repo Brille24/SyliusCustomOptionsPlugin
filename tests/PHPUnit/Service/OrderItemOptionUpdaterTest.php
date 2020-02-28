@@ -17,6 +17,8 @@ use Brille24\SyliusCustomerOptionsPlugin\Services\OrderItemOptionUpdaterInterfac
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Order\Processor\OrderProcessorInterface;
 
 class OrderItemOptionUpdaterTest extends TestCase
 {
@@ -53,7 +55,9 @@ class OrderItemOptionUpdaterTest extends TestCase
         $this->orderItemUpdater = new OrderItemOptionUpdater(
             $this->orderItemOptionFactory,
             $this->entityManager,
-            $this->customerOptionRepository
+            $this->customerOptionRepository,
+            $this->createMock(OrderProcessorInterface::class),
+            $this->createMock(OrderProcessorInterface::class)
         );
     }
 
@@ -87,6 +91,7 @@ class OrderItemOptionUpdaterTest extends TestCase
 
         $orderItem = $this->createMock(OrderItemInterface::class);
         $orderItem->method('getCustomerOptionConfiguration')->will($this->onConsecutiveCalls([], [$customerOptionCode => $producedOption]));
+        $orderItem->method('getOrder')->willReturn($this->createMock(OrderInterface::class));
 
         $orderItem->expects($this->once())
             ->method('setCustomerOptionConfiguration')
@@ -102,7 +107,7 @@ class OrderItemOptionUpdaterTest extends TestCase
     {
         ### PREPARE
         $customerOptionCode = 'some_custom_option';
-        $customerOption = $this->createMock(CustomerOptionInterface::class);
+        $customerOption     = $this->createMock(CustomerOptionInterface::class);
         $customerOption->method('getType')->willReturn(CustomerOptionTypeEnum::SELECT);
         $this->customerOptionRepository->method('findOneByCode')->with($customerOptionCode)->willReturn($customerOption);
         $product = $this->setupProduct();
@@ -115,7 +120,10 @@ class OrderItemOptionUpdaterTest extends TestCase
 
         $orderItem = $this->createConfiguredMock(
             OrderItemInterface::class,
-            ['getCustomerOptionConfiguration' => [$customerOptionCode => $producedOption]]
+            [
+                'getCustomerOptionConfiguration' => [$customerOptionCode => $producedOption],
+                'getOrder'                       => $this->createMock(OrderInterface::class),
+            ]
         );
         $this->entityManager->expects($this->never())->method('persist')->withAnyParameters();
 
@@ -139,7 +147,10 @@ class OrderItemOptionUpdaterTest extends TestCase
 
         $orderItem = $this->createConfiguredMock(
             OrderItemInterface::class,
-            ['getCustomerOptionConfiguration' => [$customerOptionCode => $producedOption]]
+            [
+                'getCustomerOptionConfiguration' => [$customerOptionCode => $producedOption],
+                'getOrder'                       => $this->createMock(OrderInterface::class),
+            ]
         );
         $this->entityManager->expects($this->never())->method('persist')->withAnyParameters();
 
