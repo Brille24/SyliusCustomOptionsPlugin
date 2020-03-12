@@ -36,6 +36,7 @@ brille24:
                 datetime: Datetime
                 number: Number
                 boolean: Boolean
+            import_prices: Import prices
         customer_option_groups:
             subheader: Manage your Customer Option Groups
             select: Select

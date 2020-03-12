@@ -9,6 +9,8 @@ imports:
   - { resource: "services/services.xml" }
   - { resource: "services/fixtures.xml" }
   - { resource: "services/validator.xml" }
+  - { resource: "services/importer.xml" }
+  - { resource: "services/updater.xml" }
 
 services:
   # Sonata

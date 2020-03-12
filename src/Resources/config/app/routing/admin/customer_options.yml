@@ -16,3 +16,8 @@ brille24_customer_options_admin:
             index:
                 icon: cube
     type: sylius.resource
+
+brille24_customer_option_price_import:
+    path: '/customer-options/import-prices'
+    defaults:
+        _controller: 'brille24.sylius_customer_options_plugin.controller.price_import_controller'

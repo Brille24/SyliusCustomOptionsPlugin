@@ -9,5 +9,12 @@
 
             <tag name="controller.service_arguments" />
         </service>
+
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Controller\PriceImportController"
+                 id="brille24.sylius_customer_options_plugin.controller.price_import_controller">
+            <argument type="service" id="brille24.sylius_customer_options_plugin.importer.customer_option_prices_csvimporter" />
+
+            <tag name="controller.service_arguments" />
+        </service>
     </services>
 </container>

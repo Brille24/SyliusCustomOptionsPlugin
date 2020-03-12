@@ -1,0 +1,10 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPricesCSVImporter"
+                 id="brille24.sylius_customer_options_plugin.importer.customer_option_prices_csvimporter"
+        >
+            <argument type="service" id="brille24.sylius_customer_options_plugin.updater.customer_option_price_updater" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+    </services>
+</container>

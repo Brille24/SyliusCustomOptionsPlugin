@@ -1,0 +1,9 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% block content %}
+    <div class="ui segment">
+        {{ form_start(form, {'attr': {'class': 'ui loadable form'}}) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

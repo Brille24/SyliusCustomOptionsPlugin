@@ -1,4 +1,7 @@
 sylius_grid:
+    templates:
+        action:
+            import_prices: '@Brille24SyliusCustomerOptionsPlugin/Grid/Action/import_prices.html.twig'
     grids:
         brille24_admin_customer_option_grid:
             driver:
@@ -30,6 +33,14 @@ sylius_grid:
                 main:
                     create:
                         type: create
+
+                    import_prices:
+                        type: 'import_prices'
+                        label: 'brille24.form.customer_options.import_prices'
+                        options:
+                            icon: 'upload alternate'
+                            link:
+                                route: 'brille24_customer_option_price_import'
                 item:
                     update:
                         type: update
