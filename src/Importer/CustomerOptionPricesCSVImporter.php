@@ -97,7 +97,7 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
 
             // Replace empty strings with null
             $row = array_map(static function($value) {
-                return empty($value) ? null : $value;
+                return '' !== $value ? $value : null;
             }, $row);
 
             $csv[] = array_combine($header, $row);
