@@ -97,6 +97,10 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
 
     private function sendFailReport(array $failed): void
     {
+        if (0 === count($failed)) {
+            return;
+        }
+
         // Send mail about failed imports
         /** @var AdminUserInterface $user */
         $user = $this->tokenStorage->getToken()->getUser();
