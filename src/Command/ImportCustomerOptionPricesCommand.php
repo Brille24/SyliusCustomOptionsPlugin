@@ -32,10 +32,11 @@ class ImportCustomerOptionPricesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $source = $input->getArgument('source');
-
         $result = $this->importer->importCustomerOptionPrices($source);
 
-        $output->writeln(sprintf('Imported %s prices', $result['imported']));
+        if (0 < $result['imported']) {
+            $output->writeln(sprintf('Imported %s prices', $result['imported']));
+        }
         if (0 < $result['failed']) {
             $output->writeln(sprintf('Failed to import %s prices', $result['failed']));
         }

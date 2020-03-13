@@ -20,7 +20,10 @@ class PriceImportController extends AbstractController
     /** @var string */
     protected $exampleFilePath;
 
-    public function __construct(CustomerOptionPricesImporterInterface $pricesImporter, string $exampleFilePath) {
+    public function __construct(
+        CustomerOptionPricesImporterInterface $pricesImporter,
+        string $exampleFilePath
+    ) {
         $this->pricesImporter  = $pricesImporter;
         $this->exampleFilePath = $exampleFilePath;
     }
@@ -65,7 +68,6 @@ class PriceImportController extends AbstractController
                 return $this->redirectToRoute('brille24_admin_customer_option_index');
             } catch (\Throwable $exception) {
                 $this->addFlash('error', 'Could not update customer option prices');
-                $this->addFlash('error', $exception->getMessage());
             }
         }
 

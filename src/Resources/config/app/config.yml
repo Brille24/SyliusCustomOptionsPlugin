@@ -2,4 +2,4 @@ imports:
     - { resource: "resources.yml" }
     - { resource: "services.yml" }
     - { resource: "grids.yml" }
-    - { resource: "monolog.yml" }
+    - { resource: "mailer.yml" }

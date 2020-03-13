@@ -5,7 +5,8 @@
         >
             <argument type="service" id="brille24.sylius_customer_options_plugin.updater.customer_option_price_updater" />
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="monolog.logger.brille24_customer_option_price_import" />
+            <argument type="service" id="sylius.email_sender" />
+            <argument type="service" id="security.token_storage" />
         </service>
     </services>
 </container>

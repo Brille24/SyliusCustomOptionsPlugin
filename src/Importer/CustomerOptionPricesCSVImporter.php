@@ -7,6 +7,9 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Sylius\Component\Core\Model\AdminUserInterface;
+use Sylius\Component\Mailer\Sender\SenderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Webmozart\Assert\Assert;
 
 class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInterface
@@ -30,18 +33,21 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
 
     /** @var CustomerOptionPriceUpdaterInterface */
     protected $priceUpdater;
-
-    /** @var LoggerInterface */
-    protected $logger;
+    /** @var SenderInterface */
+    protected $sender;
+    /** @var TokenStorageInterface */
+    protected $tokenStorage;
 
     public function __construct(
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager,
-        LoggerInterface $logger
+        SenderInterface $sender,
+        TokenStorageInterface $tokenStorage
     ) {
         $this->priceUpdater  = $priceUpdater;
         $this->entityManager = $entityManager;
-        $this->logger = $logger;
+        $this->sender = $sender;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /** {@inheritdoc} */
@@ -51,13 +57,10 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
 
         // Handle updates
         $i = 0;
-        $failed = 0;
+        $failed = [];
         foreach ($csv as $lineNumber => $data) {
             if (!$this->isRowValid($data)) {
-                $failed++;
-
-                // Log invalid data
-                $this->logger->warning(sprintf('Line %s with data: [%s] is invalid', $lineNumber, implode(', ', $data)));
+                $failed[$lineNumber] = ['data' => $data, 'message' => 'Data is invalid'];
 
                 continue;
             }
@@ -81,16 +84,26 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
                     $this->entityManager->flush();
                 }
             } catch (\Throwable $exception) {
-                $failed++;
-
-                // Log exception
-                $this->logger->error($exception->getMessage());
+                $failed[$lineNumber] = ['data' => $data, 'message' => $exception->getMessage()];
             }
         }
 
         $this->entityManager->flush();
 
-        return ['imported' => $i, 'failed' => $failed];
+        $this->sendFailReport($failed);
+
+        return ['imported' => $i, 'failed' => count($failed)];
+    }
+
+    private function sendFailReport(array $failed): void
+    {
+        // Send mail about failed imports
+        /** @var AdminUserInterface $user */
+        $user = $this->tokenStorage->getToken()->getUser();
+        $email = $user->getEmail();
+        $csvFile = null;
+
+        $this->sender->send('brille24_failed_price_import', [$email], $failed, [$csvFile]);
     }
 
     /**
