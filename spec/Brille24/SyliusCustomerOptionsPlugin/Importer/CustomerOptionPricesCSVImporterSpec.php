@@ -64,7 +64,7 @@ first_product,lens_type,none,glasses24,FIXED_AMOUNT,1500,0.0,2020-01-01,2020-02-
 second_product,lens_type,none,glasses24,FIXED_AMOUNT,1500,0.0,2020-01-01,2020-02-31
 EOT;
 
-        $filePath = @tempnam('customer_options', 'co');
+        $filePath = @tempnam(sys_get_temp_dir(), 'cop');
 
         file_put_contents($filePath, $csvString);
 

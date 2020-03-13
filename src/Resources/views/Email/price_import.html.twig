@@ -1,1 +1,38 @@
-{{ dump() }}
+{% block subject %}
+{% endblock %}
+
+{% block body %}
+    <style>
+        th{
+            margin: 0;
+            padding: 0.2rem;
+        }
+        td{
+            margin: 0;
+            padding: 0.2rem;
+        }
+    </style>
+
+    <table style="border-spacing: 0" border="1">
+        <thead style="background-color: lightgrey">
+        <tr>
+            <th>Line</th>
+            <th>Error</th>
+            {% for field, value in (failed|first).data %}
+                <th>{{ field }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for line, error in failed %}
+            <tr>
+                <td>{{ line }}</td>
+                <td>{{ error.message }}</td>
+                {% for field, value in error.data %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
