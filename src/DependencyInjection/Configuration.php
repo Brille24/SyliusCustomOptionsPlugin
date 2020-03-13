@@ -39,11 +39,12 @@ final class Configuration implements ConfigurationInterface
 
         // Adding new resources
         $this->addResourceSection($rootNode);
+        $this->addPriceImportSection($rootNode);
 
         return $treeBuilder;
     }
 
-    private function addResourceSection(ArrayNodeDefinition $rootNode)
+    private function addResourceSection(ArrayNodeDefinition $rootNode): void
     {
         $rootNode
             ->children()
@@ -113,5 +114,16 @@ final class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
+    }
+
+    private function addPriceImportSection(ArrayNodeDefinition $rootNode): void
+    {
+        $rootNode
+            ->children()
+                ->scalarNode('price_import_example_file_path')
+                    ->defaultValue(__DIR__.'/../Resources/example/price_import.csv')
+                ->end()
+            ->end()
+        ;
     }
 }

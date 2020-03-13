@@ -52,12 +52,12 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
         // Handle updates
         $i = 0;
         $failed = 0;
-        foreach ($csv as $row => $data) {
+        foreach ($csv as $lineNumber => $data) {
             if (!$this->isRowValid($data)) {
                 $failed++;
 
-                // Log invalid row
-                $this->logger->warning(sprintf('Row %s with data: [%s] is invalid', ($row + 2), implode(', ', $data)));
+                // Log invalid data
+                $this->logger->warning(sprintf('Line %s with data: [%s] is invalid', $lineNumber, implode(', ', $data)));
 
                 continue;
             }
@@ -104,7 +104,10 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
 
         $header = null;
         $csv    = [];
+        $currentLineNumber = 0;
         while ($row = fgetcsv($file)) {
+            $currentLineNumber++;
+
             // Use the first row as array keys
             if (null === $header) {
                 $header = $row;
@@ -117,7 +120,7 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
                 return '' !== $value ? $value : null;
             }, $row);
 
-            $csv[] = array_combine($header, $row);
+            $csv[$currentLineNumber] = array_combine($header, $row);
         }
 
         return $csv;

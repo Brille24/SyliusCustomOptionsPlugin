@@ -21,3 +21,8 @@ brille24_customer_option_price_import:
     path: '/customer-options/import-prices'
     defaults:
         _controller: 'brille24.sylius_customer_options_plugin.controller.price_import_controller'
+
+brille24_customer_option_price_import_example_file:
+    path: '/customer-options/import-prices/example'
+    defaults:
+        _controller: 'brille24.sylius_customer_options_plugin.controller.price_import_controller:downloadExampleFileAction'

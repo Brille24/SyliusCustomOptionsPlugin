@@ -17,23 +17,27 @@ class PriceImportController extends AbstractController
     /** @var CustomerOptionPricesImporterInterface */
     protected $pricesImporter;
 
-    public function __construct(CustomerOptionPricesImporterInterface $pricesImporter) {
-        $this->pricesImporter = $pricesImporter;
+    /** @var string */
+    protected $exampleFilePath;
+
+    public function __construct(CustomerOptionPricesImporterInterface $pricesImporter, string $exampleFilePath) {
+        $this->pricesImporter  = $pricesImporter;
+        $this->exampleFilePath = $exampleFilePath;
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
     public function __invoke(Request $request): Response
     {
         $form = $this->createFormBuilder()
             ->add('file', FileType::class, [
                 'label' => 'sylius.ui.choose_file',
-                'attr' => [
-                    'hidden' => 'hidden',
-                ],
-                'label_attr' => [
-                    'class' => 'ui button',
-                ],
             ])
             ->add('submit', SubmitType::class, [
+                'label' => 'brille24.form.customer_options.import',
                 'attr' => [
                     'class' => 'ui primary button',
                 ],
@@ -65,6 +69,14 @@ class PriceImportController extends AbstractController
             }
         }
 
-        return $this->render('@Brille24SyliusCustomerOptionsPlugin/PriceImport/_form.html.twig', ['form' => $form->createView()]);
+        return $this->render('@Brille24SyliusCustomerOptionsPlugin/PriceImport/import.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @return Response
+     */
+    public function downloadExampleFileAction(): Response
+    {
+        return $this->file($this->exampleFilePath);
     }
 }

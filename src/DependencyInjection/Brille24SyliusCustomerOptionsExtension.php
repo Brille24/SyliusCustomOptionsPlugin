@@ -24,7 +24,9 @@ final class Brille24SyliusCustomerOptionsExtension extends Extension
      */
     public function load(array $config, ContainerBuilder $container): void
     {
-        $this->processConfiguration($this->getConfiguration([], $container), $config);
+        $config = $this->processConfiguration($this->getConfiguration([], $container), $config);
+
+        $container->setParameter('brille24.sylius_customer_options.price_import_example_file_path', $config['price_import_example_file_path']);
 
         new YamlFileLoader(
             $container,
