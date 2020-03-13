@@ -53,6 +53,8 @@ class PriceImportController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $file */
             $file = $form->get('file')->getData();
+
+            /** @var string $path */
             $path = $file->getRealPath();
 
             try {

@@ -22,7 +22,7 @@ class ImportCustomerOptionPricesCommand extends Command
         $this->importer = $importer;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('b24:customer-options:import-prices')
@@ -30,7 +30,7 @@ class ImportCustomerOptionPricesCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $source = $input->getArgument('source');
         $result = $this->importer->importCustomerOptionPrices($source);

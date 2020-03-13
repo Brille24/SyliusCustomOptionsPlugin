@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\AdminUserInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Webmozart\Assert\Assert;
 
 class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInterface
 {
@@ -118,6 +119,7 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
             $csvData[] = sprintf('%s,%s,%s', $line, $error['message'], implode(',', $error['data']));
         }
 
+        /** @var string $tmpPath */
         $tmpPath = tempnam(sys_get_temp_dir(), 'cop');
         $csvPath = $tmpPath.'.csv';
 
@@ -135,6 +137,8 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
     private function readCsv(string $source): array
     {
         $file = fopen($source, 'rb');
+
+        Assert::resource($file);
 
         $header            = null;
         $csv               = [];

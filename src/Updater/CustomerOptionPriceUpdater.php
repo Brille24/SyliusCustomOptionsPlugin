@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Updater;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Webmozart\Assert\Assert;
@@ -97,24 +100,38 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         string $channelCode,
         ?string $productCode
     ): CustomerOptionValuePriceInterface {
-        $customerOption      = $this->customerOptionRepository->findOneByCode($customerOptionCode);
+        $customerOption = $this->customerOptionRepository->findOneByCode($customerOptionCode);
+
+        /** @var CustomerOptionValueInterface|null $customerOptionValue */
         $customerOptionValue = $this->customerOptionValueRepository->findOneBy([
             'code'           => $customerOptionValueCode,
             'customerOption' => $customerOption,
         ]);
+
+        /** @var ChannelInterface|null $channel */
         $channel = $this->channelRepository->findOneByCode($channelCode);
         $product = null;
 
-        Assert::notNull(
+        Assert::isInstanceOf(
             $customerOptionValue,
+            CustomerOptionValueInterface::class,
             sprintf('CustomerOptionValue with code "%s" not found', $customerOptionValueCode)
         );
-        Assert::notNull($channel, sprintf('Channel with code "%s" not found', $channelCode));
+        Assert::isInstanceOf(
+            $channel,
+            ChannelInterface::class,
+            sprintf('Channel with code "%s" not found', $channelCode)
+        );
 
         if (null !== $productCode) {
+            /** @var ProductInterface|null $product */
             $product = $this->productRepository->findOneByCode($productCode);
 
-            Assert::notNull($product, sprintf('Product with code "%s" not found', $productCode));
+            Assert::isInstanceOf(
+                $product,
+                ProductInterface::class,
+                sprintf('Product with code "%s" not found', $productCode)
+            );
         }
 
         // Try to find an existing price
