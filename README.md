@@ -6,7 +6,7 @@
 
 ## Installation
 
-* Run `composer require brille24/sylius-customer-options-plugin`.
+* Run `composer require brille24/sylius-customer-options-plugin`. (This plugin currently does not support Sylius 1.7 because we are using a formtype of sonata)
 
 * Register the Plugin in your `config/bundles.php`:
 
