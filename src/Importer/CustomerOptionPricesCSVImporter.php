@@ -56,7 +56,7 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
         $csv = $this->readCsv($source);
 
         // Handle updates
-        $i = 0;
+        $i      = 0;
         $failed = [];
         foreach ($csv as $lineNumber => $data) {
             if (!$this->isRowValid($data)) {
@@ -74,8 +74,8 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
                     $data['valid_from'],
                     $data['valid_to'],
                     $data['type'],
-                    (int)$data['amount'],
-                    (float)$data['percent']
+                    (int) $data['amount'],
+                    (float) $data['percent']
                 );
 
                 $this->entityManager->persist($price);
@@ -103,7 +103,7 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
 
         // Send mail about failed imports
         /** @var AdminUserInterface $user */
-        $user = $this->tokenStorage->getToken()->getUser();
+        $user  = $this->tokenStorage->getToken()->getUser();
         $email = $user->getEmail();
 
         $csvHeader = ['Line', 'Error'];
@@ -136,11 +136,11 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
     {
         $file = fopen($source, 'rb');
 
-        $header = null;
-        $csv    = [];
+        $header            = null;
+        $csv               = [];
         $currentLineNumber = 0;
         while ($row = fgetcsv($file)) {
-            $currentLineNumber++;
+            ++$currentLineNumber;
 
             // Use the first row as array keys
             if (null === $header) {
@@ -150,7 +150,7 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
             }
 
             // Replace empty strings with null
-            $row = array_map(static function($value) {
+            $row = array_map(static function ($value) {
                 return '' !== $value ? $value : null;
             }, $row);
 

@@ -15,7 +15,8 @@ class ImportCustomerOptionPricesCommand extends Command
     /** @var CustomerOptionPricesImporterInterface */
     protected $importer;
 
-    public function __construct(CustomerOptionPricesImporterInterface $importer) {
+    public function __construct(CustomerOptionPricesImporterInterface $importer)
+    {
         parent::__construct();
 
         $this->importer = $importer;
