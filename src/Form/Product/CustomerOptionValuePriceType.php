@@ -27,7 +27,7 @@ use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Intl\Intl;
+use Symfony\Component\Intl\Currencies;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class CustomerOptionValuePriceType extends AbstractType
@@ -52,14 +52,14 @@ final class CustomerOptionValuePriceType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('channel', ChannelChoiceType::class, [
-                'choice_attr' => function (?ChannelInterface $channel) {
+                'choice_attr' => static function (?ChannelInterface $channel) {
                     if ($channel !== null) {
                         if ($channel->getBaseCurrency() !== null) {
                             $currency = $channel->getBaseCurrency()->getCode() ?? 'EUR';
                         } else {
                             $currency  = 'EUR';
                         }
-                        $symbol = Intl::getCurrencyBundle()->getCurrencySymbol($currency, 'en');
+                        $symbol = Currencies::getSymbol($currency, 'en');
 
                         return ['data-attribute' => $symbol];
                     }
@@ -80,7 +80,7 @@ final class CustomerOptionValuePriceType extends AbstractType
             ])
             ->add('type', ChoiceType::class, [
                 'choices'      => CustomerOptionValuePrice::getAllTypes(),
-                'choice_label' => function ($option) {
+                'choice_label' => static function ($option) {
                     return 'brille24.ui.pricing.'.strtolower($option);
                 },
             ])
@@ -96,7 +96,7 @@ final class CustomerOptionValuePriceType extends AbstractType
     {
         $builder->get('dateValid')->addModelTransformer(
             new CallbackTransformer(
-                function (?DateRange $dateRange) {
+                static function (?DateRange $dateRange) {
                     if ($dateRange === null) {
                         return [];
                     }
@@ -106,7 +106,7 @@ final class CustomerOptionValuePriceType extends AbstractType
                         'end'   => $dateRange->getEnd(),
                     ];
                 },
-                function (array $dateTime) {
+                static function (array $dateTime) {
                     if ($dateTime['start'] === null || $dateTime['end'] === null) {
                         return null;
                     }
