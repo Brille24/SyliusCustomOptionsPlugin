@@ -88,3 +88,6 @@ brille24:
     grid:
         options_remaining: "{0} |]0,Inf]and %count% more"
         options_empty: Nothing to display
+
+    email:
+        customer_option_price_import_failed: 'Your price import failed'

@@ -1,5 +1,5 @@
 sylius_mailer:
   emails:
     brille24_failed_price_import:
-      subject: Your import had some issues
+      subject: 'brille24.email.customer_option_price_import_failed'
       template: "@Brille24SyliusCustomerOptionsPlugin/Email/price_import.html.twig"
