@@ -1,3 +1,3 @@
 product_code,customer_option_code,customer_option_value_code,channel_code,type,amount,percent,valid_from,valid_to
-some_product,first_customer_option,third_value,first_channel,FIXED_AMOUNT,1500,0,2020-01-01,2020-02-31
-some_other_product,second_customer_option,first_value,second_channel,PERCENT,0,0.1,,
+tshirt_abc,color,red,US_WEB,FIXED_AMOUNT,1500,0,2020-01-01,2020-02-31
+mug_def,material,metal,DE_WEB,PERCENT,0,0.1,,

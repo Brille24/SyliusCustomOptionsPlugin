@@ -1,6 +1,7 @@
 <div class="ui segment">
     <span class="title">Example CSV structure</span>
     <table class="ui celled table">
+        <thead>
         <tr>
             <th>product_code</th>
             <th>customer_option_code</th>
@@ -12,11 +13,13 @@
             <th>valid_from</th>
             <th>valid_to</th>
         </tr>
+        </thead>
+        <tbody>
         <tr>
-            <td>some_product</td>
-            <td>first_customer_option</td>
-            <td>third_value</td>
-            <td>first_channel</td>
+            <td>tshirt_abc</td>
+            <td>color</td>
+            <td>red</td>
+            <td>US_WEB</td>
             <td>FIXED_AMOUNT</td>
             <td>1500</td>
             <td>0</td>
@@ -24,16 +27,17 @@
             <td>2020-02-31</td>
         </tr>
         <tr>
-            <td>some_other_product</td>
-            <td>second_customer_option</td>
-            <td>first_value</td>
-            <td>second_channel</td>
+            <td>mug_def</td>
+            <td>material</td>
+            <td>metal</td>
+            <td>DE_WEB</td>
             <td>PERCENT</td>
             <td>0</td>
             <td>0.1</td>
             <td></td>
             <td></td>
         </tr>
+        </tbody>
     </table>
     <a href="{{ path('brille24_customer_option_price_import_example_file') }}" class="ui button">
         <i class="icon download"></i>Download example
