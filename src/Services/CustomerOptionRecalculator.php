@@ -46,13 +46,13 @@ final class CustomerOptionRecalculator implements OrderProcessorInterface
                 continue;
             }
 
-            $adjustment = $this->adjustmentFactory->createWithData(
-                self::CUSTOMER_OPTION_ADJUSTMENT,
-                $orderItemOption->getCustomerOptionName(),
-                $orderItemOption->getCalculatedPrice($orderItem->getUnitPrice())
-            );
-
             foreach ($orderItem->getUnits() as $unit) {
+                $adjustment = $this->adjustmentFactory->createWithData(
+                    self::CUSTOMER_OPTION_ADJUSTMENT,
+                    $orderItemOption->getCustomerOptionName(),
+                    $orderItemOption->getCalculatedPrice($orderItem->getUnitPrice())
+                );
+
                 $unit->addAdjustment($adjustment);
             }
         }
