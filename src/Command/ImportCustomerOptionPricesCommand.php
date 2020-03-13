@@ -33,6 +33,11 @@ class ImportCustomerOptionPricesCommand extends Command
     {
         $source = $input->getArgument('source');
 
-        $this->importer->importCustomerOptionPrices($source);
+        $result = $this->importer->importCustomerOptionPrices($source);
+
+        $output->writeln(sprintf('Imported %s prices', $result['imported']));
+        if (0 < $result['failed']) {
+            $output->writeln(sprintf('Failed to import %s prices', $result['failed']));
+        }
     }
 }

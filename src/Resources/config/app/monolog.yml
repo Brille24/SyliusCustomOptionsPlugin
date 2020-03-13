@@ -1,0 +1,7 @@
+monolog:
+  channels: ['brille24_customer_option_price_import']
+  handlers:
+    brille24_customer_option_price_import:
+      type: stream
+      path: "%kernel.logs_dir%/brille24_customer_option_price_import/%kernel.environment%.log"
+      level: warning

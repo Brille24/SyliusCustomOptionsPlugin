@@ -6,8 +6,8 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Webmozart\Assert\Assert;
-use function Clue\StreamFilter\fun;
 
 class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInterface
 {
@@ -31,49 +31,66 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
     /** @var CustomerOptionPriceUpdaterInterface */
     protected $priceUpdater;
 
+    /** @var LoggerInterface */
+    protected $logger;
+
     public function __construct(
         CustomerOptionPriceUpdaterInterface $priceUpdater,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        LoggerInterface $logger
     ) {
         $this->priceUpdater  = $priceUpdater;
         $this->entityManager = $entityManager;
+        $this->logger = $logger;
     }
 
     /** {@inheritdoc} */
-    public function importCustomerOptionPrices(string $source): void
+    public function importCustomerOptionPrices(string $source): array
     {
         $csv = $this->readCsv($source);
 
         // Handle updates
         $i = 0;
-        foreach ($csv as $row) {
-            if (!$this->isRowValid($row)) {
-                // Log error
+        $failed = 0;
+        foreach ($csv as $row => $data) {
+            if (!$this->isRowValid($data)) {
+                $failed++;
+
+                // Log invalid row
+                $this->logger->warning(sprintf('Row %s with data: [%s] is invalid', ($row + 2), implode(', ', $data)));
 
                 continue;
             }
 
-            // No product code means it's a global pricing
-            $price = $this->priceUpdater->updateForProduct(
-                $row['customer_option_code'],
-                $row['customer_option_value_code'],
-                $row['channel_code'],
-                $row['product_code'],
-                $row['valid_from'],
-                $row['valid_to'],
-                $row['type'],
-                (int)$row['amount'],
-                (float)$row['percent']
-            );
+            try {
+                $price = $this->priceUpdater->updateForProduct(
+                    $data['customer_option_code'],
+                    $data['customer_option_value_code'],
+                    $data['channel_code'],
+                    $data['product_code'],
+                    $data['valid_from'],
+                    $data['valid_to'],
+                    $data['type'],
+                    (int)$data['amount'],
+                    (float)$data['percent']
+                );
 
-            $this->entityManager->persist($price);
+                $this->entityManager->persist($price);
 
-            if (++$i % self::BATCH_SIZE === 0) {
-                $this->entityManager->flush();
+                if (++$i % self::BATCH_SIZE === 0) {
+                    $this->entityManager->flush();
+                }
+            } catch (\Throwable $exception) {
+                $failed++;
+
+                // Log exception
+                $this->logger->error($exception->getMessage());
             }
         }
 
         $this->entityManager->flush();
+
+        return ['imported' => $i, 'failed' => $failed];
     }
 
     /**
@@ -104,17 +121,6 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
         }
 
         return $csv;
-    }
-
-    /**
-     * @param array $csv
-     */
-    private function validateCsv(array $csv): void
-    {
-        foreach ($csv as $row) {
-            Assert::isArray($row);
-            Assert::true($this->isRowValid($row));
-        }
     }
 
     /**

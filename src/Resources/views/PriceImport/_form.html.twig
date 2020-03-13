@@ -2,6 +2,43 @@
 
 {% block content %}
     <div class="ui segment">
+        Example CSV structure
+        <table class="ui celled table">
+            <tr>
+                <th>product_code</th>
+                <th>customer_option_code</th>
+                <th>customer_option_value_code</th>
+                <th>channel_code</th>
+                <th>type</th>
+                <th>amount</th>
+                <th>percent</th>
+                <th>valid_from</th>
+                <th>valid_to</th>
+            </tr>
+            <tr>
+                <td>some_product</td>
+                <td>first_customer_option</td>
+                <td>third_value</td>
+                <td>first_channel</td>
+                <td>FIXED_AMOUNT</td>
+                <td>1500</td>
+                <td>0</td>
+                <td>2020-01-01</td>
+                <td>2020-02-31</td>
+            </tr>
+            <tr>
+                <td>some_other_product</td>
+                <td>second_customer_option</td>
+                <td>first_value</td>
+                <td>second_channel</td>
+                <td>PERCENT</td>
+                <td>0</td>
+                <td>0.1</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
         {{ form_start(form, {'attr': {'class': 'ui loadable form'}}) }}
         {{ form_widget(form) }}
         {{ form_end(form) }}

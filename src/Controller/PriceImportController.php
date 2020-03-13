@@ -26,8 +26,18 @@ class PriceImportController extends AbstractController
         $form = $this->createFormBuilder()
             ->add('file', FileType::class, [
                 'label' => 'sylius.ui.choose_file',
+                'attr' => [
+                    'hidden' => 'hidden',
+                ],
+                'label_attr' => [
+                    'class' => 'ui button',
+                ],
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'ui primary button',
+                ],
+            ])
             ->getForm()
         ;
 
@@ -39,13 +49,19 @@ class PriceImportController extends AbstractController
             $path = $file->getRealPath();
 
             try {
-                $this->pricesImporter->importCustomerOptionPrices($path);
+                $result = $this->pricesImporter->importCustomerOptionPrices($path);
 
-                $this->addFlash('success', 'Updated customer option prices');
+                if (0 < $result['imported']) {
+                    $this->addFlash('success', sprintf('Imported %s prices', $result['imported']));
+                }
+                if (0 < $result['failed']) {
+                    $this->addFlash('error', sprintf('Failed to import %s prices', $result['failed']));
+                }
 
                 return $this->redirectToRoute('brille24_admin_customer_option_index');
             } catch (\Throwable $exception) {
                 $this->addFlash('error', 'Could not update customer option prices');
+                $this->addFlash('error', $exception->getMessage());
             }
         }
 

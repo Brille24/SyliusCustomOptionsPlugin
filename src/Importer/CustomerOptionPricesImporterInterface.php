@@ -8,6 +8,8 @@ interface CustomerOptionPricesImporterInterface
 {
     /**
      * @param string $source
+     *
+     * @return array
      */
-    public function importCustomerOptionPrices(string $source): void;
+    public function importCustomerOptionPrices(string $source): array;
 }

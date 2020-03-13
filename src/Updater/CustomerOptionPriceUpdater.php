@@ -117,6 +117,7 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
             Assert::notNull($product, sprintf('Product with code "%s" not found', $productCode));
         }
 
+        // Try to find an existing price
         /** @var CustomerOptionValuePriceInterface|null $price */
         $price = $this->customerOptionValuePriceRepository->findOneBy([
             'customerOptionValue' => $customerOptionValue,
@@ -124,6 +125,7 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
             'product'             => $product,
         ]);
 
+        // If no price exists, create a new one
         if (null === $price) {
             // Create new price
             /** @var CustomerOptionValuePriceInterface $price */
