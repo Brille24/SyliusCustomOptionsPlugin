@@ -92,6 +92,7 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
      * @param string $customerOptionValueCode
      * @param string $channelCode
      * @param string|null $productCode
+     * @param ?DateRangeInterface $dateRange
      *
      * @return CustomerOptionValuePriceInterface
      */

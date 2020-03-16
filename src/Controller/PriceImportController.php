@@ -36,8 +36,8 @@ class PriceImportController extends AbstractController
     ) {
         $this->pricesImporter  = $pricesImporter;
         $this->exampleFilePath = $exampleFilePath;
-        $this->priceUpdater = $priceUpdater;
-        $this->entityManager = $entityManager;
+        $this->priceUpdater    = $priceUpdater;
+        $this->entityManager   = $entityManager;
     }
 
     /**
@@ -96,12 +96,11 @@ class PriceImportController extends AbstractController
 
             $i = 0;
             foreach ($products as $product) {
-
                 $dateFrom = null;
-                $dateTo = null;
+                $dateTo   = null;
                 if ($customerOptionValuePrice->getDateValid() !== null) {
                     $dateFrom = $customerOptionValuePrice->getDateValid()->getStart()->format(DATE_ATOM);
-                    $dateTo = $customerOptionValuePrice->getDateValid()->getEnd()->format(DATE_ATOM);
+                    $dateTo   = $customerOptionValuePrice->getDateValid()->getEnd()->format(DATE_ATOM);
                 }
 
                 $price = $this->priceUpdater->updateForProduct(

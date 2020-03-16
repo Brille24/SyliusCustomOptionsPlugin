@@ -12,10 +12,8 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport;
 
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
@@ -54,7 +52,7 @@ final class CustomerOptionValuePriceType extends AbstractType
             ->add('customerOptionValue', ChoiceType::class, [
                 'choices'      => $values,
                 'choice_label' => 'name',
-                'group_by' => function (CustomerOptionValueInterface $customerOptionValue) {
+                'group_by'     => function (CustomerOptionValueInterface $customerOptionValue) {
                     return $customerOptionValue->getCustomerOption()->getName();
                 },
             ])
