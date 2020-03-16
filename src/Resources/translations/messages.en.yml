@@ -24,6 +24,7 @@ brille24:
             fixed_amount: Fixed amount
             percent: Percent
         customization_total: Customizations total
+        by_product_list: By product list
     form:
         customer_options:
             subheader: Manage your Customer Options

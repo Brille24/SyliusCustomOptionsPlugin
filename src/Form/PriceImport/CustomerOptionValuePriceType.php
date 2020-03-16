@@ -10,13 +10,15 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\SyliusCustomerOptionsPlugin\Form\Product;
+namespace Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Sonata\CoreBundle\Form\Type\DateTimeRangeType;
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Sylius\Bundle\MoneyBundle\Form\Type\MoneyType;
@@ -31,15 +33,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class CustomerOptionValuePriceType extends AbstractType
 {
+    /** @var CustomerOptionRepositoryInterface */
+    protected $customerOptionRepository;
+
+    public function __construct(CustomerOptionRepositoryInterface $customerOptionRepository)
+    {
+        $this->customerOptionRepository = $customerOptionRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /** @var ProductInterface $product */
-        $product = $options['product'];
-
         $values = [];
-
-        /** @var CustomerOptionInterface $customerOption */
-        foreach ($product->getCustomerOptions() as $customerOption) {
+        foreach ($this->customerOptionRepository->findAll() as $customerOption) {
             if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
                 $values = array_merge($values, $customerOption->getValues()->getValues());
             }
@@ -49,6 +54,9 @@ final class CustomerOptionValuePriceType extends AbstractType
             ->add('customerOptionValue', ChoiceType::class, [
                 'choices'      => $values,
                 'choice_label' => 'name',
+                'group_by' => function (CustomerOptionValueInterface $customerOptionValue) {
+                    return $customerOptionValue->getCustomerOption()->getName();
+                },
             ])
             ->add('channel', ChannelChoiceType::class, [
                 'choice_attr' => static function (?ChannelInterface $channel) {
@@ -120,10 +128,9 @@ final class CustomerOptionValuePriceType extends AbstractType
     {
         $resolver
             ->setDefaults([
-                              'data_class' => CustomerOptionValuePrice::class,
-                          ])
-            ->setDefined('product')
-            ->setAllowedTypes('product', ProductInterface::class);
+                  'data_class' => CustomerOptionValuePrice::class,
+              ])
+        ;
     }
 
     public function getBlockPrefix(): string

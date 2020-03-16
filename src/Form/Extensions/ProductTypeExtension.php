@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Form\Extensions;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Form\Product\CustomerOptionValuePriceType;
 use Sylius\Bundle\ProductBundle\Form\Type\ProductType;
@@ -33,16 +32,6 @@ final class ProductTypeExtension extends AbstractTypeExtension
     {
         /** @var ProductInterface $product */
         $product = $options['data'];
-
-        /** @var CustomerOptionInterface[] $customerOptions */
-        $customerOptions = [];
-
-        $customerOptionGroup = $product->getCustomerOptionGroup();
-        if ($customerOptionGroup !== null) {
-            foreach ($customerOptionGroup->getOptionAssociations() as $optionAssociation) {
-                $customerOptions[] = $optionAssociation->getOption();
-            }
-        }
 
         $builder
             ->add(

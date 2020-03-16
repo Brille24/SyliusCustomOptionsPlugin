@@ -8,6 +8,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRangeInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepositoryInterface;
@@ -69,16 +70,16 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         int $amount,
         float $percent
     ): CustomerOptionValuePriceInterface {
-        $price = $this->getPrice($customerOptionCode, $customerOptionValueCode, $channelCode, $productCode);
-
+        $dateRange = null;
         if (null !== $validFrom && null !== $validTo) {
             $validFrom = new \DateTime($validFrom);
             $validTo   = new \DateTime($validTo);
             $dateRange = new DateRange($validFrom, $validTo);
-
-            $price->setDateValid($dateRange);
         }
 
+        $price = $this->getPrice($customerOptionCode, $customerOptionValueCode, $channelCode, $productCode, $dateRange);
+
+        $price->setDateValid($dateRange);
         $price->setType($type);
         $price->setAmount($amount);
         $price->setPercent($percent);
@@ -98,7 +99,8 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         string $customerOptionCode,
         string $customerOptionValueCode,
         string $channelCode,
-        ?string $productCode
+        ?string $productCode,
+        ?DateRangeInterface $dateRange
     ): CustomerOptionValuePriceInterface {
         $customerOption = $this->customerOptionRepository->findOneByCode($customerOptionCode);
 
@@ -135,27 +137,36 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         }
 
         // Try to find an existing price
-        /** @var CustomerOptionValuePriceInterface|null $price */
-        $price = $this->customerOptionValuePriceRepository->findOneBy([
+        /** @var CustomerOptionValuePriceInterface[] $prices */
+        $prices = $this->customerOptionValuePriceRepository->findBy([
             'customerOptionValue' => $customerOptionValue,
             'channel'             => $channel,
             'product'             => $product,
         ]);
 
-        // If no price exists, create a new one
-        if (null === $price) {
-            // Create new price
-            /** @var CustomerOptionValuePriceInterface $price */
-            $price = $this->customerOptionValuePriceFactory->createNew();
+        $valuePrice = null;
+        foreach ($prices as $price) {
+            if ($price->getDateValid() == $dateRange) {
+                $valuePrice = $price;
 
-            $price->setCustomerOptionValue($customerOptionValue);
-            $price->setChannel($channel);
-
-            if (null !== $product) {
-                $price->setProduct($product);
+                break;
             }
         }
 
-        return $price;
+        // If no price exists, create a new one
+        if (null === $valuePrice) {
+            // Create new price
+            /** @var CustomerOptionValuePriceInterface $valuePrice */
+            $valuePrice = $this->customerOptionValuePriceFactory->createNew();
+
+            $valuePrice->setCustomerOptionValue($customerOptionValue);
+            $valuePrice->setChannel($channel);
+
+            if (null !== $product) {
+                $valuePrice->setProduct($product);
+            }
+        }
+
+        return $valuePrice;
     }
 }

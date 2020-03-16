@@ -92,6 +92,15 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             'product'             => $product,
         ])->shouldBeCalled()->willReturn($valuePrice);
 
+        $expectedPrice = new CustomerOptionValuePrice();
+        $expectedPrice->setProduct($product);
+        $expectedPrice->setChannel($channel);
+        $expectedPrice->setCustomerOptionValue($customerOptionValue);
+        $expectedPrice->setPercent($percent);
+        $expectedPrice->setAmount($amount);
+        $expectedPrice->setType($type);
+        $expectedPrice->setDateValid(null);
+
         $this->updateForProduct(
             $customerOptionCode,
             $customerOptionValueCode,
@@ -102,7 +111,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             $type,
             $amount,
             $percent
-        );
+        )->shouldBeLike($expectedPrice);
     }
 
     public function it_updates_an_existing_price_with_product_and_date(
@@ -157,6 +166,16 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             'product'             => $product,
         ])->shouldBeCalled()->willReturn($valuePrice);
 
+
+        $expectedPrice = new CustomerOptionValuePrice();
+        $expectedPrice->setProduct($product);
+        $expectedPrice->setChannel($channel);
+        $expectedPrice->setCustomerOptionValue($customerOptionValue);
+        $expectedPrice->setPercent($percent);
+        $expectedPrice->setAmount($amount);
+        $expectedPrice->setType($type);
+        $expectedPrice->setDateValid(new DateRange(new \DateTime($validFrom), new \DateTime($validTo)));
+
         $this->updateForProduct(
             $customerOptionCode,
             $customerOptionValueCode,
@@ -167,7 +186,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             $type,
             $amount,
             $percent
-        );
+        )->shouldBeLike($expectedPrice);
     }
 
     public function it_updates_a_new_price_with_product(
@@ -225,6 +244,15 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             'product'             => $product,
         ])->shouldBeCalled()->willReturn(null);
 
+        $expectedPrice = new CustomerOptionValuePrice();
+        $expectedPrice->setProduct($product);
+        $expectedPrice->setChannel($channel);
+        $expectedPrice->setCustomerOptionValue($customerOptionValue);
+        $expectedPrice->setPercent($percent);
+        $expectedPrice->setAmount($amount);
+        $expectedPrice->setType($type);
+        $expectedPrice->setDateValid(null);
+
         $this->updateForProduct(
             $customerOptionCode,
             $customerOptionValueCode,
@@ -235,7 +263,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             $type,
             $amount,
             $percent
-        );
+        )->shouldBeLike($expectedPrice);
     }
 
     public function it_updates_a_new_price_with_product_and_date(
@@ -293,6 +321,15 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             'product'             => $product,
         ])->shouldBeCalled()->willReturn(null);
 
+        $expectedPrice = new CustomerOptionValuePrice();
+        $expectedPrice->setProduct($product);
+        $expectedPrice->setChannel($channel);
+        $expectedPrice->setCustomerOptionValue($customerOptionValue);
+        $expectedPrice->setPercent($percent);
+        $expectedPrice->setAmount($amount);
+        $expectedPrice->setType($type);
+        $expectedPrice->setDateValid(new DateRange(new \DateTime($validFrom), new \DateTime($validTo)));
+
         $this->updateForProduct(
             $customerOptionCode,
             $customerOptionValueCode,
@@ -303,7 +340,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             $type,
             $amount,
             $percent
-        );
+        )->shouldBeLike($expectedPrice);
     }
 
     public function it_requires_the_customer_option_value_to_exist(

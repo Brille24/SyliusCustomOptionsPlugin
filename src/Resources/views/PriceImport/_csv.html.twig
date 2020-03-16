@@ -1,0 +1,9 @@
+{% form_theme csvForm '@SyliusAdmin/Form/theme.html.twig' %}
+
+{{ include('@Brille24SyliusCustomerOptionsPlugin/PriceImport/_example_csv.html.twig') }}
+
+<div class="ui segment">
+    {{ form_start(csvForm, {'attr': {'class': 'ui loadable form'}}) }}
+    {{ form_widget(csvForm) }}
+    {{ form_end(csvForm) }}
+</div>

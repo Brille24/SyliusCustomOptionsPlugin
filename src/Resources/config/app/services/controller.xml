@@ -14,6 +14,8 @@
                  id="brille24.sylius_customer_options_plugin.controller.price_import_controller">
             <argument type="service" id="brille24.sylius_customer_options_plugin.importer.customer_option_prices_csvimporter" />
             <argument>%brille24.sylius_customer_options.price_import_example_file_path%</argument>
+            <argument type="service" id="brille24.sylius_customer_options_plugin.updater.customer_option_price_updater" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
 
             <tag name="controller.service_arguments" />
         </service>
