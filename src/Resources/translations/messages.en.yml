@@ -92,3 +92,8 @@ brille24:
 
     email:
         customer_option_price_import_failed: 'Your price import failed'
+
+    flashes:
+        customer_option_price_import_error: Could not import customer option value prices
+        customer_option_prices_imported: Imported %count% customer option value price(s)
+        customer_option_prices_import_failed: Failed to import %count% customer option value price(s)

@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PriceImportController extends AbstractController
 {
@@ -33,19 +34,23 @@ class PriceImportController extends AbstractController
 
     /** @var CustomerOptionPriceByExampleImporterInterface */
     protected $priceByExampleImporter;
+    /** @var TranslatorInterface */
+    protected $translator;
 
     public function __construct(
         CustomerOptionPriceCsvImporterInterface $csvPriceImporter,
         CustomerOptionPriceByExampleImporterInterface $priceByExampleImporter,
         string $csvExampleFilePath,
         CustomerOptionPriceUpdaterInterface $priceUpdater,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        TranslatorInterface $translator
     ) {
         $this->csvPriceImporter = $csvPriceImporter;
         $this->priceByExampleImporter = $priceByExampleImporter;
         $this->exampleFilePath  = $csvExampleFilePath;
         $this->priceUpdater     = $priceUpdater;
         $this->entityManager    = $entityManager;
+        $this->translator = $translator;
     }
 
     /**
@@ -84,7 +89,7 @@ class PriceImportController extends AbstractController
             try {
                 $importResult = $this->csvPriceImporter->import($path);
             } catch (\Throwable $exception) {
-                $this->addFlash('error', 'Could not update customer option prices');
+                $this->addFlash('error', 'brille24.flashes.customer_option_price_import_error');
             }
         }
 
@@ -99,10 +104,16 @@ class PriceImportController extends AbstractController
 
 
         if (0 < $importResult['imported']) {
-            $this->addFlash('success', sprintf('Imported %s prices', $importResult['imported']));
+            $this->addFlash('success', $this->translator->trans(
+                'brille24.flashes.customer_option_prices_imported',
+                ['%count%' => $importResult['imported']]
+            ));
         }
         if (0 < $importResult['failed']) {
-            $this->addFlash('error', sprintf('Failed to import %s prices', $importResult['failed']));
+            $this->addFlash('error', $this->translator->trans(
+                'brille24.flashes.customer_option_prices_import_failed',
+                ['%count%' => $importResult['failed']]
+            ));
         }
 
         return $this->render('@Brille24SyliusCustomerOptionsPlugin/PriceImport/import.html.twig', ['csvForm' => $csvForm->createView(), 'byProductListForm' => $byProductListForm->createView()]);
