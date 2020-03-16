@@ -1,12 +1,19 @@
 <container xmlns="http://symfony.com/schema/dic/services">
     <services>
-        <service class="Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPricesCSVImporter"
-                 id="brille24.sylius_customer_options_plugin.importer.customer_option_prices_csvimporter"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceCsvImporter"
+                 id="brille24.sylius_customer_options_plugin.importer.customer_option_price_csv_importer"
         >
             <argument type="service" id="brille24.sylius_customer_options_plugin.updater.customer_option_price_updater" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="sylius.email_sender" />
             <argument type="service" id="security.token_storage" />
+        </service>
+
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceByExampleImporter"
+                 id="brille24.sylius_customer_options_plugin.importer.customer_option_price_by_example_importer"
+        >
+            <argument type="service" id="brille24.sylius_customer_options_plugin.updater.customer_option_price_updater" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
     </services>
 </container>

@@ -11,7 +11,7 @@
         <service class="Brille24\SyliusCustomerOptionsPlugin\Command\ImportCustomerOptionPricesCommand"
                  id="brille24.sylius_customer_options_plugin.command.import_customer_option_prices_command"
         >
-            <argument type="service" id="brille24.sylius_customer_options_plugin.importer.customer_option_prices_csvimporter" />
+            <argument type="service" id="brille24.sylius_customer_options_plugin.importer.customer_option_price_csv_importer" />
 
             <tag name="console.command" />
         </service>

@@ -11,7 +11,7 @@ use Sylius\Component\Mailer\Sender\SenderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Webmozart\Assert\Assert;
 
-class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInterface
+class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterInterface
 {
     public const BATCH_SIZE = 10;
 
@@ -52,7 +52,7 @@ class CustomerOptionPricesCSVImporter implements CustomerOptionPricesImporterInt
     }
 
     /** {@inheritdoc} */
-    public function importCustomerOptionPrices(string $source): array
+    public function import(string $source): array
     {
         $csv = $this->readCsv($source);
 

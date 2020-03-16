@@ -6,7 +6,8 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Controller;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportType;
-use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPricesImporterInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceByExampleImporterInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceCsvImporterInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,26 +19,33 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PriceImportController extends AbstractController
 {
-    /** @var CustomerOptionPricesImporterInterface */
-    protected $pricesImporter;
+    /** @var CustomerOptionPriceCsvImporterInterface */
+    protected $csvPriceImporter;
 
     /** @var string */
     protected $exampleFilePath;
+
     /** @var CustomerOptionPriceUpdaterInterface */
     protected $priceUpdater;
+
     /** @var EntityManagerInterface */
     protected $entityManager;
 
+    /** @var CustomerOptionPriceByExampleImporterInterface */
+    protected $priceByExampleImporter;
+
     public function __construct(
-        CustomerOptionPricesImporterInterface $pricesImporter,
-        string $exampleFilePath,
+        CustomerOptionPriceCsvImporterInterface $csvPriceImporter,
+        CustomerOptionPriceByExampleImporterInterface $priceByExampleImporter,
+        string $csvExampleFilePath,
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager
     ) {
-        $this->pricesImporter  = $pricesImporter;
-        $this->exampleFilePath = $exampleFilePath;
-        $this->priceUpdater    = $priceUpdater;
-        $this->entityManager   = $entityManager;
+        $this->csvPriceImporter = $csvPriceImporter;
+        $this->priceByExampleImporter = $priceByExampleImporter;
+        $this->exampleFilePath  = $csvExampleFilePath;
+        $this->priceUpdater     = $priceUpdater;
+        $this->entityManager    = $entityManager;
     }
 
     /**
@@ -65,6 +73,7 @@ class PriceImportController extends AbstractController
         $byProductListForm = $this->createForm(PriceImportType::class);
         $byProductListForm->handleRequest($request);
 
+        $importResult = ['imported' => 0, 'failed' => 0];
         if ($csvForm->isSubmitted() && $csvForm->isValid()) {
             /** @var UploadedFile $file */
             $file = $csvForm->get('file')->getData();
@@ -73,16 +82,7 @@ class PriceImportController extends AbstractController
             $path = $file->getRealPath();
 
             try {
-                $result = $this->pricesImporter->importCustomerOptionPrices($path);
-
-                if (0 < $result['imported']) {
-                    $this->addFlash('success', sprintf('Imported %s prices', $result['imported']));
-                }
-                if (0 < $result['failed']) {
-                    $this->addFlash('error', sprintf('Failed to import %s prices', $result['failed']));
-                }
-
-                return $this->redirectToRoute('brille24_admin_customer_option_index');
+                $importResult = $this->csvPriceImporter->import($path);
             } catch (\Throwable $exception) {
                 $this->addFlash('error', 'Could not update customer option prices');
             }
@@ -94,35 +94,15 @@ class PriceImportController extends AbstractController
             /** @var CustomerOptionValuePriceInterface $customerOptionValuePrice */
             $customerOptionValuePrice = $byProductListForm->get('customer_option_value_price')->getData();
 
-            $i = 0;
-            foreach ($products as $product) {
-                $dateFrom = null;
-                $dateTo   = null;
-                if ($customerOptionValuePrice->getDateValid() !== null) {
-                    $dateFrom = $customerOptionValuePrice->getDateValid()->getStart()->format(DATE_ATOM);
-                    $dateTo   = $customerOptionValuePrice->getDateValid()->getEnd()->format(DATE_ATOM);
-                }
+            $importResult = $this->priceByExampleImporter->importForProducts($products, $customerOptionValuePrice);
+        }
 
-                $price = $this->priceUpdater->updateForProduct(
-                    $customerOptionValuePrice->getCustomerOptionValue()->getCustomerOption()->getCode(),
-                    $customerOptionValuePrice->getCustomerOptionValue()->getCode(),
-                    $customerOptionValuePrice->getChannel()->getCode(),
-                    $product,
-                    $dateFrom,
-                    $dateTo,
-                    $customerOptionValuePrice->getType(),
-                    $customerOptionValuePrice->getAmount(),
-                    $customerOptionValuePrice->getPercent()
-                );
 
-                $this->entityManager->persist($price);
-
-                if (++$i % 10 === 0) {
-                    $this->entityManager->flush();
-                }
-            }
-
-            $this->entityManager->flush();
+        if (0 < $importResult['imported']) {
+            $this->addFlash('success', sprintf('Imported %s prices', $importResult['imported']));
+        }
+        if (0 < $importResult['failed']) {
+            $this->addFlash('error', sprintf('Failed to import %s prices', $importResult['failed']));
         }
 
         return $this->render('@Brille24SyliusCustomerOptionsPlugin/PriceImport/import.html.twig', ['csvForm' => $csvForm->createView(), 'byProductListForm' => $byProductListForm->createView()]);
