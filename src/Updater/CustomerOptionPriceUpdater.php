@@ -92,7 +92,7 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
      * @param string $customerOptionValueCode
      * @param string $channelCode
      * @param string|null $productCode
-     * @param ?DateRangeInterface $dateRange
+     * @param DateRangeInterface|null $dateRange
      *
      * @return CustomerOptionValuePriceInterface
      */
@@ -147,10 +147,16 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
 
         $valuePrice = null;
         foreach ($prices as $price) {
-            if ($price->getDateValid() == $dateRange) {
-                $valuePrice = $price;
+            $dateValid = $price->getDateValid();
 
-                break;
+            if ($dateRange === $dateValid) {
+                $valuePrice = $price;
+            }
+
+            if (null !== $dateValid && null !== $dateRange) {
+                if ($dateValid->compare($dateRange)) {
+                    $valuePrice = $price;
+                }
             }
         }
 

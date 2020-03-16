@@ -16,4 +16,21 @@ interface DateRangeInterface
      * @return bool
      */
     public function contains(DateTimeInterface $current): bool;
+
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function getStart(): ?DateTimeInterface;
+
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function getEnd(): ?DateTimeInterface;
+
+    /**
+     * @param DateRangeInterface $other
+     *
+     * @return bool
+     */
+    public function compare(DateRangeInterface $other): bool;
 }
