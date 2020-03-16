@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExampleImporterInterface
 {
-    private const BATCH_SIZE = 10;
+    protected const BATCH_SIZE = 100;
 
     /** @var CustomerOptionPriceUpdaterInterface */
     protected $priceUpdater;

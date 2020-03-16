@@ -13,7 +13,7 @@ use Webmozart\Assert\Assert;
 
 class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterInterface
 {
-    public const BATCH_SIZE = 10;
+    protected const BATCH_SIZE = 100;
 
     private const REQUIRED_FIELDS = [
         'customer_option_code'       => true,
