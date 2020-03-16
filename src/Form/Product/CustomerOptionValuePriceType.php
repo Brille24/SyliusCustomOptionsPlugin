@@ -14,7 +14,6 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Form\Product;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\Product;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
@@ -120,9 +119,7 @@ final class CustomerOptionValuePriceType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefaults([
-                              'data_class' => CustomerOptionValuePrice::class,
-                          ])
+            ->setDefaults(['data_class' => CustomerOptionValuePrice::class])
             ->setDefined('product')
             ->setAllowedTypes('product', ProductInterface::class);
     }
