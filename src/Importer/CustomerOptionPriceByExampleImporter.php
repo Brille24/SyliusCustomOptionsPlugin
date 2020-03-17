@@ -8,6 +8,9 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Sylius\Component\Core\Model\AdminUserInterface;
+use Sylius\Component\Mailer\Sender\SenderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExampleImporterInterface
 {
@@ -19,12 +22,22 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
     /** @var EntityManagerInterface */
     protected $entityManager;
 
+    /** @var SenderInterface */
+    protected $sender;
+
+    /** @var TokenStorageInterface */
+    protected $tokenStorage;
+
     public function __construct(
         CustomerOptionPriceUpdaterInterface $priceUpdater,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        SenderInterface $sender,
+        TokenStorageInterface $tokenStorage
     ) {
         $this->priceUpdater  = $priceUpdater;
         $this->entityManager = $entityManager;
+        $this->sender = $sender;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /** {@inheritdoc} */
@@ -45,7 +58,7 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
         $amount  = $examplePrice->getAmount();
         $percent = $examplePrice->getPercent();
 
-        $failed = 0;
+        $failed = [];
         $i = 0;
         foreach ($productCodes as $productCode) {
             try {
@@ -67,12 +80,31 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
                     $this->entityManager->flush();
                 }
             } catch (\Throwable $exception) {
-                $failed++;
+                $failed[] = $exception->getMessage();
             }
         }
 
         $this->entityManager->flush();
 
-        return ['imported' => $i, 'failed' => $failed];
+        $this->sendFailReport($failed);
+
+        return ['imported' => $i, 'failed' => count($failed)];
+    }
+
+    /**
+     * @param array $failed
+     */
+    protected function sendFailReport(array $failed): void
+    {
+        if (0 === count($failed)) {
+            return;
+        }
+
+        // Send mail about failed imports
+        /** @var AdminUserInterface $user */
+        $user  = $this->tokenStorage->getToken()->getUser();
+        $email = $user->getEmail();
+
+        $this->sender->send('brille24_failed_price_by_example_import', [$email], ['failed' => $failed]);
     }
 }

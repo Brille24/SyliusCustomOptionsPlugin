@@ -126,7 +126,7 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
         rename($tmpPath, $csvPath);
         file_put_contents($csvPath, implode("\n", $csvData));
 
-        $this->sender->send('brille24_failed_price_import', [$email], ['failed' => $failed], [$csvPath]);
+        $this->sender->send('brille24_failed_csv_price_import', [$email], ['failed' => $failed], [$csvPath]);
     }
 
     /**

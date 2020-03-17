@@ -1,0 +1,11 @@
+{% block subject %}
+    {{ 'brille24.email.customer_option_price_import_failed'|trans }}
+{% endblock %}
+
+{% block body %}
+    <ul>
+        {% for fail in failed %}
+            <li>{{ failed }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
