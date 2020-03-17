@@ -17,6 +17,8 @@
         <field name="code" type="string" unique="true" nullable="false"/>
         <field name="required" type="boolean"/>
 
+        <field name="archivedAt" type="datetime" nullable="true" />
+
         <one-to-many
                 target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociationInterface"
                 mapped-by="option"

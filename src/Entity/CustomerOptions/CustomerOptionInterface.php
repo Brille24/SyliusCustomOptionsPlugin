@@ -14,11 +14,12 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Sylius\Component\Resource\Model\ArchivableInterface;
 use Sylius\Component\Resource\Model\CodeAwareInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TranslatableInterface;
 
-interface CustomerOptionInterface extends ResourceInterface, CodeAwareInterface, TranslatableInterface
+interface CustomerOptionInterface extends ResourceInterface, CodeAwareInterface, TranslatableInterface, ArchivableInterface
 {
     /**
      * @param string|null $type
