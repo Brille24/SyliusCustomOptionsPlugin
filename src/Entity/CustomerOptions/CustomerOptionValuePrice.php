@@ -139,7 +139,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     }
 
     /** {@inheritdoc} */
-    public function setProduct(ProductInterface $product): void
+    public function setProduct(?ProductInterface $product): void
     {
         $this->product = $product;
     }

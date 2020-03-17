@@ -6,7 +6,9 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Validator;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Validator\ProductCustomerOptionValuePriceConstraintValidator;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRangeInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\ProductCustomerOptionValuePriceDateOverlapConstraintValidator;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -14,9 +16,9 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
+class ProductCustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCase
 {
-    /** @var ProductCustomerOptionValuePriceConstraintValidator */
+    /** @var ProductCustomerOptionValuePriceDateOverlapConstraintValidator */
     private $productCustomerOptionPriceValidator;
 
     /** @var array */
@@ -38,13 +40,14 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
             }
         );
 
-        $this->productCustomerOptionPriceValidator = new ProductCustomerOptionValuePriceConstraintValidator();
+        $this->productCustomerOptionPriceValidator = new ProductCustomerOptionValuePriceDateOverlapConstraintValidator();
         $this->productCustomerOptionPriceValidator->initialize($context);
     }
 
     private function createPrice(
         string $channelCode,
-        string $customerOptionValueCode
+        string $customerOptionValueCode,
+        ?DateRangeInterface $dateRange
     ): CustomerOptionValuePriceInterface {
         $price = self::createMock(CustomerOptionValuePriceInterface::class);
 
@@ -68,6 +71,7 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
         }
 
         $price->method('getCustomerOptionValue')->willReturn($customerOptionValue);
+        $price->method('getDateValid')->willReturn($dateRange);
 
         return $price;
     }
@@ -110,10 +114,10 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
     {
         $prices
             = [
-            $this->createPrice('de_DE', 'value1'),
-            $this->createPrice('en_DE', 'value1'),
-            $this->createPrice('de_DE', 'value2'),
-            $this->createPrice('en_DE', 'value2'),
+            $this->createPrice('de_DE', 'value1', null),
+            $this->createPrice('en_DE', 'value1', null),
+            $this->createPrice('de_DE', 'value2', null),
+            $this->createPrice('en_DE', 'value2', null),
         ];
 
         $constraint = self::createMock(Constraint::class);
@@ -126,14 +130,55 @@ class ProductCustomerOptionValuePriceConstraintValidatorTest extends TestCase
     {
         $prices
             = [
-            $this->createPrice('de_DE', 'value1'),
-            $this->createPrice('en_DE', 'value1'),
-            $this->createPrice('en_DE', 'value1'),
+            $this->createPrice('en_DE', 'value1', null),
+            $this->createPrice('en_DE', 'value1', null),
         ];
 
         $constraint = self::createMock(Constraint::class);
         $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
 
         self::assertCount(1, $this->violations);
+    }
+
+    public function testWithPricesInDifferentChannelWithOverlappingValidDates(): void
+    {
+        $prices
+            = [
+            $this->createPrice('de_DE', 'value1', new DateRange(new \DateTime('2020-01-01'), new \DateTime('2020-01-31'))),
+            $this->createPrice('en_DE', 'value1', new DateRange(new \DateTime('2020-01-05'), new \DateTime('2020-02-15'))),
+        ];
+
+        $constraint = self::createMock(Constraint::class);
+        $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
+
+        self::assertCount(0, $this->violations);
+    }
+
+    public function testWithPricesInSameChannelWithOverlappingValidDates(): void
+    {
+        $prices
+            = [
+            $this->createPrice('en_DE', 'value1', new DateRange(new \DateTime('2020-01-01'), new \DateTime('2020-01-31'))),
+            $this->createPrice('en_DE', 'value1', new DateRange(new \DateTime('2020-01-05'), new \DateTime('2020-02-15'))),
+        ];
+
+        $constraint = self::createMock(Constraint::class);
+        $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
+
+        self::assertCount(1, $this->violations);
+    }
+
+    public function testWithPricesForDifferentValuesWithOverlappingValidDates(): void
+    {
+        $prices
+            = [
+            $this->createPrice('de_DE', 'value1', new DateRange(new \DateTime('2020-01-01'), new \DateTime('2020-01-31'))),
+            $this->createPrice('de_DE', 'value2', new DateRange(new \DateTime('2020-01-05'), new \DateTime('2020-02-15'))),
+        ];
+
+        $constraint = self::createMock(Constraint::class);
+        $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
+
+        self::assertCount(0, $this->violations);
     }
 }
