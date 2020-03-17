@@ -16,3 +16,18 @@ brille24_customer_options_admin:
             index:
                 icon: cube
     type: sylius.resource
+
+brille24_admin_customer_option_archive:
+    path: /customer-option/{id}/archive
+    methods: [PATCH]
+    defaults:
+        _controller: brille24.controller.customer_option:updateAction
+        _sylius:
+            section: admin
+            permission: true
+            template: '@SyliusUi/Grid/Action/archive.html.twig'
+            form:
+                type: Sylius\Bundle\ResourceBundle\Form\Type\ArchivableType
+            redirect:
+                route: brille24_admin_customer_option_index
+                parameters: {}
