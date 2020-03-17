@@ -97,3 +97,6 @@ brille24:
         customer_option_price_import_error: Could not import customer option value prices
         customer_option_prices_imported: Imported %count% customer option value price(s)
         customer_option_prices_import_failed: Failed to import %count% customer option value price(s)
+
+    validation:
+        customer_option_value_price_dates_overlap: Overlaps with another date range

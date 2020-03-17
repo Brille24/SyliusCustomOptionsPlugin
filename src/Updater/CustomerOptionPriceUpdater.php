@@ -12,11 +12,13 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRangeInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepositoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ProductCustomerOptionValuePriceDateOverlapConstraint;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Webmozart\Assert\Assert;
 
 class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
@@ -41,6 +43,8 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
 
     /** @var CustomerOptionValuePriceFactoryInterface */
     protected $customerOptionValuePriceFactory;
+    /** @var ValidatorInterface */
+    protected $validator;
 
     public function __construct(
         CustomerOptionRepositoryInterface $customerOptionRepository,
@@ -48,7 +52,8 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         CustomerOptionValueRepositoryInterface $customerOptionValueRepository,
         ChannelRepositoryInterface $channelRepository,
         ProductRepositoryInterface $productRepository,
-        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory
+        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
+        ValidatorInterface $validator
     ) {
         $this->customerOptionRepository           = $customerOptionRepository;
         $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
@@ -56,6 +61,7 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         $this->channelRepository                  = $channelRepository;
         $this->productRepository                  = $productRepository;
         $this->customerOptionValuePriceFactory    = $customerOptionValuePriceFactory;
+        $this->validator = $validator;
     }
 
     /** {@inheritdoc} */
@@ -83,6 +89,17 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         $price->setType($type);
         $price->setAmount($amount);
         $price->setPercent($percent);
+
+        // Validate the prices
+        /** @var ProductInterface $product */
+        $product = $this->productRepository->findOneByCode($productCode);
+        $prices  = $product->getCustomerOptionValuePrices();
+        $prices->add($price);
+
+        $constraint = new ProductCustomerOptionValuePriceDateOverlapConstraint();
+        $violations = $this->validator->validate($prices, $constraint);
+
+        Assert::count($violations, 0, $constraint->message);
 
         return $price;
     }

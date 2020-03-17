@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraint;
 class ProductCustomerOptionValuePriceDateOverlapConstraint extends Constraint
 {
     /** @var string */
-    public $message = 'brille24.customer_options.value_price_dates_overlap';
+    public $message = 'brille24.validation.customer_option_value_price_dates_overlap';
 
     public function getTargets(): string
     {
