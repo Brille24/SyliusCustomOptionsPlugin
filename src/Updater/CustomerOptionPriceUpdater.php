@@ -16,7 +16,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ProductCustomerOp
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Webmozart\Assert\Assert;
@@ -35,14 +34,12 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
     /** @var ChannelRepositoryInterface */
     protected $channelRepository;
 
-    /** @var ProductRepositoryInterface */
-    protected $productRepository;
-
     /** @var EntityManagerInterface */
     protected $entityManager;
 
     /** @var CustomerOptionValuePriceFactoryInterface */
     protected $customerOptionValuePriceFactory;
+
     /** @var ValidatorInterface */
     protected $validator;
 
@@ -51,7 +48,6 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         RepositoryInterface $customerOptionValuePriceRepository,
         CustomerOptionValueRepositoryInterface $customerOptionValueRepository,
         ChannelRepositoryInterface $channelRepository,
-        ProductRepositoryInterface $productRepository,
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
         ValidatorInterface $validator
     ) {
@@ -59,7 +55,6 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
         $this->customerOptionValueRepository      = $customerOptionValueRepository;
         $this->channelRepository                  = $channelRepository;
-        $this->productRepository                  = $productRepository;
         $this->customerOptionValuePriceFactory    = $customerOptionValuePriceFactory;
         $this->validator = $validator;
     }
@@ -69,7 +64,7 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         string $customerOptionCode,
         string $customerOptionValueCode,
         string $channelCode,
-        string $productCode,
+        ProductInterface $product,
         ?string $validFrom,
         ?string $validTo,
         string $type,
@@ -83,7 +78,7 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
             $dateRange = new DateRange($validFrom, $validTo);
         }
 
-        $price = $this->getPrice($customerOptionCode, $customerOptionValueCode, $channelCode, $productCode, $dateRange);
+        $price = $this->getPrice($customerOptionCode, $customerOptionValueCode, $channelCode, $product, $dateRange);
 
         $price->setDateValid($dateRange);
         $price->setType($type);
@@ -91,9 +86,7 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         $price->setPercent($percent);
 
         // Validate the prices
-        /** @var ProductInterface $product */
-        $product = $this->productRepository->findOneByCode($productCode);
-        $prices  = $product->getCustomerOptionValuePrices();
+        $prices  = clone $product->getCustomerOptionValuePrices();
         $prices->add($price);
 
         $constraint = new ProductCustomerOptionValuePriceDateOverlapConstraint();
@@ -108,7 +101,7 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
      * @param string $customerOptionCode
      * @param string $customerOptionValueCode
      * @param string $channelCode
-     * @param string|null $productCode
+     * @param ProductInterface|null $product
      * @param DateRangeInterface|null $dateRange
      *
      * @return CustomerOptionValuePriceInterface
@@ -117,7 +110,7 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         string $customerOptionCode,
         string $customerOptionValueCode,
         string $channelCode,
-        ?string $productCode,
+        ?ProductInterface $product,
         ?DateRangeInterface $dateRange
     ): CustomerOptionValuePriceInterface {
         $customerOption = $this->customerOptionRepository->findOneByCode($customerOptionCode);
@@ -130,7 +123,6 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
 
         /** @var ChannelInterface|null $channel */
         $channel = $this->channelRepository->findOneByCode($channelCode);
-        $product = null;
 
         Assert::isInstanceOf(
             $customerOptionValue,
@@ -142,17 +134,6 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
             ChannelInterface::class,
             sprintf('Channel with code "%s" not found', $channelCode)
         );
-
-        if (null !== $productCode) {
-            /** @var ProductInterface|null $product */
-            $product = $this->productRepository->findOneByCode($productCode);
-
-            Assert::isInstanceOf(
-                $product,
-                ProductInterface::class,
-                sprintf('Product with code "%s" not found', $productCode)
-            );
-        }
 
         // Try to find an existing price
         /** @var CustomerOptionValuePriceInterface[] $prices */

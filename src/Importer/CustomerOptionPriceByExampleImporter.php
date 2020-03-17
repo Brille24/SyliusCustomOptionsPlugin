@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\AdminUserInterface;
+use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Webmozart\Assert\Assert;
 
 class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExampleImporterInterface
 {
@@ -27,16 +30,21 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
     /** @var TokenStorageInterface */
     protected $tokenStorage;
 
+    /** @var ProductRepositoryInterface */
+    protected $productRepository;
+
     public function __construct(
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager,
         SenderInterface $sender,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        ProductRepositoryInterface $productRepository
     ) {
-        $this->priceUpdater  = $priceUpdater;
-        $this->entityManager = $entityManager;
-        $this->sender        = $sender;
-        $this->tokenStorage  = $tokenStorage;
+        $this->priceUpdater      = $priceUpdater;
+        $this->entityManager     = $entityManager;
+        $this->sender            = $sender;
+        $this->tokenStorage      = $tokenStorage;
+        $this->productRepository = $productRepository;
     }
 
     /** {@inheritdoc} */
@@ -61,11 +69,19 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
         $i      = 0;
         foreach ($productCodes as $productCode) {
             try {
+                /** @var ProductInterface|null $product */
+                $product = $this->productRepository->findOneByCode($productCode);
+                Assert::isInstanceOf(
+                    $product,
+                    ProductInterface::class,
+                    sprintf('Product with code "%s" not found', $productCode)
+                );
+
                 $price = $this->priceUpdater->updateForProduct(
                     $customerOptionCode,
                     $customerOptionValueCode,
                     $channelCode,
-                    $productCode,
+                    $product,
                     $dateFrom,
                     $dateTo,
                     $type,

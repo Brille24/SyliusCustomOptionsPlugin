@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Updater;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 
 interface CustomerOptionPriceUpdaterInterface
 {
@@ -12,7 +13,7 @@ interface CustomerOptionPriceUpdaterInterface
      * @param string $customerOptionCode
      * @param string $customerOptionValueCode
      * @param string $channelCode
-     * @param string $productCode
+     * @param ProductInterface $product
      * @param string|null $validFrom
      * @param string|null $validTo
      * @param string $type
@@ -25,7 +26,7 @@ interface CustomerOptionPriceUpdaterInterface
         string $customerOptionCode,
         string $customerOptionValueCode,
         string $channelCode,
-        string $productCode,
+        ProductInterface $product,
         ?string $validFrom,
         ?string $validTo,
         string $type,

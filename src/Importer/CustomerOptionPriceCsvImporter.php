@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\AdminUserInterface;
+use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Webmozart\Assert\Assert;
@@ -39,16 +41,24 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
     /** @var TokenStorageInterface */
     protected $tokenStorage;
 
+    /** @var ProductRepositoryInterface */
+    protected $productRepository;
+
+    /** @var ProductInterface[] */
+    protected $products = [];
+
     public function __construct(
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager,
         SenderInterface $sender,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        ProductRepositoryInterface $productRepository
     ) {
-        $this->priceUpdater  = $priceUpdater;
-        $this->entityManager = $entityManager;
-        $this->sender        = $sender;
-        $this->tokenStorage  = $tokenStorage;
+        $this->priceUpdater      = $priceUpdater;
+        $this->entityManager     = $entityManager;
+        $this->sender            = $sender;
+        $this->tokenStorage      = $tokenStorage;
+        $this->productRepository = $productRepository;
     }
 
     /** {@inheritdoc} */
@@ -67,17 +77,27 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
             }
 
             try {
+                $product = $this->getProduct($data['product_code']);
+                Assert::isInstanceOf(
+                    $product,
+                    ProductInterface::class,
+                    sprintf('Product with code "%s" not found', $data['product_code'])
+                );
+
                 $price = $this->priceUpdater->updateForProduct(
                     $data['customer_option_code'],
                     $data['customer_option_value_code'],
                     $data['channel_code'],
-                    $data['product_code'],
+                    $product,
                     $data['valid_from'],
                     $data['valid_to'],
                     $data['type'],
                     (int) $data['amount'],
                     (float) $data['percent']
                 );
+
+                // Add the value price to the product so we can use it in later validations.
+                $product->addCustomerOptionValuePrice($price);
 
                 $this->entityManager->persist($price);
 
@@ -183,5 +203,19 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
         }
 
         return true;
+    }
+
+    /**
+     * @param string $code
+     *
+     * @return ProductInterface
+     */
+    private function getProduct(string $code): ProductInterface
+    {
+        if (!isset($this->products[$code])) {
+            $this->products[$code] = $this->productRepository->findOneByCode($code);
+        }
+
+        return $this->products[$code];
     }
 }

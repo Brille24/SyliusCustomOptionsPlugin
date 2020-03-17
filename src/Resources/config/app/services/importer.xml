@@ -7,6 +7,7 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="sylius.email_sender" />
             <argument type="service" id="security.token_storage" />
+            <argument type="service" id="sylius.repository.product" />
         </service>
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceByExampleImporter"
@@ -16,6 +17,7 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="sylius.email_sender" />
             <argument type="service" id="security.token_storage" />
+            <argument type="service" id="sylius.repository.product" />
         </service>
     </services>
 </container>
