@@ -1,14 +1,5 @@
 imports:
-  - { resource: "services/command.xml" }
-  - { resource: "services/controller.xml" }
-  - { resource: "services/eventListener.xml" }
-  - { resource: "services/repositories.xml" }
-  - { resource: "services/factory.xml" }
-  - { resource: "services/forms.xml" }
-  - { resource: "services/menuListener.xml" }
-  - { resource: "services/services.xml" }
-  - { resource: "services/fixtures.xml" }
-  - { resource: "services/validator.xml" }
+  - { resource: "services/*" }
 
 services:
   # Sonata
