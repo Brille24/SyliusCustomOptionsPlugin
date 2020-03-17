@@ -12,6 +12,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInter
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -74,28 +75,9 @@ class PriceImportController extends AbstractController
         $byProductListForm->handleRequest($request);
 
         $importResult = ['imported' => 0, 'failed' => 0];
-        if ($csvForm->isSubmitted() && $csvForm->isValid()) {
-            /** @var UploadedFile $file */
-            $file = $csvForm->get('file')->getData();
 
-            /** @var string $path */
-            $path = $file->getRealPath();
-
-            try {
-                $importResult = $this->csvPriceImporter->import($path);
-            } catch (\Throwable $exception) {
-                $this->addFlash('error', 'brille24.flashes.customer_option_price_import_error');
-            }
-        }
-
-        if ($byProductListForm->isSubmitted() && $byProductListForm->isValid()) {
-            $products = $byProductListForm->get('products')->getData();
-
-            /** @var CustomerOptionValuePriceInterface $customerOptionValuePrice */
-            $customerOptionValuePrice = $byProductListForm->get('customer_option_value_price')->getData();
-
-            $importResult = $this->priceByExampleImporter->importForProducts($products, $customerOptionValuePrice);
-        }
+        $this->handleCsvForm($csvForm, $importResult);
+        $this->handleProductListForm($byProductListForm, $importResult);
 
         if (0 < $importResult['imported']) {
             $this->addFlash('success', $this->translator->trans(
@@ -119,5 +101,42 @@ class PriceImportController extends AbstractController
     public function downloadExampleFileAction(): Response
     {
         return $this->file($this->exampleFilePath);
+    }
+
+    /**
+     * @param FormInterface $form
+     * @param array $importResult
+     */
+    protected function handleCsvForm(FormInterface $form, array &$importResult): void
+    {
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $file */
+            $file = $form->get('file')->getData();
+
+            /** @var string $path */
+            $path = $file->getRealPath();
+
+            try {
+                $importResult = $this->csvPriceImporter->import($path);
+            } catch (\Throwable $exception) {
+                $this->addFlash('error', 'brille24.flashes.customer_option_price_import_error');
+            }
+        }
+    }
+
+    /**
+     * @param FormInterface $form
+     * @param array $importResult
+     */
+    protected function handleProductListForm(FormInterface $form, array &$importResult): void
+    {
+        if ($form->isSubmitted() && $form->isValid()) {
+            $products = $form->get('products')->getData();
+
+            /** @var CustomerOptionValuePriceInterface $customerOptionValuePrice */
+            $customerOptionValuePrice = $form->get('customer_option_value_price')->getData();
+
+            $importResult = $this->priceByExampleImporter->importForProducts($products, $customerOptionValuePrice);
+        }
     }
 }
