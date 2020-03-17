@@ -9,7 +9,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportType;
 use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceByExampleImporterInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceCsvImporterInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -29,11 +28,9 @@ class PriceImportController extends AbstractController
     /** @var CustomerOptionPriceUpdaterInterface */
     protected $priceUpdater;
 
-    /** @var EntityManagerInterface */
-    protected $entityManager;
-
     /** @var CustomerOptionPriceByExampleImporterInterface */
     protected $priceByExampleImporter;
+
     /** @var TranslatorInterface */
     protected $translator;
 
@@ -42,15 +39,13 @@ class PriceImportController extends AbstractController
         CustomerOptionPriceByExampleImporterInterface $priceByExampleImporter,
         string $csvExampleFilePath,
         CustomerOptionPriceUpdaterInterface $priceUpdater,
-        EntityManagerInterface $entityManager,
         TranslatorInterface $translator
     ) {
-        $this->csvPriceImporter = $csvPriceImporter;
+        $this->csvPriceImporter       = $csvPriceImporter;
         $this->priceByExampleImporter = $priceByExampleImporter;
-        $this->exampleFilePath  = $csvExampleFilePath;
-        $this->priceUpdater     = $priceUpdater;
-        $this->entityManager    = $entityManager;
-        $this->translator = $translator;
+        $this->exampleFilePath        = $csvExampleFilePath;
+        $this->priceUpdater           = $priceUpdater;
+        $this->translator             = $translator;
     }
 
     /**
@@ -101,7 +96,6 @@ class PriceImportController extends AbstractController
 
             $importResult = $this->priceByExampleImporter->importForProducts($products, $customerOptionValuePrice);
         }
-
 
         if (0 < $importResult['imported']) {
             $this->addFlash('success', $this->translator->trans(
