@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 
-
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,8 +35,8 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
     ) {
         $this->priceUpdater  = $priceUpdater;
         $this->entityManager = $entityManager;
-        $this->sender = $sender;
-        $this->tokenStorage = $tokenStorage;
+        $this->sender        = $sender;
+        $this->tokenStorage  = $tokenStorage;
     }
 
     /** {@inheritdoc} */
@@ -59,7 +58,7 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
         $percent = $examplePrice->getPercent();
 
         $failed = [];
-        $i = 0;
+        $i      = 0;
         foreach ($productCodes as $productCode) {
             try {
                 $price = $this->priceUpdater->updateForProduct(
