@@ -96,7 +96,7 @@
         </service>
 
 
-        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportType"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\ProductListPriceImportType"
                  id="brille24.sylius_customer_options_plugin.form.price_import.price_import_type">
             <argument type="service" id="sylius.repository.product" />
             <tag name="form.type" />

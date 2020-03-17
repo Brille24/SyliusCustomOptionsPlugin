@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Controller;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportType;
+use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\CsvPriceImportType;
+use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\ProductListPriceImportType;
 use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceByExampleImporterInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceCsvImporterInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
@@ -56,22 +57,10 @@ class PriceImportController extends AbstractController
      */
     public function __invoke(Request $request): Response
     {
-        $csvForm = $this->createFormBuilder()
-            ->add('file', FileType::class, [
-                'label' => 'sylius.ui.choose_file',
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'brille24.form.customer_options.import',
-                'attr'  => [
-                    'class' => 'ui primary button',
-                ],
-            ])
-            ->getForm()
-        ;
-
+        $csvForm = $this->createForm(CsvPriceImportType::class);
         $csvForm->handleRequest($request);
 
-        $byProductListForm = $this->createForm(PriceImportType::class);
+        $byProductListForm = $this->createForm(ProductListPriceImportType::class);
         $byProductListForm->handleRequest($request);
 
         $importResult = ['imported' => 0, 'failed' => 0];
