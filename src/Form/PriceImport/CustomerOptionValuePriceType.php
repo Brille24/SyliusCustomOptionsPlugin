@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
@@ -42,6 +43,7 @@ final class CustomerOptionValuePriceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $values = [];
+        /** @var CustomerOptionInterface $customerOption */
         foreach ($this->customerOptionRepository->findAll() as $customerOption) {
             if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
                 $values = array_merge($values, $customerOption->getValues()->getValues());

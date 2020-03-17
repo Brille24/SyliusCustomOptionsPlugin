@@ -12,7 +12,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class PriceImportType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    /** {@inheritdoc} */
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('products', TextType::class)
