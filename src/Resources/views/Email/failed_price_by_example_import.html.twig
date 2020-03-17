@@ -3,9 +3,27 @@
 {% endblock %}
 
 {% block body %}
-    <ul>
-        {% for fail in failed %}
-            <li>{{ failed }}</li>
+    <style>
+        th, td {
+            margin: 0;
+            padding: 0.2rem;
+        }
+    </style>
+
+    <table style="border-spacing: 0" border="1">
+        <thead style="background-color: lightgrey">
+        <tr>
+            <th>Product code</th>
+            <th>Error</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for productCode, errorMessage in failed %}
+            <tr>
+                <td>{{ productCode }}</td>
+                <td>{{ errorMessage }}</td>
+            </tr>
         {% endfor %}
-    </ul>
+        </tbody>
+    </table>
 {% endblock %}

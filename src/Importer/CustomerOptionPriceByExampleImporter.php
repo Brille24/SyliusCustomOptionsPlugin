@@ -80,7 +80,7 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
                     $this->entityManager->flush();
                 }
             } catch (\Throwable $exception) {
-                $failed[] = $exception->getMessage();
+                $failed[$productCode] = $exception->getMessage();
             }
         }
 
