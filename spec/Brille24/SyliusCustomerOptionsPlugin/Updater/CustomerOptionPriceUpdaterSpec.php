@@ -63,6 +63,8 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         $amount                  = 500;
         $percent                 = 0.0;
 
+        $valuePrice->getDateValid()->shouldBeCalled()->willReturn(null);
+
         $this->setupMocks(
             $customerOptionRepository,
             $customerOptionValuePriceRepository,
@@ -86,20 +88,15 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         );
         $customerOptionValuePriceFactory->createNew()->shouldNotBeCalled();
 
-        $customerOptionValuePriceRepository->findOneBy([
+        $customerOptionValuePriceRepository->findBy([
             'customerOptionValue' => $customerOptionValue,
             'channel'             => $channel,
             'product'             => $product,
-        ])->shouldBeCalled()->willReturn($valuePrice);
+        ])->shouldBeCalled()->willReturn([$valuePrice]);
 
-        $expectedPrice = new CustomerOptionValuePrice();
-        $expectedPrice->setProduct($product);
-        $expectedPrice->setChannel($channel);
-        $expectedPrice->setCustomerOptionValue($customerOptionValue);
-        $expectedPrice->setPercent($percent);
-        $expectedPrice->setAmount($amount);
-        $expectedPrice->setType($type);
-        $expectedPrice->setDateValid(null);
+        $valuePrice->setPercent($percent)->shouldBeCalled();
+        $valuePrice->setAmount($amount)->shouldBeCalled();
+        $valuePrice->setType($type)->shouldBeCalled();
 
         $this->updateForProduct(
             $customerOptionCode,
@@ -111,7 +108,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             $type,
             $amount,
             $percent
-        )->shouldBeLike($expectedPrice);
+        )->shouldBe($valuePrice);
     }
 
     public function it_updates_an_existing_price_with_product_and_date(
@@ -137,6 +134,8 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         $amount                  = 500;
         $percent                 = 0.0;
 
+        $valuePrice->getDateValid()->shouldBeCalled()->willReturn(new DateRange(new \DateTime($validFrom), new \DateTime($validTo)));
+
         $this->setupMocks(
             $customerOptionRepository,
             $customerOptionValuePriceRepository,
@@ -160,21 +159,15 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         );
         $customerOptionValuePriceFactory->createNew()->shouldNotBeCalled();
 
-        $customerOptionValuePriceRepository->findOneBy([
+        $customerOptionValuePriceRepository->findBy([
             'customerOptionValue' => $customerOptionValue,
             'channel'             => $channel,
             'product'             => $product,
-        ])->shouldBeCalled()->willReturn($valuePrice);
+        ])->shouldBeCalled()->willReturn([$valuePrice]);
 
-
-        $expectedPrice = new CustomerOptionValuePrice();
-        $expectedPrice->setProduct($product);
-        $expectedPrice->setChannel($channel);
-        $expectedPrice->setCustomerOptionValue($customerOptionValue);
-        $expectedPrice->setPercent($percent);
-        $expectedPrice->setAmount($amount);
-        $expectedPrice->setType($type);
-        $expectedPrice->setDateValid(new DateRange(new \DateTime($validFrom), new \DateTime($validTo)));
+        $valuePrice->setPercent($percent)->shouldBeCalled();
+        $valuePrice->setAmount($amount)->shouldBeCalled();
+        $valuePrice->setType($type)->shouldBeCalled();
 
         $this->updateForProduct(
             $customerOptionCode,
@@ -186,7 +179,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             $type,
             $amount,
             $percent
-        )->shouldBeLike($expectedPrice);
+        )->shouldBe($valuePrice);
     }
 
     public function it_updates_a_new_price_with_product(
@@ -238,20 +231,18 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         $valuePrice->setChannel($channel)->shouldBeCalled();
         $valuePrice->setProduct($product)->shouldBeCalled();
 
-        $customerOptionValuePriceRepository->findOneBy([
+        $customerOptionValuePriceRepository->findBy([
             'customerOptionValue' => $customerOptionValue,
             'channel'             => $channel,
             'product'             => $product,
-        ])->shouldBeCalled()->willReturn(null);
+        ])->shouldBeCalled()->willReturn([]);
 
-        $expectedPrice = new CustomerOptionValuePrice();
-        $expectedPrice->setProduct($product);
-        $expectedPrice->setChannel($channel);
-        $expectedPrice->setCustomerOptionValue($customerOptionValue);
-        $expectedPrice->setPercent($percent);
-        $expectedPrice->setAmount($amount);
-        $expectedPrice->setType($type);
-        $expectedPrice->setDateValid(null);
+        $valuePrice->setProduct($product)->shouldBeCalled();
+        $valuePrice->setChannel($channel)->shouldBeCalled();
+        $valuePrice->setCustomerOptionValue($customerOptionValue)->shouldBeCalled();
+        $valuePrice->setPercent($percent)->shouldBeCalled();
+        $valuePrice->setAmount($amount)->shouldBeCalled();
+        $valuePrice->setType($type)->shouldBeCalled();
 
         $this->updateForProduct(
             $customerOptionCode,
@@ -263,7 +254,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             $type,
             $amount,
             $percent
-        )->shouldBeLike($expectedPrice);
+        )->shouldBe($valuePrice);
     }
 
     public function it_updates_a_new_price_with_product_and_date(
@@ -315,20 +306,18 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         $valuePrice->setChannel($channel)->shouldBeCalled();
         $valuePrice->setProduct($product)->shouldBeCalled();
 
-        $customerOptionValuePriceRepository->findOneBy([
+        $customerOptionValuePriceRepository->findBy([
             'customerOptionValue' => $customerOptionValue,
             'channel'             => $channel,
             'product'             => $product,
-        ])->shouldBeCalled()->willReturn(null);
+        ])->shouldBeCalled()->willReturn([]);
 
-        $expectedPrice = new CustomerOptionValuePrice();
-        $expectedPrice->setProduct($product);
-        $expectedPrice->setChannel($channel);
-        $expectedPrice->setCustomerOptionValue($customerOptionValue);
-        $expectedPrice->setPercent($percent);
-        $expectedPrice->setAmount($amount);
-        $expectedPrice->setType($type);
-        $expectedPrice->setDateValid(new DateRange(new \DateTime($validFrom), new \DateTime($validTo)));
+        $valuePrice->setProduct($product)->shouldBeCalled();
+        $valuePrice->setChannel($channel)->shouldBeCalled();
+        $valuePrice->setCustomerOptionValue($customerOptionValue)->shouldBeCalled();
+        $valuePrice->setPercent($percent)->shouldBeCalled();
+        $valuePrice->setAmount($amount)->shouldBeCalled();
+        $valuePrice->setType($type)->shouldBeCalled();
 
         $this->updateForProduct(
             $customerOptionCode,
@@ -340,7 +329,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             $type,
             $amount,
             $percent
-        )->shouldBeLike($expectedPrice);
+        )->shouldBe($valuePrice);
     }
 
     public function it_requires_the_customer_option_value_to_exist(
@@ -473,8 +462,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         ChannelInterface $channel,
 
         CustomerOptionValuePriceInterface $valuePrice,
-        // phpspec throws an exception if we make parameters nullable, therefore $product has no specific type.
-        $product,
+        ProductInterface $product,
 
         string $customerOptionCode,
         string $customerOptionValueCode,
@@ -498,7 +486,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         if (!empty($validFrom) && !empty($validTo)) {
             $valuePrice->setDateValid(Argument::type(DateRange::class))->shouldBeCalled();
         } else {
-            $valuePrice->setDateValid(Argument::any())->shouldNotBeCalled();
+            $valuePrice->setDateValid(null)->shouldBeCalled();
         }
         $valuePrice->setType($type)->shouldBeCalled();
         $valuePrice->setAmount($amount)->shouldBeCalled();

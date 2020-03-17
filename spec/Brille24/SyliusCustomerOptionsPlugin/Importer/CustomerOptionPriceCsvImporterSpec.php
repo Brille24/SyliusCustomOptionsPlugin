@@ -14,7 +14,7 @@ use Sylius\Component\Mailer\Sender\SenderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class CustomerOptionPricesCSVImporterSpec extends ObjectBehavior
+class CustomerOptionPriceCsvImporterSpec extends ObjectBehavior
 {
     public function let(
         CustomerOptionPriceUpdaterInterface $priceUpdater,
@@ -57,7 +57,7 @@ class CustomerOptionPricesCSVImporterSpec extends ObjectBehavior
         $entityManager->persist(Argument::type(CustomerOptionValuePriceInterface::class))->shouldBeCalledTimes(3);
         $entityManager->flush()->shouldBeCalled();
 
-        $this->importCustomerOptionPrices($this->getValidCsvFile());
+        $this->import($this->getValidCsvFile());
     }
 
     public function it_sends_mail_on_failed_import(
@@ -102,7 +102,7 @@ class CustomerOptionPricesCSVImporterSpec extends ObjectBehavior
         $entityManager->persist(Argument::type(CustomerOptionValuePriceInterface::class))->shouldNotBeCalled();
         $entityManager->flush()->shouldBeCalled();
 
-        $this->importCustomerOptionPrices($this->getInValidCsvFile());
+        $this->import($this->getInValidCsvFile());
     }
 
     /**
