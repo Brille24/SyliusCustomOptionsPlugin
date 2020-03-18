@@ -36,7 +36,7 @@ class ProductListPriceImportType extends AbstractType
                 return implode(', ', $productArray);
             },
             static function (string $productsAsString) {
-                return explode(', ', $productsAsString);
+                return explode(',', preg_replace('/\s+/', '', $productsAsString));
             }
         ));
     }
