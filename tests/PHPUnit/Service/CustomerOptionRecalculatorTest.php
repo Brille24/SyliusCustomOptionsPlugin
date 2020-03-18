@@ -80,7 +80,7 @@ class CustomerOptionRecalculatorTest extends TestCase
         $this->adjustmentFactory
             ->expects($this->once())
             ->method('createWithData')
-            ->with('CUSTOMER_OPTION_ADJUSTMENT', 'Test Adjustment', 1200)
+            ->with('customer_option', 'Test Adjustment', 1200)
             ->willReturn($adjustment)
         ;
 

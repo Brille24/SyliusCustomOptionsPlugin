@@ -12,7 +12,7 @@ use Sylius\Component\Order\Processor\OrderProcessorInterface;
 
 final class CustomerOptionRecalculator implements OrderProcessorInterface
 {
-    public const CUSTOMER_OPTION_ADJUSTMENT = 'CUSTOMER_OPTION_ADJUSTMENT';
+    public const CUSTOMER_OPTION_ADJUSTMENT = 'customer_option';
 
     /** @var AdjustmentFactoryInterface */
     private $adjustmentFactory;

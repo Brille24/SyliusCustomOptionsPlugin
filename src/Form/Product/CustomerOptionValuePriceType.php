@@ -45,9 +45,7 @@ final class CustomerOptionValuePriceType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefaults([
-                'data_class' => CustomerOptionValuePrice::class,
-            ])
+            ->setDefaults(['data_class' => CustomerOptionValuePrice::class])
             ->setDefined('product')
             ->setAllowedTypes('product', ProductInterface::class)
         ;
