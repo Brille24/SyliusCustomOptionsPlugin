@@ -12,7 +12,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRangeInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepositoryInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ProductCustomerOptionValuePriceDateOverlapConstraint;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionValuePriceDateOverlapConstraint;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -89,7 +89,7 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         $prices  = clone $product->getCustomerOptionValuePrices();
         $prices->add($price);
 
-        $constraint = new ProductCustomerOptionValuePriceDateOverlapConstraint();
+        $constraint = new CustomerOptionValuePriceDateOverlapConstraint();
         $violations = $this->validator->validate($prices, $constraint);
 
         Assert::count($violations, 0, $constraint->message);

@@ -15,13 +15,13 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Validator;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ProductCustomerOptionValuePriceDateOverlapConstraint;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionValuePriceDateOverlapConstraint;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Webmozart\Assert\Assert;
 
-class ProductCustomerOptionValuePriceDateOverlapConstraintValidator extends ConstraintValidator
+class CustomerOptionValuePriceDateOverlapConstraintValidator extends ConstraintValidator
 {
     /**
      * Checks if the passed value is valid.
@@ -32,7 +32,7 @@ class ProductCustomerOptionValuePriceDateOverlapConstraintValidator extends Cons
     public function validate($valuePrices, Constraint $constraint): void
     {
         Assert::isInstanceOf($valuePrices, Collection::class);
-        Assert::isInstanceOf($constraint, ProductCustomerOptionValuePriceDateOverlapConstraint::class);
+        Assert::isInstanceOf($constraint, CustomerOptionValuePriceDateOverlapConstraint::class);
         Assert::allObject($valuePrices);
         Assert::allImplementsInterface($valuePrices, CustomerOptionValuePriceInterface::class);
 

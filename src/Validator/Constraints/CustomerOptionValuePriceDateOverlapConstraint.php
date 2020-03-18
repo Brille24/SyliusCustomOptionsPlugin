@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints;
 
-use Brille24\SyliusCustomerOptionsPlugin\Validator\ProductCustomerOptionValuePriceDateOverlapConstraintValidator;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\CustomerOptionValuePriceDateOverlapConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 
-class ProductCustomerOptionValuePriceDateOverlapConstraint extends Constraint
+class CustomerOptionValuePriceDateOverlapConstraint extends Constraint
 {
     /** @var string */
     public $message = 'brille24.validation.customer_option_value_price_dates_overlap';
@@ -27,6 +27,6 @@ class ProductCustomerOptionValuePriceDateOverlapConstraint extends Constraint
 
     public function validatedBy(): string
     {
-        return ProductCustomerOptionValuePriceDateOverlapConstraintValidator::class;
+        return CustomerOptionValuePriceDateOverlapConstraintValidator::class;
     }
 }

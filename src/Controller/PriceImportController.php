@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Controller;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\CsvPriceImportType;
-use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\ProductListPriceImportType;
+use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportByCsvType;
+use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportByProductListType;
 use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceByExampleImporterInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceCsvImporterInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
@@ -55,16 +55,16 @@ class PriceImportController extends AbstractController
      */
     public function __invoke(Request $request): Response
     {
-        $csvForm = $this->createForm(CsvPriceImportType::class);
+        $csvForm = $this->createForm(PriceImportByCsvType::class);
         $csvForm->handleRequest($request);
 
-        $byProductListForm = $this->createForm(ProductListPriceImportType::class);
-        $byProductListForm->handleRequest($request);
+        $productListForm = $this->createForm(PriceImportByProductListType::class);
+        $productListForm->handleRequest($request);
 
         $importResult = ['imported' => 0, 'failed' => 0];
 
         $this->handleCsvForm($csvForm, $importResult);
-        $this->handleProductListForm($byProductListForm, $importResult);
+        $this->handleProductListForm($productListForm, $importResult);
 
         if (0 < $importResult['imported']) {
             $this->addFlash('success', $this->translator->trans(
@@ -79,7 +79,7 @@ class PriceImportController extends AbstractController
             ));
         }
 
-        return $this->render('@Brille24SyliusCustomerOptionsPlugin/PriceImport/import.html.twig', ['csvForm' => $csvForm->createView(), 'byProductListForm' => $byProductListForm->createView()]);
+        return $this->render('@Brille24SyliusCustomerOptionsPlugin/PriceImport/import.html.twig', ['csvForm' => $csvForm->createView(), 'byProductListForm' => $productListForm->createView()]);
     }
 
     /**

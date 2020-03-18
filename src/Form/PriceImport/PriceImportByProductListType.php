@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class ProductListPriceImportType extends AbstractType
+class PriceImportByProductListType extends AbstractType
 {
     /** {@inheritdoc} */
     public function buildForm(FormBuilderInterface $builder, array $options): void

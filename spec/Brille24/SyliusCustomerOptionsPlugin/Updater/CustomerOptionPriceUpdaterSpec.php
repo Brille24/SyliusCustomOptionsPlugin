@@ -13,7 +13,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepositoryInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ProductCustomerOptionValuePriceDateOverlapConstraint;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionValuePriceDateOverlapConstraint;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
@@ -106,7 +106,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         $product->getCustomerOptionValuePrices()->willReturn(new ArrayCollection([$valuePrice]));
         $validator->validate(
             Argument::type(Collection::class),
-            Argument::type(ProductCustomerOptionValuePriceDateOverlapConstraint::class)
+            Argument::type(CustomerOptionValuePriceDateOverlapConstraint::class)
         )->shouldBeCalled()->willReturn([]);
 
         $this->updateForProduct(
@@ -183,7 +183,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         $product->getCustomerOptionValuePrices()->willReturn(new ArrayCollection([$valuePrice]));
         $validator->validate(
             Argument::type(Collection::class),
-            Argument::type(ProductCustomerOptionValuePriceDateOverlapConstraint::class)
+            Argument::type(CustomerOptionValuePriceDateOverlapConstraint::class)
         )->shouldBeCalled()->willReturn([]);
 
         $this->updateForProduct(
@@ -264,7 +264,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         $product->getCustomerOptionValuePrices()->willReturn(new ArrayCollection());
         $validator->validate(
             Argument::type(Collection::class),
-            Argument::type(ProductCustomerOptionValuePriceDateOverlapConstraint::class)
+            Argument::type(CustomerOptionValuePriceDateOverlapConstraint::class)
         )->shouldBeCalled()->willReturn([]);
 
         $this->updateForProduct(
@@ -345,7 +345,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         $product->getCustomerOptionValuePrices()->willReturn(new ArrayCollection());
         $validator->validate(
             Argument::type(Collection::class),
-            Argument::type(ProductCustomerOptionValuePriceDateOverlapConstraint::class)
+            Argument::type(CustomerOptionValuePriceDateOverlapConstraint::class)
         )->shouldBeCalled()->willReturn([]);
 
         $this->updateForProduct(
@@ -489,7 +489,7 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         $product->getCustomerOptionValuePrices()->willReturn(new ArrayCollection());
         $validator->validate(
             Argument::type(Collection::class),
-            Argument::type(ProductCustomerOptionValuePriceDateOverlapConstraint::class)
+            Argument::type(CustomerOptionValuePriceDateOverlapConstraint::class)
         )->shouldBeCalled()->willReturn([$violation]);
 
         $this->shouldThrow(\InvalidArgumentException::class)->during('updateForProduct', [

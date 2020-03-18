@@ -9,8 +9,8 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRangeInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ProductCustomerOptionValuePriceDateOverlapConstraint;
-use Brille24\SyliusCustomerOptionsPlugin\Validator\ProductCustomerOptionValuePriceDateOverlapConstraintValidator;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionValuePriceDateOverlapConstraint;
+use Brille24\SyliusCustomerOptionsPlugin\Validator\CustomerOptionValuePriceDateOverlapConstraintValidator;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class ProductCustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCase
 {
-    /** @var ProductCustomerOptionValuePriceDateOverlapConstraintValidator */
+    /** @var CustomerOptionValuePriceDateOverlapConstraintValidator */
     private $productCustomerOptionPriceValidator;
 
     /** @var array */
@@ -44,7 +44,7 @@ class ProductCustomerOptionValuePriceDateOverlapConstraintValidatorTest extends 
             }
         );
 
-        $this->productCustomerOptionPriceValidator = new ProductCustomerOptionValuePriceDateOverlapConstraintValidator();
+        $this->productCustomerOptionPriceValidator = new CustomerOptionValuePriceDateOverlapConstraintValidator();
         $this->productCustomerOptionPriceValidator->initialize($context);
     }
 
@@ -100,7 +100,7 @@ class ProductCustomerOptionValuePriceDateOverlapConstraintValidatorTest extends 
         self::expectException(\InvalidArgumentException::class);
         self::expectExceptionMessage($message);
 
-        $constraint = self::createMock(ProductCustomerOptionValuePriceDateOverlapConstraint::class);
+        $constraint = self::createMock(CustomerOptionValuePriceDateOverlapConstraint::class);
         $this->productCustomerOptionPriceValidator->validate($value, $constraint);
     }
 
@@ -120,7 +120,7 @@ class ProductCustomerOptionValuePriceDateOverlapConstraintValidatorTest extends 
 
     public function testEmptyCollection(): void
     {
-        $constraint = self::createMock(ProductCustomerOptionValuePriceDateOverlapConstraint::class);
+        $constraint = self::createMock(CustomerOptionValuePriceDateOverlapConstraint::class);
         $this->productCustomerOptionPriceValidator->validate(new ArrayCollection(), $constraint);
 
         self::assertCount(0, $this->violations);
@@ -136,7 +136,7 @@ class ProductCustomerOptionValuePriceDateOverlapConstraintValidatorTest extends 
             $this->createPrice('en_DE', 'some_option', 'value2', null),
         ];
 
-        $constraint = self::createMock(ProductCustomerOptionValuePriceDateOverlapConstraint::class);
+        $constraint = self::createMock(CustomerOptionValuePriceDateOverlapConstraint::class);
         $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
 
         self::assertCount(0, $this->violations);
@@ -150,7 +150,7 @@ class ProductCustomerOptionValuePriceDateOverlapConstraintValidatorTest extends 
             $this->createPrice('en_DE', 'some_option', 'value1', null),
         ];
 
-        $constraint = self::createMock(ProductCustomerOptionValuePriceDateOverlapConstraint::class);
+        $constraint = self::createMock(CustomerOptionValuePriceDateOverlapConstraint::class);
         $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
 
         self::assertCount(1, $this->violations);
@@ -174,7 +174,7 @@ class ProductCustomerOptionValuePriceDateOverlapConstraintValidatorTest extends 
             ),
         ];
 
-        $constraint = self::createMock(ProductCustomerOptionValuePriceDateOverlapConstraint::class);
+        $constraint = self::createMock(CustomerOptionValuePriceDateOverlapConstraint::class);
         $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
 
         self::assertCount(0, $this->violations);
@@ -198,7 +198,7 @@ class ProductCustomerOptionValuePriceDateOverlapConstraintValidatorTest extends 
             ),
         ];
 
-        $constraint = self::createMock(ProductCustomerOptionValuePriceDateOverlapConstraint::class);
+        $constraint = self::createMock(CustomerOptionValuePriceDateOverlapConstraint::class);
         $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
 
         self::assertCount(1, $this->violations);
@@ -222,7 +222,7 @@ class ProductCustomerOptionValuePriceDateOverlapConstraintValidatorTest extends 
             ),
         ];
 
-        $constraint = self::createMock(ProductCustomerOptionValuePriceDateOverlapConstraint::class);
+        $constraint = self::createMock(CustomerOptionValuePriceDateOverlapConstraint::class);
         $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
 
         self::assertCount(0, $this->violations);
