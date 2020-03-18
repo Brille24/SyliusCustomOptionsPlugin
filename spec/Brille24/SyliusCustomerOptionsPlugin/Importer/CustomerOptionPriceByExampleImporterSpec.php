@@ -8,12 +8,14 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionIn
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Component\Core\Model\AdminUserInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -24,9 +26,10 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager,
         SenderInterface $sender,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        ProductRepositoryInterface $productRepository
     ): void {
-        $this->beConstructedWith($priceUpdater, $entityManager, $sender, $tokenStorage);
+        $this->beConstructedWith($priceUpdater, $entityManager, $sender, $tokenStorage, $productRepository);
     }
 
     public function it_uses_price_as_example_for_a_list_of_products(
@@ -35,7 +38,11 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
         CustomerOptionValuePriceInterface $valuePrice,
         CustomerOptionValueInterface $customerOptionValue,
         ChannelInterface $channel,
-        CustomerOptionInterface $customerOption
+        CustomerOptionInterface $customerOption,
+        ProductRepositoryInterface $productRepository,
+        ProductInterface $firstProduct,
+        ProductInterface $secondProduct,
+        ProductInterface $thirdProduct
     ): void {
         $productCodes = ['first', 'second', 'third'];
 
@@ -53,11 +60,15 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
 
         $channel->getCode()->shouldBeCalled()->willReturn('some_channel');
 
+        $productRepository->findOneByCode('first')->willReturn($firstProduct);
+        $productRepository->findOneByCode('second')->willReturn($secondProduct);
+        $productRepository->findOneByCode('third')->willReturn($thirdProduct);
+
         $priceUpdater->updateForProduct(
             'some_option',
             'some_value',
             'some_channel',
-            Argument::type('string'),
+            Argument::type(ProductInterface::class),
             null,
             null,
             CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
@@ -78,7 +89,9 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
         SenderInterface $sender,
         TokenStorageInterface $tokenStorage,
         TokenInterface $token,
-        AdminUserInterface $adminUser
+        AdminUserInterface $adminUser,
+        ProductRepositoryInterface $productRepository,
+        ProductInterface $firstProduct
     ): void {
         $productCodes = ['first'];
 
@@ -100,11 +113,13 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
         $token->getUser()->willReturn($adminUser);
         $adminUser->getEmail()->willReturn('john.doe@example.com');
 
+        $productRepository->findOneByCode('first')->willReturn($firstProduct);
+
         $priceUpdater->updateForProduct(
             Argument::type('string'),
             Argument::type('string'),
             Argument::type('string'),
-            Argument::type('string'),
+            Argument::type(ProductInterface::class),
             null,
             null,
             Argument::type('string'),
