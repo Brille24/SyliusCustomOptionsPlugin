@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport;
 
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -21,7 +20,7 @@ class CsvPriceImportType extends AbstractType
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'brille24.form.customer_options.import',
-                'attr' => [
+                'attr'  => [
                     'class' => 'ui primary button',
                 ],
             ])

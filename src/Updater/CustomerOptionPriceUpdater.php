@@ -56,7 +56,7 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         $this->customerOptionValueRepository      = $customerOptionValueRepository;
         $this->channelRepository                  = $channelRepository;
         $this->customerOptionValuePriceFactory    = $customerOptionValuePriceFactory;
-        $this->validator = $validator;
+        $this->validator                          = $validator;
     }
 
     /** {@inheritdoc} */

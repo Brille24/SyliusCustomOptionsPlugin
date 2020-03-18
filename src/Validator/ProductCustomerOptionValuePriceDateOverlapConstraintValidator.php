@@ -52,11 +52,11 @@ class ProductCustomerOptionValuePriceDateOverlapConstraintValidator extends Cons
             $channelCode = $priceChannel->getCode();
 
             /** @var CustomerOptionValueInterface $customerOptionValue */
-            $customerOptionValue = $currentPrice->getCustomerOptionValue();
+            $customerOptionValue     = $currentPrice->getCustomerOptionValue();
             $customerOptionValueCode = $customerOptionValue->getCode();
 
             /** @var CustomerOptionInterface $customerOption */
-            $customerOption = $customerOptionValue->getCustomerOption();
+            $customerOption     = $customerOptionValue->getCustomerOption();
             $customerOptionCode = $customerOption->getCode();
 
             if (!isset($existingPrices[$channelCode][$customerOptionCode][$customerOptionValueCode])) {
@@ -71,7 +71,7 @@ class ProductCustomerOptionValuePriceDateOverlapConstraintValidator extends Cons
                     continue;
                 }
 
-                $currentDateRange = $currentPrice->getDateValid();
+                $currentDateRange  = $currentPrice->getDateValid();
                 $existingDateRange = $existingPrice->getDateValid();
 
                 if ($currentDateRange === $existingDateRange) {

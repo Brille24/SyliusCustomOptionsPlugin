@@ -47,7 +47,6 @@ final class CustomerOptionValuePriceType extends AbstractType
         $this->addValuePriceFields($builder, $values);
     }
 
-
     /** {@inheritdoc} */
     public function configureOptions(OptionsResolver $resolver): void
     {

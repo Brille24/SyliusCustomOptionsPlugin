@@ -208,9 +208,9 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
     /**
      * @param string $code
      *
-     * @return ProductInterface
+     * @return ProductInterface|null
      */
-    private function getProduct(string $code): ProductInterface
+    private function getProduct(string $code): ?ProductInterface
     {
         if (!isset($this->products[$code])) {
             $this->products[$code] = $this->productRepository->findOneByCode($code);
