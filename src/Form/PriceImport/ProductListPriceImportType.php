@@ -20,7 +20,11 @@ class ProductListPriceImportType extends AbstractType
             ->add('customer_option_value_price', CustomerOptionValuePriceType::class, [
                 'label' => false,
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'attr'  => [
+                    'class' => 'ui primary button',
+                ],
+            ])
         ;
 
         $builder->get('products')->addModelTransformer(new CallbackTransformer(

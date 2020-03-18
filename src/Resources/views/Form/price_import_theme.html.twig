@@ -1,0 +1,17 @@
+{% extends '@SyliusAdmin/Form/theme.html.twig' %}
+
+{% block brille24_product_value_price_widget %}
+    <div class="two fields">
+        {{ form_row(form.customerOptionValue) }}
+        {{ form_row(form.channel) }}
+    </div>
+    <div class="three fields">
+        {{ form_row(form.type) }}
+        {{ form_row(form.amount) }}
+        {{ form_row(form.percent) }}
+    </div>
+    <div class="two fields">
+        {{ form_row(form.dateValid.start) }}
+        {{ form_row(form.dateValid.end) }}
+    </div>
+{% endblock brille24_product_value_price_widget %}
