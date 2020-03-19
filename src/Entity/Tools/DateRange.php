@@ -64,7 +64,7 @@ class DateRange implements DateRangeInterface
     }
 
     /** {@inheritdoc} */
-    public function compare(DateRangeInterface $other): bool
+    public function equals(DateRangeInterface $other): bool
     {
         return $this->start->getTimestamp() === $other->getStart()->getTimestamp() &&
             $this->end->getTimestamp() === $other->getEnd()->getTimestamp();

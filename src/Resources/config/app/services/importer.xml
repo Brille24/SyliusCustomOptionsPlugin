@@ -3,6 +3,7 @@
         <service class="Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceCsvImporter"
                  id="brille24.sylius_customer_options_plugin.importer.customer_option_price_csv_importer"
         >
+            <argument type="service" id="brille24.sylius_customer_options_plugin.reader.csv_reader" />
             <argument type="service" id="brille24.sylius_customer_options_plugin.updater.customer_option_price_updater" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="sylius.email_sender" />

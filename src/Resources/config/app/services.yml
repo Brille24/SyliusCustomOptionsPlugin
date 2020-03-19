@@ -11,6 +11,7 @@ imports:
   - { resource: "services/validator.xml" }
   - { resource: "services/importer.xml" }
   - { resource: "services/updater.xml" }
+  - { resource: "services/reader.xml" }
 
 services:
   # Sonata

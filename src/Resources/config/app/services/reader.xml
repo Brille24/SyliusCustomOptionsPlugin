@@ -1,0 +1,7 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Reader\CsvReader"
+                 id="brille24.sylius_customer_options_plugin.reader.csv_reader"
+        />
+    </services>
+</container>

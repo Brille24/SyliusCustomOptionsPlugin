@@ -152,7 +152,7 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
             }
 
             if (null !== $dateValid && null !== $dateRange) {
-                if ($dateValid->compare($dateRange)) {
+                if ($dateValid->equals($dateRange)) {
                     $valuePrice = $price;
                 }
             }

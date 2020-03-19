@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace spec\Brille24\SyliusCustomerOptionsPlugin\Importer;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Reader\CsvReaderInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
@@ -19,22 +21,26 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class CustomerOptionPriceCsvImporterSpec extends ObjectBehavior
 {
     public function let(
+        CsvReaderInterface $csvReader,
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager,
         SenderInterface $sender,
         TokenStorageInterface $tokenStorage,
         ProductRepositoryInterface $productRepository
     ): void {
-        $this->beConstructedWith($priceUpdater, $entityManager, $sender, $tokenStorage, $productRepository);
+        $this->beConstructedWith($csvReader, $priceUpdater, $entityManager, $sender, $tokenStorage, $productRepository);
     }
 
     public function it_updates_prices(
+        CsvReaderInterface $csvReader,
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager,
         CustomerOptionValuePriceInterface $valuePrice,
         ProductRepositoryInterface $productRepository,
         ProductInterface $product
     ): void {
+        $this->setupValidCsvReader($csvReader);
+
         $productRepository->findOneByCode(Argument::type('string'))->willReturn($product);
 
         $priceUpdater->updateForProduct(
@@ -64,10 +70,11 @@ class CustomerOptionPriceCsvImporterSpec extends ObjectBehavior
         $entityManager->persist(Argument::type(CustomerOptionValuePriceInterface::class))->shouldBeCalledTimes(3);
         $entityManager->flush()->shouldBeCalled();
 
-        $this->import($this->getValidCsvFile());
+        $this->import('some_path');
     }
 
     public function it_sends_mail_on_failed_import(
+        CsvReaderInterface $csvReader,
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager,
         SenderInterface $sender,
@@ -76,6 +83,8 @@ class CustomerOptionPriceCsvImporterSpec extends ObjectBehavior
         AdminUserInterface $adminUser,
         ProductRepositoryInterface $productRepository
     ): void {
+        $this->setupInValidCsvReader($csvReader);
+
         $tokenStorage->getToken()->willReturn($token);
         $token->getUser()->willReturn($adminUser);
         $adminUser->getEmail()->willReturn('john.doe@example.com');
@@ -111,44 +120,96 @@ class CustomerOptionPriceCsvImporterSpec extends ObjectBehavior
         $entityManager->persist(Argument::type(CustomerOptionValuePriceInterface::class))->shouldNotBeCalled();
         $entityManager->flush()->shouldBeCalled();
 
-        $this->import($this->getInValidCsvFile());
+        $this->import('some_path');
     }
 
     /**
-     * @return string
+     * @param CsvReaderInterface $csvReader
      */
-    private function getValidCsvFile(): string
+    private function setupValidCsvReader(CsvReaderInterface $csvReader): void
     {
-        $csvString = <<<EOT
-product_code,customer_option_code,customer_option_value_code,channel_code,type,amount,percent,valid_from,valid_to
-first_product,lens_type,none,glasses24,FIXED_AMOUNT,1000,0.0,,
-first_product,lens_type,none,glasses24,FIXED_AMOUNT,1500,0.0,2020-01-01,2020-02-31
-second_product,lens_type,none,glasses24,FIXED_AMOUNT,1500,0.0,2020-01-01,2020-02-31
-EOT;
+        $csvData = [
+            [
+                'product_code'               => 'tshirt',
+                'customer_option_code'       => 'color',
+                'customer_option_value_code' => 'red',
+                'channel_code'               => 'US_WEB',
+                'type'                       => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
+                'amount'                     => 200,
+                'percent'                    => 0.0,
+                'valid_from'                 => null,
+                'valid_to'                   => null,
+            ],
+            [
+                'product_code'               => 'tshirt',
+                'customer_option_code'       => 'color',
+                'customer_option_value_code' => 'black',
+                'channel_code'               => 'US_WEB',
+                'type'                       => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
+                'amount'                     => 200,
+                'percent'                    => 0.0,
+                'valid_from'                 => '2020-01-01',
+                'valid_to'                   => '2020-02-31',
+            ],
+            [
+                'product_code'               => 'mug',
+                'customer_option_code'       => 'material',
+                'customer_option_value_code' => 'wood',
+                'channel_code'               => 'US_WEB',
+                'type'                       => CustomerOptionValuePrice::TYPE_PERCENT,
+                'amount'                     => 0,
+                'percent'                    => 0.1,
+                'valid_from'                 => '2020-01-01',
+                'valid_to'                   => '2020-02-31',
+            ],
+        ];
 
-        $filePath = @tempnam(sys_get_temp_dir(), 'cop');
-
-        file_put_contents($filePath, $csvString);
-
-        return $filePath;
+        $csvReader->readCsv(Argument::type('string'))->willReturn($csvData);
+        $csvReader->isRowValid(Argument::type('array'), Argument::type('array'))->willReturn(true);
     }
 
     /**
-     * @return string
+     * @param CsvReaderInterface $csvReader
      */
-    private function getInValidCsvFile(): string
+    private function setupInValidCsvReader(CsvReaderInterface $csvReader): void
     {
-        $csvString = <<<EOT
-product_code,customer_option_code,customer_option_value_code,channel_code,type,amount,percent,valid_from,valid_to
-first_prodt,lens_type,none,glasses24,FIXED_AMOUNT,1000,0.0,,
-first_product,,none,glasses24,FIXED_AMOUNT,1500,0.0,2020-01-01,2020-02-31
-second_product,lens_type,none,glasses2,FIXED_AMOUNT,1500,0.0,2020-01-01,2020-02-31
-EOT;
+        $csvData = [
+            [
+                'product_code'               => 'tshir',
+                'customer_option_code'       => 'color',
+                'customer_option_value_code' => 'red',
+                'channel_code'               => 'US_WEB',
+                'type'                       => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
+                'amount'                     => 200,
+                'percent'                    => 0.0,
+                'valid_fro'                  => null,
+                'valid_to'                   => null,
+            ],
+            [
+                'product_code'               => 'tshirt',
+                'customer_option_code'       => 'color',
+                'customer_option_value_code' => null,
+                'channel_code'               => 'US_WEB',
+                'type'                       => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
+                'amount'                     => 200,
+                'percent'                    => 0.0,
+                'valid_fro'                  => '2020-01-01',
+                'valid_to'                   => '2020-02-31',
+            ],
+            [
+                'product_code'               => 'mug',
+                'customer_option_code'       => 'material',
+                'customer_option_value_code' => 'wood',
+                'channel_code'               => 'US_WEB',
+                'type'                       => CustomerOptionValuePrice::TYPE_PERCENT,
+                'amount'                     => 0,
+                'percent'                    => 0.1,
+                'valid_fro'                  => '2020-01-01',
+                'valid_to'                   => '2020-02-31',
+            ],
+        ];
 
-        $filePath = @tempnam(sys_get_temp_dir(), 'cop');
-
-        file_put_contents($filePath, $csvString);
-
-        return $filePath;
+        $csvReader->readCsv(Argument::type('string'))->willReturn($csvData);
+        $csvReader->isRowValid(Argument::type('array'), Argument::type('array'))->willReturn(false);
     }
 }

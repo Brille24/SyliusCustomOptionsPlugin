@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Reader\CsvReaderInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\AdminUserInterface;
@@ -29,6 +30,9 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
         'product_code'               => true,
     ];
 
+    /** @var CsvReaderInterface */
+    private $csvReader;
+
     /** @var EntityManagerInterface */
     protected $entityManager;
 
@@ -48,12 +52,14 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
     protected $products = [];
 
     public function __construct(
+        CsvReaderInterface $csvReader,
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager,
         SenderInterface $sender,
         TokenStorageInterface $tokenStorage,
         ProductRepositoryInterface $productRepository
     ) {
+        $this->csvReader         = $csvReader;
         $this->priceUpdater      = $priceUpdater;
         $this->entityManager     = $entityManager;
         $this->sender            = $sender;
@@ -64,13 +70,13 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
     /** {@inheritdoc} */
     public function import(string $source): array
     {
-        $csv = $this->readCsv($source);
+        $csv = $this->csvReader->readCsv($source);
 
         // Handle updates
         $i      = 0;
         $failed = [];
         foreach ($csv as $lineNumber => $data) {
-            if (!$this->isRowValid($data)) {
+            if (!$this->csvReader->isRowValid($data, self::REQUIRED_FIELDS)) {
                 $failed[$lineNumber] = ['data' => $data, 'message' => 'Data is invalid'];
 
                 continue;
@@ -147,62 +153,6 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
         file_put_contents($csvPath, implode("\n", $csvData));
 
         $this->sender->send('brille24_failed_csv_price_import', [$email], ['failed' => $failed], [$csvPath]);
-    }
-
-    /**
-     * @param string $source
-     *
-     * @return array
-     */
-    private function readCsv(string $source): array
-    {
-        $file = fopen($source, 'rb');
-
-        Assert::resource($file);
-
-        $header            = null;
-        $csv               = [];
-        $currentLineNumber = 0;
-        while ($row = fgetcsv($file)) {
-            ++$currentLineNumber;
-
-            // Use the first row as array keys
-            if (null === $header) {
-                $header = $row;
-
-                continue;
-            }
-
-            // Replace empty strings with null
-            $row = array_map(static function ($value) {
-                return '' !== $value ? $value : null;
-            }, $row);
-
-            $csv[$currentLineNumber] = array_combine($header, $row);
-        }
-
-        return $csv;
-    }
-
-    /**
-     * @param array $row
-     *
-     * @return bool
-     */
-    private function isRowValid(array $row): bool
-    {
-        // Check if all expected keys exist
-        foreach (self::REQUIRED_FIELDS as $field => $valueRequired) {
-            if (!array_key_exists($field, $row)) {
-                return false;
-            }
-
-            if ($valueRequired && null === $row[$field]) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**
