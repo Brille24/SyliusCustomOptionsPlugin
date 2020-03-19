@@ -27,13 +27,28 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
 {
+    private const CUSTOMER_OPTION_CODE       = 'color';
+    private const CUSTOMER_OPTION_VALUE_CODE = 'red';
+    private const CHANNEL_CODE               = 'US_WEB';
+    private const PRODUCT_CODE               = 'tshirt';
+    private const PRICE_TYPE                 = CustomerOptionValuePrice::TYPE_FIXED_AMOUNT;
+    private const PRICE_AMOUNT               = 1000;
+    private const PRICE_PERCENT              = 0.0;
+
     public function let(
         CustomerOptionRepositoryInterface $customerOptionRepository,
         RepositoryInterface $customerOptionValuePriceRepository,
         CustomerOptionValueRepositoryInterface $customerOptionValueRepository,
         ChannelRepositoryInterface $channelRepository,
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+
+        ProductRepositoryInterface $productRepository,
+        CustomerOptionInterface $customerOption,
+        CustomerOptionValueInterface $customerOptionValue,
+        ChannelInterface $channel,
+        CustomerOptionValuePriceInterface $valuePrice,
+        ProductInterface $product
     ): void {
         $this->beConstructedWith(
             $customerOptionRepository,
@@ -43,33 +58,6 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             $customerOptionValuePriceFactory,
             $validator
         );
-    }
-
-    public function it_updates_an_existing_price_with_product(
-        CustomerOptionRepositoryInterface $customerOptionRepository,
-        RepositoryInterface $customerOptionValuePriceRepository,
-        CustomerOptionValueRepositoryInterface $customerOptionValueRepository,
-        ChannelRepositoryInterface $channelRepository,
-        ProductRepositoryInterface $productRepository,
-        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
-        CustomerOptionInterface $customerOption,
-        CustomerOptionValueInterface $customerOptionValue,
-        ChannelInterface $channel,
-        CustomerOptionValuePriceInterface $valuePrice,
-        ProductInterface $product,
-        ValidatorInterface $validator
-    ): void {
-        $customerOptionCode      = 'some option';
-        $customerOptionValueCode = 'some value';
-        $channelCode             = 'some channel';
-        $productCode             = 'some product';
-        $validFrom               = null;
-        $validTo                 = null;
-        $type                    = CustomerOptionValuePrice::TYPE_FIXED_AMOUNT;
-        $amount                  = 500;
-        $percent                 = 0.0;
-
-        $valuePrice->getDateValid()->shouldBeCalled()->willReturn(null);
 
         $this->setupMocks(
             $customerOptionRepository,
@@ -81,16 +69,32 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             $channel,
             $valuePrice,
             $product,
-            $customerOptionCode,
-            $customerOptionValueCode,
-            $channelCode,
-            $productCode,
-            $validFrom,
-            $validTo,
-            $type,
-            $amount,
-            $percent
+            self::CUSTOMER_OPTION_CODE,
+            self::CUSTOMER_OPTION_VALUE_CODE,
+            self::CHANNEL_CODE,
+            self::PRODUCT_CODE,
+            '',
+            '',
+            self::PRICE_TYPE,
+            self::PRICE_AMOUNT,
+            self::PRICE_PERCENT
         );
+    }
+
+    public function it_updates_an_existing_price_with_product(
+        RepositoryInterface $customerOptionValuePriceRepository,
+        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
+        CustomerOptionValueInterface $customerOptionValue,
+        ChannelInterface $channel,
+        CustomerOptionValuePriceInterface $valuePrice,
+        ProductInterface $product,
+        ValidatorInterface $validator
+    ): void {
+        $validFrom = null;
+        $validTo   = null;
+
+        $valuePrice->getDateValid()->shouldBeCalled()->willReturn(null);
+
         $customerOptionValuePriceFactory->createNew()->shouldNotBeCalled();
 
         $customerOptionValuePriceRepository->findBy([
@@ -99,9 +103,9 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             'product'             => $product,
         ])->shouldBeCalled()->willReturn([$valuePrice]);
 
-        $valuePrice->setPercent($percent)->shouldBeCalled();
-        $valuePrice->setAmount($amount)->shouldBeCalled();
-        $valuePrice->setType($type)->shouldBeCalled();
+        $valuePrice->setPercent(self::PRICE_PERCENT)->shouldBeCalled();
+        $valuePrice->setAmount(self::PRICE_AMOUNT)->shouldBeCalled();
+        $valuePrice->setType(self::PRICE_TYPE)->shouldBeCalled();
 
         $product->getCustomerOptionValuePrices()->willReturn(new ArrayCollection([$valuePrice]));
         $validator->validate(
@@ -110,64 +114,34 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         )->shouldBeCalled()->willReturn([]);
 
         $this->updateForProduct(
-            $customerOptionCode,
-            $customerOptionValueCode,
-            $channelCode,
+            self::CUSTOMER_OPTION_CODE,
+            self::CUSTOMER_OPTION_VALUE_CODE,
+            self::CHANNEL_CODE,
             $product,
             $validFrom,
             $validTo,
-            $type,
-            $amount,
-            $percent
+            self::PRICE_TYPE,
+            self::PRICE_AMOUNT,
+            self::PRICE_PERCENT
         )->shouldBe($valuePrice);
     }
 
     public function it_updates_an_existing_price_with_product_and_date(
-        CustomerOptionRepositoryInterface $customerOptionRepository,
         RepositoryInterface $customerOptionValuePriceRepository,
-        CustomerOptionValueRepositoryInterface $customerOptionValueRepository,
-        ChannelRepositoryInterface $channelRepository,
-        ProductRepositoryInterface $productRepository,
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
-        CustomerOptionInterface $customerOption,
         CustomerOptionValueInterface $customerOptionValue,
         ChannelInterface $channel,
         CustomerOptionValuePriceInterface $valuePrice,
         ProductInterface $product,
         ValidatorInterface $validator
     ): void {
-        $customerOptionCode      = 'some option';
-        $customerOptionValueCode = 'some value';
-        $channelCode             = 'some channel';
-        $productCode             = 'some product';
-        $validFrom               = '2020-01-01';
-        $validTo                 = '2020-02-01';
-        $type                    = CustomerOptionValuePrice::TYPE_FIXED_AMOUNT;
-        $amount                  = 500;
-        $percent                 = 0.0;
+        $validFrom = '2020-01-01';
+        $validTo   = '2020-02-01';
 
         $valuePrice->getDateValid()->shouldBeCalled()->willReturn(new DateRange(new \DateTime($validFrom), new \DateTime($validTo)));
+        $valuePrice->setDateValid(Argument::type(DateRange::class))->shouldBeCalled();
+        $valuePrice->setDateValid(null)->shouldNotBeCalled();
 
-        $this->setupMocks(
-            $customerOptionRepository,
-            $customerOptionValueRepository,
-            $channelRepository,
-            $productRepository,
-            $customerOption,
-            $customerOptionValue,
-            $channel,
-            $valuePrice,
-            $product,
-            $customerOptionCode,
-            $customerOptionValueCode,
-            $channelCode,
-            $productCode,
-            $validFrom,
-            $validTo,
-            $type,
-            $amount,
-            $percent
-        );
         $customerOptionValuePriceFactory->createNew()->shouldNotBeCalled();
 
         $customerOptionValuePriceRepository->findBy([
@@ -176,9 +150,9 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
             'product'             => $product,
         ])->shouldBeCalled()->willReturn([$valuePrice]);
 
-        $valuePrice->setPercent($percent)->shouldBeCalled();
-        $valuePrice->setAmount($amount)->shouldBeCalled();
-        $valuePrice->setType($type)->shouldBeCalled();
+        $valuePrice->setPercent(self::PRICE_PERCENT)->shouldBeCalled();
+        $valuePrice->setAmount(self::PRICE_AMOUNT)->shouldBeCalled();
+        $valuePrice->setType(self::PRICE_TYPE)->shouldBeCalled();
 
         $product->getCustomerOptionValuePrices()->willReturn(new ArrayCollection([$valuePrice]));
         $validator->validate(
@@ -187,62 +161,30 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         )->shouldBeCalled()->willReturn([]);
 
         $this->updateForProduct(
-            $customerOptionCode,
-            $customerOptionValueCode,
-            $channelCode,
+            self::CUSTOMER_OPTION_CODE,
+            self::CUSTOMER_OPTION_VALUE_CODE,
+            self::CHANNEL_CODE,
             $product,
             $validFrom,
             $validTo,
-            $type,
-            $amount,
-            $percent
+            self::PRICE_TYPE,
+            self::PRICE_AMOUNT,
+            self::PRICE_PERCENT
         )->shouldBe($valuePrice);
     }
 
     public function it_updates_a_new_price_with_product(
-        CustomerOptionRepositoryInterface $customerOptionRepository,
         RepositoryInterface $customerOptionValuePriceRepository,
-        CustomerOptionValueRepositoryInterface $customerOptionValueRepository,
-        ChannelRepositoryInterface $channelRepository,
-        ProductRepositoryInterface $productRepository,
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
-        CustomerOptionInterface $customerOption,
         CustomerOptionValueInterface $customerOptionValue,
         ChannelInterface $channel,
         CustomerOptionValuePriceInterface $valuePrice,
         ProductInterface $product,
         ValidatorInterface $validator
     ): void {
-        $customerOptionCode      = 'some option';
-        $customerOptionValueCode = 'some value';
-        $channelCode             = 'some channel';
-        $productCode             = 'some product';
-        $validFrom               = null;
-        $validTo                 = null;
-        $type                    = CustomerOptionValuePrice::TYPE_FIXED_AMOUNT;
-        $amount                  = 500;
-        $percent                 = 0.0;
+        $validFrom = null;
+        $validTo   = null;
 
-        $this->setupMocks(
-            $customerOptionRepository,
-            $customerOptionValueRepository,
-            $channelRepository,
-            $productRepository,
-            $customerOption,
-            $customerOptionValue,
-            $channel,
-            $valuePrice,
-            $product,
-            $customerOptionCode,
-            $customerOptionValueCode,
-            $channelCode,
-            $productCode,
-            $validFrom,
-            $validTo,
-            $type,
-            $amount,
-            $percent
-        );
         $customerOptionValuePriceFactory->createNew()->shouldBeCalled()->willReturn($valuePrice);
         $valuePrice->setCustomerOptionValue($customerOptionValue)->shouldBeCalled();
         $valuePrice->setChannel($channel)->shouldBeCalled();
@@ -257,9 +199,9 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         $valuePrice->setProduct($product)->shouldBeCalled();
         $valuePrice->setChannel($channel)->shouldBeCalled();
         $valuePrice->setCustomerOptionValue($customerOptionValue)->shouldBeCalled();
-        $valuePrice->setPercent($percent)->shouldBeCalled();
-        $valuePrice->setAmount($amount)->shouldBeCalled();
-        $valuePrice->setType($type)->shouldBeCalled();
+        $valuePrice->setPercent(self::PRICE_PERCENT)->shouldBeCalled();
+        $valuePrice->setAmount(self::PRICE_AMOUNT)->shouldBeCalled();
+        $valuePrice->setType(self::PRICE_TYPE)->shouldBeCalled();
 
         $product->getCustomerOptionValuePrices()->willReturn(new ArrayCollection());
         $validator->validate(
@@ -268,62 +210,33 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         )->shouldBeCalled()->willReturn([]);
 
         $this->updateForProduct(
-            $customerOptionCode,
-            $customerOptionValueCode,
-            $channelCode,
+            self::CUSTOMER_OPTION_CODE,
+            self::CUSTOMER_OPTION_VALUE_CODE,
+            self::CHANNEL_CODE,
             $product,
             $validFrom,
             $validTo,
-            $type,
-            $amount,
-            $percent
+            self::PRICE_TYPE,
+            self::PRICE_AMOUNT,
+            self::PRICE_PERCENT
         )->shouldBe($valuePrice);
     }
 
     public function it_updates_a_new_price_with_product_and_date(
-        CustomerOptionRepositoryInterface $customerOptionRepository,
         RepositoryInterface $customerOptionValuePriceRepository,
-        CustomerOptionValueRepositoryInterface $customerOptionValueRepository,
-        ChannelRepositoryInterface $channelRepository,
-        ProductRepositoryInterface $productRepository,
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
-        CustomerOptionInterface $customerOption,
         CustomerOptionValueInterface $customerOptionValue,
         ChannelInterface $channel,
         CustomerOptionValuePriceInterface $valuePrice,
         ProductInterface $product,
         ValidatorInterface $validator
     ): void {
-        $customerOptionCode      = 'some option';
-        $customerOptionValueCode = 'some value';
-        $channelCode             = 'some channel';
-        $productCode             = 'some product';
-        $validFrom               = '2020-01-01';
-        $validTo                 = '2020-02-01';
-        $type                    = CustomerOptionValuePrice::TYPE_FIXED_AMOUNT;
-        $amount                  = 500;
-        $percent                 = 0.0;
+        $validFrom = '2020-01-01';
+        $validTo   = '2020-02-01';
 
-        $this->setupMocks(
-            $customerOptionRepository,
-            $customerOptionValueRepository,
-            $channelRepository,
-            $productRepository,
-            $customerOption,
-            $customerOptionValue,
-            $channel,
-            $valuePrice,
-            $product,
-            $customerOptionCode,
-            $customerOptionValueCode,
-            $channelCode,
-            $productCode,
-            $validFrom,
-            $validTo,
-            $type,
-            $amount,
-            $percent
-        );
+        $valuePrice->setDateValid(Argument::type(DateRange::class))->shouldBeCalled();
+        $valuePrice->setDateValid(null)->shouldNotBeCalled();
+
         $customerOptionValuePriceFactory->createNew()->shouldBeCalled()->willReturn($valuePrice);
         $valuePrice->setCustomerOptionValue($customerOptionValue)->shouldBeCalled();
         $valuePrice->setChannel($channel)->shouldBeCalled();
@@ -338,9 +251,9 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         $valuePrice->setProduct($product)->shouldBeCalled();
         $valuePrice->setChannel($channel)->shouldBeCalled();
         $valuePrice->setCustomerOptionValue($customerOptionValue)->shouldBeCalled();
-        $valuePrice->setPercent($percent)->shouldBeCalled();
-        $valuePrice->setAmount($amount)->shouldBeCalled();
-        $valuePrice->setType($type)->shouldBeCalled();
+        $valuePrice->setPercent(self::PRICE_PERCENT)->shouldBeCalled();
+        $valuePrice->setAmount(self::PRICE_AMOUNT)->shouldBeCalled();
+        $valuePrice->setType(self::PRICE_TYPE)->shouldBeCalled();
 
         $product->getCustomerOptionValuePrices()->willReturn(new ArrayCollection());
         $validator->validate(
@@ -349,15 +262,15 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         )->shouldBeCalled()->willReturn([]);
 
         $this->updateForProduct(
-            $customerOptionCode,
-            $customerOptionValueCode,
-            $channelCode,
+            self::CUSTOMER_OPTION_CODE,
+            self::CUSTOMER_OPTION_VALUE_CODE,
+            self::CHANNEL_CODE,
             $product,
             $validFrom,
             $validTo,
-            $type,
-            $amount,
-            $percent
+            self::PRICE_TYPE,
+            self::PRICE_AMOUNT,
+            self::PRICE_PERCENT
         )->shouldBe($valuePrice);
     }
 
@@ -365,28 +278,31 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionValueRepositoryInterface $customerOptionValueRepository,
         CustomerOptionInterface $customerOption,
-        ProductInterface $product
+        ProductInterface $product,
+        CustomerOptionValuePriceInterface $valuePrice
     ): void {
-        $customerOptionCode      = 'some option';
-        $customerOptionValueCode = 'some value';
-        $channelCode             = 'some channel';
+        // Undo the predictions defined during the let() method.
+        $valuePrice->setDateValid(null)->shouldNotBeCalled();
+        $valuePrice->setType(self::PRICE_TYPE)->shouldNotBeCalled();
+        $valuePrice->setAmount(self::PRICE_AMOUNT)->shouldNotBeCalled();
+        $valuePrice->setPercent(self::PRICE_PERCENT)->shouldNotBeCalled();
 
-        $customerOptionRepository->findOneByCode($customerOptionCode)->willReturn($customerOption);
+        $customerOptionRepository->findOneByCode(self::CUSTOMER_OPTION_CODE)->willReturn($customerOption);
         $customerOptionValueRepository->findOneBy([
-            'code'           => $customerOptionValueCode,
+            'code'           => self::CUSTOMER_OPTION_VALUE_CODE,
             'customerOption' => $customerOption,
         ])->willReturn(null);
 
         $this->shouldThrow(\InvalidArgumentException::class)->during('updateForProduct', [
-            $customerOptionCode,
-            $customerOptionValueCode,
-            $channelCode,
+            self::CUSTOMER_OPTION_CODE,
+            self::CUSTOMER_OPTION_VALUE_CODE,
+            self::CHANNEL_CODE,
             $product,
             null,
             null,
-            CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
-            0,
-            0.0,
+            self::PRICE_TYPE,
+            self::PRICE_AMOUNT,
+            self::PRICE_PERCENT,
         ]);
     }
 
@@ -396,41 +312,39 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         CustomerOptionInterface $customerOption,
         CustomerOptionValueInterface $customerOptionValue,
         ChannelRepositoryInterface $channelRepository,
-        ProductInterface $product
+        ProductInterface $product,
+        CustomerOptionValuePriceInterface $valuePrice
     ): void {
-        $customerOptionCode      = 'some option';
-        $customerOptionValueCode = 'some value';
-        $channelCode             = 'some channel';
+        // Undo the predictions defined during the let() method.
+        $valuePrice->setDateValid(null)->shouldNotBeCalled();
+        $valuePrice->setType(self::PRICE_TYPE)->shouldNotBeCalled();
+        $valuePrice->setAmount(self::PRICE_AMOUNT)->shouldNotBeCalled();
+        $valuePrice->setPercent(self::PRICE_PERCENT)->shouldNotBeCalled();
 
-        $customerOptionRepository->findOneByCode($customerOptionCode)->willReturn($customerOption);
+        $customerOptionRepository->findOneByCode(self::CUSTOMER_OPTION_CODE)->willReturn($customerOption);
         $customerOptionValueRepository->findOneBy([
-            'code'           => $customerOptionValueCode,
+            'code'           => self::CUSTOMER_OPTION_VALUE_CODE,
             'customerOption' => $customerOption,
         ])->willReturn($customerOptionValue);
 
-        $channelRepository->findOneByCode($channelCode)->willReturn(null);
+        $channelRepository->findOneByCode(self::CHANNEL_CODE)->willReturn(null);
 
         $this->shouldThrow(\InvalidArgumentException::class)->during('updateForProduct', [
-            $customerOptionCode,
-            $customerOptionValueCode,
-            $channelCode,
+            self::CUSTOMER_OPTION_CODE,
+            self::CUSTOMER_OPTION_VALUE_CODE,
+            self::CHANNEL_CODE,
             $product,
             null,
             null,
-            CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
-            0,
-            0.0,
+            self::PRICE_TYPE,
+            self::PRICE_AMOUNT,
+            self::PRICE_PERCENT,
         ]);
     }
 
     public function it_throws_exception_if_validation_fails(
-        CustomerOptionRepositoryInterface $customerOptionRepository,
         RepositoryInterface $customerOptionValuePriceRepository,
-        CustomerOptionValueRepositoryInterface $customerOptionValueRepository,
-        ChannelRepositoryInterface $channelRepository,
-        ProductRepositoryInterface $productRepository,
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
-        CustomerOptionInterface $customerOption,
         CustomerOptionValueInterface $customerOptionValue,
         ChannelInterface $channel,
         CustomerOptionValuePriceInterface $valuePrice,
@@ -438,36 +352,12 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         ValidatorInterface $validator,
         ConstraintViolationInterface $violation
     ): void {
-        $customerOptionCode      = 'some option';
-        $customerOptionValueCode = 'some value';
-        $channelCode             = 'some channel';
-        $productCode             = 'some product';
-        $validFrom               = '2020-01-01';
-        $validTo                 = '2020-02-01';
-        $type                    = CustomerOptionValuePrice::TYPE_FIXED_AMOUNT;
-        $amount                  = 500;
-        $percent                 = 0.0;
+        $validFrom = '2020-01-01';
+        $validTo   = '2020-02-01';
 
-        $this->setupMocks(
-            $customerOptionRepository,
-            $customerOptionValueRepository,
-            $channelRepository,
-            $productRepository,
-            $customerOption,
-            $customerOptionValue,
-            $channel,
-            $valuePrice,
-            $product,
-            $customerOptionCode,
-            $customerOptionValueCode,
-            $channelCode,
-            $productCode,
-            $validFrom,
-            $validTo,
-            $type,
-            $amount,
-            $percent
-        );
+        $valuePrice->setDateValid(Argument::type(DateRange::class))->shouldBeCalled();
+        $valuePrice->setDateValid(null)->shouldNotBeCalled();
+
         $customerOptionValuePriceFactory->createNew()->shouldBeCalled()->willReturn($valuePrice);
         $valuePrice->setCustomerOptionValue($customerOptionValue)->shouldBeCalled();
         $valuePrice->setChannel($channel)->shouldBeCalled();
@@ -482,9 +372,9 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         $valuePrice->setProduct($product)->shouldBeCalled();
         $valuePrice->setChannel($channel)->shouldBeCalled();
         $valuePrice->setCustomerOptionValue($customerOptionValue)->shouldBeCalled();
-        $valuePrice->setPercent($percent)->shouldBeCalled();
-        $valuePrice->setAmount($amount)->shouldBeCalled();
-        $valuePrice->setType($type)->shouldBeCalled();
+        $valuePrice->setPercent(self::PRICE_PERCENT)->shouldBeCalled();
+        $valuePrice->setAmount(self::PRICE_AMOUNT)->shouldBeCalled();
+        $valuePrice->setType(self::PRICE_TYPE)->shouldBeCalled();
 
         $product->getCustomerOptionValuePrices()->willReturn(new ArrayCollection());
         $validator->validate(
@@ -493,21 +383,20 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         )->shouldBeCalled()->willReturn([$violation]);
 
         $this->shouldThrow(\InvalidArgumentException::class)->during('updateForProduct', [
-            $customerOptionCode,
-            $customerOptionValueCode,
-            $channelCode,
+            self::CUSTOMER_OPTION_CODE,
+            self::CUSTOMER_OPTION_VALUE_CODE,
+            self::CHANNEL_CODE,
             $product,
             $validFrom,
             $validTo,
-            $type,
-            $amount,
-            $percent,
+            self::PRICE_TYPE,
+            self::PRICE_AMOUNT,
+            self::PRICE_PERCENT,
         ]);
     }
 
     /**
      * @param CustomerOptionRepositoryInterface $customerOptionRepository
-     * @param RepositoryInterface $customerOptionValuePriceRepository
      * @param CustomerOptionValueRepositoryInterface $customerOptionValueRepository
      * @param ChannelRepositoryInterface $channelRepository
      * @param ProductRepositoryInterface $productRepository
@@ -548,13 +437,13 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         int $amount,
         float $percent
     ): void {
-        $customerOptionRepository->findOneByCode($customerOptionCode)->shouldBeCalled()->willReturn($customerOption);
+        $customerOptionRepository->findOneByCode($customerOptionCode)->willReturn($customerOption);
         $customerOptionValueRepository->findOneBy([
             'code'           => $customerOptionValueCode,
             'customerOption' => $customerOption,
-        ])->shouldBeCalled()->willReturn($customerOptionValue);
+        ])->willReturn($customerOptionValue);
 
-        $channelRepository->findOneByCode($channelCode)->shouldBeCalled()->willReturn($channel);
+        $channelRepository->findOneByCode($channelCode)->willReturn($channel);
         $productRepository->findOneByCode($productCode)->willReturn($product);
 
         if (!empty($validFrom) && !empty($validTo)) {
