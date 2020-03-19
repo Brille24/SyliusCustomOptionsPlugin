@@ -48,7 +48,7 @@ class CsvReader implements CsvReaderInterface
                 return false;
             }
 
-            if ($valueRequired && null === $row[$field]) {
+            if (true === $valueRequired && null === $row[$field]) {
                 return false;
             }
         }
