@@ -31,10 +31,22 @@ class CustomerOptionValuePriceDateOverlapConstraintValidator extends ConstraintV
      */
     public function validate($valuePrices, Constraint $constraint): void
     {
-        Assert::isInstanceOf($valuePrices, Collection::class);
-        Assert::isInstanceOf($constraint, CustomerOptionValuePriceDateOverlapConstraint::class);
-        Assert::allObject($valuePrices);
-        Assert::allImplementsInterface($valuePrices, CustomerOptionValuePriceInterface::class);
+        Assert::isInstanceOf(
+            $valuePrices,
+            Collection::class,
+            sprintf('$valuePrices is not type of %s', Collection::class)
+        );
+        Assert::isInstanceOf(
+            $constraint,
+            CustomerOptionValuePriceDateOverlapConstraint::class,
+            sprintf('$constraint is not type of %s', CustomerOptionValuePriceDateOverlapConstraint::class)
+        );
+        Assert::allObject($valuePrices, '$valuePrices has non object');
+        Assert::allImplementsInterface(
+            $valuePrices,
+            CustomerOptionValuePriceInterface::class,
+            sprintf('$valuePrices has object not implementing %s', CustomerOptionValuePriceInterface::class)
+        );
 
         /** @var Collection $collection */
         if ($valuePrices->isEmpty()) {
