@@ -7,6 +7,7 @@ namespace spec\Brille24\SyliusCustomerOptionsPlugin\Importer;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Handler\ImportErrorHandlerInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Reader\CsvReaderInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,11 +25,16 @@ class CustomerOptionPriceCsvImporterSpec extends ObjectBehavior
         CsvReaderInterface $csvReader,
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager,
-        SenderInterface $sender,
-        TokenStorageInterface $tokenStorage,
-        ProductRepositoryInterface $productRepository
+        ProductRepositoryInterface $productRepository,
+        ImportErrorHandlerInterface $importErrorHandler
     ): void {
-        $this->beConstructedWith($csvReader, $priceUpdater, $entityManager, $sender, $tokenStorage, $productRepository);
+        $this->beConstructedWith(
+            $csvReader,
+            $priceUpdater,
+            $entityManager,
+            $productRepository,
+            $importErrorHandler
+        );
     }
 
     public function it_updates_prices(
@@ -37,7 +43,8 @@ class CustomerOptionPriceCsvImporterSpec extends ObjectBehavior
         EntityManagerInterface $entityManager,
         CustomerOptionValuePriceInterface $valuePrice,
         ProductRepositoryInterface $productRepository,
-        ProductInterface $product
+        ProductInterface $product,
+        ImportErrorHandlerInterface $importErrorHandler
     ): void {
         $this->setupValidCsvReader($csvReader);
 
@@ -70,6 +77,8 @@ class CustomerOptionPriceCsvImporterSpec extends ObjectBehavior
         $entityManager->persist(Argument::type(CustomerOptionValuePriceInterface::class))->shouldBeCalledTimes(3);
         $entityManager->flush()->shouldBeCalled();
 
+        $importErrorHandler->handleErrors([])->shouldBeCalled();
+
         $this->import('some_path');
     }
 
@@ -77,17 +86,10 @@ class CustomerOptionPriceCsvImporterSpec extends ObjectBehavior
         CsvReaderInterface $csvReader,
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager,
-        SenderInterface $sender,
-        TokenStorageInterface $tokenStorage,
-        TokenInterface $token,
-        AdminUserInterface $adminUser,
-        ProductRepositoryInterface $productRepository
+        ProductRepositoryInterface $productRepository,
+        ImportErrorHandlerInterface $importErrorHandler
     ): void {
         $this->setupInValidCsvReader($csvReader);
-
-        $tokenStorage->getToken()->willReturn($token);
-        $token->getUser()->willReturn($adminUser);
-        $adminUser->getEmail()->willReturn('john.doe@example.com');
 
         $productRepository->findOneByCode(Argument::type('string'))->willThrow(\InvalidArgumentException::class);
 
@@ -115,10 +117,10 @@ class CustomerOptionPriceCsvImporterSpec extends ObjectBehavior
             Argument::type('float')
         )->shouldNotBeCalled();
 
-        $sender->send(Argument::type('string'), ['john.doe@example.com'], Argument::type('array'), Argument::type('array'))->shouldBeCalled();
-
         $entityManager->persist(Argument::type(CustomerOptionValuePriceInterface::class))->shouldNotBeCalled();
         $entityManager->flush()->shouldBeCalled();
+
+        $importErrorHandler->handleErrors(Argument::size(3))->shouldBeCalled();
 
         $this->import('some_path');
     }

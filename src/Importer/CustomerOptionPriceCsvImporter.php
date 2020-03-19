@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Handler\ImportErrorHandlerInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Reader\CsvReaderInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Sylius\Component\Core\Model\AdminUserInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -39,14 +39,11 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
     /** @var CustomerOptionPriceUpdaterInterface */
     protected $priceUpdater;
 
-    /** @var SenderInterface */
-    protected $sender;
-
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
-
     /** @var ProductRepositoryInterface */
     protected $productRepository;
+
+    /** @var ImportErrorHandlerInterface */
+    protected $importErrorHandler;
 
     /** @var ProductInterface[] */
     protected $products = [];
@@ -55,16 +52,14 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
         CsvReaderInterface $csvReader,
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager,
-        SenderInterface $sender,
-        TokenStorageInterface $tokenStorage,
-        ProductRepositoryInterface $productRepository
+        ProductRepositoryInterface $productRepository,
+        ImportErrorHandlerInterface $importErrorHandler
     ) {
-        $this->csvReader         = $csvReader;
-        $this->priceUpdater      = $priceUpdater;
-        $this->entityManager     = $entityManager;
-        $this->sender            = $sender;
-        $this->tokenStorage      = $tokenStorage;
-        $this->productRepository = $productRepository;
+        $this->csvReader          = $csvReader;
+        $this->priceUpdater       = $priceUpdater;
+        $this->entityManager      = $entityManager;
+        $this->productRepository  = $productRepository;
+        $this->importErrorHandler = $importErrorHandler;
     }
 
     /** {@inheritdoc} */
@@ -74,10 +69,10 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
 
         // Handle updates
         $i      = 0;
-        $failed = [];
+        $errors = [];
         foreach ($csv as $lineNumber => $data) {
             if (!$this->csvReader->isRowValid($data, self::REQUIRED_FIELDS)) {
-                $failed[$lineNumber] = ['data' => $data, 'message' => 'Data is invalid'];
+                $errors[$lineNumber] = ['data' => $data, 'message' => 'Data is invalid'];
 
                 continue;
             }
@@ -111,48 +106,15 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
                     $this->entityManager->flush();
                 }
             } catch (\Throwable $exception) {
-                $failed[$lineNumber] = ['data' => $data, 'message' => $exception->getMessage()];
+                $errors[$lineNumber] = ['data' => $data, 'message' => $exception->getMessage()];
             }
         }
 
         $this->entityManager->flush();
 
-        $this->sendFailReport($failed);
+        $this->importErrorHandler->handleErrors($errors);
 
-        return ['imported' => $i, 'failed' => count($failed)];
-    }
-
-    private function sendFailReport(array $failed): void
-    {
-        if (0 === count($failed)) {
-            return;
-        }
-
-        // Send mail about failed imports
-        /** @var AdminUserInterface $user */
-        $user  = $this->tokenStorage->getToken()->getUser();
-        $email = $user->getEmail();
-
-        $csvHeader = ['Line', 'Error'];
-        foreach (array_keys(current($failed)['data']) as $key) {
-            $csvHeader[] = $key;
-        }
-        $csvData = [
-            implode(',', $csvHeader),
-        ];
-
-        foreach ($failed as $line => $error) {
-            $csvData[] = sprintf('%s,%s,%s', $line, $error['message'], implode(',', $error['data']));
-        }
-
-        /** @var string $tmpPath */
-        $tmpPath = tempnam(sys_get_temp_dir(), 'cop');
-        $csvPath = $tmpPath.'.csv';
-
-        rename($tmpPath, $csvPath);
-        file_put_contents($csvPath, implode("\n", $csvData));
-
-        $this->sender->send('brille24_failed_csv_price_import', [$email], ['failed' => $failed], [$csvPath]);
+        return ['imported' => $i, 'failed' => count($errors)];
     }
 
     /**

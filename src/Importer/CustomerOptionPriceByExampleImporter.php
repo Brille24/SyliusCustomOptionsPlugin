@@ -6,9 +6,9 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Handler\ImportErrorHandlerInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Sylius\Component\Core\Model\AdminUserInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -24,27 +24,22 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
     /** @var EntityManagerInterface */
     protected $entityManager;
 
-    /** @var SenderInterface */
-    protected $sender;
-
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
-
     /** @var ProductRepositoryInterface */
     protected $productRepository;
+
+    /** @var ImportErrorHandlerInterface */
+    protected $importErrorHandler;
 
     public function __construct(
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager,
-        SenderInterface $sender,
-        TokenStorageInterface $tokenStorage,
-        ProductRepositoryInterface $productRepository
+        ProductRepositoryInterface $productRepository,
+        ImportErrorHandlerInterface $importErrorHandler
     ) {
-        $this->priceUpdater      = $priceUpdater;
-        $this->entityManager     = $entityManager;
-        $this->sender            = $sender;
-        $this->tokenStorage      = $tokenStorage;
-        $this->productRepository = $productRepository;
+        $this->priceUpdater       = $priceUpdater;
+        $this->entityManager      = $entityManager;
+        $this->productRepository  = $productRepository;
+        $this->importErrorHandler = $importErrorHandler;
     }
 
     /** {@inheritdoc} */
@@ -65,7 +60,7 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
         $amount  = $examplePrice->getAmount();
         $percent = $examplePrice->getPercent();
 
-        $failed = [];
+        $errors = [];
         $i      = 0;
         foreach ($productCodes as $productCode) {
             try {
@@ -95,31 +90,14 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
                     $this->entityManager->flush();
                 }
             } catch (\Throwable $exception) {
-                $failed[$productCode] = $exception->getMessage();
+                $errors[$productCode] = ['data' => $examplePrice, 'message' => $exception->getMessage()];
             }
         }
 
         $this->entityManager->flush();
 
-        $this->sendFailReport($failed);
+        $this->importErrorHandler->handleErrors($errors);
 
-        return ['imported' => $i, 'failed' => count($failed)];
-    }
-
-    /**
-     * @param array $failed
-     */
-    protected function sendFailReport(array $failed): void
-    {
-        if (0 === count($failed)) {
-            return;
-        }
-
-        // Send mail about failed imports
-        /** @var AdminUserInterface $user */
-        $user  = $this->tokenStorage->getToken()->getUser();
-        $email = $user->getEmail();
-
-        $this->sender->send('brille24_failed_price_by_example_import', [$email], ['failed' => $failed]);
+        return ['imported' => $i, 'failed' => count($errors)];
     }
 }

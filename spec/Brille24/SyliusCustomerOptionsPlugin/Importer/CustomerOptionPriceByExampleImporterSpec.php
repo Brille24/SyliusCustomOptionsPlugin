@@ -9,6 +9,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Handler\ImportErrorHandlerInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
@@ -25,16 +26,19 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
     public function let(
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager,
-        SenderInterface $sender,
-        TokenStorageInterface $tokenStorage,
-        ProductRepositoryInterface $productRepository
+        ProductRepositoryInterface $productRepository,
+        ImportErrorHandlerInterface $importErrorHandler
     ): void {
-        $this->beConstructedWith($priceUpdater, $entityManager, $sender, $tokenStorage, $productRepository);
+        $this->beConstructedWith(
+            $priceUpdater,
+            $entityManager,
+            $productRepository,
+            $importErrorHandler
+        );
     }
 
     public function it_uses_price_as_example_for_a_list_of_products(
         CustomerOptionPriceUpdaterInterface $priceUpdater,
-        EntityManagerInterface $entityManager,
         CustomerOptionValuePriceInterface $valuePrice,
         CustomerOptionValueInterface $customerOptionValue,
         ChannelInterface $channel,
@@ -42,7 +46,8 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
         ProductRepositoryInterface $productRepository,
         ProductInterface $firstProduct,
         ProductInterface $secondProduct,
-        ProductInterface $thirdProduct
+        ProductInterface $thirdProduct,
+        ImportErrorHandlerInterface $importErrorHandler
     ): void {
         $productCodes = ['first', 'second', 'third'];
 
@@ -76,22 +81,20 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
             0.0
         )->shouldBeCalledTimes(3);
 
+        $importErrorHandler->handleErrors([])->shouldBeCalled();
+
         $this->importForProducts($productCodes, $valuePrice);
     }
 
     public function it_sends_mail_on_failed_import(
         CustomerOptionPriceUpdaterInterface $priceUpdater,
-        EntityManagerInterface $entityManager,
         CustomerOptionValuePriceInterface $valuePrice,
         CustomerOptionValueInterface $customerOptionValue,
         ChannelInterface $channel,
         CustomerOptionInterface $customerOption,
-        SenderInterface $sender,
-        TokenStorageInterface $tokenStorage,
-        TokenInterface $token,
-        AdminUserInterface $adminUser,
         ProductRepositoryInterface $productRepository,
-        ProductInterface $firstProduct
+        ProductInterface $firstProduct,
+        ImportErrorHandlerInterface $importErrorHandler
     ): void {
         $productCodes = ['first'];
 
@@ -109,10 +112,6 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
 
         $channel->getCode()->shouldBeCalled()->willReturn('some_channel');
 
-        $tokenStorage->getToken()->willReturn($token);
-        $token->getUser()->willReturn($adminUser);
-        $adminUser->getEmail()->willReturn('john.doe@example.com');
-
         $productRepository->findOneByCode('first')->willReturn($firstProduct);
 
         $priceUpdater->updateForProduct(
@@ -127,7 +126,7 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
             Argument::type('float')
         )->shouldBeCalledTimes(1)->willThrow(\InvalidArgumentException::class);
 
-        $sender->send(Argument::type('string'), ['john.doe@example.com'], Argument::type('array'))->shouldBeCalled();
+        $importErrorHandler->handleErrors(Argument::size(1))->shouldBeCalled();
 
         $this->importForProducts($productCodes, $valuePrice);
     }
