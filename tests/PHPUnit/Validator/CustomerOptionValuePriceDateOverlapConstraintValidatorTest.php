@@ -12,12 +12,13 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRangeInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionValuePriceDateOverlapConstraint;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\CustomerOptionValuePriceDateOverlapConstraintValidator;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class ProductCustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCase
+class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCase
 {
     /** @var CustomerOptionValuePriceDateOverlapConstraintValidator */
     private $productCustomerOptionPriceValidator;
@@ -109,11 +110,11 @@ class ProductCustomerOptionValuePriceDateOverlapConstraintValidatorTest extends 
         return [
             'non object entry' => [
                 new stdClass(),
-                'Expected an instance of Doctrine\Common\Collections\Collection. Got: stdClass',
+                sprintf('$valuePrices is not type of %s', Collection::class),
             ],
             'invalid entry' => [
                 new ArrayCollection([new stdClass()]),
-                'Expected an implementation of "Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface". Got: stdClass',
+                sprintf('$valuePrices has object not implementing %s', CustomerOptionValuePriceInterface::class),
             ],
         ];
     }
