@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Reader;
 
-
 use Webmozart\Assert\Assert;
 
 class CsvReader implements CsvReaderInterface

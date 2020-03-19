@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Handler;
 
-
 use Sylius\Component\Core\Model\AdminUserInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -20,8 +19,7 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
     public function __construct(
         SenderInterface $sender,
         TokenStorageInterface $tokenStorage
-    )
-    {
+    ) {
         $this->sender       = $sender;
         $this->tokenStorage = $tokenStorage;
     }

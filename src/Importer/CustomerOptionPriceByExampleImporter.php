@@ -10,8 +10,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Handler\ImportErrorHandlerInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
-use Sylius\Component\Mailer\Sender\SenderInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Webmozart\Assert\Assert;
 
 class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExampleImporterInterface
