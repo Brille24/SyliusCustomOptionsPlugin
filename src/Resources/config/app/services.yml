@@ -12,6 +12,7 @@ imports:
   - { resource: "services/importer.xml" }
   - { resource: "services/updater.xml" }
   - { resource: "services/reader.xml" }
+  - { resource: "services/handler.xml" }
 
 services:
   # Sonata
