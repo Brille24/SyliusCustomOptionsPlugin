@@ -12,7 +12,7 @@
         <field name="customerOptionType"/>
 
         <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface"
-                     field="customerOption" optional="true"
+                     field="customerOption" optional="true" inversed-by="orders"
         >
             <join-column on-delete="SET NULL" nullable="true"/>
         </many-to-one>

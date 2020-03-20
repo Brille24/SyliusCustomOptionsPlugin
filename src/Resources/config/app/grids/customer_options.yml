@@ -1,4 +1,7 @@
 sylius_grid:
+    templates:
+        action:
+            delete_unused_customer_option: '@Brille24SyliusCustomerOptionsPlugin/CustomerOption/Buttons/delete.html.twig'
     grids:
         brille24_admin_customer_option_grid:
             driver:
@@ -40,6 +43,7 @@ sylius_grid:
                     update:
                         type: update
                     delete:
-                        type: delete
+                        type: delete_unused_customer_option
+                        label: 'sylius.ui.delete'
                     archive:
                         type: archive
