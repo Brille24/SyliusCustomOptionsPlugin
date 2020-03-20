@@ -86,3 +86,4 @@ brille24:
     grid:
         options_remaining: "{0} |]0,Inf]and %count% more"
         options_empty: Nothing to display
+        delete_not_allowed: 'You are not allowed to delete the customer option as it is used in an order'

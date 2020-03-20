@@ -50,7 +50,7 @@ class CustomerOption implements CustomerOptionInterface
     /** @var ArrayCollection */
     private $groupAssociations;
 
-    /** @var OrderItemOptionInterface */
+    /** @var Collection|OrderItemOptionInterface[] */
     private $orders;
 
     public function __construct()
@@ -59,6 +59,7 @@ class CustomerOption implements CustomerOptionInterface
 
         $this->values            = new ArrayCollection();
         $this->groupAssociations = new ArrayCollection();
+        $this->orders            = new ArrayCollection();
     }
 
     /**
@@ -291,9 +292,9 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * @return OrderItemOptionInterface
+     * @return Collection|OrderItemOptionInterface[]
      */
-    public function getOrders(): OrderItemOptionInterface
+    public function getOrders(): Collection
     {
         return $this->orders;
     }
