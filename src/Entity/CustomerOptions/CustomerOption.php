@@ -16,7 +16,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Resource\Model\ArchivableTrait;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
@@ -26,8 +25,6 @@ class CustomerOption implements CustomerOptionInterface
         __construct as protected initializeTranslationsCollection;
         getTranslation as private doGetTranslation;
     }
-
-    use ArchivableTrait;
 
     /** @var int|null */
     private $id;

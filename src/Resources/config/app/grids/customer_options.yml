@@ -7,7 +7,7 @@ sylius_grid:
             driver:
                 name: doctrine/orm
                 options:
-                    class: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption
+                    class: '%brille24.model.customer_option.class%'
             fields:
                 code:
                     type: string
@@ -29,12 +29,6 @@ sylius_grid:
                 code:
                     type: string
                     label: sylius.ui.code
-                archival:
-                    type: exists
-                    label: sylius.ui.archival
-                    options:
-                        field: archivedAt
-                    default_value: false
             actions:
                 main:
                     create:
@@ -45,5 +39,3 @@ sylius_grid:
                     delete:
                         type: delete_unused_customer_option
                         label: 'sylius.ui.delete'
-                    archive:
-                        type: archive
