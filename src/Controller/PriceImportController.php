@@ -120,10 +120,18 @@ class PriceImportController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $products = $form->get('products')->getData();
 
-            /** @var CustomerOptionValuePriceInterface $customerOptionValuePrice */
-            $customerOptionValuePrice = $form->get('customer_option_value_price')->getData();
+            /** @var array $valuePriceData */
+            $valuePriceData = $form->get('customer_option_value_price')->getData();
 
-            $importResult = $this->priceByExampleImporter->importForProducts($products, $customerOptionValuePrice);
+            $importResult = $this->priceByExampleImporter->importForProducts(
+                $products,
+                $valuePriceData['customerOptionValues'],
+                $valuePriceData['dateValid'],
+                $valuePriceData['channel'],
+                $valuePriceData['type'],
+                $valuePriceData['amount'],
+                $valuePriceData['percent']
+            );
         }
     }
 }

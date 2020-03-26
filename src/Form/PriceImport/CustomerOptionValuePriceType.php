@@ -13,11 +13,13 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Form\Product\ProductCustomerOptionValuePriceTypeTrait;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -45,14 +47,16 @@ final class CustomerOptionValuePriceType extends AbstractType
         }
 
         $this->addValuePriceFields($builder, $values);
-    }
 
-    /** {@inheritdoc} */
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver
-            ->setDefaults([
-                'data_class' => CustomerOptionValuePrice::class,
+        $builder->remove('customerOptionValue');
+        $builder
+            ->add('customerOptionValues', ChoiceType::class, [
+                'choices'      => $values,
+                'choice_label' => 'name',
+                'group_by'     => static function (CustomerOptionValueInterface $customerOptionValue) {
+                    return $customerOptionValue->getCustomerOption()->getName();
+                },
+                'multiple' => true,
             ])
         ;
     }

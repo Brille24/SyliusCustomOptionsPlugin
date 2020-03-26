@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
 use Brille24\SyliusCustomerOptionsPlugin\Handler\ImportErrorHandlerInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Webmozart\Assert\Assert;
 
@@ -41,54 +42,70 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
     }
 
     /** {@inheritdoc} */
-    public function importForProducts(array $productCodes, CustomerOptionValuePriceInterface $examplePrice): array
-    {
+    public function importForProducts(
+        array $productCodes,
+        array $customerOptionValues,
+        ?DateRange $dateValid,
+        ChannelInterface $channel,
+        string $type,
+        int $amount,
+        float $percent
+    ): array {
         $dateFrom = null;
         $dateTo   = null;
-        if ($examplePrice->getDateValid() !== null) {
-            $dateFrom = $examplePrice->getDateValid()->getStart()->format(DATE_ATOM);
-            $dateTo   = $examplePrice->getDateValid()->getEnd()->format(DATE_ATOM);
+        if (null !== $dateValid) {
+            $dateFrom = $dateValid->getStart();
+            $dateTo   = $dateValid->getEnd();
         }
-
-        $customerOptionCode      = $examplePrice->getCustomerOptionValue()->getCustomerOption()->getCode();
-        $customerOptionValueCode = $examplePrice->getCustomerOptionValue()->getCode();
-        $channelCode             = $examplePrice->getChannel()->getCode();
-
-        $type    = $examplePrice->getType();
-        $amount  = $examplePrice->getAmount();
-        $percent = $examplePrice->getPercent();
 
         $errors = [];
         $i      = 0;
-        foreach ($productCodes as $productCode) {
-            try {
-                /** @var ProductInterface|null $product */
-                $product = $this->productRepository->findOneByCode($productCode);
-                Assert::isInstanceOf(
-                    $product,
-                    ProductInterface::class,
-                    sprintf('Product with code "%s" not found', $productCode)
-                );
+        foreach ($customerOptionValues as $customerOptionValue) {
+            $customerOptionCode      = $customerOptionValue->getCustomerOption()->getCode();
+            $customerOptionValueCode = $customerOptionValue->getCode();
+            $channelCode             = $channel->getCode();
 
-                $price = $this->priceUpdater->updateForProduct(
-                    $customerOptionCode,
-                    $customerOptionValueCode,
-                    $channelCode,
-                    $product,
-                    $dateFrom,
-                    $dateTo,
-                    $type,
-                    $amount,
-                    $percent
-                );
+            foreach ($productCodes as $productCode) {
+                try {
+                    /** @var ProductInterface|null $product */
+                    $product = $this->productRepository->findOneByCode($productCode);
+                    Assert::isInstanceOf(
+                        $product,
+                        ProductInterface::class,
+                        sprintf('Product with code "%s" not found', $productCode)
+                    );
 
-                $this->entityManager->persist($price);
+                    $price = $this->priceUpdater->updateForProduct(
+                        $customerOptionCode,
+                        $customerOptionValueCode,
+                        $channelCode,
+                        $product,
+                        $dateFrom,
+                        $dateTo,
+                        $type,
+                        $amount,
+                        $percent
+                    );
 
-                if (++$i % self::BATCH_SIZE === 0) {
-                    $this->entityManager->flush();
+                    $this->entityManager->persist($price);
+
+                    if (++$i % self::BATCH_SIZE === 0) {
+                        $this->entityManager->flush();
+                    }
+                } catch (\Throwable $exception) {
+                    $errors[$productCode] = [
+                        'data' => [
+                            'productCodes'         => $productCodes,
+                            'customerOptionValues' => $customerOptionValues,
+                            'dateValid'            => $dateValid,
+                            'channel'              => $channel,
+                            'type'                 => $type,
+                            'amount'               => $amount,
+                            'percent'              => $percent,
+                        ],
+                        'message' => $exception->getMessage()
+                    ];
                 }
-            } catch (\Throwable $exception) {
-                $errors[$productCode] = ['data' => $examplePrice, 'message' => $exception->getMessage()];
             }
         }
 
