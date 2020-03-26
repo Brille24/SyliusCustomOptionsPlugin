@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Controller;
 
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportByCsvType;
 use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportByProductListType;
 use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceByExampleImporterInterface;
@@ -61,23 +60,8 @@ class PriceImportController extends AbstractController
         $productListForm = $this->createForm(PriceImportByProductListType::class);
         $productListForm->handleRequest($request);
 
-        $importResult = ['imported' => 0, 'failed' => 0];
-
-        $this->handleCsvForm($csvForm, $importResult);
-        $this->handleProductListForm($productListForm, $importResult);
-
-        if (0 < $importResult['imported']) {
-            $this->addFlash('success', $this->translator->trans(
-                'brille24.flashes.customer_option_prices_imported',
-                ['%count%' => $importResult['imported']]
-            ));
-        }
-        if (0 < $importResult['failed']) {
-            $this->addFlash('error', $this->translator->trans(
-                'brille24.flashes.customer_option_prices_import_failed',
-                ['%count%' => $importResult['failed']]
-            ));
-        }
+        $this->handleCsvForm($csvForm);
+        $this->handleProductListForm($productListForm);
 
         return $this->render('@Brille24SyliusCustomerOptionsPlugin/PriceImport/import.html.twig', ['csvForm' => $csvForm->createView(), 'byProductListForm' => $productListForm->createView()]);
     }
@@ -92,9 +76,8 @@ class PriceImportController extends AbstractController
 
     /**
      * @param FormInterface $form
-     * @param array $importResult
      */
-    protected function handleCsvForm(FormInterface $form, array &$importResult): void
+    protected function handleCsvForm(FormInterface $form): void
     {
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $file */
@@ -108,14 +91,27 @@ class PriceImportController extends AbstractController
             } catch (\Throwable $exception) {
                 $this->addFlash('error', 'brille24.flashes.customer_option_price_import_error');
             }
+
+            // Handle flash messages
+            if (0 < $importResult['imported']) {
+                $this->addFlash('success', $this->translator->trans(
+                    'brille24.flashes.customer_option_prices_csv_imported',
+                    ['%count%' => $importResult['imported']]
+                ));
+            }
+            if (0 < $importResult['failed']) {
+                $this->addFlash('error', $this->translator->trans(
+                    'brille24.flashes.customer_option_prices_csv_import_failed',
+                    ['%count%' => $importResult['failed']]
+                ));
+            }
         }
     }
 
     /**
      * @param FormInterface $form
-     * @param array $importResult
      */
-    protected function handleProductListForm(FormInterface $form, array &$importResult): void
+    protected function handleProductListForm(FormInterface $form): void
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $products = $form->get('products')->getData();
@@ -123,15 +119,67 @@ class PriceImportController extends AbstractController
             /** @var array $valuePriceData */
             $valuePriceData = $form->get('customer_option_value_price')->getData();
 
+            $dateRange = $valuePriceData['dateValid'];
+            $channel = $valuePriceData['channel'];
+
             $importResult = $this->priceByExampleImporter->importForProducts(
                 $products,
                 $valuePriceData['customerOptionValues'],
-                $valuePriceData['dateValid'],
-                $valuePriceData['channel'],
+                $dateRange,
+                $channel,
                 $valuePriceData['type'],
                 $valuePriceData['amount'],
                 $valuePriceData['percent']
             );
+
+            // Handle flash messages
+            if ($importResult['imported']) {
+                if (null === $dateRange) {
+                    $this->addFlash('success', $this->translator->trans(
+                        'brille24.flashes.customer_option_prices_product_list_imported',
+                        [
+                            '%count%' => $importResult['imported'],
+                            '%channel%' => $channel->getCode(),
+                            '%products%' => implode(', ', $products),
+                        ]
+                    ));
+                } else {
+                    $this->addFlash('success', $this->translator->trans(
+                        'brille24.flashes.customer_option_prices_product_list_imported_with_date',
+                        [
+                            '%count%' => $importResult['imported'],
+                            '%channel%' => $channel->getCode(),
+                            '%products%' => implode(', ', $products),
+                            '%from%' => $dateRange->getStart()->format(DATE_ATOM),
+                            '%to%' => $dateRange->getEnd()->format(DATE_ATOM),
+                        ]
+                    ));
+                }
+            }
+
+            if ($importResult['failed']) {
+                if (null === $dateRange) {
+                    $this->addFlash('error', $this->translator->trans(
+                        'brille24.flashes.customer_option_prices_product_list_import_failed',
+                        [
+                            '%count%' => $importResult['failed'],
+                            '%channel%' => $channel->getCode(),
+                            '%products%' => implode(', ', $products),
+                        ]
+                    ));
+                } else {
+                    $this->addFlash('error', $this->translator->trans(
+                        'brille24.flashes.customer_option_prices_product_list_import_failed_with_date',
+                        [
+                            '%count%' => $importResult['failed'],
+                            '%channel%' => $channel->getCode(),
+                            '%products%' => implode(', ', $products),
+                            '%from%' => $dateRange->getStart()->format(DATE_ATOM),
+                            '%to%' => $dateRange->getEnd()->format(DATE_ATOM),
+                        ]
+                    ));
+                }
+            }
         }
     }
 }
