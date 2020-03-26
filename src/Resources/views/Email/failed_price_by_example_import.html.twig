@@ -18,10 +18,10 @@
         </tr>
         </thead>
         <tbody>
-        {% for productCode, errorMessage in failed %}
+        {% for productCode, error in failed %}
             <tr>
                 <td>{{ productCode }}</td>
-                <td>{{ errorMessage }}</td>
+                <td>{{ error.message }}</td>
             </tr>
         {% endfor %}
         </tbody>

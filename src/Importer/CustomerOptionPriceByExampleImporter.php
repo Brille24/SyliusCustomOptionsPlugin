@@ -54,8 +54,8 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
         $dateFrom = null;
         $dateTo   = null;
         if (null !== $dateValid) {
-            $dateFrom = $dateValid->getStart();
-            $dateTo   = $dateValid->getEnd();
+            $dateFrom = $dateValid->getStart()->format(DATE_ATOM);
+            $dateTo   = $dateValid->getEnd()->format(DATE_ATOM);
         }
 
         $errors = [];
