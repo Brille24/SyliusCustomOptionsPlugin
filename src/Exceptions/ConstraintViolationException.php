@@ -12,8 +12,12 @@ class ConstraintViolationException extends \Exception
     /** @var ConstraintViolationListInterface */
     protected $violations;
 
-    public function __construct(ConstraintViolationListInterface $violations, $message = '', $code = 0, Throwable $previous = null)
-    {
+    public function __construct(
+        ConstraintViolationListInterface $violations,
+        string $message = '',
+        int $code = 0,
+        Throwable $previous = null
+    ) {
         $this->violations = $violations;
 
         parent::__construct($message, $code, $previous);

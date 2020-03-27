@@ -88,22 +88,22 @@ class PriceImportController extends AbstractController
 
             try {
                 $importResult = $this->csvPriceImporter->import($path);
+
+                // Handle flash messages
+                if (0 < $importResult['imported']) {
+                    $this->addFlash('success', $this->translator->trans(
+                        'brille24.flashes.customer_option_prices_csv_imported',
+                        ['%count%' => $importResult['imported']]
+                    ));
+                }
+                if (0 < $importResult['failed']) {
+                    $this->addFlash('error', $this->translator->trans(
+                        'brille24.flashes.customer_option_prices_csv_import_failed',
+                        ['%count%' => $importResult['failed']]
+                    ));
+                }
             } catch (\Throwable $exception) {
                 $this->addFlash('error', 'brille24.flashes.customer_option_price_import_error');
-            }
-
-            // Handle flash messages
-            if (0 < $importResult['imported']) {
-                $this->addFlash('success', $this->translator->trans(
-                    'brille24.flashes.customer_option_prices_csv_imported',
-                    ['%count%' => $importResult['imported']]
-                ));
-            }
-            if (0 < $importResult['failed']) {
-                $this->addFlash('error', $this->translator->trans(
-                    'brille24.flashes.customer_option_prices_csv_import_failed',
-                    ['%count%' => $importResult['failed']]
-                ));
             }
         }
     }
@@ -133,7 +133,7 @@ class PriceImportController extends AbstractController
             );
 
             // Handle flash messages
-            if ($importResult['imported']) {
+            if ($importResult['imported'] > 0) {
                 if (null === $dateRange) {
                     $this->addFlash('success', $this->translator->trans(
                         'brille24.flashes.customer_option_prices_product_list_imported',
@@ -157,7 +157,7 @@ class PriceImportController extends AbstractController
                 }
             }
 
-            if ($importResult['failed']) {
+            if ($importResult['failed'] > 0) {
                 if (null === $dateRange) {
                     $this->addFlash('error', $this->translator->trans(
                         'brille24.flashes.customer_option_prices_product_list_import_failed',

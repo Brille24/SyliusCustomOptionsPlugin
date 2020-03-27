@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
 use Sylius\Component\Core\Model\ChannelInterface;
 
@@ -12,7 +12,7 @@ interface CustomerOptionPriceByExampleImporterInterface
 {
     /**
      * @param string[] $productCodes
-     * @param CustomerOptionValuePriceInterface[] $customerOptionValues
+     * @param CustomerOptionValueInterface[] $customerOptionValues
      * @param DateRange|null $dateValid
      * @param ChannelInterface $channel
      * @param string $type
