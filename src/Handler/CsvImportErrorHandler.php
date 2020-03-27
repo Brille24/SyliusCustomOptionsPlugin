@@ -25,7 +25,7 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
     }
 
     /** {@inheritdoc} */
-    public function handleErrors(array $errors): void
+    public function handleErrors(array $errors, array $extraData): void
     {
         if (0 === count($errors)) {
             return;
@@ -55,6 +55,11 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
         rename($tmpPath, $csvPath);
         file_put_contents($csvPath, implode("\n", $csvData));
 
-        $this->sender->send('brille24_failed_csv_price_import', [$email], ['failed' => $errors], [$csvPath]);
+        $this->sender->send(
+            'brille24_failed_csv_price_import',
+            [$email],
+            ['failed' => $errors, 'extraData' => $extraData],
+            [$csvPath]
+        );
     }
 }

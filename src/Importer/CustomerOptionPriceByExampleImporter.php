@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
+use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConstraintViolationException;
 use Brille24\SyliusCustomerOptionsPlugin\Handler\ImportErrorHandlerInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -92,18 +94,10 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
                     if (++$i % self::BATCH_SIZE === 0) {
                         $this->entityManager->flush();
                     }
-                } catch (\Throwable $exception) {
+                } catch (ConstraintViolationException $violationException) {
                     $errors[$productCode] = [
-                        'data' => [
-                            'productCodes'         => $productCodes,
-                            'customerOptionValues' => $customerOptionValues,
-                            'dateValid'            => $dateValid,
-                            'channel'              => $channel,
-                            'type'                 => $type,
-                            'amount'               => $amount,
-                            'percent'              => $percent,
-                        ],
-                        'message' => $exception->getMessage()
+                        'data'    => $violationException->getViolations(),
+                        'message' => $violationException->getMessage(),
                     ];
                 }
             }
@@ -111,7 +105,18 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
 
         $this->entityManager->flush();
 
-        $this->importErrorHandler->handleErrors($errors);
+        $this->importErrorHandler->handleErrors($errors, [
+            'productCodes'         => $productCodes,
+            'customerOptionValues' => array_map(static function (CustomerOptionValueInterface $customerOptionValue) {
+                return $customerOptionValue->getCode();
+            }, $customerOptionValues),
+            'validFrom'            => $dateFrom,
+            'validTo'              => $dateTo,
+            'channel'              => $channel->getCode(),
+            'type'                 => $type,
+            'amount'               => $amount,
+            'percent'              => $percent,
+        ]);
 
         return ['imported' => $i, 'failed' => count($errors)];
     }

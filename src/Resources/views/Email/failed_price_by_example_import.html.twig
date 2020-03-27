@@ -10,19 +10,57 @@
         }
     </style>
 
+    <h2>Configuration</h2>
+    <table style="border-spacing: 0" border="1">
+        <thead style="background-color: lightgrey">
+        <tr>
+            <th>Field</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for key, value in extraData if value is not null %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>
+                    {% if value is iterable %}
+                        <ul>
+
+                            {% for item in value %}
+                                <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        {{ value }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <br/>
+
+    <h2>Errors</h2>
     <table style="border-spacing: 0" border="1">
         <thead style="background-color: lightgrey">
         <tr>
             <th>Product code</th>
+            <th>Customer option value</th>
             <th>Error</th>
+            <th>Cause</th>
         </tr>
         </thead>
         <tbody>
         {% for productCode, error in failed %}
-            <tr>
-                <td>{{ productCode }}</td>
-                <td>{{ error.message }}</td>
-            </tr>
+            {% for violation in error.data %}
+                <tr>
+                    <td>{{ productCode }}</td>
+                    <td>{{ violation.propertyPath }}</td>
+                    <td>{{ error.message|trans }}</td>
+                    <td>{{ violation.cause }}</td>
+                </tr>
+            {% endfor %}
         {% endfor %}
         </tbody>
     </table>

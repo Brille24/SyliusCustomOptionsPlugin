@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConstraintViolationException;
 use Brille24\SyliusCustomerOptionsPlugin\Handler\ImportErrorHandlerInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Reader\CsvReaderInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
@@ -103,14 +104,20 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
                 if (++$i % self::BATCH_SIZE === 0) {
                     $this->entityManager->flush();
                 }
-            } catch (\Throwable $exception) {
+            } catch (ConstraintViolationException $violationException) {
+                $errors[$lineNumber] = [
+                    'violations' => $violationException->getViolations(),
+                    'data'       => $data,
+                    'message'    => $violationException->getMessage(),
+                ];
+            }catch (\Throwable $exception) {
                 $errors[$lineNumber] = ['data' => $data, 'message' => $exception->getMessage()];
             }
         }
 
         $this->entityManager->flush();
 
-        $this->importErrorHandler->handleErrors($errors);
+        $this->importErrorHandler->handleErrors($errors, []);
 
         return ['imported' => $i, 'failed' => count($errors)];
     }

@@ -25,7 +25,7 @@ class ByExampleImportErrorHandler implements ImportErrorHandlerInterface
     }
 
     /** {@inheritdoc} */
-    public function handleErrors(array $errors): void
+    public function handleErrors(array $errors, array $extraData): void
     {
         if (0 === count($errors)) {
             return;
@@ -36,6 +36,10 @@ class ByExampleImportErrorHandler implements ImportErrorHandlerInterface
         $user  = $this->tokenStorage->getToken()->getUser();
         $email = $user->getEmail();
 
-//        $this->sender->send('brille24_failed_price_by_example_import', [$email], ['failed' => $errors]);
+        $this->sender->send(
+            'brille24_failed_price_by_example_import',
+            [$email],
+            ['failed' => $errors, 'extraData' => $extraData]
+        );
     }
 }

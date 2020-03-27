@@ -88,7 +88,13 @@ class CustomerOptionValuePriceDateOverlapConstraintValidator extends ConstraintV
 
                 if ($currentDateRange === $existingDateRange) {
                     // Either the two prices have the same DateRange object or both date ranges are null
-                    $this->context->addViolation($constraint->message);
+                    $this->context
+                        ->buildViolation($constraint->message)
+                        ->atPath($customerOptionValueCode)
+                        ->setInvalidValue($currentDateRange)
+                        ->setCause($existingDateRange)
+                        ->addViolation()
+                    ;
                 }
 
                 if (null !== $currentDateRange && null !== $existingDateRange) {
@@ -100,7 +106,13 @@ class CustomerOptionValuePriceDateOverlapConstraintValidator extends ConstraintV
                         $existingDateRange->contains($currentDateRange->getEnd())
                     ) {
                         // The date ranges overlap
-                        $this->context->addViolation($constraint->message);
+                        $this->context
+                            ->buildViolation($constraint->message)
+                            ->atPath($customerOptionValueCode)
+                            ->setInvalidValue($currentDateRange)
+                            ->setCause($existingDateRange)
+                            ->addViolation()
+                        ;
                     }
                 }
             }
