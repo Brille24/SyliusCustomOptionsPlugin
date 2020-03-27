@@ -110,7 +110,7 @@ class CustomerOptionPriceCsvImporter implements CustomerOptionPriceCsvImporterIn
                     'data'       => $data,
                     'message'    => $violationException->getMessage(),
                 ];
-            }catch (\Throwable $exception) {
+            } catch (\Throwable $exception) {
                 $errors[$lineNumber] = ['data' => $data, 'message' => $exception->getMessage()];
             }
         }

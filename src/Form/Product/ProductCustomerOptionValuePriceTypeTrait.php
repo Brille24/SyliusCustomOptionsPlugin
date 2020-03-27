@@ -8,7 +8,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
 use Brille24\SyliusCustomerOptionsPlugin\Form\DateRangeType;
-use Sonata\CoreBundle\Form\Type\DateTimeRangeType;
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Sylius\Bundle\MoneyBundle\Form\Type\MoneyType;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -68,12 +67,12 @@ trait ProductCustomerOptionValuePriceTypeTrait
                 },
             ])
             ->add('dateValid', DateRangeType::class, [
-                'required' => false,
-                'label'    => 'Active range',
+                'required'      => false,
+                'label'         => 'Active range',
                 'field_options' => [
                     'date_widget' => 'single_text',
-                    'time_widget' => 'single_text'
-                ]
+                    'time_widget' => 'single_text',
+                ],
             ]);
 
         $this->addModelTransformer($builder);

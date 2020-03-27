@@ -120,7 +120,7 @@ class PriceImportController extends AbstractController
             $valuePriceData = $form->get('customer_option_value_price')->getData();
 
             $dateRange = $valuePriceData['dateValid'];
-            $channel = $valuePriceData['channel'];
+            $channel   = $valuePriceData['channel'];
 
             $importResult = $this->priceByExampleImporter->importForProducts(
                 $products,
@@ -138,8 +138,8 @@ class PriceImportController extends AbstractController
                     $this->addFlash('success', $this->translator->trans(
                         'brille24.flashes.customer_option_prices_product_list_imported',
                         [
-                            '%count%' => $importResult['imported'],
-                            '%channel%' => $channel->getCode(),
+                            '%count%'    => $importResult['imported'],
+                            '%channel%'  => $channel->getCode(),
                             '%products%' => implode(', ', $products),
                         ]
                     ));
@@ -147,11 +147,11 @@ class PriceImportController extends AbstractController
                     $this->addFlash('success', $this->translator->trans(
                         'brille24.flashes.customer_option_prices_product_list_imported_with_date',
                         [
-                            '%count%' => $importResult['imported'],
-                            '%channel%' => $channel->getCode(),
+                            '%count%'    => $importResult['imported'],
+                            '%channel%'  => $channel->getCode(),
                             '%products%' => implode(', ', $products),
-                            '%from%' => $dateRange->getStart()->format(DATE_ATOM),
-                            '%to%' => $dateRange->getEnd()->format(DATE_ATOM),
+                            '%from%'     => $dateRange->getStart()->format(DATE_ATOM),
+                            '%to%'       => $dateRange->getEnd()->format(DATE_ATOM),
                         ]
                     ));
                 }
@@ -162,8 +162,8 @@ class PriceImportController extends AbstractController
                     $this->addFlash('error', $this->translator->trans(
                         'brille24.flashes.customer_option_prices_product_list_import_failed',
                         [
-                            '%count%' => $importResult['failed'],
-                            '%channel%' => $channel->getCode(),
+                            '%count%'    => $importResult['failed'],
+                            '%channel%'  => $channel->getCode(),
                             '%products%' => implode(', ', $products),
                         ]
                     ));
@@ -171,11 +171,11 @@ class PriceImportController extends AbstractController
                     $this->addFlash('error', $this->translator->trans(
                         'brille24.flashes.customer_option_prices_product_list_import_failed_with_date',
                         [
-                            '%count%' => $importResult['failed'],
-                            '%channel%' => $channel->getCode(),
+                            '%count%'    => $importResult['failed'],
+                            '%channel%'  => $channel->getCode(),
                             '%products%' => implode(', ', $products),
-                            '%from%' => $dateRange->getStart()->format(DATE_ATOM),
-                            '%to%' => $dateRange->getEnd()->format(DATE_ATOM),
+                            '%from%'     => $dateRange->getStart()->format(DATE_ATOM),
+                            '%to%'       => $dateRange->getEnd()->format(DATE_ATOM),
                         ]
                     ));
                 }
