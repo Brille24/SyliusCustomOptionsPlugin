@@ -1,5 +1,5 @@
 imports:
     - { resource: "resources.yml" }
     - { resource: "services.yml" }
-    - { resource: "grids.yml" }
     - { resource: "mailer.yml" }
+    - { resource: "grids/*" }

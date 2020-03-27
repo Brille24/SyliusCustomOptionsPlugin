@@ -45,5 +45,8 @@
                 <order-by-field name="id" direction="ASC"/>
             </order-by>
         </one-to-many>
+
+        <one-to-many field="orders" target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption"
+                     mapped-by="customerOption"/>
     </entity>
 </doctrine-mapping>

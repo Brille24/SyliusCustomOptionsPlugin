@@ -85,3 +85,4 @@ brille24:
     grid:
         options_remaining: "{0} |]0,Inf]und %count% weitere"
         options_empty: Leer
+        delete_not_allowed: 'Die Kundenoption kann nicht gelöscht werden, weil sie in Verwendung ist.'

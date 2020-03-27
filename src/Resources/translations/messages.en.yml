@@ -104,3 +104,4 @@ brille24:
 
     validation:
         customer_option_value_price_dates_overlap: Overlaps with another date range
+        delete_not_allowed: 'You are not allowed to delete the customer option as it is used in an order'
