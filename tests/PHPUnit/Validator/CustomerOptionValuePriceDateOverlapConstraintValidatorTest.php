@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use stdClass;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCase
 {
@@ -25,6 +26,9 @@ class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCas
 
     /** @var array */
     private $violations = [];
+
+    /** @var string */
+    private $buildingViolation;
 
     /** @var ChannelInterface[] */
     private $channel;
@@ -38,10 +42,28 @@ class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCas
     //<editor-fold desc="Setup">
     protected function setUp()
     {
+        $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
+
         $context = self::createMock(ExecutionContextInterface::class);
         $context->method('addViolation')->willReturnCallback(
             function (?string $message): void {
                 $this->violations[] = $message;
+            }
+        );
+
+        $context->method('buildViolation')->willReturnCallback(
+            function (string $message) use ($violationBuilder): ConstraintViolationBuilderInterface {
+                $this->buildingViolation = $message;
+
+                return $violationBuilder;
+            }
+        );
+        $violationBuilder->method('atPath')->willReturnSelf();
+        $violationBuilder->method('setCause')->willReturnSelf();
+        $violationBuilder->method('setInvalidValue')->willReturnSelf();
+        $violationBuilder->method('addViolation')->willReturnCallback(
+            function (): void {
+                $this->violations[] = $this->buildingViolation;
             }
         );
 
