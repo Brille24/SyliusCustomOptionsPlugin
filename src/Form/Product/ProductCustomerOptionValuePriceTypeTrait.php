@@ -73,36 +73,7 @@ trait ProductCustomerOptionValuePriceTypeTrait
                     'date_widget' => 'single_text',
                     'time_widget' => 'single_text',
                 ],
-            ]);
-
-        $this->addModelTransformer($builder);
-    }
-
-    /**
-     * @param FormBuilderInterface $builder
-     */
-    private function addModelTransformer(FormBuilderInterface $builder): void
-    {
-        $builder->get('dateValid')->addModelTransformer(
-            new CallbackTransformer(
-                static function (?DateRange $dateRange) {
-                    if ($dateRange === null) {
-                        return [];
-                    }
-
-                    return [
-                        'start' => $dateRange->getStart(),
-                        'end'   => $dateRange->getEnd(),
-                    ];
-                },
-                static function (array $dateTime) {
-                    if ($dateTime['start'] === null || $dateTime['end'] === null) {
-                        return null;
-                    }
-
-                    return new DateRange($dateTime['start'], $dateTime['end']);
-                }
-            )
-        );
+            ])
+        ;
     }
 }

@@ -20,24 +20,40 @@ class DateRangeType extends AbstractType
             ->add('end', DateTimeType::class, $options['field_options'])
         ;
 
-//        $builder->addModelTransformer(new CallbackTransformer(
-//            static function (?DateRange $dateRange) {
-//                return $dateRange;
-//            },
-//            static function (array $dateTime) {
-//                if ($dateTime['start'] === null || $dateTime['end'] === null) {
-//                    return null;
-//                }
-//
-//                return new DateRange($dateTime['start'], $dateTime['end']);
-//            })
-//        );
+        $this->addModelTransformer($builder);
+    }
+
+    /**
+     * @param FormBuilderInterface $builder
+     */
+    private function addModelTransformer(FormBuilderInterface $builder): void
+    {
+        $builder->addModelTransformer(
+            new CallbackTransformer(
+                static function (?DateRange $dateRange) {
+                    if ($dateRange === null) {
+                        return [];
+                    }
+
+                    return [
+                        'start' => $dateRange->getStart(),
+                        'end'   => $dateRange->getEnd(),
+                    ];
+                },
+                static function (array $dateTime) {
+                    if ($dateTime['start'] === null || $dateTime['end'] === null) {
+                        return null;
+                    }
+
+                    return new DateRange($dateTime['start'], $dateTime['end']);
+                }
+            )
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class'    => DateRange::class,
             'field_options' => [
                 'required' => false,
             ],
