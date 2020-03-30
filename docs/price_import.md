@@ -7,4 +7,4 @@ You'll see two forms:
 
 Keep in mind that these forms can only **add** prices, **not** delete them.
 
-![Price import forms](images/price_import_form.png "The two price import forms")
+![Price import forms](images/customerOptions_backend_price_import.png "The two price import forms")
