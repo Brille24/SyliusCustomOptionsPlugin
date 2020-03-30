@@ -23,7 +23,7 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
     /**
      * {@inheritdoc}
      *
-     * For more info have a look at this graphic `docs/OrderProcessor_Usage.png`
+     * For more info have a look at this graphic `docs/images/OrderProcessor_Usage.png`
      */
     public function process(OrderInterface $order): void
     {
