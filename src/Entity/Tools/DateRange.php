@@ -72,6 +72,6 @@ class DateRange implements DateRangeInterface
 
     public function __toString(): string
     {
-        return sprintf('%s - %s', $this->start->format(DATE_ATOM), $this->end->format(DATE_ATOM));
+        return sprintf('%s - %s', $this->start->format(DATE_RFC1123), $this->end->format(DATE_RFC1123));
     }
 }

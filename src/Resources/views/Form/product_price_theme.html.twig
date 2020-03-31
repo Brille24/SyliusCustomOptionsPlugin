@@ -1,0 +1,25 @@
+{% extends '@SyliusAdmin/Form/theme.html.twig' %}
+
+{% block brille24_product_value_price_widget %}
+
+    {% set title = 'New price' %}
+    {% set price = form.vars.value %}
+    {% if price is not null %}
+        {% set coValue = price.customerOptionValue %}
+        {% set co = coValue.customerOption %}
+        {% set channel = price.channel %}
+
+        {% set title = co.name~' - '~coValue.name~' - '~channel.name %}
+        {% if price.dateValid is not null %}
+            {% set title = title~' - '~price.dateValid %}
+        {% endif %}
+    {% endif %}
+
+    <div class="ui styled fluid accordion">
+        <div class="ui title"><i class="dropdown icon"></i>{{ title }}</div>
+        <div class="ui content">
+            {{ form_errors(form) }}
+            {{ form_widget(form) }}
+        </div>
+    </div>
+{% endblock %}
