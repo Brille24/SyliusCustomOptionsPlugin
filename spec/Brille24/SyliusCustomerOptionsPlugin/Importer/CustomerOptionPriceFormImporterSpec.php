@@ -19,17 +19,23 @@ use Sylius\Component\Core\Model\AdminUserInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
+class CustomerOptionPriceFormImporterSpec extends ObjectBehavior
 {
     public function let(
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         EntityManagerInterface $entityManager,
         ProductRepositoryInterface $productRepository,
-        ImportErrorHandlerInterface $importErrorHandler
+        ImportErrorHandlerInterface $importErrorHandler,
+        FormInterface $form,
+        FormInterface $productForm,
+        FormInterface $valuePriceForm,
+        ChannelInterface $channel,
+        CustomerOptionValueInterface $customerOptionValue
     ): void {
         $this->beConstructedWith(
             $priceUpdater,
@@ -37,9 +43,25 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
             $productRepository,
             $importErrorHandler
         );
+
+        $type = CustomerOptionValuePrice::TYPE_FIXED_AMOUNT;
+        $amount = 1000;
+        $percent = 0.0;
+
+        $form->get('products')->willReturn($productForm);
+        $form->get('customer_option_value_price')->willReturn($valuePriceForm);
+
+        $valuePriceForm->getData()->willReturn([
+            'dateValid' => null,
+            'channel' => $channel,
+            'customerOptionValues' => [$customerOptionValue],
+            'type' => $type,
+            'amount' => $amount,
+            'percent' => $percent,
+        ]);
     }
 
-    public function it_uses_price_as_example_for_a_list_of_products(
+    public function it_imports_prices_from_a_form(
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         CustomerOptionValueInterface $customerOptionValue,
         ChannelInterface $channel,
@@ -48,9 +70,13 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
         ProductInterface $firstProduct,
         ProductInterface $secondProduct,
         ProductInterface $thirdProduct,
-        ImportErrorHandlerInterface $importErrorHandler
+        ImportErrorHandlerInterface $importErrorHandler,
+        FormInterface $form,
+        FormInterface $productForm
     ): void {
         $productCodes = ['first', 'second', 'third'];
+
+        $productForm->getData()->willReturn($productCodes);
 
         $customerOptionValue->getCode()->shouldBeCalled()->willReturn('some_value');
         $customerOptionValue->getCustomerOption()->shouldBeCalled()->willReturn($customerOption);
@@ -63,10 +89,6 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
         $productRepository->findOneByCode('second')->willReturn($secondProduct);
         $productRepository->findOneByCode('third')->willReturn($thirdProduct);
 
-        $type = CustomerOptionValuePrice::TYPE_FIXED_AMOUNT;
-        $amount = 1000;
-        $percent = 0.0;
-
         $priceUpdater->updateForProduct(
             'some_option',
             'some_value',
@@ -74,14 +96,14 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
             Argument::type(ProductInterface::class),
             null,
             null,
-            $type,
-            $amount,
-            $percent
+            CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
+            1000,
+            0.0
         )->shouldBeCalledTimes(3);
 
         $importErrorHandler->handleErrors([], Argument::type('array'))->shouldBeCalled();
 
-        $this->importForProducts($productCodes, [$customerOptionValue], null, $channel, $type, $amount, $percent);
+        $this->importForProductListForm($form);
     }
 
     public function it_sends_mail_on_failed_import(
@@ -93,9 +115,13 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
         ProductInterface $firstProduct,
         ImportErrorHandlerInterface $importErrorHandler,
         ConstraintViolationListInterface $violationList,
-        ConstraintViolationException $violationException
+        ConstraintViolationException $violationException,
+        FormInterface $form,
+        FormInterface $productForm
     ): void {
         $productCodes = ['first'];
+
+        $productForm->getData()->willReturn($productCodes);
 
         $customerOptionValue->getCode()->shouldBeCalled()->willReturn('some_value');
         $customerOptionValue->getCustomerOption()->shouldBeCalled()->willReturn($customerOption);
@@ -122,6 +148,6 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
 
         $importErrorHandler->handleErrors(Argument::size(1), Argument::type('array'))->shouldBeCalled();
 
-        $this->importForProducts($productCodes, [$customerOptionValue], null, $channel, CustomerOptionValuePrice::TYPE_FIXED_AMOUNT, 1000, 0.0);
+        $this->importForProductListForm($form);
     }
 }
