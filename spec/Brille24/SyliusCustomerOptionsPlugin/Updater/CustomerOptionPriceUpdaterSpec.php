@@ -10,6 +10,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
+use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConstraintViolationException;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepositoryInterface;
@@ -23,6 +24,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
@@ -380,9 +382,9 @@ class CustomerOptionPriceUpdaterSpec extends ObjectBehavior
         $validator->validate(
             Argument::type(Collection::class),
             Argument::type(CustomerOptionValuePriceDateOverlapConstraint::class)
-        )->shouldBeCalled()->willReturn([$violation]);
+        )->shouldBeCalled()->willReturn(new ConstraintViolationList([$violation->getWrappedObject()]));
 
-        $this->shouldThrow(\InvalidArgumentException::class)->during('updateForProduct', [
+        $this->shouldThrow(ConstraintViolationException::class)->during('updateForProduct', [
             self::CUSTOMER_OPTION_CODE,
             self::CUSTOMER_OPTION_VALUE_CODE,
             self::CHANNEL_CODE,

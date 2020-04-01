@@ -9,6 +9,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRangeInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConstraintViolationException;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepositoryInterface;
@@ -92,7 +93,9 @@ class CustomerOptionPriceUpdater implements CustomerOptionPriceUpdaterInterface
         $constraint = new CustomerOptionValuePriceDateOverlapConstraint();
         $violations = $this->validator->validate($prices, $constraint);
 
-        Assert::count($violations, 0, $constraint->message);
+        if (count($violations) > 0) {
+            throw new ConstraintViolationException($violations);
+        }
 
         return $price;
     }

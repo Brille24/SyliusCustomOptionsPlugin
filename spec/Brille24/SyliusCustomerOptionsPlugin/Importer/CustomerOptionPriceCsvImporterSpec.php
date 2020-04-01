@@ -77,7 +77,7 @@ class CustomerOptionPriceCsvImporterSpec extends ObjectBehavior
         $entityManager->persist(Argument::type(CustomerOptionValuePriceInterface::class))->shouldBeCalledTimes(3);
         $entityManager->flush()->shouldBeCalled();
 
-        $importErrorHandler->handleErrors([])->shouldBeCalled();
+        $importErrorHandler->handleErrors([], Argument::type('array'))->shouldBeCalled();
 
         $this->import('some_path');
     }
@@ -120,7 +120,7 @@ class CustomerOptionPriceCsvImporterSpec extends ObjectBehavior
         $entityManager->persist(Argument::type(CustomerOptionValuePriceInterface::class))->shouldNotBeCalled();
         $entityManager->flush()->shouldBeCalled();
 
-        $importErrorHandler->handleErrors(Argument::size(3))->shouldBeCalled();
+        $importErrorHandler->handleErrors(Argument::size(3), Argument::type('array'))->shouldBeCalled();
 
         $this->import('some_path');
     }

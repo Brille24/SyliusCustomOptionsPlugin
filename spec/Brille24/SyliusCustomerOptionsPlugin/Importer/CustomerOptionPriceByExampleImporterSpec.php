@@ -9,6 +9,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConstraintViolationException;
 use Brille24\SyliusCustomerOptionsPlugin\Handler\ImportErrorHandlerInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,6 +21,7 @@ use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
 {
@@ -39,7 +41,6 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
 
     public function it_uses_price_as_example_for_a_list_of_products(
         CustomerOptionPriceUpdaterInterface $priceUpdater,
-        CustomerOptionValuePriceInterface $valuePrice,
         CustomerOptionValueInterface $customerOptionValue,
         ChannelInterface $channel,
         CustomerOptionInterface $customerOption,
@@ -50,13 +51,6 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
         ImportErrorHandlerInterface $importErrorHandler
     ): void {
         $productCodes = ['first', 'second', 'third'];
-
-        $valuePrice->getCustomerOptionValue()->shouldBeCalled()->willReturn($customerOptionValue);
-        $valuePrice->getDateValid()->shouldBeCalled()->willReturn(null);
-        $valuePrice->getPercent()->shouldBeCalled()->willReturn(0.0);
-        $valuePrice->getAmount()->shouldBeCalled()->willReturn(1000);
-        $valuePrice->getType()->shouldBeCalled()->willReturn(CustomerOptionValuePrice::TYPE_FIXED_AMOUNT);
-        $valuePrice->getChannel()->shouldBeCalled()->willReturn($channel);
 
         $customerOptionValue->getCode()->shouldBeCalled()->willReturn('some_value');
         $customerOptionValue->getCustomerOption()->shouldBeCalled()->willReturn($customerOption);
@@ -69,6 +63,10 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
         $productRepository->findOneByCode('second')->willReturn($secondProduct);
         $productRepository->findOneByCode('third')->willReturn($thirdProduct);
 
+        $type = CustomerOptionValuePrice::TYPE_FIXED_AMOUNT;
+        $amount = 1000;
+        $percent = 0.0;
+
         $priceUpdater->updateForProduct(
             'some_option',
             'some_value',
@@ -76,34 +74,28 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
             Argument::type(ProductInterface::class),
             null,
             null,
-            CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
-            1000,
-            0.0
+            $type,
+            $amount,
+            $percent
         )->shouldBeCalledTimes(3);
 
-        $importErrorHandler->handleErrors([])->shouldBeCalled();
+        $importErrorHandler->handleErrors([], Argument::type('array'))->shouldBeCalled();
 
-        $this->importForProducts($productCodes, $valuePrice);
+        $this->importForProducts($productCodes, [$customerOptionValue], null, $channel, $type, $amount, $percent);
     }
 
     public function it_sends_mail_on_failed_import(
         CustomerOptionPriceUpdaterInterface $priceUpdater,
-        CustomerOptionValuePriceInterface $valuePrice,
         CustomerOptionValueInterface $customerOptionValue,
         ChannelInterface $channel,
         CustomerOptionInterface $customerOption,
         ProductRepositoryInterface $productRepository,
         ProductInterface $firstProduct,
-        ImportErrorHandlerInterface $importErrorHandler
+        ImportErrorHandlerInterface $importErrorHandler,
+        ConstraintViolationListInterface $violationList,
+        ConstraintViolationException $violationException
     ): void {
         $productCodes = ['first'];
-
-        $valuePrice->getCustomerOptionValue()->shouldBeCalled()->willReturn($customerOptionValue);
-        $valuePrice->getDateValid()->shouldBeCalled()->willReturn(null);
-        $valuePrice->getPercent()->shouldBeCalled()->willReturn(0.0);
-        $valuePrice->getAmount()->shouldBeCalled()->willReturn(1000);
-        $valuePrice->getType()->shouldBeCalled()->willReturn(CustomerOptionValuePrice::TYPE_FIXED_AMOUNT);
-        $valuePrice->getChannel()->shouldBeCalled()->willReturn($channel);
 
         $customerOptionValue->getCode()->shouldBeCalled()->willReturn('some_value');
         $customerOptionValue->getCustomerOption()->shouldBeCalled()->willReturn($customerOption);
@@ -113,6 +105,8 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
         $channel->getCode()->shouldBeCalled()->willReturn('some_channel');
 
         $productRepository->findOneByCode('first')->willReturn($firstProduct);
+
+        $violationException->getViolations()->willReturn($violationList);
 
         $priceUpdater->updateForProduct(
             Argument::type('string'),
@@ -124,10 +118,10 @@ class CustomerOptionPriceByExampleImporterSpec extends ObjectBehavior
             Argument::type('string'),
             Argument::type('int'),
             Argument::type('float')
-        )->shouldBeCalledTimes(1)->willThrow(\InvalidArgumentException::class);
+        )->shouldBeCalledTimes(1)->willThrow($violationException->getWrappedObject());
 
-        $importErrorHandler->handleErrors(Argument::size(1))->shouldBeCalled();
+        $importErrorHandler->handleErrors(Argument::size(1), Argument::type('array'))->shouldBeCalled();
 
-        $this->importForProducts($productCodes, $valuePrice);
+        $this->importForProducts($productCodes, [$customerOptionValue], null, $channel, CustomerOptionValuePrice::TYPE_FIXED_AMOUNT, 1000, 0.0);
     }
 }
