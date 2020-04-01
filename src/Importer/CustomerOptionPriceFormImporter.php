@@ -13,9 +13,10 @@ use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInter
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Webmozart\Assert\Assert;
 
-class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExampleImporterInterface
+class CustomerOptionPriceFormImporter implements CustomerOptionPriceFormImporterInterface
 {
     protected const BATCH_SIZE = 100;
 
@@ -44,15 +45,24 @@ class CustomerOptionPriceByExampleImporter implements CustomerOptionPriceByExamp
     }
 
     /** {@inheritdoc} */
-    public function importForProducts(
-        array $productCodes,
-        array $customerOptionValues,
-        ?DateRange $dateValid,
-        ChannelInterface $channel,
-        string $type,
-        int $amount,
-        float $percent
+    public function importForProductListForm(
+        FormInterface $form
     ): array {
+        // Get data from form
+        $productCodes = $form->get('products')->getData();
+
+        /** @var array $valuePriceData */
+        $valuePriceData = $form->get('customer_option_value_price')->getData();
+
+        $dateValid = $valuePriceData['dateValid'];
+        $channel   = $valuePriceData['channel'];
+
+        $customerOptionValues = $valuePriceData['customerOptionValues'];
+        $type                 = $valuePriceData['type'];
+        $amount               = $valuePriceData['amount'];
+        $percent              = $valuePriceData['percent'];
+
+
         $dateFrom = null;
         $dateTo   = null;
         if (null !== $dateValid) {

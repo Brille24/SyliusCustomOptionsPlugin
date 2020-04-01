@@ -10,8 +10,8 @@
             <argument type="service" id="brille24.sylius_customer_options_plugin.handler.csv_import_error_handler" />
         </service>
 
-        <service class="Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceByExampleImporter"
-                 id="brille24.sylius_customer_options_plugin.importer.customer_option_price_by_example_importer"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceFormImporter"
+                 id="brille24.sylius_customer_options_plugin.importer.customer_option_price_form_importer"
         >
             <argument type="service" id="brille24.sylius_customer_options_plugin.updater.customer_option_price_updater" />
             <argument type="service" id="doctrine.orm.entity_manager" />

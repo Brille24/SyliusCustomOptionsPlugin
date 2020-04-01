@@ -6,7 +6,7 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Controller;
 
 use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportByCsvType;
 use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportByProductListType;
-use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceByExampleImporterInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceFormImporterInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceCsvImporterInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +19,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class PriceImportController extends AbstractController
 {
     /** @var CustomerOptionPriceCsvImporterInterface */
-    protected $csvPriceImporter;
+    protected $priceCsvImporter;
 
     /** @var string */
     protected $exampleFilePath;
@@ -27,24 +27,24 @@ class PriceImportController extends AbstractController
     /** @var CustomerOptionPriceUpdaterInterface */
     protected $priceUpdater;
 
-    /** @var CustomerOptionPriceByExampleImporterInterface */
-    protected $priceByExampleImporter;
+    /** @var CustomerOptionPriceFormImporterInterface */
+    protected $priceFormImporter;
 
     /** @var TranslatorInterface */
     protected $translator;
 
     public function __construct(
-        CustomerOptionPriceCsvImporterInterface $csvPriceImporter,
-        CustomerOptionPriceByExampleImporterInterface $priceByExampleImporter,
+        CustomerOptionPriceCsvImporterInterface $priceCsvImporter,
+        CustomerOptionPriceFormImporterInterface $priceFormImporter,
         string $csvExampleFilePath,
         CustomerOptionPriceUpdaterInterface $priceUpdater,
         TranslatorInterface $translator
     ) {
-        $this->csvPriceImporter       = $csvPriceImporter;
-        $this->priceByExampleImporter = $priceByExampleImporter;
-        $this->exampleFilePath        = $csvExampleFilePath;
-        $this->priceUpdater           = $priceUpdater;
-        $this->translator             = $translator;
+        $this->priceCsvImporter  = $priceCsvImporter;
+        $this->priceFormImporter = $priceFormImporter;
+        $this->exampleFilePath   = $csvExampleFilePath;
+        $this->priceUpdater      = $priceUpdater;
+        $this->translator        = $translator;
     }
 
     /**
@@ -87,7 +87,7 @@ class PriceImportController extends AbstractController
             $path = $file->getRealPath();
 
             try {
-                $importResult = $this->csvPriceImporter->import($path);
+                $importResult = $this->priceCsvImporter->import($path);
 
                 // Handle flash messages
                 if (0 < $importResult['imported']) {
@@ -122,15 +122,7 @@ class PriceImportController extends AbstractController
             $dateRange = $valuePriceData['dateValid'];
             $channel   = $valuePriceData['channel'];
 
-            $importResult = $this->priceByExampleImporter->importForProducts(
-                $products,
-                $valuePriceData['customerOptionValues'],
-                $dateRange,
-                $channel,
-                $valuePriceData['type'],
-                $valuePriceData['amount'],
-                $valuePriceData['percent']
-            );
+            $importResult = $this->priceFormImporter->importForProductListForm($form);
 
             // Handle flash messages
             if ($importResult['imported'] > 0) {
