@@ -37,7 +37,7 @@ class ByExampleImportErrorHandler implements ImportErrorHandlerInterface
         $email = $user->getEmail();
 
         $this->sender->send(
-            'brille24_failed_price_by_example_import',
+            'brille24_failed_price_form_import',
             [$email],
             ['failed' => $errors, 'extraData' => $extraData]
         );
