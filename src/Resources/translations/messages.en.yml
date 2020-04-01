@@ -24,6 +24,7 @@ brille24:
             fixed_amount: Fixed amount
             percent: Percent
         customization_total: Customizations total
+        by_product_list: By product list
     form:
         customer_options:
             subheader: Manage your Customer Options
@@ -36,6 +37,8 @@ brille24:
                 datetime: Datetime
                 number: Number
                 boolean: Boolean
+            import_prices: Import prices
+            import: Import
         customer_option_groups:
             subheader: Manage your Customer Option Groups
             select: Select
@@ -86,4 +89,19 @@ brille24:
     grid:
         options_remaining: "{0} |]0,Inf]and %count% more"
         options_empty: Nothing to display
+
+    email:
+        customer_option_price_import_failed: 'Your price import failed'
+
+    flashes:
+        customer_option_price_import_error: Could not import customer option value prices
+        customer_option_prices_csv_imported: Imported %count% customer option value price(s) from csv file
+        customer_option_prices_csv_import_failed: Failed to import %count% customer option value price(s) from csv file
+        customer_option_prices_product_list_imported: Imported %count% customer option value price(s) for the product(s) [%products%] in channel "%channel%"
+        customer_option_prices_product_list_import_failed: Failed to import %count% customer option value price(s) for the product(s) [%products%] in channel "%channel%"
+        customer_option_prices_product_list_imported_with_date: Imported %count% customer option value price(s) for the product(s) [%products%] in channel "%channel%" from "%from%" to "%to%"
+        customer_option_prices_product_list_import_failed_with_date: Failed to import %count% customer option value price(s) for the product(s) [%products%] in channel "%channel%" from "%from%" to "%to%"
+
+    validation:
+        customer_option_value_price_dates_overlap: Overlaps with another date range
         delete_not_allowed: 'You are not allowed to delete the customer option as it is used in an order'

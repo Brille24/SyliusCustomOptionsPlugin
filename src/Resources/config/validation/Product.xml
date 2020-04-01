@@ -2,8 +2,7 @@
 
     <class name="Brille24\SyliusCustomerOptionsPlugin\Entity\Product">
         <getter property="customerOptionValuePrices">
-            <constraint name="Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ProductCustomerOptionValuePriceConstraint">
-                <option name="message">brille24.customer_options.unique</option>
+            <constraint name="Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionValuePriceDateOverlapConstraint">
                 <option name="groups">sylius</option>
             </constraint>
         </getter>

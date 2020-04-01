@@ -43,11 +43,14 @@ class ConstraintCreatorTest extends TestCase
         return [
             'integer' => [
                 CustomerOptionTypeEnum::NUMBER,
-                'Either option "min", "minPropertyPath", "max" or "maxPropertyPath" must be given for constraint '.Range::class,
+                sprintf(
+                    'Either option "min", "minPropertyPath", "max" or "maxPropertyPath" must be given for constraint "%s"',
+                    Range::class
+                ),
             ],
             'string' => [
                 CustomerOptionTypeEnum::TEXT,
-                'Either option "min" or "max" must be given for constraint '.Length::class,
+                sprintf('Either option "min" or "max" must be given for constraint "%s"', Length::class),
             ],
         ];
     }

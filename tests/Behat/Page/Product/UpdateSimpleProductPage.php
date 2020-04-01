@@ -47,6 +47,8 @@ class UpdateSimpleProductPage extends BaseUpdatePage
      */
     public function chooseOptionValue(string $valueName): void
     {
+        $this->openCustomerOptionValuePriceAccordion();
+
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
         /** @var NodeElement[] $valuePrices */
@@ -70,6 +72,8 @@ class UpdateSimpleProductPage extends BaseUpdatePage
      */
     public function setValuePriceAmount(int $amount): void
     {
+        $this->openCustomerOptionValuePriceAccordion();
+
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
         /** @var NodeElement[] $valuePrices */
@@ -93,6 +97,8 @@ class UpdateSimpleProductPage extends BaseUpdatePage
      */
     public function setValuePriceType(string $type): void
     {
+        $this->openCustomerOptionValuePriceAccordion();
+
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
         /** @var NodeElement[] $valuePrices */
@@ -114,5 +120,25 @@ class UpdateSimpleProductPage extends BaseUpdatePage
         $customerOptionsTab = $this->getDocument()->find('css', 'a[data-tab="customer_options"]');
 
         $customerOptionsTab->click();
+    }
+
+    public function openCustomerOptionValuePriceAccordion(): void
+    {
+        $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
+
+        /** @var NodeElement[] $valuePrices */
+        $valuePrices = $customerOptionsTab->findAll('css',
+            'div[data-form-collection="item"]'
+        );
+
+        $lastValuePrice = end($valuePrices);
+
+        if (false === $lastValuePrice) {
+            throw new ElementNotFoundException($this->getSession(), 'div', 'css', 'div[id^="sylius_product_customer_option_value_prices"]');
+        }
+
+        if (!$lastValuePrice->find('css', '.content')->isVisible()) {
+            $lastValuePrice->click();
+        }
     }
 }

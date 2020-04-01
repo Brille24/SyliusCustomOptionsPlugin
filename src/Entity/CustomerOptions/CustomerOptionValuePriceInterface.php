@@ -84,9 +84,9 @@ interface CustomerOptionValuePriceInterface extends ResourceInterface
     public function getProduct(): ?ProductInterface;
 
     /**
-     * @param ProductInterface $product
+     * @param ProductInterface|null $product
      */
-    public function setProduct(ProductInterface $product): void;
+    public function setProduct(?ProductInterface $product): void;
 
     /**
      * @param ChannelInterface $channel

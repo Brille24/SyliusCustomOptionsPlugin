@@ -1,0 +1,45 @@
+<div class="ui segment">
+    <span class="title">Example CSV structure</span>
+    <table class="ui celled table">
+        <thead>
+        <tr>
+            <th>product_code</th>
+            <th>customer_option_code</th>
+            <th>customer_option_value_code</th>
+            <th>channel_code</th>
+            <th>type</th>
+            <th>amount</th>
+            <th>percent</th>
+            <th>valid_from</th>
+            <th>valid_to</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>tshirt_abc</td>
+            <td>color</td>
+            <td>red</td>
+            <td>US_WEB</td>
+            <td>FIXED_AMOUNT</td>
+            <td>1500</td>
+            <td>0</td>
+            <td>2020-01-01</td>
+            <td>2020-02-31</td>
+        </tr>
+        <tr>
+            <td>mug_def</td>
+            <td>material</td>
+            <td>metal</td>
+            <td>DE_WEB</td>
+            <td>PERCENT</td>
+            <td>0</td>
+            <td>0.1</td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="{{ path('brille24_customer_option_price_import_example_file') }}" class="ui button">
+        <i class="icon download"></i>Download example
+    </a>
+</div>

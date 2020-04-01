@@ -95,5 +95,17 @@
             <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ErrorMessageTranslationType" name="form.type"/>
         </service>
 
+
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportByProductListType"
+                 id="brille24.sylius_customer_options_plugin.form.price_import.price_import_by_product_list_type">
+            <argument type="service" id="sylius.repository.product" />
+            <tag name="form.type" />
+        </service>
+
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\CustomerOptionValuePriceType"
+                 id="brille24.sylius_customer_options_plugin.form.price_import.customer_option_value_price_type">
+            <argument type="service" id="brille24.repository.customer_option" />
+            <tag name="form.type" />
+        </service>
     </services>
 </container>

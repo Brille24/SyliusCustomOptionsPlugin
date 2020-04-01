@@ -1,0 +1,8 @@
+sylius_mailer:
+  emails:
+    brille24_failed_csv_price_import:
+      subject: 'brille24.email.customer_option_price_import_failed'
+      template: "@Brille24SyliusCustomerOptionsPlugin/Email/failed_csv_price_import.html.twig"
+    brille24_failed_price_by_example_import:
+      subject: 'brille24.email.customer_option_price_import_failed'
+      template: "@Brille24SyliusCustomerOptionsPlugin/Email/failed_price_by_example_import.html.twig"

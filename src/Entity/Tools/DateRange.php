@@ -51,19 +51,27 @@ class DateRange implements DateRangeInterface
         return $afterStart && $beforeEnd;
     }
 
-    /**
-     * @return DateTimeInterface|null
-     */
+    /** {@inheritdoc} */
     public function getStart(): ?DateTimeInterface
     {
         return $this->start;
     }
 
-    /**
-     * @return DateTimeInterface|null
-     */
+    /** {@inheritdoc} */
     public function getEnd(): ?DateTimeInterface
     {
         return $this->end;
+    }
+
+    /** {@inheritdoc} */
+    public function equals(DateRangeInterface $other): bool
+    {
+        return $this->start->getTimestamp() === $other->getStart()->getTimestamp() &&
+            $this->end->getTimestamp() === $other->getEnd()->getTimestamp();
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s - %s', $this->start->format(DATE_RFC1123), $this->end->format(DATE_RFC1123));
     }
 }
