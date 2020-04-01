@@ -6,12 +6,10 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
 use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConstraintViolationException;
 use Brille24\SyliusCustomerOptionsPlugin\Handler\ImportErrorHandlerInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Webmozart\Assert\Assert;
@@ -61,7 +59,6 @@ class CustomerOptionPriceFormImporter implements CustomerOptionPriceFormImporter
         $type                 = $valuePriceData['type'];
         $amount               = $valuePriceData['amount'];
         $percent              = $valuePriceData['percent'];
-
 
         $dateFrom = null;
         $dateTo   = null;

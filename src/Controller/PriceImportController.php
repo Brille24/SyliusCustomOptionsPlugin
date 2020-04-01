@@ -6,8 +6,8 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Controller;
 
 use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportByCsvType;
 use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportByProductListType;
-use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceFormImporterInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceCsvImporterInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceFormImporterInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
