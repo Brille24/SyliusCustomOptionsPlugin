@@ -14,7 +14,7 @@ class DateRangeTest extends TestCase
     public function testConstructFail(): void
     {
         self::expectException(\InvalidArgumentException::class);
-        self::expectExceptionMessage('End can\'t be greater than start');
+        self::expectExceptionMessage('End can\'t be smaller than start');
 
         $start = new DateTime('2010-11-01 12:00:00');
         $end   = new DateTime('2010-01-01 12:00:00');
@@ -37,13 +37,14 @@ class DateRangeTest extends TestCase
     public function dataContains(): array
     {
         $date  = new DateTime('2010-01-01 12:00:00');
-        $date1 = new DateTime('2010-11-01 12:00:00');
+        $date1 = new DateTime('2010-01-01 12:00:01');
+        $date2 = new DateTime('2010-11-01 12:00:00');
 
         return [
-            'dateRange length 1 contains'     => [$date, $date, $date, true],
-            'dateRange length 1 not contains' => [$date, $date, $date1, false],
-            'dateRange'                       => [$date, $date1, new DateTime('2010-05-01'), true],
-            'dateRange not contains'          => [$date, $date1, new DateTime('2011-05-01'), false],
+            'dateRange length 1 contains'     => [$date, $date1, $date, true],
+            'dateRange length 1 not contains' => [$date, $date1, $date2, false],
+            'dateRange'                       => [$date, $date2, new DateTime('2010-05-01'), true],
+            'dateRange not contains'          => [$date, $date2, new DateTime('2011-05-01'), false],
         ];
     }
 }

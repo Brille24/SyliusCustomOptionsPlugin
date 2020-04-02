@@ -1,6 +1,6 @@
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping">
 
-    <class name="Brille24\SyliusCustomerOptionsPlugin\Entity\Product">
+    <class name="Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface">
         <getter property="customerOptionValuePrices">
             <constraint name="Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionValuePriceDateOverlapConstraint">
                 <option name="groups">sylius</option>
