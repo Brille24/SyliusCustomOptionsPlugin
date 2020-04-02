@@ -124,53 +124,44 @@ class PriceImportController extends AbstractController
 
             $importResult = $this->priceFormImporter->importForProductListForm($form);
 
-            // Handle flash messages
-            if ($importResult['imported'] > 0) {
-                if (null === $dateRange) {
-                    $this->addFlash('success', $this->translator->trans(
-                        'brille24.flashes.customer_option_prices_product_list_imported',
-                        [
-                            '%count%'    => $importResult['imported'],
-                            '%channel%'  => $channel->getCode(),
-                            '%products%' => implode(', ', $products),
-                        ]
-                    ));
-                } else {
-                    $this->addFlash('success', $this->translator->trans(
-                        'brille24.flashes.customer_option_prices_product_list_imported_with_date',
-                        [
-                            '%count%'    => $importResult['imported'],
-                            '%channel%'  => $channel->getCode(),
-                            '%products%' => implode(', ', $products),
-                            '%from%'     => $dateRange->getStart()->format(DATE_ATOM),
-                            '%to%'       => $dateRange->getEnd()->format(DATE_ATOM),
-                        ]
-                    ));
-                }
+            // Build flash message parameters
+            $flashParameters = [
+                '%channel%'  => $channel->getCode(),
+                '%products%' => implode(', ', $products),
+            ];
+
+            if (null !== $dateRange) {
+                $flashParameters = array_merge($flashParameters, [
+                    '%from%' => $dateRange->getStart()->format(DATE_ATOM),
+                    '%to%'   => $dateRange->getEnd()->format(DATE_ATOM),
+                ]);
             }
 
-            if ($importResult['failed'] > 0) {
-                if (null === $dateRange) {
-                    $this->addFlash('error', $this->translator->trans(
-                        'brille24.flashes.customer_option_prices_product_list_import_failed',
-                        [
-                            '%count%'    => $importResult['failed'],
-                            '%channel%'  => $channel->getCode(),
-                            '%products%' => implode(', ', $products),
-                        ]
-                    ));
-                } else {
-                    $this->addFlash('error', $this->translator->trans(
-                        'brille24.flashes.customer_option_prices_product_list_import_failed_with_date',
-                        [
-                            '%count%'    => $importResult['failed'],
-                            '%channel%'  => $channel->getCode(),
-                            '%products%' => implode(', ', $products),
-                            '%from%'     => $dateRange->getStart()->format(DATE_ATOM),
-                            '%to%'       => $dateRange->getEnd()->format(DATE_ATOM),
-                        ]
-                    ));
+            // Handle flash messages
+            if ($importResult['imported']) {
+                $messageId = 'brille24.flashes.customer_option_prices_product_list_imported';
+                if (null !== $dateRange) {
+                    $messageId .= '_with_date';
                 }
+
+                $this->addFlash('success', $this->translator->trans(
+                    $messageId,
+                    array_merge($flashParameters, ['%count%' => $importResult['imported']]),
+                    'flashes'
+                ));
+            }
+
+            if ($importResult['failed']) {
+                $messageId = 'brille24.flashes.customer_option_prices_product_list_import_failed';
+                if (null !== $dateRange) {
+                    $messageId .= '_with_date';
+                }
+
+                $this->addFlash('error', $this->translator->trans(
+                    $messageId,
+                    array_merge($flashParameters, ['%count%' => $importResult['failed']]),
+                    'flashes'
+                ));
             }
         }
     }
