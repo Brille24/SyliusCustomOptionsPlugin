@@ -138,7 +138,7 @@ class PriceImportController extends AbstractController
             }
 
             // Handle flash messages
-            if ($importResult['imported']) {
+            if (0 < $importResult['imported']) {
                 $messageId = 'brille24.flashes.customer_option_prices_product_list_imported';
                 if (null !== $dateRange) {
                     $messageId .= '_with_date';
@@ -151,7 +151,7 @@ class PriceImportController extends AbstractController
                 ));
             }
 
-            if ($importResult['failed']) {
+            if (0 < $importResult['failed']) {
                 $messageId = 'brille24.flashes.customer_option_prices_product_list_import_failed';
                 if (null !== $dateRange) {
                     $messageId .= '_with_date';
