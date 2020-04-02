@@ -10,4 +10,5 @@ random Customer Options.
 - [Making a product customizable](making_a_product_customizable.md)
 - [Generating Customer Options with fixtures](fixtures.md)
 - [Conditional Constraints](conditional_constraints.md)
+- [Customer option price overrides](price_override.md)
 - [Price import](price_import.md)
