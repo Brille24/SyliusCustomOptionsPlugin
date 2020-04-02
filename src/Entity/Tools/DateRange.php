@@ -35,7 +35,7 @@ class DateRange implements DateRangeInterface
     public function __construct(DateTimeInterface $start, DateTimeInterface $end)
     {
         if ($end < $start) {
-            throw new InvalidArgumentException('End can\'t be greater than start');
+            throw new InvalidArgumentException('End can\'t be smaller than start');
         }
 
         $this->start = $start;
