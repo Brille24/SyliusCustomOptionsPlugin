@@ -119,12 +119,7 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
                 $price->setAmount($amount);
                 $price->setPercent($percent);
 
-                // Validate the prices
-                $prices  = clone $product->getCustomerOptionValuePrices();
-                $prices->add($price);
-
-                $constraint = new CustomerOptionValuePriceDateOverlapConstraint();
-                $violations = $this->validator->validate($prices, $constraint);
+                $violations = $this->validator->validate($product, null, 'sylius');
 
                 if (count($violations) > 0) {
                     throw new ConstraintViolationException($violations);
