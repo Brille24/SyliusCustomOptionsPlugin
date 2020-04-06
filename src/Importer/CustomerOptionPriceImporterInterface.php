@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Importer;
 
-interface CustomerOptionPriceCsvImporterInterface
+interface CustomerOptionPriceImporterInterface
 {
     /**
-     * @param string $source
+     * @param array $data
      *
      * @return array
      */
-    public function import(string $source): array;
+    public function import(array $data): array;
 }
