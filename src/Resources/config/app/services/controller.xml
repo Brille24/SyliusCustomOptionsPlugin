@@ -12,9 +12,10 @@
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Controller\PriceImportController"
                  id="brille24.sylius_customer_options_plugin.controller.price_import_controller">
-            <argument type="service" id="brille24.sylius_customer_options_plugin.importer.customer_option_price_csv_importer" />
+            <argument type="service" id="brille24.sylius_customer_options_plugin.importer.customer_option_price_importer" />
             <argument>%brille24.sylius_customer_options.price_import_example_file_path%</argument>
             <argument type="service" id="translator" />
+            <argument type="service" id="brille24.sylius_customer_options_plugin.handler.composite_import_error_handler" />
 
             <tag name="controller.service_arguments" />
         </service>

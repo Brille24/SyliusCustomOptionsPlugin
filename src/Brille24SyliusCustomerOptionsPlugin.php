@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin;
 
 use Brille24\SyliusCustomerOptionsPlugin\CompilerPass\AddingTypesToAdjustmentClearerPass;
+use Brille24\SyliusCustomerOptionsPlugin\CompilerPass\ImportErrorHandlerPass;
 use Brille24\SyliusCustomerOptionsPlugin\DependencyInjection\Brille24SyliusCustomerOptionsExtension;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -34,6 +35,7 @@ final class Brille24SyliusCustomerOptionsPlugin extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new AddingTypesToAdjustmentClearerPass());
+        $container->addCompilerPass(new ImportErrorHandlerPass());
     }
 
     public function getContainerExtensionClass(): string

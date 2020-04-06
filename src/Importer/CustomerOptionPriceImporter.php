@@ -32,9 +32,6 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
     /** @var ProductRepositoryInterface */
     protected $productRepository;
 
-    /** @var ImportErrorHandlerInterface */
-    protected $importErrorHandler;
-
     /** @var ProductInterface[] */
     protected $products = [];
 
@@ -59,7 +56,6 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductRepositoryInterface $productRepository,
-        ImportErrorHandlerInterface $importErrorHandler,
         ValidatorInterface $validator,
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionValueRepositoryInterface $customerOptionValueRepository,
@@ -69,7 +65,6 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
     ) {
         $this->entityManager                      = $entityManager;
         $this->productRepository                  = $productRepository;
-        $this->importErrorHandler                 = $importErrorHandler;
         $this->validator                          = $validator;
         $this->customerOptionRepository           = $customerOptionRepository;
         $this->customerOptionValueRepository      = $customerOptionValueRepository;
@@ -145,9 +140,7 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
 
         $this->entityManager->flush();
 
-        $this->importErrorHandler->handleErrors($errors, []);
-
-        return ['imported' => $i, 'failed' => count($errors)];
+        return ['imported' => $i, 'failed' => $errors];
     }
 
     /**
@@ -168,7 +161,7 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
      * @param string $customerOptionCode
      * @param string $customerOptionValueCode
      * @param string $channelCode
-     * @param ProductInterface|null $product
+     * @param ProductInterface $product
      * @param DateRangeInterface|null $dateRange
      *
      * @return CustomerOptionValuePriceInterface
@@ -177,7 +170,7 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
         string $customerOptionCode,
         string $customerOptionValueCode,
         string $channelCode,
-        ?ProductInterface $product,
+        ProductInterface $product,
         ?DateRangeInterface $dateRange
     ): CustomerOptionValuePriceInterface {
         $customerOption = $this->customerOptionRepository->findOneByCode($customerOptionCode);
