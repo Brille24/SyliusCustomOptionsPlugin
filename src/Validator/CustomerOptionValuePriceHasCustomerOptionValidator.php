@@ -1,5 +1,6 @@
-
 <?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of the Brille24 customer options plugin.
@@ -9,7 +10,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Validator;
 
@@ -44,7 +44,7 @@ class CustomerOptionValuePriceHasCustomerOptionValidator extends ConstraintValid
         $customerOptions = $product->getCustomerOptions();
         /** @var CustomerOptionValuePriceInterface $valuePrice */
         foreach ($product->getCustomerOptionValuePrices() as $valuePrice) {
-            if (!in_array($valuePrice->getCustomerOptionValue()->getCustomerOption())) {
+            if (!in_array($valuePrice->getCustomerOptionValue()->getCustomerOption(), $customerOptions)) {
                 // The product shouldn't have this price
                 $this->context
                     ->buildViolation($constraint->message)
