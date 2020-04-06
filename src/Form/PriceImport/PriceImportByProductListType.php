@@ -41,10 +41,10 @@ class PriceImportByProductListType extends AbstractType
         ));
 
         $builder->addModelTransformer(new CallbackTransformer(
-            static function() {
+            static function () {
                 return null;
             },
-            static function($formData) {
+            static function ($formData) {
                 if (empty($formData)) {
                     return $formData;
                 }
