@@ -24,7 +24,7 @@ class ImportErrorHandlerPass implements CompilerPassInterface
                 throw new \InvalidArgumentException('Tagged import error handlers need to have `type` attribute.');
             }
 
-            $importErrorHandler->addMethodCall('addErrorHandler', [new Reference($id), $attributes['type']]);
+            $importErrorHandler->addMethodCall('addErrorHandler', [new Reference($id), $attributes[0]['type']]);
         }
     }
 }
