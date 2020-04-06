@@ -38,21 +38,4 @@ class CsvReader implements CsvReaderInterface
 
         return $csv;
     }
-
-    /** {@inheritdoc} */
-    public function isRowValid(array $row, array $requiredFields): bool
-    {
-        // Check if all expected keys exist
-        foreach ($requiredFields as $field => $valueRequired) {
-            if (!array_key_exists($field, $row)) {
-                return false;
-            }
-
-            if (true === $valueRequired && null === $row[$field]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 }

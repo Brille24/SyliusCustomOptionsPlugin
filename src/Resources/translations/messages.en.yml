@@ -95,12 +95,14 @@ brille24:
 
     flashes:
         customer_option_price_import_error: Could not import customer option value prices
-        customer_option_prices_csv_imported: Imported %count% customer option value price(s) from csv file
-        customer_option_prices_csv_import_failed: Failed to import %count% customer option value price(s) from csv file
-        customer_option_prices_product_list_imported: Imported %count% customer option value price(s) for the product(s) [%products%] in channel "%channel%"
-        customer_option_prices_product_list_import_failed: Failed to import %count% customer option value price(s) for the product(s) [%products%] in channel "%channel%"
-        customer_option_prices_product_list_imported_with_date: Imported %count% customer option value price(s) for the product(s) [%products%] in channel "%channel%" from "%from%" to "%to%"
-        customer_option_prices_product_list_import_failed_with_date: Failed to import %count% customer option value price(s) for the product(s) [%products%] in channel "%channel%" from "%from%" to "%to%"
+        customer_option_prices_imported:
+            csv: Imported %count% customer option value price(s) from csv file
+            product_list: Imported %count% customer option value price(s) for the product(s) [%products%] in channel "%channel%"
+            product_list_with_date: Imported %count% customer option value price(s) for the product(s) [%products%] in channel "%channel%" from "%from%" to "%to%"
+        customer_option_prices_import_failed:
+            csv: Failed to import %count% customer option value price(s) from csv file
+            product_list: Failed to import %count% customer option value price(s) for the product(s) [%products%] in channel "%channel%"
+            product_list_with_date: Failed to import %count% customer option value price(s) for the product(s) [%products%] in channel "%channel%" from "%from%" to "%to%"
 
     validation:
         customer_option_value_price_dates_overlap: Overlaps with another date range

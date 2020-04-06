@@ -41,10 +41,14 @@ class PriceImportByProductListType extends AbstractType
         ));
 
         $builder->addModelTransformer(new CallbackTransformer(
-            static function ($modelData) {
+            static function() {
                 return null;
             },
-            static function ($formData) {
+            static function($formData) {
+                if (empty($formData)) {
+                    return $formData;
+                }
+
                 // Build array usable by the importer
                 // [['product_code', 'customer_option_code', 'customer_option_value_code', 'channel_code', 'valid_from', 'valid_to', 'type', 'amount', 'percent']]
 

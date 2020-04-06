@@ -12,12 +12,4 @@ interface CsvReaderInterface
      * @return array
      */
     public function readCsv(string $path): array;
-
-    /**
-     * @param array $row
-     * @param array $requiredFields
-     *
-     * @return bool
-     */
-    public function isRowValid(array $row, array $requiredFields): bool;
 }

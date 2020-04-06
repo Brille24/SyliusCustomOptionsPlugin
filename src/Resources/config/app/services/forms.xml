@@ -107,5 +107,12 @@
             <argument type="service" id="brille24.repository.customer_option" />
             <tag name="form.type" />
         </service>
+
+        <!-- Price import -->
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportByCsvType"
+                 id="brille24.sylius_customer_options_plugin.form.price_import.price_import_by_csv_type">
+            <argument type="service" id="brille24.sylius_customer_options_plugin.reader.csv_reader" />
+            <tag name="form.type" />
+        </service>
     </services>
 </container>

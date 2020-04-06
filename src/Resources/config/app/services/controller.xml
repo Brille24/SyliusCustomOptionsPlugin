@@ -14,7 +14,6 @@
                  id="brille24.sylius_customer_options_plugin.controller.price_import_controller">
             <argument type="service" id="brille24.sylius_customer_options_plugin.importer.customer_option_price_csv_importer" />
             <argument>%brille24.sylius_customer_options.price_import_example_file_path%</argument>
-            <argument type="service" id="brille24.sylius_customer_options_plugin.reader.csv_reader" />
             <argument type="service" id="translator" />
 
             <tag name="controller.service_arguments" />

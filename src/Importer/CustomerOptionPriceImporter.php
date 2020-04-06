@@ -38,16 +38,22 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
 
     /** @var ProductInterface[] */
     protected $products = [];
+
     /** @var ValidatorInterface */
     private $validator;
+
     /** @var CustomerOptionRepositoryInterface */
     private $customerOptionRepository;
+
     /** @var CustomerOptionValueRepositoryInterface */
     private $customerOptionValueRepository;
+
     /** @var ChannelRepositoryInterface */
     private $channelRepository;
+
     /** @var RepositoryInterface */
     private $customerOptionValuePriceRepository;
+
     /** @var CustomerOptionValuePriceFactoryInterface */
     private $customerOptionValuePriceFactory;
 
@@ -62,15 +68,15 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
         RepositoryInterface $customerOptionValuePriceRepository,
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory
     ) {
-        $this->entityManager      = $entityManager;
-        $this->productRepository  = $productRepository;
-        $this->importErrorHandler = $importErrorHandler;
-        $this->validator = $validator;
-        $this->customerOptionRepository = $customerOptionRepository;
-        $this->customerOptionValueRepository = $customerOptionValueRepository;
-        $this->channelRepository = $channelRepository;
+        $this->entityManager                      = $entityManager;
+        $this->productRepository                  = $productRepository;
+        $this->importErrorHandler                 = $importErrorHandler;
+        $this->validator                          = $validator;
+        $this->customerOptionRepository           = $customerOptionRepository;
+        $this->customerOptionValueRepository      = $customerOptionValueRepository;
+        $this->channelRepository                  = $channelRepository;
         $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
-        $this->customerOptionValuePriceFactory = $customerOptionValuePriceFactory;
+        $this->customerOptionValuePriceFactory    = $customerOptionValuePriceFactory;
     }
 
     /** {@inheritdoc} */
@@ -80,15 +86,15 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
         $i      = 0;
         $errors = [];
         foreach ($data as $datum) {
-            $productCode = $datum['product_code'];
-            $validFrom = $datum['valid_from'];
-            $validTo = $datum['valid_to'];
-            $customerOptionCode = $datum['customer_option_code'];
+            $productCode             = $datum['product_code'];
+            $validFrom               = $datum['valid_from'];
+            $validTo                 = $datum['valid_to'];
+            $customerOptionCode      = $datum['customer_option_code'];
             $customerOptionValueCode = $datum['customer_option_value_code'];
-            $channelCode = $datum['channel_code'];
-            $type = $datum['type'];
-            $amount = $datum['amount'];
-            $percent = $datum['percent'];
+            $channelCode             = $datum['channel_code'];
+            $type                    = $datum['type'];
+            $amount                  = $datum['amount'];
+            $percent                 = $datum['percent'];
 
             try {
                 $product = $this->getProduct($productCode);
