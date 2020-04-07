@@ -41,11 +41,11 @@ class ImportCustomerOptionPricesCommand extends Command
         $data   = $this->csvReader->readCsv($source);
         $result = $this->importer->import($data);
 
-        if (0 < $result['imported']) {
-            $output->writeln(sprintf('Imported %s prices', $result['imported']));
+        if (0 < $result->getImported()) {
+            $output->writeln(sprintf('Imported %s prices', $result->getImported()));
         }
-        if (0 < $result['failed']) {
-            $output->writeln(sprintf('Failed to import %s prices', $result['failed']));
+        if (0 < $result->getFailed()) {
+            $output->writeln(sprintf('Failed to import %s prices', $result->getFailed()));
         }
     }
 }

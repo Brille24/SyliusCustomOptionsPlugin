@@ -52,14 +52,16 @@
         </tr>
         </thead>
         <tbody>
-        {% for productCode, error in failed %}
-            {% for violation in error.violations %}
-                <tr>
-                    <td>{{ productCode }}</td>
-                    <td>{{ violation.propertyPath }}</td>
-                    <td>{{ violation.message|trans }}</td>
-                    <td>{{ violation.cause }}</td>
-                </tr>
+        {% for productCode, errorList in errors %}
+            {% for error in errorList %}
+                {% for violation in error.violations %}
+                    <tr>
+                        <td>{{ productCode }}</td>
+                        <td>{{ violation.propertyPath }}</td>
+                        <td>{{ violation.message|trans }}</td>
+                        <td>{{ violation.cause }}</td>
+                    </tr>
+                {% endfor %}
             {% endfor %}
         {% endfor %}
         </tbody>

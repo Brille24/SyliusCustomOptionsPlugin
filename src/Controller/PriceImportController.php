@@ -9,6 +9,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportByCsvType;
 use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportByProductListType;
 use Brille24\SyliusCustomerOptionsPlugin\Handler\ImportErrorHandlerInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceImporterInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Object\PriceImportResult;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -134,33 +135,33 @@ class PriceImportController extends AbstractController
     }
 
     /**
-     * @param array $importResult
+     * @param PriceImportResult $importResult
      * @param string $type
      * @param array $flashParameters
      * @param string $flashSuffix
      * @param array $extraData
      */
     protected function handleImportResult(
-        array $importResult,
+        PriceImportResult $importResult,
         string $type,
         array $flashParameters = [],
         string $flashSuffix = '',
         array $extraData = []
     ): void {
         // Handle errors
-        $this->importErrorHandler->handleErrors($type, $importResult['failed'], $extraData);
+        $this->importErrorHandler->handleErrors($type, $importResult->getErrors(), $extraData);
 
         // Handle flash messages
-        if (0 < $importResult['imported']) {
+        if (0 < $importResult->getImported()) {
             $this->addFlash('success', $this->translator->trans(
                 'brille24.flashes.customer_option_prices_imported.'.$type.$flashSuffix,
-                array_merge($flashParameters, ['%count%' => $importResult['imported']])
+                array_merge($flashParameters, ['%count%' => $importResult->getImported()])
             ));
         }
-        if (0 < count($importResult['failed'])) {
+        if (0 < $importResult->getFailed()) {
             $this->addFlash('error', $this->translator->trans(
                 'brille24.flashes.customer_option_prices_import_failed.'.$type.$flashSuffix,
-                array_merge($flashParameters, ['%count%' => count($importResult['failed'])])
+                array_merge($flashParameters, ['%count%' => $importResult->getFailed()])
             ));
         }
     }

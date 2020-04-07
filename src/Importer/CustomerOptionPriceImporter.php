@@ -11,6 +11,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRangeInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConstraintViolationException;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Object\PriceImportResult;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -73,10 +74,11 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
     }
 
     /** {@inheritdoc} */
-    public function import(array $data): array
+    public function import(array $data): PriceImportResult
     {
         // Handle update
         $i      = 0;
+        $failed = 0;
         $errors = [];
         foreach ($data as $datum) {
             $productCode             = $datum['product_code'];
@@ -127,19 +129,21 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
                     $this->entityManager->flush();
                 }
             } catch (ConstraintViolationException $violationException) {
-                $errors[$productCode] = [
+                $failed++;
+                $errors[$productCode][] = [
                     'violations' => $violationException->getViolations(),
                     'data'       => $datum,
                     'message'    => $violationException->getMessage(),
                 ];
             } catch (\Throwable $exception) {
-                $errors[$productCode] = ['data' => $datum, 'message' => $exception->getMessage()];
+                $failed++;
+                $errors[$productCode][] = ['data' => $datum, 'message' => $exception->getMessage()];
             }
         }
 
         $this->entityManager->flush();
 
-        return ['imported' => $i, 'failed' => $errors];
+        return new PriceImportResult($i, $failed, $errors);
     }
 
     /**

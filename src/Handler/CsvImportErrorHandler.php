@@ -58,7 +58,7 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
         $this->sender->send(
             'brille24_failed_price_import_'.$type,
             [$email],
-            ['failed' => $errors, 'extraData' => $extraData],
+            ['errors' => $errors, 'extraData' => $extraData],
             [$csvPath]
         );
     }

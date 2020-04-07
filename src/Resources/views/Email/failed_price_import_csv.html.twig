@@ -20,13 +20,15 @@
         </tr>
         </thead>
         <tbody>
-        {% for error in failed %}
-            <tr>
-                <td>{{ error.message }}</td>
-                {% for field, value in error.data %}
-                    <td>{{ value }}</td>
-                {% endfor %}
-            </tr>
+        {% for productCode, errorList in errors %}
+            {% for error in errorList %}
+                <tr>
+                    <td>{{ error.message }}</td>
+                    {% for field, value in error.data %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
         {% endfor %}
         </tbody>
     </table>

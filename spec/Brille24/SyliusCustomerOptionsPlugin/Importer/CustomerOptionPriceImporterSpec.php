@@ -10,6 +10,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Object\PriceImportResult;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -78,7 +79,7 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
         $validator->validate(Argument::type(ProductInterface::class), null, 'sylius')->shouldBeCalledTimes(3)->willReturn($violationList);
         $violationList->count()->shouldBeCalledTimes(3)->willReturn(0);
 
-        $this->import($this->getData());
+        $this->import($this->getData())->shouldBeLike(new PriceImportResult(3, 0, []));
     }
 
     public function it_updates_existing_prices(
@@ -99,7 +100,7 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
         $validator->validate(Argument::type(ProductInterface::class), null, 'sylius')->shouldBeCalledTimes(3)->willReturn($violationList);
         $violationList->count()->shouldBeCalledTimes(3)->willReturn(0);
 
-        $this->import($this->getData());
+        $this->import($this->getData())->shouldBeLike(new PriceImportResult(3, 0, []));
     }
 
     public function it_returns_import_errors(
@@ -120,22 +121,25 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
         $validator->validate(Argument::type(ProductInterface::class), null, 'sylius')->shouldBeCalledTimes(3)->willReturn($violationList);
         $violationList->count()->shouldBeCalledTimes(3)->willReturn(1);
 
-        $expected = ['imported' => 0, 'failed' => [[
-                'violations' => $violationList,
-                'data'       => $this->getData()[0],
-                'message'    => '',
+        $expected = new PriceImportResult(0, 3, [
+            'first_product' => [
+                [
+                    'violations' => $violationList->getWrappedObject(),
+                    'data'       => $this->getData()[0],
+                    'message'    => '',
+                ],
+                [
+                    'violations' => $violationList->getWrappedObject(),
+                    'data'       => $this->getData()[2],
+                    'message'    => '',
+                ]
             ],
-            [
-                'violations' => $violationList,
+            'second_product' => [[
+                'violations' => $violationList->getWrappedObject(),
                 'data'       => $this->getData()[1],
                 'message'    => '',
-            ],
-            [
-                'violations' => $violationList,
-                'data'       => $this->getData()[2],
-                'message'    => '',
-            ],
-        ]];
+            ]],
+        ]);
 
         $this->import($this->getData())->shouldBeLike($expected);
     }
