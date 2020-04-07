@@ -53,7 +53,7 @@
         </thead>
         <tbody>
         {% for productCode, error in failed %}
-            {% for violation in error.data %}
+            {% for violation in error.violations %}
                 <tr>
                     <td>{{ productCode }}</td>
                     <td>{{ violation.propertyPath }}</td>

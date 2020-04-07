@@ -127,13 +127,13 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
                     $this->entityManager->flush();
                 }
             } catch (ConstraintViolationException $violationException) {
-                $errors[] = [
+                $errors[$productCode] = [
                     'violations' => $violationException->getViolations(),
                     'data'       => $datum,
                     'message'    => $violationException->getMessage(),
                 ];
             } catch (\Throwable $exception) {
-                $errors[] = ['data' => $datum, 'message' => $exception->getMessage()];
+                $errors[$productCode] = ['data' => $datum, 'message' => $exception->getMessage()];
             }
         }
 
