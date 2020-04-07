@@ -25,7 +25,7 @@ class CustomerOptionValuePriceHasCustomerOptionValidator extends ConstraintValid
     /**
      * Checks if the passed value is valid.
      *
-     * @param ProductInterface $product The value that should be validated
+     * @param mixed $product The value that should be validated
      * @param Constraint $constraint The constraint for the validation
      */
     public function validate($product, Constraint $constraint): void
@@ -44,7 +44,7 @@ class CustomerOptionValuePriceHasCustomerOptionValidator extends ConstraintValid
         $customerOptions = $product->getCustomerOptions();
         /** @var CustomerOptionValuePriceInterface $valuePrice */
         foreach ($product->getCustomerOptionValuePrices() as $valuePrice) {
-            if (!in_array($valuePrice->getCustomerOptionValue()->getCustomerOption(), $customerOptions)) {
+            if (!in_array($valuePrice->getCustomerOptionValue()->getCustomerOption(), $customerOptions, true)) {
                 // The product shouldn't have this price
                 $this->context
                     ->buildViolation($constraint->message)

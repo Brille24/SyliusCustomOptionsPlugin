@@ -45,7 +45,7 @@ class PriceImportByProductListType extends AbstractType
                 return null;
             },
             static function ($formData) {
-                if (empty($formData)) {
+                if (!is_array($formData) || !array_key_exists('customer_option_value_price', $formData) || !array_key_exists('products', $formData)) {
                     return $formData;
                 }
 

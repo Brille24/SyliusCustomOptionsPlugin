@@ -106,8 +106,8 @@ class PriceImportController extends AbstractController
                 'customerOptionValues' => array_map(static function (CustomerOptionValueInterface $customerOptionValue) {
                     return $customerOptionValue->getCode();
                 }, $valuePriceData['customerOptionValues']),
-                'validFrom'            => $dateRange ? $dateRange->getStart() : null,
-                'validTo'              => $dateRange ? $dateRange->getEnd() : null,
+                'validFrom'            => null !== $dateRange ? $dateRange->getStart() : null,
+                'validTo'              => null !== $dateRange ? $dateRange->getEnd() : null,
                 'channel'              => $channel->getCode(),
                 'type'                 => $valuePriceData['type'],
                 'amount'               => $valuePriceData['amount'],

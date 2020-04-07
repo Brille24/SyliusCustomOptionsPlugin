@@ -12,12 +12,14 @@ class CustomerOptionValuePriceHasCustomerOptionConstraint extends Constraint
     /** @var string */
     public $message = 'brille24.validation.customer_option_value_price_does_not_have_customer_option';
 
-    public function validatedBy()
+    /** {@inheritdoc} */
+    public function validatedBy(): string
     {
         return CustomerOptionValuePriceHasCustomerOptionValidator::class;
     }
 
-    public function getTargets()
+    /** {@inheritdoc} */
+    public function getTargets(): array
     {
         return [Constraint::CLASS_CONSTRAINT];
     }

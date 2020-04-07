@@ -10,7 +10,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Handler\ImportErrorHandlerInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,7 +27,6 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
     public function let(
         EntityManagerInterface $entityManager,
         ProductRepositoryInterface $productRepository,
-        ImportErrorHandlerInterface $importErrorHandler,
         ValidatorInterface $validator,
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionValueRepositoryInterface $customerOptionValueRepository,
@@ -47,7 +45,6 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
         $this->beConstructedWith(
             $entityManager,
             $productRepository,
-            $importErrorHandler,
             $validator,
             $customerOptionRepository,
             $customerOptionValueRepository,
@@ -71,8 +68,7 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
         CustomerOptionValuePriceInterface $valuePrice,
         ValidatorInterface $validator,
-        ConstraintViolationListInterface $violationList,
-        ImportErrorHandlerInterface $importErrorHandler
+        ConstraintViolationListInterface $violationList
     ): void {
         $customerOptionValuePriceFactory->createNew()->shouldBeCalledTimes(3)->willReturn($valuePrice);
 
@@ -81,8 +77,6 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
 
         $validator->validate(Argument::type(ProductInterface::class), null, 'sylius')->shouldBeCalledTimes(3)->willReturn($violationList);
         $violationList->count()->shouldBeCalledTimes(3)->willReturn(0);
-
-        $importErrorHandler->handleErrors([], Argument::type('array'))->shouldBeCalled();
 
         $this->import($this->getData());
     }
@@ -93,8 +87,7 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
         CustomerOptionValuePriceInterface $valuePrice,
         ValidatorInterface $validator,
-        ConstraintViolationListInterface $violationList,
-        ImportErrorHandlerInterface $importErrorHandler
+        ConstraintViolationListInterface $violationList
     ): void {
         $customerOptionValuePriceFactory->createNew()->shouldNotBeCalled();
 
@@ -106,19 +99,16 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
         $validator->validate(Argument::type(ProductInterface::class), null, 'sylius')->shouldBeCalledTimes(3)->willReturn($violationList);
         $violationList->count()->shouldBeCalledTimes(3)->willReturn(0);
 
-        $importErrorHandler->handleErrors([], Argument::type('array'))->shouldBeCalled();
-
         $this->import($this->getData());
     }
 
-    public function it_sends_mail_on_failed_import(
+    public function it_returns_import_errors(
         EntityManagerInterface $entityManager,
         RepositoryInterface $customerOptionValuePriceRepository,
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
         CustomerOptionValuePriceInterface $valuePrice,
         ValidatorInterface $validator,
-        ConstraintViolationListInterface $violationList,
-        ImportErrorHandlerInterface $importErrorHandler
+        ConstraintViolationListInterface $violationList
     ): void {
         $customerOptionValuePriceFactory->createNew()->shouldNotBeCalled();
 
@@ -130,9 +120,24 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
         $validator->validate(Argument::type(ProductInterface::class), null, 'sylius')->shouldBeCalledTimes(3)->willReturn($violationList);
         $violationList->count()->shouldBeCalledTimes(3)->willReturn(1);
 
-        $importErrorHandler->handleErrors(Argument::size(3), Argument::type('array'))->shouldBeCalled();
+        $expected = ['imported' => 0, 'failed' => [[
+                'violations' => $violationList,
+                'data'       => $this->getData()[0],
+                'message'    => '',
+            ],
+            [
+                'violations' => $violationList,
+                'data'       => $this->getData()[1],
+                'message'    => '',
+            ],
+            [
+                'violations' => $violationList,
+                'data'       => $this->getData()[2],
+                'message'    => '',
+            ],
+        ]];
 
-        $this->import($this->getData());
+        $this->import($this->getData())->shouldBeLike($expected);
     }
 
     private function getData(): array
