@@ -35,9 +35,9 @@ class PriceImportController extends AbstractController
         TranslatorInterface $translator,
         ImportErrorHandlerInterface $importErrorHandler
     ) {
-        $this->priceImporter   = $priceImporter;
-        $this->exampleFilePath = $csvExampleFilePath;
-        $this->translator      = $translator;
+        $this->priceImporter      = $priceImporter;
+        $this->exampleFilePath    = $csvExampleFilePath;
+        $this->translator         = $translator;
         $this->importErrorHandler = $importErrorHandler;
     }
 
