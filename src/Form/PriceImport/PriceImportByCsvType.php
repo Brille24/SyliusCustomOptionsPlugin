@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport;
 
-use Brille24\SyliusCustomerOptionsPlugin\Reader\CsvReaderInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class PriceImportByCsvType extends AbstractType
 {
-    /** @var CsvReaderInterface */
-    protected $csvReader;
+    /** @var DataMapperInterface */
+    private $dataMapper;
 
-    public function __construct(CsvReaderInterface $csvReader)
+    public function __construct(DataMapperInterface $dataMapper)
     {
-        $this->csvReader = $csvReader;
+        $this->dataMapper = $dataMapper;
     }
 
     /** {@inheritdoc} */
@@ -36,14 +35,6 @@ class PriceImportByCsvType extends AbstractType
             ])
         ;
 
-        $csvReader = $this->csvReader;
-        $builder->addModelTransformer(new CallbackTransformer(
-            static function () {
-                return null;
-            },
-            static function ($formData) use ($csvReader) {
-                return $csvReader->readCsv($formData['file']->getRealPath());
-            }
-        ));
+        $builder->setDataMapper($this->dataMapper);
     }
 }

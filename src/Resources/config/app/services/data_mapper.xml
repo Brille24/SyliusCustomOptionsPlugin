@@ -1,0 +1,13 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service class="Brille24\SyliusCustomerOptionsPlugin\DataMapper\CsvPriceImportDataMapper"
+                 id="brille24.sylius_customer_options_plugin.data_mapper.csv_price_import_data_mapper"
+        >
+            <argument type="service" id="brille24.sylius_customer_options_plugin.reader.csv_reader" />
+        </service>
+
+        <service class="Brille24\SyliusCustomerOptionsPlugin\DataMapper\ProductListPriceImportDataMapper"
+                 id="brille24.sylius_customer_options_plugin.data_mapper.product_list_price_import_data_mapper"
+        />
+    </services>
+</container>
