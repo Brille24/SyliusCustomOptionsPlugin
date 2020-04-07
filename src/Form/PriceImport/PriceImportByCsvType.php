@@ -36,12 +36,13 @@ class PriceImportByCsvType extends AbstractType
             ])
         ;
 
+        $csvReader = $this->csvReader;
         $builder->addModelTransformer(new CallbackTransformer(
             static function () {
                 return null;
             },
-            static function ($formData) {
-                return $this->csvReader->readCsv($formData['file']->getRealPath());
+            static function ($formData) use ($csvReader) {
+                return $csvReader->readCsv($formData['file']->getRealPath());
             }
         ));
     }
