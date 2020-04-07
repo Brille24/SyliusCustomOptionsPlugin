@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Object;
 
-
 class PriceImportResult
 {
     /** @var int */
@@ -19,8 +18,8 @@ class PriceImportResult
     public function __construct(int $imported, int $failed, array $errors)
     {
         $this->imported = $imported;
-        $this->failed = $failed;
-        $this->errors = $errors;
+        $this->failed   = $failed;
+        $this->errors   = $errors;
     }
 
     /**
