@@ -11,7 +11,7 @@
         <service class="Brille24\SyliusCustomerOptionsPlugin\Handler\GenericImportErrorHandler"
                  id="brille24.sylius_customer_options_plugin.handler.generic_import_error_handler"
         >
-            <tag name="brille24.sylius_customer_options_plugin.import_error_handler" type="generic"/>
+            <tag name="brille24.sylius_customer_options_plugin.import_error_handler" type="product_list"/>
             <argument type="service" id="sylius.email_sender" />
             <argument type="service" id="security.token_storage" />
         </service>
