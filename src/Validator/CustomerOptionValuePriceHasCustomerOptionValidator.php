@@ -48,7 +48,8 @@ class CustomerOptionValuePriceHasCustomerOptionValidator extends ConstraintValid
                 // The product shouldn't have this price
                 $this->context
                     ->buildViolation($constraint->message)
-                    ->atPath($valuePrice->getCustomerOptionValue()->getCustomerOption()->getCode())
+                    ->atPath($valuePrice->getCustomerOptionValue()->getCode())
+                    ->setCause($valuePrice->getCustomerOptionValue()->getCustomerOption()->getCode())
                     ->addViolation()
                 ;
             }

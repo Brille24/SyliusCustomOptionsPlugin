@@ -13,7 +13,6 @@
     <table style="border-spacing: 0" border="1">
         <thead style="background-color: lightgrey">
         <tr>
-            <th>Line</th>
             <th>Error</th>
             {% for field, value in (failed|first).data %}
                 <th>{{ field }}</th>
@@ -21,9 +20,8 @@
         </tr>
         </thead>
         <tbody>
-        {% for line, error in failed %}
+        {% for error in failed %}
             <tr>
-                <td>{{ line }}</td>
                 <td>{{ error.message }}</td>
                 {% for field, value in error.data %}
                     <td>{{ value }}</td>
