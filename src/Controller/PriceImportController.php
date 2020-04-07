@@ -160,7 +160,7 @@ class PriceImportController extends AbstractController
         if (0 < count($importResult['failed'])) {
             $this->addFlash('error', $this->translator->trans(
                 'brille24.flashes.customer_option_prices_import_failed.'.$type.$flashSuffix,
-                array_merge($flashParameters, ['%count%' => $importResult['failed']])
+                array_merge($flashParameters, ['%count%' => count($importResult['failed'])])
             ));
         }
     }
