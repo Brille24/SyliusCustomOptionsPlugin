@@ -13,7 +13,7 @@ class CompositeImportErrorHandler implements ImportErrorHandlerInterface
 
     public function addErrorHandler(ImportErrorHandlerInterface $errorHandler, string $type): void
     {
-        $this->errorHandlers['type'] = $errorHandler;
+        $this->errorHandlers[$type] = $errorHandler;
     }
 
     /** {@inheritdoc} */
