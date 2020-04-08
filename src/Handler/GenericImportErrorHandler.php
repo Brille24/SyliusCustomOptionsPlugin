@@ -16,16 +16,21 @@ class GenericImportErrorHandler implements ImportErrorHandlerInterface
     /** @var TokenStorageInterface */
     protected $tokenStorage;
 
+    /** @var string */
+    protected $email_code;
+
     public function __construct(
         SenderInterface $sender,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        string $email_code
     ) {
         $this->sender       = $sender;
         $this->tokenStorage = $tokenStorage;
+        $this->email_code   = $email_code;
     }
 
     /** {@inheritdoc} */
-    public function handleErrors(string $type, array $errors, array $extraData): void
+    public function handleErrors(array $errors, array $extraData): void
     {
         if (0 === count($errors)) {
             return;
@@ -37,7 +42,7 @@ class GenericImportErrorHandler implements ImportErrorHandlerInterface
         $email = $user->getEmail();
 
         $this->sender->send(
-            'brille24_failed_price_import_'.$type,
+            $this->email_code,
             [$email],
             ['errors' => $errors, 'extraData' => $extraData]
         );

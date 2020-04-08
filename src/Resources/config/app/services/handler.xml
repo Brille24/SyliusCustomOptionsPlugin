@@ -3,21 +3,17 @@
         <service class="Brille24\SyliusCustomerOptionsPlugin\Handler\CsvImportErrorHandler"
                  id="brille24.sylius_customer_options_plugin.handler.csv_import_error_handler"
         >
-            <tag name="brille24.sylius_customer_options_plugin.import_error_handler" type="csv" />
             <argument type="service" id="sylius.email_sender" />
             <argument type="service" id="security.token_storage" />
+            <argument>brille24_failed_price_import_csv</argument>
         </service>
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Handler\GenericImportErrorHandler"
-                 id="brille24.sylius_customer_options_plugin.handler.generic_import_error_handler"
+                 id="brille24.sylius_customer_options_plugin.handler.product_list_import_error_handler"
         >
-            <tag name="brille24.sylius_customer_options_plugin.import_error_handler" type="product_list"/>
             <argument type="service" id="sylius.email_sender" />
             <argument type="service" id="security.token_storage" />
+            <argument>brille24_failed_price_import_product_list</argument>
         </service>
-
-        <service class="Brille24\SyliusCustomerOptionsPlugin\Handler\CompositeImportErrorHandler"
-                 id="brille24.sylius_customer_options_plugin.handler.composite_import_error_handler"
-        />
     </services>
 </container>

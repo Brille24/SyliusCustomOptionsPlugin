@@ -28,18 +28,23 @@ class PriceImportController extends AbstractController
     protected $translator;
 
     /** @var ImportErrorHandlerInterface */
-    private $importErrorHandler;
+    private $csvImportErrorHandler;
+
+    /** @var ImportErrorHandlerInterface */
+    private $productListImportErrorHandler;
 
     public function __construct(
         CustomerOptionPriceImporterInterface $priceImporter,
         string $csvExampleFilePath,
         TranslatorInterface $translator,
-        ImportErrorHandlerInterface $importErrorHandler
+        ImportErrorHandlerInterface $csvImportErrorHandler,
+        ImportErrorHandlerInterface $productListImportErrorHandler
     ) {
-        $this->priceImporter      = $priceImporter;
-        $this->exampleFilePath    = $csvExampleFilePath;
-        $this->translator         = $translator;
-        $this->importErrorHandler = $importErrorHandler;
+        $this->priceImporter                 = $priceImporter;
+        $this->exampleFilePath               = $csvExampleFilePath;
+        $this->translator                    = $translator;
+        $this->csvImportErrorHandler         = $csvImportErrorHandler;
+        $this->productListImportErrorHandler = $productListImportErrorHandler;
     }
 
     /**
@@ -81,7 +86,9 @@ class PriceImportController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $importResult = $this->priceImporter->import($form->getData());
 
-            $this->handleImportResult($importResult, 'csv');
+            $this->handleFlashes($importResult, 'csv');
+
+            $this->csvImportErrorHandler->handleErrors($importResult->getErrors(), []);
         }
     }
 
@@ -127,10 +134,12 @@ class PriceImportController extends AbstractController
                     '%to%'   => $dateRange->getEnd()->format(DATE_ATOM),
                 ]);
 
-                $this->handleImportResult($importResult, 'product_list', $flashParameters, '_with_date', $extraData);
+                $this->handleFlashes($importResult, 'product_list_with_date', $flashParameters);
             } else {
-                $this->handleImportResult($importResult, 'product_list', $flashParameters, '', $extraData);
+                $this->handleFlashes($importResult, 'product_list', $flashParameters);
             }
+
+            $this->productListImportErrorHandler->handleErrors($importResult->getErrors(), $extraData);
         }
     }
 
@@ -138,29 +147,22 @@ class PriceImportController extends AbstractController
      * @param PriceImportResult $importResult
      * @param string $type
      * @param array $flashParameters
-     * @param string $flashSuffix
-     * @param array $extraData
      */
-    protected function handleImportResult(
+    protected function handleFlashes(
         PriceImportResult $importResult,
         string $type,
-        array $flashParameters = [],
-        string $flashSuffix = '',
-        array $extraData = []
+        array $flashParameters = []
     ): void {
-        // Handle errors
-        $this->importErrorHandler->handleErrors($type, $importResult->getErrors(), $extraData);
-
         // Handle flash messages
         if (0 < $importResult->getImported()) {
             $this->addFlash('success', $this->translator->trans(
-                'brille24.flashes.customer_option_prices_imported.'.$type.$flashSuffix,
+                'brille24.flashes.customer_option_prices_imported.'.$type,
                 array_merge($flashParameters, ['%count%' => $importResult->getImported()])
             ));
         }
         if (0 < $importResult->getFailed()) {
             $this->addFlash('error', $this->translator->trans(
-                'brille24.flashes.customer_option_prices_import_failed.'.$type.$flashSuffix,
+                'brille24.flashes.customer_option_prices_import_failed.'.$type,
                 array_merge($flashParameters, ['%count%' => $importResult->getFailed()])
             ));
         }

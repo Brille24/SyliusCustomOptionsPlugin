@@ -16,16 +16,21 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
     /** @var TokenStorageInterface */
     protected $tokenStorage;
 
+    /** @var string */
+    protected $email_code;
+
     public function __construct(
         SenderInterface $sender,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        string $email_code
     ) {
         $this->sender       = $sender;
         $this->tokenStorage = $tokenStorage;
+        $this->email_code   = $email_code;
     }
 
     /** {@inheritdoc} */
-    public function handleErrors(string $type, array $errors, array $extraData): void
+    public function handleErrors(array $errors, array $extraData): void
     {
         if (0 === count($errors)) {
             return;
@@ -33,9 +38,26 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
 
         // Send mail about failed imports
         /** @var AdminUserInterface $user */
-        $user  = $this->tokenStorage->getToken()->getUser();
-        $email = $user->getEmail();
+        $user    = $this->tokenStorage->getToken()->getUser();
+        $email   = $user->getEmail();
+        $csvPath = $this->buildCsv($errors);
 
+        $this->sender->send(
+            $this->email_code,
+            [$email],
+            ['errors' => $errors, 'extraData' => $extraData],
+            [$csvPath]
+        );
+    }
+
+    /**
+     * @param array $errors
+     *
+     * @return string
+     */
+    protected function buildCsv(array $errors): string
+    {
+        // Build csv to attach to the email
         $csvHeader = ['Line', 'Error'];
         foreach (array_keys(current($errors)['data']) as $key) {
             $csvHeader[] = $key;
@@ -55,11 +77,6 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
         rename($tmpPath, $csvPath);
         file_put_contents($csvPath, implode("\n", $csvData));
 
-        $this->sender->send(
-            'brille24_failed_price_import_'.$type,
-            [$email],
-            ['errors' => $errors, 'extraData' => $extraData],
-            [$csvPath]
-        );
+        return $csvPath;
     }
 }
