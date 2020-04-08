@@ -8,15 +8,17 @@ use Symfony\Component\Form\DataMapperInterface;
 
 class ProductListPriceImportDataMapper implements DataMapperInterface
 {
+    /** {@inheritdoc} */
     public function mapDataToForms($viewData, $forms): void
     {
     }
 
+    /** {@inheritdoc} */
     public function mapFormsToData($forms, &$viewData): void
     {
         $formData = iterator_to_array($forms);
 
-        if (!is_array($formData) || !array_key_exists('customer_option_value_price', $formData) || !array_key_exists('products', $formData)) {
+        if (!array_key_exists('customer_option_value_price', $formData) || !array_key_exists('products', $formData)) {
             $viewData = $formData;
 
             return;
@@ -25,7 +27,7 @@ class ProductListPriceImportDataMapper implements DataMapperInterface
         // Build array usable by the importer
         // [['product_code', 'customer_option_code', 'customer_option_value_code', 'channel_code', 'valid_from', 'valid_to', 'type', 'amount', 'percent']]
 
-        $valuePriceData = $formData['customer_option_value_price'];
+        $valuePriceData = $formData['customer_option_value_price']->getData();
 
         $dateValid   = $valuePriceData['dateValid'];
         $channelCode = $valuePriceData['channel']->getCode();
@@ -47,7 +49,7 @@ class ProductListPriceImportDataMapper implements DataMapperInterface
             $customerOptionCode      = $customerOptionValue->getCustomerOption()->getCode();
             $customerOptionValueCode = $customerOptionValue->getCode();
 
-            foreach ($formData['products'] as $productCode) {
+            foreach ($formData['products']->getData() as $productCode) {
                 $formattedData[] = [
                     'product_code'               => $productCode,
                     'customer_option_code'       => $customerOptionCode,
