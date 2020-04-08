@@ -8,7 +8,7 @@ use Sylius\Component\Core\Model\AdminUserInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class ByExampleImportErrorHandler implements ImportErrorHandlerInterface
+class GenericImportErrorHandler implements ImportErrorHandlerInterface
 {
     /** @var SenderInterface */
     protected $sender;
@@ -16,12 +16,17 @@ class ByExampleImportErrorHandler implements ImportErrorHandlerInterface
     /** @var TokenStorageInterface */
     protected $tokenStorage;
 
+    /** @var string */
+    protected $email_code;
+
     public function __construct(
         SenderInterface $sender,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        string $email_code
     ) {
         $this->sender       = $sender;
         $this->tokenStorage = $tokenStorage;
+        $this->email_code   = $email_code;
     }
 
     /** {@inheritdoc} */
@@ -37,9 +42,9 @@ class ByExampleImportErrorHandler implements ImportErrorHandlerInterface
         $email = $user->getEmail();
 
         $this->sender->send(
-            'brille24_failed_price_form_import',
+            $this->email_code,
             [$email],
-            ['failed' => $errors, 'extraData' => $extraData]
+            ['errors' => $errors, 'extraData' => $extraData]
         );
     }
 }

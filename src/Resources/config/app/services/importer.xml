@@ -1,22 +1,16 @@
 <container xmlns="http://symfony.com/schema/dic/services">
     <services>
-        <service class="Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceCsvImporter"
-                 id="brille24.sylius_customer_options_plugin.importer.customer_option_price_csv_importer"
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceImporter"
+                 id="brille24.sylius_customer_options_plugin.importer.customer_option_price_importer"
         >
-            <argument type="service" id="brille24.sylius_customer_options_plugin.reader.csv_reader" />
-            <argument type="service" id="brille24.sylius_customer_options_plugin.updater.customer_option_price_updater" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="sylius.repository.product" />
-            <argument type="service" id="brille24.sylius_customer_options_plugin.handler.csv_import_error_handler" />
-        </service>
-
-        <service class="Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceFormImporter"
-                 id="brille24.sylius_customer_options_plugin.importer.customer_option_price_form_importer"
-        >
-            <argument type="service" id="brille24.sylius_customer_options_plugin.updater.customer_option_price_updater" />
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="sylius.repository.product" />
-            <argument type="service" id="brille24.sylius_customer_options_plugin.handler.by_example_import_error_handler" />
+            <argument type="service" id="validator"/>
+            <argument type="service" id="brille24.repository.customer_option"/>
+            <argument type="service" id="brille24.repository.customer_option_value"/>
+            <argument type="service" id="sylius.repository.channel"/>
+            <argument type="service" id="brille24.repository.customer_option_value_price"/>
+            <argument type="service" id="brille24.factory.customer_option_value_price"/>
         </service>
     </services>
 </container>

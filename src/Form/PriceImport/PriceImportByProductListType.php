@@ -6,12 +6,21 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class PriceImportByProductListType extends AbstractType
 {
+    /** @var DataMapperInterface */
+    protected $dataMapper;
+
+    public function __construct(DataMapperInterface $dataMapper)
+    {
+        $this->dataMapper = $dataMapper;
+    }
+
     /** {@inheritdoc} */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -39,5 +48,7 @@ class PriceImportByProductListType extends AbstractType
                 return explode(',', preg_replace('/\s+/', '', $productsAsString));
             }
         ));
+
+        $builder->setDataMapper($this->dataMapper);
     }
 }

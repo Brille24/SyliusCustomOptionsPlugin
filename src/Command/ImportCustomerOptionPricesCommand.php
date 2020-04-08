@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Command;
 
-use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceCsvImporterInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceImporterInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Reader\CsvReaderInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,14 +13,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportCustomerOptionPricesCommand extends Command
 {
-    /** @var CustomerOptionPriceCsvImporterInterface */
+    /** @var CsvReaderInterface */
+    private $csvReader;
+
+    /** @var CustomerOptionPriceImporterInterface */
     protected $importer;
 
-    public function __construct(CustomerOptionPriceCsvImporterInterface $importer)
+    public function __construct(CsvReaderInterface $csvReader, CustomerOptionPriceImporterInterface $importer)
     {
         parent::__construct();
 
-        $this->importer = $importer;
+        $this->csvReader = $csvReader;
+        $this->importer  = $importer;
     }
 
     protected function configure(): void
@@ -33,13 +38,14 @@ class ImportCustomerOptionPricesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $source = $input->getArgument('source');
-        $result = $this->importer->import($source);
+        $data   = $this->csvReader->readCsv($source);
+        $result = $this->importer->import($data);
 
-        if (0 < $result['imported']) {
-            $output->writeln(sprintf('Imported %s prices', $result['imported']));
+        if (0 < $result->getImported()) {
+            $output->writeln(sprintf('Imported %s prices', $result->getImported()));
         }
-        if (0 < $result['failed']) {
-            $output->writeln(sprintf('Failed to import %s prices', $result['failed']));
+        if (0 < $result->getFailed()) {
+            $output->writeln(sprintf('Failed to import %s prices', $result->getFailed()));
         }
     }
 }

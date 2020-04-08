@@ -4,47 +4,47 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Controller;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportByCsvType;
 use Brille24\SyliusCustomerOptionsPlugin\Form\PriceImport\PriceImportByProductListType;
-use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceCsvImporterInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceFormImporterInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Updater\CustomerOptionPriceUpdaterInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Handler\ImportErrorHandlerInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Importer\CustomerOptionPriceImporterInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Object\PriceImportResult;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PriceImportController extends AbstractController
 {
-    /** @var CustomerOptionPriceCsvImporterInterface */
-    protected $priceCsvImporter;
+    /** @var CustomerOptionPriceImporterInterface */
+    protected $priceImporter;
 
     /** @var string */
     protected $exampleFilePath;
 
-    /** @var CustomerOptionPriceUpdaterInterface */
-    protected $priceUpdater;
-
-    /** @var CustomerOptionPriceFormImporterInterface */
-    protected $priceFormImporter;
-
     /** @var TranslatorInterface */
     protected $translator;
 
+    /** @var ImportErrorHandlerInterface */
+    protected $csvImportErrorHandler;
+
+    /** @var ImportErrorHandlerInterface */
+    protected $productListImportErrorHandler;
+
     public function __construct(
-        CustomerOptionPriceCsvImporterInterface $priceCsvImporter,
-        CustomerOptionPriceFormImporterInterface $priceFormImporter,
+        CustomerOptionPriceImporterInterface $priceImporter,
         string $csvExampleFilePath,
-        CustomerOptionPriceUpdaterInterface $priceUpdater,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        ImportErrorHandlerInterface $csvImportErrorHandler,
+        ImportErrorHandlerInterface $productListImportErrorHandler
     ) {
-        $this->priceCsvImporter  = $priceCsvImporter;
-        $this->priceFormImporter = $priceFormImporter;
-        $this->exampleFilePath   = $csvExampleFilePath;
-        $this->priceUpdater      = $priceUpdater;
-        $this->translator        = $translator;
+        $this->priceImporter                 = $priceImporter;
+        $this->exampleFilePath               = $csvExampleFilePath;
+        $this->translator                    = $translator;
+        $this->csvImportErrorHandler         = $csvImportErrorHandler;
+        $this->productListImportErrorHandler = $productListImportErrorHandler;
     }
 
     /**
@@ -60,8 +60,12 @@ class PriceImportController extends AbstractController
         $productListForm = $this->createForm(PriceImportByProductListType::class);
         $productListForm->handleRequest($request);
 
-        $this->handleCsvForm($csvForm);
-        $this->handleProductListForm($productListForm);
+        try {
+            $this->handleCsvForm($csvForm);
+            $this->handleProductListForm($productListForm);
+        } catch (\Throwable $exception) {
+            $this->addFlash('error', 'brille24.flashes.customer_option_price_import_error');
+        }
 
         return $this->render('@Brille24SyliusCustomerOptionsPlugin/PriceImport/import.html.twig', ['csvForm' => $csvForm->createView(), 'byProductListForm' => $productListForm->createView()]);
     }
@@ -80,31 +84,11 @@ class PriceImportController extends AbstractController
     protected function handleCsvForm(FormInterface $form): void
     {
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile $file */
-            $file = $form->get('file')->getData();
+            $importResult = $this->priceImporter->import($form->getData());
 
-            /** @var string $path */
-            $path = $file->getRealPath();
+            $this->handleFlashes($importResult, 'csv');
 
-            try {
-                $importResult = $this->priceCsvImporter->import($path);
-
-                // Handle flash messages
-                if (0 < $importResult['imported']) {
-                    $this->addFlash('success', $this->translator->trans(
-                        'brille24.flashes.customer_option_prices_csv_imported',
-                        ['%count%' => $importResult['imported']]
-                    ));
-                }
-                if (0 < $importResult['failed']) {
-                    $this->addFlash('error', $this->translator->trans(
-                        'brille24.flashes.customer_option_prices_csv_import_failed',
-                        ['%count%' => $importResult['failed']]
-                    ));
-                }
-            } catch (\Throwable $exception) {
-                $this->addFlash('error', 'brille24.flashes.customer_option_price_import_error');
-            }
+            $this->csvImportErrorHandler->handleErrors($importResult->getErrors(), []);
         }
     }
 
@@ -114,7 +98,7 @@ class PriceImportController extends AbstractController
     protected function handleProductListForm(FormInterface $form): void
     {
         if ($form->isSubmitted() && $form->isValid()) {
-            $products = $form->get('products')->getData();
+            $productCodes = $form->get('products')->getData();
 
             /** @var array $valuePriceData */
             $valuePriceData = $form->get('customer_option_value_price')->getData();
@@ -122,12 +106,26 @@ class PriceImportController extends AbstractController
             $dateRange = $valuePriceData['dateValid'];
             $channel   = $valuePriceData['channel'];
 
-            $importResult = $this->priceFormImporter->importForProductListForm($form);
+            $importResult = $this->priceImporter->import($form->getData());
+
+            // Build error handler extra data
+            $extraData = [
+                'productCodes'         => $productCodes,
+                'customerOptionValues' => array_map(static function (CustomerOptionValueInterface $customerOptionValue) {
+                    return $customerOptionValue->getCode();
+                }, $valuePriceData['customerOptionValues']),
+                'validFrom'            => null !== $dateRange ? $dateRange->getStart() : null,
+                'validTo'              => null !== $dateRange ? $dateRange->getEnd() : null,
+                'channel'              => $channel->getCode(),
+                'type'                 => $valuePriceData['type'],
+                'amount'               => $valuePriceData['amount'],
+                'percent'              => $valuePriceData['percent'],
+            ];
 
             // Build flash message parameters
             $flashParameters = [
                 '%channel%'  => $channel->getCode(),
-                '%products%' => implode(', ', $products),
+                '%products%' => implode(', ', $productCodes),
             ];
 
             if (null !== $dateRange) {
@@ -135,34 +133,38 @@ class PriceImportController extends AbstractController
                     '%from%' => $dateRange->getStart()->format(DATE_ATOM),
                     '%to%'   => $dateRange->getEnd()->format(DATE_ATOM),
                 ]);
+
+                $this->handleFlashes($importResult, 'product_list_with_date', $flashParameters);
+            } else {
+                $this->handleFlashes($importResult, 'product_list', $flashParameters);
             }
 
-            // Handle flash messages
-            if (0 < $importResult['imported']) {
-                $messageId = 'brille24.flashes.customer_option_prices_product_list_imported';
-                if (null !== $dateRange) {
-                    $messageId .= '_with_date';
-                }
+            $this->productListImportErrorHandler->handleErrors($importResult->getErrors(), $extraData);
+        }
+    }
 
-                $this->addFlash('success', $this->translator->trans(
-                    $messageId,
-                    array_merge($flashParameters, ['%count%' => $importResult['imported']]),
-                    'flashes'
-                ));
-            }
-
-            if (0 < $importResult['failed']) {
-                $messageId = 'brille24.flashes.customer_option_prices_product_list_import_failed';
-                if (null !== $dateRange) {
-                    $messageId .= '_with_date';
-                }
-
-                $this->addFlash('error', $this->translator->trans(
-                    $messageId,
-                    array_merge($flashParameters, ['%count%' => $importResult['failed']]),
-                    'flashes'
-                ));
-            }
+    /**
+     * @param PriceImportResult $importResult
+     * @param string $type
+     * @param array $flashParameters
+     */
+    protected function handleFlashes(
+        PriceImportResult $importResult,
+        string $type,
+        array $flashParameters = []
+    ): void {
+        // Handle flash messages
+        if (0 < $importResult->getImported()) {
+            $this->addFlash('success', $this->translator->trans(
+                'brille24.flashes.customer_option_prices_imported.'.$type,
+                array_merge($flashParameters, ['%count%' => $importResult->getImported()])
+            ));
+        }
+        if (0 < $importResult->getFailed()) {
+            $this->addFlash('error', $this->translator->trans(
+                'brille24.flashes.customer_option_prices_import_failed.'.$type,
+                array_merge($flashParameters, ['%count%' => $importResult->getFailed()])
+            ));
         }
     }
 }
