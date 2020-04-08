@@ -28,10 +28,10 @@ class PriceImportController extends AbstractController
     protected $translator;
 
     /** @var ImportErrorHandlerInterface */
-    private $csvImportErrorHandler;
+    protected $csvImportErrorHandler;
 
     /** @var ImportErrorHandlerInterface */
-    private $productListImportErrorHandler;
+    protected $productListImportErrorHandler;
 
     public function __construct(
         CustomerOptionPriceImporterInterface $priceImporter,
