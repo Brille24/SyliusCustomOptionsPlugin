@@ -114,14 +114,15 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
                 $price->setAmount($amount);
                 $price->setPercent($percent);
 
-                $violations = $this->validator->validate($product, null, 'sylius');
+                // Add the value price to the product so we can use it in the validation.
+                $product->addCustomerOptionValuePrice($price);
 
+                $violations = $this->validator->validate($product, null, 'sylius');
                 if (count($violations) > 0) {
+                    $product->removeCustomerOptionValuePrice($price);
+
                     throw new ConstraintViolationException($violations);
                 }
-
-                // Add the value price to the product so we can use it in later validations.
-                $product->addCustomerOptionValuePrice($price);
 
                 $this->entityManager->persist($price);
 
