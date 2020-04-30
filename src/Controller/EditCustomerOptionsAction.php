@@ -10,13 +10,15 @@ use Brille24\SyliusCustomerOptionsPlugin\Form\Product\ShopCustomerOptionType;
 use Brille24\SyliusCustomerOptionsPlugin\Services\OrderItemOptionUpdaterInterface;
 use DateTime;
 use Exception;
+use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Sylius\Component\Order\Repository\OrderItemRepositoryInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Webmozart\Assert\Assert;
 
-class EditCustomerOptionsAction extends Controller
+class EditCustomerOptionsAction extends AbstractController
 {
     /** @var OrderItemRepositoryInterface */
     private $orderItemRepository;
@@ -24,12 +26,17 @@ class EditCustomerOptionsAction extends Controller
     /** @var OrderItemOptionUpdaterInterface */
     private $orderItemOptionUpdater;
 
+    /** @var EventDispatcherInterface */
+    private $eventDispatcher;
+
     public function __construct(
         OrderItemRepositoryInterface $orderItemRepository,
-        OrderItemOptionUpdaterInterface $orderItemOptionUpdater
+        OrderItemOptionUpdaterInterface $orderItemOptionUpdater,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->orderItemRepository    = $orderItemRepository;
         $this->orderItemOptionUpdater = $orderItemOptionUpdater;
+        $this->eventDispatcher        = $eventDispatcher;
     }
 
     /**
@@ -45,6 +52,11 @@ class EditCustomerOptionsAction extends Controller
         $orderItem = $this->orderItemRepository->find($request->attributes->get('orderItem'));
         Assert::notNull($orderItem);
 
+        $this->eventDispatcher->dispatch(
+            'brille24.customer_option.pre_update',
+            new ResourceControllerEvent($orderItem)
+        );
+
         $order = $orderItem->getOrder();
 
         $orderItemForm = $this->createForm(
@@ -57,6 +69,11 @@ class EditCustomerOptionsAction extends Controller
 
         if ($orderItemForm->isSubmitted() && $orderItemForm->isValid()) {
             $this->orderItemOptionUpdater->updateOrderItemOptions($orderItem, $orderItemForm->getData());
+
+            $this->eventDispatcher->dispatch(
+                'brille24.customer_option.post_update',
+                new ResourceControllerEvent($orderItem)
+            );
 
             return $this->redirectToRoute('sylius_admin_order_show', ['id' => $order->getId()]);
         }
