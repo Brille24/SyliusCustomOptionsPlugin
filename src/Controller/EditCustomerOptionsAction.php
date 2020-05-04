@@ -53,7 +53,7 @@ class EditCustomerOptionsAction extends AbstractController
         Assert::notNull($orderItem);
 
         $this->eventDispatcher->dispatch(
-            'brille24.customer_option.pre_update',
+            'brille24.order_item.pre_update',
             new ResourceControllerEvent($orderItem)
         );
 
@@ -71,7 +71,7 @@ class EditCustomerOptionsAction extends AbstractController
             $this->orderItemOptionUpdater->updateOrderItemOptions($orderItem, $orderItemForm->getData());
 
             $this->eventDispatcher->dispatch(
-                'brille24.customer_option.post_update',
+                'brille24.order_item.post_update',
                 new ResourceControllerEvent($orderItem)
             );
 
