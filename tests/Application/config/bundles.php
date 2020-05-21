@@ -1,6 +1,15 @@
 <?php
 
-return [
+$bundles = [];
+if(class_exists(Sonata\CoreBundle\SonataCoreBundle::class)) {
+    $bundles = [
+        Sonata\CoreBundle\SonataCoreBundle::class => ['all' => true],
+        Sonata\IntlBundle\SonataIntlBundle::class => ['all' => true],
+        Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['all' => true],
+    ];
+}
+
+return array_merge($bundles, [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
@@ -54,4 +63,4 @@ return [
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true, 'test_cached' => true],
     Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true, 'test_cached' => true],
     FriendsOfBehat\SymfonyExtension\Bundle\FriendsOfBehatSymfonyExtensionBundle::class => ['test' => true, 'test_cached' => true],
-];
+]);
