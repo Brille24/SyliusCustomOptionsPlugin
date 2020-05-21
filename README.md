@@ -6,13 +6,13 @@
 
 ## Installation
 
-* Run `composer require brille24/sylius-customer-options-plugin`. (This plugin currently does not support Sylius 1.7 because we are using a formtype of sonata)
+* Run `composer require brille24/sylius-customer-options-plugin`.
 
 * Register the Plugin in your `config/bundles.php`:
 
 ```php
 return [
-    ...
+    ..database.
     Brille24\SyliusCustomerOptionsPlugin\Brille24SyliusCustomerOptionsPlugin::class => ['all' => true],
 ];
 ```

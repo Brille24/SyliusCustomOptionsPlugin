@@ -28,9 +28,6 @@ final class Brille24SyliusCustomerOptionsExtension extends Extension
 
         $container->setParameter('brille24.sylius_customer_options.price_import_example_file_path', $config['price_import_example_file_path']);
 
-        new YamlFileLoader(
-            $container,
-            new FileLocator(__DIR__.'/../Resources/config/app')
-        );
+        new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/app'));
     }
 }

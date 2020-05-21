@@ -16,69 +16,58 @@ sylius_resource:
         brille24.customer_option:
             classes:
                 model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption
-                interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface
                 repository: Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepository
                 factory: Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionFactory
                 form: Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionType
             translation:
                 classes:
                     model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionTranslation
-                    interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionTranslationInterface
                     form: Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionTranslationType
 
         brille24.customer_option_group:
             classes:
                 model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup
-                interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface
                 repository: Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionGroupRepository
                 factory: Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionGroupFactory
                 form: Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionGroupType
             translation:
                 classes:
                     model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTranslation
-                    interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupTranslationInterface
                     form: Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionGroupTranslationType
 
         brille24.customer_option_association:
             classes:
                 model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation
-                interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociationInterface
                 form: Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionAssociationType
 
         brille24.customer_option_value:
             classes:
                 model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue
-                interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface
                 repository: Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepository
                 factory: Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValueFactory
                 form: Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionValueType
             translation:
                 classes:
                     model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueTranslation
-                    interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueTranslationInterface
                     form: Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionValueTranslationType
 
         brille24.customer_option_value_price:
             classes:
                 model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice
-                interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface
                 factory: Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactory
                 form: Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionValuePriceType
 
         brille24.order_item_option:
             classes:
                 model: Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption
-                interface: Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface
 
         brille24.customer_option_validator:
             classes:
                 model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator
-                interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface
 
         brille24.customer_option_validator_error_message:
             classes:
                 model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage
-                interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessageInterface
                 form: Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ErrorMessageType
             translation:
                 classes:
@@ -88,9 +77,7 @@ sylius_resource:
         brille24.customer_option_validator_condition:
             classes:
                 model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition
-                interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface
 
         brille24.customer_option_validator_constraint:
             classes:
                 model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint
-                interface: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConstraintInterface

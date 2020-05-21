@@ -34,8 +34,8 @@ final class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode    = $treeBuilder->root('brille24_customer_options');
+        $treeBuilder = new TreeBuilder('brille24_customer_options');
+        $rootNode = $treeBuilder->getRootNode();
 
         // Adding new resources
         $this->addResourceSection($rootNode);
@@ -59,7 +59,7 @@ final class Configuration implements ConfigurationInterface
                                     ->addDefaultsIfNotSet()
                                     ->children()
                                         ->scalarNode('model')->defaultValue(CustomerOption::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('interface')->defaultValue(CustomerOptionInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->end()
                                         ->scalarNode('factory')->defaultValue(TranslatableFactory::class)->cannotBeEmpty()->end()
                                         ->end()
                                     ->end()
@@ -71,7 +71,7 @@ final class Configuration implements ConfigurationInterface
                                         ->addDefaultsIfNotSet()
                                         ->children()
                                             ->scalarNode('model')->defaultValue(CustomerOptionTranslation::class)->cannotBeEmpty()->end()
-                                            ->scalarNode('interface')->defaultValue(CustomerOptionTranslationInterface::class)->cannotBeEmpty()->end()
+                                            ->scalarNode('interface')->end()
                                             ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
                                             ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
                                             ->scalarNode('repository')->cannotBeEmpty()->end()
@@ -89,7 +89,7 @@ final class Configuration implements ConfigurationInterface
                                     ->addDefaultsIfNotSet()
                                     ->children()
                                         ->scalarNode('model')->defaultValue(CustomerOptionGroup::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('interface')->defaultValue(CustomerOptionGroupInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->end()
                                         ->scalarNode('factory')->defaultValue(TranslatableFactory::class)->cannotBeEmpty()->end()
                                     ->end()
                                 ->end()
@@ -101,7 +101,7 @@ final class Configuration implements ConfigurationInterface
                                             ->addDefaultsIfNotSet()
                                             ->children()
                                                 ->scalarNode('model')->defaultValue(CustomerOptionGroupTranslation::class)->cannotBeEmpty()->end()
-                                                ->scalarNode('interface')->defaultValue(CustomerOptionGroupTranslationInterface::class)->cannotBeEmpty()->end()
+                                                ->scalarNode('interface')->end()
                                                 ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
                                                 ->scalarNode('repository')->cannotBeEmpty()->end()

@@ -23,8 +23,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Class ProductTypeExtension used for the product form in the backend to add customer option groups
- *
- * @method iterable getExtendedTypes()
  */
 final class ProductTypeExtension extends AbstractTypeExtension
 {
@@ -68,6 +66,11 @@ final class ProductTypeExtension extends AbstractTypeExtension
      */
     public function getExtendedType(): string
     {
-        return ProductType::class;
+        return $this->getExtendedTypes()[0];
+    }
+
+    public static function getExtendedTypes()
+    {
+        return [ProductType::class];
     }
 }
