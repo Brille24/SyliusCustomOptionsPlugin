@@ -12,7 +12,7 @@
 
 ```php
 return [
-    ..database.
+    //...
     Brille24\SyliusCustomerOptionsPlugin\Brille24SyliusCustomerOptionsPlugin::class => ['all' => true],
 ];
 ```
