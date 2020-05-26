@@ -69,7 +69,7 @@ final class ProductTypeExtension extends AbstractTypeExtension
         return $this->getExtendedTypes()[0];
     }
 
-    public static function getExtendedTypes()
+    public function getExtendedTypes(): array
     {
         return [ProductType::class];
     }
