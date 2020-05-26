@@ -24,7 +24,7 @@ class CustomerOptionAssociationConstraintValidatorTest extends TestCase
     private $customerOptions = [];
 
     //<editor-fold desc="Setup" default="collapsed">
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->customerOptionAssociationConstraintValidator = new CustomerOptionAssociationConstraintValidator();
 

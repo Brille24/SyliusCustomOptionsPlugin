@@ -27,7 +27,7 @@ class CustomerOptionValueListenerTest extends TestCase
     /** @var CustomerOptionValueListener */
     private $customerOptionValueListener;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $channelRepository = self::createMock(EntityRepository::class);
         $channelRepository->method('findAll')->willReturnCallback(function () {

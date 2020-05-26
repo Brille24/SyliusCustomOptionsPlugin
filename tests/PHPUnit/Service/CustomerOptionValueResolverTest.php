@@ -17,7 +17,7 @@ class CustomerOptionValueResolverTest extends TestCase
     /** @var CustomerOptionValueResolverInterface */
     private $valueResolver;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->valueResolver = new CustomerOptionValueResolver();
     }

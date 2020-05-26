@@ -48,7 +48,7 @@ class AddToCartListenerTest extends TestCase
     }
 
     //<editor-fold desc="Setup">
-    public function setUp()
+    public function setUp(): void
     {
         // Aliasing variables for use in testing
         $entitiesPersisted = &$this->entitiesPersisted;

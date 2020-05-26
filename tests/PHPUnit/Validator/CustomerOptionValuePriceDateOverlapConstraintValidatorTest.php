@@ -40,7 +40,7 @@ class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCas
     private $customerOptions;
 
     //<editor-fold desc="Setup">
-    protected function setUp()
+    protected function setUp(): void
     {
         $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
 

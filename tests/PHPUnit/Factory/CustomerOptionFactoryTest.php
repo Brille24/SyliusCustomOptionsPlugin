@@ -24,7 +24,7 @@ class CustomerOptionFactoryTest extends TestCase
     /** @var CustomerOptionGroupRepositoryInterface[] */
     private $customerOptionGroupRepository = [];
 
-    public function setUp()
+    public function setUp(): void
     {
         $customerOptionValueFactory = self::createMock(CustomerOptionValueFactory::class);
 

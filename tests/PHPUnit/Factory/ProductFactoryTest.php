@@ -38,7 +38,7 @@ class ProductFactoryTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function setUp()
+    public function setUp(): void
     {
         $channelRepositoryMock = $this->createMock(RepositoryInterface::class);
         $channelRepositoryMock->expects($this->any())->method('findAll')->willReturn([new Channel()]);

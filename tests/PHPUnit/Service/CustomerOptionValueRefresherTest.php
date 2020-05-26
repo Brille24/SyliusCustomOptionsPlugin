@@ -32,7 +32,7 @@ class CustomerOptionValueRefresherTest extends TestCase
     private $priceUpdate;
 
     //<editor-fold desc="Helper function for setup">
-    public function setUp()
+    public function setUp(): void
     {
         $channel                            = self::createMock(ChannelInterface::class);
         $this->customerOptionValueRefresher = new CustomerOptionValueRefresher($channel);

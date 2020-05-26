@@ -20,7 +20,7 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
     /** @var array */
     private $channelRepository = [];
 
-    public function setUp()
+    public function setUp(): void
     {
         $channelRepository = self::createMock(ChannelRepositoryInterface::class);
         $channelRepository->method('findAll')->willReturnCallback(function () {

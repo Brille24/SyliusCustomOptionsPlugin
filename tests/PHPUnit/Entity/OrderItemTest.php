@@ -20,7 +20,7 @@ class OrderItemTest extends TestCase
     /** @var OrderItem */
     private $orderItem;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->orderItem = new OrderItem();
     }

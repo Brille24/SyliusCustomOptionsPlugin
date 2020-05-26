@@ -30,7 +30,7 @@ class OrderItemOptionFactoryTest extends TestCase
     /** @var ChannelInterface */
     private $channel;
 
-    public function setUp()
+    public function setUp(): void
     {
         $baseFactory = self::createMock(FactoryInterface::class);
         $baseFactory->method('createNew')->willReturn(new OrderItemOption());

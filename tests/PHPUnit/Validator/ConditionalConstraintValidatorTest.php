@@ -30,7 +30,7 @@ class ConditionalConstraintValidatorTest extends TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $requestStack;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->violations = [];
 

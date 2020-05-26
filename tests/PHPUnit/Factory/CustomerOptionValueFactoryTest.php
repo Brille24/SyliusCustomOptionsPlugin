@@ -16,7 +16,7 @@ class CustomerOptionValueFactoryTest extends TestCase
     /** @var CustomerOptionValueFactory */
     private $customerOptionValueFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $customerOptionPriceFactory = self::createMock(CustomerOptionValuePriceFactory::class);
         $customerOptionPriceFactory->method('createFromConfig')->willReturnCallback(function ($config) {

@@ -25,7 +25,7 @@ class CustomerOptionRecalculatorTest extends TestCase
     /** @var CustomerOptionRecalculator */
     public $customerOptionRecalculator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->adjustmentFactory = self::createMock(AdjustmentFactoryInterface::class);
 

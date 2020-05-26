@@ -24,7 +24,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $productRepositoryMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->customerOptionRepositoryMock = $this->createMock(CustomerOptionRepositoryInterface::class);
         $this->customerOptionRepositoryMock->method('findAll')->willReturn([]);

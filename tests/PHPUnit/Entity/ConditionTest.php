@@ -17,7 +17,7 @@ class ConditionTest extends TestCase
     /** @var ConditionInterface */
     private $condition;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->condition = new Condition();
     }

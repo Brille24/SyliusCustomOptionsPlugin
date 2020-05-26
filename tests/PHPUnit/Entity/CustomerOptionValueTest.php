@@ -16,7 +16,7 @@ class CustomerOptionValueTest extends TestCase
     /** @var CustomerOptionValue */
     private $customerOptionValue;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->customerOptionValue = new CustomerOptionValue();
     }

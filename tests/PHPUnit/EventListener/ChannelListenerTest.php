@@ -25,7 +25,7 @@ class ChannelListenerTest extends TestCase
     private $persistCount = 0;
 
     //<editor-fold desc="Setup">
-    public function setUp()
+    public function setUp(): void
     {
         $this->channelCreateListener = new ChannelListener();
     }
