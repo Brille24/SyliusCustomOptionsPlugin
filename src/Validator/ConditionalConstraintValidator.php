@@ -42,10 +42,8 @@ class ConditionalConstraintValidator extends ConstraintValidator
             $allConditionsMet   = $this->allConditionsMet($constraint->conditions, $configuration);
             $allConstraintsMet  = $this->allConditionsMet($constraint->constraints, $configuration);
 
-            if ($allConditionsMet) {
-                if (!$allConstraintsMet) {
-                    $this->context->addViolation($constraint->message);
-                }
+            if ($allConditionsMet && !$allConstraintsMet) {
+                $this->context->addViolation($constraint->message);
             }
         }
     }
@@ -61,7 +59,7 @@ class ConditionalConstraintValidator extends ConstraintValidator
         $customerOptions = $product->getCustomerOptions();
 
         foreach ($customerOptions as $customerOption) {
-            if (!in_array($customerOption->getCode(), array_keys($addToCart['customer_options']), true)) {
+            if (!array_key_exists($customerOption->getCode(), $addToCart['customer_options'])) {
                 $addToCart['customer_options'][$customerOption->getCode()] = '0';
             }
         }

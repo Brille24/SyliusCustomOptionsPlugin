@@ -82,7 +82,7 @@ trait ConditionTrait
         $value = is_array($value) && array_key_exists('value', $value) ? $value['value'] : $value;
 
         $newValue = ConditionComparatorEnum::getValueConfig(
-            $this->customerOption ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT
+            $this->customerOption !== null ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT
         );
 
         if ($newValue['type'] === 'array') {
@@ -91,17 +91,15 @@ trait ConditionTrait
             $newValue['value'] = $value instanceof \DateTime ? $value : null;
         } elseif ($newValue['type'] === 'boolean') {
             $newValue['value'] = (bool) $value;
+        } elseif (is_array($value) || $value instanceof \DateTime) {
+            $newValue['value'] = null;
         } else {
-            if (is_array($value) || $value instanceof \DateTime) {
-                $newValue['value'] = null;
-            } else {
-                $newValue['value'] = $value;
-            }
+            $newValue['value'] = $value;
         }
 
         if ($newValue['value'] === null) {
             $newValue = ConditionComparatorEnum::getValueConfig(
-                $this->customerOption ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT
+                $this->customerOption !== null ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT
             );
         }
 
@@ -128,11 +126,7 @@ trait ConditionTrait
      */
     public function isMet($value, ?string $optionType = null): bool
     {
-        if ($this->customerOption === null) {
-            $optionType = 'number';
-        } else {
-            $optionType = $optionType ?? $this->customerOption->getType() ?? 'number';
-        }
+        $optionType = $this->customerOption === null ? 'number' : $optionType ?? $this->customerOption->getType() ?? 'number';
 
         $actual = $this->formatValue($value, $optionType);
 
@@ -201,15 +195,13 @@ trait ConditionTrait
         } elseif (CustomerOptionTypeEnum::isDate($optionType)) {
             if (isset($result['date']) && !is_array($result['date'])) {
                 $result = new \DateTime($result['date']);
+            } elseif ($optionType === CustomerOptionTypeEnum::DATETIME) {
+                $date   = $value['date'];
+                $time   = $value['time'];
+                $result = new \DateTime(sprintf('%d-%d-%d', $date['year'], $date['month'], $date['day']));
+                $result->setTime((int) ($time['hour']), (int) ($time['minute']));
             } else {
-                if ($optionType === CustomerOptionTypeEnum::DATETIME) {
-                    $date   = $value['date'];
-                    $time   = $value['time'];
-                    $result = new \DateTime(sprintf('%d-%d-%d', $date['year'], $date['month'], $date['day']));
-                    $result->setTime((int) ($time['hour']), (int) ($time['minute']));
-                } else {
-                    $result = new \DateTime(sprintf('%d-%d-%d', $value['year'], $value['month'], $value['day']));
-                }
+                $result = new \DateTime(sprintf('%d-%d-%d', $value['year'], $value['month'], $value['day']));
             }
         } elseif ($optionType === CustomerOptionTypeEnum::BOOLEAN) {
             $result = filter_var($value, FILTER_VALIDATE_BOOLEAN);

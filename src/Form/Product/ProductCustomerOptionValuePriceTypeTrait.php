@@ -34,11 +34,7 @@ trait ProductCustomerOptionValuePriceTypeTrait
             ->add('channel', ChannelChoiceType::class, [
                 'choice_attr' => static function (?ChannelInterface $channel) {
                     if ($channel !== null) {
-                        if ($channel->getBaseCurrency() !== null) {
-                            $currency = $channel->getBaseCurrency()->getCode() ?? 'EUR';
-                        } else {
-                            $currency  = 'EUR';
-                        }
+                        $currency = $channel->getBaseCurrency() !== null ? $channel->getBaseCurrency()->getCode() ?? 'EUR' : 'EUR';
                         $symbol = Currencies::getSymbol($currency, 'en');
 
                         return ['data-attribute' => $symbol];

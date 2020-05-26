@@ -97,15 +97,14 @@ class CustomerOptionValuePriceDateOverlapConstraintValidator extends ConstraintV
                     ;
                 }
 
+                // Compare the date ranges for overlap
                 if (null !== $currentDateRange && null !== $existingDateRange) {
-                    // Compare the date ranges for overlap
-                    if (
-                        $currentDateRange->contains($existingDateRange->getStart()) ||
-                        $currentDateRange->contains($existingDateRange->getEnd()) ||
-                        $existingDateRange->contains($currentDateRange->getStart()) ||
-                        $existingDateRange->contains($currentDateRange->getEnd())
-                    ) {
-                        // The date ranges overlap
+                    $dateOverLaps = $currentDateRange->contains($existingDateRange->getStart()) ||
+                    $currentDateRange->contains($existingDateRange->getEnd()) ||
+                    $existingDateRange->contains($currentDateRange->getStart()) ||
+                    $existingDateRange->contains($currentDateRange->getEnd());
+
+                    if ($dateOverLaps) {
                         $this->context
                             ->buildViolation($constraint->message)
                             ->atPath($customerOptionValueCode)

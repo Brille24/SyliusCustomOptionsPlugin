@@ -215,10 +215,8 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
                 $valuePrice = $price;
             }
 
-            if (null !== $dateValid && null !== $dateRange) {
-                if ($dateValid->equals($dateRange)) {
-                    $valuePrice = $price;
-                }
+            if (null !== $dateValid && null !== $dateRange && $dateValid->equals($dateRange)) {
+                $valuePrice = $price;
             }
         }
 

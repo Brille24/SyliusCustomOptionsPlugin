@@ -27,7 +27,7 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
     /** @var EntityManagerInterface */
     private $em;
 
-    public function __construct(CustomerOptionFactory $factory, EntityManagerInterface $em)
+    public function __construct(\Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionFactoryInterface $factory, EntityManagerInterface $em)
     {
         $this->factory = $factory;
         $this->em      = $em;
@@ -36,7 +36,7 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
     public function load(array $options): void
     {
         // Getting the configured options
-        $customConfiguration = array_key_exists('custom', $options) ? $options['custom'] : [];
+        $customConfiguration = $options['custom'] ?? [];
 
         // When amount is given, generate config
         $autoConfiguration = array_key_exists('amount', $options)
