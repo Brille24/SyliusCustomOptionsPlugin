@@ -11,13 +11,14 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Constraints\Choice;
 
 class ConstraintCreator
 {
     /**
      * Gets the value from the Customer Option value configuration
      *
-     * @param array  $configuration
+     * @param array $configuration
      * @param string $key
      *
      * @return mixed
@@ -35,7 +36,7 @@ class ConstraintCreator
      * Creates a constraint form the configuration based on the type of Custom Option
      *
      * @param string $type
-     * @param array  $configuration
+     * @param array $configuration
      *
      * @return Constraint|null
      */
@@ -53,6 +54,14 @@ class ConstraintCreator
                 ];
 
                 return new Length($lengthRange);
+            case CustomerOptionTypeEnum::MULTI_SELECT:
+                $choiceNumberRange = [
+                    'min' => $getFromConfiguration('brille24.form.config.min.choice'),
+                    'max' => $getFromConfiguration('brille24.form.config.max.choice'),
+                    'choices' =>  $configuration['choices'],
+                    'multiple' => true,
+                ];
+                return new Choice($choiceNumberRange);
             case CustomerOptionTypeEnum::FILE:
                 $allowedFileTypes = explode(',', (string) $getFromConfiguration('brille24.form.config.allowed_types'));
 
@@ -83,7 +92,7 @@ class ConstraintCreator
     public static function createConditionalConstraint(array $conditions, array $constraints): Constraint
     {
         return new ConditionalConstraint([
-            'conditions'  => $conditions,
+            'conditions' => $conditions,
             'constraints' => $constraints,
         ]);
     }
