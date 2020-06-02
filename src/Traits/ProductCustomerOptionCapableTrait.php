@@ -6,6 +6,7 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Traits;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociationInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -120,9 +121,9 @@ trait ProductCustomerOptionCapableTrait
             return [];
         }
 
-        return $customerOptionGroup->getOptionAssociations()->map(function (
+        return $customerOptionGroup->getOptionAssociations()->map(static function (
             CustomerOptionAssociationInterface $association
-        ) {
+        ): ?CustomerOptionInterface {
             return $association->getOption();
         })->toArray();
     }

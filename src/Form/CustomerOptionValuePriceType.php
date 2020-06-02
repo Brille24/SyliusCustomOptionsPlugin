@@ -46,7 +46,7 @@ final class CustomerOptionValuePriceType extends AbstractType
             ])
             ->add('type', ChoiceType::class, [
                 'choices'      => CustomerOptionValuePrice::getAllTypes(),
-                'choice_label' => function ($option) {
+                'choice_label' => static function (string $option): string {
                     return 'brille24.ui.pricing.'.strtolower($option);
                 },
                 'label' => 'sylius.ui.type',

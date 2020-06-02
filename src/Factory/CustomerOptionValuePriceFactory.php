@@ -88,7 +88,7 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
     {
         $prices          = [];
         $allChannelCodes = array_map(
-            function (ChannelInterface $channel) {
+            static function (ChannelInterface $channel): ?string {
                 return $channel->getCode();
             },
             $this->channelRepository->findAll()

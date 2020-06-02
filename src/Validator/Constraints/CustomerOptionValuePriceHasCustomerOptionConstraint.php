@@ -19,8 +19,8 @@ class CustomerOptionValuePriceHasCustomerOptionConstraint extends Constraint
     }
 
     /** {@inheritdoc} */
-    public function getTargets(): array
+    public function getTargets(): string
     {
-        return [Constraint::CLASS_CONSTRAINT];
+        return Constraint::CLASS_CONSTRAINT;
     }
 }

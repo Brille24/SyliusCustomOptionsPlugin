@@ -13,21 +13,22 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Fixture;
 
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionFactory;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionFactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Throwable;
 
 class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
 {
-    /** @var CustomerOptionFactory */
+    /** @var CustomerOptionFactoryInterface */
     private $factory;
 
     /** @var EntityManagerInterface */
     private $em;
 
-    public function __construct(\Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionFactoryInterface $factory, EntityManagerInterface $em)
+    public function __construct(CustomerOptionFactoryInterface $factory, EntityManagerInterface $em)
     {
         $this->factory = $factory;
         $this->em      = $em;
@@ -46,7 +47,7 @@ class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
         foreach (array_merge($customConfiguration, $autoConfiguration) as $optionConfig) {
             try {
                 $customerOptions[] = $this->factory->createFromConfig($optionConfig);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 print_r($e->getMessage());
             }
         }

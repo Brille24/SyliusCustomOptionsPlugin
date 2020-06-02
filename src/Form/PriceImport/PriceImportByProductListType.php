@@ -37,14 +37,14 @@ class PriceImportByProductListType extends AbstractType
         ;
 
         $builder->get('products')->addModelTransformer(new CallbackTransformer(
-            static function ($productArray) {
+            static function ($productArray): string {
                 if (!is_array($productArray)) {
                     return '';
                 }
 
                 return implode(', ', $productArray);
             },
-            static function (string $productsAsString) {
+            static function (string $productsAsString): array {
                 return explode(',', preg_replace('/\s+/', '', $productsAsString));
             }
         ));

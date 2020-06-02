@@ -89,7 +89,7 @@ class ConditionalConstraintValidator extends ConstraintValidator
 
             $counter = 0;
 
-            /** @var OrderItemOptionInterface $optionConfig */
+            /** @var OrderItemOptionInterface $optionValue */
             foreach ($customerOptionConfig as $optionCode => $optionValue) {
                 if ($optionCode === $customerOption->getCode()) {
                     if (!$condition->isMet($optionValue, $customerOption->getType())) {

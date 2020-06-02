@@ -271,7 +271,7 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function setPrices(array $prices)
+    public function setPrices(array $prices): void
     {
     }
 

@@ -16,7 +16,7 @@ interface OrderItemCustomerOptionCapableTraitInterface
     /**
      * @param bool $assoc If this is true it will create an associative array with the customer option code as key
      *
-     * @return OrderItemOptionInterface[]
+     * @return array
      */
     public function getCustomerOptionConfiguration(bool $assoc=false): array;
 

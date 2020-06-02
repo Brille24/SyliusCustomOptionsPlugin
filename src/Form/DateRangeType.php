@@ -30,7 +30,7 @@ class DateRangeType extends AbstractType
     {
         $builder->addModelTransformer(
             new CallbackTransformer(
-                static function (?DateRange $dateRange) {
+                static function (?DateRange $dateRange): array {
                     if ($dateRange === null) {
                         return [];
                     }
@@ -40,7 +40,7 @@ class DateRangeType extends AbstractType
                         'end'   => $dateRange->getEnd(),
                     ];
                 },
-                static function (array $dateTime) {
+                static function (array $dateTime): ?DateRange {
                     if ($dateTime['start'] === null || $dateTime['end'] === null) {
                         return null;
                     }

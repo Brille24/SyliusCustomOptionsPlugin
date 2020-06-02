@@ -116,14 +116,14 @@ class CustomerOptionValue implements CustomerOptionValueInterface
      */
     public function getPrices(): Collection
     {
-        return $this->prices->filter(function (CustomerOptionValuePriceInterface $price) {
+        return $this->prices->filter(static function (CustomerOptionValuePriceInterface $price): bool {
             return $price->getProduct() === null;
         });
     }
 
     public function getPricesForChannel(ChannelInterface $channel): Collection
     {
-        $priceIsInChannel = function (COValuePriceInterface $price) use ($channel) {
+        $priceIsInChannel = static function (COValuePriceInterface $price) use ($channel): bool {
             $channelOfPrice = $price->getChannel();
             if ($channelOfPrice === null) {
                 return false;
@@ -143,7 +143,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
         $prices = $this->getPricesForChannel($channel);
 
         if (!$ignoreActive) {
-            $prices = $prices->filter(function (COValuePriceInterface $price) {
+            $prices = $prices->filter(static function (COValuePriceInterface $price): bool {
                 return $price->isActive();
             });
         }
@@ -154,12 +154,14 @@ class CustomerOptionValue implements CustomerOptionValueInterface
 
             return array_reduce(
                 $prices,
-                function ($accumulator, COValuePriceInterface $price): COValuePriceInterface {
+                static function ($accumulator, COValuePriceInterface $price): COValuePriceInterface {
                     return $price->getProduct() !== null ? $price : $accumulator;
                 },
                 reset($prices)
             );
-        } elseif (count($prices) === 1) {
+        }
+
+        if (count($prices) === 1) {
             return $prices->first();
         }
 

@@ -48,7 +48,7 @@ class CustomerOptionValuePriceDateOverlapConstraintValidator extends ConstraintV
             sprintf('$valuePrices has object not implementing %s', CustomerOptionValuePriceInterface::class)
         );
 
-        /** @var Collection $collection */
+        /** @var Collection $valuePrices */
         if ($valuePrices->isEmpty()) {
             return;
         }

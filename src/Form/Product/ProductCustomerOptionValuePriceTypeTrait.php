@@ -27,7 +27,7 @@ trait ProductCustomerOptionValuePriceTypeTrait
             ->add('customerOptionValue', ChoiceType::class, [
                 'choices'      => $customerOptionValues,
                 'choice_label' => 'name',
-                'group_by'     => static function (CustomerOptionValueInterface $customerOptionValue) {
+                'group_by'     => static function (CustomerOptionValueInterface $customerOptionValue): ?string {
                     return $customerOptionValue->getCustomerOption()->getName();
                 },
             ])
@@ -56,7 +56,7 @@ trait ProductCustomerOptionValuePriceTypeTrait
             ])
             ->add('type', ChoiceType::class, [
                 'choices'      => CustomerOptionValuePrice::getAllTypes(),
-                'choice_label' => static function ($option) {
+                'choice_label' => static function (string $option): string {
                     return 'brille24.ui.pricing.'.strtolower($option);
                 },
             ])

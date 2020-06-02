@@ -81,7 +81,7 @@ final class ShopCustomerOptionType extends AbstractType
 
         $builder->addEventListener(
             FormEvents::POST_SET_DATA,
-            function (FormEvent $event) {
+            static function (FormEvent $event): void {
                 $data = $event->getData();
                 $form = $event->getForm();
                 if (!is_array($data)) {
@@ -133,7 +133,7 @@ final class ShopCustomerOptionType extends AbstractType
         if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
             $configuration = [
                 'choices'      => $customerOption->getValues()->toArray(),
-                'choice_label' => function (CustomerOptionValueInterface $value) use ($product) {
+                'choice_label' => function (CustomerOptionValueInterface $value) use ($product): string {
                     return $this->buildValueString($value, $product);
                 },
                 'choice_value' => 'code',

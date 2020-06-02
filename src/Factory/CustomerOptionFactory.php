@@ -156,7 +156,7 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
             /** @var CustomerOptionGroupInterface[] $groups */
             $groups     = $this->customerOptionGroupRepository->findAll();
             $groupCodes = array_map(
-                function (CustomerOptionGroupInterface $group) {
+                static function (CustomerOptionGroupInterface $group): ?string {
                     return $group->getCode();
                 },
                 $groups

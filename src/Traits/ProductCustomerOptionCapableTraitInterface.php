@@ -42,12 +42,12 @@ interface ProductCustomerOptionCapableTraitInterface
     public function hasCustomerOptions(): bool;
 
     /**
-     * @return Collection
+     * @return Collection<CustomerOptionValuePriceInterface>
      */
     public function getCustomerOptionValuePrices(): Collection;
 
     /**
-     * @param Collection|null $prices
+     * @param Collection<CustomerOptionValuePriceInterface>|null $prices
      */
     public function setCustomerOptionValuePrices(?Collection $prices): void;
 

@@ -30,9 +30,6 @@ class CustomerOptionConfigurationConstraintValidator extends ConstraintValidator
         Assert::isArray($value);
         Assert::isInstanceOf($constraint, CustomerOptionConfigurationConstraint::class);
         /** @var CustomerOptionConfigurationConstraint $constraint */
-        if (!is_array($value)) {
-            throw new \InvalidArgumentException('Can not validate configurations.');
-        }
 
         /**
          * The array can look like this
@@ -41,10 +38,10 @@ class CustomerOptionConfigurationConstraintValidator extends ConstraintValidator
          *
          * So in this line we look for the array key that contains min and max
          */
-        $minKeys = array_filter(array_keys($value), function (string $key) {
+        $minKeys = array_filter(array_keys($value), static function (string $key): bool {
             return is_int(strpos($key, 'min'));
         });
-        $maxKeys = array_filter(array_keys($value), function (string $key) {
+        $maxKeys = array_filter(array_keys($value), static function (string $key): bool {
             return is_int(strpos($key, 'max'));
         });
 
