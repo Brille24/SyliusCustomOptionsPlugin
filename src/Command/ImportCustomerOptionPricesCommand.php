@@ -35,7 +35,7 @@ final class ImportCustomerOptionPricesCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $source = $input->getArgument('source');
         $data   = $this->csvReader->readCsv($source);
@@ -47,5 +47,7 @@ final class ImportCustomerOptionPricesCommand extends Command
         if (0 < $result->getFailed()) {
             $output->writeln(sprintf('Failed to import %s prices', $result->getFailed()));
         }
+
+        return 0;
     }
 }

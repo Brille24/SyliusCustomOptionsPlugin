@@ -37,7 +37,7 @@ final class UpdateOrderItemOptionTypeCommand extends Command
     }
 
     /** {@inheritdoc} */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $i = 0;
 
@@ -59,5 +59,7 @@ final class UpdateOrderItemOptionTypeCommand extends Command
         $this->entityManager->flush();
 
         $output->writeln(sprintf('Updated %d OrderItemOptions', $i));
+
+        return 0;
     }
 }
