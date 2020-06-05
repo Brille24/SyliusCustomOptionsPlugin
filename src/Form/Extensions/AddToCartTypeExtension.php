@@ -78,13 +78,8 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
         return $constraints;
     }
 
-    public function getExtendedTypes(): array
+    public static function getExtendedTypes(): iterable
     {
-        return [AddToCartType::class];
-    }
-
-    public function getExtendedType(): string
-    {
-        return $this->getExtendedTypes()[0];
+        yield AddToCartType::class;
     }
 }
