@@ -26,12 +26,6 @@ addons:
 jobs:
     include:
         -   php: '7.3'
-            env: SYLIUS_VERSION=1.4.*
-
-        -   php: '7.3'
-            env: SYLIUS_VERSION=1.5.*
-
-        -   php: '7.3'
             env: SYLIUS_VERSION=1.6.*
 
         -   php: '7.3'
