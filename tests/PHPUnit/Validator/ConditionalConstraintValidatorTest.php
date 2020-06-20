@@ -15,7 +15,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Validator\ConditionalConstraintValidato
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -34,10 +33,10 @@ class ConditionalConstraintValidatorTest extends TestCase
 
     public function setUp(): void
     {
-        $this->violations = [];
+        $this->violations       = [];
         $this->request          = self::createMock(Request::class);
         $this->request->request = self::createMock(ParameterBag::class);
-        $requestStack = self::createConfiguredMock(RequestStack::class, ['getCurrentRequest' => $this->request]);
+        $requestStack           = self::createConfiguredMock(RequestStack::class, ['getCurrentRequest' => $this->request]);
 
         $this->conditionalConstraintValidator = new ConditionalConstraintValidator($requestStack);
 
@@ -103,7 +102,7 @@ class ConditionalConstraintValidatorTest extends TestCase
     public function requestParamsProvider()
     {
         return [
-            'some other test' => [['option_1' => 'some text', 'option_2' => '1', 'option_3' => 'val_1']],
+            'some other test'       => [['option_1' => 'some text', 'option_2' => '1', 'option_3' => 'val_1']],
             'missing option values' => [['option_1' => 'abc', 'option_3' => 'val_2']],
         ];
     }
