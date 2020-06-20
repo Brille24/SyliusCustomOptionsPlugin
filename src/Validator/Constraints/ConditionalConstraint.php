@@ -21,7 +21,7 @@ class ConditionalConstraint extends Constraint
 
     public function __construct(?array $options = null)
     {
-        if ($options !== null) {
+        if ($options === null) {
             $options = [
                 'conditions'  => [],
                 'constraints' => [],

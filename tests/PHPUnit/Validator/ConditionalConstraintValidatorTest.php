@@ -13,7 +13,9 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\ConditionalConstraintValidator;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -27,16 +29,17 @@ class ConditionalConstraintValidatorTest extends TestCase
     /** @var array */
     private $violations;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
-    private $requestStack;
+    /** @var MockObject|Request */
+    private $request;
 
     public function setUp(): void
     {
         $this->violations = [];
+        $this->request          = self::createMock(Request::class);
+        $this->request->request = self::createMock(ParameterBag::class);
+        $requestStack = self::createConfiguredMock(RequestStack::class, ['getCurrentRequest' => $this->request]);
 
-        $this->requestStack = self::createMock(RequestStack::class);
-
-        $this->conditionalConstraintValidator = new ConditionalConstraintValidator($this->requestStack);
+        $this->conditionalConstraintValidator = new ConditionalConstraintValidator($requestStack);
 
         $context = self::createMock(ExecutionContextInterface::class);
         $context->method('addViolation')->willReturnCallback(function (?string $message): void {
@@ -49,16 +52,14 @@ class ConditionalConstraintValidatorTest extends TestCase
     /**
      * @dataProvider requestParamsProvider
      *
-     * @param mixed $params
+     * @param mixed $customerEnteredValues
      */
-    public function testValidate($params)
+    public function testValidate($customerEnteredValues)
     {
-        $request          = self::createMock(Request::class);
-        $request->request = self::createMock(ParameterBag::class);
-        $this->requestStack->method('getCurrentRequest')->willReturn($request);
-
-        $request->request->method('get')->with('sylius_add_to_cart')
-            ->willReturn($params);
+        $this->request->request
+            ->method('get')
+            ->with('sylius_add_to_cart')
+            ->willReturn(['customer_options' => $customerEnteredValues]);
 
         $customerOptions = $this->createMockCustomerOptions();
         $product         = self::createMock(ProductInterface::class);
@@ -77,13 +78,13 @@ class ConditionalConstraintValidatorTest extends TestCase
         $constraints = [];
 
         $constraint = new Constraint();
-        $constraint->setComparator('equal');
+        $constraint->setComparator(ConditionComparatorEnum::EQUAL);
         $constraint->setValue(1);
         $constraint->setCustomerOption($customerOptions[1]);
         $constraints[] = $constraint;
 
         $constraint = new Constraint();
-        $constraint->setComparator('in_set');
+        $constraint->setComparator(ConditionComparatorEnum::IN_SET);
         $constraint->setValue(['val_1', 'val_3']);
         $constraint->setCustomerOption($customerOptions[2]);
         $constraints[] = $constraint;
@@ -102,23 +103,8 @@ class ConditionalConstraintValidatorTest extends TestCase
     public function requestParamsProvider()
     {
         return [
-            [
-                [
-                    'customer_options' => [
-                        'option_1' => 'some text',
-                        'option_2' => '1',
-                        'option_3' => 'val_1',
-                    ],
-                ],
-            ],
-            [
-                [
-                    'customer_options' => [
-                        'option_1' => 'abc',
-                        'option_3' => 'val_2',
-                    ],
-                ],
-            ],
+            'some other test' => [['option_1' => 'some text', 'option_2' => '1', 'option_3' => 'val_1']],
+            'missing option values' => [['option_1' => 'abc', 'option_3' => 'val_2']],
         ];
     }
 

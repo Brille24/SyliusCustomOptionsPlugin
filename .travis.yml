@@ -1,19 +1,19 @@
 language: php
 
+os: linux
+
 dist: bionic
 
-os: linux
+env:
+    global:
+        - SYLIUS_CACHE_DIR=$HOME/.sylius-cache
+        - SYLIUS_BUILD_DIR=etc/build
 
 cache:
     yarn: true
     directories:
         - ~/.composer/cache/files
         - $SYLIUS_CACHE_DIR
-
-env:
-    global:
-        - SYLIUS_CACHE_DIR=$HOME/.sylius-cache
-        - SYLIUS_BUILD_DIR=etc/build
 
 addons:
     apt:
@@ -84,10 +84,7 @@ script:
 
     - vendor/bin/phpunit
     - vendor/bin/phpspec run
-    - vendor/bin/behat --tags="~@javascript" --strict -vvv --no-interaction || vendor/bin/behat --tags="~@javascript" --strict -vvv --no-interaction --rerun
-    - vendor/bin/behat --tags="@javascript" --strict -vvv --no-interaction || vendor/bin/behat --tags="@javascript" --strict -vvv --no-interaction --rerun
-
-    -  (cd tests/Application && bin/console sylius:fixtures:load --no-interaction)
+    - bin/behat --strict -vvv --no-interaction || bin/behat --strict -vvv --no-interaction --rerun
 
 after_failure:
     - vendor/lakion/mink-debug-extension/travis/tools/upload-textfiles "${SYLIUS_BUILD_DIR}/*.log"
