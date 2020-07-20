@@ -83,6 +83,7 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
         $dateTime      = new DateTime('now');
         $dateTimeLater = clone $dateTime;
         $dateTimeLater->add(new DateInterval('P10D')); // 10 days later
+
         return
             [
                 'int'      => [0, 23],
