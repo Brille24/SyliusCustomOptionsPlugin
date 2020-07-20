@@ -7,7 +7,7 @@
     {% endfor %}
 
     {% set remaining = max(data|length - counter, 0) %}
-    {{ 'brille24.grid.options_remaining'|trans(remaining, {"count": remaining}) }}
+    {{ 'brille24.grid.options_remaining'|trans({"count": remaining}) }}
 {% else %}
     {{ 'brille24.grid.options_empty'|trans }}
 {% endif %}
