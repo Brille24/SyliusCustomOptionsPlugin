@@ -18,7 +18,7 @@
 
     {% include '@Brille24SyliusCustomerOptionsPlugin/Product/Shop/_customerOptions.html.twig' %}
 
-    {{ form_row(form.cartItem.quantity) }}
+    {{ form_row(form.cartItem.quantity, sylius_test_form_attribute('quantity')) }}
 
     {{ sonata_block_render_event('sylius.shop.product.show.add_to_cart_form', {'product': product, 'order_item': order_item}) }}
 

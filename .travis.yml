@@ -26,16 +26,7 @@ addons:
 jobs:
     include:
         -   php: '7.3'
-            env: SYLIUS_VERSION=1.6.*
-
-        -   php: '7.3'
-            env: SYLIUS_VERSION=1.7.*
-
         -   php: '7.4'
-            env: SYLIUS_VERSION=1.6.*
-
-        -   php: '7.4'
-            env: SYLIUS_VERSION=1.7.*
 
 services:
   - mysql
@@ -47,7 +38,6 @@ before_install:
     - mkdir -p tests/Application/web/media/image
 
 install:
-    - composer require sylius/sylius:${SYLIUS_VERSION} --no-interaction --no-update
     - composer install --no-interaction --prefer-dist --no-suggest
     - (cd tests/Application && yarn install)
 
