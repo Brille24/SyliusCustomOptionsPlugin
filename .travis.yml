@@ -8,6 +8,8 @@ env:
     global:
         - SYLIUS_CACHE_DIR=$HOME/.sylius-cache
         - SYLIUS_BUILD_DIR=etc/build
+        - SYLIUS_LOG_DIR=tests/Application/var/log
+        - APP_ENV=test
 
 cache:
     yarn: true
@@ -42,10 +44,10 @@ install:
     - (cd tests/Application && yarn install)
 
 before_script:
-    - (cd tests/Application && bin/console doctrine:database:create --env=test -vvv)
-    - (cd tests/Application && bin/console doctrine:schema:create --env=test -vvv)
-    - (cd tests/Application && bin/console assets:install public --env=test -vvv)
-    - (cd tests/Application && bin/console cache:warmup --env=test -vvv)
+    - (cd tests/Application && bin/console doctrine:database:create -vvv)
+    - (cd tests/Application && bin/console doctrine:schema:create -vvv)
+    - (cd tests/Application && bin/console assets:install public -vvv)
+    - (cd tests/Application && bin/console cache:warmup -vvv)
     - (cd tests/Application && yarn build)
 
     # Download Symfony CLI
@@ -74,4 +76,5 @@ script:
     - vendor/bin/behat --strict -vvv --no-interaction || vendor/bin/behat --strict -vvv --no-interaction --rerun
 
 after_failure:
+    - vendor/lakion/mink-debug-extension/travis/tools/upload-textfiles "${SYLIUS_LOG_DIR}/*.log"
     - vendor/lakion/mink-debug-extension/travis/tools/upload-textfiles "${SYLIUS_BUILD_DIR}/*.log"
