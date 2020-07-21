@@ -1,5 +1,13 @@
 <container xmlns="http://symfony.com/schema/dic/services">
+    <parameters>
+        <parameter key="sylius.behat.page.shop.checkout.address.class">Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Checkout\AddressPage</parameter>
+        <parameter key="sylius.behat.page.shop.checkout.select_payment.class">Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Checkout\PaymentPage</parameter>
+        <parameter key="sylius.behat.page.shop.checkout.select_shipping.class">Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Checkout\ShippingPage</parameter>
+    </parameters>
+
     <services>
+
+
         <service
                 id="brille24.behat.page.admin.customer_options.create"
                 class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOption\CreatePage"
@@ -79,6 +87,5 @@
             class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Checkout\CheckoutPage"
             parent="sylius.behat.page.shop.checkout.complete"
         />
-
     </services>
 </container>
