@@ -29,6 +29,7 @@ class ValidatorType extends AbstractType
                 'by_reference'        => false,
                 'button_add_label'    => 'brille24.form.validators.buttons.add_condition',
                 'button_delete_label' => 'brille24.form.validators.buttons.delete_condition',
+                'prototype_name' => '__condition_prot__',
             ])
             ->add('constraints', CollectionType::class, [
                 'entry_type'    => ConditionType::class,
@@ -41,6 +42,7 @@ class ValidatorType extends AbstractType
                 'by_reference'        => false,
                 'button_add_label'    => 'brille24.form.validators.buttons.add_constraint',
                 'button_delete_label' => 'brille24.form.validators.buttons.delete_constraint',
+                'prototype_name' => '__constraint_prot__',
             ])
             ->add('errorMessage', ErrorMessageType::class, [
                 'label' => 'brille24.form.validators.error_message',
