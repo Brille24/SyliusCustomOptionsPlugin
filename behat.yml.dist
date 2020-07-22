@@ -39,6 +39,8 @@ default:
                                     - "no-sandbox"
                             extra_capabilities:
                                 unexpectedAlertBehaviour: accept
+                                goog:chromeOptions:
+                                    w3c: false
                 firefox:
                     selenium2:
                         browser: firefox
