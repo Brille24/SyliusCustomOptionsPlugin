@@ -6,7 +6,9 @@
     "require": {
         "php": "^7.3",
 
-        "sylius/sylius": "^1.7"
+        "sylius/sylius": "^1.7",
+        "phpstan/phpstan-symfony": "^0.12",
+        "phpstan/phpstan-strict-rules": "^0.12"
     },
     "require-dev": {
         "behat/behat": "^3.6.1",
