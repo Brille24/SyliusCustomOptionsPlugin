@@ -4,10 +4,11 @@
 {% if data|length > 0 %}
     {% for element in data|slice(0, 5) %}
         {% include '@SyliusUi/Label/_default.html.twig' with {'value': element.code} %}
+        {% set counter = counter+1 %}
     {% endfor %}
 
     {% set remaining = max(data|length - counter, 0) %}
-    {{ 'brille24.grid.options_remaining'|trans({"count": remaining}) }}
+    {{ 'brille24.grid.options_remaining'|transchoice(remaining, {"count": remaining}) }}
 {% else %}
     {{ 'brille24.grid.options_empty'|trans }}
 {% endif %}
