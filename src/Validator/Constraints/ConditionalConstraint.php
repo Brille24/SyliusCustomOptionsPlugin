@@ -21,13 +21,6 @@ class ConditionalConstraint extends Constraint
 
     public function __construct(?array $options = null)
     {
-        if ($options === null) {
-            $options = [
-                'conditions'  => [],
-                'constraints' => [],
-            ];
-        }
-
         parent::__construct($options);
 
         if ($this->conditions === null || $this->constraints === null) {

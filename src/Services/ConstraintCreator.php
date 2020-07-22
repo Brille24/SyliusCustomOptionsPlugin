@@ -63,18 +63,18 @@ class ConstraintCreator
             case CustomerOptionTypeEnum::DATE:
             case CustomerOptionTypeEnum::DATETIME:
                 $dateRange = [
-                    'min' => $getFromConfiguration('brille24.form.config.min.date')['date'],
-                    'max' => $getFromConfiguration('brille24.form.config.max.date')['date'],
+                    'min' => $getFromConfiguration('brille24.form.config.min.date')['date'] ?? null,
+                    'max' => $getFromConfiguration('brille24.form.config.max.date')['date'] ?? null,
                 ];
 
                 return new Range($dateRange);
             case CustomerOptionTypeEnum::NUMBER:
-                $dateRange = [
+                $numberRange = [
                     'min' => $getFromConfiguration('brille24.form.config.min.number'),
                     'max' => $getFromConfiguration('brille24.form.config.max.number'),
                 ];
 
-                return new Range($dateRange);
+                return new Range($numberRange);
         }
 
         return null;

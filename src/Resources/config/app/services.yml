@@ -1,11 +1,2 @@
 imports:
   - { resource: "services/*" }
-
-services:
-  # Sonata
-  brille24_customer_options.block_event_listener.admin.layout.javascripts:
-      class: Sylius\Bundle\UiBundle\Block\BlockEventListener
-      arguments:
-          - '@@Brille24SyliusCustomerOptionsPlugin/Resources/views/Product/Tab/_javascripts.html.twig'
-      tags:
-          - { name: kernel.event_listener, event: sonata.block.event.sylius.admin.layout.javascripts, method: onBlockEvent }

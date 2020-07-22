@@ -99,14 +99,6 @@ class CustomerOptionsContext implements Context
     }
 
     /**
-     * @When I add it
-     */
-    public function iAddIt()
-    {
-        $this->createPage->create();
-    }
-
-    /**
      * @Then the customer option :customerOptionName should appear in the registry
      */
     public function theCustomerOptionShouldAppearInTheRegistry($customerOptionName)
@@ -174,10 +166,20 @@ class CustomerOptionsContext implements Context
 
     /**
      * @When I save my changes
+     * @When I add it
      */
     public function iSaveMyChanges()
     {
-        $this->updatePage->saveChanges();
+        // I combined these two methods because changing the CO type reloads redirects to the update page in javascript tests.
+
+        /** @var CreatePageInterface|UpdatePageInterface $currentPage */
+        $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
+
+        if($currentPage instanceof CreatePageInterface) {
+            $currentPage->create();
+        } else {
+            $currentPage->saveChanges();
+        }
     }
 
     /**

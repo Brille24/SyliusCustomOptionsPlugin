@@ -101,11 +101,7 @@ class UpdatePage extends BaseUpdatePage
      */
     public function addCondition(): void
     {
-        /** @var NodeElement[] $conditionDivs */
-        $conditionDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
-        $lastConditionDiv = end($conditionDivs);
-
-        $lastConditionDiv->clickLink($this->translator->trans('brille24.form.validators.buttons.add_condition'));
+        $this->getLastConditionDiv()->clickLink($this->translator->trans('brille24.form.validators.buttons.add_condition'));
     }
 
     /**
@@ -133,11 +129,7 @@ class UpdatePage extends BaseUpdatePage
      */
     public function deleteCondition(): void
     {
-        /** @var NodeElement[] $conditionDivs */
-        $conditionDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
-        $lastConditionDiv = end($conditionDivs);
-
-        $lastConditionDiv->clickLink($this->translator->trans('brille24.form.validators.buttons.delete_condition'));
+        $this->getLastConditionDiv()->clickLink($this->translator->trans('brille24.form.validators.buttons.delete_condition'));
     }
 
     /**
@@ -159,9 +151,7 @@ class UpdatePage extends BaseUpdatePage
      */
     public function chooseOptionForCondition(string $name): void
     {
-        /** @var NodeElement[] $conditionDiv */
-        $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
-        $lastConditionDiv = end($conditionDiv);
+        $lastConditionDiv = $this->getLastConditionDiv();
 
         $this->selectItemInContainer($lastConditionDiv, $name, $this->translator->trans('brille24.form.validators.fields.customer_option'));
     }
@@ -173,9 +163,7 @@ class UpdatePage extends BaseUpdatePage
      */
     public function chooseComparatorForCondition(string $name): void
     {
-        /** @var NodeElement[] $conditionDiv */
-        $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
-        $lastConditionDiv = end($conditionDiv);
+        $lastConditionDiv = $this->getLastConditionDiv();
 
         $this->selectItemInContainer($lastConditionDiv, $name, $this->translator->trans('brille24.form.validators.fields.comparator'));
     }
@@ -187,11 +175,7 @@ class UpdatePage extends BaseUpdatePage
      */
     public function getConditionValueType(string $optionType): ?string
     {
-        /** @var NodeElement[] $conditionDiv */
-        $conditionDiv = $this->getDocument()->waitFor(5, function () {
-            return $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
-        });
-        $lastConditionDiv = end($conditionDiv);
+        $lastConditionDiv = $this->getLastConditionDiv();
 
         return $this->getValueItemType($lastConditionDiv, $optionType);
     }
@@ -303,9 +287,7 @@ class UpdatePage extends BaseUpdatePage
      */
     public function getAvailableConditionComparators(): array
     {
-        /** @var NodeElement[] $conditionDiv */
-        $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
-        $lastConditionDiv = end($conditionDiv);
+        $lastConditionDiv = $this->getLastConditionDiv();
 
         return $this->getAvailableComparators($lastConditionDiv);
     }
@@ -358,9 +340,7 @@ class UpdatePage extends BaseUpdatePage
      */
     public function setConditionValue($value, string $optionType): void
     {
-        /** @var NodeElement[] $conditionDiv */
-        $conditionDiv = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
-        $lastConditionDiv = end($conditionDiv);
+        $lastConditionDiv = $this->getLastConditionDiv();
 
         $this->setValue($lastConditionDiv, $optionType, $value);
     }
@@ -458,5 +438,14 @@ class UpdatePage extends BaseUpdatePage
         }
 
         return $valueSuffix;
+    }
+
+    private function getLastConditionDiv(): NodeElement
+    {
+        /** @var NodeElement[] $conditionDiv */
+        $conditionDiv = $this->getDocument()->waitFor(5, function () {
+            return $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
+        });
+        return end($conditionDiv);
     }
 }
