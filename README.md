@@ -4,6 +4,10 @@
 	<img src="https://travis-ci.org/Brille24/SyliusCustomOptionsPlugin.svg?branch=master" />
 </a>
 
+With this plugin the customer can add additional info to the product like so:
+![Price import forms](docs/images/customeroption_frontend.png "The customer can upload a file")
+![Price import forms](docs/images/customeroption_frontend_cart.png "And it will be displayed in the cart")
+
 ## Installation
 
 * Run `composer require brille24/sylius-customer-options-plugin`.
