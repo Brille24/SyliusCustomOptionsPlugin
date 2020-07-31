@@ -7,7 +7,7 @@
                 decorates="brille24.factory.order_item_option"
         >
             <argument type="service" id="brille24.customer_options_plugin.factory.order_item_option_factory.inner" />
-            <argument type="expression">service('sylius.context.channel').getChannel()</argument>
+            <argument type="service" id="sylius.context.channel" />
 
             <argument type="service" id="brille24.repository.customer_option"/>
             <argument type="service" id="brille24.customer_options_plugin.services.customer_option_value_resolver"/>
