@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
@@ -12,12 +13,12 @@ use Webmozart\Assert\Assert;
 
 final class CustomerOptionValueRefresher implements OrderProcessorInterface
 {
-    /** @var ChannelInterface */
-    private $currentChannel;
+    /** @var ChannelContextInterface */
+    private $channelContext;
 
-    public function __construct(ChannelInterface $currentChannel)
+    public function __construct(ChannelContextInterface $channelContext)
     {
-        $this->currentChannel = $currentChannel;
+        $this->channelContext = $channelContext;
     }
 
     /**
@@ -51,7 +52,7 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
             // values on the entity so that if the reference changes the values stay the same
             $orderItemOption->setCustomerOptionValue($customerOptionValue);
 
-            $price = $customerOptionValue->getPriceForChannel($this->currentChannel);
+            $price = $customerOptionValue->getPriceForChannel($this->channelContext->getChannel());
             Assert::notNull($price);
 
             // Same here: Copy the price onto the customer option to be independent of the customer option value object.

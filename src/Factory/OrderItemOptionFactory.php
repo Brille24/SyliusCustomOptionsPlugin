@@ -19,7 +19,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Exception;
-use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
 class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, FactoryInterface
@@ -30,9 +30,9 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
     private $factory;
 
     /**
-     * @var ChannelInterface
+     * @var ChannelContextInterface
      */
-    private $channel;
+    private $channelContext;
 
     /**
      * @var CustomerOptionRepositoryInterface
@@ -46,12 +46,12 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
 
     public function __construct(
         FactoryInterface $factory,
-        ChannelInterface $channel,
+        ChannelContextInterface $channelContext,
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionValueResolverInterface $valueResolver
     ) {
         $this->factory                  = $factory;
-        $this->channel                  = $channel;
+        $this->channelContext           = $channelContext;
         $this->customerOptionRepository = $customerOptionRepository;
         $this->valueResolver            = $valueResolver;
     }
@@ -72,7 +72,7 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
         $orderItemOption->setCustomerOptionValue($customerOptionValue);
 
         if ($customerOptionValue instanceof CustomerOptionValueInterface) {
-            $price = $customerOptionValue->getPriceForChannel($this->channel);
+            $price = $customerOptionValue->getPriceForChannel($this->channelContext->getChannel());
             $orderItemOption->setPrice($price);
         }
 
