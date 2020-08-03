@@ -20,6 +20,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInte
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Exception;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
 class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, FactoryInterface
@@ -72,7 +73,10 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
         $orderItemOption->setCustomerOptionValue($customerOptionValue);
 
         if ($customerOptionValue instanceof CustomerOptionValueInterface) {
-            $price = $customerOptionValue->getPriceForChannel($this->channelContext->getChannel());
+            /** @var ChannelInterface $channel */
+            $channel = $this->channelContext->getChannel();
+            $price   = $customerOptionValue->getPriceForChannel($channel);
+
             $orderItemOption->setPrice($price);
         }
 
