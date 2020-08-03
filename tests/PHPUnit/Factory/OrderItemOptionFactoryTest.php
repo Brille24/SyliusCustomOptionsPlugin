@@ -16,6 +16,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInte
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
@@ -36,6 +37,8 @@ class OrderItemOptionFactoryTest extends TestCase
         $baseFactory->method('createNew')->willReturn(new OrderItemOption());
 
         $this->channel      = self::createMock(ChannelInterface::class);
+        $chanelProvider     = self::createConfiguredMock(ChannelContextInterface::class, ['getChannel' => $this->channel]);
+
         $customerOptionRepo = self::createMock(CustomerOptionRepositoryInterface::class);
         $customerOptionRepo->method('findOneByCode')->willReturnCallback(function (string $code) {
             if (array_key_exists($code, $this->customerOptions)) {
@@ -60,7 +63,7 @@ class OrderItemOptionFactoryTest extends TestCase
 
         $baseFactory->method('createNew')->willReturn(self::createMock(OrderItemOptionInterface::class));
 
-        $this->orderItemOptionFactory = new OrderItemOptionFactory($baseFactory, $this->channel, $customerOptionRepo, $valueResolver);
+        $this->orderItemOptionFactory = new OrderItemOptionFactory($baseFactory, $chanelProvider, $customerOptionRepo, $valueResolver);
     }
 
     private function addCustomerOption(CustomerOptionInterface $customerOption)
