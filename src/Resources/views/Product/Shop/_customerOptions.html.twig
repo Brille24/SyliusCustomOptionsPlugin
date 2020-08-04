@@ -1,7 +1,7 @@
 {% form_theme form.customer_options with 'Brille24SyliusCustomerOptionsPlugin:Form:product_theme.html.twig' %}
 
 {% if product.customerOptionGroup != null %}
-    {% include 'Brille24SyliusCustomerOptionsPlugin:all:_date.html.twig' only %}
+    {% include '@Brille24SyliusCustomerOptionsPlugin/all/_date.html.twig' only %}
     <div class="ui segment">
         <h4>{{ 'brille24.ui.product_customization'|trans }}</h4>
         {{ form_widget(form.customer_options) }}

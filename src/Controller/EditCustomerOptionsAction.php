@@ -79,7 +79,7 @@ class EditCustomerOptionsAction extends AbstractController
         }
 
         return $this->render(
-            'Brille24SyliusCustomerOptionsPlugin:Order:editCustomerOption.html.twig',
+            '@Brille24SyliusCustomerOptionsPlugin/Order/editCustomerOption.html.twig',
             [
                 'customerOptionForm' => $orderItemForm->createView(),
                 'order'              => $order,

@@ -14,7 +14,7 @@
                 {{ form_label(form.prices) }}
             </div>
             <div class="ui content">
-                {% include 'Brille24SyliusCustomerOptionsPlugin:CustomerOption:_pricing.html.twig' with {
+                {% include '@Brille24SyliusCustomerOptionsPlugin/CustomerOption/_pricing.html.twig' with {
                     'form': form.prices
                 } %}
             </div>
