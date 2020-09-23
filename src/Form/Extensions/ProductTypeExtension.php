@@ -59,18 +59,8 @@ final class ProductTypeExtension extends AbstractTypeExtension
         );
     }
 
-    /**
-     * Returns the name of the type being extended.
-     *
-     * @return string The name of the type being extended
-     */
-    public function getExtendedType(): string
+    public static function getExtendedTypes(): iterable
     {
-        return $this->getExtendedTypes()[0];
-    }
-
-    public function getExtendedTypes(): array
-    {
-        return [ProductType::class];
+        yield ProductType::class;
     }
 }
