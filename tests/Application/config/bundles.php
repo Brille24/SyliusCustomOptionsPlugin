@@ -9,6 +9,14 @@ if(class_exists(Sonata\CoreBundle\SonataCoreBundle::class)) {
     ];
 }
 
+if(class_exists(ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle::class)) {
+    $bundles = array_merge($bundles, [
+        ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
+        Sylius\Bundle\ApiBundle\SyliusApiBundle::class => ['all' => true],
+        SyliusLabs\DoctrineMigrationsExtraBundle\SyliusLabsDoctrineMigrationsExtraBundle::class => ['all' => true],
+    ]);
+}
+
 return array_merge($bundles, [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
