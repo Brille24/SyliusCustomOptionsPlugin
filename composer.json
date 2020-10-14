@@ -6,7 +6,7 @@
     "require": {
         "php": "^7.3",
 
-        "sylius/sylius": "^1.7"
+        "sylius/sylius": "^1.8"
     },
     "require-dev": {
         "behat/behat": "^3.6.1",
@@ -42,7 +42,8 @@
         "symfony/browser-kit": "4.1.8",
         "symfony/dependency-injection": "4.1.8",
         "symfony/dom-crawler": "4.1.8",
-        "symfony/routing": "4.1.8"
+        "symfony/routing": "4.1.8",
+        "symplify/package-builder": "^8.3.17"
     },
     "prefer-stable": true,
     "autoload": {

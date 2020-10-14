@@ -15,9 +15,10 @@ namespace Brille24\SyliusCustomerOptionsPlugin\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-final class Brille24SyliusCustomerOptionsExtension extends Extension
+final class Brille24SyliusCustomerOptionsExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritdoc}
@@ -29,5 +30,24 @@ final class Brille24SyliusCustomerOptionsExtension extends Extension
         $container->setParameter('brille24.sylius_customer_options.price_import_example_file_path', $config['price_import_example_file_path']);
 
         new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/app'));
+    }
+
+    public function prepend(ContainerBuilder $container): void
+    {
+        if (!$container->hasExtension('doctrine_migrations') || !$container->hasExtension('sylius_labs_doctrine_migrations_extra')) {
+            return;
+        }
+
+        $container->prependExtensionConfig('doctrine_migrations', [
+            'migrations_paths' => [
+                'Brille24\SyliusCustomerOptionsPlugin\Migrations' => '@Brille24SyliusCustomerOptionsPlugin/Migrations',
+            ],
+        ]);
+
+        $container->prependExtensionConfig('sylius_labs_doctrine_migrations_extra', [
+            'migrations' => [
+                'Brille24\SyliusCustomerOptionsPlugin\Migrations' => ['Sylius\Bundle\CoreBundle\Migrations'],
+            ],
+        ]);
     }
 }
