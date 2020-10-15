@@ -12,12 +12,12 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20191010092726 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE brille24_customer_option (id INT AUTO_INCREMENT NOT NULL, type VARCHAR(255) NOT NULL, configuration LONGTEXT NOT NULL COMMENT \'(DC2Type:json_array)\', code VARCHAR(255) NOT NULL, required TINYINT(1) NOT NULL, UNIQUE INDEX UNIQ_1E7F7D0677153098 (code), PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
@@ -61,7 +61,7 @@ final class Version20191010092726 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_677B9B746DCF05EC ON sylius_product (customerOptionGroup_id)');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE brille24_customer_option_association DROP FOREIGN KEY FK_1AF36ED0A7C41D6F');
