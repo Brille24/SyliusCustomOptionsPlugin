@@ -27,7 +27,7 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
             return $this->channelRepository;
         });
         $channelRepository->method('findOneByCode')->willReturnCallback(function ($code) {
-            return isset($this->channelRepository[$code]) ? $this->channelRepository[$code] : null;
+            return $this->channelRepository[$code] ?? null;
         });
 
         $this->customerOptionPriceFactory = new CustomerOptionValuePriceFactory($channelRepository);
