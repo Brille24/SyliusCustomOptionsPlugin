@@ -57,11 +57,11 @@
     },
     "scripts": {
         "analyse": [
-            "vendor/bin/ecs check --ansi --no-progress-bar src/ tests/PHPUnit --config etc/coding-standard.yml",
+            "vendor/bin/ecs check --ansi --no-progress-bar src/ tests/PHPUnit --config etc/coding-standard.php",
             "vendor/bin/phpstan analyse -c phpstan.neon --no-progress -l max src/"
         ],
         "fix": [
-            "vendor/bin/ecs check --ansi --no-progress-bar src/ tests/PHPUnit --config etc/coding-standard.yml --fix"
+            "vendor/bin/ecs check --ansi --no-progress-bar src/ tests/PHPUnit --config etc/coding-standard.php --fix"
         ]
     }
 }
