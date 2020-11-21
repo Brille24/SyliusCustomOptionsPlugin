@@ -4,28 +4,27 @@ sylius:
         admin:
             main:
                 catalog:
-                    customer_options: Klant opties
-                    customer_option_groups: Klant optie groepen
+                    customer_options: Klantopties
+                    customer_option_groups: Klantoptiegroepen
                 order_item:
-                    edit: Bewerk klant opties voor bestel item
-
+                    edit: Bewerk klantopties voor artikel
 
 # Brille24
 brille24:
     ui:
-        customer_option: Klant optie
-        customer_options: Klant opties
-        customer_option_groups: Klant optie groepen
-        customer_option_group: Klant optie groep
+        customer_option: Klantoptie
+        customer_options: Klantopties
+        customer_option_groups: Klantoptiegroepen
+        customer_option_group: Klantoptiegroep
         required: Verplicht
         product_customization: Productaanpassing
-        file_content: Bestand inhoud
+        file_content: Inhoud van bestand
         pricing:
             fixed_amount: Vast bedrag
             percent: Percentage
     form:
         customer_options:
-            subheader: Beheer uw klant opties
+            subheader: Beheer uw klantopties
             type:
                 text: Tekst
                 select: Selecteer
@@ -36,28 +35,28 @@ brille24:
                 number: Nummer
                 boolean: Boolean
         customer_option_groups:
-            subheader: Beheer uw klant groep opties
+            subheader: Beheer uw klantoptiegroepen
             select: Selecteer
             buttons:
                 add_option: Voeg optie toe
                 delete_option: Verwijder optie
-                add_validator: Voeg validatie regel toe
-                delete_validator: Verwijder validatie regel
+                add_validator: Voeg validatieregel toe
+                delete_validator: Verwijder validatieregel
         customer_option_value:
             price: Prijs
         config:
             min:
                 length: Minimum lengte
-                file_size: Minimum grootte
+                file_size: Minimum bestandsgrootte
                 date: Minimum datum
                 number: Minimum nummer
             max:
                 length: Maximum lengte
-                file_size: Maximum grootte
+                file_size: Maximum bestandsgrootte
                 date: Maximum datum
                 number: Maximum nummer
-            default_value: Standaard waarde
-            allowed_types: Toegestane bestand types
+            default_value: Standaardwaarde
+            allowed_types: Toegestane bestandstypen
         validators:
             condition:
                 greater: ">"
@@ -68,11 +67,11 @@ brille24:
                 in_set: Zit in reeks
                 not_in_set: Zit niet in reeks
             fields:
-                customer_option: Klant optie
+                customer_option: Klantoptie
                 comparator: Vergelijker
                 value:
                     default: Waarde
-                    text: Tekst lengte
+                    text: Tekstlengte
                     set: Reeks
                 message: Bericht
             error_message: Foutmelding
