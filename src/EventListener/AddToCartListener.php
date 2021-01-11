@@ -88,11 +88,10 @@ final class AddToCartListener
             foreach ($valueArray as $value) {
                 // Creating the item
                 $salesOrderConfiguration = $this->orderItemOptionFactory->createNewFromStrings(
+                    $orderItem,
                     $customerOptionCode,
                     $value
                 );
-
-                $salesOrderConfiguration->setOrderItem($orderItem);
 
                 $this->entityManager->persist($salesOrderConfiguration);
 

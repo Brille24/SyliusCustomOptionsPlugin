@@ -14,13 +14,14 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Exception;
-use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
 class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, FactoryInterface
@@ -29,11 +30,6 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
      * @var FactoryInterface
      */
     private $factory;
-
-    /**
-     * @var ChannelContextInterface
-     */
-    private $channelContext;
 
     /**
      * @var CustomerOptionRepositoryInterface
@@ -47,12 +43,10 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
 
     public function __construct(
         FactoryInterface $factory,
-        ChannelContextInterface $channelContext,
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionValueResolverInterface $valueResolver
     ) {
         $this->factory                  = $factory;
-        $this->channelContext           = $channelContext;
         $this->customerOptionRepository = $customerOptionRepository;
         $this->valueResolver            = $valueResolver;
     }
@@ -64,8 +58,11 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
     }
 
     /** {@inheritdoc} */
-    public function createForOptionAndValue(CustomerOptionInterface $customerOption, $customerOptionValue): OrderItemOptionInterface
-    {
+    public function createForOptionAndValue(
+        OrderItemInterface $orderItem,
+        CustomerOptionInterface $customerOption,
+        $customerOptionValue
+    ): OrderItemOptionInterface {
         /** @var OrderItemOptionInterface $orderItemOption */
         $orderItemOption = $this->createNew();
 
@@ -73,18 +70,24 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
         $orderItemOption->setCustomerOptionValue($customerOptionValue);
 
         if ($customerOptionValue instanceof CustomerOptionValueInterface) {
+            /** @var OrderInterface $order */
+            $order = $orderItem->getOrder();
+
             /** @var ChannelInterface $channel */
-            $channel = $this->channelContext->getChannel();
+            $channel = $order->getChannel();
             $price   = $customerOptionValue->getPriceForChannel($channel);
 
             $orderItemOption->setPrice($price);
         }
+
+        $orderItemOption->setOrderItem($orderItem);
 
         return $orderItemOption;
     }
 
     /** {@inheritdoc} */
     public function createNewFromStrings(
+        OrderItemInterface $orderItem,
         string $customerOptionCode,
         string $customerOptionValue
     ): OrderItemOptionInterface {
@@ -97,6 +100,6 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
             $customerOptionValue = $this->valueResolver->resolve($customerOption, $customerOptionValue);
         }
 
-        return $this->createForOptionAndValue($customerOption, $customerOptionValue);
+        return $this->createForOptionAndValue($orderItem, $customerOption, $customerOptionValue);
     }
 }
