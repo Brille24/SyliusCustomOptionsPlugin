@@ -82,8 +82,8 @@ class OrderItemOptionFactoryTest extends TestCase
 
     public function testCreateForOptionAndValue(): void
     {
-        $order = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $this->channel]);
-        $orderItem = self::createConfiguredMock(OrderItemInterface::class, ['getOrder' => $order]);
+        $order          = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $this->channel]);
+        $orderItem      = self::createConfiguredMock(OrderItemInterface::class, ['getOrder' => $order]);
         $customerOption = self::createMock(CustomerOptionInterface::class);
         $value          = 'something';
 
@@ -102,7 +102,7 @@ class OrderItemOptionFactoryTest extends TestCase
 
     public function testCreateNewFromStringWithInvalidValue()
     {
-        $orderItem = self::createMock(OrderItemInterface::class);
+        $orderItem      = self::createMock(OrderItemInterface::class);
         $customerOption = $this->createCustomerOption('something');
         $customerOption->method('getValues')->willReturn(new ArrayCollection());
 
@@ -126,7 +126,7 @@ class OrderItemOptionFactoryTest extends TestCase
         $customerOption = $this->createCustomerOption('something');
         $customerOption->method('getValues')->willReturn(new ArrayCollection([$customerOptionValue]));
 
-        $order = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $this->channel]);
+        $order     = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $this->channel]);
         $orderItem = self::createConfiguredMock(OrderItemInterface::class, ['getOrder' => $order]);
 
         $this->addCustomerOption($customerOption);

@@ -21,6 +21,7 @@ interface OrderItemOptionFactoryInterface
     /**
      * @param CustomerOptionInterface $customerOption
      * @param mixed                   $customerOptionValue
+     * @param OrderItemInterface $orderItem
      *
      * @return OrderItemOptionInterface
      */
@@ -35,6 +36,7 @@ interface OrderItemOptionFactoryInterface
      *
      * @param string $customerOptionCode The code of teh customer option
      * @param string $customerOptionValue The code of the value if it is a select else just the value itself
+     * @param OrderItemInterface $orderItem
      *
      * @return OrderItemOptionInterface
      */
