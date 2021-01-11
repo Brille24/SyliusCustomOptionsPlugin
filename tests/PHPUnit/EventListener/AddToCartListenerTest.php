@@ -68,12 +68,15 @@ class AddToCartListenerTest extends TestCase
 
         $orderItemOptionFactory = self::createMock(OrderItemOptionFactoryInterface::class);
         $orderItemOptionFactory->method('createNewFromStrings')->willReturnCallback(
-            function ($customerOptionCode, $value) {
+            function ($orderItem, $customerOptionCode, $value) {
                 if (!array_key_exists($customerOptionCode, $this->customerOptions)) {
                     throw new \Exception('Not found');
                 }
 
-                return new OrderItemOption($this->channel, $this->customerOptions[$customerOptionCode], $value);
+                $orderItemOption = new OrderItemOption($this->channel, $this->customerOptions[$customerOptionCode], $value);
+                $orderItemOption->setOrderItem($orderItem);
+
+                return $orderItemOption;
             }
         );
 
@@ -94,7 +97,8 @@ class AddToCartListenerTest extends TestCase
     {
         $product = self::createConfiguredMock(ProductInterface::class, []);
 
-        $order     = self::createMock(OrderInterface::class);
+        $channel   = self::createMock(ChannelInterface::class);
+        $order     = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $channel]);
         $orderItem = self::createMock(OrderItemInterface::class);
         $orderItem->method('getOrder')->willReturn($hasOrder ? $order : null);
         $orderItem->method('getProduct')->willReturn($product);
