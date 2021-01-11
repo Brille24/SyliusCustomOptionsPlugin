@@ -11,6 +11,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Services\OrderItemOptionUpdaterInterfac
 use DateTime;
 use Exception;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Order\Repository\OrderItemRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -57,12 +58,13 @@ class EditCustomerOptionsAction extends AbstractController
             new ResourceControllerEvent($orderItem)
         );
 
+        /** @var OrderInterface $order */
         $order = $orderItem->getOrder();
 
         $orderItemForm = $this->createForm(
             ShopCustomerOptionType::class,
             $this->getCustomerOptionValues($orderItem),
-            ['product' => $orderItem->getProduct(), 'mapped' => true]
+            ['product' => $orderItem->getProduct(), 'channel' => $order->getChannel(), 'mapped' => true]
         );
 
         $orderItemForm->handleRequest($request);
