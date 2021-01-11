@@ -117,6 +117,7 @@ final class ShopCustomerOptionType extends AbstractType
      * @param array                   $formOptions
      * @param CustomerOptionInterface $customerOption
      * @param ProductInterface        $product
+     * @param ChannelInterface $channel
      *
      * @return array
      */
@@ -180,6 +181,7 @@ final class ShopCustomerOptionType extends AbstractType
     /**
      * @param CustomerOptionValueInterface $value
      * @param ProductInterface             $product
+     * @param ChannelInterface $channel
      *
      * @return string
      *
