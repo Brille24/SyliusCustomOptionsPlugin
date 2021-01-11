@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 
 interface OrderItemOptionFactoryInterface
@@ -23,7 +24,11 @@ interface OrderItemOptionFactoryInterface
      *
      * @return OrderItemOptionInterface
      */
-    public function createForOptionAndValue(CustomerOptionInterface $customerOption, $customerOptionValue): OrderItemOptionInterface;
+    public function createForOptionAndValue(
+        OrderItemInterface $orderItem,
+        CustomerOptionInterface $customerOption,
+        $customerOptionValue
+    ): OrderItemOptionInterface;
 
     /**
      * Creates an OrderItemOption based on the two input strings
@@ -34,6 +39,7 @@ interface OrderItemOptionFactoryInterface
      * @return OrderItemOptionInterface
      */
     public function createNewFromStrings(
+        OrderItemInterface $orderItem,
         string $customerOptionCode,
         string $customerOptionValue
     ): OrderItemOptionInterface;

@@ -32,20 +32,22 @@ class CustomerOptionValueRefresherTest extends TestCase
     /** @var int */
     private $priceUpdate;
 
+    /** @var ChannelInterface */
+    private $channel;
+
     //<editor-fold desc="Helper function for setup">
     public function setUp(): void
     {
-        $channel = self::createConfiguredMock(ChannelContextInterface::class, [
-            'getChannel' => self::createMock(ChannelInterface::class),
-        ]);
+        $this->channel = self::createMock(ChannelInterface::class);
 
-        $this->customerOptionValueRefresher = new CustomerOptionValueRefresher($channel);
+        $this->customerOptionValueRefresher = new CustomerOptionValueRefresher();
     }
 
     private function createOrder(array $orderItems): OrderInterface
     {
         $order = self::createMock(OrderInterface::class);
         $order->method('getItems')->willReturn(new ArrayCollection($orderItems));
+        $order->method('getChannel')->willReturn($this->channel);
 
         return $order;
     }
@@ -146,7 +148,8 @@ class CustomerOptionValueRefresherTest extends TestCase
         );
 
         $this->customerOptionValueRefresher->copyOverValuesForOrderItem(
-            $this->createOrderItem($orderItemOption)
+            $this->createOrderItem($orderItemOption),
+            $this->channel
         );
 
         self::assertEquals(2, $this->updateCount);

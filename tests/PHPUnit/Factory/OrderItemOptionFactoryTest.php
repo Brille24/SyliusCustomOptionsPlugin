@@ -7,6 +7,7 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Factory;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
@@ -16,8 +17,8 @@ use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInte
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
-use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
 class OrderItemOptionFactoryTest extends TestCase
@@ -37,7 +38,6 @@ class OrderItemOptionFactoryTest extends TestCase
         $baseFactory->method('createNew')->willReturn(new OrderItemOption());
 
         $this->channel      = self::createMock(ChannelInterface::class);
-        $chanelProvider     = self::createConfiguredMock(ChannelContextInterface::class, ['getChannel' => $this->channel]);
 
         $customerOptionRepo = self::createMock(CustomerOptionRepositoryInterface::class);
         $customerOptionRepo->method('findOneByCode')->willReturnCallback(function (string $code) {
@@ -63,7 +63,7 @@ class OrderItemOptionFactoryTest extends TestCase
 
         $baseFactory->method('createNew')->willReturn(self::createMock(OrderItemOptionInterface::class));
 
-        $this->orderItemOptionFactory = new OrderItemOptionFactory($baseFactory, $chanelProvider, $customerOptionRepo, $valueResolver);
+        $this->orderItemOptionFactory = new OrderItemOptionFactory($baseFactory, $customerOptionRepo, $valueResolver);
     }
 
     private function addCustomerOption(CustomerOptionInterface $customerOption)
@@ -82,29 +82,33 @@ class OrderItemOptionFactoryTest extends TestCase
 
     public function testCreateForOptionAndValue(): void
     {
+        $order = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $this->channel]);
+        $orderItem = self::createConfiguredMock(OrderItemInterface::class, ['getOrder' => $order]);
         $customerOption = self::createMock(CustomerOptionInterface::class);
         $value          = 'something';
 
-        $orderItemOption = $this->orderItemOptionFactory->createForOptionAndValue($customerOption, $value);
+        $orderItemOption = $this->orderItemOptionFactory->createForOptionAndValue($orderItem, $customerOption, $value);
         $this->assertInstanceOf(OrderItemOptionInterface::class, $orderItemOption);
     }
 
     public function testCreateNewFromStringsWithInvalidCustomerOptionCode()
     {
+        $orderItem = self::createMock(OrderItemInterface::class);
         self::expectException(\Exception::class);
         self::expectExceptionMessage('Could not find customer option with code');
 
-        $this->orderItemOptionFactory->createNewFromStrings('something', 'value');
+        $this->orderItemOptionFactory->createNewFromStrings($orderItem, 'something', 'value');
     }
 
     public function testCreateNewFromStringWithInvalidValue()
     {
+        $orderItem = self::createMock(OrderItemInterface::class);
         $customerOption = $this->createCustomerOption('something');
         $customerOption->method('getValues')->willReturn(new ArrayCollection());
 
         $this->addCustomerOption($customerOption);
 
-        $customerOption = $this->orderItemOptionFactory->createNewFromStrings('something', 'value');
+        $customerOption = $this->orderItemOptionFactory->createNewFromStrings($orderItem, 'something', 'value');
 
         self::assertNull($customerOption->getCustomerOptionValue());
         self::assertNull($customerOption->getCustomerOptionValueCode());
@@ -122,9 +126,12 @@ class OrderItemOptionFactoryTest extends TestCase
         $customerOption = $this->createCustomerOption('something');
         $customerOption->method('getValues')->willReturn(new ArrayCollection([$customerOptionValue]));
 
+        $order = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $this->channel]);
+        $orderItem = self::createConfiguredMock(OrderItemInterface::class, ['getOrder' => $order]);
+
         $this->addCustomerOption($customerOption);
 
-        $orderItemOption = $this->orderItemOptionFactory->createNewFromStrings('something', 'value');
+        $orderItemOption = $this->orderItemOptionFactory->createNewFromStrings($orderItem, 'something', 'value');
 
         self::assertEquals($customerOptionValue, $orderItemOption->getCustomerOptionValue());
         self::assertEquals($customerOptionValue->getCode(), $orderItemOption->getCustomerOptionValueCode());

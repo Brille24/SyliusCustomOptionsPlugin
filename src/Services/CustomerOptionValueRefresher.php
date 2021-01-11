@@ -5,21 +5,13 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
-use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Webmozart\Assert\Assert;
 
 final class CustomerOptionValueRefresher implements OrderProcessorInterface
 {
-    /** @var ChannelContextInterface */
-    private $channelContext;
-
-    public function __construct(ChannelContextInterface $channelContext)
-    {
-        $this->channelContext = $channelContext;
-    }
-
     /**
      * {@inheritdoc}
      *
@@ -32,12 +24,13 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
                 continue;
             }
 
-            $this->copyOverValuesForOrderItem($orderItem);
+            /** @var \Sylius\Component\Core\Model\OrderInterface $order */
+            $this->copyOverValuesForOrderItem($orderItem, $order->getChannel());
         }
     }
 
     /** {@inheritdoc} */
-    public function copyOverValuesForOrderItem(OrderItemInterface $orderItem): void
+    public function copyOverValuesForOrderItem(OrderItemInterface $orderItem, ChannelInterface $channel): void
     {
         $orderItemOptions = $orderItem->getCustomerOptionConfiguration();
         foreach ($orderItemOptions as $orderItemOption) {
@@ -51,7 +44,7 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
             // values on the entity so that if the reference changes the values stay the same
             $orderItemOption->setCustomerOptionValue($customerOptionValue);
 
-            $price = $customerOptionValue->getPriceForChannel($this->channelContext->getChannel());
+            $price = $customerOptionValue->getPriceForChannel($channel);
             Assert::notNull($price);
 
             // Same here: Copy the price onto the customer option to be independent of the customer option value object.
