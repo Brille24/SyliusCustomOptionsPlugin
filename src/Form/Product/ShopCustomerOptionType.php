@@ -20,6 +20,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Services\ConstraintCreator;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
@@ -59,6 +60,7 @@ final class ShopCustomerOptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $product = $options['product'];
+        $channel = $options['channel'];
 
         if (!$product instanceof ProductInterface) {
             return;
@@ -73,7 +75,7 @@ final class ShopCustomerOptionType extends AbstractType
 
             [$class, $formOptions] = CustomerOptionTypeEnum::getFormTypeArray()[$customerOptionType];
 
-            $fieldConfig           = $this->getFormConfiguration($formOptions, $customerOption, $product);
+            $fieldConfig           = $this->getFormConfiguration($formOptions, $customerOption, $product, $channel);
             $fieldConfig['mapped'] = $options['mapped'];
 
             $builder->add($fieldName, $class, $fieldConfig);
@@ -97,9 +99,11 @@ final class ShopCustomerOptionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefined(['product'])
+            ->setDefined(['product', 'channel'])
             ->setAllowedTypes('product', ProductInterface::class)
-            ->setDefault('mapped', false);
+            ->setDefault('mapped', false)
+            ->setDefault('channel', $this->channelContext->getChannel())
+        ;
     }
 
     public function getBlockPrefix(): string
@@ -119,7 +123,8 @@ final class ShopCustomerOptionType extends AbstractType
     private function getFormConfiguration(
         array $formOptions,
         CustomerOptionInterface $customerOption,
-        ProductInterface $product
+        ProductInterface $product,
+        ChannelInterface $channel
     ): array {
         $defaultOptions = [
             'label'    => $customerOption->getName(),
@@ -133,8 +138,8 @@ final class ShopCustomerOptionType extends AbstractType
         if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
             $configuration = [
                 'choices'      => $customerOption->getValues()->toArray(),
-                'choice_label' => function (CustomerOptionValueInterface $value) use ($product): string {
-                    return $this->buildValueString($value, $product);
+                'choice_label' => function (CustomerOptionValueInterface $value) use ($product, $channel): string {
+                    return $this->buildValueString($value, $product, $channel);
                 },
                 'choice_value' => 'code',
             ];
@@ -180,8 +185,11 @@ final class ShopCustomerOptionType extends AbstractType
      *
      * @throws \Exception
      */
-    private function buildValueString(CustomerOptionValueInterface $value, ProductInterface $product)
-    {
+    private function buildValueString(
+        CustomerOptionValueInterface $value,
+        ProductInterface $product,
+        ChannelInterface $channel
+    ) {
         /** @var CustomerOptionValuePriceInterface $price */
         $price = null;
 
@@ -189,7 +197,7 @@ final class ShopCustomerOptionType extends AbstractType
         foreach ($product->getCustomerOptionValuePrices() as $productPrice) {
             if (
                 $productPrice->getCustomerOptionValue() === $value
-                && $productPrice->getChannel() === $this->channelContext->getChannel()
+                && $productPrice->getChannel() === $channel
             ) {
                 $price = $productPrice;
 
@@ -197,9 +205,7 @@ final class ShopCustomerOptionType extends AbstractType
             }
         }
 
-        /** @var ChannelInterface $channel */
-        $channel = $this->channelContext->getChannel();
-        $price   = $price ?? $value->getPriceForChannel($channel);
+        $price = $price ?? $value->getPriceForChannel($channel);
 
         // No price was found for the current channel, probably because the values weren't updated after adding a new channel
         if ($price === null) {
@@ -207,7 +213,7 @@ final class ShopCustomerOptionType extends AbstractType
                 sprintf(
                     'CustomerOptionValue (%s) has no price defined for Channel (%s)',
                     $value->getCode(),
-                    $this->channelContext->getChannel()->getCode()
+                    $channel->getCode()
                 )
             );
         }
