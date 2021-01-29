@@ -58,16 +58,18 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
     protected function buildCsv(array $errors): string
     {
         // Build csv to attach to the email
-        $csvHeader = ['Line', 'Error'];
-        foreach (array_keys(current($errors)['data']) as $key) {
+        $csvHeader = ['Error'];
+        foreach (array_keys(current(current($errors))['data']) as $key) {
             $csvHeader[] = $key;
         }
         $csvData = [
             implode(',', $csvHeader),
         ];
 
-        foreach ($errors as $line => $error) {
-            $csvData[] = sprintf('%s,%s,%s', $line, $error['message'], implode(',', $error['data']));
+        foreach ($errors as $productCode => $productErrors) {
+            foreach ($productErrors as $error) {
+                $csvData[] = sprintf('"%s",%s', $error['message'], implode(',', $error['data']));
+            }
         }
 
         /** @var string $tmpPath */

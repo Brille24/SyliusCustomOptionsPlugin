@@ -14,7 +14,7 @@
         <thead style="background-color: lightgrey">
         <tr>
             <th>Error</th>
-            {% for field, value in (failed|first).data %}
+            {% for field, value in errors|first|first.data %}
                 <th>{{ field }}</th>
             {% endfor %}
         </tr>

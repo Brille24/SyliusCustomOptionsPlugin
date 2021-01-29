@@ -88,8 +88,8 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
             $customerOptionValueCode = $datum['customer_option_value_code'];
             $channelCode             = $datum['channel_code'];
             $type                    = $datum['type'];
-            $amount                  = $datum['amount'];
-            $percent                 = $datum['percent'];
+            $amount                  = (int) $datum['amount'];
+            $percent                 = (float) $datum['percent'];
 
             try {
                 $product = $this->getProduct($productCode);
