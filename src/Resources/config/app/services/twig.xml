@@ -1,0 +1,10 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Twig\CustomerOptionInUseFunction"
+                 id="brille24.sylius_customer_options_plugin.twig.customer_option_in_use_function">
+            <argument type="service" id="brille24.repository.order_item_option" />
+
+            <tag name="twig.extension" />
+        </service>
+    </services>
+</container>
