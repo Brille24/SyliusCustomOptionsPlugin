@@ -2,7 +2,7 @@
 
 {% set path = options.link.url|default(path(options.link.route|default(grid.requestConfiguration.getRouteName('delete')), options.link.parameters|default({'id': data.id}))) %}
 
-{% if data.orders|length != null %}
+{% if customer_option_in_use(data) %}
     <div title="{{ 'brille24.grid.delete_not_allowed'|trans }}">
         {{ buttons.default(path, action.label, data.id, "delete", "disabled") }}
     </div>
