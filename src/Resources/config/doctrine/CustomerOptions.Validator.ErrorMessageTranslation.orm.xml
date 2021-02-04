@@ -1,10 +1,5 @@
-<doctrine-mapping
-        xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
-                            http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
->
-    <entity
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <mapped-superclass
             name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessageTranslation"
             table="brille24_validator_error_message_translation"
     >
@@ -19,5 +14,5 @@
         >
             <join-column on-delete="CASCADE" />
         </many-to-one>
-    </entity>
+    </mapped-superclass>
 </doctrine-mapping>

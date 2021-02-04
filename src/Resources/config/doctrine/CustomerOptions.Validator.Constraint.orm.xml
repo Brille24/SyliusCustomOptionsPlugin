@@ -1,5 +1,5 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
-    <entity
+    <mapped-superclass
             name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint"
             table="brille24_customer_option_group_validator_constraint"
     >
@@ -28,5 +28,5 @@
         >
             <join-column on-delete="SET NULL" />
         </many-to-one>
-    </entity>
+    </mapped-superclass>
 </doctrine-mapping>
