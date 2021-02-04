@@ -2,4 +2,3 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en_US
-    kernel.default_locale: en_US
