@@ -144,26 +144,27 @@ final class ShopCustomerOptionType extends AbstractType
                 },
                 'choice_value' => 'code',
             ];
-        } else {
-            $constraint = ConstraintCreator::createFromConfiguration(
-                $customerOptionType,
-                $customerOption->getConfiguration()
-            );
-
-            if ($constraint !== null) {
-                $constraint->groups = ['sylius'];
-                $configuration      = ['constraints' => [$constraint]];
-            }
-
-            if ($customerOption->isRequired()) {
-                /** @var NotBlank $requiredConstraint */
-                $requiredConstraint          = ConstraintCreator::createRequiredConstraint();
-                $requiredConstraint->message = 'brille24.form.customer_options.required';
-
-                $requiredConstraint->groups     = ['sylius'];
-                $configuration['constraints'][] = $requiredConstraint;
-            }
         }
+
+        $constraint = ConstraintCreator::createFromConfiguration(
+            $customerOptionType,
+            $customerOption->getConfiguration()
+        );
+
+        if ($constraint !== null) {
+            $constraint->groups = ['sylius'];
+            $configuration      = ['constraints' => [$constraint]];
+        }
+
+        if ($customerOption->isRequired()) {
+            /** @var NotBlank $requiredConstraint */
+            $requiredConstraint          = ConstraintCreator::createRequiredConstraint();
+            $requiredConstraint->message = 'brille24.form.customer_options.required';
+
+            $requiredConstraint->groups     = ['sylius'];
+            $configuration['constraints'][] = $requiredConstraint;
+        }
+
 
         if ($customerOptionType === CustomerOptionTypeEnum::FILE) {
             /*
