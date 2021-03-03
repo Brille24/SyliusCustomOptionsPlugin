@@ -165,7 +165,6 @@ final class ShopCustomerOptionType extends AbstractType
             $configuration['constraints'][] = $requiredConstraint;
         }
 
-
         if ($customerOptionType === CustomerOptionTypeEnum::FILE) {
             /*
              * Here we give the Customer Option File Type a special block name to override it in a form theme.

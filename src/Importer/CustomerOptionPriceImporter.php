@@ -8,7 +8,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRangeInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConstraintViolationException;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Object\PriceImportResult;
@@ -36,22 +35,22 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
     protected $products = [];
 
     /** @var ValidatorInterface */
-    private $validator;
+    protected $validator;
 
     /** @var CustomerOptionRepositoryInterface */
-    private $customerOptionRepository;
+    protected $customerOptionRepository;
 
     /** @var CustomerOptionValueRepositoryInterface */
-    private $customerOptionValueRepository;
+    protected $customerOptionValueRepository;
 
     /** @var ChannelRepositoryInterface */
-    private $channelRepository;
+    protected $channelRepository;
 
     /** @var RepositoryInterface */
-    private $customerOptionValuePriceRepository;
+    protected $customerOptionValuePriceRepository;
 
     /** @var CustomerOptionValuePriceFactoryInterface */
-    private $customerOptionValuePriceFactory;
+    protected $customerOptionValuePriceFactory;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -73,7 +72,6 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
         $this->customerOptionValuePriceFactory    = $customerOptionValuePriceFactory;
     }
 
-    /** {@inheritdoc} */
     public function import(array $data): PriceImportResult
     {
         // Handle update
@@ -81,50 +79,10 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
         $failed = 0;
         $errors = [];
         foreach ($data as $datum) {
-            $productCode             = $datum['product_code'];
-            $validFrom               = $datum['valid_from'];
-            $validTo                 = $datum['valid_to'];
-            $customerOptionCode      = $datum['customer_option_code'];
-            $customerOptionValueCode = $datum['customer_option_value_code'];
-            $channelCode             = $datum['channel_code'];
-            $type                    = $datum['type'];
-            $amount                  = (int) $datum['amount'];
-            $percent                 = (float) $datum['percent'];
+            $productCode = $datum['product_code'];
 
             try {
-                $product = $this->getProduct($productCode);
-                Assert::isInstanceOf(
-                    $product,
-                    ProductInterface::class,
-                    sprintf('Product with code "%s" not found', $productCode)
-                );
-
-                // Build the date range object
-                $dateRange = null;
-                if (null !== $validFrom && null !== $validTo) {
-                    $validFrom = new \DateTime($validFrom);
-                    $validTo   = new \DateTime($validTo);
-                    $dateRange = new DateRange($validFrom, $validTo);
-                }
-
-                $price = $this->getPrice($customerOptionCode, $customerOptionValueCode, $channelCode, $product, $dateRange);
-
-                $price->setDateValid($dateRange);
-                $price->setType($type);
-                $price->setAmount($amount);
-                $price->setPercent($percent);
-
-                // Add the value price to the product so we can use it in the validation.
-                $product->addCustomerOptionValuePrice($price);
-
-                $violations = $this->validator->validate($product, null, 'sylius');
-                if (count($violations) > 0) {
-                    $product->removeCustomerOptionValuePrice($price);
-
-                    throw new ConstraintViolationException($violations);
-                }
-
-                $this->entityManager->persist($price);
+                $this->importRow($datum, $productCode);
 
                 if (++$i % self::BATCH_SIZE === 0) {
                     $this->entityManager->flush();
@@ -147,12 +105,81 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
         return new PriceImportResult($i, $failed, $errors);
     }
 
-    /**
-     * @param string $code
-     *
-     * @return ProductInterface|null
-     */
-    private function getProduct(string $code): ?ProductInterface
+    protected function importRow(array $datum, string $productCode): void
+    {
+        $id                      = $datum['id'];
+        $validFrom               = $datum['valid_from'];
+        $validTo                 = $datum['valid_to'];
+        $customerOptionCode      = $datum['customer_option_code'];
+        $customerOptionValueCode = $datum['customer_option_value_code'];
+        $channelCode             = $datum['channel_code'];
+        $type                    = $datum['type'];
+        $amount                  = (int) $datum['amount'];
+        $percent                 = (float) $datum['percent'];
+        $delete                  = filter_var($datum['delete'], FILTER_VALIDATE_BOOL);
+
+        $product = $this->getProduct($productCode);
+        Assert::isInstanceOf(
+            $product,
+            ProductInterface::class,
+            sprintf('Product with code "%s" not found', $productCode)
+        );
+
+        $price = null;
+        if (null !== $id) {
+            $price = $this->customerOptionValuePriceRepository->find($id);
+
+            Assert::isInstanceOf(
+                $price,
+                CustomerOptionValuePriceInterface::class,
+                sprintf('Value price with id "%s" not found', $id)
+            );
+        }
+
+        // Handle deletion of prices
+        if (null !== $price && $delete) {
+            $product->removeCustomerOptionValuePrice($price);
+            $this->entityManager->persist($product);
+
+            return;
+        }
+
+        // Build the date range object
+        $dateRange = null;
+        if (null !== $validFrom && null !== $validTo) {
+            $validFrom = new \DateTime($validFrom);
+            $validTo   = new \DateTime($validTo);
+            $dateRange = new DateRange($validFrom, $validTo);
+        }
+
+        if (null === $price) {
+            $price = $this->createNewPrice(
+                $customerOptionCode,
+                $customerOptionValueCode,
+                $channelCode,
+                $product
+            );
+        }
+
+        $price->setDateValid($dateRange);
+        $price->setType($type);
+        $price->setAmount($amount);
+        $price->setPercent($percent);
+
+        // Add the value price to the product so we can use it in the validation.
+        $product->addCustomerOptionValuePrice($price);
+
+        $violations = $this->validator->validate($product, null, 'sylius');
+        if (count($violations) > 0) {
+            $product->removeCustomerOptionValuePrice($price);
+
+            throw new ConstraintViolationException($violations);
+        }
+
+        $this->entityManager->persist($price);
+    }
+
+    protected function getProduct(string $code): ?ProductInterface
     {
         if (!isset($this->products[$code])) {
             $this->products[$code] = $this->productRepository->findOneByCode($code);
@@ -161,21 +188,11 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
         return $this->products[$code];
     }
 
-    /**
-     * @param string $customerOptionCode
-     * @param string $customerOptionValueCode
-     * @param string $channelCode
-     * @param ProductInterface $product
-     * @param DateRangeInterface|null $dateRange
-     *
-     * @return CustomerOptionValuePriceInterface
-     */
-    private function getPrice(
+    protected function createNewPrice(
         string $customerOptionCode,
         string $customerOptionValueCode,
         string $channelCode,
-        ProductInterface $product,
-        ?DateRangeInterface $dateRange
+        ProductInterface $product
     ): CustomerOptionValuePriceInterface {
         $customerOption = $this->customerOptionRepository->findOneByCode($customerOptionCode);
 
@@ -199,40 +216,13 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
             sprintf('Channel with code "%s" not found', $channelCode)
         );
 
-        // Try to find an existing price
-        /** @var CustomerOptionValuePriceInterface[] $prices */
-        $prices = $this->customerOptionValuePriceRepository->findBy([
-            'customerOptionValue' => $customerOptionValue,
-            'channel'             => $channel,
-            'product'             => $product,
-        ]);
+        // Create new price
+        /** @var CustomerOptionValuePriceInterface $valuePrice */
+        $valuePrice = $this->customerOptionValuePriceFactory->createNew();
 
-        $valuePrice = null;
-        foreach ($prices as $price) {
-            $dateValid = $price->getDateValid();
-
-            if ($dateRange === $dateValid) {
-                $valuePrice = $price;
-            }
-
-            if (null !== $dateValid && null !== $dateRange && $dateValid->equals($dateRange)) {
-                $valuePrice = $price;
-            }
-        }
-
-        // If no price exists, create a new one
-        if (null === $valuePrice) {
-            // Create new price
-            /** @var CustomerOptionValuePriceInterface $valuePrice */
-            $valuePrice = $this->customerOptionValuePriceFactory->createNew();
-
-            $valuePrice->setCustomerOptionValue($customerOptionValue);
-            $valuePrice->setChannel($channel);
-
-            if (null !== $product) {
-                $valuePrice->setProduct($product);
-            }
-        }
+        $valuePrice->setCustomerOptionValue($customerOptionValue);
+        $valuePrice->setChannel($channel);
+        $valuePrice->setProduct($product);
 
         return $valuePrice;
     }

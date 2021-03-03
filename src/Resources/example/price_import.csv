@@ -1,3 +1,4 @@
-product_code,customer_option_code,customer_option_value_code,channel_code,type,amount,percent,valid_from,valid_to
-tshirt_abc,color,red,US_WEB,FIXED_AMOUNT,1500,0,2020-01-01,2020-02-31
-mug_def,material,metal,DE_WEB,PERCENT,0,0.1,,
+id,product_code,customer_option_code,customer_option_value_code,channel_code,type,amount,percent,valid_from,valid_to,delete
+,tshirt_abc,color,red,US_WEB,FIXED_AMOUNT,1500,0,2020-01-01,2020-02-31,0
+1,mug_def,material,metal,DE_WEB,PERCENT,0,0.1,,,0
+2,pants_ghi,,,,,,,,,1

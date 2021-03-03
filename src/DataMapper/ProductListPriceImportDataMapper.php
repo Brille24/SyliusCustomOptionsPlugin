@@ -16,6 +16,7 @@ class ProductListPriceImportDataMapper implements DataMapperInterface
     /** {@inheritdoc} */
     public function mapFormsToData($forms, &$viewData): void
     {
+        /** @var \Traversable $forms */
         $formData = iterator_to_array($forms);
 
         if (!array_key_exists('customer_option_value_price', $formData) || !array_key_exists('products', $formData)) {
