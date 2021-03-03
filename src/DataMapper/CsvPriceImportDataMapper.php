@@ -25,6 +25,7 @@ class CsvPriceImportDataMapper implements DataMapperInterface
     /** {@inheritdoc} */
     public function mapFormsToData($forms, &$viewData): void
     {
+        /** @var \Traversable $forms */
         $formData = iterator_to_array($forms);
         $viewData = $this->csvReader->readCsv($formData['file']->getData()->getRealPath());
     }

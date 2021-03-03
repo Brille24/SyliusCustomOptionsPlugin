@@ -54,14 +54,13 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
             $customerOptionValuePriceFactory
         );
 
-        $productRepository->findOneByCode('first_product')->shouldBeCalled()->willReturn($firstProduct);
-        $productRepository->findOneByCode('second_product')->shouldBeCalled()->willReturn($secondProduct);
-        $customerOptionRepository->findOneByCode('some_option')->shouldBeCalled()->willReturn($customerOption);
-        $customerOptionValueRepository->findOneBy(['code' => 'some_value', 'customerOption' => $customerOption])->shouldBeCalled()->willReturn($someValue);
-        $customerOptionValueRepository->findOneBy(['code' => 'other_value', 'customerOption' => $customerOption])->shouldBeCalled()->willReturn($otherValue);
-        $channelRepository->findOneByCode('some_channel')->shouldBeCalled()->willReturn($someChannel);
-        $channelRepository->findOneByCode('other_channel')->shouldBeCalled()->willReturn($otherChannel);
-        $customerOptionValuePriceRepository->findBy(Argument::type('array'))->shouldBeCalled()->willReturn([]);
+        $productRepository->findOneByCode('first_product')->willReturn($firstProduct);
+        $productRepository->findOneByCode('second_product')->willReturn($secondProduct);
+        $customerOptionRepository->findOneByCode('some_option')->willReturn($customerOption);
+        $customerOptionValueRepository->findOneBy(['code' => 'some_value', 'customerOption' => $customerOption])->willReturn($someValue);
+        $customerOptionValueRepository->findOneBy(['code' => 'other_value', 'customerOption' => $customerOption])->willReturn($otherValue);
+        $channelRepository->findOneByCode('some_channel')->willReturn($someChannel);
+        $channelRepository->findOneByCode('other_channel')->willReturn($otherChannel);
     }
 
     public function it_creates_new_prices(
@@ -79,7 +78,7 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
         $validator->validate(Argument::type(ProductInterface::class), null, 'sylius')->shouldBeCalledTimes(3)->willReturn($violationList);
         $violationList->count()->shouldBeCalledTimes(3)->willReturn(0);
 
-        $this->import($this->getData())->shouldBeLike(new PriceImportResult(3, 0, []));
+        $this->import($this->getCreateData())->shouldBeLike(new PriceImportResult(3, 0, []));
     }
 
     public function it_updates_existing_prices(
@@ -92,15 +91,33 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
     ): void {
         $customerOptionValuePriceFactory->createNew()->shouldNotBeCalled();
 
-        $customerOptionValuePriceRepository->findBy(Argument::type('array'))->shouldBeCalledTimes(3)->willReturn([$valuePrice]);
+        $customerOptionValuePriceRepository->find(10)->shouldBeCalledOnce()->willReturn($valuePrice);
 
-        $entityManager->persist(Argument::type(CustomerOptionValuePriceInterface::class))->shouldBeCalledTimes(3);
+        $entityManager->persist(Argument::type(CustomerOptionValuePriceInterface::class))->shouldBeCalledOnce();
         $entityManager->flush()->shouldBeCalled();
 
-        $validator->validate(Argument::type(ProductInterface::class), null, 'sylius')->shouldBeCalledTimes(3)->willReturn($violationList);
-        $violationList->count()->shouldBeCalledTimes(3)->willReturn(0);
+        $validator->validate(Argument::type(ProductInterface::class), null, 'sylius')->shouldBeCalledOnce()->willReturn($violationList);
+        $violationList->count()->shouldBeCalledOnce()->willReturn(0);
 
-        $this->import($this->getData())->shouldBeLike(new PriceImportResult(3, 0, []));
+        $this->import($this->getUpdateData())->shouldBeLike(new PriceImportResult(1, 0, []));
+    }
+
+    public function it_deletes_existing_prices(
+        EntityManagerInterface $entityManager,
+        RepositoryInterface $customerOptionValuePriceRepository,
+        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
+        CustomerOptionValuePriceInterface $valuePrice,
+        ProductInterface $firstProduct
+    ): void {
+        $customerOptionValuePriceFactory->createNew()->shouldNotBeCalled();
+
+        $customerOptionValuePriceRepository->find(10)->shouldBeCalledOnce()->willReturn($valuePrice);
+
+        $firstProduct->removeCustomerOptionValuePrice($valuePrice)->shouldBeCalledOnce();
+        $entityManager->persist($firstProduct)->shouldBeCalledOnce();
+        $entityManager->flush()->shouldBeCalled();
+
+        $this->import($this->getDeleteData())->shouldBeLike(new PriceImportResult(1, 0, []));
     }
 
     public function it_returns_import_errors(
@@ -109,11 +126,18 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
         CustomerOptionValuePriceInterface $valuePrice,
         ValidatorInterface $validator,
-        ConstraintViolationListInterface $violationList
+        ConstraintViolationListInterface $violationList,
+        ProductInterface $firstProduct,
+        ProductInterface $secondProduct
     ): void {
-        $customerOptionValuePriceFactory->createNew()->shouldNotBeCalled();
+        $customerOptionValuePriceRepository->find(Argument::any())->shouldNotBeCalled();
+        $customerOptionValuePriceFactory->createNew()->shouldBeCalledTimes(3)->willReturn($valuePrice);
 
-        $customerOptionValuePriceRepository->findBy(Argument::type('array'))->shouldBeCalledTimes(3)->willReturn([$valuePrice]);
+        $firstProduct->addCustomerOptionValuePrice($valuePrice)->shouldBeCalledTimes(2);
+        $secondProduct->addCustomerOptionValuePrice($valuePrice)->shouldBeCalledOnce();
+
+        $firstProduct->removeCustomerOptionValuePrice($valuePrice)->shouldBeCalledTimes(2);
+        $secondProduct->removeCustomerOptionValuePrice($valuePrice)->shouldBeCalledOnce();
 
         $entityManager->persist(Argument::type(CustomerOptionValuePriceInterface::class))->shouldNotBeCalled();
         $entityManager->flush()->shouldBeCalled();
@@ -125,29 +149,30 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
             'first_product' => [
                 [
                     'violations' => $violationList->getWrappedObject(),
-                    'data'       => $this->getData()[0],
+                    'data'       => $this->getCreateData()[0],
                     'message'    => '',
                 ],
                 [
                     'violations' => $violationList->getWrappedObject(),
-                    'data'       => $this->getData()[2],
+                    'data'       => $this->getCreateData()[2],
                     'message'    => '',
                 ]
             ],
             'second_product' => [[
                 'violations' => $violationList->getWrappedObject(),
-                'data'       => $this->getData()[1],
+                'data'       => $this->getCreateData()[1],
                 'message'    => '',
             ]],
         ]);
 
-        $this->import($this->getData())->shouldBeLike($expected);
+        $this->import($this->getCreateData())->shouldBeLike($expected);
     }
 
-    private function getData(): array
+    private function getCreateData(): array
     {
         return [
             [
+                'id'                         => null,
                 'product_code'               => 'first_product',
                 'customer_option_code'       => 'some_option',
                 'customer_option_value_code' => 'some_value',
@@ -157,8 +182,10 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
                 'type'                       => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
                 'amount'                     => 100,
                 'percent'                    => 0.0,
+                'delete'                     => 0,
             ],
             [
+                'id'                         => null,
                 'product_code'               => 'second_product',
                 'customer_option_code'       => 'some_option',
                 'customer_option_value_code' => 'other_value',
@@ -168,8 +195,10 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
                 'type'                       => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
                 'amount'                     => 100,
                 'percent'                    => 0.0,
+                'delete'                     => 0,
             ],
             [
+                'id'                         => null,
                 'product_code'               => 'first_product',
                 'customer_option_code'       => 'some_option',
                 'customer_option_value_code' => 'some_value',
@@ -179,6 +208,45 @@ class CustomerOptionPriceImporterSpec extends ObjectBehavior
                 'type'                       => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
                 'amount'                     => 100,
                 'percent'                    => 0.0,
+                'delete'                     => 0,
+            ],
+        ];
+    }
+
+    private function getUpdateData(): array
+    {
+        return [
+            [
+                'id'                         => 10,
+                'product_code'               => 'first_product',
+                'customer_option_code'       => 'some_option',
+                'customer_option_value_code' => 'some_value',
+                'channel_code'               => 'some_channel',
+                'valid_from'                 => null,
+                'valid_to'                   => null,
+                'type'                       => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
+                'amount'                     => 100,
+                'percent'                    => 0.0,
+                'delete'                     => 0,
+            ],
+        ];
+    }
+
+    private function getDeleteData(): array
+    {
+        return [
+            [
+                'id'                         => 10,
+                'product_code'               => 'first_product',
+                'customer_option_code'       => null,
+                'customer_option_value_code' => null,
+                'channel_code'               => null,
+                'valid_from'                 => null,
+                'valid_to'                   => null,
+                'type'                       => null,
+                'amount'                     => null,
+                'percent'                    => null,
+                'delete'                     => 1,
             ],
         ];
     }
