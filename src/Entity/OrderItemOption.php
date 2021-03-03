@@ -16,6 +16,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionIn
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Webmozart\Assert\Assert;
 
 class OrderItemOption implements OrderItemOptionInterface
@@ -58,6 +59,9 @@ class OrderItemOption implements OrderItemOptionInterface
 
     /** @var float */
     private $percent = 0;
+
+    /** @var FileContent */
+    private $fileContent;
 
     /** {@inheritdoc} */
     public function getId(): ?int
@@ -145,6 +149,16 @@ class OrderItemOption implements OrderItemOptionInterface
      */
     public function setCustomerOptionValue($value): void
     {
+        if ($this->customerOptionType === CustomerOptionTypeEnum::FILE) {
+            $this->optionValue         = 'file-content';
+            $this->customerOptionValue = null;
+            $this->fileContent         = new FileContent($value);
+
+            return;
+        }
+
+        $this->fileContent = null;
+
         if (is_scalar($value)) {
             $this->optionValue          = (string) $value;
             $this->customerOptionValue  = null;
@@ -260,11 +274,16 @@ class OrderItemOption implements OrderItemOptionInterface
     /** {@inheritdoc} */
     public function getScalarValue()
     {
-        if (null !== $this->optionValue) {
-            return $this->optionValue;
+        if ($this->fileContent instanceof FileContent) {
+            return $this->fileContent->getContent();
         }
 
-        return $this->customerOptionValueCode;
+        return $this->optionValue ?? $this->customerOptionValueCode;
+    }
+
+    public function getFileContent(): ?FileContent
+    {
+        return $this->fileContent;
     }
 
     public function getCalculatedPrice(int $basePrice): int

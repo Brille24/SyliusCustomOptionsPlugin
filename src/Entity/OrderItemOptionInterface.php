@@ -167,4 +167,6 @@ interface OrderItemOptionInterface extends ResourceInterface
      * @return bool
      */
     public function equals(self $orderItemOption): bool;
+
+    public function getFileContent(): ?FileContent;
 }

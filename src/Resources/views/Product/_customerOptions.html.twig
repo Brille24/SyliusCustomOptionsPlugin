@@ -7,7 +7,7 @@
             <div class="item" data-sylius-option-name="{{ orderItemOption.customerOptionCode }}">
                 {{ orderItemOption.customerOptionName }}:
                 {% if(orderItemOption.customerOptionType == 'file') %}
-                    <a href="{{ orderItemOption.customerOptionValueName }}" download>
+                    <a href="{{ orderItemOption.fileContent }}" download>
                         {% if 'image' in orderItemOption.customerOptionValueName %}
                             <img src="{{ orderItemOption.customerOptionValueName }}" style="max-width: 200px" />
                         {% else %}
