@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRangeInterface;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatter;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -42,46 +42,39 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     /** @var ChannelInterface */
     private $channel;
 
-    /** @var DateRange|null */
+    /** @var DateRangeInterface|null */
     private $dateValid;
 
-    /** {@inheritdoc} */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /** {@inheritdoc} */
     public function getPercent(): float
     {
         return $this->percent;
     }
 
-    /** {@inheritdoc} */
     public function setPercent(float $percent): void
     {
         $this->percent = $percent;
     }
 
-    /** {@inheritdoc} */
     public function getAmount(): int
     {
         return $this->amount;
     }
 
-    /** {@inheritdoc} */
     public function setAmount(int $amount): void
     {
         $this->amount = $amount;
     }
 
-    /** {@inheritdoc} */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /** {@inheritdoc} */
     public function setType(string $type): void
     {
         $allTypes = self::getAllTypes();
@@ -93,7 +86,6 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         }
     }
 
-    /** {@inheritdoc} */
     public static function getAllTypes(): array
     {
         return [
@@ -102,25 +94,21 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         ];
     }
 
-    /** {@inheritdoc} */
     public function getCustomerOptionValue(): ?CustomerOptionValueInterface
     {
         return $this->customerOptionValue;
     }
 
-    /** {@inheritdoc} */
     public function setCustomerOptionValue(?CustomerOptionValueInterface $customerOptionValue): void
     {
         $this->customerOptionValue = $customerOptionValue;
     }
 
-    /** {@inheritdoc} */
     public function __toString(): string
     {
         return $this->getValueString('USD', 'en_US', new MoneyFormatter());
     }
 
-    /** {@inheritdoc} */
     public function getValueString(string $currencyCode, string $locale, MoneyFormatterInterface $formatter): string
     {
         if ($this->getType() === CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT) {
@@ -132,43 +120,36 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         return "{$percent}%";
     }
 
-    /** {@inheritdoc} */
     public function getProduct(): ?ProductInterface
     {
         return $this->product;
     }
 
-    /** {@inheritdoc} */
     public function setProduct(?ProductInterface $product): void
     {
         $this->product = $product;
     }
 
-    /** {@inheritdoc} */
     public function setChannel(?ChannelInterface $channel): void
     {
         $this->channel = $channel;
     }
 
-    /** {@inheritdoc} */
     public function getChannel(): ?ChannelInterface
     {
         return $this->channel;
     }
 
-    /** {@inheritdoc} */
-    public function getDateValid(): ?DateRange
+    public function getDateValid(): ?DateRangeInterface
     {
         return $this->dateValid;
     }
 
-    /** {@inheritdoc} */
-    public function setDateValid(?DateRange $dateRange): void
+    public function setDateValid(?DateRangeInterface $dateRange): void
     {
         $this->dateValid = $dateRange;
     }
 
-    /** {@inheritdoc} */
     public function isActive(): bool
     {
         if ($this->dateValid === null) {

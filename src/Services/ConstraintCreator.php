@@ -7,7 +7,6 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
 use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
