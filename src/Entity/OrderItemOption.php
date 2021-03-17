@@ -60,7 +60,7 @@ class OrderItemOption implements OrderItemOptionInterface
     /** @var float */
     private $percent = 0;
 
-    /** @var FileContent */
+    /** @var ?FileContent */
     private $fileContent;
 
     /** {@inheritdoc} */
@@ -152,7 +152,7 @@ class OrderItemOption implements OrderItemOptionInterface
         if ($this->customerOptionType === CustomerOptionTypeEnum::FILE) {
             $this->optionValue         = 'file-content';
             $this->customerOptionValue = null;
-            $this->fileContent         = new FileContent($value);
+            $this->fileContent         = new FileContent((string) $value);
 
             return;
         }
