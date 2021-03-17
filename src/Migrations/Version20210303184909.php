@@ -20,7 +20,7 @@ final class Version20210303184909 extends AbstractMigration implements Container
     /** @var ?ContainerInterface */
     private $container;
 
-    public function setContainer(?ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null): void
     {
         $this->container = $container;
     }
