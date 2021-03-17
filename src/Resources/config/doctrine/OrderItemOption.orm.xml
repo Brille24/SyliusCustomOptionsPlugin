@@ -19,7 +19,7 @@
 
         <field name="customerOptionValueCode" nullable="true"/>
         <field name="customerOptionValueName" nullable="true"/>
-        <field name="optionValue" nullable="true" type="text"/>
+        <field name="optionValue" nullable="true" type="string"/>
         <one-to-one field="fileContent" target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\FileContent">
             <cascade>
                 <cascade-all />
