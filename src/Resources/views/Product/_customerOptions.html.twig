@@ -8,8 +8,8 @@
                 {{ orderItemOption.customerOptionName }}:
                 {% if(orderItemOption.customerOptionType == 'file') %}
                     <a href="{{ orderItemOption.fileContent }}" download>
-                        {% if 'image' in orderItemOption.customerOptionValueName %}
-                            <img src="{{ orderItemOption.customerOptionValueName }}" style="max-width: 200px" />
+                        {% if 'image' in orderItemOption.fileContent.content %}
+                            <img alt="customer_option_image" src="{{ orderItemOption.fileContent }}" style="max-width: 200px" />
                         {% else %}
                             {{ 'brille24.ui.file_content'|trans }}
                         {% endif %}
