@@ -28,9 +28,7 @@
         </many-to-one>
 
         <many-to-one target-entity="Sylius\Component\Product\Model\ProductInterface"
-                     field="product" inversed-by="customerOptionValuePrices"
-        >
-        </many-to-one>
+                     field="product" inversed-by="customerOptionValuePrices" />
 
         <one-to-one field="dateValid" target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange">
             <cascade>

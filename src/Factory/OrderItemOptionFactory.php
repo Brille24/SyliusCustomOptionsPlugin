@@ -75,7 +75,7 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
 
             /** @var ChannelInterface $channel */
             $channel = $order->getChannel();
-            $price   = $customerOptionValue->getPriceForChannel($channel);
+            $price   = $customerOptionValue->getPriceForChannel($channel, $orderItem->getProduct());
 
             $orderItemOption->setPrice($price);
         }

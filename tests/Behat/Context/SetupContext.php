@@ -248,7 +248,9 @@ class SetupContext implements Context
                     Assert::notNull($customerOptionValue);
 
                     $itemOption->setCustomerOptionValue($customerOptionValue);
-                    $itemOption->setPrice($customerOptionValue->getPriceForChannel($this->channelContext->getChannel()));
+                    $itemOption->setPrice(
+                        $customerOptionValue->getPriceForChannel($this->channelContext->getChannel(), $orderItem->getProduct())
+                    );
                 } else {
                     $itemOption->setOptionValue($value);
                 }

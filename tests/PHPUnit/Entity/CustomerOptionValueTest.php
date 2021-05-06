@@ -57,8 +57,9 @@ class CustomerOptionValueTest extends TestCase
     public function testGetPriceForChannelFound(array $prices, ChannelInterface $channel, int $price): void
     {
         $this->customerOptionValue->setPrices(new ArrayCollection($prices));
+        $product = self::createMock(ProductInterface::class);
 
-        $priceObject = $this->customerOptionValue->getPriceForChannel($channel, true);
+        $priceObject = $this->customerOptionValue->getPriceForChannel($channel, $product, true);
 
         self::assertEquals($channel, $priceObject->getChannel());
         self::assertEquals($price, $priceObject->getAmount());
@@ -98,8 +99,9 @@ class CustomerOptionValueTest extends TestCase
         $channel = $this->createChannel(1, 'en_US');
         $price   = $this->createPrice($channel, 10);
         $this->customerOptionValue->setPrices(new ArrayCollection([$price]));
+        $product = self::createMock(ProductInterface::class);
 
-        $priceObject = $this->customerOptionValue->getPriceForChannel($this->createChannel(2, 'de_DE'));
+        $priceObject = $this->customerOptionValue->getPriceForChannel($this->createChannel(2, 'de_DE'), $product);
 
         self::assertNull($priceObject);
     }
@@ -107,22 +109,30 @@ class CustomerOptionValueTest extends TestCase
     /** @dataProvider dataGetPriceForChannelWithOverride */
     public function testGetPriceForChannelWithOverride(array $prices, ChannelInterface $channel, int $price): void
     {
+        $product = self::createConfiguredMock(ProductInterface::class, ['getCode' => 'productOne']);
+
         $this->customerOptionValue->setPrices(new ArrayCollection($prices));
 
-        $priceObject = $this->customerOptionValue->getPriceForChannel($channel, true);
+        $priceObject = $this->customerOptionValue->getPriceForChannel($channel, $product, true);
 
         self::assertEquals($price, $priceObject->getAmount());
     }
 
     public function dataGetPriceForChannelWithOverride(): array
     {
-        $product = self::createMock(ProductInterface::class);
-        $channel = self::createMock(ChannelInterface::class);
+        $product1 = self::createConfiguredMock(ProductInterface::class, ['getCode' => 'productOne']);
+        $product2 = self::createConfiguredMock(ProductInterface::class, ['getCode' => 'productTwo']);
+        $channel  = self::createMock(ChannelInterface::class);
 
         return [
             'no override'   => [[$this->createPrice($channel, 10)], $channel, 10],
             'with override' => [
-                [$this->createPrice($channel, 10), $this->createPrice($channel, 20, $product)],
+                [$this->createPrice($channel, 10), $this->createPrice($channel, 20, $product1)],
+                $channel,
+                20,
+            ],
+            'with multiple overrides' => [
+                [$this->createPrice($channel, 10), $this->createPrice($channel, 20, $product1), $this->createPrice($channel, 0, $product2)],
                 $channel,
                 20,
             ],
@@ -133,8 +143,9 @@ class CustomerOptionValueTest extends TestCase
     public function testActive(array $prices, ChannelInterface $channel, ?PriceInterface $price): void
     {
         $this->customerOptionValue->setPrices(new ArrayCollection($prices));
+        $product = self::createMock(ProductInterface::class);
 
-        $priceObject = $this->customerOptionValue->getPriceForChannel($channel);
+        $priceObject = $this->customerOptionValue->getPriceForChannel($channel, $product);
 
         self::assertEquals($price, $priceObject);
     }

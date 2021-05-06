@@ -17,6 +17,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
@@ -138,6 +139,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     /** {@inheritdoc} */
     public function getPriceForChannel(
         ChannelInterface $channel,
+        ProductInterface $product,
         bool $ignoreActive = false
     ): ?CustomerOptionValuePriceInterface {
         $prices = $this->getPricesForChannel($channel);
@@ -148,21 +150,26 @@ class CustomerOptionValue implements CustomerOptionValueInterface
             });
         }
 
+        if (count($prices) === 1) {
+            return $prices->first();
+        }
+
         if (count($prices) > 1) {
             // Get the prices with product references (aka. overrides) first
             $prices = $prices->toArray();
 
             return array_reduce(
                 $prices,
-                static function ($accumulator, COValuePriceInterface $price): COValuePriceInterface {
-                    return $price->getProduct() !== null ? $price : $accumulator;
+                static function ($accumulator, COValuePriceInterface $price) use ($product): COValuePriceInterface {
+                    $customerOptionProduct = $price->getProduct();
+                    if ($customerOptionProduct !== null && $customerOptionProduct->getCode() === $product->getCode()) {
+                        return $price;
+                    }
+
+                    return $accumulator;
                 },
                 reset($prices)
             );
-        }
-
-        if (count($prices) === 1) {
-            return $prices->first();
         }
 
         return null;
