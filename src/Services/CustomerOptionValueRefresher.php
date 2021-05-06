@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Order\Model\OrderInterface;
@@ -33,7 +34,9 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
     public function copyOverValuesForOrderItem(OrderItemInterface $orderItem, ChannelInterface $channel): void
     {
         $orderItemOptions = $orderItem->getCustomerOptionConfiguration();
+        $product          = $orderItem->getProduct();
         foreach ($orderItemOptions as $orderItemOption) {
+            /** @var CustomerOptionValueInterface $customerOptionValue */
             // Gets the object reference to the customer option value
             $customerOptionValue = $orderItemOption->getCustomerOptionValue();
             if ($customerOptionValue === null) {
@@ -44,8 +47,8 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
             // values on the entity so that if the reference changes the values stay the same
             $orderItemOption->setCustomerOptionValue($customerOptionValue);
 
-            $price = $customerOptionValue->getPriceForChannel($channel);
-            Assert::notNull($price);
+            $price = $customerOptionValue->getPriceForChannel($channel, $product);
+            Assert::notNull($price, 'The customer option value "'.$customerOptionValue->getCode().'" has no price');
 
             // Same here: Copy the price onto the customer option to be independent of the customer option value object.
             $orderItemOption->setPrice($price);

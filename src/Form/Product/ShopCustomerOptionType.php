@@ -207,7 +207,7 @@ final class ShopCustomerOptionType extends AbstractType
             }
         }
 
-        $price = $price ?? $value->getPriceForChannel($channel);
+        $price = $price ?? $value->getPriceForChannel($channel, $product);
 
         // No price was found for the current channel, probably because the values weren't updated after adding a new channel
         if ($price === null) {

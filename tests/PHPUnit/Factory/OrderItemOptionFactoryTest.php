@@ -19,6 +19,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
 class OrderItemOptionFactoryTest extends TestCase
@@ -82,8 +83,9 @@ class OrderItemOptionFactoryTest extends TestCase
 
     public function testCreateForOptionAndValue(): void
     {
+        $product        = self::createMock(ProductInterface::class);
         $order          = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $this->channel]);
-        $orderItem      = self::createConfiguredMock(OrderItemInterface::class, ['getOrder' => $order]);
+        $orderItem      = self::createConfiguredMock(OrderItemInterface::class, ['getOrder' => $order, 'getProduct' => $product]);
         $customerOption = self::createMock(CustomerOptionInterface::class);
         $value          = 'something';
 
@@ -126,8 +128,9 @@ class OrderItemOptionFactoryTest extends TestCase
         $customerOption = $this->createCustomerOption('something');
         $customerOption->method('getValues')->willReturn(new ArrayCollection([$customerOptionValue]));
 
+        $product   = self::createMock(ProductInterface::class);
         $order     = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $this->channel]);
-        $orderItem = self::createConfiguredMock(OrderItemInterface::class, ['getOrder' => $order]);
+        $orderItem = self::createConfiguredMock(OrderItemInterface::class, ['getOrder' => $order, 'getProduct' => $product]);
 
         $this->addCustomerOption($customerOption);
 

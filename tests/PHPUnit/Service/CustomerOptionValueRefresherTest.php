@@ -16,6 +16,7 @@ use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItem;
+use Sylius\Component\Core\Model\ProductInterface;
 
 class CustomerOptionValueRefresherTest extends TestCase
 {
@@ -109,11 +110,13 @@ class CustomerOptionValueRefresherTest extends TestCase
     private function createOrderItem($orderItemOption): Brille24OrderItem
     {
         $orderItem = self::createMock(Brille24OrderItem::class);
+        $product   = self::createMock(ProductInterface::class);
 
         if (!is_array($orderItemOption)) {
             $orderItemOption = [$orderItemOption];
         }
         $orderItem->method('getCustomerOptionConfiguration')->willReturn($orderItemOption);
+        $orderItem->method('getProduct')->willReturn($product);
 
         return $orderItem;
     }
