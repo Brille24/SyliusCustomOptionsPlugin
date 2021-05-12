@@ -22,6 +22,7 @@
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueRefresher"
                  id="brille24.sylius_customer_options_plugin.services.customer_option_value_refresher">
+            <argument type="service" id="brille24.repository.customer_option_value_price" />
             <tag name="sylius.order_processor" priority="60" />
         </service>
 

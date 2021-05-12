@@ -54,6 +54,7 @@ sylius_resource:
         brille24.customer_option_value_price:
             classes:
                 model: Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice
+                repository: Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValuePriceRepository
                 factory: Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactory
                 form: Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionValuePriceType
 

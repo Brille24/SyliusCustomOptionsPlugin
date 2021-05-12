@@ -17,10 +17,10 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValuePriceRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Services\ConstraintCreator;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
-use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
@@ -45,16 +45,21 @@ final class ShopCustomerOptionType extends AbstractType
     /** @var LocaleContextInterface */
     private $localeContext;
 
+    /** @var CustomerOptionValuePriceRepositoryInterface */
+    private $customerOptionValuePriceRepository;
+
     public function __construct(
         ChannelContextInterface $channelContext,
         CurrencyContextInterface $currencyContext,
         MoneyFormatterInterface $moneyFormatter,
-        LocaleContextInterface $localeContext
+        LocaleContextInterface $localeContext,
+        CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository
     ) {
-        $this->channelContext  = $channelContext;
-        $this->currencyContext = $currencyContext;
-        $this->moneyFormatter  = $moneyFormatter;
-        $this->localeContext   = $localeContext;
+        $this->channelContext                     = $channelContext;
+        $this->currencyContext                    = $currencyContext;
+        $this->moneyFormatter                     = $moneyFormatter;
+        $this->localeContext                      = $localeContext;
+        $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -207,7 +212,7 @@ final class ShopCustomerOptionType extends AbstractType
             }
         }
 
-        $price = $price ?? $value->getPriceForChannel($channel, $product);
+        $price = $price ?? $this->customerOptionValuePriceRepository->getPriceForChannel($channel, $product, $value);
 
         // No price was found for the current channel, probably because the values weren't updated after adding a new channel
         if ($price === null) {

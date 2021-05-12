@@ -18,6 +18,7 @@
             <argument type="service" id="sylius.repository.order_item" />
             <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="sylius.repository.channel" />
+            <argument type="service" id="brille24.repository.customer_option_value_price" />
         </service>
 
         <service
