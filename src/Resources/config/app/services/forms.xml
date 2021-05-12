@@ -47,6 +47,7 @@
             <argument type="service" id="sylius.context.currency" />
             <argument type="service" id="sylius.money_formatter" />
             <argument type="service" id="sylius.context.locale" />
+            <argument type="service" id="brille24.repository.customer_option_value_price" />
             <tag alias="Brille24\SyliusCustomerOptionsPlugin\Form\Product\ShopCustomerOptionType" name="form.type" />
         </service>
 

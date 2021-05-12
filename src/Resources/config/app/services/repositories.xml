@@ -12,10 +12,8 @@
             <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue</argument>
         </service>
 
-        <service
-                class="Sylius\Component\Resource\Repository\RepositoryInterface"
-                 id="brille24.customer_options_plugin.repository.customer_option_value_price"
-        >
+        <service class="Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValuePriceRepository"
+                 id="brille24.customer_options_plugin.repository.customer_option_value_price" >
             <factory service="doctrine.orm.default_entity_manager" method="getRepository" />
             <argument>Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice</argument>
         </service>

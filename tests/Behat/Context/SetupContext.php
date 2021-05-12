@@ -23,6 +23,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValuePriceRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
@@ -49,13 +50,17 @@ class SetupContext implements Context
     /** @var ChannelRepositoryInterface */
     private $channelRepository;
 
+    /** CustomerOptionValuePriceRepositoryInterface */
+    private $customerOptionValuePriceRepository;
+
     public function __construct(
         EntityManagerInterface $em,
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
         OrderItemRepositoryInterface $orderItemRepository,
         ChannelContextInterface $channelContext,
-        ChannelRepositoryInterface $channelRepository
+        ChannelRepositoryInterface $channelRepository,
+        CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository
     ) {
         $this->em = $em;
         $this->customerOptionRepository = $customerOptionRepository;
@@ -63,6 +68,7 @@ class SetupContext implements Context
         $this->orderItemRepository = $orderItemRepository;
         $this->channelContext = $channelContext;
         $this->channelRepository = $channelRepository;
+        $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
     }
 
     /**
@@ -249,7 +255,7 @@ class SetupContext implements Context
 
                     $itemOption->setCustomerOptionValue($customerOptionValue);
                     $itemOption->setPrice(
-                        $customerOptionValue->getPriceForChannel($this->channelContext->getChannel(), $orderItem->getProduct())
+                        $this->customerOptionValuePriceRepository->getPriceForChannel($this->channelContext->getChannel(), $orderItem->getProduct(), $customerOptionValue)
                     );
                 } else {
                     $itemOption->setOptionValue($value);

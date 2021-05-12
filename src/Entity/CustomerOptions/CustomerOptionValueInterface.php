@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface as COValuePriceInterface;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -54,6 +53,8 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
     public function getPricesForChannel(ChannelInterface $channel): Collection;
 
     /**
+     * @deprecated Please use {@see CustomerOptionValuePriceRepository::getPriceForChannel()} instead.
+     *
      * @param ChannelInterface $channel
      * @param ProductInterface $product
      * @param bool             $ignoreActive
@@ -85,5 +86,4 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
      * @return CustomerOptionInterface|null
      */
     public function getCustomerOption(): ?CustomerOptionInterface;
-
 }

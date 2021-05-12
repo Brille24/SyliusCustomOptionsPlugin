@@ -18,6 +18,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValuePriceRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Exception;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -41,14 +42,21 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
      */
     private $valueResolver;
 
+    /**
+     * @var CustomerOptionValuePriceRepositoryInterface
+     */
+    private $customerOptionValuePriceRepository;
+
     public function __construct(
         FactoryInterface $factory,
         CustomerOptionRepositoryInterface $customerOptionRepository,
-        CustomerOptionValueResolverInterface $valueResolver
+        CustomerOptionValueResolverInterface $valueResolver,
+        CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository
     ) {
-        $this->factory                  = $factory;
-        $this->customerOptionRepository = $customerOptionRepository;
-        $this->valueResolver            = $valueResolver;
+        $this->factory                            = $factory;
+        $this->customerOptionRepository           = $customerOptionRepository;
+        $this->valueResolver                      = $valueResolver;
+        $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
     }
 
     /** {@inheritdoc} */
@@ -75,7 +83,7 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
 
             /** @var ChannelInterface $channel */
             $channel = $order->getChannel();
-            $price   = $customerOptionValue->getPriceForChannel($channel, $orderItem->getProduct());
+            $price   = $this->customerOptionValuePriceRepository->getPriceForChannel($channel, $orderItem->getProduct(), $customerOptionValue);
 
             $orderItemOption->setPrice($price);
         }

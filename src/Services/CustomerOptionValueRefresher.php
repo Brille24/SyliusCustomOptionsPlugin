@@ -6,13 +6,23 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValuePriceRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Webmozart\Assert\Assert;
 
 final class CustomerOptionValueRefresher implements OrderProcessorInterface
 {
+    /** @var CustomerOptionValuePriceRepositoryInterface */
+    private $customerOptionValuePriceRepository;
+
+    public function __construct(CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository)
+    {
+        $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
+    }
+
     /**
      * {@inheritdoc}
      *
@@ -35,6 +45,9 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
     {
         $orderItemOptions = $orderItem->getCustomerOptionConfiguration();
         $product          = $orderItem->getProduct();
+
+        Assert::isInstanceOf($product, ProductInterface::class);
+
         foreach ($orderItemOptions as $orderItemOption) {
             /** @var CustomerOptionValueInterface $customerOptionValue */
             // Gets the object reference to the customer option value
@@ -47,7 +60,7 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
             // values on the entity so that if the reference changes the values stay the same
             $orderItemOption->setCustomerOptionValue($customerOptionValue);
 
-            $price = $customerOptionValue->getPriceForChannel($channel, $product);
+            $price = $this->customerOptionValuePriceRepository->getPriceForChannel($channel, $product, $customerOptionValue);
             Assert::notNull($price, 'The customer option value "'.$customerOptionValue->getCode().'" has no price');
 
             // Same here: Copy the price onto the customer option to be independent of the customer option value object.
