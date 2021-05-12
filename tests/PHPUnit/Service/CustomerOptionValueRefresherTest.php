@@ -10,8 +10,10 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface as Brille24OrderItem;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValuePriceRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueRefresher;
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -32,15 +34,24 @@ class CustomerOptionValueRefresherTest extends TestCase
     /** @var int */
     private $priceUpdate;
 
-    /** @var ChannelInterface */
+    /** @var ChannelInterface|MockObject */
     private $channel;
 
     //<editor-fold desc="Helper function for setup">
+    /**
+     * @var CustomerOptionValuePriceRepositoryInterface|MockObject
+     */
+    private $customerOptionValuePriceRepository;
+
     public function setUp(): void
     {
         $this->channel = self::createMock(ChannelInterface::class);
 
-        $this->customerOptionValueRefresher = new CustomerOptionValueRefresher();
+        $this->customerOptionValuePriceRepository = $this->createMock(
+            CustomerOptionValuePriceRepositoryInterface::class
+        );
+
+        $this->customerOptionValueRefresher = new CustomerOptionValueRefresher($this->customerOptionValuePriceRepository);
     }
 
     private function createOrder(array $orderItems): OrderInterface
@@ -90,7 +101,7 @@ class CustomerOptionValueRefresherTest extends TestCase
         $customerOptionValue->method('getCode')->willReturn($config['code']);
         $customerOptionValue->method('getName')->willReturn($config['name'] ?? null);
 
-        $customerOptionValue->method('getPriceForChannel')->willReturnCallback(
+        $this->customerOptionValuePriceRepository->method('getPriceForChannel')->willReturnCallback(
             function (ChannelInterface $channel) use ($price) {
                 $customerOptionPrice = self::createMock(CustomerOptionValuePriceInterface::class);
                 $customerOptionPrice->method('getAmount')->willReturn($price);

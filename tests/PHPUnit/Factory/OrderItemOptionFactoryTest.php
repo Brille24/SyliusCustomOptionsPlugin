@@ -14,6 +14,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactory;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValuePriceRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
@@ -64,7 +65,11 @@ class OrderItemOptionFactoryTest extends TestCase
 
         $baseFactory->method('createNew')->willReturn(self::createMock(OrderItemOptionInterface::class));
 
-        $this->orderItemOptionFactory = new OrderItemOptionFactory($baseFactory, $customerOptionRepo, $valueResolver);
+        $customerOptionValuePrice           = self::createMock(CustomerOptionValuePriceInterface::class);
+        $customerOptionValuePriceRepository = self::createMock(CustomerOptionValuePriceRepositoryInterface::class);
+        $customerOptionValuePriceRepository->method('getPriceForChannel')->willReturn($customerOptionValuePrice);
+
+        $this->orderItemOptionFactory = new OrderItemOptionFactory($baseFactory, $customerOptionRepo, $valueResolver, $customerOptionValuePriceRepository);
     }
 
     private function addCustomerOption(CustomerOptionInterface $customerOption)
