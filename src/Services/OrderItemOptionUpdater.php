@@ -48,7 +48,7 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
     }
 
     /** {@inheritdoc} */
-    public function updateOrderItemOptions(OrderItemInterface $orderItem, array $data): void
+    public function updateOrderItemOptions(OrderItemInterface $orderItem, array $data, bool $updatePrice = true): void
     {
         $orderItemOptions = $orderItem->getCustomerOptionConfiguration(true);
 
@@ -121,7 +121,10 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
         $orderItem->setCustomerOptionConfiguration($newConfig);
 
         $this->customerOptionRefresher->process($orderItem->getOrder());
-        $this->customerOptionRecalculator->process($orderItem->getOrder());
+
+        if ($updatePrice) {
+            $this->customerOptionRecalculator->process($orderItem->getOrder());
+        }
 
         $this->entityManager->flush();
     }

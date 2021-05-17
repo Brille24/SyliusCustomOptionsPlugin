@@ -30,14 +30,19 @@ class EditCustomerOptionsAction extends AbstractController
     /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
+    /** @var bool */
+    private $recalculatePrice;
+
     public function __construct(
         OrderItemRepositoryInterface $orderItemRepository,
         OrderItemOptionUpdaterInterface $orderItemOptionUpdater,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        bool $recalculatePrice
     ) {
         $this->orderItemRepository    = $orderItemRepository;
         $this->orderItemOptionUpdater = $orderItemOptionUpdater;
         $this->eventDispatcher        = $eventDispatcher;
+        $this->recalculatePrice = $recalculatePrice;
     }
 
     /**
@@ -70,7 +75,7 @@ class EditCustomerOptionsAction extends AbstractController
         $orderItemForm->handleRequest($request);
 
         if ($orderItemForm->isSubmitted() && $orderItemForm->isValid()) {
-            $this->orderItemOptionUpdater->updateOrderItemOptions($orderItem, $orderItemForm->getData());
+            $this->orderItemOptionUpdater->updateOrderItemOptions($orderItem, $orderItemForm->getData(), $this->recalculatePrice);
 
             $this->eventDispatcher->dispatch(
                 'brille24.order_item.post_update',
