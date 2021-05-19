@@ -42,7 +42,7 @@ class EditCustomerOptionsAction extends AbstractController
         $this->orderItemRepository    = $orderItemRepository;
         $this->orderItemOptionUpdater = $orderItemOptionUpdater;
         $this->eventDispatcher        = $eventDispatcher;
-        $this->recalculatePrice = $recalculatePrice;
+        $this->recalculatePrice       = $recalculatePrice;
     }
 
     /**
