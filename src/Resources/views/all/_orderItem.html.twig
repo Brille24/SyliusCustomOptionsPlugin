@@ -4,6 +4,6 @@
     {% if priceType == 'FIXED_AMOUNT' and orderItem.fixedPrice != 0 %}
         ( {{ money.convertAndFormat(orderItem.fixedPrice) }} )
     {% elseif priceType == 'PERCENT' and orderItem.percent != 0 %}
-        ( {{ orderItem.percent }} % )
+        ( {{ orderItem.percent * 100 }} % )
     {% endif %}
 {% endmacro %}
