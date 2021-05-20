@@ -38,10 +38,10 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     protected $prices;
 
     /** @var CustomerOptionInterface|null */
-    private $customerOption;
+    protected $customerOption;
 
     /** @var OrderItemOptionInterface[] */
-    private $orders;
+    protected $orders;
 
     public function __construct()
     {

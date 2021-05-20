@@ -14,10 +14,10 @@ class ErrorMessage implements ErrorMessageInterface
     }
 
     /** @var int */
-    private $id;
+    protected $id;
 
     /** @var ValidatorInterface */
-    private $validator;
+    protected $validator;
 
     public function __construct()
     {

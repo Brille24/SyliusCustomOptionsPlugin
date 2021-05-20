@@ -17,10 +17,10 @@ use Sylius\Component\Resource\Model\AbstractTranslation;
 class CustomerOptionGroupTranslation extends AbstractTranslation implements CustomerOptionGroupTranslationInterface
 {
     /** @var int */
-    private $id;
+    protected $id;
 
     /** @var string */
-    private $name;
+    protected $name;
 
     /**
      * @return int

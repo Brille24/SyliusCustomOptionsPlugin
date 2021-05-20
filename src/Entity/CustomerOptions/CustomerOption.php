@@ -27,28 +27,28 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /** @var int|null */
-    private $id;
+    protected $id;
 
     /** @var string */
-    private $type = CustomerOptionTypeEnum::SELECT;
+    protected $type = CustomerOptionTypeEnum::SELECT;
 
     /** @var string */
-    private $code = '';
+    protected $code = '';
 
     /** @var bool */
-    private $required = false;
+    protected $required = false;
 
     /** @var Collection|CustomerOptionValueInterface[] */
-    private $values;
+    protected $values;
 
     /** @var array */
-    private $configuration = [];
+    protected $configuration = [];
 
     /** @var ArrayCollection */
-    private $groupAssociations;
+    protected $groupAssociations;
 
     /** @var Collection|OrderItemOptionInterface[] */
-    private $orders;
+    protected $orders;
 
     public function __construct()
     {

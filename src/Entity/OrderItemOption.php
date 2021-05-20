@@ -22,46 +22,46 @@ use Webmozart\Assert\Assert;
 class OrderItemOption implements OrderItemOptionInterface
 {
     /** @var int|null */
-    private $id;
+    protected $id;
 
     /** @var OrderItemInterface */
-    private $orderItem;
+    protected $orderItem;
 
     /** @var CustomerOptionInterface|null */
-    private $customerOption;
+    protected $customerOption;
 
     /** @var string */
-    private $customerOptionType;
+    protected $customerOptionType;
 
     /** @var string */
-    private $customerOptionCode;
+    protected $customerOptionCode;
 
     /** @var string */
-    private $customerOptionName;
+    protected $customerOptionName;
 
     /** @var CustomerOptionValueInterface|null */
-    private $customerOptionValue;
+    protected $customerOptionValue;
 
     /** @var string */
-    private $customerOptionValueCode;
+    protected $customerOptionValueCode;
 
     /** @var string */
-    private $customerOptionValueName;
+    protected $customerOptionValueName;
 
     /** @var string|null */
-    private $optionValue;
+    protected $optionValue;
 
     /** @var int */
-    private $fixedPrice = 0;
+    protected $fixedPrice = 0;
 
     /** @var string */
-    private $pricingType = '';
+    protected $pricingType = '';
 
     /** @var float */
-    private $percent = 0;
+    protected $percent = 0;
 
     /** @var ?FileContent */
-    private $fileContent;
+    protected $fileContent;
 
     /** {@inheritdoc} */
     public function getId(): ?int

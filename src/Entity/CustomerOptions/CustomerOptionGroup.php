@@ -27,19 +27,19 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     }
 
     /** @var int */
-    private $id;
+    protected $id;
 
     /** @var string|null */
-    private $code;
+    protected $code;
 
     /** @var Collection */
-    private $optionAssociations;
+    protected $optionAssociations;
 
     /** @var ArrayCollection */
-    private $products;
+    protected $products;
 
     /** @var ArrayCollection */
-    private $validators;
+    protected $validators;
 
     public function __construct()
     {

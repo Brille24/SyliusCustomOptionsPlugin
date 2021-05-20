@@ -22,28 +22,28 @@ use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
 {
     /** @var int|null */
-    private $id;
+    protected $id;
 
     /** @var float */
-    private $percent = 0;
+    protected $percent = 0;
 
     /** @var int */
-    private $amount = 0;
+    protected $amount = 0;
 
     /** @var string */
-    private $type = CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT;
+    protected $type = CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT;
 
     /** @var CustomerOptionValueInterface|null */
-    private $customerOptionValue;
+    protected $customerOptionValue;
 
     /** @var ProductInterface */
-    private $product;
+    protected $product;
 
     /** @var ChannelInterface */
-    private $channel;
+    protected $channel;
 
     /** @var DateRangeInterface|null */
-    private $dateValid;
+    protected $dateValid;
 
     public function getId(): ?int
     {

@@ -9,10 +9,10 @@ use Sylius\Component\Resource\Model\AbstractTranslation;
 class ErrorMessageTranslation extends AbstractTranslation implements ErrorMessageTranslationInterface
 {
     /** @var int|null */
-    private $id;
+    protected $id;
 
     /** @var string|null */
-    private $message;
+    protected $message;
 
     public function getMessage(): ?string
     {
