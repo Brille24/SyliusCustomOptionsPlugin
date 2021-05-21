@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
-    <entity name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
+    <mapped-superclass name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption"
             table="brille24_customer_option"
             repository-class="Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepository"
     >
@@ -48,5 +48,5 @@
 
         <one-to-many field="orders" target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption"
                      mapped-by="customerOption"/>
-    </entity>
+    </mapped-superclass>
 </doctrine-mapping>

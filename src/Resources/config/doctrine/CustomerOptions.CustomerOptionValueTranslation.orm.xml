@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
-    <entity name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueTranslation" table="brille24_customer_option_value_translation">
+    <mapped-superclass name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueTranslation" table="brille24_customer_option_value_translation">
         <id name="id" type="integer">
             <generator strategy="AUTO" />
         </id>
@@ -14,5 +14,5 @@
         <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface" field="translatable" inversed-by="translations">
             <join-column on-delete="CASCADE" />
         </many-to-one>
-    </entity>
+    </mapped-superclass>
 </doctrine-mapping>
