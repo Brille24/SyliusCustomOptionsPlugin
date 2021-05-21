@@ -32,13 +32,13 @@ use Webmozart\Assert\Assert;
 class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 {
     /** @var CustomerOptionRepositoryInterface */
-    private $customerOptionRepository;
+    protected $customerOptionRepository;
 
     /** @var ProductRepositoryInterface */
-    private $productRepository;
+    protected $productRepository;
 
     /** @var \Faker\Generator */
-    private $faker;
+    protected $faker;
 
     public function __construct(
         CustomerOptionRepositoryInterface $customerOptionRepository,
@@ -95,7 +95,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
         $options = array_merge($this->getOptionsSkeleton(), $options);
         Assert::minCount($options['translations'], 1);
 
-        $customerOptionGroup = new CustomerOptionGroup();
+        $customerOptionGroup = $this->createNew();
 
         $customerOptionGroup->setCode($options['code']);
 

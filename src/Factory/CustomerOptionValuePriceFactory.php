@@ -23,15 +23,11 @@ use Sylius\Component\Core\Model\ChannelInterface;
 
 class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactoryInterface
 {
-    /**
-     * @var ChannelRepositoryInterface
-     */
-    private $channelRepository;
+    /** @var ChannelRepositoryInterface */
+    protected $channelRepository;
 
-    /**
-     * @var Generator
-     */
-    private $faker;
+    /** @var Generator */
+    protected $faker;
 
     public function __construct(ChannelRepositoryInterface $channelRepository)
     {
@@ -58,7 +54,7 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
     {
         $this->validateConfiguration($configuration);
 
-        $price = new CustomerOptionValuePrice();
+        $price = $this->createNew();
 
         switch ($configuration['type']) {
             case 'fixed':

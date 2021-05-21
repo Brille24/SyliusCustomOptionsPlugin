@@ -20,15 +20,11 @@ use Faker\Generator;
 
 class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
 {
-    /**
-     * @var CustomerOptionValuePriceFactoryInterface
-     */
-    private $valuePriceFactory;
+    /** @var CustomerOptionValuePriceFactoryInterface */
+    protected $valuePriceFactory;
 
-    /**
-     * @var Generator
-     */
-    private $faker;
+    /** @var Generator */
+    protected $faker;
 
     public function __construct(CustomerOptionValuePriceFactoryInterface $valuePriceFactory)
     {
@@ -60,7 +56,7 @@ class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
     /** {@inheritdoc} */
     public function createFromConfig(array $configuration): CustomerOptionValueInterface
     {
-        $value = new CustomerOptionValue();
+        $value = $this->createNew();
         $value->setCode($configuration['code']);
 
         foreach ($configuration['translations'] as $locale => $name) {
