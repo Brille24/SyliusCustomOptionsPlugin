@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
-    <entity name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation" table="brille24_customer_option_association">
+    <mapped-superclass name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation" table="brille24_customer_option_association">
         <unique-constraints>
             <unique-constraint columns="option_id,group_id"/>
         </unique-constraints>
@@ -27,5 +27,5 @@
             </cascade>
             <join-column nullable="false" on-delete="CASCADE"/>
         </many-to-one>
-    </entity>
+    </mapped-superclass>
 </doctrine-mapping>

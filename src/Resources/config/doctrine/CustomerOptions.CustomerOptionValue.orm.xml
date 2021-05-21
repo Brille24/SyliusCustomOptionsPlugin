@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
-    <entity name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
+    <mapped-superclass name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue"
             table="brille24_customer_option_value"
             repository-class="Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepository"
     >
@@ -35,5 +35,5 @@
         <unique-constraints>
             <unique-constraint columns="customerOption_id,code"/>
         </unique-constraints>
-    </entity>
+    </mapped-superclass>
 </doctrine-mapping>
