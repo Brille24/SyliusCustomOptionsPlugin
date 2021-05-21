@@ -25,19 +25,14 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 class CustomerOptionFactory implements CustomerOptionFactoryInterface
 {
-    /**
-     * @var RepositoryInterface
-     */
-    private $customerOptionGroupRepository;
+    /** @var RepositoryInterface */
+    protected $customerOptionGroupRepository;
 
-    /**
-     * @var \Faker\Generator
-     */
-    private $faker;
-    /**
-     * @var CustomerOptionValueFactoryInterface
-     */
-    private $customerOptionValueFactory;
+    /** @var \Faker\Generator */
+    protected $faker;
+
+    /** @var CustomerOptionValueFactoryInterface */
+    protected $customerOptionValueFactory;
 
     public function __construct(
         CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
@@ -86,7 +81,7 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
     {
         $this->validateConfiguration($configuration);
 
-        $customerOption = new CustomerOption();
+        $customerOption = $this->createNew();
         $customerOption->setCode($configuration['code']);
 
         foreach ($configuration['translations'] as $locale => $name) {
