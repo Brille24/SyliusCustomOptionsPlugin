@@ -21,13 +21,13 @@ use Faker\Generator;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 
-class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactoryInterface
+final class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactoryInterface
 {
     /** @var ChannelRepositoryInterface */
-    protected $channelRepository;
+    private $channelRepository;
 
     /** @var Generator */
-    protected $faker;
+    private $faker;
 
     public function __construct(ChannelRepositoryInterface $channelRepository)
     {

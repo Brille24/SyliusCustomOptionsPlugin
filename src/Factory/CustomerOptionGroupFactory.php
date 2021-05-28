@@ -29,16 +29,16 @@ use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Resource\Model\CodeAwareInterface;
 use Webmozart\Assert\Assert;
 
-class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
+final class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 {
     /** @var CustomerOptionRepositoryInterface */
-    protected $customerOptionRepository;
+    private $customerOptionRepository;
 
     /** @var ProductRepositoryInterface */
-    protected $productRepository;
+    private $productRepository;
 
     /** @var \Faker\Generator */
-    protected $faker;
+    private $faker;
 
     public function __construct(
         CustomerOptionRepositoryInterface $customerOptionRepository,
