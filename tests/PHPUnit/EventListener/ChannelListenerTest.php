@@ -12,10 +12,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\Channel;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class ChannelListenerTest extends TestCase
+
+class ChannelListenerTest extends KernelTestCase
 {
     /** @var ChannelListener */
     private $channelCreateListener;
@@ -27,8 +28,13 @@ class ChannelListenerTest extends TestCase
     //<editor-fold desc="Setup">
     public function setUp(): void
     {
-        $this->channelCreateListener = new ChannelListener();
+        self::bootKernel();
+
+        $container = self::$container;
+        $factory = $container->get('brille24.customer_options_plugin.factory.customer_option_value_price_factory');
+        $this->channelCreateListener = new ChannelListener($factory);
     }
+
 
     private function createArguments($entity): LifecycleEventArgs
     {

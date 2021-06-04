@@ -12,11 +12,12 @@ use Brille24\SyliusCustomerOptionsPlugin\EventListener\CustomerOptionValueListen
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class CustomerOptionValueListenerTest extends TestCase
+
+class CustomerOptionValueListenerTest extends KernelTestCase
 {
     /** @var ChannelInterface[] */
     private $channels = [];
@@ -29,12 +30,20 @@ class CustomerOptionValueListenerTest extends TestCase
 
     protected function setUp(): void
     {
+        self::bootKernel();
+
+        $container = self::$container;
+        $factory = $container->get('brille24.customer_options_plugin.factory.customer_option_value_price_factory');
+
         $channelRepository = self::createMock(EntityRepository::class);
         $channelRepository->method('findAll')->willReturnCallback(function () {
             return $this->channels;
         });
 
-        $this->customerOptionValueListener = new CustomerOptionValueListener($channelRepository);
+        $this->customerOptionValueListener = new CustomerOptionValueListener(
+            $factory,
+            $channelRepository
+        );
     }
 
     private function createArguments($entity): LifecycleEventArgs
