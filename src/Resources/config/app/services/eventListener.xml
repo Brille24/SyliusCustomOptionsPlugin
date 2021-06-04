@@ -14,6 +14,7 @@
                 class="Brille24\SyliusCustomerOptionsPlugin\EventListener\CustomerOptionValueListener"
                 id="brille24.customer_options_plugin.event_listener.customer_option_value"
         >
+            <argument type="service" id="brille24.customer_options_plugin.factory.customer_option_value_price_factory" />
             <argument type="service" id="sylius.repository.channel" />
             <tag name="doctrine.event_listener" event="prePersist" />
         </service>
@@ -22,6 +23,7 @@
                 class="Brille24\SyliusCustomerOptionsPlugin\EventListener\ChannelListener"
                 id="brille24.customer_options_plugin.event_listener.channel"
         >
+            <argument type="service" id="brille24.customer_options_plugin.factory.customer_option_value_price_factory" />
             <tag name="doctrine.event_listener" event="prePersist" />
         </service>
     </services>
