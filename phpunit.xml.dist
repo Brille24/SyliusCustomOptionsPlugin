@@ -6,7 +6,7 @@
          colors="true"
          bootstrap="vendor/autoload.php">
     <php>
-        <server name="KERNEL_CLASS_PATH" value="/tests/Application/AppKernel.php" />
+        <server name="KERNEL_CLASS" value="Tests\Brille24\SyliusCustomerOptionsPlugin\Application\Kernel" />
         <server name="IS_DOCTRINE_ORM_SUPPORTED" value="true" />
     </php>
 
