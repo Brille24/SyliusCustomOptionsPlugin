@@ -2,7 +2,7 @@ brille24_customer_option_groups_admin:
     resource: |
         alias: brille24.customer_option_group
         section: admin
-        templates: SyliusAdminBundle:Crud
+        templates: '@SyliusAdmin/Crud'
         except: ['show']
         redirect: update
         grid: brille24_admin_customer_option_group_grid
@@ -12,7 +12,7 @@ brille24_customer_option_groups_admin:
                 header: brille24.ui.customer_option_groups
                 subheader: brille24.form.customer_option_groups.subheader
                 templates:
-                    form: Brille24SyliusCustomerOptionsPlugin:CustomerOptionGroup:_form.html.twig
+                    form: '@Brille24SyliusCustomerOptionsPlugin/CustomerOptionGroup/_form.html.twig'
             index:
                 icon: cube
     type: sylius.resource
