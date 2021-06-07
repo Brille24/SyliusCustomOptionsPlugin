@@ -29,7 +29,7 @@ use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Sylius\Component\Resource\Model\CodeAwareInterface;
 use Webmozart\Assert\Assert;
 
-final class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
+class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 {
     /** @var CustomerOptionRepositoryInterface */
     private $customerOptionRepository;
