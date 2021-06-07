@@ -18,7 +18,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConfigurationException;
 use Faker\Factory;
 use Faker\Generator;
 
-final class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
+class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
 {
     /** @var CustomerOptionValuePriceFactoryInterface */
     private $valuePriceFactory;

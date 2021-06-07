@@ -21,7 +21,7 @@ use Faker\Generator;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 
-final class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactoryInterface
+class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactoryInterface
 {
     /** @var ChannelRepositoryInterface */
     private $channelRepository;

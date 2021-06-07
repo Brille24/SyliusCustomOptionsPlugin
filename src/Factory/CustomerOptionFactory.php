@@ -23,7 +23,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionGroupRepositor
 use Faker\Factory;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
-final class CustomerOptionFactory implements CustomerOptionFactoryInterface
+class CustomerOptionFactory implements CustomerOptionFactoryInterface
 {
     /** @var RepositoryInterface */
     private $customerOptionGroupRepository;
