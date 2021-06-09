@@ -16,7 +16,6 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-
 class CustomerOptionValueListenerTest extends KernelTestCase
 {
     /** @var ChannelInterface[] */
@@ -33,7 +32,7 @@ class CustomerOptionValueListenerTest extends KernelTestCase
         self::bootKernel();
 
         $container = self::$container;
-        $factory = $container->get('brille24.customer_options_plugin.factory.customer_option_value_price_factory');
+        $factory   = $container->get('brille24.customer_options_plugin.factory.customer_option_value_price_factory');
 
         $channelRepository = self::createMock(EntityRepository::class);
         $channelRepository->method('findAll')->willReturnCallback(function () {

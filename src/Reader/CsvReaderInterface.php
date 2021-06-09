@@ -9,7 +9,7 @@ interface CsvReaderInterface
     /**
      * @param string $path
      *
-     * @return array
+     * @return array<array<string, string>>
      */
     public function readCsv(string $path): array;
 }

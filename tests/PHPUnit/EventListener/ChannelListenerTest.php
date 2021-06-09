@@ -15,7 +15,6 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Sylius\Component\Core\Model\Channel;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-
 class ChannelListenerTest extends KernelTestCase
 {
     /** @var ChannelListener */
@@ -31,10 +30,10 @@ class ChannelListenerTest extends KernelTestCase
         self::bootKernel();
 
         $container = self::$container;
-        $factory = $container->get('brille24.customer_options_plugin.factory.customer_option_value_price_factory');
+        $factory   = $container->get('brille24.customer_options_plugin.factory.customer_option_value_price_factory');
+
         $this->channelCreateListener = new ChannelListener($factory);
     }
-
 
     private function createArguments($entity): LifecycleEventArgs
     {

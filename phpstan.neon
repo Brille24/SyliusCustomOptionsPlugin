@@ -21,6 +21,6 @@ parameters:
 
     ignoreErrors:
         - '/Symfony\\Contracts\\EventDispatcher\\EventDispatcherInterface::dispatch/'
-        - '/Parameter #1 $configuration of method Symfony\\Component\\DependencyInjection\\Extension\\Extension::processConfiguration\(\) expects Symfony\\Component\\Config\\Definition\\ConfigurationInterface, Symfony\\Component\\Config\\Definition\\ConfigurationInterface|null given./'
-        - '/Cannot call method arrayNode\(\) on Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface|null./'
+        - '/Parameter #1 \$configuration of method Symfony\\Component\\DependencyInjection\\Extension\\Extension::processConfiguration\(\) expects Symfony\\Component\\Config\\Definition\\ConfigurationInterface, Symfony\\Component\\Config\\Definition\\ConfigurationInterface\|null given./'
+        - '/Cannot call method arrayNode\(\) on Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\|null./'
         - '/Method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\Validator\\Condition\:\:isMet\(\) has parameter \$value with no typehint specified\./'

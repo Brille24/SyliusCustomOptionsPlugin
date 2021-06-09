@@ -116,6 +116,7 @@ final class AddToCartListener
      */
     public function getCustomerOptionsFromRequest(Request $request): array
     {
+        /** @var array|null $addToCart */
         $addToCart = $request->request->get('sylius_add_to_cart');
 
         if (!isset($addToCart['customer_options'])) {
