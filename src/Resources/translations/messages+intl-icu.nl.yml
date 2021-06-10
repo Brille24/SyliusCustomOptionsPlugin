@@ -82,5 +82,5 @@ brille24:
                 delete_constraint: Verwijder beperking
 
     grid:
-        options_remaining: "{0} |]0,Inf]en %count% meer"
+        options_remaining: "{count, plural, =0 {} other {en # meer}}"
         options_empty: Niks te tonen
