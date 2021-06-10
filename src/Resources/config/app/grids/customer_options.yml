@@ -20,12 +20,12 @@ sylius_grid:
                     type: twig
                     label: sylius.ui.type
                     options:
-                        template: SyliusUiBundle:Grid/Field:rawLabel.html.twig
+                        template: '@SyliusUi/Grid/Field/rawLabel.html.twig'
                 required:
                     type: twig
                     label: brille24.ui.required
                     options:
-                        template: SyliusUiBundle:Grid/Field:enabled.html.twig
+                        template: '@SyliusUi/Grid/Field/enabled.html.twig'
             filters:
                 code:
                     type: string
