@@ -7,10 +7,12 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Event\OrderEvent;
+use Brille24\SyliusCustomerOptionsPlugin\Event\OrderItemEvent;
+use Brille24\SyliusCustomerOptionsPlugin\Event\OrderItemOptionEvent;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 
 final class CustomerOptionRecalculator implements OrderProcessorInterface
@@ -38,14 +40,14 @@ final class CustomerOptionRecalculator implements OrderProcessorInterface
     {
         $this->eventDispatcher->dispatch(
             self::EVENT_PRE_REMOVE_ADJUSTMENTS,
-            new GenericEvent($order)
+            new OrderEvent($order)
         );
 
         $order->removeAdjustmentsRecursively(self::CUSTOMER_OPTION_ADJUSTMENT);
 
         $this->eventDispatcher->dispatch(
             self::EVENT_POST_REMOVE_ADJUSTMENTS,
-            new GenericEvent($order)
+            new OrderEvent($order)
         );
 
         /** @var OrderItem $orderItem */
@@ -57,7 +59,7 @@ final class CustomerOptionRecalculator implements OrderProcessorInterface
 
             $this->eventDispatcher->dispatch(
                 self::EVENT_PRE_ORDER_ITEM,
-                new GenericEvent($orderItem)
+                new OrderItemEvent($orderItem)
             );
 
             /** @var OrderItemOptionInterface[] $configuration */
@@ -67,21 +69,21 @@ final class CustomerOptionRecalculator implements OrderProcessorInterface
 
                 $this->eventDispatcher->dispatch(
                     self::EVENT_ORDER_ITEM_OPTION,
-                    new GenericEvent($orderItemOption)
+                    new OrderItemOptionEvent($orderItemOption)
                 );
                 $this->eventDispatcher->dispatch(
                     self::EVENT_PREFIX_ORDER_ITEM_OPTION_TYPE.$orderItemOption->getCustomerOptionType(),
-                    new GenericEvent($orderItemOption)
+                    new OrderItemOptionEvent($orderItemOption)
                 );
                 $this->eventDispatcher->dispatch(
                     self::EVENT_PREFIX_ORDER_ITEM_OPTION_CODE.$orderItemOption->getCustomerOptionCode(),
-                    new GenericEvent($orderItemOption)
+                    new OrderItemOptionEvent($orderItemOption)
                 );
             }
 
             $this->eventDispatcher->dispatch(
                 self::EVENT_POST_ORDER_ITEM,
-                new GenericEvent($orderItem)
+                new OrderItemEvent($orderItem)
             );
         }
     }
