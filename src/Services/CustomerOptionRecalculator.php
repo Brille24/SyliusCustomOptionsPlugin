@@ -4,57 +4,111 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Sylius\Component\Order\Factory\AdjustmentFactoryInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
+
 
 final class CustomerOptionRecalculator implements OrderProcessorInterface
 {
+    public const EVENT_PRE_REMOVE_ADJUSTMENTS       = 'brille24.customer_option_recalculator_event.pre.remove_adjustments';
+    public const EVENT_POST_REMOVE_ADJUSTMENTS      = 'brille24.customer_option_recalculator_event.post.remove_adjustments';
+
+    public const EVENT_PRE_ORDER_ITEM               = 'brille24.customer_option_recalculator_event.pre.order_item';
+    public const EVENT_CUSTOMER_OPTION              = 'brille24.customer_option_recalculator_event.customer_option';
+    public const EVENT_PREFIX_CUSTOMER_OPTION_TYPE  = 'brille24.customer_option_recalculator_event.customer_option.type.';
+    public const EVENT_PREFIX_CUSTOMER_OPTION_CODE  = 'brille24.customer_option_recalculator_event.customer_option.code.';
+    public const EVENT_POST_ORDER_ITEM              = 'brille24.customer_option_recalculator_event.post.order_item';
+
     public const CUSTOMER_OPTION_ADJUSTMENT = 'customer_option';
 
     /** @var AdjustmentFactoryInterface */
     private $adjustmentFactory;
 
-    public function __construct(AdjustmentFactoryInterface $adjustmentFactory)
+    /** @var EventDispatcherInterface */
+    private $eventDispatcher;
+
+    public function __construct(AdjustmentFactoryInterface $adjustmentFactory, EventDispatcherInterface $eventDispatcher)
     {
         $this->adjustmentFactory = $adjustmentFactory;
+        $this->eventDispatcher   = $eventDispatcher;
     }
 
     public function process(OrderInterface $order): void
     {
+        $this->eventDispatcher->dispatch(
+            self::EVENT_PRE_REMOVE_ADJUSTMENTS,
+            new GenericEvent($order)
+        );
+
         $order->removeAdjustmentsRecursively(self::CUSTOMER_OPTION_ADJUSTMENT);
 
+        $this->eventDispatcher->dispatch(
+            self::EVENT_POST_REMOVE_ADJUSTMENTS,
+            new GenericEvent($order)
+        );
+
+        /** @var OrderItem $orderItem */
         foreach ($order->getItems() as $orderItem) {
+
             if (!$orderItem instanceof OrderItemInterface) {
                 continue;
             }
 
-            $this->addOrderItemAdjustment($orderItem);
+            /** @var OrderItemOptionInterface[] $configuration */
+            $configuration = $orderItem->getCustomerOptionConfiguration();
+
+            $this->eventDispatcher->dispatch(
+                self::EVENT_PRE_ORDER_ITEM,
+                new GenericEvent($orderItem)
+            );
+
+            foreach ($configuration as $orderItemOption) {
+
+                $this->eventDispatcher->dispatch(
+                    self::EVENT_CUSTOMER_OPTION,
+                    new GenericEvent($orderItem)
+                );
+                $this->eventDispatcher->dispatch(
+                    self::EVENT_PREFIX_CUSTOMER_OPTION_TYPE.$orderItemOption->getCustomerOptionType(),
+                    new GenericEvent($orderItem)
+                );
+                $this->eventDispatcher->dispatch(
+                    self::EVENT_PREFIX_CUSTOMER_OPTION_CODE.$orderItemOption->getCustomerOptionCode(),
+                    new GenericEvent($orderItem)
+                );
+
+                // Skip all customer options that don't have customer option values as they can not have a price like
+                // text options
+                if (null === $orderItemOption->getCustomerOptionValue()) {
+                    continue;
+                }
+
+                $this->addOrderItemAdjustment($orderItemOption);
+            }
+
+            $this->eventDispatcher->dispatch(
+                self::EVENT_POST_ORDER_ITEM,
+                new GenericEvent($orderItem)
+            );
         }
     }
 
-    private function addOrderItemAdjustment(OrderItemInterface $orderItem): void
+    private function addOrderItemAdjustment(OrderItemOptionInterface $orderItemOption): void
     {
-        /** @var OrderItemOptionInterface[] $configuration */
-        $configuration = $orderItem->getCustomerOptionConfiguration();
-        foreach ($configuration as $orderItemOption) {
-            // Skip all customer options that don't have customer option values as they can not have a price like
-            // text options
-            if (null === $orderItemOption->getCustomerOptionValue()) {
-                continue;
-            }
+        foreach ($orderItemOption->getOrderItem()->getUnits() as $unit) {
+            $adjustment = $this->adjustmentFactory->createWithData(
+                self::CUSTOMER_OPTION_ADJUSTMENT,
+                $orderItemOption->getCustomerOptionName(),
+                $orderItemOption->getCalculatedPrice($orderItemOption->getOrderItem()->getUnitPrice())
+            );
 
-            foreach ($orderItem->getUnits() as $unit) {
-                $adjustment = $this->adjustmentFactory->createWithData(
-                    self::CUSTOMER_OPTION_ADJUSTMENT,
-                    $orderItemOption->getCustomerOptionName(),
-                    $orderItemOption->getCalculatedPrice($orderItem->getUnitPrice())
-                );
-
-                $unit->addAdjustment($adjustment);
-            }
+            $unit->addAdjustment($adjustment);
         }
     }
 }
