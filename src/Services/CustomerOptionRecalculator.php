@@ -7,7 +7,6 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
-use Sylius\Component\Order\Factory\AdjustmentFactoryInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -27,15 +26,11 @@ final class CustomerOptionRecalculator implements OrderProcessorInterface
 
     public const CUSTOMER_OPTION_ADJUSTMENT = 'customer_option';
 
-    /** @var AdjustmentFactoryInterface */
-    private $adjustmentFactory;
-
     /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
-    public function __construct(AdjustmentFactoryInterface $adjustmentFactory, EventDispatcherInterface $eventDispatcher)
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
-        $this->adjustmentFactory = $adjustmentFactory;
         $this->eventDispatcher   = $eventDispatcher;
     }
 
@@ -82,33 +77,12 @@ final class CustomerOptionRecalculator implements OrderProcessorInterface
                     self::EVENT_PREFIX_ORDER_ITEM_OPTION_CODE.$orderItemOption->getCustomerOptionCode(),
                     new GenericEvent($orderItemOption)
                 );
-
-                // Skip all customer options that don't have customer option values as they can not have a price like
-                // text options
-                if (null === $orderItemOption->getCustomerOptionValue()) {
-                    continue;
-                }
-
-                $this->addOrderItemAdjustment($orderItemOption);
             }
 
             $this->eventDispatcher->dispatch(
                 self::EVENT_POST_ORDER_ITEM,
                 new GenericEvent($orderItem)
             );
-        }
-    }
-
-    private function addOrderItemAdjustment(OrderItemOptionInterface $orderItemOption): void
-    {
-        foreach ($orderItemOption->getOrderItem()->getUnits() as $unit) {
-            $adjustment = $this->adjustmentFactory->createWithData(
-                self::CUSTOMER_OPTION_ADJUSTMENT,
-                $orderItemOption->getCustomerOptionName(),
-                $orderItemOption->getCalculatedPrice($orderItemOption->getOrderItem()->getUnitPrice())
-            );
-
-            $unit->addAdjustment($adjustment);
         }
     }
 }
