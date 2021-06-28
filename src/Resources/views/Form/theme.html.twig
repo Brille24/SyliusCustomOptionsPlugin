@@ -2,7 +2,7 @@
 
 {% block brille24_customer_options_plugin_validator_widget %}
     {% from '@SyliusAdmin/Macro/translationForm.html.twig' import translationForm %}
-    {% from 'SyliusResourceBundle:Macros:notification.html.twig' import error %}
+    {% from '@SyliusResource/Macros/notification.html.twig' import error %}
     {% import _self as self %}
     {% set attr = attr|merge({'class': attr.class|default ~ ' controls collection-widget'}) %}
 

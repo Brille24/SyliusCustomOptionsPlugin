@@ -6,7 +6,7 @@ sylius_grid:
                     type: 'twig'
                     label: 'brille24.ui.customer_option_group'
                     options:
-                        template: 'Brille24SyliusCustomerOptionsPlugin:Product:_customer_option_group_code.html.twig'
+                        template: '@Brille24SyliusCustomerOptionsPlugin/Product/_customer_option_group_code.html.twig'
             filters:
                 customerOptionGroup:
                     label: 'brille24.ui.customer_option_group'
