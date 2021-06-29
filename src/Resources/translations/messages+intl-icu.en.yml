@@ -87,7 +87,7 @@ brille24:
                 delete_constraint: Delete Constraint
 
     grid:
-        options_remaining: "{0} |]0,Inf]and %count% more"
+        options_remaining: "{count, plural, =0 {} other {and # more}}"
         options_empty: Nothing to display
 
     email:
