@@ -47,12 +47,14 @@
 
         <service
                 class="Brille24\SyliusCustomerOptionsPlugin\Factory\ProductFactory"
+                decorates="sylius.fixture.example_factory.product"
                 id="brille24.factory.product"
         >
-            <argument type="service" id="sylius.fixture.example_factory.product"/>
+            <argument type="service" id="brille24.factory.product.inner"/>
             <argument type="service" id="sylius.repository.channel"/>
             <argument type="service" id="brille24.repository.customer_option_group"/>
             <argument type="service" id="brille24.repository.customer_option_value"/>
+            <argument type="service" id="brille24.customer_options_plugin.factory.customer_option_value_price_factory" />
         </service>
     </services>
 </container>

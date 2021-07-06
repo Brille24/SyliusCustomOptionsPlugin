@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
 interface CustomerOptionValuePriceFactoryInterface extends FactoryInterface
@@ -33,4 +36,10 @@ interface CustomerOptionValuePriceFactoryInterface extends FactoryInterface
      * @return array
      */
     public function generateRandomConfiguration(int $amount): array;
+
+    public function createFromProductAndChannel(
+        CustomerOptionValueInterface $customerOptionValue,
+        ProductInterface $product,
+        ChannelInterface $channel
+    ): CustomerOptionValuePriceInterface;
 }

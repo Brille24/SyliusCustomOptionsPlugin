@@ -12,8 +12,10 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConfigurationException;
 use Doctrine\ORM\EntityNotFoundException;
 use Faker\Factory;
@@ -107,5 +109,18 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
     public function createNew(): CustomerOptionValuePriceInterface
     {
         return new CustomerOptionValuePrice();
+    }
+
+    public function createFromProductAndChannel(
+        CustomerOptionValueInterface $customerOptionValue,
+        ProductInterface $product,
+        ChannelInterface $channel
+    ): CustomerOptionValuePriceInterface {
+        $valuePrice = $this->createNew();
+        $valuePrice->setCustomerOptionValue($customerOptionValue);
+        $valuePrice->setChannel($channel);
+        $valuePrice->setProduct($product);
+
+        return $valuePrice;
     }
 }

@@ -12,18 +12,11 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Fixture;
 
-use Doctrine\Persistence\ObjectManager;
-use Sylius\Bundle\CoreBundle\Fixture\Factory\ExampleFactoryInterface;
 use Sylius\Bundle\CoreBundle\Fixture\ProductFixture as BaseProductFixture;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 class ProductFixture extends BaseProductFixture
 {
-    public function __construct(ObjectManager $objectManager, ExampleFactoryInterface $exampleFactory)
-    {
-        parent::__construct($objectManager, $exampleFactory);
-    }
-
     protected function configureResourceNode(ArrayNodeDefinition $resourceNode): void
     {
         parent::configureResourceNode($resourceNode);
