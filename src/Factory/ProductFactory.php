@@ -15,6 +15,7 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\ExampleFactoryInterface;
@@ -38,16 +39,21 @@ class ProductFactory implements ExampleFactoryInterface
     /** @var BaseFactory */
     private $baseFactory;
 
+    /** @var CustomerOptionValuePriceFactoryInterface */
+    private $customerOptionValuePriceFactory;
+
     public function __construct(
         BaseFactory $baseFactory,
         RepositoryInterface $channelRepository,
         RepositoryInterface $customerOptionGroupRepository,
-        RepositoryInterface $customerOptionValueRepository
+        RepositoryInterface $customerOptionValueRepository,
+        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory
     ) {
-        $this->baseFactory                   = $baseFactory;
-        $this->customerOptionGroupRepository = $customerOptionGroupRepository;
-        $this->customerOptionValueRepository = $customerOptionValueRepository;
-        $this->channelRepository             = $channelRepository;
+        $this->baseFactory                     = $baseFactory;
+        $this->customerOptionGroupRepository   = $customerOptionGroupRepository;
+        $this->customerOptionValueRepository   = $customerOptionValueRepository;
+        $this->channelRepository               = $channelRepository;
+        $this->customerOptionValuePriceFactory = $customerOptionValuePriceFactory;
     }
 
     protected function configureOptions(OptionsResolver $resolver): void
@@ -110,8 +116,6 @@ class ProductFactory implements ExampleFactoryInterface
             $prices = new ArrayCollection();
 
             foreach ($customerOptionValuePricesConfig as $valuePriceConfig) {
-                $valuePrice = new CustomerOptionValuePrice();
-
                 /** @var CustomerOptionValueInterface|null $value */
                 $value = $this->customerOptionValueRepository->findOneBy(['code' => $valuePriceConfig['value_code']]);
 
@@ -122,19 +126,6 @@ class ProductFactory implements ExampleFactoryInterface
                     continue;
                 }
 
-                $valuePrice->setCustomerOptionValue($value);
-
-                if ($valuePriceConfig['type'] === 'fixed') {
-                    $valuePrice->setType(CustomerOptionValuePrice::TYPE_FIXED_AMOUNT);
-                } elseif ($valuePriceConfig['type'] === 'percent') {
-                    $valuePrice->setType(CustomerOptionValuePrice::TYPE_PERCENT);
-                } else {
-                    throw new \Exception(sprintf("Value price type '%s' does not exist!", $valuePriceConfig['type']));
-                }
-
-                $valuePrice->setAmount($valuePriceConfig['amount']);
-                $valuePrice->setPercent($valuePriceConfig['percent']);
-
                 /** @var ChannelInterface|null $channel */
                 $channel = $this->channelRepository->findOneBy(['code' => $valuePriceConfig['channel']]);
 
@@ -143,8 +134,8 @@ class ProductFactory implements ExampleFactoryInterface
                     $channel  = $channels->first();
                 }
 
+                $valuePrice = $this->createCustomerOptionValuePrice($value, $valuePriceConfig);
                 $valuePrice->setChannel($channel);
-
                 $valuePrice->setProduct($product);
 
                 $prices[] = $valuePrice;
@@ -153,5 +144,27 @@ class ProductFactory implements ExampleFactoryInterface
         }
 
         return $product;
+    }
+
+    private function createCustomerOptionValuePrice(
+        CustomerOptionValueInterface $value,
+        array $valuePriceConfig
+    ): CustomerOptionValuePrice {
+        /** @var CustomerOptionValuePriceInterface $valuePrice */
+        $valuePrice = $this->customerOptionValuePriceFactory->createNew();
+        $valuePrice->setCustomerOptionValue($value);
+
+        if ($valuePriceConfig['type'] === 'fixed') {
+            $valuePrice->setType(CustomerOptionValuePrice::TYPE_FIXED_AMOUNT);
+        } elseif ($valuePriceConfig['type'] === 'percent') {
+            $valuePrice->setType(CustomerOptionValuePrice::TYPE_PERCENT);
+        } else {
+            throw new \Exception(sprintf("Value price type '%s' does not exist!", $valuePriceConfig['type']));
+        }
+
+        $valuePrice->setAmount($valuePriceConfig['amount']);
+        $valuePrice->setPercent($valuePriceConfig['percent']);
+
+        return $valuePrice;
     }
 }
