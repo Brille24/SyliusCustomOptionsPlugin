@@ -16,3 +16,6 @@
 
 # PHP-Storm
 .idea/
+
+# PhpUnit
+/.phpunit.result.cache

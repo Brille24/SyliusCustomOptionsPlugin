@@ -10,6 +10,9 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 interface CustomerOptionValuePriceFactoryInterface extends FactoryInterface
 {
     /**
+     * @deprecated
+     * This function will be removed in future versions and replaced with an OptionResolver
+     *
      * @param array $configuration
      *
      * @throws \Exception
