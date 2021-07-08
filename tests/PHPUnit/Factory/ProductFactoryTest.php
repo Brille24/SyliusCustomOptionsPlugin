@@ -7,14 +7,17 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Factory;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociation;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\Product;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\ProductFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\ProductExampleFactory;
-use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
@@ -23,10 +26,10 @@ class ProductFactoryTest extends TestCase
     /** @var ProductFactory */
     private $factory;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var MockObject */
     private $customerOptionValueRepositoryMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var MockObject */
     private $customerOptionGroupRepositoryMock;
 
     /** @var CustomerOption */
@@ -35,25 +38,26 @@ class ProductFactoryTest extends TestCase
     /** @var CustomerOptionGroup */
     private $customerOptionGroup;
 
+    /** @var CustomerOptionValuePriceFactoryInterface|MockObject */
+    private $customerOptionValuePriceFactory;
+
     /**
      * @throws \Exception
      */
     public function setUp(): void
     {
-        $channelRepositoryMock = $this->createMock(RepositoryInterface::class);
-        $channelRepositoryMock->expects($this->any())->method('findAll')->willReturn([new Channel()]);
-
         $productFactoryMock = $this->createMock(ProductExampleFactory::class);
         $productFactoryMock->expects($this->any())->method('create')->willReturn(new Product());
 
         $this->customerOptionValueRepositoryMock = $this->createMock(RepositoryInterface::class);
         $this->customerOptionGroupRepositoryMock = $this->createMock(RepositoryInterface::class);
+        $this->customerOptionValuePriceFactory   = $this->createMock(CustomerOptionValuePriceFactoryInterface::class);
 
         $this->factory = new ProductFactory(
             $productFactoryMock,
-            $channelRepositoryMock,
             $this->customerOptionGroupRepositoryMock,
-            $this->customerOptionValueRepositoryMock
+            $this->customerOptionValueRepositoryMock,
+            $this->customerOptionValuePriceFactory
         );
     }
 
@@ -128,6 +132,13 @@ class ProductFactoryTest extends TestCase
                 ->willReturn($customerOptionValue)
             ;
         }
+
+        $this->customerOptionValuePriceFactory
+            ->expects($this->exactly(2))
+            ->method('createFromConfig')
+            ->willReturn(new CustomerOptionValuePrice())
+        ;
+
         $this->customerOption->setValues($customerOptionValues);
 
         $options = [
@@ -159,11 +170,11 @@ class ProductFactoryTest extends TestCase
             ],
         ];
         $product = $this->factory->create($options);
-
         $this->assertInstanceOf(ProductInterface::class, $product);
 
-        $this->assertCount(2, $product->getCustomerOptionValuePrices());
+        $this->assertInstanceOf(CustomerOptionGroupInterface::class, $product->getCustomerOptionGroup());
 
+        $this->assertCount(2, $product->getCustomerOptionValuePrices());
         $this->assertContainsOnly(CustomerOptionValuePriceInterface::class, $product->getCustomerOptionValuePrices());
     }
 
@@ -181,8 +192,7 @@ class ProductFactoryTest extends TestCase
         ];
 
         $this->expectException(\Exception::class);
-
-        $product = $this->factory->create($options);
+        $this->factory->create($options);
     }
 
     /**
