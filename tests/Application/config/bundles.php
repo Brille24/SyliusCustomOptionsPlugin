@@ -1,6 +1,12 @@
 <?php
 
-return [
+use BabDev\PagerfantaBundle\BabDevPagerfantaBundle;
+
+$versionBasedBundles = [];
+if(class_exists(BabDevPagerfantaBundle::class)) {
+    $versionBasedBundles[BabDevPagerfantaBundle::class] = ['all' => true];
+}
+return array_merge([
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
@@ -58,6 +64,5 @@ return [
     Sylius\Bundle\ApiBundle\SyliusApiBundle::class => ['all' => true],
     SyliusLabs\DoctrineMigrationsExtraBundle\SyliusLabsDoctrineMigrationsExtraBundle::class => ['all' => true],
     Symplify\ConsoleColorDiff\ConsoleColorDiffBundle::class => ['dev' => true, 'test' => true],
-    BabDev\PagerfantaBundle\BabDevPagerfantaBundle::class => ['all' => true],
     SyliusLabs\Polyfill\Symfony\Security\Bundle\SyliusLabsPolyfillSymfonySecurityBundle::class => ['all' => true],
-];
+], $versionBasedBundles);

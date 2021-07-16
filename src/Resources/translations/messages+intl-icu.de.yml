@@ -83,6 +83,6 @@ brille24:
                 add_constraint: Einschränkung hinzufügen
                 delete_constraint: Einschränkung entfernen
     grid:
-        options_remaining: "{0} |]0,Inf]und %count% weitere"
+        options_remaining: "{count, plural, =0 {} other {und # weitere}}"
         options_empty: Leer
         delete_not_allowed: 'Die Kundenoption kann nicht gelöscht werden, weil sie in Verwendung ist.'

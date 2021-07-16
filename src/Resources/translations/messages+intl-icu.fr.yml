@@ -83,5 +83,5 @@ brille24:
                 delete_constraint: Supprimer la contrainte
 
     grid:
-        options_remaining: "{0} |]0,Inf]et %count% plus"
+        options_remaining: "{count, plural, =0 {} other {et # plus}}"
         options_empty: Rien à afficher
