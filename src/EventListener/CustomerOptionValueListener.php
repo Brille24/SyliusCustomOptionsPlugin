@@ -13,23 +13,27 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\EventListener;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 final class CustomerOptionValueListener
 {
+    /** @var CustomerOptionValuePriceFactoryInterface */
+    private $valuePriceFactory;
+
     /** @var EntityRepository */
     private $channelRepository;
 
     /**
-     * CustomerOptionValueListener constructor.
-     *
-     * @param EntityRepository $channelRepository
+     * @param CustomerOptionValuePriceFactoryInterface $valuePriceFactory
+     * @param EntityRepository                         $channelRepository
      */
     public function __construct(
+        CustomerOptionValuePriceFactoryInterface $valuePriceFactory,
         EntityRepository $channelRepository
     ) {
+        $this->valuePriceFactory = $valuePriceFactory;
         $this->channelRepository = $channelRepository;
     }
 
@@ -58,7 +62,7 @@ final class CustomerOptionValueListener
 
         foreach ($channels as $channel) {
             if (!in_array($channel, $existingChannels, true)) {
-                $newPrice = new CustomerOptionValuePrice();
+                $newPrice = $this->valuePriceFactory->createNew();
                 $newPrice->setChannel($channel);
                 $value->addPrice($newPrice);
             }

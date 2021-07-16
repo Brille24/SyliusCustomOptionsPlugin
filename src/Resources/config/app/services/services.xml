@@ -6,7 +6,7 @@
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionRecalculator"
                  id="brille24.customer_options_plugin.services.order_prices_recalculator">
-            <argument type="service" id="sylius.custom_factory.adjustment" />
+            <argument type="service" id="event_dispatcher" />
 
             <tag name="sylius.order_processor" priority="40" />
         </service>
