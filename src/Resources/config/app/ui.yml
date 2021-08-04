@@ -2,4 +2,4 @@ sylius_ui:
   events:
     sylius.admin.layout.javascripts:
       blocks:
-        brille24_customer_options.admin.layout.javascripts: '@Brille24SyliusCustomerOptionsPlugin/Resources/views/Product/Tab/_javascripts.html.twig'
+        brille24_customer_options.admin.layout.javascripts: '@Brille24SyliusCustomerOptionsPlugin/Product/Tab/_javascripts.html.twig'
