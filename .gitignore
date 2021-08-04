@@ -1,21 +1,13 @@
 /vendor/
 /node_modules/
+/composer.lock
 
 /etc/build/*
 !/etc/build/.gitignore
-/composer.lock
 
-# Excluding the test application
 /tests/Application/yarn.lock
-/tests/Application/app/sqlite.db
 
-/web
-
-# Exluding individual behat config
-/behat.yml
-
-# PHP-Storm
-.idea/
-
-# PhpUnit
 /.phpunit.result.cache
+/behat.yml
+/phpspec.yml
+/phpunit.xml
