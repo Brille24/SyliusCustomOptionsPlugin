@@ -13,8 +13,9 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Sylius\Component\Resource\Model\TranslationInterface;
 
-interface CustomerOptionGroupTranslationInterface extends ResourceInterface
+interface CustomerOptionGroupTranslationInterface extends ResourceInterface, TranslationInterface
 {
     /**
      * @param string|null $name
