@@ -10,7 +10,7 @@ use Behat\Mink\Session;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Sylius\Behat\Page\Admin\Crud\CreatePage as BaseCreatePage;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreatePage extends BaseCreatePage
 {
