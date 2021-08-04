@@ -73,7 +73,7 @@ sylius_fixtures:
                                         type: fixed
                                         amount: 200
                                         percent: 0
-                                        channel: US_WEB
+                                        channel: FASHION_WEB
                 order:
                     priority: -1
                     options:
