@@ -8,9 +8,6 @@ parameters:
     checkGenericClassInNonGenericObjectType: false
     reportUnmatchedIgnoredErrors: false
 
-    symfony:
-        container_xml_path: tests/Application/var/cache/test/ApplicationTests_Brille24_SyliusCustomerOptionsPlugin_Application_KernelTestDebugContainer.xml
-
     excludes_analyse:
         # Makes PHPStan crash
         - 'src/DependencyInjection/Configuration.php'
@@ -25,3 +22,4 @@ parameters:
         - '/Cannot call method arrayNode\(\) on Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface|null./'
         - '/Method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\Validator\\Condition\:\:isMet\(\) has parameter \$value with no typehint specified\./'
         - '/Access to an undefined property Faker\\UniqueGenerator\:\:\$word\./'
+        - '/Unreachable statement \- code above always terminates\./'
