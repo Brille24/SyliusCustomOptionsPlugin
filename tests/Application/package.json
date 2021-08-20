@@ -47,7 +47,7 @@
     "build": "gulp build",
     "gulp": "gulp build",
     "lint": "yarn lint:js",
-    "lint:js": "eslint gulpfile.babel.js src/Sylius/Bundle/AdminBundle/gulpfile.babel.js src/Sylius/Bundle/ShopBundle/gulpfile.babel.js src/Sylius/Bundle/UiBundle/Resources/private/js src/Sylius/Bundle/AdminBundle/Resources/private/js src/Sylius/Bundle/ShopBundle/Resources/private/js"
+    "lint:js": "eslint gulpfile.babel.js"
   },
   "repository": {
     "type": "git",

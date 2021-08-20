@@ -1,0 +1,4 @@
+suites:
+    main:
+        namespace: Brille24\SyliusCustomerOptionsPlugin
+        psr4_prefix: Brille24\SyliusCustomerOptionsPlugin
