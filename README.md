@@ -88,7 +88,7 @@ bin/console sylius:fixtures:load
 
 * Finally update the database and update the translations:
 ```bash
-bin/console doctrine:schema:update --force
+bin/console doctrine:migrations:migrate
 bin/console translation:update
 ```
 
