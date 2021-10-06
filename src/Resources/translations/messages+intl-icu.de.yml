@@ -22,7 +22,8 @@ brille24:
         pricing:
             fixed_amount: Feste Menge
             percent: Prozent
-
+        customization_total: Anpassungspreis
+        by_product_list: By product list
     form:
         customer_options:
             subheader: Verwalten der Kundenoptionen
@@ -35,6 +36,8 @@ brille24:
                 datetime: Datum und Zeit
                 number: Zahl
                 boolean: Wahrheitswert
+            import_prices: Preise importieren
+            import: Import
 
         customer_option_groups:
             subheader: Verwalten der Kundenoptionengruppen
@@ -82,7 +85,25 @@ brille24:
                 delete_condition: Bedingung entfernen
                 add_constraint: Einschränkung hinzufügen
                 delete_constraint: Einschränkung entfernen
+
     grid:
         options_remaining: "{count, plural, =0 {} other {und # weitere}}"
         options_empty: Leer
-        delete_not_allowed: 'Die Kundenoption kann nicht gelöscht werden, weil sie in Verwendung ist.'
+
+    email:
+        customer_option_price_import_failed: Dein Preisimport ist fehlgeschlagen.
+
+    flashes:
+        customer_option_price_import_error: Konnte Kundenoptionen Preise nicht importieren.
+        customer_option_prices_imported:
+            csv: '%count% Kundenoptionen importiert aus einer csv Datei'
+            product_list: '%count% Kundenoptionen Preise für die Produkt(e) [%products%] im Ausgabekanel "%channel%"'
+            product_list_with_date: '%count% Kundenoption Preise für die Produkt(e) [%products%] im Ausgabekanel "%channel%" vom "%from%" bis zum "%to%"'
+        customer_option_prices_import_failed:
+            csv: Import von %count% Kundenoptionen Preisen aus csv Datei fehlgeschlagen.
+            product_list: Import von %count% Kundenoptionen Preise für die Produkt(e) [%products%] im Ausgabekanal "%channel%" fehlgeschlagen
+            product_list_with_date: Import von %count% Kundenoptionen Preise für Produkt(e) [%products%] im Ausgabekanel "%channel%" vom "%from%" bis zum "%to%"
+
+    validation:
+        customer_option_value_price_dates_overlap: Überlappt mit einer anderen Datumsbereich
+        delete_not_allowed: Du kannst eine Kundenoption löschen, die in einer Bestellung verwendet werden.
