@@ -36,10 +36,10 @@ final class ProductTypeExtension extends AbstractTypeExtension
                 'customer_option_group',
                 EntityType::class,
                 [
-                'class'       => CustomerOptionGroup::class,
+                'class' => CustomerOptionGroup::class,
                 'placeholder' => 'Please choose',
-                'empty_data'  => null,
-                'required'    => false,
+                'empty_data' => null,
+                'required' => false,
             ]
             );
 
@@ -47,14 +47,14 @@ final class ProductTypeExtension extends AbstractTypeExtension
             'customer_option_value_prices',
             CollectionType::class,
             [
-            'entry_type'    => CustomerOptionValuePriceType::class,
+            'entry_type' => CustomerOptionValuePriceType::class,
             'entry_options' => [
                 'product' => $product,
             ],
-            'label'         => false,
-            'by_reference'  => false,
-            'allow_add'     => true,
-            'allow_delete'  => true,
+            'label' => false,
+            'by_reference' => false,
+            'allow_add' => true,
+            'allow_delete' => true,
         ]
         );
     }

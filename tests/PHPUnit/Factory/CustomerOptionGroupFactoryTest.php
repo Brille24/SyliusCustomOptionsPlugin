@@ -72,11 +72,11 @@ class CustomerOptionGroupFactoryTest extends TestCase
         ;
 
         $options = [
-            'code'         => 'some_group',
+            'code' => 'some_group',
             'translations' => [
                 'en_US' => 'Some Group',
             ],
-            'options'  => [],
+            'options' => [],
             'products' => [],
         ];
 
@@ -149,11 +149,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
             ->willReturn([])
         ;
 
-        $optionCodes = [
-            'option_1',
-            'option_2',
-            'option_3',
-        ];
+        $optionCodes = ['option_1', 'option_2', 'option_3'];
 
         foreach ($optionCodes as $index => $code) {
             $option = new CustomerOption();
@@ -168,7 +164,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
         }
 
         $options = [
-            'code'         => 'some_group',
+            'code' => 'some_group',
             'translations' => [
                 'en_US' => 'Some Group',
             ],
@@ -187,11 +183,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
      */
     public function testCreateWithProducts()
     {
-        $productCodes = [
-            'product_1',
-            'product_2',
-            'product_3',
-        ];
+        $productCodes = ['product_1', 'product_2', 'product_3'];
 
         $mockProducts = [];
         foreach ($productCodes as $code) {
@@ -208,7 +200,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
         ;
 
         $options = [
-            'code'         => 'some_group',
+            'code' => 'some_group',
             'translations' => [
                 'en_US' => 'Some Group',
             ],
@@ -234,11 +226,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
             ->willReturn([])
         ;
 
-        $optionCodes = [
-            'option_1',
-            'option_2',
-            'option_3',
-        ];
+        $optionCodes = ['option_1', 'option_2', 'option_3'];
 
         $customerOptions = [];
 
@@ -281,35 +269,35 @@ class CustomerOptionGroupFactoryTest extends TestCase
             ->willReturn($customerOptions[2]);
 
         $options = [
-            'code'         => 'some_group',
+            'code' => 'some_group',
             'translations' => [
                 'en_US' => 'Some Group',
             ],
-            'options'    => $optionCodes,
+            'options' => $optionCodes,
             'validators' => [
                 [
                     'conditions' => [
                         [
                             'customer_option' => 'option_1',
-                            'comparator'      => 'greater',
-                            'value'           => '4',
+                            'comparator' => 'greater',
+                            'value' => '4',
                         ],
                     ],
                     'constraints' => [
                         [
                             'customer_option' => 'option_2',
-                            'comparator'      => 'lesser',
-                            'value'           => '10',
+                            'comparator' => 'lesser',
+                            'value' => '10',
                         ],
                         [
                             'customer_option' => 'option_2',
-                            'comparator'      => 'greater',
-                            'value'           => '0',
+                            'comparator' => 'greater',
+                            'value' => '0',
                         ],
                         [
                             'customer_option' => 'option_3',
-                            'comparator'      => 'equal',
-                            'value'           => '5',
+                            'comparator' => 'equal',
+                            'value' => '5',
                         ],
                     ],
                     'error_messages' => [

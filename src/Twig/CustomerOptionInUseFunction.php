@@ -21,9 +21,7 @@ final class CustomerOptionInUseFunction extends AbstractExtension
 
     public function getFunctions(): array
     {
-        return [
-            new TwigFunction('customer_option_in_use', [$this, 'customerOptionIsInUse']),
-        ];
+        return [new TwigFunction('customer_option_in_use', [$this, 'customerOptionIsInUse'])];
     }
 
     public function customerOptionIsInUse(CustomerOptionInterface $customerOption): bool

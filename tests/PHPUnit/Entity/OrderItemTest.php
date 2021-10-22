@@ -27,7 +27,7 @@ class OrderItemTest extends TestCase
 
     private function createOrderItemUnit(OrderItemInterface $orderItem): OrderItemUnitInterface
     {
-        $orderItemUnit = self::createMock(OrderItemUnitInterface::class);
+        $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
         $orderItemUnit->method('getOrderItem')->willReturn($orderItem);
 
         return $orderItemUnit;
@@ -35,10 +35,10 @@ class OrderItemTest extends TestCase
 
     private function createCustomerOptionConfiguration(string $type, $amount): OrderItemOptionInterface
     {
-        $orderItemOption = self::createMock(OrderItemOptionInterface::class);
+        $orderItemOption = $this->createMock(OrderItemOptionInterface::class);
         $orderItemOption->method('getPricingType')->willReturn($type);
 
-        $customerOptionValue = self::createMock(CustomerOptionValueInterface::class);
+        $customerOptionValue = $this->createMock(CustomerOptionValueInterface::class);
         $orderItemOption->method('getCustomerOptionValue')->willReturn($customerOptionValue);
         switch ($type) {
             case CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT:
@@ -84,8 +84,8 @@ class OrderItemTest extends TestCase
         $orderItemWithCustomOption2->method('getProduct')->willReturn($productWithCustomerOptions);
 
         return [
-            'two identical items'           => [$item1, $item1, true],
-            'one item with custom options'  => [$orderItemWithCustomOption, $item2, false],
+            'two identical items' => [$item1, $item1, true],
+            'one item with custom options' => [$orderItemWithCustomOption, $item2, false],
             'two items with custom options' => [$orderItemWithCustomOption, $orderItemWithCustomOption2, false],
         ];
     }

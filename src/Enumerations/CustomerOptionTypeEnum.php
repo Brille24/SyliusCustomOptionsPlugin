@@ -25,14 +25,14 @@ final class CustomerOptionTypeEnum implements EnumInterface
 {
     const __default = null;
 
-    const TEXT         = 'text';
-    const SELECT       = 'select';
+    const TEXT = 'text';
+    const SELECT = 'select';
     const MULTI_SELECT = 'multi_select';
-    const FILE         = 'file';
-    const DATE         = 'date';
-    const DATETIME     = 'datetime';
-    const NUMBER       = 'number';
-    const BOOLEAN      = 'boolean';
+    const FILE = 'file';
+    const DATE = 'date';
+    const DATETIME = 'datetime';
+    const NUMBER = 'number';
+    const BOOLEAN = 'boolean';
 
     public static function getConstList(): array
     {
@@ -50,8 +50,6 @@ final class CustomerOptionTypeEnum implements EnumInterface
 
     /**
      * @param mixed $enumValue
-     *
-     * @return bool
      */
     public static function isValid($enumValue): bool
     {
@@ -61,28 +59,22 @@ final class CustomerOptionTypeEnum implements EnumInterface
     public static function getTranslateArray(): array
     {
         return [
-            self::TEXT         => 'brille24.form.customer_options.type.text',
-            self::SELECT       => 'brille24.form.customer_options.type.select',
+            self::TEXT => 'brille24.form.customer_options.type.text',
+            self::SELECT => 'brille24.form.customer_options.type.select',
             self::MULTI_SELECT => 'brille24.form.customer_options.type.multi_select',
-            self::FILE         => 'brille24.form.customer_options.type.file',
-            self::DATE         => 'brille24.form.customer_options.type.date',
-            self::DATETIME     => 'brille24.form.customer_options.type.datetime',
-            self::NUMBER       => 'brille24.form.customer_options.type.number',
-            self::BOOLEAN      => 'brille24.form.customer_options.type.boolean',
+            self::FILE => 'brille24.form.customer_options.type.file',
+            self::DATE => 'brille24.form.customer_options.type.date',
+            self::DATETIME => 'brille24.form.customer_options.type.datetime',
+            self::NUMBER => 'brille24.form.customer_options.type.number',
+            self::BOOLEAN => 'brille24.form.customer_options.type.boolean',
         ];
     }
 
     public static function getFormTypeArray(): array
     {
         return [
-            self::TEXT => [
-                TextType::class,
-                [],
-            ],
-            self::SELECT => [
-                ChoiceType::class,
-                [],
-            ],
+            self::TEXT => [TextType::class, []],
+            self::SELECT => [ChoiceType::class, []],
             self::MULTI_SELECT => [
                 ChoiceType::class,
                 ['multiple' => true],
@@ -95,25 +87,14 @@ final class CustomerOptionTypeEnum implements EnumInterface
                 DateTimeType::class,
                 ['years' => range(1900, 2500)],
             ],
-            self::NUMBER => [
-                NumberType::class,
-                [],
-            ],
-            self::BOOLEAN => [
-                CheckboxType::class,
-                [],
-            ],
-            self::FILE => [
-                FileType::class,
-                [],
-            ],
+            self::NUMBER => [NumberType::class, []],
+            self::BOOLEAN => [CheckboxType::class, []],
+            self::FILE => [FileType::class, []],
         ];
     }
 
     /**
      * Gets the default configuration options of the types
-     *
-     * @return array
      */
     public static function getConfigurationArray(): array
     {
@@ -140,7 +121,7 @@ final class CustomerOptionTypeEnum implements EnumInterface
             self::FILE => [
                 'brille24.form.config.max.file_size' => ['type' => 'text', 'value' => '10M'],
                 'brille24.form.config.min.file_size' => ['type' => 'text', 'value' => '0B'],
-                'brille24.form.config.multiple'      => ['type' => 'boolean', 'value' => false],
+                'brille24.form.config.multiple' => ['type' => 'boolean', 'value' => false],
                 'brille24.form.config.allowed_types' => ['type' => 'text', 'value' => ''],
             ],
         ];

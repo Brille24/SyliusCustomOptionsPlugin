@@ -39,14 +39,14 @@ class DateRange implements DateRangeInterface
         }
 
         $this->start = $start;
-        $this->end   = $end;
+        $this->end = $end;
     }
 
     /** {@inheritdoc} */
     public function contains(DateTimeInterface $current): bool
     {
         $afterStart = $this->start <= $current;
-        $beforeEnd  = $this->end > $current;
+        $beforeEnd = $this->end > $current;
 
         return $afterStart && $beforeEnd;
     }

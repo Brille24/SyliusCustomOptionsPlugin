@@ -53,9 +53,9 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
         CustomerOptionValueResolverInterface $valueResolver,
         CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository
     ) {
-        $this->factory                            = $factory;
-        $this->customerOptionRepository           = $customerOptionRepository;
-        $this->valueResolver                      = $valueResolver;
+        $this->factory = $factory;
+        $this->customerOptionRepository = $customerOptionRepository;
+        $this->valueResolver = $valueResolver;
         $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
     }
 
@@ -83,7 +83,11 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
 
             /** @var ChannelInterface $channel */
             $channel = $order->getChannel();
-            $price   = $this->customerOptionValuePriceRepository->getPriceForChannel($channel, $orderItem->getProduct(), $customerOptionValue);
+            $price = $this->customerOptionValuePriceRepository->getPriceForChannel(
+                $channel,
+                $orderItem->getProduct(),
+                $customerOptionValue
+            );
 
             $orderItemOption->setPrice($price);
         }

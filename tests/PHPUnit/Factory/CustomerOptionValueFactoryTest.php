@@ -18,7 +18,7 @@ class CustomerOptionValueFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $customerOptionPriceFactory = self::createMock(CustomerOptionValuePriceFactory::class);
+        $customerOptionPriceFactory = $this->createMock(CustomerOptionValuePriceFactory::class);
         $customerOptionPriceFactory->method('createFromConfig')->willReturnCallback(function ($config) {
             return self::createMock(CustomerOptionValuePrice::class);
         });
@@ -30,14 +30,11 @@ class CustomerOptionValueFactoryTest extends TestCase
      * @dataProvider dataValidateWithInvalidConfiguration
      *
      * @throws ConfigurationException
-     *
-     * @param array $configuration
-     * @param string $exceptionMessage
      */
     public function testValidateWithInvalidConfiguration(array $configuration, string $exceptionMessage): void
     {
-        self::expectException(ConfigurationException::class);
-        self::expectExceptionMessage($exceptionMessage);
+        $this->expectException(ConfigurationException::class);
+        $this->expectExceptionMessage($exceptionMessage);
 
         $this->customerOptionValueFactory->validateConfiguration($configuration);
     }
@@ -45,10 +42,7 @@ class CustomerOptionValueFactoryTest extends TestCase
     public function dataValidateWithInvalidConfiguration(): array
     {
         return [
-            'no code' => [
-                [],
-                'The configuration does not contain key: "code"',
-            ],
+            'no code' => [[], 'The configuration does not contain key: "code"'],
             'no translations' => [
                 ['code' => 'something'],
                 'The configuration does not contain key: "translations"',

@@ -14,7 +14,6 @@ namespace Brille24\SyliusCustomerOptionsPlugin\EventListener;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,9 +25,8 @@ final class ChannelListener
     /** @var CustomerOptionValuePriceFactoryInterface */
     private $customerOptionValuePriceFactory;
 
-    public function __construct(
-        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory
-    ) {
+    public function __construct(CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory)
+    {
         $this->customerOptionValuePriceFactory = $customerOptionValuePriceFactory;
     }
 

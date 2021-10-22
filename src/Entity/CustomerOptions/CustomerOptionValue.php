@@ -203,11 +203,6 @@ class CustomerOptionValue implements CustomerOptionValueInterface
         $this->customerOption = $customerOption;
     }
 
-    /**
-     * @param string|null $locale
-     *
-     * @return TranslationInterface
-     */
     public function getTranslation(?string $locale = null): TranslationInterface
     {
         return $this->doGetTranslation();

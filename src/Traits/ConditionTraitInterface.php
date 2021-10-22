@@ -29,9 +29,6 @@ interface ConditionTraitInterface
      */
     public function setComparator(?string $comparator): void;
 
-    /**
-     * @return array|null
-     */
     public function getValue(): ?array;
 
     /**
@@ -52,8 +49,6 @@ interface ConditionTraitInterface
     /**
      * @param mixed $value
      * @param string $optionType
-     *
-     * @return bool
      */
     public function isMet($value, ?string $optionType = null): bool;
 }

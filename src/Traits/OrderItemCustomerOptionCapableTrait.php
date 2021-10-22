@@ -41,7 +41,7 @@ trait OrderItemCustomerOptionCapableTrait
     /**
      * {@inheritdoc}
      */
-    public function getCustomerOptionConfiguration(bool $assoc=false): array
+    public function getCustomerOptionConfiguration(bool $assoc = false): array
     {
         /** @var OrderItemOptionInterface[] $orderItemOptionList */
         $orderItemOptionList = $this->configuration->toArray();

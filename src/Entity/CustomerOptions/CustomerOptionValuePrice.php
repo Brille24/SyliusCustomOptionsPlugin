@@ -88,10 +88,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
 
     public static function getAllTypes(): array
     {
-        return [
-            self::TYPE_FIXED_AMOUNT,
-            self::TYPE_PERCENT,
-        ];
+        return [self::TYPE_FIXED_AMOUNT, self::TYPE_PERCENT];
     }
 
     public function getCustomerOptionValue(): ?CustomerOptionValueInterface

@@ -27,7 +27,7 @@ class CustomerOptionValueResolverTest extends TestCase
         string $value,
         ?CustomerOptionInterface $customerOption = null
     ): CustomerOptionValueInterface {
-        $customerOptionValue = self::createMock(CustomerOptionValueInterface::class);
+        $customerOptionValue = $this->createMock(CustomerOptionValueInterface::class);
         $customerOptionValue->method('getCode')->willReturn($code);
         $customerOptionValue->method('getName')->willReturn($value);
         $customerOptionValue->method('getCustomerOption')->willReturn($customerOption);
@@ -38,11 +38,11 @@ class CustomerOptionValueResolverTest extends TestCase
     /** @dataProvider dataResolveWithNonSelect */
     public function testResolveWithNonSelect(string $type, string $value): void
     {
-        $customerOption = self::createMock(CustomerOptionInterface::class);
+        $customerOption = $this->createMock(CustomerOptionInterface::class);
         $customerOption->method('getType')->willReturn($type);
 
-        self::expectException(\Exception::class);
-        self::expectExceptionMessage('Can not resolve non-select values');
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Can not resolve non-select values');
 
         $this->valueResolver->resolve($customerOption, $value);
     }
@@ -50,21 +50,21 @@ class CustomerOptionValueResolverTest extends TestCase
     public function dataResolveWithNonSelect(): array
     {
         return [
-            'text'     => [CustomerOptionTypeEnum::TEXT, 'some_string'],
-            'integer'  => [CustomerOptionTypeEnum::NUMBER, '4334'],
-            'boolean'  => [CustomerOptionTypeEnum::BOOLEAN, 'true'],
-            'file'     => [CustomerOptionTypeEnum::FILE, 'some_file'],
+            'text' => [CustomerOptionTypeEnum::TEXT, 'some_string'],
+            'integer' => [CustomerOptionTypeEnum::NUMBER, '4334'],
+            'boolean' => [CustomerOptionTypeEnum::BOOLEAN, 'true'],
+            'file' => [CustomerOptionTypeEnum::FILE, 'some_file'],
             'datetime' => [CustomerOptionTypeEnum::DATETIME, date('Y-m-D H:i:s', time())],
         ];
     }
 
     public function testResolveWithValues(): void
     {
-        $customerOption = self::createMock(CustomerOptionInterface::class);
+        $customerOption = $this->createMock(CustomerOptionInterface::class);
         $customerOption->method('getType')->willReturn(CustomerOptionTypeEnum::SELECT);
 
         $selectedValue = $this->createCustomOptionValue('some_value', 'value', $customerOption);
-        $otherValue    = $this->createCustomOptionValue('some_other_value', 'meep value', $customerOption);
+        $otherValue = $this->createCustomOptionValue('some_other_value', 'meep value', $customerOption);
         $customerOption->method('getValues')->willReturn(new ArrayCollection([$selectedValue, $otherValue]));
 
         $value = $this->valueResolver->resolve($customerOption, 'some_value');
@@ -73,12 +73,10 @@ class CustomerOptionValueResolverTest extends TestCase
 
     public function testResolveWithNonExistingValue()
     {
-        $customerOption = self::createMock(CustomerOptionInterface::class);
+        $customerOption = $this->createMock(CustomerOptionInterface::class);
         $customerOption->method('getType')->willReturn(CustomerOptionTypeEnum::SELECT);
 
-        $values = [
-            $this->createCustomOptionValue('some_value', 'value', $customerOption),
-        ];
+        $values = [$this->createCustomOptionValue('some_value', 'value', $customerOption)];
         $customerOption->method('getValues')->willReturn(new ArrayCollection($values));
 
         $value = $this->valueResolver->resolve($customerOption, 'something');

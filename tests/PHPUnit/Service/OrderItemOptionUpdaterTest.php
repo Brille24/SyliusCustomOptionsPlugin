@@ -63,7 +63,7 @@ class OrderItemOptionUpdaterTest extends TestCase
 
     private function addFactoriedOrderItem(): OrderItemOptionInterface
     {
-        $producedOption         = $this->createMock(OrderItemOptionInterface::class);
+        $producedOption = $this->createMock(OrderItemOptionInterface::class);
         $this->factoryObjects[] = $producedOption;
 
         return $producedOption;
@@ -85,12 +85,16 @@ class OrderItemOptionUpdaterTest extends TestCase
         ### PREPARE
         $customerOptionCode = 'some_custom_option';
 
-        $this->customerOptionRepository->method('findOneByCode')->with($customerOptionCode)->willReturn($this->createMock(CustomerOptionInterface::class));
+        $this->customerOptionRepository->method('findOneByCode')->with($customerOptionCode)->willReturn(
+            $this->createMock(CustomerOptionInterface::class)
+        );
         $producedOption = $this->addFactoriedOrderItem();
-        $product        = $this->setupProduct();
+        $product = $this->setupProduct();
 
         $orderItem = $this->createMock(OrderItemInterface::class);
-        $orderItem->method('getCustomerOptionConfiguration')->will($this->onConsecutiveCalls([], [$customerOptionCode => $producedOption]));
+        $orderItem->method('getCustomerOptionConfiguration')->will(
+            $this->onConsecutiveCalls([], [$customerOptionCode => $producedOption])
+        );
         $orderItem->method('getOrder')->willReturn($this->createMock(OrderInterface::class));
 
         $orderItem->expects($this->once())
@@ -107,9 +111,11 @@ class OrderItemOptionUpdaterTest extends TestCase
     {
         ### PREPARE
         $customerOptionCode = 'some_custom_option';
-        $customerOption     = $this->createMock(CustomerOptionInterface::class);
+        $customerOption = $this->createMock(CustomerOptionInterface::class);
         $customerOption->method('getType')->willReturn(CustomerOptionTypeEnum::SELECT);
-        $this->customerOptionRepository->method('findOneByCode')->with($customerOptionCode)->willReturn($customerOption);
+        $this->customerOptionRepository->method('findOneByCode')->with($customerOptionCode)->willReturn(
+            $customerOption
+        );
         $product = $this->setupProduct();
 
         $expectedValue = $this->createMock(CustomerOptionValueInterface::class);
@@ -122,7 +128,7 @@ class OrderItemOptionUpdaterTest extends TestCase
             OrderItemInterface::class,
             [
                 'getCustomerOptionConfiguration' => [$customerOptionCode => $producedOption],
-                'getOrder'                       => $this->createMock(OrderInterface::class),
+                'getOrder' => $this->createMock(OrderInterface::class),
             ]
         );
         $this->entityManager->expects($this->never())->method('persist')->withAnyParameters();
@@ -135,7 +141,9 @@ class OrderItemOptionUpdaterTest extends TestCase
     {
         ### PREPARE
         $customerOptionCode = 'some_custom_option';
-        $this->customerOptionRepository->method('findOneByCode')->with($customerOptionCode)->willReturn($this->createMock(CustomerOptionInterface::class));
+        $this->customerOptionRepository->method('findOneByCode')->with($customerOptionCode)->willReturn(
+            $this->createMock(CustomerOptionInterface::class)
+        );
         $product = $this->setupProduct();
 
         $expectedValue = 'some_beep';
@@ -149,7 +157,7 @@ class OrderItemOptionUpdaterTest extends TestCase
             OrderItemInterface::class,
             [
                 'getCustomerOptionConfiguration' => [$customerOptionCode => $producedOption],
-                'getOrder'                       => $this->createMock(OrderInterface::class),
+                'getOrder' => $this->createMock(OrderInterface::class),
             ]
         );
         $this->entityManager->expects($this->never())->method('persist')->withAnyParameters();

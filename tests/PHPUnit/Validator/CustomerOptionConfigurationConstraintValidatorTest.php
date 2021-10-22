@@ -22,7 +22,7 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
 
     public function setUp(): void
     {
-        $context = self::createMock(ExecutionContextInterface::class);
+        $context = $this->createMock(ExecutionContextInterface::class);
         $context->method('addViolation')->willReturnCallback(function (?string $message): void {
             $this->violations[] = $message;
         });
@@ -33,17 +33,17 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
 
     public function testValidateWithInvalidDataStructures(): void
     {
-        $constraint = self::createMock(Constraint::class);
+        $constraint = $this->createMock(Constraint::class);
 
-        self::expectException(\InvalidArgumentException::class);
-        self::expectExceptionMessage('Expected an array. Got: string');
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected an array. Got: string');
 
         $this->customerOptionConfigurationValidator->validate('something', $constraint);
     }
 
     public function testWithInvalidKeys(): void
     {
-        $constraint = self::createMock(CustomerOptionConfigurationConstraint::class);
+        $constraint = $this->createMock(CustomerOptionConfigurationConstraint::class);
 
         $input = ['something' => ['value' => 'cool'], 'something else' => ['value' => 23]];
 
@@ -54,7 +54,7 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
 
     public function testWithValidKeysAndValidOrder(): void
     {
-        $constraint = self::createMock(CustomerOptionConfigurationConstraint::class);
+        $constraint = $this->createMock(CustomerOptionConfigurationConstraint::class);
 
         $input = ['min' => ['value' => 0], 'max' => ['value' => 23]];
 
@@ -69,7 +69,7 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
      */
     public function testWithValidKeysAndInvalidOrder($min, $max): void
     {
-        $constraint = self::createMock(CustomerOptionConfigurationConstraint::class);
+        $constraint = $this->createMock(CustomerOptionConfigurationConstraint::class);
 
         $input = ['max' => ['value' => $min], 'min' => ['value' => $max]];
 
@@ -80,13 +80,13 @@ class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
 
     public function dataWithValidKeysAndInvalidOrder(): array
     {
-        $dateTime      = new DateTime('now');
+        $dateTime = new DateTime('now');
         $dateTimeLater = clone $dateTime;
         $dateTimeLater->add(new DateInterval('P10D')); // 10 days later
 
         return
             [
-                'int'      => [0, 23],
+                'int' => [0, 23],
                 'datetime' => [$dateTime, $dateTimeLater],
             ];
     }

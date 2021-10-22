@@ -19,14 +19,11 @@ class GenericImportErrorHandler implements ImportErrorHandlerInterface
     /** @var string */
     protected $email_code;
 
-    public function __construct(
-        SenderInterface $sender,
-        TokenStorageInterface $tokenStorage,
-        string $email_code
-    ) {
-        $this->sender       = $sender;
+    public function __construct(SenderInterface $sender, TokenStorageInterface $tokenStorage, string $email_code)
+    {
+        $this->sender = $sender;
         $this->tokenStorage = $tokenStorage;
-        $this->email_code   = $email_code;
+        $this->email_code = $email_code;
     }
 
     /** {@inheritdoc} */
@@ -38,13 +35,9 @@ class GenericImportErrorHandler implements ImportErrorHandlerInterface
 
         // Send mail about failed imports
         /** @var AdminUserInterface $user */
-        $user  = $this->tokenStorage->getToken()->getUser();
+        $user = $this->tokenStorage->getToken()->getUser();
         $email = $user->getEmail();
 
-        $this->sender->send(
-            $this->email_code,
-            [$email],
-            ['errors' => $errors, 'extraData' => $extraData]
-        );
+        $this->sender->send($this->email_code, [$email], ['errors' => $errors, 'extraData' => $extraData]);
     }
 }

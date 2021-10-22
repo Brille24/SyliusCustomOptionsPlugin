@@ -49,9 +49,9 @@ final class CustomerOptionValuePriceType extends AbstractType
         $builder->remove('customerOptionValue');
         $builder
             ->add('customerOptionValues', ChoiceType::class, [
-                'choices'      => $values,
+                'choices' => $values,
                 'choice_label' => 'name',
-                'group_by'     => static function (CustomerOptionValueInterface $customerOptionValue): ?string {
+                'group_by' => static function (CustomerOptionValueInterface $customerOptionValue): ?string {
                     return $customerOptionValue->getCustomerOption()->getName();
                 },
                 'multiple' => true,

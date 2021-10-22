@@ -120,9 +120,6 @@ trait ConditionTrait
 
     /**
      * @param mixed       $value
-     * @param string|null $optionType
-     *
-     * @return bool
      */
     public function isMet($value, ?string $optionType = null): bool
     {
@@ -182,7 +179,6 @@ trait ConditionTrait
 
     /**
      * @param mixed  $value
-     * @param string $optionType
      *
      * @return \DateTime|int|mixed
      */
@@ -196,8 +192,8 @@ trait ConditionTrait
             if (isset($result['date']) && !is_array($result['date'])) {
                 $result = new \DateTime($result['date']);
             } elseif ($optionType === CustomerOptionTypeEnum::DATETIME) {
-                $date   = $value['date'];
-                $time   = $value['time'];
+                $date = $value['date'];
+                $time = $value['time'];
                 $result = new \DateTime(sprintf('%d-%d-%d', $date['year'], $date['month'], $date['day']));
                 $result->setTime((int) ($time['hour']), (int) ($time['minute']));
             } else {

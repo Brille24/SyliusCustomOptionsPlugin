@@ -27,14 +27,14 @@ final class CustomerOptionAssociationType extends AbstractResourceType
     {
         $builder
             ->add('option', EntityType::class, [
-                'class'        => CustomerOption::class,
-                'placeholder'  => 'brille24.form.customer_option_groups.select',
-                'required'     => true,
+                'class' => CustomerOption::class,
+                'placeholder' => 'brille24.form.customer_option_groups.select',
+                'required' => true,
                 'choice_label' => 'name',
-                'label'        => 'brille24.ui.customer_option',
+                'label' => 'brille24.ui.customer_option',
             ])
             ->add('position', IntegerType::class, [
-                'label'      => 'sylius.ui.position',
+                'label' => 'sylius.ui.position',
                 'empty_data' => 0,
             ]);
     }

@@ -1,14 +1,6 @@
 <?php
 
 declare(strict_types=1);
-/**
- * This file is part of the Brille24 customer options plugin.
- *
- * (c) Brille24 GmbH
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 
@@ -32,7 +24,7 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
     public function __construct(ChannelRepositoryInterface $channelRepository)
     {
         $this->channelRepository = $channelRepository;
-        $this->faker             = Factory::create();
+        $this->faker = Factory::create();
     }
 
     /** {@inheritdoc} */
@@ -82,7 +74,7 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
     /** {@inheritdoc} */
     public function generateRandomConfiguration(int $amount): array
     {
-        $prices          = [];
+        $prices = [];
         $allChannelCodes = array_map(
             static function (ChannelInterface $channel): ?string {
                 return $channel->getCode();
@@ -92,8 +84,8 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
 
         foreach (range(1, $amount) as $_) {
             $config = [
-                'type'    => $this->faker->randomElement(['fixed', 'percent']),
-                'amount'  => $this->faker->numberBetween(50, 10000),
+                'type' => $this->faker->randomElement(['fixed', 'percent']),
+                'amount' => $this->faker->numberBetween(50, 10000),
                 'percent' => $this->faker->randomFloat(4, 0.01, 0.5),
                 'channel' => $this->faker->randomElement($allChannelCodes),
             ];

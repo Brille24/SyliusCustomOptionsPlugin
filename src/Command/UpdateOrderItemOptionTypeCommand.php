@@ -24,7 +24,7 @@ final class UpdateOrderItemOptionTypeCommand extends Command
         parent::__construct();
 
         $this->orderItemOptionRepository = $orderItemOptionRepository;
-        $this->entityManager             = $entityManager;
+        $this->entityManager = $entityManager;
     }
 
     /** {@inheritdoc} */

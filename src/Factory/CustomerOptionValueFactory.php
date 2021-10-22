@@ -1,14 +1,6 @@
 <?php
 
 declare(strict_types=1);
-/**
- * This file is part of the Brille24 customer options plugin.
- *
- * (c) Brille24 GmbH
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 
@@ -29,12 +21,10 @@ class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
     public function __construct(CustomerOptionValuePriceFactoryInterface $valuePriceFactory)
     {
         $this->valuePriceFactory = $valuePriceFactory;
-        $this->faker             = Factory::create();
+        $this->faker = Factory::create();
     }
 
     /**
-     * @param array $configuration
-     *
      * @throws ConfigurationException
      */
     public function validateConfiguration(array $configuration): void
@@ -84,9 +74,9 @@ class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
             $priceAmount = $this->faker->numberBetween(0, 2);
 
             $config = [
-                'code'         => $this->faker->uuid,
+                'code' => $this->faker->uuid,
                 'translations' => ['en_US' => sprintf('Value "%s"', $this->faker->word)],
-                'prices'       => $this->valuePriceFactory->generateRandomConfiguration($priceAmount),
+                'prices' => $this->valuePriceFactory->generateRandomConfiguration($priceAmount),
             ];
 
             $result[] = $config;

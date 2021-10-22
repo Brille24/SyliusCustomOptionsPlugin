@@ -18,18 +18,11 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 interface CustomerOptionGroupRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param string $code
-     *
-     * @return CustomerOptionGroupInterface|null
-     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findOneByCode(string $code): ?CustomerOptionGroupInterface;
 
     /**
-     * @param string $name
-     * @param string $locale
-     *
      * @return CustomerOptionGroupInterface[]
      */
     public function findByName(string $name, string $locale): array;

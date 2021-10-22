@@ -40,9 +40,9 @@ class CustomerOptionTest extends TestCase
     public function dataSetTypeToSelect(): array
     {
         return [
-            'select'       => [CustomerOptionTypeEnum::SELECT, []],
+            'select' => [CustomerOptionTypeEnum::SELECT, []],
             'multi-select' => [CustomerOptionTypeEnum::MULTI_SELECT, []],
-            'boolean'      => [
+            'boolean' => [
                 CustomerOptionTypeEnum::BOOLEAN,
                 CustomerOptionTypeEnum::getConfigurationArray()['boolean'],
             ],
@@ -55,8 +55,8 @@ class CustomerOptionTest extends TestCase
 
     public function testInvalidType(): void
     {
-        self::expectException(\Exception::class);
-        self::expectExceptionMessage('Invalid type');
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid type');
 
         $this->customerOption->setType('Hello');
     }
@@ -64,7 +64,7 @@ class CustomerOptionTest extends TestCase
     public function testAddValues()
     {
         // Setup
-        $value = self::createMock(CustomerOptionValueInterface::class);
+        $value = $this->createMock(CustomerOptionValueInterface::class);
 
         // Execute
         $this->customerOption->addValue($value);
@@ -78,7 +78,7 @@ class CustomerOptionTest extends TestCase
     public function testRemoveValues()
     {
         // Setup
-        $value = self::createMock(CustomerOptionValueInterface::class);
+        $value = $this->createMock(CustomerOptionValueInterface::class);
         $this->customerOption->setValues([$value]);
 
         // Execute

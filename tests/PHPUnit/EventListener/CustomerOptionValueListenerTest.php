@@ -30,27 +30,30 @@ class CustomerOptionValueListenerTest extends TestCase
 
     protected function setUp(): void
     {
-        $channelRepository = self::createMock(EntityRepository::class);
+        $channelRepository = $this->createMock(EntityRepository::class);
         $channelRepository->method('findAll')->willReturnCallback(function () {
             return $this->channels;
         });
 
-        $customerOptionValuePriceFactory = self::createMock(CustomerOptionValuePriceFactoryInterface::class);
+        $customerOptionValuePriceFactory = $this->createMock(CustomerOptionValuePriceFactoryInterface::class);
         $customerOptionValuePriceFactory
             ->method('createNew')
             ->willReturn($this->createMock(CustomerOptionValuePriceInterface::class));
 
-        $this->customerOptionValueListener = new CustomerOptionValueListener($channelRepository, $customerOptionValuePriceFactory);
+        $this->customerOptionValueListener = new CustomerOptionValueListener(
+            $channelRepository,
+            $customerOptionValuePriceFactory
+        );
     }
 
     private function createArguments($entity): LifecycleEventArgs
     {
-        $entityManger = self::createMock(EntityManagerInterface::class);
+        $entityManger = $this->createMock(EntityManagerInterface::class);
         $entityManger->method('persist')->willReturnCallback(function ($entity) {
             ++$this->pricesAdded;
         });
 
-        $arguments = self::createMock(LifecycleEventArgs::class);
+        $arguments = $this->createMock(LifecycleEventArgs::class);
         $arguments->method('getEntityManager')->willReturn($entityManger);
         $arguments->method('getEntity')->willReturn($entity);
 
@@ -59,7 +62,7 @@ class CustomerOptionValueListenerTest extends TestCase
 
     private function createEntity(array $prices): CustomerOptionValueInterface
     {
-        $entity = self::createMock(CustomerOptionValueInterface::class);
+        $entity = $this->createMock(CustomerOptionValueInterface::class);
         $entity->method('getPrices')->willReturn(new ArrayCollection($prices));
         $entity->method('addPrice')->willReturnCallback(function ($price) {
             ++$this->pricesAdded;
@@ -89,8 +92,8 @@ class CustomerOptionValueListenerTest extends TestCase
     public function testPrePersist()
     {
         $customerOptionValue = $this->createEntity([]);
-        $arguments           = $this->createArguments($customerOptionValue);
-        $this->channels      = [self::createMock(ChannelInterface::class)];
+        $arguments = $this->createArguments($customerOptionValue);
+        $this->channels = [$this->createMock(ChannelInterface::class)];
 
         $this->customerOptionValueListener->prePersist($arguments);
 
@@ -99,13 +102,13 @@ class CustomerOptionValueListenerTest extends TestCase
 
     public function testPrePersistWithExistingChannels()
     {
-        $channel = self::createMock(ChannelInterface::class);
-        $price   = self::createMock(CustomerOptionValuePriceInterface::class);
+        $channel = $this->createMock(ChannelInterface::class);
+        $price = $this->createMock(CustomerOptionValuePriceInterface::class);
         $price->method('getChannel')->willReturn($channel);
 
         $customerOptionValue = $this->createEntity([$price]);
-        $arguments           = $this->createArguments($customerOptionValue);
-        $this->channels      = [$channel];
+        $arguments = $this->createArguments($customerOptionValue);
+        $this->channels = [$channel];
 
         $this->customerOptionValueListener->prePersist($arguments);
 

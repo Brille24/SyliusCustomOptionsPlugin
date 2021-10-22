@@ -29,24 +29,20 @@ class CustomerOptionRecalculatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->adjustmentFactory = self::createMock(AdjustmentFactoryInterface::class);
+        $this->adjustmentFactory = $this->createMock(AdjustmentFactoryInterface::class);
 
         $eventDispatcher = new EventDispatcher();
-        $eventDispatcher->addSubscriber(
-            new SelectAdjustmentCalculatorSubscriber($this->adjustmentFactory)
-        );
+        $eventDispatcher->addSubscriber(new SelectAdjustmentCalculatorSubscriber($this->adjustmentFactory));
 
         $this->customerOptionRecalculator = new CustomerOptionRecalculator($eventDispatcher);
     }
 
     public function testingNoUpdateOnInvalidOrderItems(): void
     {
-        $order = self::createMock(OrderInterface::class);
+        $order = $this->createMock(OrderInterface::class);
         $order
             ->method('getItems')
-            ->willReturn(new ArrayCollection([
-                self::createMock(SyliusOrderItemInterface::class),
-            ]))
+            ->willReturn(new ArrayCollection([$this->createMock(SyliusOrderItemInterface::class)]))
         ;
 
         $this->adjustmentFactory
@@ -59,29 +55,28 @@ class CustomerOptionRecalculatorTest extends TestCase
 
     public function testProcess(): void
     {
-        $orderItemOption = self::createConfiguredMock(OrderItemOptionInterface::class, [
-            'getCustomerOptionValue' => self::createMock(CustomerOptionValueInterface::class),
+        $customerOption = $this->createConfiguredMock(OrderItemOptionInterface::class, [
+            'getCustomerOptionValue' => $this->createMock(CustomerOptionValueInterface::class),
             'getCustomerOptionName' => 'Test Adjustment',
             'getCalculatedPrice' => 1200,
-            'getCustomerOptionType' => 'select',
         ]);
 
-        $adjustment = self::createMock(AdjustmentInterface::class);
+        $adjustment = $this->createMock(AdjustmentInterface::class);
 
-        $orderItemUnit = self::createMock(OrderItemUnitInterface::class);
+        $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
         $orderItemUnit->expects($this->once())->method('addAdjustment')->with($adjustment);
 
-        $orderItem = self::createConfiguredMock(
+        $orderItem = $this->createConfiguredMock(
             OrderItemInterface::class,
             [
                 'getUnitPrice' => 1000,
                 'getUnits' => new ArrayCollection([$orderItemUnit]),
-                'getCustomerOptionConfiguration' => [$orderItemOption],
+                'getCustomerOptionConfiguration' => [$customerOption],
             ]
         );
         $orderItemOption->method('getOrderItem')->willReturn($orderItem);
 
-        $order = self::createConfiguredMock(
+        $order = $this->createConfiguredMock(
             OrderInterface::class,
             ['getItems' => new ArrayCollection([$orderItem])]
         );

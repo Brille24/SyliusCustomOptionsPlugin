@@ -44,7 +44,7 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
     public function copyOverValuesForOrderItem(OrderItemInterface $orderItem, ChannelInterface $channel): void
     {
         $orderItemOptions = $orderItem->getCustomerOptionConfiguration();
-        $product          = $orderItem->getProduct();
+        $product = $orderItem->getProduct();
 
         Assert::isInstanceOf($product, ProductInterface::class);
 
@@ -60,7 +60,11 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
             // values on the entity so that if the reference changes the values stay the same
             $orderItemOption->setCustomerOptionValue($customerOptionValue);
 
-            $price = $this->customerOptionValuePriceRepository->getPriceForChannel($channel, $product, $customerOptionValue);
+            $price = $this->customerOptionValuePriceRepository->getPriceForChannel(
+                $channel,
+                $product,
+                $customerOptionValue
+            );
             Assert::notNull($price, 'The customer option value "'.$customerOptionValue->getCode().'" has no price');
 
             // Same here: Copy the price onto the customer option to be independent of the customer option value object.

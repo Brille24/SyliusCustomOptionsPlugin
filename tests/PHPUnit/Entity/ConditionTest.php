@@ -35,7 +35,7 @@ class ConditionTest extends TestCase
      */
     public function testSetCustomerOption()
     {
-        $customerOption = self::createMock(CustomerOptionInterface::class);
+        $customerOption = $this->createMock(CustomerOptionInterface::class);
         $customerOption->method('getType')->willReturn(CustomerOptionTypeEnum::TEXT);
 
         $this->condition->setCustomerOption($customerOption);
@@ -46,8 +46,6 @@ class ConditionTest extends TestCase
     /**
      * @test
      * @dataProvider comparatorProvider
-     *
-     * @param string $comparator
      */
     public function testSetComparator(string $comparator)
     {
@@ -69,7 +67,7 @@ class ConditionTest extends TestCase
 
     public function testSetValidator()
     {
-        $validator = self::createMock(ValidatorInterface::class);
+        $validator = $this->createMock(ValidatorInterface::class);
 
         $this->condition->setValidator($validator);
 
@@ -84,7 +82,7 @@ class ConditionTest extends TestCase
      */
     public function testSetValue($type, $value)
     {
-        $customerOption = self::createMock(CustomerOptionInterface::class);
+        $customerOption = $this->createMock(CustomerOptionInterface::class);
         $customerOption->method('getType')->willReturn($type);
 
         $this->condition->setCustomerOption($customerOption);
@@ -100,26 +98,11 @@ class ConditionTest extends TestCase
     public function valueProvider()
     {
         return [
-            [
-                CustomerOptionTypeEnum::NUMBER,
-                1234,
-            ],
-            [
-                CustomerOptionTypeEnum::TEXT,
-                'abcd',
-            ],
-            [
-                CustomerOptionTypeEnum::SELECT,
-                ['abc', 'def', 'ghi'],
-            ],
-            [
-                CustomerOptionTypeEnum::DATE,
-                new \DateTime(),
-            ],
-            [
-                CustomerOptionTypeEnum::BOOLEAN,
-                true,
-            ],
+            [CustomerOptionTypeEnum::NUMBER, 1234],
+            [CustomerOptionTypeEnum::TEXT, 'abcd'],
+            [CustomerOptionTypeEnum::SELECT, ['abc', 'def', 'ghi']],
+            [CustomerOptionTypeEnum::DATE, new \DateTime()],
+            [CustomerOptionTypeEnum::BOOLEAN, true],
         ];
     }
 
@@ -133,7 +116,7 @@ class ConditionTest extends TestCase
      */
     public function testIsMet($type, $value, $comparators, $testValues)
     {
-        $customerOption = self::createMock(CustomerOptionInterface::class);
+        $customerOption = $this->createMock(CustomerOptionInterface::class);
         $customerOption->method('getType')->willReturn($type);
 
         $this->condition->setCustomerOption($customerOption);
@@ -149,8 +132,8 @@ class ConditionTest extends TestCase
                     $testValue = strlen($testValue);
                 } elseif (CustomerOptionTypeEnum::isDate($type)) {
                     if ($type === CustomerOptionTypeEnum::DATETIME) {
-                        $date   = $testValue['date'];
-                        $time   = $testValue['time'];
+                        $date = $testValue['date'];
+                        $time = $testValue['time'];
                         $newVal = new \DateTime(
                             sprintf(
                                 '%d-%d-%d %d:%d',
@@ -199,11 +182,11 @@ class ConditionTest extends TestCase
 
                             break;
                         case ConditionComparatorEnum::IN_SET:
-                            $expected = $expected ? in_array($val, $value) : false;
+                            $expected = $expected ? in_array($val, $value, true) : false;
 
                             break;
                         case ConditionComparatorEnum::NOT_IN_SET:
-                            $expected = $expected ? !in_array($val, $value) : false;
+                            $expected = $expected ? !in_array($val, $value, true) : false;
 
                             break;
                     }
@@ -263,19 +246,19 @@ class ConditionTest extends TestCase
                 ConditionComparatorEnum::getValuesForCustomerOptionType(CustomerOptionTypeEnum::DATE),
                 [
                     [
-                        'year'  => 1900,
+                        'year' => 1900,
                         'month' => 5,
-                        'day'   => 7,
+                        'day' => 7,
                     ],
                     [
-                        'year'  => 2018,
+                        'year' => 2018,
                         'month' => 6,
-                        'day'   => 18,
+                        'day' => 18,
                     ],
                     [
-                        'year'  => 2048,
+                        'year' => 2048,
                         'month' => 8,
-                        'day'   => 16,
+                        'day' => 16,
                     ],
                 ],
             ],
@@ -286,34 +269,34 @@ class ConditionTest extends TestCase
                 [
                     [
                         'date' => [
-                            'year'  => 1900,
+                            'year' => 1900,
                             'month' => 5,
-                            'day'   => 7,
+                            'day' => 7,
                         ],
                         'time' => [
-                            'hour'   => 5,
+                            'hour' => 5,
                             'minute' => 8,
                         ],
                     ],
                     [
                         'date' => [
-                            'year'  => 2018,
+                            'year' => 2018,
                             'month' => 6,
-                            'day'   => 18,
+                            'day' => 18,
                         ],
                         'time' => [
-                            'hour'   => 12,
+                            'hour' => 12,
                             'minute' => 42,
                         ],
                     ],
                     [
                         'date' => [
-                            'year'  => 2048,
+                            'year' => 2048,
                             'month' => 8,
-                            'day'   => 16,
+                            'day' => 16,
                         ],
                         'time' => [
-                            'hour'   => 8,
+                            'hour' => 8,
                             'minute' => 10,
                         ],
                     ],

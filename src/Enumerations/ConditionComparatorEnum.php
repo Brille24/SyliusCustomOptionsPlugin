@@ -9,13 +9,13 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 final class ConditionComparatorEnum implements EnumInterface
 {
-    const GREATER          = 'greater';
+    const GREATER = 'greater';
     const GREATER_OR_EQUAL = 'greater_equal';
-    const EQUAL            = 'equal';
-    const LESSER_OR_EQUAL  = 'lesser_equal';
-    const LESSER           = 'lesser';
+    const EQUAL = 'equal';
+    const LESSER_OR_EQUAL = 'lesser_equal';
+    const LESSER = 'lesser';
 
-    const IN_SET     = 'in_set';
+    const IN_SET = 'in_set';
     const NOT_IN_SET = 'not_in_set';
 
     public static function getConstList(): array
@@ -34,8 +34,6 @@ final class ConditionComparatorEnum implements EnumInterface
 
     /**
      * @param mixed $value
-     *
-     * @return bool
      */
     public static function isValid($value): bool
     {
@@ -45,13 +43,13 @@ final class ConditionComparatorEnum implements EnumInterface
     public static function getTranslateArray(): array
     {
         return [
-            self::GREATER          => 'brille24.form.validators.condition.greater',
+            self::GREATER => 'brille24.form.validators.condition.greater',
             self::GREATER_OR_EQUAL => 'brille24.form.validators.condition.greater_equal',
-            self::EQUAL            => 'brille24.form.validators.condition.equal',
-            self::LESSER_OR_EQUAL  => 'brille24.form.validators.condition.lesser_equal',
-            self::LESSER           => 'brille24.form.validators.condition.lesser',
+            self::EQUAL => 'brille24.form.validators.condition.equal',
+            self::LESSER_OR_EQUAL => 'brille24.form.validators.condition.lesser_equal',
+            self::LESSER => 'brille24.form.validators.condition.lesser',
 
-            self::IN_SET     => 'brille24.form.validators.condition.in_set',
+            self::IN_SET => 'brille24.form.validators.condition.in_set',
             self::NOT_IN_SET => 'brille24.form.validators.condition.not_in_set',
         ];
     }
@@ -72,24 +70,13 @@ final class ConditionComparatorEnum implements EnumInterface
     public static function getValuesForCustomerOptionType(string $customerOptionType): array
     {
         if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
-            return [
-                self::IN_SET,
-                self::NOT_IN_SET,
-            ];
+            return [self::IN_SET, self::NOT_IN_SET];
         }
         if ($customerOptionType === CustomerOptionTypeEnum::BOOLEAN) {
-            return [
-                self::EQUAL,
-            ];
+            return [self::EQUAL];
         }
 
-        return [
-                self::GREATER,
-                self::GREATER_OR_EQUAL,
-                self::EQUAL,
-                self::LESSER_OR_EQUAL,
-                self::LESSER,
-            ];
+        return [self::GREATER, self::GREATER_OR_EQUAL, self::EQUAL, self::LESSER_OR_EQUAL, self::LESSER];
     }
 
     public static function getFormTypeForCustomerOptionType(string $type): array
@@ -99,7 +86,7 @@ final class ConditionComparatorEnum implements EnumInterface
                 ChoiceType::class,
                 [
                     'multiple' => true,
-                    'label'    => 'brille24.form.validators.fields.value.set',
+                    'label' => 'brille24.form.validators.fields.value.set',
                 ],
             ];
         }
@@ -119,25 +106,25 @@ final class ConditionComparatorEnum implements EnumInterface
     {
         if (CustomerOptionTypeEnum::isSelect($type)) {
             return [
-                'type'  => 'array',
+                'type' => 'array',
                 'value' => [],
             ];
         }
         if (CustomerOptionTypeEnum::isDate($type)) {
             return [
-                'type'  => 'date',
+                'type' => 'date',
                 'value' => new \DateTime(),
             ];
         }
         if ($type === CustomerOptionTypeEnum::BOOLEAN) {
             return [
-                'type'  => 'boolean',
+                'type' => 'boolean',
                 'value' => true,
             ];
         }
 
         return [
-                'type'  => 'integer',
+                'type' => 'integer',
                 'value' => 0,
             ];
     }

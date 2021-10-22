@@ -28,7 +28,7 @@ class CustomerOptionGroupFixture extends AbstractFixture
     public function __construct(CustomerOptionGroupFactoryInterface $factory, EntityManagerInterface $em)
     {
         $this->factory = $factory;
-        $this->em      = $em;
+        $this->em = $em;
     }
 
     public function load(array $options): void

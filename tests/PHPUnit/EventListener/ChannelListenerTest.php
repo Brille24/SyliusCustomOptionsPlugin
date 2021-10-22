@@ -29,21 +29,21 @@ class ChannelListenerTest extends TestCase
     //<editor-fold desc="Setup">
     public function setUp(): void
     {
-        $customerOptionValueFactory = self::createMock(CustomerOptionValuePriceFactoryInterface::class);
+        $customerOptionValueFactory = $this->createMock(CustomerOptionValuePriceFactoryInterface::class);
         $customerOptionValueFactory
             ->method('createNew')
-            ->willReturn(self::createMock(CustomerOptionValuePriceInterface::class));
+            ->willReturn($this->createMock(CustomerOptionValuePriceInterface::class));
         $this->channelCreateListener = new ChannelListener($customerOptionValueFactory);
     }
 
     private function createArguments($entity): LifecycleEventArgs
     {
-        $entityManger = self::createMock(EntityManagerInterface::class);
+        $entityManger = $this->createMock(EntityManagerInterface::class);
         $entityManger->method('persist')->willReturnCallback(function ($entity) {
             ++$this->persistCount;
         });
 
-        $customerOptionValueRepository = self::createMock(EntityRepository::class);
+        $customerOptionValueRepository = $this->createMock(EntityRepository::class);
         $customerOptionValueRepository->method('findAll')->willReturnCallback(function () {
             return $this->customerOptionValue;
         });
@@ -56,7 +56,7 @@ class ChannelListenerTest extends TestCase
             }
         );
 
-        $arguments = self::createMock(LifecycleEventArgs::class);
+        $arguments = $this->createMock(LifecycleEventArgs::class);
         $arguments->method('getEntityManager')->willReturn($entityManger);
         $arguments->method('getEntity')->willReturn($entity);
 
@@ -66,7 +66,7 @@ class ChannelListenerTest extends TestCase
     private function createValue(): CustomerOptionValueInterface
     {
         $prices = new ArrayCollection();
-        $value  = self::createMock(CustomerOptionValueInterface::class);
+        $value = $this->createMock(CustomerOptionValueInterface::class);
         $value->method('getPrices')->willReturnCallback(function () use ($prices) {
             return $prices;
         });
@@ -92,7 +92,7 @@ class ChannelListenerTest extends TestCase
     public function dataPrePersistWithWrongEntity(): array
     {
         return [
-            'non entity'   => ['hello'],
+            'non entity' => ['hello'],
             'wrong entity' => [new CustomerOption()],
         ];
     }
@@ -110,7 +110,7 @@ class ChannelListenerTest extends TestCase
     {
         $this->customerOptionValue = [$this->createValue()];
 
-        $channel   = new Channel();
+        $channel = new Channel();
         $arguments = $this->createArguments($channel);
 
         $this->channelCreateListener->prePersist($arguments);

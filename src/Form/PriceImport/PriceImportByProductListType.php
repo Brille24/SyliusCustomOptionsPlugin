@@ -30,7 +30,7 @@ class PriceImportByProductListType extends AbstractType
                 'label' => false,
             ])
             ->add('submit', SubmitType::class, [
-                'attr'  => [
+                'attr' => [
                     'class' => 'ui primary button',
                 ],
             ])

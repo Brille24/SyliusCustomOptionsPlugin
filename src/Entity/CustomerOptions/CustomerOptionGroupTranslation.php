@@ -22,9 +22,6 @@ class CustomerOptionGroupTranslation extends AbstractTranslation implements Cust
     /** @var string */
     protected $name;
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;

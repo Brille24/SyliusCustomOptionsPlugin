@@ -62,20 +62,20 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
         RepositoryInterface $customerOptionValuePriceRepository,
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory
     ) {
-        $this->entityManager                      = $entityManager;
-        $this->productRepository                  = $productRepository;
-        $this->validator                          = $validator;
-        $this->customerOptionRepository           = $customerOptionRepository;
-        $this->customerOptionValueRepository      = $customerOptionValueRepository;
-        $this->channelRepository                  = $channelRepository;
+        $this->entityManager = $entityManager;
+        $this->productRepository = $productRepository;
+        $this->validator = $validator;
+        $this->customerOptionRepository = $customerOptionRepository;
+        $this->customerOptionValueRepository = $customerOptionValueRepository;
+        $this->channelRepository = $channelRepository;
         $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
-        $this->customerOptionValuePriceFactory    = $customerOptionValuePriceFactory;
+        $this->customerOptionValuePriceFactory = $customerOptionValuePriceFactory;
     }
 
     public function import(array $data): PriceImportResult
     {
         // Handle update
-        $i      = 0;
+        $i = 0;
         $failed = 0;
         $errors = [];
         foreach ($data as $datum) {
@@ -91,8 +91,8 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
                 ++$failed;
                 $errors[$productCode][] = [
                     'violations' => $violationException->getViolations(),
-                    'data'       => $datum,
-                    'message'    => $violationException->getMessage(),
+                    'data' => $datum,
+                    'message' => $violationException->getMessage(),
                 ];
             } catch (\Throwable $exception) {
                 ++$failed;
@@ -107,16 +107,16 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
 
     protected function importRow(array $datum, string $productCode): void
     {
-        $id                      = $datum['id'];
-        $validFrom               = $datum['valid_from'];
-        $validTo                 = $datum['valid_to'];
-        $customerOptionCode      = $datum['customer_option_code'];
+        $id = $datum['id'];
+        $validFrom = $datum['valid_from'];
+        $validTo = $datum['valid_to'];
+        $customerOptionCode = $datum['customer_option_code'];
         $customerOptionValueCode = $datum['customer_option_value_code'];
-        $channelCode             = $datum['channel_code'];
-        $type                    = $datum['type'];
-        $amount                  = (int) $datum['amount'];
-        $percent                 = (float) $datum['percent'];
-        $delete                  = filter_var($datum['delete'], FILTER_VALIDATE_BOOL);
+        $channelCode = $datum['channel_code'];
+        $type = $datum['type'];
+        $amount = (int) $datum['amount'];
+        $percent = (float) $datum['percent'];
+        $delete = filter_var($datum['delete'], FILTER_VALIDATE_BOOL);
 
         $product = $this->getProduct($productCode);
         Assert::isInstanceOf(
@@ -148,17 +148,12 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
         $dateRange = null;
         if (null !== $validFrom && null !== $validTo) {
             $validFrom = new \DateTime($validFrom);
-            $validTo   = new \DateTime($validTo);
+            $validTo = new \DateTime($validTo);
             $dateRange = new DateRange($validFrom, $validTo);
         }
 
         if (null === $price) {
-            $price = $this->createNewPrice(
-                $customerOptionCode,
-                $customerOptionValueCode,
-                $channelCode,
-                $product
-            );
+            $price = $this->createNewPrice($customerOptionCode, $customerOptionValueCode, $channelCode, $product);
         }
 
         $price->setDateValid($dateRange);
@@ -198,7 +193,7 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
 
         /** @var CustomerOptionValueInterface|null $customerOptionValue */
         $customerOptionValue = $this->customerOptionValueRepository->findOneBy([
-            'code'           => $customerOptionValueCode,
+            'code' => $customerOptionValueCode,
             'customerOption' => $customerOption,
         ]);
 

@@ -34,13 +34,16 @@ class ConditionalConstraintValidator extends ConstraintValidator
     {
         if ($constraint instanceof ConditionalConstraint) {
             if ($value instanceof OrderItemInterface) {
-                $configuration = $this->getCustomerOptionsFromRequest($this->requestStack->getCurrentRequest(), $value->getProduct());
+                $configuration = $this->getCustomerOptionsFromRequest(
+                    $this->requestStack->getCurrentRequest(),
+                    $value->getProduct()
+                );
             } else {
                 $configuration = is_array($value) ? $value : [$value];
             }
 
-            $allConditionsMet   = $this->allConditionsMet($constraint->conditions, $configuration);
-            $allConstraintsMet  = $this->allConditionsMet($constraint->constraints, $configuration);
+            $allConditionsMet = $this->allConditionsMet($constraint->conditions, $configuration);
+            $allConstraintsMet = $this->allConditionsMet($constraint->constraints, $configuration);
 
             if ($allConditionsMet && !$allConstraintsMet) {
                 $this->context->addViolation($constraint->message);
@@ -68,12 +71,7 @@ class ConditionalConstraintValidator extends ConstraintValidator
     }
 
     /**
-     * Checks if all of the conditions are met
-     *
-     * @param array $conditions
-     * @param array $customerOptionConfig
-     *
-     * @return bool
+     * Checks if all conditions are met
      */
     private function allConditionsMet(array $conditions, array $customerOptionConfig): bool
     {

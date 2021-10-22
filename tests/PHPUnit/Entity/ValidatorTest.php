@@ -39,7 +39,7 @@ class ValidatorTest extends TestCase
         $num = 5;
 
         for ($i = 0; $i < $num; ++$i) {
-            $condition = self::createMock(Condition::class);
+            $condition = $this->createMock(Condition::class);
 
             $this->validator->addCondition($condition);
 
@@ -52,14 +52,12 @@ class ValidatorTest extends TestCase
     /**
      * @test
      * @depends testAddConditions
-     *
-     * @param Validator $validator
      */
     public function testRemoveConditions(Validator $validator)
     {
         $conditions = $validator->getConditions();
-        $count      = count($conditions);
-        $condition  = reset($conditions);
+        $count = count($conditions);
+        $condition = reset($conditions);
 
         $validator->removeCondition($condition);
 
@@ -74,7 +72,7 @@ class ValidatorTest extends TestCase
         $num = 5;
 
         for ($i = 0; $i < $num; ++$i) {
-            $constraint = self::createMock(Constraint::class);
+            $constraint = $this->createMock(Constraint::class);
 
             $this->validator->addConstraint($constraint);
 
@@ -87,14 +85,12 @@ class ValidatorTest extends TestCase
     /**
      * @test
      * @depends testAddConstraints
-     *
-     * @param Validator $validator
      */
     public function testRemoveConstraint(Validator $validator)
     {
         $constraints = $validator->getConstraints();
-        $count       = count($constraints);
-        $constraint  = reset($constraints);
+        $count = count($constraints);
+        $constraint = reset($constraints);
 
         $validator->removeConstraint($constraint);
 

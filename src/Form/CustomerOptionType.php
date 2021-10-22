@@ -35,11 +35,11 @@ final class CustomerOptionType extends AbstractResourceType
 
         $builder
             ->add('code', TextType::class, [
-                'label'      => 'sylius.ui.code',
+                'label' => 'sylius.ui.code',
                 'empty_data' => '',
             ])
             ->add('type', ChoiceType::class, [
-                'label'   => 'sylius.ui.type',
+                'label' => 'sylius.ui.type',
                 'choices' => array_flip($possibleTypes),
             ])
             ->add('required', CheckboxType::class, [
@@ -47,13 +47,13 @@ final class CustomerOptionType extends AbstractResourceType
             ])
             ->add('translations', ResourceTranslationsType::class, [
                 'entry_type' => CustomerOptionTranslationType::class,
-                'label'      => 'brille24.form.customer_options.translations',
+                'label' => 'brille24.form.customer_options.translations',
             ])
             ->add('values', CollectionType::class, [
-                'entry_type'   => CustomerOptionValueType::class,
-                'allow_add'    => true,
+                'entry_type' => CustomerOptionValueType::class,
+                'allow_add' => true,
                 'allow_delete' => true,
-                'label'        => false,
+                'label' => false,
                 'by_reference' => false,
             ])
             ->add('configuration', CustomerOptionConfigurationType::class, [

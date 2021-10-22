@@ -8,10 +8,5 @@ use Brille24\SyliusCustomerOptionsPlugin\Object\PriceImportResult;
 
 interface CustomerOptionPriceImporterInterface
 {
-    /**
-     * @param array $data
-     *
-     * @return PriceImportResult
-     */
     public function import(array $data): PriceImportResult;
 }

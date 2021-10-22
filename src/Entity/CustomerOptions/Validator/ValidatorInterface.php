@@ -19,14 +19,8 @@ interface ValidatorInterface extends ResourceInterface
      */
     public function setConditions(?array $conditions): void;
 
-    /**
-     * @param ConditionInterface $condition
-     */
     public function addCondition(ConditionInterface $condition): void;
 
-    /**
-     * @param ConditionInterface $condition
-     */
     public function removeCondition(ConditionInterface $condition): void;
 
     /**
@@ -39,14 +33,8 @@ interface ValidatorInterface extends ResourceInterface
      */
     public function setConstraints(?array $constraints): void;
 
-    /**
-     * @param ConstraintInterface $constraint
-     */
     public function addConstraint(ConstraintInterface $constraint): void;
 
-    /**
-     * @param ConstraintInterface $constraint
-     */
     public function removeConstraint(ConstraintInterface $constraint): void;
 
     /**

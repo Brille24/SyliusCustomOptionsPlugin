@@ -114,6 +114,14 @@ jobs:
                 run: composer install --no-interaction
 
             -
+                name: Run PHPStan
+                run: vendor/bin/phpstan analyse -c phpstan.neon -l max src/
+
+            -
+                name: Run Codestyle
+                run: vendor/bin/ecs check --ansi --no-progress-bar src/ tests/PHPUnit --config etc/coding-standard.php
+
+            -
                 name: Get Yarn cache directory
                 id: yarn-cache
                 run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -158,14 +166,6 @@ jobs:
             -
                 name: Validate database schema
                 run: (cd tests/Application && bin/console doctrine:schema:validate)
-
-            -
-                name: Run PHPStan
-                run: vendor/bin/phpstan analyse -c phpstan.neon -l max src/
-
-            -
-                name: Run Psalm
-                run: vendor/bin/psalm
 
             -
                 name: Run PHPSpec

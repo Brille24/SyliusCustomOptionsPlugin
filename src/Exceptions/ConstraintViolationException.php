@@ -23,9 +23,6 @@ class ConstraintViolationException extends \Exception
         parent::__construct($message, $code, $previous);
     }
 
-    /**
-     * @return ConstraintViolationListInterface
-     */
     public function getViolations(): ConstraintViolationListInterface
     {
         return $this->violations;

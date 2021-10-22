@@ -21,14 +21,8 @@ use Sylius\Component\Resource\Model\TranslatableInterface;
 
 interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInterface, TranslatableInterface
 {
-    /**
-     * @return string|null
-     */
     public function getName(): ? string;
 
-    /**
-     * @param string|null $name
-     */
     public function setName(? string $name): void;
 
     /**
@@ -36,19 +30,10 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
      */
     public function getOptionAssociations(): Collection;
 
-    /**
-     * @param CustomerOptionAssociationInterface $association
-     */
     public function addOptionAssociation(CustomerOptionAssociationInterface $association): void;
 
-    /**
-     * @param CustomerOptionAssociationInterface $association
-     */
     public function removeOptionAssociation(CustomerOptionAssociationInterface $association): void;
 
-    /**
-     * @return bool
-     */
     public function hasOptionAssociations(): bool;
 
     /**
@@ -58,13 +43,9 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
 
     /**
      * @* @param ProductInterface[] $product
-     * @param array $products
      */
     public function setProducts(array $products): void;
 
-    /**
-     * @param ProductInterface $product
-     */
     public function addProduct(ProductInterface $product): void;
 
     /**
@@ -72,14 +53,8 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
      */
     public function getValidators(): Collection;
 
-    /**
-     * @param ValidatorInterface $validator
-     */
     public function addValidator(ValidatorInterface $validator): void;
 
-    /**
-     * @param ValidatorInterface $validator
-     */
     public function removeValidator(ValidatorInterface $validator): void;
 
     /**
@@ -87,8 +62,5 @@ interface CustomerOptionGroupInterface extends CodeAwareInterface, ResourceInter
      */
     public function getOptions(): array;
 
-    /**
-     * @return string
-     */
     public function __toString(): string;
 }

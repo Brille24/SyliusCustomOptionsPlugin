@@ -22,10 +22,7 @@ interface CustomerOptionValueResolverInterface
      * Resolves the CustomerOptionValue (by code) of a CustomerOption. It throws an error if the CustomerOption is not
      * of type select and therefore has no defined values.
      *
-     * @param CustomerOptionInterface $customerOption
-     * @param string                  $value
      *
-     * @return CustomerOptionValueInterface|null
      *
      * @throws Exception
      */

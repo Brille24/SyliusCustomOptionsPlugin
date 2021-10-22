@@ -45,18 +45,20 @@ class CustomerOptionValueRefresherTest extends TestCase
 
     public function setUp(): void
     {
-        $this->channel = self::createMock(ChannelInterface::class);
+        $this->channel = $this->createMock(ChannelInterface::class);
 
         $this->customerOptionValuePriceRepository = $this->createMock(
             CustomerOptionValuePriceRepositoryInterface::class
         );
 
-        $this->customerOptionValueRefresher = new CustomerOptionValueRefresher($this->customerOptionValuePriceRepository);
+        $this->customerOptionValueRefresher = new CustomerOptionValueRefresher(
+            $this->customerOptionValuePriceRepository
+        );
     }
 
     private function createOrder(array $orderItems): OrderInterface
     {
-        $order = self::createMock(OrderInterface::class);
+        $order = $this->createMock(OrderInterface::class);
         $order->method('getItems')->willReturn(new ArrayCollection($orderItems));
         $order->method('getChannel')->willReturn($this->channel);
 
@@ -68,7 +70,7 @@ class CustomerOptionValueRefresherTest extends TestCase
         CustomerOptionValueInterface $customerOptionValue,
         bool $stillExists
     ): OrderItemOptionInterface {
-        $orderItemOption = self::createMock(OrderItemOptionInterface::class);
+        $orderItemOption = $this->createMock(OrderItemOptionInterface::class);
         $orderItemOption->method('getCustomerOption')->willReturn($customerOption);
         $orderItemOption->method('getCustomerOptionValue')->willReturnCallback(
             function () use ($stillExists, $customerOptionValue) {
@@ -97,7 +99,7 @@ class CustomerOptionValueRefresherTest extends TestCase
     {
         $price = $config['price'] ?? 0;
 
-        $customerOptionValue = self::createMock(CustomerOptionValueInterface::class);
+        $customerOptionValue = $this->createMock(CustomerOptionValueInterface::class);
         $customerOptionValue->method('getCode')->willReturn($config['code']);
         $customerOptionValue->method('getName')->willReturn($config['name'] ?? null);
 
@@ -115,13 +117,11 @@ class CustomerOptionValueRefresherTest extends TestCase
 
     /**
      * @param OrderItemOptionInterface|OrderItemOptionInterface[] $orderItemOption
-     *
-     * @return Brille24OrderItem
      */
     private function createOrderItem($orderItemOption): Brille24OrderItem
     {
-        $orderItem = self::createMock(Brille24OrderItem::class);
-        $product   = self::createMock(ProductInterface::class);
+        $orderItem = $this->createMock(Brille24OrderItem::class);
+        $product = $this->createMock(ProductInterface::class);
 
         if (!is_array($orderItemOption)) {
             $orderItemOption = [$orderItemOption];
@@ -147,7 +147,7 @@ class CustomerOptionValueRefresherTest extends TestCase
     public function dataItemsDontNeedProcessing(): array
     {
         return [
-            'no items'         => [[]],
+            'no items' => [[]],
             'sylius base item' => [[new OrderItem()]],
         ];
     }

@@ -14,8 +14,5 @@ interface ErrorMessageTranslationInterface extends ResourceInterface, Translatio
      */
     public function getMessage(): ?string;
 
-    /**
-     * @param string $message
-     */
     public function setMessage(string $message): void;
 }

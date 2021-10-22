@@ -15,8 +15,8 @@ class CsvReader implements CsvReaderInterface
 
         Assert::resource($file);
 
-        $header            = null;
-        $csv               = [];
+        $header = null;
+        $csv = [];
         $currentLineNumber = 0;
         while ($row = fgetcsv($file)) {
             ++$currentLineNumber;

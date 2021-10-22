@@ -29,7 +29,7 @@ class PriceImportByCsvType extends AbstractType
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'brille24.form.customer_options.import',
-                'attr'  => [
+                'attr' => [
                     'class' => 'ui primary button',
                 ],
             ])

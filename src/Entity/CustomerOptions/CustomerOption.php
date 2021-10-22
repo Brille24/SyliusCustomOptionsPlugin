@@ -54,9 +54,9 @@ class CustomerOption implements CustomerOptionInterface
     {
         $this->initializeTranslationsCollection();
 
-        $this->values            = new ArrayCollection();
+        $this->values = new ArrayCollection();
         $this->groupAssociations = new ArrayCollection();
-        $this->orders            = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     /**
@@ -95,7 +95,7 @@ class CustomerOption implements CustomerOptionInterface
 
     public function getTypeCode(): ?string
     {
-        $type         = $this->getType();
+        $type = $this->getType();
         $translations = CustomerOptionTypeEnum::getTranslateArray();
         if (array_key_exists($type, $translations)) {
             return $translations[$type];
@@ -192,7 +192,7 @@ class CustomerOption implements CustomerOptionInterface
     {
         // Setting the new values
         foreach ($configuration as $key => $value) {
-            $optionKey                                = str_replace(':', '.', $key);
+            $optionKey = str_replace(':', '.', $key);
             $this->configuration[$optionKey]['value'] = $value;
         }
 
@@ -276,8 +276,6 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * @param string|null $locale
-     *
      * @return CustomerOptionTranslationInterface
      */
     public function getTranslation(?string $locale = null): TranslationInterface
@@ -296,9 +294,6 @@ class CustomerOption implements CustomerOptionInterface
         return $this->orders;
     }
 
-    /**
-     * @return CustomerOptionTranslationInterface
-     */
     protected function createTranslation(): CustomerOptionTranslationInterface
     {
         return new CustomerOptionTranslation();

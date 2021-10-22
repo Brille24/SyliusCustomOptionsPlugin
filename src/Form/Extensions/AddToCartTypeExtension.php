@@ -43,7 +43,7 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
         ]);
 
         $itemOptions = $builder->get('cartItem')->getOptions();
-        $itemType    = get_class($builder->get('cartItem')->getFormConfig()->getType()->getInnerType());
+        $itemType = get_class($builder->get('cartItem')->getFormConfig()->getType()->getInnerType());
 
         $builder->add('cartItem', $itemType, array_merge($itemOptions, [
             'constraints' => $this->getConstraints($options['product']),
@@ -68,7 +68,7 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
                 $constraint->groups = ['sylius'];
 
                 /** @var ErrorMessageTranslationInterface|null $errorMessage */
-                $errorMessage        = $validator->getErrorMessage();
+                $errorMessage = $validator->getErrorMessage();
                 $constraint->message = $errorMessage !== null ? ($errorMessage->getMessage() ?? '') : '';
 
                 $constraints[] = $constraint;

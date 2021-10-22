@@ -19,14 +19,11 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
     /** @var string */
     protected $email_code;
 
-    public function __construct(
-        SenderInterface $sender,
-        TokenStorageInterface $tokenStorage,
-        string $email_code
-    ) {
-        $this->sender       = $sender;
+    public function __construct(SenderInterface $sender, TokenStorageInterface $tokenStorage, string $email_code)
+    {
+        $this->sender = $sender;
         $this->tokenStorage = $tokenStorage;
-        $this->email_code   = $email_code;
+        $this->email_code = $email_code;
     }
 
     /** {@inheritdoc} */
@@ -38,8 +35,8 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
 
         // Send mail about failed imports
         /** @var AdminUserInterface $user */
-        $user    = $this->tokenStorage->getToken()->getUser();
-        $email   = $user->getEmail();
+        $user = $this->tokenStorage->getToken()->getUser();
+        $email = $user->getEmail();
         $csvPath = $this->buildCsv($errors);
 
         $this->sender->send(
@@ -50,11 +47,6 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
         );
     }
 
-    /**
-     * @param array $errors
-     *
-     * @return string
-     */
     protected function buildCsv(array $errors): string
     {
         // Build csv to attach to the email
@@ -62,9 +54,7 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
         foreach (array_keys(current(current($errors))['data']) as $key) {
             $csvHeader[] = $key;
         }
-        $csvData = [
-            implode(',', $csvHeader),
-        ];
+        $csvData = [implode(',', $csvHeader)];
 
         foreach ($errors as $productCode => $productErrors) {
             foreach ($productErrors as $error) {

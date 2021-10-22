@@ -22,7 +22,7 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $channelRepository = self::createMock(ChannelRepositoryInterface::class);
+        $channelRepository = $this->createMock(ChannelRepositoryInterface::class);
         $channelRepository->method('findAll')->willReturnCallback(function () {
             return $this->channelRepository;
         });
@@ -37,14 +37,11 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
      * @dataProvider dataValidateConfigurationInvalid
      *
      * @throws ConfigurationException
-     *
-     * @param array $configuration
-     * @param string $exceptionMessage
      */
     public function testValidateConfigurationInvalid(array $configuration, string $exceptionMessage)
     {
-        self::expectException(ConfigurationException::class);
-        self::expectExceptionMessage($exceptionMessage);
+        $this->expectException(ConfigurationException::class);
+        $this->expectExceptionMessage($exceptionMessage);
 
         $this->customerOptionPriceFactory->validateConfiguration($configuration);
     }
@@ -52,10 +49,7 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
     public function dataValidateConfigurationInvalid(): array
     {
         return [
-            'missing type' => [
-                [],
-                'The configuration does not contain key: "type"',
-            ],
+            'missing type' => [[], 'The configuration does not contain key: "type"'],
             'invalid type' => [
                 ['type' => 'something'],
                 '\'something\' should be in array fixed,percent',
@@ -77,12 +71,12 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
 
     public function testCreateWithMissingChannel(): void
     {
-        self::expectException(EntityNotFoundException::class);
-        self::expectExceptionMessage('Could not find Channel with code: "does_not_exist"');
+        $this->expectException(EntityNotFoundException::class);
+        $this->expectExceptionMessage('Could not find Channel with code: "does_not_exist"');
 
         $configuration = [
-            'type'    => 'fixed',
-            'amount'  => 100,
+            'type' => 'fixed',
+            'amount' => 100,
             'channel' => 'does_not_exist',
         ];
 
@@ -91,11 +85,11 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
 
     public function testCreateSuccess(): void
     {
-        $this->channelRepository = ['en_US' => self::createMock(ChannelInterface::class)];
+        $this->channelRepository = ['en_US' => $this->createMock(ChannelInterface::class)];
 
         $configuration = [
-            'type'    => 'fixed',
-            'amount'  => 100,
+            'type' => 'fixed',
+            'amount' => 100,
             'channel' => 'en_US',
         ];
 
@@ -107,7 +101,7 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
     /** @dataProvider dataGenerateConfiguration */
     public function testGenerateRandomConfiguration(int $count): void
     {
-        $this->channelRepository = [self::createConfiguredMock(ChannelInterface::class, ['getCode' => 'en_US'])];
+        $this->channelRepository = [$this->createConfiguredMock(ChannelInterface::class, ['getCode' => 'en_US'])];
 
         $randomElements = $this->customerOptionPriceFactory->generateRandomConfiguration($count);
 

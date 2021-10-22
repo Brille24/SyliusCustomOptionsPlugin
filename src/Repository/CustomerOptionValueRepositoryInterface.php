@@ -18,10 +18,6 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 interface CustomerOptionValueRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param string $code
-     *
-     * @return CustomerOptionValueInterface|null
-     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findOneByCode(string $code): ?CustomerOptionValueInterface;

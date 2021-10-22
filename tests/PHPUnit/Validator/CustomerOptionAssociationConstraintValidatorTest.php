@@ -28,7 +28,7 @@ class CustomerOptionAssociationConstraintValidatorTest extends TestCase
     {
         $this->customerOptionAssociationConstraintValidator = new CustomerOptionAssociationConstraintValidator();
 
-        $context = self::createMock(ExecutionContextInterface::class);
+        $context = $this->createMock(ExecutionContextInterface::class);
         $context->method('addViolation')->willReturnCallback(function (?string $message): void {
             $this->violations[] = $message;
         });
@@ -40,12 +40,12 @@ class CustomerOptionAssociationConstraintValidatorTest extends TestCase
         if (isset($this->customerOptions[$customerOptionCode])) {
             $customerOption = $this->customerOptions[$customerOptionCode];
         } else {
-            $customerOption = self::createMock(CustomerOptionInterface::class);
+            $customerOption = $this->createMock(CustomerOptionInterface::class);
             $customerOption->method('getCode')->willReturn($customerOptionCode);
             $this->customerOptions[$customerOptionCode] = $customerOption;
         }
 
-        $customerOptionAssociation = self::createMock(CustomerOptionAssociationInterface::class);
+        $customerOptionAssociation = $this->createMock(CustomerOptionAssociationInterface::class);
         $customerOptionAssociation->method('getOption')->willReturn($customerOption);
 
         return $customerOptionAssociation;
@@ -55,26 +55,28 @@ class CustomerOptionAssociationConstraintValidatorTest extends TestCase
 
     public function testWrongElementType(): void
     {
-        self::expectException(\InvalidArgumentException::class);
-        self::expectExceptionMessage('Expected an instance of Doctrine\Common\Collections\Collection. Got: integer');
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected an instance of Doctrine\Common\Collections\Collection. Got: integer');
 
-        $constraint = self::createMock(Constraint::class);
+        $constraint = $this->createMock(Constraint::class);
         $this->customerOptionAssociationConstraintValidator->validate(1, $constraint);
     }
 
     public function testWrongElementTypeInList(): void
     {
-        self::expectException(\InvalidArgumentException::class);
-        self::expectExceptionMessage('Expected an instance of Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociationInterface. Got: integer');
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Expected an instance of Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionAssociationInterface. Got: integer'
+        );
 
-        $constraint = self::createMock(Constraint::class);
+        $constraint = $this->createMock(Constraint::class);
         $this->customerOptionAssociationConstraintValidator->validate(new ArrayCollection([1]), $constraint);
     }
 
     public function testValidate(): void
     {
         $collection = new ArrayCollection([]);
-        $constraint = self::createMock(Constraint::class);
+        $constraint = $this->createMock(Constraint::class);
 
         $this->customerOptionAssociationConstraintValidator->validate($collection, $constraint);
 
@@ -89,7 +91,7 @@ class CustomerOptionAssociationConstraintValidatorTest extends TestCase
                 $this->createCustomerOptionAssociation('customerOption1'),
             ]
         );
-        $constraint = self::createMock(Constraint::class);
+        $constraint = $this->createMock(Constraint::class);
 
         $this->customerOptionAssociationConstraintValidator->validate($collection, $constraint);
 
@@ -104,7 +106,7 @@ class CustomerOptionAssociationConstraintValidatorTest extends TestCase
                 $this->createCustomerOptionAssociation('customerOption2'),
             ]
         );
-        $constraint = self::createMock(Constraint::class);
+        $constraint = $this->createMock(Constraint::class);
 
         $this->customerOptionAssociationConstraintValidator->validate($collection, $constraint);
 

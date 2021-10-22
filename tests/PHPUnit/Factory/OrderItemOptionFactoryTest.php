@@ -36,12 +36,12 @@ class OrderItemOptionFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $baseFactory = self::createMock(FactoryInterface::class);
+        $baseFactory = $this->createMock(FactoryInterface::class);
         $baseFactory->method('createNew')->willReturn(new OrderItemOption());
 
-        $this->channel      = self::createMock(ChannelInterface::class);
+        $this->channel = $this->createMock(ChannelInterface::class);
 
-        $customerOptionRepo = self::createMock(CustomerOptionRepositoryInterface::class);
+        $customerOptionRepo = $this->createMock(CustomerOptionRepositoryInterface::class);
         $customerOptionRepo->method('findOneByCode')->willReturnCallback(function (string $code) {
             if (array_key_exists($code, $this->customerOptions)) {
                 return $this->customerOptions[$code];
@@ -50,7 +50,7 @@ class OrderItemOptionFactoryTest extends TestCase
             return null;
         });
 
-        $valueResolver = self::createMock(CustomerOptionValueResolverInterface::class);
+        $valueResolver = $this->createMock(CustomerOptionValueResolverInterface::class);
         $valueResolver->method('resolve')->willReturnCallback(
             function (CustomerOptionInterface $customerOption, $valueToMatch) {
                 foreach ($customerOption->getValues() as $value) {
@@ -63,13 +63,18 @@ class OrderItemOptionFactoryTest extends TestCase
             }
         );
 
-        $baseFactory->method('createNew')->willReturn(self::createMock(OrderItemOptionInterface::class));
+        $baseFactory->method('createNew')->willReturn($this->createMock(OrderItemOptionInterface::class));
 
-        $customerOptionValuePrice           = self::createMock(CustomerOptionValuePriceInterface::class);
-        $customerOptionValuePriceRepository = self::createMock(CustomerOptionValuePriceRepositoryInterface::class);
+        $customerOptionValuePrice = $this->createMock(CustomerOptionValuePriceInterface::class);
+        $customerOptionValuePriceRepository = $this->createMock(CustomerOptionValuePriceRepositoryInterface::class);
         $customerOptionValuePriceRepository->method('getPriceForChannel')->willReturn($customerOptionValuePrice);
 
-        $this->orderItemOptionFactory = new OrderItemOptionFactory($baseFactory, $customerOptionRepo, $valueResolver, $customerOptionValuePriceRepository);
+        $this->orderItemOptionFactory = new OrderItemOptionFactory(
+            $baseFactory,
+            $customerOptionRepo,
+            $valueResolver,
+            $customerOptionValuePriceRepository
+        );
     }
 
     private function addCustomerOption(CustomerOptionInterface $customerOption)
@@ -79,7 +84,7 @@ class OrderItemOptionFactoryTest extends TestCase
 
     private function createCustomerOption(string $code): CustomerOptionInterface
     {
-        $customerOption = self::createMock(CustomerOptionInterface::class);
+        $customerOption = $this->createMock(CustomerOptionInterface::class);
         $customerOption->method('getCode')->willReturn($code);
         $customerOption->method('getType')->willReturn(CustomerOptionTypeEnum::SELECT);
 
@@ -88,11 +93,16 @@ class OrderItemOptionFactoryTest extends TestCase
 
     public function testCreateForOptionAndValue(): void
     {
-        $product        = self::createMock(ProductInterface::class);
-        $order          = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $this->channel]);
-        $orderItem      = self::createConfiguredMock(OrderItemInterface::class, ['getOrder' => $order, 'getProduct' => $product]);
-        $customerOption = self::createMock(CustomerOptionInterface::class);
-        $value          = 'something';
+        $product = $this->createMock(ProductInterface::class);
+        $order = $this->createConfiguredMock(OrderInterface::class, ['getChannel' => $this->channel]);
+        $orderItem = $this->createConfiguredMock(
+            OrderItemInterface::class,
+            ['getOrder' => $order,
+            'getProduct' => $product
+        ]
+        );
+        $customerOption = $this->createMock(CustomerOptionInterface::class);
+        $value = 'something';
 
         $orderItemOption = $this->orderItemOptionFactory->createForOptionAndValue($orderItem, $customerOption, $value);
         $this->assertInstanceOf(OrderItemOptionInterface::class, $orderItemOption);
@@ -100,16 +110,16 @@ class OrderItemOptionFactoryTest extends TestCase
 
     public function testCreateNewFromStringsWithInvalidCustomerOptionCode()
     {
-        $orderItem = self::createMock(OrderItemInterface::class);
-        self::expectException(\Exception::class);
-        self::expectExceptionMessage('Could not find customer option with code');
+        $orderItem = $this->createMock(OrderItemInterface::class);
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Could not find customer option with code');
 
         $this->orderItemOptionFactory->createNewFromStrings($orderItem, 'something', 'value');
     }
 
     public function testCreateNewFromStringWithInvalidValue()
     {
-        $orderItem      = self::createMock(OrderItemInterface::class);
+        $orderItem = $this->createMock(OrderItemInterface::class);
         $customerOption = $this->createCustomerOption('something');
         $customerOption->method('getValues')->willReturn(new ArrayCollection());
 
@@ -123,9 +133,9 @@ class OrderItemOptionFactoryTest extends TestCase
 
     public function testCreateNewFromStringWithValidValue()
     {
-        $customerOptionValuePrice = self::createMock(CustomerOptionValuePriceInterface::class);
+        $customerOptionValuePrice = $this->createMock(CustomerOptionValuePriceInterface::class);
 
-        $customerOptionValue = self::createMock(CustomerOptionValueInterface::class);
+        $customerOptionValue = $this->createMock(CustomerOptionValueInterface::class);
         $customerOptionValue->method('getCode')->willReturn('value');
         $customerOptionValue->method('getName')->willReturn('some value');
         $customerOptionValue->method('getPriceForChannel')->with($this->channel)->willReturn($customerOptionValuePrice);
@@ -133,9 +143,14 @@ class OrderItemOptionFactoryTest extends TestCase
         $customerOption = $this->createCustomerOption('something');
         $customerOption->method('getValues')->willReturn(new ArrayCollection([$customerOptionValue]));
 
-        $product   = self::createMock(ProductInterface::class);
-        $order     = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $this->channel]);
-        $orderItem = self::createConfiguredMock(OrderItemInterface::class, ['getOrder' => $order, 'getProduct' => $product]);
+        $product = $this->createMock(ProductInterface::class);
+        $order = $this->createConfiguredMock(OrderInterface::class, ['getChannel' => $this->channel]);
+        $orderItem = $this->createConfiguredMock(
+            OrderItemInterface::class,
+            ['getOrder' => $order,
+            'getProduct' => $product
+        ]
+        );
 
         $this->addCustomerOption($customerOption);
 

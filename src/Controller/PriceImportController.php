@@ -40,18 +40,13 @@ class PriceImportController extends AbstractController
         ImportErrorHandlerInterface $csvImportErrorHandler,
         ImportErrorHandlerInterface $productListImportErrorHandler
     ) {
-        $this->priceImporter                 = $priceImporter;
-        $this->exampleFilePath               = $csvExampleFilePath;
-        $this->translator                    = $translator;
-        $this->csvImportErrorHandler         = $csvImportErrorHandler;
+        $this->priceImporter = $priceImporter;
+        $this->exampleFilePath = $csvExampleFilePath;
+        $this->translator = $translator;
+        $this->csvImportErrorHandler = $csvImportErrorHandler;
         $this->productListImportErrorHandler = $productListImportErrorHandler;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
     public function __invoke(Request $request): Response
     {
         $csvForm = $this->createForm(PriceImportByCsvType::class);
@@ -67,20 +62,17 @@ class PriceImportController extends AbstractController
             $this->addFlash('error', 'brille24.flashes.customer_option_price_import_error');
         }
 
-        return $this->render('@Brille24SyliusCustomerOptionsPlugin/PriceImport/import.html.twig', ['csvForm' => $csvForm->createView(), 'byProductListForm' => $productListForm->createView()]);
+        return $this->render(
+            '@Brille24SyliusCustomerOptionsPlugin/PriceImport/import.html.twig',
+            ['csvForm' => $csvForm->createView(), 'byProductListForm' => $productListForm->createView()]
+        );
     }
 
-    /**
-     * @return Response
-     */
     public function downloadExampleFileAction(): Response
     {
         return $this->file($this->exampleFilePath);
     }
 
-    /**
-     * @param FormInterface $form
-     */
     protected function handleCsvForm(FormInterface $form): void
     {
         if ($form->isSubmitted() && $form->isValid()) {
@@ -92,9 +84,6 @@ class PriceImportController extends AbstractController
         }
     }
 
-    /**
-     * @param FormInterface $form
-     */
     protected function handleProductListForm(FormInterface $form): void
     {
         if ($form->isSubmitted() && $form->isValid()) {
@@ -104,34 +93,37 @@ class PriceImportController extends AbstractController
             $valuePriceData = $form->get('customer_option_value_price')->getData();
 
             $dateRange = $valuePriceData['dateValid'];
-            $channel   = $valuePriceData['channel'];
+            $channel = $valuePriceData['channel'];
 
             $importResult = $this->priceImporter->import($form->getData());
 
             // Build error handler extra data
             $extraData = [
-                'productCodes'         => $productCodes,
-                'customerOptionValues' => array_map(static function (CustomerOptionValueInterface $customerOptionValue): string {
-                    return $customerOptionValue->getCode();
-                }, $valuePriceData['customerOptionValues']),
-                'validFrom'            => null !== $dateRange ? $dateRange->getStart() : null,
-                'validTo'              => null !== $dateRange ? $dateRange->getEnd() : null,
-                'channel'              => $channel->getCode(),
-                'type'                 => $valuePriceData['type'],
-                'amount'               => $valuePriceData['amount'],
-                'percent'              => $valuePriceData['percent'],
+                'productCodes' => $productCodes,
+                'customerOptionValues' => array_map(
+                    static function (CustomerOptionValueInterface $customerOptionValue): string {
+                        return $customerOptionValue->getCode();
+                    },
+                    $valuePriceData['customerOptionValues']
+                ),
+                'validFrom' => null !== $dateRange ? $dateRange->getStart() : null,
+                'validTo' => null !== $dateRange ? $dateRange->getEnd() : null,
+                'channel' => $channel->getCode(),
+                'type' => $valuePriceData['type'],
+                'amount' => $valuePriceData['amount'],
+                'percent' => $valuePriceData['percent'],
             ];
 
             // Build flash message parameters
             $flashParameters = [
-                '%channel%'  => $channel->getCode(),
+                '%channel%' => $channel->getCode(),
                 '%products%' => implode(', ', $productCodes),
             ];
 
             if (null !== $dateRange) {
                 $flashParameters = array_merge($flashParameters, [
                     '%from%' => $dateRange->getStart()->format(DATE_ATOM),
-                    '%to%'   => $dateRange->getEnd()->format(DATE_ATOM),
+                    '%to%' => $dateRange->getEnd()->format(DATE_ATOM),
                 ]);
 
                 $this->handleFlashes($importResult, 'product_list_with_date', $flashParameters);
@@ -143,11 +135,6 @@ class PriceImportController extends AbstractController
         }
     }
 
-    /**
-     * @param PriceImportResult $importResult
-     * @param string $type
-     * @param array $flashParameters
-     */
     protected function handleFlashes(
         PriceImportResult $importResult,
         string $type,

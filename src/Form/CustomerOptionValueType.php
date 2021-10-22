@@ -33,7 +33,7 @@ final class CustomerOptionValueType extends AbstractResourceType
             ])
             ->add('prices', CollectionType::class, [
                 'entry_type' => CustomerOptionValuePriceType::class,
-                'label'      => 'brille24.form.customer_option_value.price',
+                'label' => 'brille24.form.customer_option_value.price',
             ])
         ;
     }

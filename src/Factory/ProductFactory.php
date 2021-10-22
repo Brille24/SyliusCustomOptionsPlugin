@@ -45,9 +45,9 @@ class ProductFactory implements ExampleFactoryInterface
         RepositoryInterface $customerOptionValueRepository,
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory
     ) {
-        $this->baseFactory                     = $baseFactory;
-        $this->customerOptionGroupRepository   = $customerOptionGroupRepository;
-        $this->customerOptionValueRepository   = $customerOptionValueRepository;
+        $this->baseFactory = $baseFactory;
+        $this->customerOptionGroupRepository = $customerOptionGroupRepository;
+        $this->customerOptionValueRepository = $customerOptionValueRepository;
         $this->customerOptionValuePriceFactory = $customerOptionValuePriceFactory;
 
         $this->optionsResolver = new OptionsResolver();
@@ -71,20 +71,17 @@ class ProductFactory implements ExampleFactoryInterface
     }
 
     /**
-     * @param array $options
-     *
-     * @return ProductInterface
-     *
      * @throws \Exception
      */
     public function create(array $options = []): ProductInterface
     {
         $currentOptions =
             $this->optionsResolver->resolve(
-            [
-                'customer_option_group'        => $options['customer_option_group'] ?? null,
+                [
+                'customer_option_group' => $options['customer_option_group'] ?? null,
                 'customer_option_value_prices' => $options['customer_option_value_prices'] ?? [],
-            ]);
+            ]
+            );
 
         unset($options['customer_option_group'], $options['customer_option_value_prices']);
 

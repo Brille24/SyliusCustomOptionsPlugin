@@ -29,7 +29,7 @@ final class CustomerOptionValuePriceType extends AbstractType
     {
         /** @var ProductInterface $product */
         $product = $options['product'];
-        $values  = [];
+        $values = [];
 
         /** @var CustomerOptionInterface $customerOption */
         foreach ($product->getCustomerOptions() as $customerOption) {

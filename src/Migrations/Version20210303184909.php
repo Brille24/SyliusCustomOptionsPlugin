@@ -33,17 +33,29 @@ final class Version20210303184909 extends AbstractMigration implements Container
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE brille24_customer_option_file_content (id INT AUTO_INCREMENT NOT NULL, content LONGTEXT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB');
+        $this->addSql(
+            'CREATE TABLE brille24_customer_option_file_content (id INT AUTO_INCREMENT NOT NULL, content LONGTEXT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE `UTF8_unicode_ci` ENGINE = InnoDB'
+        );
         $this->addSql('ALTER TABLE brille24_customer_option_order_item_option ADD fileContent_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE brille24_customer_option_order_item_option ADD CONSTRAINT FK_8B833EE486EBE56 FOREIGN KEY (fileContent_id) REFERENCES brille24_customer_option_file_content (id)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_8B833EE486EBE56 ON brille24_customer_option_order_item_option (fileContent_id)');
+        $this->addSql(
+            'ALTER TABLE brille24_customer_option_order_item_option ADD CONSTRAINT FK_8B833EE486EBE56 FOREIGN KEY (fileContent_id) REFERENCES brille24_customer_option_file_content (id)'
+        );
+        $this->addSql(
+            'CREATE UNIQUE INDEX UNIQ_8B833EE486EBE56 ON brille24_customer_option_order_item_option (fileContent_id)'
+        );
 
         $id = 1;
         foreach ($this->getOrderItemOptionsWithValues() as $orderItemOption) {
             $fileContent = $orderItemOption['optionValue'];
 
-            $this->addSql('INSERT INTO brille24_customer_option_file_content (id, content) VALUES(:id, :content)', ['id' => $id, 'content' => $fileContent]);
-            $this->addSql('UPDATE brille24_customer_option_order_item_option SET fileContent_id = :file_content_id, optionValue = "file-content" WHERE id = :id', ['file_content_id' => $id, 'id' => $orderItemOption['id']]);
+            $this->addSql(
+                'INSERT INTO brille24_customer_option_file_content (id, content) VALUES(:id, :content)',
+                ['id' => $id, 'content' => $fileContent]
+            );
+            $this->addSql(
+                'UPDATE brille24_customer_option_order_item_option SET fileContent_id = :file_content_id, optionValue = "file-content" WHERE id = :id',
+                ['file_content_id' => $id, 'id' => $orderItemOption['id']]
+            );
 
             ++$id;
         }
@@ -53,9 +65,12 @@ final class Version20210303184909 extends AbstractMigration implements Container
     {
         foreach ($this->getOrderItemOptionsWithFileContent() as $orderItemOption) {
             $fileContent = $orderItemOption['content'];
-            $id          = $orderItemOption['id'];
+            $id = $orderItemOption['id'];
 
-            $this->addSql('UPDATE brille24_customer_option_order_item_option SET optionValue = :content WHERE id = :id', ['content' => $fileContent, 'id' => $id]);
+            $this->addSql(
+                'UPDATE brille24_customer_option_order_item_option SET optionValue = :content WHERE id = :id',
+                ['content' => $fileContent, 'id' => $id]
+            );
         }
 
         // this down() migration is auto-generated, please modify it to your needs

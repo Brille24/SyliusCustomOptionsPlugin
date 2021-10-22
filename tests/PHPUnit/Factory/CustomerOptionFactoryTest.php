@@ -26,9 +26,9 @@ class CustomerOptionFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $customerOptionValueFactory = self::createMock(CustomerOptionValueFactory::class);
+        $customerOptionValueFactory = $this->createMock(CustomerOptionValueFactory::class);
 
-        $customerOptionGroupRepository = self::createMock(CustomerOptionGroupRepositoryInterface::class);
+        $customerOptionGroupRepository = $this->createMock(CustomerOptionGroupRepositoryInterface::class);
         $customerOptionGroupRepository->method('findAll')->willReturnCallback(
             function () {
                 return $this->customerOptionGroupRepository;
@@ -54,8 +54,8 @@ class CustomerOptionFactoryTest extends TestCase
     /** @dataProvider dataValidateInvalidConfiguration */
     public function testValidateWithInvalidConfiguration(array $configuration, string $errorMessage): void
     {
-        self::expectException(ConfigurationException::class);
-        self::expectExceptionMessage($errorMessage);
+        $this->expectException(ConfigurationException::class);
+        $this->expectExceptionMessage($errorMessage);
 
         $this->customerOptionFactory->validateConfiguration($configuration);
     }
@@ -63,10 +63,7 @@ class CustomerOptionFactoryTest extends TestCase
     public function dataValidateInvalidConfiguration(): array
     {
         return [
-            'missing code' => [
-                [],
-                'The configuration does not contain key: "code"',
-            ],
+            'missing code' => [[], 'The configuration does not contain key: "code"'],
             'missing translations' => [
                 ['code' => 'something'],
                 'The configuration does not contain key: "translations"',
@@ -98,10 +95,6 @@ class CustomerOptionFactoryTest extends TestCase
      * @dataProvider dataCreateWithSelect
      *
      * @throws \Exception
-     *
-     * @param array $config
-     * @param int $configCount
-     * @param bool $required
      */
     public function testCreateWithSelect(array $config, int $configCount, bool $required): void
     {
@@ -117,35 +110,35 @@ class CustomerOptionFactoryTest extends TestCase
         return [
             'empty object' => [
                 [
-                    'code'         => 'something',
+                    'code' => 'something',
                     'translations' => ['de_DE' => 'Etwas'],
-                    'type'         => 'select',
-                    'values'       => [],
-                    'groups'       => [],
+                    'type' => 'select',
+                    'values' => [],
+                    'groups' => [],
                 ],
                 0,
                 false,
             ],
             'empty object required' => [
                 [
-                    'code'         => 'something',
+                    'code' => 'something',
                     'translations' => ['de_DE' => 'Etwas'],
-                    'type'         => 'select',
-                    'values'       => [],
-                    'groups'       => [],
-                    'required'     => true,
+                    'type' => 'select',
+                    'values' => [],
+                    'groups' => [],
+                    'required' => true,
                 ],
                 0,
                 true,
             ],
             'values object required' => [
                 [
-                    'code'         => 'something',
+                    'code' => 'something',
                     'translations' => ['de_DE' => 'Etwas'],
-                    'type'         => 'select',
-                    'values'       => [[], []],
-                    'groups'       => [],
-                    'required'     => true,
+                    'type' => 'select',
+                    'values' => [[], []],
+                    'groups' => [],
+                    'required' => true,
                 ],
                 2,
                 true,
@@ -159,11 +152,11 @@ class CustomerOptionFactoryTest extends TestCase
     public function testCreateWithConfiguredOptions(): void
     {
         $option = [
-            'code'         => 'something',
+            'code' => 'something',
             'translations' => ['de_DE' => 'Etwas'],
-            'type'         => CustomerOptionTypeEnum::TEXT,
-            'groups'       => [],
-            'required'     => true,
+            'type' => CustomerOptionTypeEnum::TEXT,
+            'groups' => [],
+            'required' => true,
         ];
 
         $customerOption = $this->customerOptionFactory->createFromConfig($option);
@@ -174,8 +167,6 @@ class CustomerOptionFactoryTest extends TestCase
 
     /**
      * @dataProvider dataGenerateConfiguration
-     *
-     * @param int $count
      *
      * @throws \Exception
      */
@@ -198,19 +189,21 @@ class CustomerOptionFactoryTest extends TestCase
     {
         $associated = null;
 
-        $group = self::createConfiguredMock(CustomerOptionGroupInterface::class, ['getCode' => 'en_US']);
-        $group->method('addOptionAssociation')->willReturnCallback(function (CustomerOptionAssociation $option) use (&$associated) {
+        $group = $this->createConfiguredMock(CustomerOptionGroupInterface::class, ['getCode' => 'en_US']);
+        $group->method('addOptionAssociation')->willReturnCallback(function (CustomerOptionAssociation $option) use (
+            &$associated
+        ) {
             $associated = 'hello';
         });
 
         $this->customerOptionGroupRepository = [$group];
 
         $option = [
-            'code'         => 'something',
+            'code' => 'something',
             'translations' => ['de_DE' => 'Etwas'],
-            'type'         => CustomerOptionTypeEnum::NUMBER,
-            'groups'       => ['en_US'],
-            'required'     => true,
+            'type' => CustomerOptionTypeEnum::NUMBER,
+            'groups' => ['en_US'],
+            'required' => true,
         ];
 
         $customerOption = $this->customerOptionFactory->createFromConfig($option);

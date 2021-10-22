@@ -44,7 +44,7 @@ class AddToCartListenerTest extends TestCase
     public function __construct()
     {
         parent::__construct();
-        $this->channel = self::createMock(ChannelInterface::class);
+        $this->channel = $this->createMock(ChannelInterface::class);
     }
 
     //<editor-fold desc="Setup">
@@ -53,12 +53,12 @@ class AddToCartListenerTest extends TestCase
         // Aliasing variables for use in testing
         $entitiesPersisted = &$this->entitiesPersisted;
 
-        $requestStack = self::createMock(RequestStack::class);
+        $requestStack = $this->createMock(RequestStack::class);
         $requestStack->method('getCurrentRequest')->willReturnCallback(function () {
             return $this->request;
         });
 
-        $entityManager = self::createMock(EntityManagerInterface::class);
+        $entityManager = $this->createMock(EntityManagerInterface::class);
         $entityManager->method('persist')->willReturnCallback(function ($entity) use (&$entitiesPersisted) {
             if (!array_key_exists(get_class($entity), $entitiesPersisted)) {
                 $entitiesPersisted[get_class($entity)] = 1;
@@ -66,23 +66,27 @@ class AddToCartListenerTest extends TestCase
             ++$entitiesPersisted[get_class($entity)];
         });
 
-        $orderItemOptionFactory = self::createMock(OrderItemOptionFactoryInterface::class);
+        $orderItemOptionFactory = $this->createMock(OrderItemOptionFactoryInterface::class);
         $orderItemOptionFactory->method('createNewFromStrings')->willReturnCallback(
             function ($orderItem, $customerOptionCode, $value) {
                 if (!array_key_exists($customerOptionCode, $this->customerOptions)) {
                     throw new \Exception('Not found');
                 }
 
-                $orderItemOption = new OrderItemOption($this->channel, $this->customerOptions[$customerOptionCode], $value);
+                $orderItemOption = new OrderItemOption(
+                    $this->channel,
+                    $this->customerOptions[$customerOptionCode],
+                    $value
+                );
                 $orderItemOption->setOrderItem($orderItem);
 
                 return $orderItemOption;
             }
         );
 
-        $orderProcessor = self::createMock(OrderProcessorInterface::class);
+        $orderProcessor = $this->createMock(OrderProcessorInterface::class);
 
-        $this->customerOptionRepository = self::createMock(CustomerOptionRepositoryInterface::class);
+        $this->customerOptionRepository = $this->createMock(CustomerOptionRepositoryInterface::class);
 
         $this->addToCartListener = new AddToCartListener(
             $requestStack,
@@ -95,15 +99,15 @@ class AddToCartListenerTest extends TestCase
 
     private function createEvent(bool $hasOrder): ResourceControllerEvent
     {
-        $product = self::createConfiguredMock(ProductInterface::class, []);
+        $product = $this->createConfiguredMock(ProductInterface::class, []);
 
-        $channel   = self::createMock(ChannelInterface::class);
-        $order     = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $channel]);
-        $orderItem = self::createMock(OrderItemInterface::class);
+        $channel = $this->createMock(ChannelInterface::class);
+        $order = $this->createConfiguredMock(OrderInterface::class, ['getChannel' => $channel]);
+        $orderItem = $this->createMock(OrderItemInterface::class);
         $orderItem->method('getOrder')->willReturn($hasOrder ? $order : null);
         $orderItem->method('getProduct')->willReturn($product);
 
-        $event = self::createMock(ResourceControllerEvent::class);
+        $event = $this->createMock(ResourceControllerEvent::class);
         $event->method('getSubject')->willReturn($orderItem);
 
         return $event;
@@ -113,7 +117,7 @@ class AddToCartListenerTest extends TestCase
     {
         $request = new Request();
 
-        $request->request = self::createMock(ParameterBag::class);
+        $request->request = $this->createMock(ParameterBag::class);
         $request->request->method('get')->willReturnCallback(function ($key) use ($customerOptions) {
             self::assertEquals('sylius_add_to_cart', $key);
 
@@ -140,7 +144,7 @@ class AddToCartListenerTest extends TestCase
     public function testWithEmptyCustomerOptions(): void
     {
         // SETUP
-        $event         = $this->createEvent(true);
+        $event = $this->createEvent(true);
         $this->request = $this->createRequest([]);
 
         // EXECUTE
@@ -153,12 +157,14 @@ class AddToCartListenerTest extends TestCase
     public function testInvalidCustomerOptionCode(): void
     {
         // SETUP
-        $this->customerOptionRepository->method('findOneByCode')->with('customerOptionCode')->willReturn(self::createMock(CustomerOptionInterface::class));
-        $event         = $this->createEvent(true);
+        $this->customerOptionRepository->method('findOneByCode')->with('customerOptionCode')->willReturn(
+            $this->createMock(CustomerOptionInterface::class)
+        );
+        $event = $this->createEvent(true);
         $this->request = $this->createRequest(['customer_options' => ['customerOptionCode' => 'value']]);
 
-        self::expectException(\Exception::class);
-        self::expectExceptionMessage('Not found');
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Not found');
 
         // EXECUTE
         $this->addToCartListener->addItemToCart($event);
@@ -167,10 +173,12 @@ class AddToCartListenerTest extends TestCase
     public function testValidCustomerOptionCode(): void
     {
         // SETUP
-        $this->customerOptions['customerOptionCode'] = self::createMock(CustomerOptionInterface::class);
-        $this->customerOptionRepository->method('findOneByCode')->with('customerOptionCode')->willReturn($this->customerOptions['customerOptionCode']);
+        $this->customerOptions['customerOptionCode'] = $this->createMock(CustomerOptionInterface::class);
+        $this->customerOptionRepository->method('findOneByCode')->with('customerOptionCode')->willReturn(
+            $this->customerOptions['customerOptionCode']
+        );
 
-        $event         = $this->createEvent(true);
+        $event = $this->createEvent(true);
         $this->request = $this->createRequest(['customer_options' => ['customerOptionCode' => 'value']]);
 
         // EXECUTE

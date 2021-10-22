@@ -21,7 +21,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 interface CustomerOptionValuePriceInterface extends ResourceInterface
 {
     const TYPE_FIXED_AMOUNT = 'FIXED_AMOUNT';
-    const TYPE_PERCENT      = 'PERCENT';
+    const TYPE_PERCENT = 'PERCENT';
 
     public function getId(): ?int;
 
@@ -60,10 +60,6 @@ interface CustomerOptionValuePriceInterface extends ResourceInterface
 
     /**
      * Returns a string representing the value of the object
-     *
-     * @param string $currencyCode
-     * @param string $locale
-     * @param MoneyFormatterInterface $formatter
      */
     public function getValueString(string $currencyCode, string $locale, MoneyFormatterInterface $formatter): string;
 

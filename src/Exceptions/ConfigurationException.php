@@ -9,8 +9,6 @@ class ConfigurationException extends \Exception
     /**
      * Checks if the array has the key, if not it throws an exception
      *
-     * @param string $key
-     * @param array  $array
      *
      * @throws ConfigurationException
      */
@@ -25,7 +23,6 @@ class ConfigurationException extends \Exception
      * Checks if the array contains the first value and if not it throws an exception
      *
      * @param mixed $element
-     * @param array $array
      *
      * @throws ConfigurationException
      */

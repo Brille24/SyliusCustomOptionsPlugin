@@ -88,20 +88,16 @@ class ValueType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefined([
-            'field_type',
-            'field_options',
-            'option_type',
-        ]);
+        $resolver->setDefined(['field_type', 'field_options', 'option_type']);
 
         $resolver->setAllowedTypes('field_type', 'string');
         $resolver->setAllowedTypes('field_options', 'array');
         $resolver->setAllowedTypes('option_type', 'string');
 
         $resolver->setDefaults([
-            'field_type'    => NumberType::class,
+            'field_type' => NumberType::class,
             'field_options' => [],
-            'option_type'   => CustomerOptionTypeEnum::TEXT,
+            'option_type' => CustomerOptionTypeEnum::TEXT,
         ]);
     }
 

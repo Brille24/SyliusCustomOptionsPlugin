@@ -16,7 +16,7 @@ class ErrorMessageType extends AbstractType
     {
         $builder->add('translations', ResourceTranslationsType::class, [
             'entry_type' => ErrorMessageTranslationType::class,
-            'label'      => false,
+            'label' => false,
         ]);
     }
 

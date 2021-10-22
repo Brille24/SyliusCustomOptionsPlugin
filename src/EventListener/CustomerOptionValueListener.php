@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\EventListener;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -29,9 +28,6 @@ final class CustomerOptionValueListener
 
     /**
      * CustomerOptionValueListener constructor.
-     *
-     * @param EntityRepository $channelRepository
-     * @param CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory
      */
     public function __construct(
         EntityRepository $channelRepository,
@@ -41,9 +37,6 @@ final class CustomerOptionValueListener
         $this->customerOptionValuePriceFactory = $customerOptionValuePriceFactory;
     }
 
-    /**
-     * @param LifecycleEventArgs $args
-     */
     public function prePersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getEntity();

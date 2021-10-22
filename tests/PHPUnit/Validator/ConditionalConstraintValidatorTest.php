@@ -15,7 +15,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Validator\ConditionalConstraintValidato
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -25,7 +25,7 @@ class ConditionalConstraintValidatorTest extends TestCase
     /** @var ConditionalConstraintValidator */
     private $conditionalConstraintValidator;
 
-    /** @var array */
+    /** @var array<string|null> */
     private $violations;
 
     /** @var MockObject|Request */
@@ -33,14 +33,15 @@ class ConditionalConstraintValidatorTest extends TestCase
 
     public function setUp(): void
     {
-        $this->violations       = [];
-        $this->request          = self::createMock(Request::class);
-        $this->request->request = self::createMock(ParameterBag::class);
-        $requestStack           = self::createConfiguredMock(RequestStack::class, ['getCurrentRequest' => $this->request]);
+        $this->violations = [];
+        $this->request = new Request();
+        $requestStack = $this->createConfiguredMock(RequestStack::class, [
+            'getCurrentRequest' => $this->request
+        ]);
 
         $this->conditionalConstraintValidator = new ConditionalConstraintValidator($requestStack);
 
-        $context = self::createMock(ExecutionContextInterface::class);
+        $context = $this->createMock(ExecutionContextInterface::class);
         $context->method('addViolation')->willReturnCallback(function (?string $message): void {
             $this->violations[] = $message;
         });
@@ -55,17 +56,16 @@ class ConditionalConstraintValidatorTest extends TestCase
      */
     public function testValidate($customerEnteredValues)
     {
-        $this->request->request
-            ->method('get')
-            ->with('sylius_add_to_cart')
-            ->willReturn(['customer_options' => $customerEnteredValues]);
+        $this->request->request = new InputBag([
+            'sylius_add_to_cart' => ['customer_options' => $customerEnteredValues]
+        ]);
 
         $customerOptions = $this->createMockCustomerOptions();
-        $product         = self::createMock(ProductInterface::class);
+        $product = $this->createMock(ProductInterface::class);
 
         $product->method('getCustomerOptions')->willReturn($customerOptions);
 
-        $orderItem = self::createMock(OrderItemInterface::class);
+        $orderItem = $this->createMock(OrderItemInterface::class);
         $orderItem->method('getProduct')->willReturn($product);
 
         $condition = new Condition();
@@ -89,7 +89,7 @@ class ConditionalConstraintValidatorTest extends TestCase
         $constraints[] = $constraint;
 
         $conditionalConstraint = new ConditionalConstraint([
-            'conditions'  => $conditions,
+            'conditions' => $conditions,
             'constraints' => $constraints,
         ]);
 
@@ -99,29 +99,32 @@ class ConditionalConstraintValidatorTest extends TestCase
         self::assertNotEmpty($this->violations);
     }
 
-    public function requestParamsProvider()
+    public function requestParamsProvider(): array
     {
         return [
-            'some other test'       => [['option_1' => 'some text', 'option_2' => '1', 'option_3' => 'val_1']],
+            'some other test' => [['option_1' => 'some text', 'option_2' => '1', 'option_3' => 'val_1']],
             'missing option values' => [['option_1' => 'abc', 'option_3' => 'val_2']],
         ];
     }
 
-    private function createMockCustomerOptions()
+    /**
+     * @return array<CustomerOptionInterface>
+     */
+    private function createMockCustomerOptions(): array
     {
         $customerOptions = [];
 
-        $customerOption = self::createMock(CustomerOptionInterface::class);
+        $customerOption = $this->createMock(CustomerOptionInterface::class);
         $customerOption->method('getCode')->willReturn('option_1');
         $customerOption->method('getType')->willReturn(CustomerOptionTypeEnum::TEXT);
         $customerOptions[] = $customerOption;
 
-        $customerOption = self::createMock(CustomerOptionInterface::class);
+        $customerOption = $this->createMock(CustomerOptionInterface::class);
         $customerOption->method('getCode')->willReturn('option_2');
         $customerOption->method('getType')->willReturn(CustomerOptionTypeEnum::NUMBER);
         $customerOptions[] = $customerOption;
 
-        $customerOption = self::createMock(CustomerOptionInterface::class);
+        $customerOption = $this->createMock(CustomerOptionInterface::class);
         $customerOption->method('getCode')->willReturn('option_3');
         $customerOption->method('getType')->willReturn(CustomerOptionTypeEnum::SELECT);
         $customerOptions[] = $customerOption;

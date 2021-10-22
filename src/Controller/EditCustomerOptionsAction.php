@@ -39,17 +39,13 @@ class EditCustomerOptionsAction extends AbstractController
         EventDispatcherInterface $eventDispatcher,
         bool $recalculatePrice
     ) {
-        $this->orderItemRepository    = $orderItemRepository;
+        $this->orderItemRepository = $orderItemRepository;
         $this->orderItemOptionUpdater = $orderItemOptionUpdater;
-        $this->eventDispatcher        = $eventDispatcher;
-        $this->recalculatePrice       = $recalculatePrice;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->recalculatePrice = $recalculatePrice;
     }
 
     /**
-     * @param Request $request
-     *
-     * @return Response
-     *
      * @throws Exception
      */
     public function __invoke(Request $request): Response
@@ -75,7 +71,11 @@ class EditCustomerOptionsAction extends AbstractController
         $orderItemForm->handleRequest($request);
 
         if ($orderItemForm->isSubmitted() && $orderItemForm->isValid()) {
-            $this->orderItemOptionUpdater->updateOrderItemOptions($orderItem, $orderItemForm->getData(), $this->recalculatePrice);
+            $this->orderItemOptionUpdater->updateOrderItemOptions(
+                $orderItem,
+                $orderItemForm->getData(),
+                $this->recalculatePrice
+            );
 
             $this->eventDispatcher->dispatch(
                 'brille24.order_item.post_update',
@@ -89,27 +89,23 @@ class EditCustomerOptionsAction extends AbstractController
             '@Brille24SyliusCustomerOptionsPlugin/Order/editCustomerOption.html.twig',
             [
                 'customerOptionForm' => $orderItemForm->createView(),
-                'order'              => $order,
+                'order' => $order,
             ]
         );
     }
 
     /**
-     * @param OrderItemInterface $orderItem
-     *
-     * @return array
-     *
      * @throws Exception
      */
     private function getCustomerOptionValues(OrderItemInterface $orderItem): array
     {
         $optionAsAssociativeArray = [];
-        $orderItemOptions         = $orderItem->getCustomerOptionConfiguration();
+        $orderItemOptions = $orderItem->getCustomerOptionConfiguration();
 
         foreach ($orderItemOptions as $orderItemOption) {
-            $customerOption     = $orderItemOption->getCustomerOption();
+            $customerOption = $orderItemOption->getCustomerOption();
             $customerOptionType = $customerOption->getType();
-            $code               = $orderItemOption->getCustomerOptionCode();
+            $code = $orderItemOption->getCustomerOptionCode();
 
             // Select options use CustomerOptionValues
             if ($customerOptionType === CustomerOptionTypeEnum::MULTI_SELECT) {
@@ -117,7 +113,10 @@ class EditCustomerOptionsAction extends AbstractController
             } elseif ($customerOptionType === CustomerOptionTypeEnum::SELECT) {
                 $optionAsAssociativeArray[$code] = $orderItemOption->getCustomerOptionValue();
             } else {
-                $optionAsAssociativeArray[$code] = $this->transformValue($customerOptionType, $orderItemOption->getScalarValue());
+                $optionAsAssociativeArray[$code] = $this->transformValue(
+                    $customerOptionType,
+                    $orderItemOption->getScalarValue()
+                );
             }
         }
 
@@ -125,9 +124,6 @@ class EditCustomerOptionsAction extends AbstractController
     }
 
     /**
-     * @param string $customerOptionType
-     * @param string|null $value
-     *
      * @return bool|DateTime|float|string|null
      *
      * @throws Exception

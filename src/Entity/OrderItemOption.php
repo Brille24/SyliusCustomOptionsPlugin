@@ -150,9 +150,9 @@ class OrderItemOption implements OrderItemOptionInterface
     public function setCustomerOptionValue($value): void
     {
         if ($this->customerOptionType === CustomerOptionTypeEnum::FILE) {
-            $this->optionValue         = 'file-content';
+            $this->optionValue = 'file-content';
             $this->customerOptionValue = null;
-            $this->fileContent         = new FileContent((string) $value);
+            $this->fileContent = new FileContent((string) $value);
 
             return;
         }
@@ -160,8 +160,8 @@ class OrderItemOption implements OrderItemOptionInterface
         $this->fileContent = null;
 
         if (is_scalar($value)) {
-            $this->optionValue          = (string) $value;
-            $this->customerOptionValue  = null;
+            $this->optionValue = (string) $value;
+            $this->customerOptionValue = null;
 
             return;
         }
@@ -171,7 +171,7 @@ class OrderItemOption implements OrderItemOptionInterface
 
             $this->customerOptionValueCode = $value->getCode() ?? 'code';
             $this->customerOptionValueName = $value->getName() ?? 'name';
-            $this->optionValue             = null;
+            $this->optionValue = null;
         } else {
             $this->optionValue = '';
         }
@@ -230,8 +230,8 @@ class OrderItemOption implements OrderItemOptionInterface
     /** {@inheritdoc} */
     public function setPrice(CustomerOptionValuePriceInterface $price): void
     {
-        $this->fixedPrice  = $price->getAmount();
-        $this->percent     = $price->getPercent();
+        $this->fixedPrice = $price->getAmount();
+        $this->percent = $price->getPercent();
         $this->pricingType = $price->getType();
     }
 

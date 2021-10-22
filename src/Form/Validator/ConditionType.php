@@ -27,10 +27,10 @@ class ConditionType extends AbstractType
 
         $builder
             ->add('customer_option', ChoiceType::class, [
-                'label'        => 'brille24.form.validators.fields.customer_option',
-                'choices'      => $customerOptionGroup->getOptions(),
+                'label' => 'brille24.form.validators.fields.customer_option',
+                'choices' => $customerOptionGroup->getOptions(),
                 'choice_label' => 'name',
-                'attr'         => ['onChange' => '$(event.target).parentsUntil("form").parent().submit();'],
+                'attr' => ['onChange' => '$(event.target).parentsUntil("form").parent().submit();'],
             ])
         ;
 
@@ -52,7 +52,9 @@ class ConditionType extends AbstractType
                 $customerOptionType = $customerOption->getType();
                 $comparatorChoices = ConditionComparatorEnum::getValuesForCustomerOptionType($customerOptionType);
 
-                [$formType, $formOptions] = ConditionComparatorEnum::getFormTypeForCustomerOptionType($customerOptionType);
+                [$formType, $formOptions] = ConditionComparatorEnum::getFormTypeForCustomerOptionType(
+                    $customerOptionType
+                );
 
                 if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
                     $formOptions['choices'] = $customerOption->getValues()->getValues();
@@ -63,17 +65,15 @@ class ConditionType extends AbstractType
             }
 
             $form->add('comparator', ChoiceType::class, [
-                'label'   => 'brille24.form.validators.fields.comparator',
-                'choices' => array_flip(
-                    ConditionComparatorEnum::transformToTranslateArray($comparatorChoices)
-                ),
+                'label' => 'brille24.form.validators.fields.comparator',
+                'choices' => array_flip(ConditionComparatorEnum::transformToTranslateArray($comparatorChoices)),
             ]);
 
             $form->add('value', ValueType::class, [
-                'label'         => false,
-                'field_type'    => $formType,
+                'label' => false,
+                'field_type' => $formType,
                 'field_options' => $formOptions,
-                'option_type'   => $customerOptionType,
+                'option_type' => $customerOptionType,
             ]);
         });
     }

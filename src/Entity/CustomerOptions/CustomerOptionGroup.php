@@ -44,8 +44,8 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     public function __construct()
     {
         $this->optionAssociations = new ArrayCollection();
-        $this->products           = new ArrayCollection();
-        $this->validators         = new ArrayCollection();
+        $this->products = new ArrayCollection();
+        $this->validators = new ArrayCollection();
         $this->initializeTranslationsCollection();
     }
 
@@ -171,11 +171,6 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
 
     //<editor-fold "Translations">
 
-    /**
-     * @param string|null $locale
-     *
-     * @return TranslationInterface
-     */
     public function getTranslation(? string $locale = null): TranslationInterface
     {
         /** TranslationInterface $translation */
@@ -184,9 +179,6 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
         return $translation;
     }
 
-    /**
-     * @return CustomerOptionGroupTranslationInterface
-     */
     public function createTranslation(): CustomerOptionGroupTranslationInterface
     {
         return new CustomerOptionGroupTranslation();
