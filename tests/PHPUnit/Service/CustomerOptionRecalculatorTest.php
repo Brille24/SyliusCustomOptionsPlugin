@@ -8,6 +8,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionRecalculator;
+use Brille24\SyliusCustomerOptionsPlugin\Subscriber\SelectAdjustmentCalculatorSubscriber;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -16,6 +17,7 @@ use Sylius\Component\Core\Model\OrderItemInterface as SyliusOrderItemInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Order\Factory\AdjustmentFactoryInterface;
 use Sylius\Component\Order\Model\AdjustmentInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class CustomerOptionRecalculatorTest extends TestCase
 {
@@ -29,7 +31,12 @@ class CustomerOptionRecalculatorTest extends TestCase
     {
         $this->adjustmentFactory = self::createMock(AdjustmentFactoryInterface::class);
 
-        $this->customerOptionRecalculator = new CustomerOptionRecalculator($this->adjustmentFactory);
+        $eventDispatcher = new EventDispatcher();
+        $eventDispatcher->addSubscriber(
+            new SelectAdjustmentCalculatorSubscriber($this->adjustmentFactory)
+        );
+
+        $this->customerOptionRecalculator = new CustomerOptionRecalculator($eventDispatcher);
     }
 
     public function testingNoUpdateOnInvalidOrderItems(): void
@@ -52,10 +59,11 @@ class CustomerOptionRecalculatorTest extends TestCase
 
     public function testProcess(): void
     {
-        $customerOption = self::createConfiguredMock(OrderItemOptionInterface::class, [
+        $orderItemOption = self::createConfiguredMock(OrderItemOptionInterface::class, [
             'getCustomerOptionValue' => self::createMock(CustomerOptionValueInterface::class),
-            'getCustomerOptionName'  => 'Test Adjustment',
-            'getCalculatedPrice'     => 1200,
+            'getCustomerOptionName' => 'Test Adjustment',
+            'getCalculatedPrice' => 1200,
+            'getCustomerOptionType' => 'select',
         ]);
 
         $adjustment = self::createMock(AdjustmentInterface::class);
@@ -66,11 +74,12 @@ class CustomerOptionRecalculatorTest extends TestCase
         $orderItem = self::createConfiguredMock(
             OrderItemInterface::class,
             [
-                'getUnitPrice'                   => 1000,
-                'getUnits'                       => new ArrayCollection([$orderItemUnit]),
-                'getCustomerOptionConfiguration' => [$customerOption],
+                'getUnitPrice' => 1000,
+                'getUnits' => new ArrayCollection([$orderItemUnit]),
+                'getCustomerOptionConfiguration' => [$orderItemOption],
             ]
         );
+        $orderItemOption->method('getOrderItem')->willReturn($orderItem);
 
         $order = self::createConfiguredMock(
             OrderInterface::class,
@@ -83,6 +92,34 @@ class CustomerOptionRecalculatorTest extends TestCase
             ->with('customer_option', 'Test Adjustment', 1200)
             ->willReturn($adjustment)
         ;
+
+        $this->customerOptionRecalculator->process($order);
+    }
+
+    public function testProcessingAnOrderWithoutSuitableSubscribers(): void
+    {
+        $orderItemOption = self::createConfiguredMock(OrderItemOptionInterface::class, [
+            'getCustomerOptionValue' => self::createMock(CustomerOptionValueInterface::class),
+            'getCustomerOptionName' => 'Test Adjustment',
+            'getCalculatedPrice' => 1200,
+            'getCustomerOptionType' => 'text',
+        ]);
+        $orderItemOption->expects($this->never())->method('getOrderItem');
+
+        $orderItem = self::createConfiguredMock(
+            OrderItemInterface::class,
+            [
+                'getUnitPrice' => 1000,
+                'getCustomerOptionConfiguration' => [$orderItemOption],
+            ]
+        );
+
+        $order = self::createConfiguredMock(
+            OrderInterface::class,
+            ['getItems' => new ArrayCollection([$orderItem])]
+        );
+
+        $this->adjustmentFactory->expects($this->never())->method('createWithData');
 
         $this->customerOptionRecalculator->process($order);
     }

@@ -6,54 +6,39 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
-use Sylius\Component\Order\Factory\AdjustmentFactoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Event\RecalculateOrderItemOptionEvent;
+use Brille24\SyliusCustomerOptionsPlugin\Event\RemoveCustomerOptionFromOrderEvent;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class CustomerOptionRecalculator implements OrderProcessorInterface
 {
     public const CUSTOMER_OPTION_ADJUSTMENT = 'customer_option';
 
-    /** @var AdjustmentFactoryInterface */
-    private $adjustmentFactory;
+    /** @var EventDispatcherInterface */
+    private $eventDispatcher;
 
-    public function __construct(AdjustmentFactoryInterface $adjustmentFactory)
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
-        $this->adjustmentFactory = $adjustmentFactory;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function process(OrderInterface $order): void
     {
         $order->removeAdjustmentsRecursively(self::CUSTOMER_OPTION_ADJUSTMENT);
+        $this->eventDispatcher->dispatch(new RemoveCustomerOptionFromOrderEvent($order));
 
         foreach ($order->getItems() as $orderItem) {
             if (!$orderItem instanceof OrderItemInterface) {
                 continue;
             }
 
-            $this->addOrderItemAdjustment($orderItem);
-        }
-    }
+            /** @var OrderItemOptionInterface[] $configuration */
+            $configuration = $orderItem->getCustomerOptionConfiguration();
 
-    private function addOrderItemAdjustment(OrderItemInterface $orderItem): void
-    {
-        /** @var OrderItemOptionInterface[] $configuration */
-        $configuration = $orderItem->getCustomerOptionConfiguration();
-        foreach ($configuration as $orderItemOption) {
-            // Skip all customer options that don't have customer option values as they can not have a price like
-            // text options
-            if (null === $orderItemOption->getCustomerOptionValue()) {
-                continue;
-            }
-
-            foreach ($orderItem->getUnits() as $unit) {
-                $adjustment = $this->adjustmentFactory->createWithData(
-                    self::CUSTOMER_OPTION_ADJUSTMENT,
-                    $orderItemOption->getCustomerOptionName(),
-                    $orderItemOption->getCalculatedPrice($orderItem->getUnitPrice())
-                );
-
-                $unit->addAdjustment($adjustment);
+            foreach ($configuration as $orderItemOption) {
+                $this->eventDispatcher->dispatch(new RecalculateOrderItemOptionEvent($orderItemOption));
             }
         }
     }
