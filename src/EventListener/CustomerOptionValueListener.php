@@ -56,15 +56,12 @@ final class CustomerOptionValueListener
     private function addChannelPricesToNewValue(CustomerOptionValueInterface $value): void
     {
         $prices = $value->getPrices();
-
         $existingChannels = [];
         foreach ($prices as $price) {
             $existingChannels[] = $price->getChannel();
         }
 
-        $channels = $this->channelRepository->findAll();
-
-        foreach ($channels as $channel) {
+        foreach ($this->channelRepository->findAll() as $channel) {
             if (!in_array($channel, $existingChannels, true)) {
                 /** @var CustomerOptionValuePriceInterface $newPrice */
                 $newPrice = $this->customerOptionValuePriceFactory->createNew();
