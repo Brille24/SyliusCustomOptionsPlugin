@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Event;
 
-use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Order\Model\OrderInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class RemoveCustomerOptionFromOrderEvent extends Event

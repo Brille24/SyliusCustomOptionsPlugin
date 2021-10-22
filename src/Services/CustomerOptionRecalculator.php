@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Services;
 
-use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Event\RemoveCustomerOptionFromOrderEvent;
 use Brille24\SyliusCustomerOptionsPlugin\Event\RecalculateOrderItemOptionEvent;
+use Brille24\SyliusCustomerOptionsPlugin\Event\RemoveCustomerOptionFromOrderEvent;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
 
 final class CustomerOptionRecalculator implements OrderProcessorInterface
 {
@@ -31,9 +29,7 @@ final class CustomerOptionRecalculator implements OrderProcessorInterface
         $order->removeAdjustmentsRecursively(self::CUSTOMER_OPTION_ADJUSTMENT);
         $this->eventDispatcher->dispatch(new RemoveCustomerOptionFromOrderEvent($order));
 
-        /** @var OrderItem $orderItem */
         foreach ($order->getItems() as $orderItem) {
-
             if (!$orderItem instanceof OrderItemInterface) {
                 continue;
             }

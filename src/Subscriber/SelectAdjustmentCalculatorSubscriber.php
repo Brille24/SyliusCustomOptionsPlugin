@@ -18,7 +18,7 @@ use Sylius\Component\Order\Factory\AdjustmentFactoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 
-final class AdjustmentSubscriber implements EventSubscriberInterface
+final class SelectAdjustmentCalculatorSubscriber implements EventSubscriberInterface
 {
     public const CUSTOMER_OPTION_ADJUSTMENT = 'customer_option';
 
