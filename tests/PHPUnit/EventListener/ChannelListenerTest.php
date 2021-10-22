@@ -7,7 +7,9 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\EventListener;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\EventListener\ChannelListener;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -27,7 +29,11 @@ class ChannelListenerTest extends TestCase
     //<editor-fold desc="Setup">
     public function setUp(): void
     {
-        $this->channelCreateListener = new ChannelListener();
+        $customerOptionValueFactory = self::createMock(CustomerOptionValuePriceFactoryInterface::class);
+        $customerOptionValueFactory
+            ->method('createNew')
+            ->willReturn(self::createMock(CustomerOptionValuePriceInterface::class));
+        $this->channelCreateListener = new ChannelListener($customerOptionValueFactory);
     }
 
     private function createArguments($entity): LifecycleEventArgs

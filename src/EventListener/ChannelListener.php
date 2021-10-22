@@ -15,12 +15,23 @@ namespace Brille24\SyliusCustomerOptionsPlugin\EventListener;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Sylius\Component\Core\Model\ChannelInterface;
 
 final class ChannelListener
 {
+    /** @var CustomerOptionValuePriceFactoryInterface */
+    private $customerOptionValuePriceFactory;
+
+    public function __construct(
+        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory
+    ) {
+        $this->customerOptionValuePriceFactory = $customerOptionValuePriceFactory;
+    }
+
     public function prePersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getEntity();
@@ -42,7 +53,8 @@ final class ChannelListener
             }
 
             if (!in_array($channel, $existingChannels, true)) {
-                $newPrice = new CustomerOptionValuePrice();
+                /** @var CustomerOptionValuePriceInterface $newPrice */
+                $newPrice = $this->customerOptionValuePriceFactory->createNew();
                 $newPrice->setChannel($channel);
                 $value->addPrice($newPrice);
                 $em->persist($value);
