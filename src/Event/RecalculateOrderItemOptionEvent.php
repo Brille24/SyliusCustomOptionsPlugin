@@ -13,10 +13,9 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Event;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
-
-class OrderItemOptionEvent extends Event
+class RecalculateOrderItemOptionEvent extends Event
 {
     /** @var OrderItemOptionInterface */
     private $orderItemOption;

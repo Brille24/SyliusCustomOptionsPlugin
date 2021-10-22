@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Subscriber;
 
-use Brille24\SyliusCustomerOptionsPlugin\Event\OrderItemOptionEvent;
+use Brille24\SyliusCustomerOptionsPlugin\Event\RecalculateOrderItemOptionEvent;
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionRecalculator;
 use Sylius\Component\Order\Factory\AdjustmentFactoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -30,17 +30,20 @@ final class AdjustmentSubscriber implements EventSubscriberInterface
         $this->adjustmentFactory = $adjustmentFactory;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
-        return array(
-            CustomerOptionRecalculator::EVENT_PREFIX_ORDER_ITEM_OPTION_TYPE.'select' => 'addSelectAdjustment',
-            CustomerOptionRecalculator::EVENT_PREFIX_ORDER_ITEM_OPTION_TYPE.'multi_select' => 'addSelectAdjustment',
-        );
+        return [
+            RecalculateOrderItemOptionEvent::class => 'addSelectAdjustment',
+        ];
     }
 
-    public function addSelectAdjustment(OrderItemOptionEvent $event): void
+    public function addSelectAdjustment(RecalculateOrderItemOptionEvent $event): void
     {
         $orderItemOption = $event->getOrderItemOption();
+
+        if (!in_array($orderItemOption->getCustomerOptionType(), ['multi_select', 'select'], true)) {
+            return;
+        }
 
         // Skip all customer options that don't have customer option values as they can not have a price like
         // text options
