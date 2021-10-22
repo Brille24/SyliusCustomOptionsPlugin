@@ -9,6 +9,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\EventListener\CustomerOptionValueListener;
+use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -34,7 +35,12 @@ class CustomerOptionValueListenerTest extends TestCase
             return $this->channels;
         });
 
-        $this->customerOptionValueListener = new CustomerOptionValueListener($channelRepository);
+        $customerOptionValuePriceFactory = self::createMock(CustomerOptionValuePriceFactoryInterface::class);
+        $customerOptionValuePriceFactory
+            ->method('createNew')
+            ->willReturn($this->createMock(CustomerOptionValuePriceInterface::class));
+
+        $this->customerOptionValueListener = new CustomerOptionValueListener($channelRepository, $customerOptionValuePriceFactory);
     }
 
     private function createArguments($entity): LifecycleEventArgs
