@@ -1,8 +1,5 @@
 # Customer Options
 <p align="center"><img src="https://sylius.com/assets/badge-approved-by-sylius.png" width="100px"></p>
-<a href="https://travis-ci.org/Brille24/SyliusCustomOptionsPlugin">
-	<img src="https://travis-ci.org/Brille24/SyliusCustomOptionsPlugin.svg?branch=master" />
-</a>
 
 With this plugin the customer can add additional info to the product like so:
 ![Price import forms](docs/images/customeroption_frontend.png "The customer can upload a file")
