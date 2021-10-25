@@ -97,7 +97,7 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
     public function createNewFromStrings(
         OrderItemInterface $orderItem,
         string $customerOptionCode,
-        string $customerOptionValue
+        $customerOptionValue
     ): OrderItemOptionInterface {
         $customerOption = $this->customerOptionRepository->findOneByCode($customerOptionCode);
         if ($customerOption === null) {
@@ -105,7 +105,7 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
         }
 
         if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
-            $customerOptionValue = $this->valueResolver->resolve($customerOption, $customerOptionValue);
+            $customerOptionValue = $this->valueResolver->resolve($customerOption, (string) $customerOptionValue);
         }
 
         return $this->createForOptionAndValue($orderItem, $customerOption, $customerOptionValue);

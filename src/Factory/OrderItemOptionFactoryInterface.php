@@ -21,7 +21,7 @@ interface OrderItemOptionFactoryInterface
     /**
      * @param CustomerOptionInterface $customerOption
      * @param mixed                   $customerOptionValue
-     * @param OrderItemInterface $orderItem
+     * @param OrderItemInterface      $orderItem
      *
      * @return OrderItemOptionInterface
      */
@@ -34,15 +34,15 @@ interface OrderItemOptionFactoryInterface
     /**
      * Creates an OrderItemOption based on the two input strings
      *
-     * @param string $customerOptionCode The code of teh customer option
-     * @param string $customerOptionValue The code of the value if it is a select else just the value itself
-     * @param OrderItemInterface $orderItem
+     * @param string              $customerOptionCode The code of teh customer option
+     * @param mixed               $customerOptionValue The code of the value if it is a select else just the value itself
+     * @param OrderItemInterface  $orderItem
      *
      * @return OrderItemOptionInterface
      */
     public function createNewFromStrings(
         OrderItemInterface $orderItem,
         string $customerOptionCode,
-        string $customerOptionValue
+        $customerOptionValue
     ): OrderItemOptionInterface;
 }
