@@ -77,11 +77,11 @@ class OrderItemOptionFactoryTest extends TestCase
         $this->customerOptions[$customerOption->getCode()] = $customerOption;
     }
 
-    private function createCustomerOption(string $code): CustomerOptionInterface
+    private function createCustomerOption(string $code, string $customerOptionType = CustomerOptionTypeEnum::SELECT): CustomerOptionInterface
     {
         $customerOption = self::createMock(CustomerOptionInterface::class);
         $customerOption->method('getCode')->willReturn($code);
-        $customerOption->method('getType')->willReturn(CustomerOptionTypeEnum::SELECT);
+        $customerOption->method('getType')->willReturn($customerOptionType);
 
         return $customerOption;
     }
@@ -143,5 +143,22 @@ class OrderItemOptionFactoryTest extends TestCase
 
         self::assertEquals($customerOptionValue, $orderItemOption->getCustomerOptionValue());
         self::assertEquals($customerOptionValue->getCode(), $orderItemOption->getCustomerOptionValueCode());
+    }
+
+    public function testCreateNewFromStringWithBooleanOption()
+    {
+        $customerOption = $this->createCustomerOption('something', CustomerOptionTypeEnum::BOOLEAN);
+
+        $product   = self::createMock(ProductInterface::class);
+        $order     = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $this->channel]);
+        $orderItem = self::createConfiguredMock(OrderItemInterface::class, ['getOrder' => $order, 'getProduct' => $product]);
+
+        $this->addCustomerOption($customerOption);
+
+        $orderItemOption = $this->orderItemOptionFactory->createNewFromStrings($orderItem, 'something', true);
+
+        self::assertNull($orderItemOption->getCustomerOptionValueCode());
+        self::assertEquals(true, $orderItemOption->getScalarValue());
+        self::assertEquals('something', $orderItemOption->getCustomerOptionCode());
     }
 }
