@@ -113,6 +113,10 @@ jobs:
                 name: Install PHP dependencies
                 run: composer install --no-interaction
 
+
+            -
+                name: Validate documentation
+                run: vendor/bin/doc-parser docs/**.md
             -
                 name: Get Yarn cache directory
                 id: yarn-cache

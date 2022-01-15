@@ -35,7 +35,8 @@
         "symfony/dotenv": "^4.4 || ^5.2",
         "symfony/intl": "^4.4 || ^5.2",
         "symfony/web-profiler-bundle": "^4.4 || ^5.2",
-        "vimeo/psalm": "4.7.1"
+        "vimeo/psalm": "4.7.1",
+        "mamazu/documentation-validator": "dev-master"
     },
     "conflict": {
         "doctrine/dbal": "^3.0"
