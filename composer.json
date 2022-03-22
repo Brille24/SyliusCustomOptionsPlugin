@@ -36,7 +36,8 @@
         "symfony/intl": "^4.4 || ^5.4",
         "symfony/web-profiler-bundle": "^4.4 || ^5.4",
         "vimeo/psalm": "4.7.1",
-        "mamazu/documentation-validator": "dev-master"
+        "mamazu/documentation-validator": "dev-master",
+        "polishsymfonycommunity/symfony-mocker-container": "^1.0"
     },
     "conflict": {
         "doctrine/dbal": "^3.0"
