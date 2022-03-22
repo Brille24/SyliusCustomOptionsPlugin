@@ -31,7 +31,9 @@ jobs:
                     -
                         php: "8.0"
                         sylius: "~1.9.0"
-
+                    -
+                        php: "7.4"
+                        sylius: "~1.11.0"
 
         env:
             APP_ENV: test
