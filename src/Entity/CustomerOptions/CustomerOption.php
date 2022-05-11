@@ -207,7 +207,7 @@ class CustomerOption implements CustomerOptionInterface
     /**
      * {@inheritdoc}
      */
-    public function getGroupAssociations(): ArrayCollection
+    public function getGroupAssociations(): Collection
     {
         return $this->groupAssociations;
     }
