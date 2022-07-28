@@ -4,6 +4,9 @@
 
         <service class="Brille24\SyliusCustomerOptionsPlugin\Controller\EditCustomerOptionsAction"
                  id="brille24.sylius_customer_options_plugin.controller.edit_customer_options_action">
+            <argument type="service" id="twig" />
+            <argument type="service" id="router" />
+            <argument type="service" id="form.factory" />
             <argument type="service" id="sylius.repository.order_item" />
             <argument type="service" id="brille24.sylius_customer_options_plugin.services.order_item_option_updater" />
             <argument type="service" id="event_dispatcher" />

@@ -15,12 +15,25 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Order\Repository\OrderItemRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Webmozart\Assert\Assert;
+use Symfony\Component\Form\FormFactoryInterface;
+use Twig\Environment;
+use Symfony\Component\Routing\RouterInterface;
 
-class EditCustomerOptionsAction extends AbstractController
+class EditCustomerOptionsAction
 {
+    /** @var Environment */
+    private $twig;
+
+    /** @var RouterInterface */
+    private $router;
+
+    /** @var FormFactoryInterface */
+    private $formFactory;
+
     /** @var OrderItemRepositoryInterface */
     private $orderItemRepository;
 
@@ -34,11 +47,17 @@ class EditCustomerOptionsAction extends AbstractController
     private $recalculatePrice;
 
     public function __construct(
+        Environment $twig,
+        RouterInterface $router,
+        FormFactoryInterface $formFactory,
         OrderItemRepositoryInterface $orderItemRepository,
         OrderItemOptionUpdaterInterface $orderItemOptionUpdater,
         EventDispatcherInterface $eventDispatcher,
         bool $recalculatePrice
     ) {
+        $this->twig                   = $twig;
+        $this->router = $router;
+        $this->formFactory            = $formFactory;
         $this->orderItemRepository    = $orderItemRepository;
         $this->orderItemOptionUpdater = $orderItemOptionUpdater;
         $this->eventDispatcher        = $eventDispatcher;
@@ -66,7 +85,7 @@ class EditCustomerOptionsAction extends AbstractController
         /** @var OrderInterface $order */
         $order = $orderItem->getOrder();
 
-        $orderItemForm = $this->createForm(
+        $orderItemForm = $this->formFactory->create(
             ShopCustomerOptionType::class,
             $this->getCustomerOptionValues($orderItem),
             ['product' => $orderItem->getProduct(), 'channel' => $order->getChannel(), 'mapped' => true]
@@ -82,15 +101,14 @@ class EditCustomerOptionsAction extends AbstractController
                 'brille24.order_item.post_update'
             );
 
-            return $this->redirectToRoute('sylius_admin_order_show', ['id' => $order->getId()]);
+            return new RedirectResponse($this->router->generate('sylius_admin_order_show', ['id' => $order->getId()]));
         }
 
-        return $this->render(
-            '@Brille24SyliusCustomerOptionsPlugin/Order/editCustomerOption.html.twig',
-            [
+        return new Response(
+            $this->twig->render('@Brille24SyliusCustomerOptionsPlugin/Order/editCustomerOption.html.twig', [
                 'customerOptionForm' => $orderItemForm->createView(),
                 'order'              => $order,
-            ]
+            ])
         );
     }
 
