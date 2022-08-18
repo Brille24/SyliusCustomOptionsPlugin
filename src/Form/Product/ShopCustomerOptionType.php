@@ -73,6 +73,7 @@ final class ShopCustomerOptionType extends AbstractType
 
         // Add a form field for every customer option
         $customerOptions = $product->getCustomerOptions();
+        $customerOptionTypesByCode = [];
 
         foreach ($customerOptions as $customerOption) {
             $customerOptionType = $customerOption->getType();
@@ -84,6 +85,8 @@ final class ShopCustomerOptionType extends AbstractType
             $fieldConfig['mapped'] = $options['mapped'];
 
             $builder->add($fieldName, $class, $fieldConfig);
+
+            $customerOptionTypesByCode[$fieldName] = $customerOptionType;
         }
 
         $builder->addEventListener(
@@ -99,6 +102,18 @@ final class ShopCustomerOptionType extends AbstractType
                 }
             }
         );
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, static function(FormEvent $event) use ($customerOptionTypesByCode) : void {
+            $data = $event->getData();
+
+            foreach ($data as $customerOptionCode => $customerOptionValue) {
+                if (CustomerOptionTypeEnum::FILE === $customerOptionTypesByCode[$customerOptionCode]) {
+                    $data[$customerOptionCode] = $customerOptionValue['data'];
+                }
+            }
+
+            $event->setData($data);
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void
