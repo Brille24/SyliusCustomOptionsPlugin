@@ -61,5 +61,8 @@
         "fix": [
             "vendor/bin/ecs check --ansi --no-progress-bar src/ tests/PHPUnit --config etc/coding-standard.php --fix"
         ]
+    },
+    "config": {
+        "allow-plugins": false
     }
 }
