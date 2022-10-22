@@ -17,7 +17,7 @@ default:
                 - brille24.behat.context.admin.customer_options
 
             filters:
-                tags: "@admin && @customer_options && @ui"
+                tags: "@admin&&@customer_options&&@ui"
 
         ui_admin_customer_option_groups:
             contexts:
@@ -34,7 +34,7 @@ default:
                 - brille24.behat.context.admin.customer_option_groups
 
             filters:
-                tags: "@admin && @customer_option_groups && @ui"
+                tags: "@admin&&@customer_option_groups&&@ui"
 
         ui_admin_products_with_customer_options:
             contexts:
@@ -51,7 +51,7 @@ default:
                 - brille24.behat.context.admin.product
 
             filters:
-                tags: "@admin && @products && @ui"
+                tags: "@admin&&@products&&@ui"
 
         ui_shop_products_with_customer_options:
             contexts:
@@ -83,4 +83,4 @@ default:
                 - brille24.behat.context.shop.checkout
 
             filters:
-                tags: "@shop && @customer_options"
+                tags: "@shop&&@customer_options"

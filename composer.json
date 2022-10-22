@@ -4,9 +4,7 @@
     "description": "Adds product customizing to Sylius",
     "license": "MIT",
     "require": {
-        "php": "^7.4 || ^8.0",
-        "sylius/sylius": "~1.9.0 || ~1.10.0 || ~1.11.0",
-        "symfony/event-dispatcher": "^4.3 || ^5.0"
+        "sylius/sylius": "^1.9"
     },
     "require-dev": {
         "behat/behat": "^3.6.1",
@@ -36,6 +34,7 @@
         "symfony/dotenv": "^4.4 || ^5.4",
         "symfony/intl": "^4.4 || ^5.4",
         "symfony/web-profiler-bundle": "^4.4 || ^5.4",
+        "symfony/webpack-encore-bundle": "^1.15",
         "vimeo/psalm": "4.7.1",
         "mamazu/documentation-validator": "dev-master",
         "polishsymfonycommunity/symfony-mocker-container": "^1.0"
@@ -53,7 +52,25 @@
     "autoload-dev": {
         "classmap": ["tests/Application/Kernel.php"]
     },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "phpstan/extension-installer": true,
+            "symfony/flex": true,
+            "symfony/thanks": true
+        }
+    },
     "scripts": {
+        "post-install-cmd": [
+            "@php bin/create_node_symlink.php"
+        ],
+        "post-update-cmd": [
+            "@php bin/create_node_symlink.php"
+        ],
+        "post-create-project-cmd": [
+            "@php bin/create_node_symlink.php"
+        ],
         "analyse": [
             "vendor/bin/ecs check --ansi --no-progress-bar src/ tests/PHPUnit --config etc/coding-standard.php",
             "vendor/bin/phpstan analyse -c phpstan.neon --no-progress -l max src/"
@@ -61,8 +78,5 @@
         "fix": [
             "vendor/bin/ecs check --ansi --no-progress-bar src/ tests/PHPUnit --config etc/coding-standard.php --fix"
         ]
-    },
-    "config": {
-        "allow-plugins": false
     }
 }
