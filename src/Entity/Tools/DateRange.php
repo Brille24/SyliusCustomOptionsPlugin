@@ -51,14 +51,23 @@ class DateRange implements DateRangeInterface
         return $afterStart && $beforeEnd;
     }
 
+    public function overlaps(DateRangeInterface $other): bool
+    {
+        if ($other->getEnd() < $this->start || $this->end < $other->getStart()) {
+            return false;
+        }
+
+        return true;
+    }
+
     /** {@inheritdoc} */
-    public function getStart(): ?DateTimeInterface
+    public function getStart(): DateTimeInterface
     {
         return $this->start;
     }
 
     /** {@inheritdoc} */
-    public function getEnd(): ?DateTimeInterface
+    public function getEnd(): DateTimeInterface
     {
         return $this->end;
     }
