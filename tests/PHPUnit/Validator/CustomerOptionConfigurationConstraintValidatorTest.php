@@ -14,11 +14,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
 {
-    /** @var CustomerOptionConfigurationConstraintValidator */
-    private $customerOptionConfigurationValidator;
+    private \Brille24\SyliusCustomerOptionsPlugin\Validator\CustomerOptionConfigurationConstraintValidator $customerOptionConfigurationValidator;
 
-    /** @var array */
-    private $violations = [];
+    private array $violations = [];
 
     public function setUp(): void
     {

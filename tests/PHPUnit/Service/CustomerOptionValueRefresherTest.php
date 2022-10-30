@@ -22,17 +22,13 @@ use Sylius\Component\Core\Model\ProductInterface;
 
 class CustomerOptionValueRefresherTest extends TestCase
 {
-    /** @var CustomerOptionValueRefresher */
-    private $customerOptionValueRefresher;
+    private \Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueRefresher $customerOptionValueRefresher;
 
-    /** @var int */
-    private $updateCount = 0;
+    private int $updateCount = 0;
 
-    /** @var string */
-    private $nameUpdate = 'no-update';
+    private string $nameUpdate = 'no-update';
 
-    /** @var int */
-    private $priceUpdate;
+    private int $priceUpdate;
 
     /** @var ChannelInterface|MockObject */
     private $channel;
@@ -71,9 +67,7 @@ class CustomerOptionValueRefresherTest extends TestCase
         $orderItemOption = self::createMock(OrderItemOptionInterface::class);
         $orderItemOption->method('getCustomerOption')->willReturn($customerOption);
         $orderItemOption->method('getCustomerOptionValue')->willReturnCallback(
-            function () use ($stillExists, $customerOptionValue) {
-                return $stillExists ? $customerOptionValue : null;
-            }
+            fn () => $stillExists ? $customerOptionValue : null
         );
 
         $orderItemOption->method('setCustomerOptionValue')->willReturnCallback(

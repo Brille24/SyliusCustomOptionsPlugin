@@ -17,7 +17,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValuePriceRepo
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Exception;
-use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
@@ -141,7 +140,7 @@ class CustomerOptionPriceImporterTest extends TestCase
             ->willReturn($violationList)
         ;
 
-        Assert::equalTo(
+        self::assertEquals(
             new PriceImportResult(3, 0, []),
             $this->customerOptionPriceImporter->import($this->getCreateData())
         );

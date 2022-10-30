@@ -22,17 +22,10 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
  */
 class CustomerOptionAssociation implements CustomerOptionAssociationInterface
 {
-    /** @var int */
-    protected $id;
-
-    /** @var int */
-    protected $position;
-
-    /** @var CustomerOptionGroupInterface|null */
-    protected $group;
-
-    /** @var CustomerOptionInterface|null */
-    protected $option;
+    protected ?int $id;
+    protected int $position;
+    protected ?CustomerOptionGroupInterface $group;
+    protected ?CustomerOptionInterface $option;
 
     public function __construct(int $position = 0)
     {

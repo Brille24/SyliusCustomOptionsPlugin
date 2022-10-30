@@ -21,23 +21,20 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCase
 {
-    /** @var CustomerOptionValuePriceDateOverlapConstraintValidator */
-    private $productCustomerOptionPriceValidator;
+    private \Brille24\SyliusCustomerOptionsPlugin\Validator\CustomerOptionValuePriceDateOverlapConstraintValidator $productCustomerOptionPriceValidator;
 
-    /** @var array */
-    private $violations = [];
+    private array $violations = [];
 
-    /** @var string */
-    private $buildingViolation;
+    private string $buildingViolation;
 
     /** @var ChannelInterface[] */
-    private $channel;
+    private array $channel;
 
     /** @var CustomerOptionValueInterface[] */
-    private $customerOptionValues;
+    private array $customerOptionValues;
 
     /** @var CustomerOptionInterface[] */
-    private $customerOptions;
+    private array $customerOptions;
 
     //<editor-fold desc="Setup">
     protected function setUp(): void

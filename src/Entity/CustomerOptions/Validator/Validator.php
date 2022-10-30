@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 
 class Validator implements ValidatorInterface
 {
-    const DEFAULT_ERROR_MESSAGE = 'This combination of values is not valid.';
+    public const DEFAULT_ERROR_MESSAGE = 'This combination of values is not valid.';
 
     /** @var int */
     protected $id;

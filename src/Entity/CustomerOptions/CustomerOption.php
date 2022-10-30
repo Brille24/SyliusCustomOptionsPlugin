@@ -26,29 +26,20 @@ class CustomerOption implements CustomerOptionInterface
         getTranslation as private doGetTranslation;
     }
 
-    /** @var int|null */
-    protected $id;
-
-    /** @var string */
-    protected $type = CustomerOptionTypeEnum::SELECT;
-
-    /** @var string|null */
-    protected $code = '';
-
-    /** @var bool */
-    protected $required = false;
+    protected ?int $id;
+    protected string $type = CustomerOptionTypeEnum::SELECT;
+    protected ?string $code = '';
+    protected bool $required = false;
 
     /** @var Collection|CustomerOptionValueInterface[] */
-    protected $values;
+    protected Collection $values;
 
-    /** @var array */
-    protected $configuration = [];
+    protected array $configuration = [];
 
-    /** @var ArrayCollection */
-    protected $groupAssociations;
+    protected Collection $groupAssociations;
 
     /** @var Collection|OrderItemOptionInterface[] */
-    protected $orders;
+    protected Collection $orders;
 
     public function __construct()
     {

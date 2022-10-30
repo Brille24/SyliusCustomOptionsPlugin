@@ -41,9 +41,7 @@ class ConstraintCreator
      */
     public static function createFromConfiguration(string $type, array $configuration): ?Constraint
     {
-        $getFromConfiguration = function ($key) use ($configuration) {
-            return self::getValueFromConfiguration($configuration, $key);
-        };
+        $getFromConfiguration = fn ($key) => self::getValueFromConfiguration($configuration, $key);
 
         switch ($type) {
             case CustomerOptionTypeEnum::TEXT:

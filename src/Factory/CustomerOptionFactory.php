@@ -25,14 +25,9 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 class CustomerOptionFactory implements CustomerOptionFactoryInterface
 {
-    /** @var RepositoryInterface */
-    protected $customerOptionGroupRepository;
-
-    /** @var \Faker\Generator */
-    protected $faker;
-
-    /** @var CustomerOptionValueFactoryInterface */
-    protected $customerOptionValueFactory;
+    protected CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository;
+    protected \Faker\Generator $faker;
+    protected CustomerOptionValueFactoryInterface $customerOptionValueFactory;
 
     public function __construct(
         CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
@@ -151,9 +146,7 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
             /** @var CustomerOptionGroupInterface[] $groups */
             $groups     = $this->customerOptionGroupRepository->findAll();
             $groupCodes = array_map(
-                static function (CustomerOptionGroupInterface $group): ?string {
-                    return $group->getCode();
-                },
+                static fn (CustomerOptionGroupInterface $group): ?string => $group->getCode(),
                 $groups
             );
 

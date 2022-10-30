@@ -25,8 +25,7 @@ final class CustomerOptionValuePriceType extends AbstractType
 {
     use ProductCustomerOptionValuePriceTypeTrait;
 
-    /** @var CustomerOptionRepositoryInterface */
-    protected $customerOptionRepository;
+    protected CustomerOptionRepositoryInterface $customerOptionRepository;
 
     public function __construct(CustomerOptionRepositoryInterface $customerOptionRepository)
     {
@@ -40,7 +39,7 @@ final class CustomerOptionValuePriceType extends AbstractType
         /** @var CustomerOptionInterface $customerOption */
         foreach ($this->customerOptionRepository->findAll() as $customerOption) {
             if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
-                $values = array_merge($values, $customerOption->getValues()->getValues());
+                $values = [...$values, ...$customerOption->getValues()->getValues()];
             }
         }
 

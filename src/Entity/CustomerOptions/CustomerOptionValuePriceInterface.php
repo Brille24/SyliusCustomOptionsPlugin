@@ -20,8 +20,8 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface CustomerOptionValuePriceInterface extends ResourceInterface
 {
-    const TYPE_FIXED_AMOUNT = 'FIXED_AMOUNT';
-    const TYPE_PERCENT      = 'PERCENT';
+    public const TYPE_FIXED_AMOUNT = 'FIXED_AMOUNT';
+    public const TYPE_PERCENT      = 'PERCENT';
 
     public function getId(): ?int;
 

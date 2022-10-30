@@ -9,18 +9,9 @@ use InvalidArgumentException;
 
 class DateRange implements DateRangeInterface
 {
-    /** @var int|null */
-    private $id;
-
-    /**
-     * @var DateTimeInterface
-     */
-    private $start;
-
-    /**
-     * @var DateTimeInterface
-     */
-    private $end;
+    private ?int $id = null;
+    private DateTimeInterface $start;
+    private DateTimeInterface $end;
 
     public function getId(): ?int
     {

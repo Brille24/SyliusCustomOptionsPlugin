@@ -18,20 +18,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PriceImportController extends AbstractController
 {
-    /** @var CustomerOptionPriceImporterInterface */
-    protected $priceImporter;
-
-    /** @var string */
-    protected $exampleFilePath;
-
-    /** @var TranslatorInterface */
-    protected $translator;
-
-    /** @var ImportErrorHandlerInterface */
-    protected $csvImportErrorHandler;
-
-    /** @var ImportErrorHandlerInterface */
-    protected $productListImportErrorHandler;
+    protected CustomerOptionPriceImporterInterface $priceImporter;
+    protected string $exampleFilePath;
+    protected TranslatorInterface $translator;
+    protected ImportErrorHandlerInterface $csvImportErrorHandler;
+    protected ImportErrorHandlerInterface $productListImportErrorHandler;
 
     public function __construct(
         CustomerOptionPriceImporterInterface $priceImporter,
@@ -67,7 +58,13 @@ class PriceImportController extends AbstractController
             $this->addFlash('error', 'brille24.flashes.customer_option_price_import_error');
         }
 
-        return $this->render('@Brille24SyliusCustomerOptionsPlugin/PriceImport/import.html.twig', ['csvForm' => $csvForm->createView(), 'byProductListForm' => $productListForm->createView()]);
+        return $this->render(
+            '@Brille24SyliusCustomerOptionsPlugin/PriceImport/import.html.twig',
+            [
+                'csvForm' => $csvForm->createView(),
+                'byProductListForm' => $productListForm->createView()
+            ]
+        );
     }
 
     /**
@@ -111,9 +108,7 @@ class PriceImportController extends AbstractController
             // Build error handler extra data
             $extraData = [
                 'productCodes'         => $productCodes,
-                'customerOptionValues' => array_map(static function (CustomerOptionValueInterface $customerOptionValue): ?string {
-                    return $customerOptionValue->getCode();
-                }, $valuePriceData['customerOptionValues']),
+                'customerOptionValues' => array_map(static fn (CustomerOptionValueInterface $customerOptionValue): ?string => $customerOptionValue->getCode(), $valuePriceData['customerOptionValues']),
                 'validFrom'            => null !== $dateRange ? $dateRange->getStart() : null,
                 'validTo'              => null !== $dateRange ? $dateRange->getEnd() : null,
                 'channel'              => $channel->getCode(),

@@ -19,12 +19,11 @@ use Sylius\Component\Core\Model\Channel;
 
 class ChannelListenerTest extends TestCase
 {
-    /** @var ChannelListener */
-    private $channelCreateListener;
+    private \Brille24\SyliusCustomerOptionsPlugin\EventListener\ChannelListener $channelCreateListener;
 
-    private $customerOptionValue = [];
+    private array $customerOptionValue = [];
 
-    private $persistCount = 0;
+    private int $persistCount = 0;
 
     //<editor-fold desc="Setup">
     public function setUp(): void
@@ -44,9 +43,7 @@ class ChannelListenerTest extends TestCase
         });
 
         $customerOptionValueRepository = self::createMock(EntityRepository::class);
-        $customerOptionValueRepository->method('findAll')->willReturnCallback(function () {
-            return $this->customerOptionValue;
-        });
+        $customerOptionValueRepository->method('findAll')->willReturnCallback(fn () => $this->customerOptionValue);
 
         $entityManger->method('getRepository')->willReturnCallback(
             function (string $entityClass) use ($customerOptionValueRepository) {
@@ -67,9 +64,7 @@ class ChannelListenerTest extends TestCase
     {
         $prices = new ArrayCollection();
         $value  = self::createMock(CustomerOptionValueInterface::class);
-        $value->method('getPrices')->willReturnCallback(function () use ($prices) {
-            return $prices;
-        });
+        $value->method('getPrices')->willReturnCallback(fn () => $prices);
         $value->method('addPrice')->willReturnCallback(function ($price) use (&$prices) {
             $prices->add($price);
         });

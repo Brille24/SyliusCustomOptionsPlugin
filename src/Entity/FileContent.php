@@ -8,18 +8,15 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 class FileContent implements ResourceInterface
 {
-    /** @var int */
-    protected $id;
-
-    /** @var string */
-    protected $content;
+    protected ?int $id;
+    protected string $content;
 
     public function __construct(string $content)
     {
         $this->content = $content;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

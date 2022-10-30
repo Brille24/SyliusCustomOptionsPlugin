@@ -11,8 +11,7 @@ use Twig\TwigFunction;
 
 final class CustomerOptionInUseFunction extends AbstractExtension
 {
-    /** @var RepositoryInterface */
-    private $orderItemOptionRepository;
+    private RepositoryInterface $orderItemOptionRepository;
 
     public function __construct(RepositoryInterface $orderItemOptionRepository)
     {

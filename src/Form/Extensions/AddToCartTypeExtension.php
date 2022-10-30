@@ -28,8 +28,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 final class AddToCartTypeExtension extends AbstractTypeExtension
 {
-    /** @var LocaleContextInterface */
-    private $localeContext;
+    private LocaleContextInterface $localeContext;
 
     public function __construct(LocaleContextInterface $localeContext)
     {

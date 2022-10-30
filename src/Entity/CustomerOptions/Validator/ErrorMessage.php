@@ -13,11 +13,8 @@ class ErrorMessage implements ErrorMessageInterface
         __construct as protected initializeTranslationsCollection;
     }
 
-    /** @var int */
-    protected $id;
-
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected int $id;
+    protected ValidatorInterface $validator;
 
     public function __construct()
     {

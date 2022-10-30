@@ -12,17 +12,10 @@ use Webmozart\Assert\Assert;
 
 trait ConditionTrait
 {
-    /** @var CustomerOptionInterface|null */
-    protected $customerOption;
-
-    /** @var string|null */
-    protected $comparator;
-
-    /** @var array|null */
-    protected $value;
-
-    /** @var ValidatorInterface|null */
-    protected $validator;
+    protected ?CustomerOptionInterface $customerOption = null;
+    protected ?string $comparator = null;
+    protected ?array $value = null;
+    protected ?ValidatorInterface $validator = null;
 
     /** {@inheritdoc} */
     public function getCustomerOption(): ?CustomerOptionInterface

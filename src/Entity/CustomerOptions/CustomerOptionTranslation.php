@@ -16,11 +16,8 @@ use Sylius\Component\Resource\Model\AbstractTranslation;
 
 class CustomerOptionTranslation extends AbstractTranslation implements CustomerOptionTranslationInterface
 {
-    /** @var int */
-    protected $id;
-
-    /** @var string|null */
-    protected $name;
+    protected ?int $id;
+    protected ?string $name;
 
     /**
      * {@inheritdoc}

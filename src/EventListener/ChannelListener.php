@@ -22,8 +22,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 
 final class ChannelListener
 {
-    /** @var CustomerOptionValuePriceFactoryInterface */
-    private $customerOptionValuePriceFactory;
+    private CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory;
 
     public function __construct(
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory

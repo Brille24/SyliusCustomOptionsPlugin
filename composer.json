@@ -4,6 +4,7 @@
     "description": "Adds product customizing to Sylius",
     "license": "MIT",
     "require": {
+        "php": ">=7.4",
         "sylius/sylius": "^1.9"
     },
     "require-dev": {

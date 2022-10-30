@@ -17,8 +17,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class RecalculateOrderItemOptionEvent extends Event
 {
-    /** @var OrderItemOptionInterface */
-    private $orderItemOption;
+    private OrderItemOptionInterface $orderItemOption;
 
     public function __construct(OrderItemOptionInterface $orderItemOption)
     {

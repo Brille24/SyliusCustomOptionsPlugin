@@ -8,14 +8,12 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionIn
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolver;
-use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 
 class CustomerOptionValueResolverTest extends TestCase
 {
-    /** @var CustomerOptionValueResolverInterface */
-    private $valueResolver;
+    private \Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface $valueResolver;
 
     public function setUp(): void
     {

@@ -23,16 +23,16 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class CustomerOptionTypeEnum implements EnumInterface
 {
-    const __default = null;
+    public const __default = null;
 
-    const TEXT         = 'text';
-    const SELECT       = 'select';
-    const MULTI_SELECT = 'multi_select';
-    const FILE         = 'file';
-    const DATE         = 'date';
-    const DATETIME     = 'datetime';
-    const NUMBER       = 'number';
-    const BOOLEAN      = 'boolean';
+    public const TEXT         = 'text';
+    public const SELECT       = 'select';
+    public const MULTI_SELECT = 'multi_select';
+    public const FILE         = 'file';
+    public const DATE         = 'date';
+    public const DATETIME     = 'datetime';
+    public const NUMBER       = 'number';
+    public const BOOLEAN      = 'boolean';
 
     public static function getConstList(): array
     {

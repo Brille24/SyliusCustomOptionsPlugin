@@ -29,16 +29,10 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     }
 
     /** @var int|null */
-    protected $id;
-
-    /** @var string */
-    protected $code;
-
-    /** @var Collection */
-    protected $prices;
-
-    /** @var CustomerOptionInterface|null */
-    protected $customerOption;
+    protected ?int $id;
+    protected string $code;
+    protected Collection $prices;
+    protected ?CustomerOptionInterface $customerOption;
 
     /** @var OrderItemOptionInterface[] */
     protected $orders;
@@ -117,9 +111,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
      */
     public function getPrices(): Collection
     {
-        return $this->prices->filter(static function (CustomerOptionValuePriceInterface $price): bool {
-            return $price->getProduct() === null;
-        });
+        return $this->prices->filter(static fn (CustomerOptionValuePriceInterface $price): bool => $price->getProduct() === null);
     }
 
     public function getPricesForChannel(ChannelInterface $channel): Collection
@@ -145,9 +137,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
         $prices = $this->getPricesForChannel($channel);
 
         if (!$ignoreActive) {
-            $prices = $prices->filter(static function (COValuePriceInterface $price): bool {
-                return $price->isActive();
-            });
+            $prices = $prices->filter(static fn (COValuePriceInterface $price): bool => $price->isActive());
         }
 
         if (count($prices) === 1) {

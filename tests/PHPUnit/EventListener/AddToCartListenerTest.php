@@ -23,23 +23,18 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class AddToCartListenerTest extends TestCase
 {
-    /** @var AddToCartListener */
-    private $addToCartListener;
+    private \Brille24\SyliusCustomerOptionsPlugin\EventListener\AddToCartListener $addToCartListener;
 
-    /** @var Request */
-    private $request;
+    private \Symfony\Component\HttpFoundation\Request $request;
 
     /** @var CustomerOptionInterface[] */
-    private $customerOptions = [];
+    private array $customerOptions = [];
 
-    /** @var array */
-    private $entitiesPersisted = [];
+    private array $entitiesPersisted = [];
 
-    /** @var ChannelInterface */
-    private $channel;
+    private \Sylius\Component\Core\Model\ChannelInterface $channel;
 
-    /** @var CustomerOptionRepositoryInterface */
-    private $customerOptionRepository;
+    private \Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface $customerOptionRepository;
 
     public function __construct()
     {
@@ -54,9 +49,7 @@ class AddToCartListenerTest extends TestCase
         $entitiesPersisted = &$this->entitiesPersisted;
 
         $requestStack = self::createMock(RequestStack::class);
-        $requestStack->method('getCurrentRequest')->willReturnCallback(function () {
-            return $this->request;
-        });
+        $requestStack->method('getCurrentRequest')->willReturnCallback(fn () => $this->request);
 
         $entityManager = self::createMock(EntityManagerInterface::class);
         $entityManager->method('persist')->willReturnCallback(function ($entity) use (&$entitiesPersisted) {

@@ -25,32 +25,17 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
 {
     protected const BATCH_SIZE = 100;
 
-    /** @var EntityManagerInterface */
-    protected $entityManager;
-
-    /** @var ProductRepositoryInterface */
-    protected $productRepository;
+    protected EntityManagerInterface $entityManager;
+    protected ProductRepositoryInterface $productRepository;
 
     /** @var array<ProductInterface|null> */
-    protected $products = [];
-
-    /** @var ValidatorInterface */
-    protected $validator;
-
-    /** @var CustomerOptionRepositoryInterface */
-    protected $customerOptionRepository;
-
-    /** @var CustomerOptionValueRepositoryInterface */
-    protected $customerOptionValueRepository;
-
-    /** @var ChannelRepositoryInterface */
-    protected $channelRepository;
-
-    /** @var RepositoryInterface */
-    protected $customerOptionValuePriceRepository;
-
-    /** @var CustomerOptionValuePriceFactoryInterface */
-    protected $customerOptionValuePriceFactory;
+    protected array $products = [];
+    protected ValidatorInterface $validator;
+    protected CustomerOptionRepositoryInterface $customerOptionRepository;
+    protected CustomerOptionValueRepositoryInterface $customerOptionValueRepository;
+    protected ChannelRepositoryInterface $channelRepository;
+    protected RepositoryInterface $customerOptionValuePriceRepository;
+    protected CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory;
 
     public function __construct(
         EntityManagerInterface $entityManager,

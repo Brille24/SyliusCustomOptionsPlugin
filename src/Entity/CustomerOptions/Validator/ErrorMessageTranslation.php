@@ -8,11 +8,14 @@ use Sylius\Component\Resource\Model\AbstractTranslation;
 
 class ErrorMessageTranslation extends AbstractTranslation implements ErrorMessageTranslationInterface
 {
-    /** @var int|null */
-    protected $id;
+    protected ?int $id;
 
-    /** @var string|null */
-    protected $message;
+    protected ?string $message;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getMessage(): ?string
     {
@@ -22,10 +25,5 @@ class ErrorMessageTranslation extends AbstractTranslation implements ErrorMessag
     public function setMessage(string $message): void
     {
         $this->message = $message;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 }

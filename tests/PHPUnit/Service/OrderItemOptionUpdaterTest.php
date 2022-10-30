@@ -13,7 +13,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Services\OrderItemOptionUpdater;
-use Brille24\SyliusCustomerOptionsPlugin\Services\OrderItemOptionUpdaterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -22,29 +21,23 @@ use Sylius\Component\Order\Processor\OrderProcessorInterface;
 
 class OrderItemOptionUpdaterTest extends TestCase
 {
-    /** @var OrderItemOptionFactoryInterface */
-    private $orderItemOptionFactory;
+    private \Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface $orderItemOptionFactory;
 
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    private \Doctrine\ORM\EntityManagerInterface $entityManager;
 
-    /** @var OrderItemOptionUpdaterInterface */
-    private $orderItemUpdater;
+    private \Brille24\SyliusCustomerOptionsPlugin\Services\OrderItemOptionUpdaterInterface $orderItemUpdater;
 
-    /** @var CustomerOptionRepositoryInterface */
-    private $customerOptionRepository;
+    private \Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface $customerOptionRepository;
 
     /** @var OrderItemInterface[] */
-    private $factoryObjects = [];
+    private array $factoryObjects = [];
 
     public function setup(): void
     {
         // OrderItemOptionFactory
         $this->orderItemOptionFactory = $this->createMock(OrderItemOptionFactoryInterface::class);
         $this->orderItemOptionFactory->method('createForOptionAndValue')->willReturnCallback(
-            function ($customerOption, $value) {
-                return array_shift($this->factoryObjects);
-            }
+            fn ($customerOption, $value) => array_shift($this->factoryObjects)
         );
 
         // Mocking the entity manager

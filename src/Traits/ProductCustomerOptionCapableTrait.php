@@ -121,10 +121,6 @@ trait ProductCustomerOptionCapableTrait
             return [];
         }
 
-        return $customerOptionGroup->getOptionAssociations()->map(static function (
-            CustomerOptionAssociationInterface $association
-        ): ?CustomerOptionInterface {
-            return $association->getOption();
-        })->toArray();
+        return $customerOptionGroup->getOptionAssociations()->map(static fn (CustomerOptionAssociationInterface $association): ?CustomerOptionInterface => $association->getOption())->toArray();
     }
 }

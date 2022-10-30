@@ -17,8 +17,7 @@ use Sylius\Component\Core\Model\OrderItemUnitInterface;
 
 class OrderItemTest extends TestCase
 {
-    /** @var OrderItem */
-    private $orderItem;
+    private \Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem $orderItem;
 
     public function setUp(): void
     {
@@ -68,9 +67,7 @@ class OrderItemTest extends TestCase
     public function dataItChecksIfTwoItemsAreEqual(): array
     {
         $item1 = $this->createMock(SyliusOrderItemInterface::class);
-        $item1->method('equals')->willReturnCallback(function ($otherItem) use ($item1) {
-            return $otherItem === $item1;
-        });
+        $item1->method('equals')->willReturnCallback(fn ($otherItem) => $otherItem === $item1);
 
         $item2 = $this->createMock(SyliusOrderItemInterface::class);
 

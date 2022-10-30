@@ -12,7 +12,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactory;
-use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValuePriceRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
@@ -25,14 +24,11 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 
 class OrderItemOptionFactoryTest extends TestCase
 {
-    /** @var array */
-    private $customerOptions = [];
+    private array $customerOptions = [];
 
-    /** @var OrderItemOptionFactoryInterface */
-    private $orderItemOptionFactory;
+    private \Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface $orderItemOptionFactory;
 
-    /** @var ChannelInterface */
-    private $channel;
+    private \Sylius\Component\Core\Model\ChannelInterface $channel;
 
     public function setUp(): void
     {

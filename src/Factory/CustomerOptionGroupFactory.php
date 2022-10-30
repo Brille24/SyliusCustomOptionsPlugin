@@ -31,14 +31,9 @@ use Webmozart\Assert\Assert;
 
 class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 {
-    /** @var CustomerOptionRepositoryInterface */
-    protected $customerOptionRepository;
-
-    /** @var ProductRepositoryInterface */
-    protected $productRepository;
-
-    /** @var \Faker\Generator */
-    protected $faker;
+    protected CustomerOptionRepositoryInterface $customerOptionRepository;
+    protected  ProductRepositoryInterface$productRepository;
+    protected \Faker\Generator $faker;
 
     public function __construct(
         CustomerOptionRepositoryInterface $customerOptionRepository,
@@ -52,9 +47,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 
     public function generateRandom(int $amount): array
     {
-        $productCodeGetter = static function (CodeAwareInterface $codeAware): ?string {
-            return $codeAware->getCode();
-        };
+        $productCodeGetter = static fn (CodeAwareInterface $codeAware): ?string => $codeAware->getCode();
 
         $customerOptionsCodes = array_map($productCodeGetter, $this->customerOptionRepository->findAll());
         $productCodes         = array_map($productCodeGetter, $this->productRepository->findAll());
@@ -136,7 +129,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
                 }
             }
 
-            if (isset($validatorConfig['error_messages']) && count($validatorConfig['error_messages']) > 0) {
+            if (isset($validatorConfig['error_messages']) && (is_countable($validatorConfig['error_messages']) ? count($validatorConfig['error_messages']) : 0) > 0) {
                 $error_message = new ErrorMessage();
                 foreach ($validatorConfig['error_messages'] as $locale => $message) {
                     $error_message->setCurrentLocale($locale);

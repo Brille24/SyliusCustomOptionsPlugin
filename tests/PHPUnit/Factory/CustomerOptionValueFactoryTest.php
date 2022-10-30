@@ -13,15 +13,12 @@ use PHPUnit\Framework\TestCase;
 
 class CustomerOptionValueFactoryTest extends TestCase
 {
-    /** @var CustomerOptionValueFactory */
-    private $customerOptionValueFactory;
+    private \Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValueFactory $customerOptionValueFactory;
 
     protected function setUp(): void
     {
         $customerOptionPriceFactory = self::createMock(CustomerOptionValuePriceFactory::class);
-        $customerOptionPriceFactory->method('createFromConfig')->willReturnCallback(function ($config) {
-            return self::createMock(CustomerOptionValuePrice::class);
-        });
+        $customerOptionPriceFactory->method('createFromConfig')->willReturnCallback(fn ($config) => self::createMock(CustomerOptionValuePrice::class));
 
         $this->customerOptionValueFactory = new CustomerOptionValueFactory($customerOptionPriceFactory);
     }

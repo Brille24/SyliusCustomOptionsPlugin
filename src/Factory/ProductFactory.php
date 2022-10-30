@@ -24,20 +24,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductFactory implements ExampleFactoryInterface
 {
-    /** @var RepositoryInterface */
-    private $customerOptionGroupRepository;
-
-    /** @var RepositoryInterface */
-    private $customerOptionValueRepository;
-
-    /** @var BaseFactory */
-    private $baseFactory;
-
-    /** @var OptionsResolver */
-    private $optionsResolver;
-
-    /** @var CustomerOptionValuePriceFactoryInterface */
-    private $customerOptionValuePriceFactory;
+    private RepositoryInterface $customerOptionGroupRepository;
+    private RepositoryInterface $customerOptionValueRepository;
+    private BaseFactory $baseFactory;
+    private OptionsResolver $optionsResolver;
+    private CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory;
 
     public function __construct(
         BaseFactory $baseFactory,

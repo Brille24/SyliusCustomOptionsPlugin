@@ -17,8 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 final class Version20210303184909 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ?ContainerInterface */
-    private $container;
+    private ?\Symfony\Component\DependencyInjection\ContainerInterface $container = null;
 
     public function setContainer(?ContainerInterface $container = null): void
     {
@@ -68,7 +67,7 @@ final class Version20210303184909 extends AbstractMigration implements Container
     private function getOrderItemOptionsWithValues(): array
     {
         if ($this->container === null) {
-            throw new \InvalidArgumentException('This migration needs the container to be set: '.__CLASS__);
+            throw new \InvalidArgumentException('This migration needs the container to be set: '.self::class);
         }
 
         /** @var string $orderItemClass */
@@ -89,7 +88,7 @@ final class Version20210303184909 extends AbstractMigration implements Container
     private function getOrderItemOptionsWithFileContent(): array
     {
         if ($this->container === null) {
-            throw new \InvalidArgumentException('This migration needs the container to be set: '.__CLASS__);
+            throw new \InvalidArgumentException('This migration needs the container to be set: '.self::class);
         }
 
         /** @var string $orderItemClass */
@@ -111,7 +110,7 @@ final class Version20210303184909 extends AbstractMigration implements Container
     private function getEntityManager(string $class): EntityManagerInterface
     {
         if ($this->container === null) {
-            throw new \InvalidArgumentException('This migration needs the container to be set: '.__CLASS__);
+            throw new \InvalidArgumentException('This migration needs the container to be set: '.self::class);
         }
 
         /** @var ManagerRegistry $managerRegistry */
