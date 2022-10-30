@@ -14,7 +14,6 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Form\Product;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValuePriceRepositoryInterface;
@@ -211,23 +210,8 @@ final class ShopCustomerOptionType extends AbstractType
         CustomerOptionValueInterface $value,
         ProductInterface $product,
         ChannelInterface $channel
-    ) {
-        /** @var CustomerOptionValuePriceInterface $price */
-        $price = null;
-
-        /** @var CustomerOptionValuePriceInterface $productPrice */
-        foreach ($product->getCustomerOptionValuePrices() as $productPrice) {
-            if (
-                $productPrice->getCustomerOptionValue() === $value
-                && $productPrice->getChannel() === $channel
-            ) {
-                $price = $productPrice;
-
-                break;
-            }
-        }
-
-        $price = $price ?? $this->customerOptionValuePriceRepository->getPriceForChannel($channel, $product, $value);
+    ): string {
+        $price = $this->customerOptionValuePriceRepository->getPriceForChannel($channel, $product, $value);
 
         // No price was found for the current channel, probably because the values weren't updated after adding a new channel
         if ($price === null) {

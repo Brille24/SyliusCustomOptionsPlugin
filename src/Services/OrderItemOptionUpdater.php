@@ -9,6 +9,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Webmozart\Assert\Assert;
 
@@ -120,10 +121,13 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
 
         $orderItem->setCustomerOptionConfiguration($newConfig);
 
-        $this->customerOptionRefresher->process($orderItem->getOrder());
+        /** @var OrderInterface $order */
+        $order = $orderItem->getOrder();
+
+        $this->customerOptionRefresher->process($order);
 
         if ($updatePrice) {
-            $this->customerOptionRecalculator->process($orderItem->getOrder());
+            $this->customerOptionRecalculator->process($order);
         }
 
         $this->entityManager->flush();

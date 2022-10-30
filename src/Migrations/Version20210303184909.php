@@ -67,13 +67,18 @@ final class Version20210303184909 extends AbstractMigration implements Container
 
     private function getOrderItemOptionsWithValues(): array
     {
-        $productAttributeClass = $this->container->getParameter('brille24.model.order_item_option.class');
+        if ($this->container === null) {
+            throw new \InvalidArgumentException('This migration needs the container to be set: '.__CLASS__);
+        }
 
-        $entityManager = $this->getEntityManager($productAttributeClass);
+        /** @var string $orderItemClass */
+        $orderItemClass = $this->container->getParameter('brille24.model.order_item_option.class');
+
+        $entityManager = $this->getEntityManager($orderItemClass);
 
         return $entityManager->createQueryBuilder()
             ->select('o.id, o.optionValue')
-            ->from($productAttributeClass, 'o')
+            ->from($orderItemClass, 'o')
             ->where('o.customerOptionType = :type')
             ->setParameter('type', CustomerOptionTypeEnum::FILE)
             ->getQuery()
@@ -83,13 +88,18 @@ final class Version20210303184909 extends AbstractMigration implements Container
 
     private function getOrderItemOptionsWithFileContent(): array
     {
-        $productAttributeClass = $this->container->getParameter('brille24.model.order_item_option.class');
+        if ($this->container === null) {
+            throw new \InvalidArgumentException('This migration needs the container to be set: '.__CLASS__);
+        }
 
-        $entityManager = $this->getEntityManager($productAttributeClass);
+        /** @var string $orderItemClass */
+        $orderItemClass = $this->container->getParameter('brille24.model.order_item_option.class');
+
+        $entityManager = $this->getEntityManager($orderItemClass);
 
         return $entityManager->createQueryBuilder()
             ->select('o.id, f.content')
-            ->from($productAttributeClass, 'o')
+            ->from($orderItemClass, 'o')
             ->join('o.fileContent', 'f')
             ->where('o.customerOptionType = :type')
             ->setParameter('type', CustomerOptionTypeEnum::FILE)
@@ -100,6 +110,10 @@ final class Version20210303184909 extends AbstractMigration implements Container
 
     private function getEntityManager(string $class): EntityManagerInterface
     {
+        if ($this->container === null) {
+            throw new \InvalidArgumentException('This migration needs the container to be set: '.__CLASS__);
+        }
+
         /** @var ManagerRegistry $managerRegistry */
         $managerRegistry = $this->container->get('doctrine');
 

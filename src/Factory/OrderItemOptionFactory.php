@@ -14,6 +14,7 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
@@ -23,6 +24,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInt
 use Exception;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 
 class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, FactoryInterface
@@ -81,9 +83,14 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
             /** @var OrderInterface $order */
             $order = $orderItem->getOrder();
 
+            /** @var ProductInterface $product */
+            $product = $orderItem->getProduct();
+
             /** @var ChannelInterface $channel */
             $channel = $order->getChannel();
-            $price   = $this->customerOptionValuePriceRepository->getPriceForChannel($channel, $orderItem->getProduct(), $customerOptionValue);
+
+            /** @var CustomerOptionValuePriceInterface $price */
+            $price   = $this->customerOptionValuePriceRepository->getPriceForChannel($channel, $product, $customerOptionValue);
 
             $orderItemOption->setPrice($price);
         }

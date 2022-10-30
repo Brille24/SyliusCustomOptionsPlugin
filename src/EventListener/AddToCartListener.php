@@ -18,6 +18,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -70,7 +71,12 @@ final class AddToCartListener
             return;
         }
 
-        $customerOptionConfiguration = $this->getCustomerOptionsFromRequest($this->requestStack->getCurrentRequest());
+        $request = $this->requestStack->getCurrentRequest();
+        if (!$request instanceof Request) {
+            return;
+        }
+
+        $customerOptionConfiguration = $this->getCustomerOptionsFromRequest($request);
 
         $salesOrderConfigurations = [];
         foreach ($customerOptionConfiguration as $customerOptionCode => $valueArray) {
@@ -100,8 +106,9 @@ final class AddToCartListener
         }
 
         $orderItem->setCustomerOptionConfiguration($salesOrderConfigurations);
-
-        $this->orderProcessor->process($orderItem->getOrder());
+        /** @var OrderInterface $order */
+        $order= $orderItem->getOrder();
+        $this->orderProcessor->process($order);
 
         $this->entityManager->persist($orderItem);
         $this->entityManager->flush();
@@ -116,6 +123,7 @@ final class AddToCartListener
      */
     public function getCustomerOptionsFromRequest(Request $request): array
     {
+        /** @var array $addToCart */
         $addToCart = $request->request->get('sylius_add_to_cart');
 
         if (!isset($addToCart['customer_options'])) {

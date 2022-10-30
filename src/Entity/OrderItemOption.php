@@ -42,10 +42,10 @@ class OrderItemOption implements OrderItemOptionInterface
     /** @var CustomerOptionValueInterface|null */
     protected $customerOptionValue;
 
-    /** @var string */
+    /** @var string|null */
     protected $customerOptionValueCode;
 
-    /** @var string */
+    /** @var string|null */
     protected $customerOptionValueName;
 
     /** @var string|null */
@@ -128,7 +128,7 @@ class OrderItemOption implements OrderItemOptionInterface
     public function getCustomerOptionName(): string
     {
         if (null !== $this->customerOption) {
-            return $this->customerOption->getName();
+            return $this->customerOption->getName() ?? 'Unnamed';
         }
 
         return $this->customerOptionName;
@@ -207,7 +207,7 @@ class OrderItemOption implements OrderItemOptionInterface
     public function getCustomerOptionValueName(): string
     {
         if (null !== $this->customerOptionValue) {
-            return $this->customerOptionValue->getName();
+            return $this->customerOptionValue->getName() ?? 'Unnamed value';
         }
 
         return $this->customerOptionValueName ?? ($this->optionValue ?? '');

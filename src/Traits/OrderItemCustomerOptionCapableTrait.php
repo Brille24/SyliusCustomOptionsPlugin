@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Traits;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
@@ -51,7 +52,9 @@ trait OrderItemCustomerOptionCapableTrait
 
             foreach ($orderItemOptionList as $orderItemOption) {
                 // Multiselect needs to be an array
-                if ($orderItemOption->getCustomerOption()->getType() === CustomerOptionTypeEnum::MULTI_SELECT) {
+                /** @var CustomerOptionInterface $customerOption */
+                $customerOption = $orderItemOption->getCustomerOption();
+                if ($customerOption->getType() === CustomerOptionTypeEnum::MULTI_SELECT) {
                     $assocArray[$orderItemOption->getCustomerOptionCode()][] = $orderItemOption;
                 } else {
                     $assocArray[$orderItemOption->getCustomerOptionCode()] = $orderItemOption;

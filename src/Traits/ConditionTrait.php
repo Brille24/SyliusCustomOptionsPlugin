@@ -36,7 +36,7 @@ trait ConditionTrait
         $this->customerOption = $customerOption;
 
         $this->value = ConditionComparatorEnum::getValueConfig(
-            $customerOption ? $customerOption->getType() : CustomerOptionTypeEnum::TEXT
+            $customerOption !== null ? $customerOption->getType() : CustomerOptionTypeEnum::TEXT
         );
     }
 
@@ -130,7 +130,7 @@ trait ConditionTrait
 
         $actual = $this->formatValue($value, $optionType);
 
-        $target = $this->value['value'];
+        $target = $this->value['value'] ?? null;
 
         if (CustomerOptionTypeEnum::isDate($optionType)) {
             $target = $target instanceof \DateTime ? $target : $this->formatValue($target, $optionType);

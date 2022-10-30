@@ -36,9 +36,14 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
             return;
         }
 
+        $token = $this->tokenStorage->getToken();
+        if ($token === null) {
+            return;
+        }
+
         // Send mail about failed imports
         /** @var AdminUserInterface $user */
-        $user    = $this->tokenStorage->getToken()->getUser();
+        $user    = $token->getUser();
         $email   = $user->getEmail();
         $csvPath = $this->buildCsv($errors);
 

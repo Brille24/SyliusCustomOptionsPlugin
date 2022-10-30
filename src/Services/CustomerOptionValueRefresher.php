@@ -30,13 +30,15 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
      */
     public function process(OrderInterface $order): void
     {
+        /** @var \Sylius\Component\Core\Model\OrderInterface $order */
+        /** @var ChannelInterface $channel */
+        $channel = $order->getChannel();
         foreach ($order->getItems() as $orderItem) {
             if (!$orderItem instanceof OrderItemInterface) {
                 continue;
             }
 
-            /** @var \Sylius\Component\Core\Model\OrderInterface $order */
-            $this->copyOverValuesForOrderItem($orderItem, $order->getChannel());
+            $this->copyOverValuesForOrderItem($orderItem, $channel);
         }
     }
 
@@ -49,8 +51,9 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
         Assert::isInstanceOf($product, ProductInterface::class);
 
         foreach ($orderItemOptions as $orderItemOption) {
-            /** @var CustomerOptionValueInterface $customerOptionValue */
             // Gets the object reference to the customer option value
+
+            /** @var CustomerOptionValueInterface|null $customerOptionValue */
             $customerOptionValue = $orderItemOption->getCustomerOptionValue();
             if ($customerOptionValue === null) {
                 continue;

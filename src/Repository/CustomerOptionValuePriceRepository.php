@@ -43,7 +43,6 @@ class CustomerOptionValuePriceRepository extends EntityRepository implements Cus
 
         $query = $qb->getQuery();
 
-        /** @var CustomerOptionValuePriceInterface|null $result */
         $result = $query->getOneOrNullResult();
         Assert::nullOrIsInstanceOf($result, CustomerOptionValuePriceInterface::class);
 

@@ -28,10 +28,10 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     /** @var int */
     protected $position;
 
-    /** @var CustomerOptionGroupInterface */
+    /** @var CustomerOptionGroupInterface|null */
     protected $group;
 
-    /** @var CustomerOptionInterface */
+    /** @var CustomerOptionInterface|null */
     protected $option;
 
     public function __construct(int $position = 0)

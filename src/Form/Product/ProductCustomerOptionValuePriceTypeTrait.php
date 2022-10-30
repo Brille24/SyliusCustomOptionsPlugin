@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Form\Product;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Form\DateRangeType;
@@ -28,7 +29,10 @@ trait ProductCustomerOptionValuePriceTypeTrait
                 'choices'      => $customerOptionValues,
                 'choice_label' => 'name',
                 'group_by'     => static function (CustomerOptionValueInterface $customerOptionValue): ?string {
-                    return $customerOptionValue->getCustomerOption()->getName();
+                    /** @var CustomerOptionInterface $customerOption */
+                    $customerOption = $customerOptionValue->getCustomerOption();
+
+                    return $customerOption->getName();
                 },
             ])
             ->add('channel', ChannelChoiceType::class, [

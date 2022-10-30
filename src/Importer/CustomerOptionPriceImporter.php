@@ -31,7 +31,7 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
     /** @var ProductRepositoryInterface */
     protected $productRepository;
 
-    /** @var ProductInterface[] */
+    /** @var array<ProductInterface|null> */
     protected $products = [];
 
     /** @var ValidatorInterface */
@@ -182,7 +182,9 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
     protected function getProduct(string $code): ?ProductInterface
     {
         if (!isset($this->products[$code])) {
-            $this->products[$code] = $this->productRepository->findOneByCode($code);
+            /** @var ProductInterface|null $product */
+            $product               =$this->productRepository->findOneByCode($code);
+            $this->products[$code] = $product;
         }
 
         return $this->products[$code];
