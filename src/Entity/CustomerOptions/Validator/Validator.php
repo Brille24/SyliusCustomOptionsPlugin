@@ -21,7 +21,7 @@ class Validator implements ValidatorInterface
     /** @var Collection */
     protected $constraints;
 
-    /** @var CustomerOptionGroupInterface */
+    /** @var CustomerOptionGroupInterface|null */
     protected $customerOptionGroup;
 
     /** @var ErrorMessageInterface */
@@ -86,6 +86,10 @@ class Validator implements ValidatorInterface
     public function setConstraints(?array $constraints): void
     {
         $this->constraints->clear();
+
+        if ($constraints === null) {
+            return;
+        }
 
         foreach ($constraints as $constraint) {
             $this->addConstraint($constraint);

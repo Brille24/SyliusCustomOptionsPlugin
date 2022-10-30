@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Validator;
 
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionValuePriceHasCustomerOptionConstraint;
@@ -44,12 +46,17 @@ class CustomerOptionValuePriceHasCustomerOptionValidator extends ConstraintValid
         $customerOptions = $product->getCustomerOptions();
         /** @var CustomerOptionValuePriceInterface $valuePrice */
         foreach ($product->getCustomerOptionValuePrices() as $valuePrice) {
-            if (!in_array($valuePrice->getCustomerOptionValue()->getCustomerOption(), $customerOptions, true)) {
+            /** @var CustomerOptionValueInterface $customerOptionValue */
+            $customerOptionValue = $valuePrice->getCustomerOptionValue();
+
+            /** @var CustomerOptionInterface $customerOption */
+            $customerOption = $customerOptionValue->getCustomerOption();
+            if (!in_array($customerOption, $customerOptions, true)) {
                 // The product shouldn't have this price
                 $this->context
                     ->buildViolation($constraint->message)
-                    ->atPath($valuePrice->getCustomerOptionValue()->getCode())
-                    ->setCause($valuePrice->getCustomerOptionValue()->getCustomerOption()->getCode())
+                    ->atPath($customerOptionValue->getCode() ?? '')
+                    ->setCause($customerOption->getCode())
                     ->addViolation()
                 ;
             }

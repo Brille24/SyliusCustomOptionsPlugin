@@ -32,24 +32,32 @@ class ConditionalConstraintValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint): void
     {
-        if ($constraint instanceof ConditionalConstraint) {
-            if ($value instanceof OrderItemInterface) {
-                $configuration = $this->getCustomerOptionsFromRequest($this->requestStack->getCurrentRequest(), $value->getProduct());
-            } else {
-                $configuration = is_array($value) ? $value : [$value];
-            }
+        if (!$constraint instanceof ConditionalConstraint) {
+            return;
+        }
 
-            $allConditionsMet   = $this->allConditionsMet($constraint->conditions, $configuration);
-            $allConstraintsMet  = $this->allConditionsMet($constraint->constraints, $configuration);
+        if ($value instanceof OrderItemInterface) {
+            /** @var Request $request */
+            $request = $this->requestStack->getCurrentRequest();
+            /** @var ProductInterface $product */
+            $product = $value->getProduct();
 
-            if ($allConditionsMet && !$allConstraintsMet) {
-                $this->context->addViolation($constraint->message);
-            }
+            $configuration = $this->getCustomerOptionsFromRequest($request, $product);
+        } else {
+            $configuration = is_array($value) ? $value : [$value];
+        }
+
+        $allConditionsMet   = $this->allConditionsMet($constraint->conditions ?? [], $configuration);
+        $allConstraintsMet  = $this->allConditionsMet($constraint->constraints ?? [], $configuration);
+
+        if ($allConditionsMet && !$allConstraintsMet) {
+            $this->context->addViolation($constraint->message);
         }
     }
 
     private function getCustomerOptionsFromRequest(Request $request, ProductInterface $product): array
     {
+        /** @var array $addToCart */
         $addToCart = $request->request->get('sylius_add_to_cart');
 
         if (!isset($addToCart['customer_options'])) {

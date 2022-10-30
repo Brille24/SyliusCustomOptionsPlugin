@@ -17,6 +17,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Sylius\Component\Core\Model\ChannelInterface;
 
 final class CustomerOptionValueListener
 {
@@ -59,8 +60,9 @@ final class CustomerOptionValueListener
         foreach ($prices as $price) {
             $existingChannels[] = $price->getChannel();
         }
-
-        foreach ($this->channelRepository->findAll() as $channel) {
+        /** @var array<ChannelInterface> $channels */
+        $channels = $this->channelRepository->findAll();
+        foreach ($channels as $channel) {
             if (!in_array($channel, $existingChannels, true)) {
                 /** @var CustomerOptionValuePriceInterface $newPrice */
                 $newPrice = $this->customerOptionValuePriceFactory->createNew();

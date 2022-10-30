@@ -36,10 +36,10 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
     /** @var CustomerOptionValueInterface|null */
     protected $customerOptionValue;
 
-    /** @var ProductInterface */
+    /** @var ProductInterface|null */
     protected $product;
 
-    /** @var ChannelInterface */
+    /** @var ChannelInterface|null */
     protected $channel;
 
     /** @var DateRangeInterface|null */

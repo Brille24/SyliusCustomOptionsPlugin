@@ -19,7 +19,7 @@ class CustomerOptionGroupTranslation extends AbstractTranslation implements Cust
     /** @var int */
     protected $id;
 
-    /** @var string */
+    /** @var string|null */
     protected $name;
 
     /**

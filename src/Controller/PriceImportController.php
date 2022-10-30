@@ -111,7 +111,7 @@ class PriceImportController extends AbstractController
             // Build error handler extra data
             $extraData = [
                 'productCodes'         => $productCodes,
-                'customerOptionValues' => array_map(static function (CustomerOptionValueInterface $customerOptionValue): string {
+                'customerOptionValues' => array_map(static function (CustomerOptionValueInterface $customerOptionValue): ?string {
                     return $customerOptionValue->getCode();
                 }, $valuePriceData['customerOptionValues']),
                 'validFrom'            => null !== $dateRange ? $dateRange->getStart() : null,

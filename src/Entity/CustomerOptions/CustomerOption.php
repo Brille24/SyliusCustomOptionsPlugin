@@ -32,7 +32,7 @@ class CustomerOption implements CustomerOptionInterface
     /** @var string */
     protected $type = CustomerOptionTypeEnum::SELECT;
 
-    /** @var string */
+    /** @var string|null */
     protected $code = '';
 
     /** @var bool */
@@ -117,7 +117,7 @@ class CustomerOption implements CustomerOptionInterface
      */
     public function getCode(): string
     {
-        return $this->code;
+        return $this->code ?? '';
     }
 
     /**
