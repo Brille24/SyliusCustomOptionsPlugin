@@ -49,11 +49,9 @@ final class CustomerOptionTypeEnum implements EnumInterface
     }
 
     /**
-     * @param mixed $enumValue
-     *
-     * @return bool
+     * {@inheritdoc}
      */
-    public static function isValid($enumValue): bool
+    public static function isValid(string $enumValue): bool
     {
         return in_array($enumValue, self::getConstList(), true);
     }
