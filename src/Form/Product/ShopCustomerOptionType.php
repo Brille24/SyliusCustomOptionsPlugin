@@ -72,7 +72,7 @@ final class ShopCustomerOptionType extends AbstractType
         }
 
         // Add a form field for every customer option
-        $customerOptions = $product->getCustomerOptions();
+        $customerOptions           = $product->getCustomerOptions();
         $customerOptionTypesByCode = [];
 
         foreach ($customerOptions as $customerOption) {
@@ -103,7 +103,7 @@ final class ShopCustomerOptionType extends AbstractType
             }
         );
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, static function(FormEvent $event) use ($customerOptionTypesByCode) : void {
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, static function (FormEvent $event) use ($customerOptionTypesByCode): void {
             $data = $event->getData();
 
             foreach ($data as $customerOptionCode => $customerOptionValue) {

@@ -72,7 +72,7 @@ class CustomerOption implements CustomerOptionInterface
      */
     public function setType(?string $type): void
     {
-        if (!CustomerOptionTypeEnum::isValid($type) || $type === null) {
+        if ($type === null || !CustomerOptionTypeEnum::isValid($type)) {
             throw new \Exception('Invalid type');
         }
 

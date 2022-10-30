@@ -58,9 +58,9 @@ class DateRangeTest extends TestCase
 
     public function dataOverlaps(): array
     {
-        $firstDate = new DateTimeImmutable('2010-01-01 12:00:00');
+        $firstDate  = new DateTimeImmutable('2010-01-01 12:00:00');
         $secondDate = new DateTimeImmutable('2011-01-01 12:00:00');
-        $thridDate = new DateTimeImmutable('2012-08-01 12:00:00');
+        $thridDate  = new DateTimeImmutable('2012-08-01 12:00:00');
         $fourthDate = new DateTimeImmutable('2013-01-01 12:00:00');
 
         return [

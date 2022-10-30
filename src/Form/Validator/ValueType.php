@@ -45,7 +45,7 @@ class ValueType extends AbstractType
                     && $modelData['type'] === $newConfig['type']
                 ) {
                     $modelData = $modelData['value'];
-                    $result = $modelData;
+                    $result    = $modelData;
                 }
 
                 if ($modelData !== null) {

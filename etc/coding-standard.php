@@ -180,7 +180,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SingleClassElementPerStatementFixer::class);
 
     $services->set('PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer')
-        ->call('configure', [['property', 'method']]);
+    ->call('configure', [['elements' => ['property', 'method']]]);
 
     $services->set(MultilineCommentOpeningClosingFixer::class);
 
@@ -253,7 +253,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NoHomoglyphNamesFixer::class);
 
     $services->set('PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer')
-        ->call('configure', [['align_double_arrow' => true, 'align_equals' => true]]);
+        ->call('configure', [['operators' => ['=>' => 'align', '=' => 'align']]]);
 
     $services->set('PhpCsFixer\Fixer\Operator\ConcatSpaceFixer')
         ->call('configure', [['spacing' => 'none']]);

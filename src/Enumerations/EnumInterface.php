@@ -24,11 +24,9 @@ interface EnumInterface
     /**
      * Checks if a value is a valid Enum Value
      *
-     * @param mixed $value
-     *
-     * @return bool
+     * @param string $value
      */
-    public static function isValid($value): bool;
+    public static function isValid(string $value): bool;
 
     /**
      * Returns an associative array with the values as key and the labels as values
@@ -36,6 +34,4 @@ interface EnumInterface
      * @return array
      */
     public static function getTranslateArray(): array;
-
-//    public static function getFormTypeArray(): array;
 }

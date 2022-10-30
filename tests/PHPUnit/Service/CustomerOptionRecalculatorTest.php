@@ -61,9 +61,9 @@ class CustomerOptionRecalculatorTest extends TestCase
     {
         $orderItemOption = self::createConfiguredMock(OrderItemOptionInterface::class, [
             'getCustomerOptionValue' => self::createMock(CustomerOptionValueInterface::class),
-            'getCustomerOptionName' => 'Test Adjustment',
-            'getCalculatedPrice' => 1200,
-            'getCustomerOptionType' => 'select',
+            'getCustomerOptionName'  => 'Test Adjustment',
+            'getCalculatedPrice'     => 1200,
+            'getCustomerOptionType'  => 'select',
         ]);
 
         $adjustment = self::createMock(AdjustmentInterface::class);
@@ -74,8 +74,8 @@ class CustomerOptionRecalculatorTest extends TestCase
         $orderItem = self::createConfiguredMock(
             OrderItemInterface::class,
             [
-                'getUnitPrice' => 1000,
-                'getUnits' => new ArrayCollection([$orderItemUnit]),
+                'getUnitPrice'                   => 1000,
+                'getUnits'                       => new ArrayCollection([$orderItemUnit]),
                 'getCustomerOptionConfiguration' => [$orderItemOption],
             ]
         );
@@ -100,16 +100,16 @@ class CustomerOptionRecalculatorTest extends TestCase
     {
         $orderItemOption = self::createConfiguredMock(OrderItemOptionInterface::class, [
             'getCustomerOptionValue' => self::createMock(CustomerOptionValueInterface::class),
-            'getCustomerOptionName' => 'Test Adjustment',
-            'getCalculatedPrice' => 1200,
-            'getCustomerOptionType' => 'text',
+            'getCustomerOptionName'  => 'Test Adjustment',
+            'getCalculatedPrice'     => 1200,
+            'getCustomerOptionType'  => 'text',
         ]);
         $orderItemOption->expects($this->never())->method('getOrderItem');
 
         $orderItem = self::createConfiguredMock(
             OrderItemInterface::class,
             [
-                'getUnitPrice' => 1000,
+                'getUnitPrice'                   => 1000,
                 'getCustomerOptionConfiguration' => [$orderItemOption],
             ]
         );

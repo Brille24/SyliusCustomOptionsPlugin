@@ -80,8 +80,7 @@ class ProductFactory implements ExampleFactoryInterface
     public function create(array $options = []): ProductInterface
     {
         $currentOptions =
-            $this->optionsResolver->resolve(
-            [
+            $this->optionsResolver->resolve([
                 'customer_option_group'        => $options['customer_option_group'] ?? null,
                 'customer_option_value_prices' => $options['customer_option_value_prices'] ?? [],
             ]);

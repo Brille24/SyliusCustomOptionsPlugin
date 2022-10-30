@@ -13,15 +13,14 @@ use Exception;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Order\Repository\OrderItemRepositoryInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Webmozart\Assert\Assert;
-use Symfony\Component\Form\FormFactoryInterface;
-use Twig\Environment;
 use Symfony\Component\Routing\RouterInterface;
+use Twig\Environment;
+use Webmozart\Assert\Assert;
 
 class EditCustomerOptionsAction
 {
@@ -56,7 +55,7 @@ class EditCustomerOptionsAction
         bool $recalculatePrice
     ) {
         $this->twig                   = $twig;
-        $this->router = $router;
+        $this->router                 = $router;
         $this->formFactory            = $formFactory;
         $this->orderItemRepository    = $orderItemRepository;
         $this->orderItemOptionUpdater = $orderItemOptionUpdater;

@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\EventListener;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -37,7 +36,7 @@ final class CustomerOptionValueListener
         EntityRepository $channelRepository,
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory
     ) {
-        $this->channelRepository = $channelRepository;
+        $this->channelRepository               = $channelRepository;
         $this->customerOptionValuePriceFactory = $customerOptionValuePriceFactory;
     }
 
@@ -55,7 +54,7 @@ final class CustomerOptionValueListener
 
     private function addChannelPricesToNewValue(CustomerOptionValueInterface $value): void
     {
-        $prices = $value->getPrices();
+        $prices           = $value->getPrices();
         $existingChannels = [];
         foreach ($prices as $price) {
             $existingChannels[] = $price->getChannel();

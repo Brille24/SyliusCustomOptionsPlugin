@@ -28,7 +28,7 @@ final class CustomerOptionConfigurationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event): void {
-            $form = $event->getForm();
+            $form          = $event->getForm();
             $configuration = $event->getData();
 
             foreach ($configuration as $key => $configArray) {
