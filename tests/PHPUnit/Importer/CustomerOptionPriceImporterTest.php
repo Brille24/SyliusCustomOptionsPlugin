@@ -18,47 +18,48 @@ use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepositor
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Exception;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class CustomerOptionPriceImporterTest extends TestCase
 {
-    /** @var EntityManagerInterface|MockObject $entityManager */
+    /** @var EntityManagerInterface|MockObject */
     private $entityManager;
 
     private CustomerOptionPriceImporter $customerOptionPriceImporter;
 
-    /** @var MockObject|ValidatorInterface $validator */
+    /** @var MockObject|ValidatorInterface */
     private $validator;
 
-    /** @var MockObject|CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory */
+    /** @var MockObject|CustomerOptionValuePriceFactoryInterface */
     private $customerOptionValuePriceFactory;
 
-    /** @var MockObject|CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository */
+    /** @var MockObject|CustomerOptionValuePriceRepositoryInterface */
     private $customerOptionValuePriceRepository;
 
     /** @var CustomerOptionInterface|MockObject */
     private $customerOption;
 
-    /** @var ProductInterface|MockObject $firstProduct*/
+    /** @var ProductInterface|MockObject */
     private $firstProduct;
 
-    /** @var ProductInterface|MockObject $secondProduct*/
+    /** @var ProductInterface|MockObject */
     private $secondProduct;
 
-    public function setup(): void {
-        $this->firstProduct = $this->createMock(ProductInterface::class);
-        $this->secondProduct = $this->createMock(ProductInterface::class);
+    public function setup(): void
+    {
+        $this->firstProduct   = $this->createMock(ProductInterface::class);
+        $this->secondProduct  = $this->createMock(ProductInterface::class);
         $this->customerOption = $this->createMock(CustomerOptionInterface::class);
-        $someValue = $this->createMock(CustomerOptionValueInterface::class);
-        $otherValue = $this->createMock(CustomerOptionValueInterface::class);
-        $someChannel = $this->createMock(ChannelInterface::class);
-        $otherChannel = $this->createMock(ChannelInterface::class);
+        $someValue            = $this->createMock(CustomerOptionValueInterface::class);
+        $otherValue           = $this->createMock(CustomerOptionValueInterface::class);
+        $someChannel          = $this->createMock(ChannelInterface::class);
+        $otherChannel         = $this->createMock(ChannelInterface::class);
 
         $productRepository = $this->createMock(ProductRepositoryInterface::class);
         $productRepository->method('findOneByCode')->willReturnMap([
@@ -74,10 +75,10 @@ class CustomerOptionPriceImporterTest extends TestCase
             ['other_channel', $otherChannel],
         ]);
 
-        $customerOptionRepository = $this->createMock(CustomerOptionRepositoryInterface::class);
-        $customerOptionValueRepository = $this->createMock(CustomerOptionValueRepositoryInterface::class);
+        $customerOptionRepository                 = $this->createMock(CustomerOptionRepositoryInterface::class);
+        $customerOptionValueRepository            = $this->createMock(CustomerOptionValueRepositoryInterface::class);
         $this->customerOptionValuePriceRepository = $this->createMock(CustomerOptionValuePriceRepositoryInterface::class);
-        $this->customerOptionValuePriceFactory = $this->createMock(CustomerOptionValuePriceFactoryInterface::class);
+        $this->customerOptionValuePriceFactory    = $this->createMock(CustomerOptionValuePriceFactoryInterface::class);
 
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
 
@@ -114,7 +115,8 @@ class CustomerOptionPriceImporterTest extends TestCase
         );
     }
 
-    public function testCreatingNewPrices(): void {
+    public function testCreatingNewPrices(): void
+    {
         $valuePrice = $this->createMock(CustomerOptionValuePriceInterface::class);
 
         $this->customerOptionValuePriceFactory
@@ -145,7 +147,8 @@ class CustomerOptionPriceImporterTest extends TestCase
         );
     }
 
-    public function testUpdatingExistingPrices(): void {
+    public function testUpdatingExistingPrices(): void
+    {
         $this->customerOptionValuePriceFactory->expects(self::never())->method('createNew');
 
         $valuePrice = $this->createMock(CustomerOptionValuePriceInterface::class);
@@ -177,7 +180,8 @@ class CustomerOptionPriceImporterTest extends TestCase
         );
     }
 
-    public function testDeleteExistingPrices(): void {
+    public function testDeleteExistingPrices(): void
+    {
         $this->customerOptionValuePriceFactory->expects(self::never())->method('createNew');
 
         $valuePrice = $this->createMock(CustomerOptionValuePriceInterface::class);
@@ -202,11 +206,12 @@ class CustomerOptionPriceImporterTest extends TestCase
         );
     }
 
-    public function testReturningImportErrors(): void {
+    public function testReturningImportErrors(): void
+    {
         $valuePrice = $this->createMock(CustomerOptionValuePriceInterface::class);
 
         $this->customerOptionValuePriceRepository->expects(self::never())->method('find');
-        $this->customerOptionValuePriceFactory ->expects(self::exactly(3))->method('createNew')->willReturn($valuePrice);
+        $this->customerOptionValuePriceFactory->expects(self::exactly(3))->method('createNew')->willReturn($valuePrice);
 
         $this->firstProduct->expects(self::exactly(2))
             ->method('addCustomerOptionValuePrice')->with($valuePrice)

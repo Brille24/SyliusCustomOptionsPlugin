@@ -88,7 +88,7 @@ class CustomerOptionValueFactoryTest extends TestCase
     {
         $configuration = $this->customerOptionValueFactory->generateRandomConfiguration($amount);
 
-        self::assertEquals($amount, count($configuration));
+        self::assertCount($amount, $configuration);
         foreach ($configuration as $config) {
             $this->customerOptionValueFactory->validateConfiguration($config);
             self::assertArrayHasKey('en_US', $config['translations']);

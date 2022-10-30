@@ -37,10 +37,10 @@ class ConditionType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event): void {
             $form = $event->getForm();
 
-            $condition = $event->getData() ?? new Condition();
+            $condition      = $event->getData() ?? new Condition();
             $customerOption = $condition->getCustomerOption();
 
-            $comparatorChoices = ConditionComparatorEnum::getConstList();
+            $comparatorChoices        = ConditionComparatorEnum::getConstList();
             [$formType, $formOptions] = ConditionComparatorEnum::getFormTypeForCustomerOptionType('text');
 
             $customerOptionType = CustomerOptionTypeEnum::TEXT;
@@ -50,12 +50,12 @@ class ConditionType extends AbstractType
                 && $customerOption instanceof CustomerOption
             ) {
                 $customerOptionType = $customerOption->getType();
-                $comparatorChoices = ConditionComparatorEnum::getValuesForCustomerOptionType($customerOptionType);
+                $comparatorChoices  = ConditionComparatorEnum::getValuesForCustomerOptionType($customerOptionType);
 
                 [$formType, $formOptions] = ConditionComparatorEnum::getFormTypeForCustomerOptionType($customerOptionType);
 
                 if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
-                    $formOptions['choices'] = $customerOption->getValues()->getValues();
+                    $formOptions['choices']      = $customerOption->getValues()->getValues();
                     $formOptions['choice_label'] = 'name';
                 }
 

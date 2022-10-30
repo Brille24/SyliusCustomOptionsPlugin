@@ -111,7 +111,7 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
 
         $randomElements = $this->customerOptionPriceFactory->generateRandomConfiguration($count);
 
-        self::assertEquals($count, count($randomElements));
+        self::assertCount($count, $randomElements);
         foreach ($randomElements as $randomElement) {
             $this->customerOptionPriceFactory->validateConfiguration($randomElement);
             self::assertNotNull($randomElement['channel']);

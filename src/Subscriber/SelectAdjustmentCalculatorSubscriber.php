@@ -13,10 +13,8 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Subscriber;
 
 use Brille24\SyliusCustomerOptionsPlugin\Event\RecalculateOrderItemOptionEvent;
-use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionRecalculator;
 use Sylius\Component\Order\Factory\AdjustmentFactoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-
 
 final class SelectAdjustmentCalculatorSubscriber implements EventSubscriberInterface
 {

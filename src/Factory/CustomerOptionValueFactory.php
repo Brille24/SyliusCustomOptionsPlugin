@@ -77,7 +77,7 @@ class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
     /** {@inheritdoc} */
     public function generateRandomConfiguration(int $amount): array
     {
-        $result = [];
+        $result                     = [];
         $this->faker->unique($reset = true);
 
         for ($j = 0; $j < $amount; ++$j) {
