@@ -136,9 +136,7 @@ class ShowPage extends BaseShowPage
      */
     public function hasRequiredCustomerOptionValidationMessage(): bool
     {
-        $message = 'This option is required';
-
-        return $this->hasValidationMessage($message);
+        return $this->hasValidationMessage('This option is required');
     }
 
     /**
@@ -148,9 +146,17 @@ class ShowPage extends BaseShowPage
      */
     public function hasInvalidCustomerOptionValidationMessage(): bool
     {
-        $message = 'This value is not valid.';
+        return $this->hasValidationMessage('This value is not valid.');
+    }
 
-        return $this->hasValidationMessage($message);
+    /**
+     * @return bool
+     *
+     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     */
+    public function hasInvalidNumberValidationMessage(): bool
+    {
+        return $this->hasValidationMessage('Please enter a number.');
     }
 
     /**

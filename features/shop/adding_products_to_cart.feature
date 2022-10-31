@@ -67,7 +67,7 @@ Feature: Adding products with customer options to cart
         Given I view product "Cool Product"
         When I enter value "not a number" for customer option "Number Option"
         And I add it to the cart
-        Then I should be notified that an option is invalid
+        Then I should be notified that a number option is invalid
         And my cart should be empty
 
     Scenario: Trying to add a product with customer option value not meeting constraint
