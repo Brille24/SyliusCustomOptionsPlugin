@@ -41,3 +41,16 @@
         {{ form_row(form.value) }}
     </div>
 {% endblock brille24_customer_options_plugin_validator_condition_widget %}
+
+{% block brille24_customer_option_association_choice_widget %}
+    <div class="two fields">
+        <div class="field two wide">
+            {{ form_label(form.position) }}
+            {{ form_widget(form.position) }}
+        </div>
+        <div class="field fourteen wide">
+            {{ form_label(form.option) }}
+            {{ form_widget(form.option) }}
+        </div>
+    </div>
+{% endblock %}
