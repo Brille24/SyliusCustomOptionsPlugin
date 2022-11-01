@@ -22,8 +22,8 @@ jobs:
             fail-fast: false
             matrix:
                 php: ["7.4", "8.0"]
-                symfony: ["^4.4", "^5.4"]
-                sylius: ["~1.9.0", "~1.10.0", "~1.11.0", "~1.12.x-dev"]
+                symfony: ["^5.4", "^6.0"]
+                sylius: ["~1.9.0", "~1.10.0", "~1.11.0", "~1.12.0"]
                 node: ["14.x"]
                 mysql: ["8.0"]
 
@@ -35,8 +35,17 @@ jobs:
                         php: "7.4"
                         sylius: "~1.11.0"
                     -
+                        symfony: "^6.0"
+                        sylius: "~1.9.0"
+                    -
+                        symfony: "^6.0"
+                        sylius: "~1.10.0"
+                    -
+                        symfony: "^6.0"
+                        sylius: "~1.11.0"
+                    -
                         php: "7.4"
-                        sylius: "~1.12.x-dev"
+                        sylius: "~1.12.0"
 
         env:
             APP_ENV: test
