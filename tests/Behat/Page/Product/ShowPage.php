@@ -11,6 +11,7 @@ use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Sylius\Behat\Page\Shop\Product\ShowPage as BaseShowPage;
+use Sylius\Bundle\CoreBundle\Application\Kernel as SyliusKernel;
 
 class ShowPage extends BaseShowPage
 {
@@ -156,6 +157,10 @@ class ShowPage extends BaseShowPage
      */
     public function hasInvalidNumberValidationMessage(): bool
     {
+        if (version_compare(SyliusKernel::VERSION, '1.12.0', '<')) {
+            return $this->hasValidationMessage('This value is not valid.');
+        }
+
         return $this->hasValidationMessage('Please enter a number.');
     }
 
