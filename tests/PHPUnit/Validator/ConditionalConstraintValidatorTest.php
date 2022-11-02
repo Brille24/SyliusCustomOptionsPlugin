@@ -22,11 +22,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class ConditionalConstraintValidatorTest extends TestCase
 {
-    /** @var ConditionalConstraintValidator */
-    private $conditionalConstraintValidator;
+    private \Brille24\SyliusCustomerOptionsPlugin\Validator\ConditionalConstraintValidator $conditionalConstraintValidator;
 
-    /** @var array */
-    private $violations;
+    private array $violations;
 
     /** @var MockObject|Request */
     private $request;

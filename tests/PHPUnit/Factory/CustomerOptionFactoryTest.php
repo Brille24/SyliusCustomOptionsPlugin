@@ -16,13 +16,10 @@ use PHPUnit\Framework\TestCase;
 
 class CustomerOptionFactoryTest extends TestCase
 {
-    /**
-     * @var CustomerOptionFactory
-     */
-    private $customerOptionFactory;
+    private \Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionFactory $customerOptionFactory;
 
     /** @var CustomerOptionGroupRepositoryInterface[] */
-    private $customerOptionGroupRepository = [];
+    private array $customerOptionGroupRepository = [];
 
     public function setUp(): void
     {
@@ -30,9 +27,7 @@ class CustomerOptionFactoryTest extends TestCase
 
         $customerOptionGroupRepository = self::createMock(CustomerOptionGroupRepositoryInterface::class);
         $customerOptionGroupRepository->method('findAll')->willReturnCallback(
-            function () {
-                return $this->customerOptionGroupRepository;
-            }
+            fn () => $this->customerOptionGroupRepository
         );
         $customerOptionGroupRepository->method('findOneBy')->willReturnCallback(function (array $config) {
             $code = $config['code'];

@@ -120,9 +120,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     public function getOptions(): array
     {
         return $this->optionAssociations
-            ->map(static function (CustomerOptionAssociationInterface $association): ?CustomerOptionInterface {
-                return $association->getOption();
-            })->toArray();
+            ->map(static fn (CustomerOptionAssociationInterface $association): ?CustomerOptionInterface => $association->getOption())->toArray();
     }
 
     //</editor-fold>

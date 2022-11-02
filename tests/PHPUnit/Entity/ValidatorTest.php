@@ -7,13 +7,11 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Entity;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use PHPUnit\Framework\TestCase;
 
 class ValidatorTest extends TestCase
 {
-    /** @var ValidatorInterface */
-    private $validator;
+    private \Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface $validator;
 
     public function setUp(): void
     {

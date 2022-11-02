@@ -15,8 +15,7 @@ use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 
 class CustomerOptionGroupFactoryTest extends TestCase
 {
-    /** @var CustomerOptionGroupFactory */
-    private $customerOptionGroupFactory;
+    private \Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionGroupFactory $customerOptionGroupFactory;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $customerOptionRepositoryMock;

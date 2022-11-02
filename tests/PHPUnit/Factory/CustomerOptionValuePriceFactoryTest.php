@@ -14,21 +14,15 @@ use Sylius\Component\Core\Model\ChannelInterface;
 
 class CustomerOptionValuePriceFactoryTest extends TestCase
 {
-    /** @var CustomerOptionValuePriceFactory */
-    private $customerOptionPriceFactory;
+    private \Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactory $customerOptionPriceFactory;
 
-    /** @var array */
-    private $channelRepository = [];
+    private array $channelRepository = [];
 
     public function setUp(): void
     {
         $channelRepository = self::createMock(ChannelRepositoryInterface::class);
-        $channelRepository->method('findAll')->willReturnCallback(function () {
-            return $this->channelRepository;
-        });
-        $channelRepository->method('findOneByCode')->willReturnCallback(function ($code) {
-            return $this->channelRepository[$code] ?? null;
-        });
+        $channelRepository->method('findAll')->willReturnCallback(fn () => $this->channelRepository);
+        $channelRepository->method('findOneByCode')->willReturnCallback(fn ($code) => $this->channelRepository[$code] ?? null);
 
         $this->customerOptionPriceFactory = new CustomerOptionValuePriceFactory($channelRepository);
     }

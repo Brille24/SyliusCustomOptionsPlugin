@@ -23,20 +23,15 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 class ProductFactoryTest extends TestCase
 {
-    /** @var ProductFactory */
-    private $factory;
+    private \Brille24\SyliusCustomerOptionsPlugin\Factory\ProductFactory $factory;
 
-    /** @var MockObject */
-    private $customerOptionValueRepositoryMock;
+    private \PHPUnit\Framework\MockObject\MockObject $customerOptionValueRepositoryMock;
 
-    /** @var MockObject */
-    private $customerOptionGroupRepositoryMock;
+    private \PHPUnit\Framework\MockObject\MockObject $customerOptionGroupRepositoryMock;
 
-    /** @var CustomerOption */
-    private $customerOption;
+    private \Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption $customerOption;
 
-    /** @var CustomerOptionGroup */
-    private $customerOptionGroup;
+    private \Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup $customerOptionGroup;
 
     /** @var CustomerOptionValuePriceFactoryInterface|MockObject */
     private $customerOptionValuePriceFactory;

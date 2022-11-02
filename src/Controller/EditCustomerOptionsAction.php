@@ -24,26 +24,13 @@ use Webmozart\Assert\Assert;
 
 class EditCustomerOptionsAction
 {
-    /** @var Environment */
-    private $twig;
-
-    /** @var RouterInterface */
-    private $router;
-
-    /** @var FormFactoryInterface */
-    private $formFactory;
-
-    /** @var OrderItemRepositoryInterface */
-    private $orderItemRepository;
-
-    /** @var OrderItemOptionUpdaterInterface */
-    private $orderItemOptionUpdater;
-
-    /** @var EventDispatcherInterface */
-    private $eventDispatcher;
-
-    /** @var bool */
-    private $recalculatePrice;
+    private Environment $twig;
+    private RouterInterface $router;
+    private FormFactoryInterface $formFactory;
+    private OrderItemRepositoryInterface $orderItemRepository;
+    private OrderItemOptionUpdaterInterface $orderItemOptionUpdater;
+    private EventDispatcherInterface $eventDispatcher;
+    private bool $recalculatePrice;
 
     public function __construct(
         Environment $twig,

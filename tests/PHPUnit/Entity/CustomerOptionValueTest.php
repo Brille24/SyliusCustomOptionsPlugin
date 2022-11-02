@@ -13,8 +13,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 
 class CustomerOptionValueTest extends TestCase
 {
-    /** @var CustomerOptionValue */
-    private $customerOptionValue;
+    private \Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue $customerOptionValue;
 
     public function setUp(): void
     {

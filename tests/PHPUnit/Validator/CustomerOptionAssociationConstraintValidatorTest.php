@@ -14,14 +14,12 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class CustomerOptionAssociationConstraintValidatorTest extends TestCase
 {
-    /** @var CustomerOptionAssociationConstraintValidator */
-    private $customerOptionAssociationConstraintValidator;
+    private \Brille24\SyliusCustomerOptionsPlugin\Validator\CustomerOptionAssociationConstraintValidator $customerOptionAssociationConstraintValidator;
 
-    /** @var array */
-    private $violations = [];
+    private array $violations = [];
 
     /** @var CustomerOptionInterface[] */
-    private $customerOptions = [];
+    private array $customerOptions = [];
 
     //<editor-fold desc="Setup" default="collapsed">
     protected function setUp(): void

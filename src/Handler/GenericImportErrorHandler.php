@@ -10,23 +10,18 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class GenericImportErrorHandler implements ImportErrorHandlerInterface
 {
-    /** @var SenderInterface */
-    protected $sender;
-
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
-
-    /** @var string */
-    protected $email_code;
+    protected SenderInterface $sender;
+    protected TokenStorageInterface $tokenStorage;
+    protected string $emailCode;
 
     public function __construct(
         SenderInterface $sender,
         TokenStorageInterface $tokenStorage,
-        string $email_code
+        string $emailCode
     ) {
         $this->sender       = $sender;
         $this->tokenStorage = $tokenStorage;
-        $this->email_code   = $email_code;
+        $this->emailCode   = $emailCode;
     }
 
     /** {@inheritdoc} */
@@ -47,7 +42,7 @@ class GenericImportErrorHandler implements ImportErrorHandlerInterface
         $email = $user->getEmail();
 
         $this->sender->send(
-            $this->email_code,
+            $this->emailCode,
             [$email],
             ['errors' => $errors, 'extraData' => $extraData]
         );

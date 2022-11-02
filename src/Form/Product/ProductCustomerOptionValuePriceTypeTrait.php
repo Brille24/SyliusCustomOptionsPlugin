@@ -60,9 +60,7 @@ trait ProductCustomerOptionValuePriceTypeTrait
             ])
             ->add('type', ChoiceType::class, [
                 'choices'      => CustomerOptionValuePrice::getAllTypes(),
-                'choice_label' => static function (string $option): string {
-                    return 'brille24.ui.pricing.'.strtolower($option);
-                },
+                'choice_label' => static fn (string $option): string => 'brille24.ui.pricing.'.strtolower($option),
             ])
             ->add('dateValid', DateRangeType::class, [
                 'required'      => false,

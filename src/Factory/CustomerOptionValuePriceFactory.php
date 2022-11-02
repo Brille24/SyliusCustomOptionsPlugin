@@ -23,11 +23,8 @@ use Sylius\Component\Core\Model\ChannelInterface;
 
 class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactoryInterface
 {
-    /** @var ChannelRepositoryInterface */
-    protected $channelRepository;
-
-    /** @var Generator */
-    protected $faker;
+    protected ChannelRepositoryInterface $channelRepository;
+    protected Generator $faker;
 
     public function __construct(ChannelRepositoryInterface $channelRepository)
     {
@@ -84,9 +81,7 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
     {
         $prices          = [];
         $allChannelCodes = array_map(
-            static function (ChannelInterface $channel): ?string {
-                return $channel->getCode();
-            },
+            static fn (ChannelInterface $channel): ?string => $channel->getCode(),
             $this->channelRepository->findAll()
         );
 

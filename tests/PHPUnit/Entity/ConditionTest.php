@@ -6,7 +6,6 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Entity\Tools;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
@@ -14,8 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class ConditionTest extends TestCase
 {
-    /** @var ConditionInterface */
-    private $condition;
+    private \Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface $condition;
 
     public function setUp(): void
     {

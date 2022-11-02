@@ -9,8 +9,7 @@ use Symfony\Component\Form\DataMapperInterface;
 
 class CsvPriceImportDataMapper implements DataMapperInterface
 {
-    /** @var CsvReaderInterface */
-    protected $csvReader;
+    protected CsvReaderInterface $csvReader;
 
     public function __construct(CsvReaderInterface $csvReader)
     {

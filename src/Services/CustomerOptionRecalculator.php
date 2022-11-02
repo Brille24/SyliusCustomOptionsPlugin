@@ -16,8 +16,7 @@ final class CustomerOptionRecalculator implements OrderProcessorInterface
 {
     public const CUSTOMER_OPTION_ADJUSTMENT = 'customer_option';
 
-    /** @var EventDispatcherInterface */
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(EventDispatcherInterface $eventDispatcher)
     {

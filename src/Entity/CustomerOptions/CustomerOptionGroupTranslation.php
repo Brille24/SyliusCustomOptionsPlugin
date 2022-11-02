@@ -16,16 +16,13 @@ use Sylius\Component\Resource\Model\AbstractTranslation;
 
 class CustomerOptionGroupTranslation extends AbstractTranslation implements CustomerOptionGroupTranslationInterface
 {
-    /** @var int */
-    protected $id;
-
-    /** @var string|null */
-    protected $name;
+    protected ?int $id;
+    protected ?string $name;
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

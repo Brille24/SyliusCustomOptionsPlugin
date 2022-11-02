@@ -29,25 +29,10 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 
 class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, FactoryInterface
 {
-    /**
-     * @var FactoryInterface
-     */
-    private $factory;
-
-    /**
-     * @var CustomerOptionRepositoryInterface
-     */
-    private $customerOptionRepository;
-
-    /**
-     * @var CustomerOptionValueResolverInterface
-     */
-    private $valueResolver;
-
-    /**
-     * @var CustomerOptionValuePriceRepositoryInterface
-     */
-    private $customerOptionValuePriceRepository;
+    private FactoryInterface $factory;
+    private CustomerOptionRepositoryInterface $customerOptionRepository;
+    private CustomerOptionValueResolverInterface $valueResolver;
+    private CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository;
 
     public function __construct(
         FactoryInterface $factory,

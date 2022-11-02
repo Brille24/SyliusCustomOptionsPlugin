@@ -13,8 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class PriceImportByProductListType extends AbstractType
 {
-    /** @var DataMapperInterface */
-    protected $dataMapper;
+    protected DataMapperInterface  $dataMapper;
 
     public function __construct(DataMapperInterface $dataMapper)
     {
@@ -44,9 +43,7 @@ class PriceImportByProductListType extends AbstractType
 
                 return implode(', ', $productArray);
             },
-            static function (string $productsAsString): array {
-                return explode(',', preg_replace('/\s+/', '', $productsAsString) ?? '');
-            }
+            static fn (string $productsAsString): array => explode(',', preg_replace('/\s+/', '', $productsAsString) ?? '')
         ));
 
         $builder->setDataMapper($this->dataMapper);

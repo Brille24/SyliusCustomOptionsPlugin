@@ -9,14 +9,14 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 final class ConditionComparatorEnum implements EnumInterface
 {
-    const GREATER          = 'greater';
-    const GREATER_OR_EQUAL = 'greater_equal';
-    const EQUAL            = 'equal';
-    const LESSER_OR_EQUAL  = 'lesser_equal';
-    const LESSER           = 'lesser';
+    public const GREATER          = 'greater';
+    public const GREATER_OR_EQUAL = 'greater_equal';
+    public const EQUAL            = 'equal';
+    public const LESSER_OR_EQUAL  = 'lesser_equal';
+    public const LESSER           = 'lesser';
 
-    const IN_SET     = 'in_set';
-    const NOT_IN_SET = 'not_in_set';
+    public const IN_SET     = 'in_set';
+    public const NOT_IN_SET = 'not_in_set';
 
     public static function getConstList(): array
     {

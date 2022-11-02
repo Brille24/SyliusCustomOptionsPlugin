@@ -16,8 +16,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class ConditionalConstraintValidator extends ConstraintValidator
 {
-    /** @var RequestStack */
-    private $requestStack;
+    private RequestStack $requestStack;
 
     public function __construct(RequestStack $requestStack)
     {

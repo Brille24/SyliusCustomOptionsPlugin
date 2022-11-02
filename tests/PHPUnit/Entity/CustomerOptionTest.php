@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace Test\Brille24\SyliusCustomerOptionsPlugin\Entity;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use PHPUnit\Framework\TestCase;
 
 class CustomerOptionTest extends TestCase
 {
-    /** @var CustomerOptionInterface */
-    private $customerOption;
+    private \Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface $customerOption;
 
     public function setUp(): void
     {

@@ -13,11 +13,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class UpdateOrderItemOptionTypeCommand extends Command
 {
-    /** @var RepositoryInterface */
-    private $orderItemOptionRepository;
-
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    private RepositoryInterface $orderItemOptionRepository;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(RepositoryInterface $orderItemOptionRepository, EntityManagerInterface $entityManager)
     {

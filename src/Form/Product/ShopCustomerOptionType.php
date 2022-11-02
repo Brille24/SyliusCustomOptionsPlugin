@@ -32,20 +32,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class ShopCustomerOptionType extends AbstractType
 {
-    /** @var ChannelContextInterface */
-    private $channelContext;
-
-    /** @var CurrencyContextInterface */
-    private $currencyContext;
-
-    /** @var MoneyFormatterInterface */
-    private $moneyFormatter;
-
-    /** @var LocaleContextInterface */
-    private $localeContext;
-
-    /** @var CustomerOptionValuePriceRepositoryInterface */
-    private $customerOptionValuePriceRepository;
+    private ChannelContextInterface $channelContext;
+    private CurrencyContextInterface $currencyContext;
+    private MoneyFormatterInterface $moneyFormatter;
+    private LocaleContextInterface $localeContext;
+    private CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository;
 
     public function __construct(
         ChannelContextInterface $channelContext,
@@ -158,9 +149,7 @@ final class ShopCustomerOptionType extends AbstractType
         if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
             $configuration = [
                 'choices'      => $customerOption->getValues()->toArray(),
-                'choice_label' => function (CustomerOptionValueInterface $value) use ($product, $channel): string {
-                    return $this->buildValueString($value, $product, $channel);
-                },
+                'choice_label' => fn (CustomerOptionValueInterface $value): string => $this->buildValueString($value, $product, $channel),
                 'choice_value' => 'code',
             ];
         }

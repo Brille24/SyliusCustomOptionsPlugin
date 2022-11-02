@@ -26,26 +26,11 @@ use Webmozart\Assert\Assert;
 
 final class AddToCartListener
 {
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /** @var OrderItemOptionFactoryInterface */
-    private $orderItemOptionFactory;
-
-    /**
-     * @var OrderProcessorInterface
-     */
-    private $orderProcessor;
-
-    /** @var CustomerOptionRepositoryInterface */
-    private $customerOptionRepository;
+    private RequestStack $requestStack;
+    private EntityManagerInterface $entityManager;
+    private OrderItemOptionFactoryInterface $orderItemOptionFactory;
+    private OrderProcessorInterface $orderProcessor;
+    private CustomerOptionRepositoryInterface $customerOptionRepository;
 
     public function __construct(
         RequestStack $requestStack,

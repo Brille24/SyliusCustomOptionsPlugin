@@ -21,18 +21,9 @@ use Sylius\Component\Core\Model\ChannelInterface;
 
 final class CustomerOptionValueListener
 {
-    /** @var EntityRepository */
-    private $channelRepository;
+    private EntityRepository $channelRepository;
+    private CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory;
 
-    /** @var CustomerOptionValuePriceFactoryInterface */
-    private $customerOptionValuePriceFactory;
-
-    /**
-     * CustomerOptionValueListener constructor.
-     *
-     * @param EntityRepository $channelRepository
-     * @param CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory
-     */
     public function __construct(
         EntityRepository $channelRepository,
         CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory

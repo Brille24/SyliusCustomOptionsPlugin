@@ -29,9 +29,7 @@ class CsvReader implements CsvReaderInterface
             }
 
             // Replace empty strings with null
-            $row = array_map(static function ($value) {
-                return '' !== $value ? $value : null;
-            }, $row);
+            $row = array_map(static fn ($value) => '' !== $value ? $value : null, $row);
 
             $csv[$currentLineNumber] = array_combine($header, $row);
         }

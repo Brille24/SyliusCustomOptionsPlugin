@@ -34,7 +34,7 @@ final class CustomerOptionValuePriceType extends AbstractType
         /** @var CustomerOptionInterface $customerOption */
         foreach ($product->getCustomerOptions() as $customerOption) {
             if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
-                $values = array_merge($values, $customerOption->getValues()->getValues());
+                $values = [...$values, ...$customerOption->getValues()->getValues()];
             }
         }
 

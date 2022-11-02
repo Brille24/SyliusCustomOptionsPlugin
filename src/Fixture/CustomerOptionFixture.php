@@ -22,11 +22,8 @@ use Throwable;
 
 class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
 {
-    /** @var CustomerOptionFactoryInterface */
-    private $factory;
-
-    /** @var EntityManagerInterface */
-    private $em;
+    private CustomerOptionFactoryInterface $factory;
+    private EntityManagerInterface $em;
 
     public function __construct(CustomerOptionFactoryInterface $factory, EntityManagerInterface $em)
     {

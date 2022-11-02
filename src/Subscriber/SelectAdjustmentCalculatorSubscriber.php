@@ -20,8 +20,7 @@ final class SelectAdjustmentCalculatorSubscriber implements EventSubscriberInter
 {
     public const CUSTOMER_OPTION_ADJUSTMENT = 'customer_option';
 
-    /** @var AdjustmentFactoryInterface */
-    private $adjustmentFactory;
+    private AdjustmentFactoryInterface $adjustmentFactory;
 
     public function __construct(AdjustmentFactoryInterface $adjustmentFactory)
     {

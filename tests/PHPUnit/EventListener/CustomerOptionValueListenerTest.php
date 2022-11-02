@@ -20,20 +20,16 @@ use Sylius\Component\Core\Model\ChannelInterface;
 class CustomerOptionValueListenerTest extends TestCase
 {
     /** @var ChannelInterface[] */
-    private $channels = [];
+    private array $channels = [];
 
-    /** @var int */
-    private $pricesAdded = 0;
+    private int $pricesAdded = 0;
 
-    /** @var CustomerOptionValueListener */
-    private $customerOptionValueListener;
+    private \Brille24\SyliusCustomerOptionsPlugin\EventListener\CustomerOptionValueListener $customerOptionValueListener;
 
     protected function setUp(): void
     {
         $channelRepository = self::createMock(EntityRepository::class);
-        $channelRepository->method('findAll')->willReturnCallback(function () {
-            return $this->channels;
-        });
+        $channelRepository->method('findAll')->willReturnCallback(fn () => $this->channels);
 
         $customerOptionValuePriceFactory = self::createMock(CustomerOptionValuePriceFactoryInterface::class);
         $customerOptionValuePriceFactory
