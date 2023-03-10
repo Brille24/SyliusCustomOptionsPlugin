@@ -164,7 +164,7 @@ final class ShopCustomerOptionType extends AbstractType
             $configuration      = ['constraints' => [$constraint]];
         }
 
-        if ($customerOption->isRequired()) {
+        if ($customerOption->isRequired() && $customerOptionType !== CustomerOptionTypeEnum::FILE) {
             /** @var NotBlank $requiredConstraint */
             $requiredConstraint          = ConstraintCreator::createRequiredConstraint();
             $requiredConstraint->message = 'brille24.form.customer_options.required';
