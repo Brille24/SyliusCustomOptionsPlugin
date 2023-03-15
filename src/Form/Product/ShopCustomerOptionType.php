@@ -93,17 +93,22 @@ final class ShopCustomerOptionType extends AbstractType
             }
         );
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, static function (FormEvent $event) use ($customerOptionTypesByCode): void {
-            $data = $event->getData();
-
-            foreach ($data as $customerOptionCode => $customerOptionValue) {
-                if (CustomerOptionTypeEnum::FILE === $customerOptionTypesByCode[$customerOptionCode]) {
-                    $data[$customerOptionCode] = $customerOptionValue['data'];
+        $builder->addEventListener(
+            FormEvents::PRE_SUBMIT,
+            static function (FormEvent $event) use ($customerOptionTypesByCode): void {
+                $data = $event->getData();
+                if (!is_array($data)) {
+                    return;
                 }
-            }
+                foreach ($data as $customerOptionCode => $customerOptionValue) {
+                    if (CustomerOptionTypeEnum::FILE === $customerOptionTypesByCode[$customerOptionCode]) {
+                        $data[$customerOptionCode] = $customerOptionValue['data'];
+                    }
+                }
 
-            $event->setData($data);
-        });
+                $event->setData($data);
+            }
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
