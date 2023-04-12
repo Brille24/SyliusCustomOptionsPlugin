@@ -9,7 +9,7 @@
         <defaults public="true" />
 
         <service
-                id="brille24.behat.context.setup"
+                id="brille24.sylius_customer_options_plugin.behat.context.setup"
                 class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\SetupContext"
         >
             <argument type="service" id="doctrine.orm.default_entity_manager" />
@@ -22,18 +22,17 @@
         </service>
 
         <service
-                id="brille24.behat.context.transform"
+                id="brille24.sylius_customer_options_plugin.behat.context.transform"
                 class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\TransformContext"
         >
             <argument type="service" id="brille24.repository.customer_option" />
             <argument type="service" id="brille24.repository.customer_option_group" />
-            <argument type="service" id="sylius.repository.product" />
             <argument type="service" id="doctrine.orm.default_entity_manager" />
         </service>
 
         <!-- Admin -->
         <service
-            id="brille24.behat.context.admin.customer_options"
+            id="brille24.sylius_customer_options_plugin.behat.context.admin.customer_options"
             class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\Admin\CustomerOptionsContext"
         >
             <argument type="service" id="brille24.behat.page.admin.customer_options.index" />
@@ -43,7 +42,7 @@
         </service>
 
         <service
-            id="brille24.behat.context.admin.customer_option_groups"
+            id="brille24.sylius_customer_options_plugin.behat.context.admin.customer_option_groups"
             class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\Admin\CustomerOptionGroupsContext"
         >
             <argument type="service" id="brille24.behat.page.admin.customer_option_groups.create" />
@@ -53,7 +52,7 @@
         </service>
 
         <service
-            id="brille24.behat.context.admin.product"
+            id="brille24.sylius_customer_options_plugin.behat.context.admin.product"
             class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\Admin\ProductsContext"
         >
             <argument type="service" id="brille24.behat.page.admin.product.update_simple" />
@@ -66,14 +65,14 @@
 
         <!-- Shop -->
         <service
-            id="brille24.behat.context.shop.product"
+            id="brille24.sylius_customer_options_plugin.behat.context.shop.product"
             class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\Shop\ProductContext"
         >
             <argument type="service" id="brille24.behat.page.shop.product.show" />
         </service>
 
         <service
-            id="brille24.behat.context.shop.checkout"
+            id="brille24.sylius_customer_options_plugin.behat.context.shop.checkout"
             class="Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\Shop\CheckoutContext">
             <argument type="service" id="brille24.behat.page.checkout.checkout_page" />
         </service>
