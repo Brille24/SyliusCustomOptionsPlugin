@@ -21,21 +21,16 @@ class TransformContext implements Context
     /** @var CustomerOptionGroupRepositoryInterface */
     private $customerOptionGroupRepository;
 
-    /** @var ProductRepositoryInterface */
-    private $productRepository;
-
     /** @var EntityManagerInterface */
     private $em;
 
     public function __construct(
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
-        ProductRepositoryInterface $productRepository,
         EntityManagerInterface $em
     ) {
         $this->customerOptionRepository = $customerOptionRepository;
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;
-        $this->productRepository = $productRepository;
         $this->em = $em;
     }
 
@@ -65,37 +60,5 @@ class TransformContext implements Context
         $this->em->refresh($customerOptionGroups[0]);
 
         return $customerOptionGroups[0];
-    }
-
-    /**
-     * @Transform /^product(?:|s) "([^"]+)"$/
-     * @Transform /^"([^"]+)" product(?:|s)$/
-     * @Transform /^(?:a|an) "([^"]+)"$/
-     * @Transform :product
-     */
-    public function getProductByName($productName)
-    {
-        $products = $this->productRepository->findByName($productName, 'en_US');
-
-        Assert::eq(
-            count($products),
-            1,
-            sprintf('%d products has been found with name "%s".', count($products), $productName)
-        );
-
-        $this->em->refresh($products[0]);
-
-        return $products[0];
-    }
-
-    /**
-     * @Transform /^products "([^"]+)" and "([^"]+)"$/
-     * @Transform /^products "([^"]+)", "([^"]+)" and "([^"]+)"$/
-     */
-    public function getProductsByNames(...$productsNames)
-    {
-        return array_map(function ($productName) {
-            return $this->getProductByName($productName);
-        }, $productsNames);
     }
 }
