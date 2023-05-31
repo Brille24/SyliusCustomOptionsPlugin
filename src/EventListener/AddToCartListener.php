@@ -115,6 +115,8 @@ final class AddToCartListener
             return [];
         }
 
+        $customerOptions = $addToCart['customer_options'];
+
         // Date options need a little extra attention
         // We transform the date fields into a single date string
         foreach ($addToCart['customer_options'] as $code => $value) {
@@ -122,11 +124,20 @@ final class AddToCartListener
             Assert::notNull($customerOption);
 
             switch ($customerOption->getType()) {
+                case CustomerOptionTypeEnum::TEXT:
+                    // remove empty entries like "   "
+                    if (trim($value) == "") {
+                        unset($customerOptions[$code]);
+                    } else {
+                        $customerOptions[$code] = trim($value);
+                    }
+
+                    break;
                 case CustomerOptionTypeEnum::DATE:
-                    $day                                  = $value['day'];
-                    $month                                = $value['month'];
-                    $year                                 = $value['year'];
-                    $addToCart['customer_options'][$code] = sprintf('%d-%d-%d', $year, $month, $day);
+                    $day                    = $value['day'];
+                    $month                  = $value['month'];
+                    $year                   = $value['year'];
+                    $customerOptions[$code] = sprintf('%d-%d-%d', $year, $month, $day);
 
                     break;
                 case CustomerOptionTypeEnum::DATETIME:
@@ -139,12 +150,12 @@ final class AddToCartListener
                     $hour   = $time['hour'] ?? 0;
                     $minute = $time['minute'] ?? 0;
 
-                    $addToCart['customer_options'][$code] = sprintf('%d-%d-%d %d:%d', $year, $month, $day, $hour, $minute);
+                    $customerOptions[$code] = sprintf('%d-%d-%d %d:%d', $year, $month, $day, $hour, $minute);
 
                     break;
             }
         }
 
-        return $addToCart['customer_options'];
+        return $customerOptions;
     }
 }
