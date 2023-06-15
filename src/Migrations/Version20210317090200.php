@@ -20,12 +20,20 @@ final class Version20210317090200 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE brille24_customer_option_order_item_option CHANGE optionValue optionValue VARCHAR(255) DEFAULT NULL');
+        if ('postgresql' !== $this->connection->getDatabasePlatform()->getName()) {
+            $this->addSql(/* @lang PostgreSQL */ 'ALTER TABLE brille24_customer_option_order_item_option ALTER COLUMN optionValue TYPE VARCHAR(255)');
+        } elseif ('mysql' !== $this->connection->getDatabasePlatform()->getName()) {
+            $this->addSql(/* @lang MySQL */ 'ALTER TABLE brille24_customer_option_order_item_option CHANGE optionValue optionValue VARCHAR(255) DEFAULT NULL');
+        }
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE brille24_customer_option_order_item_option CHANGE optionValue optionValue LONGTEXT CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`');
+        if ('postgresql' !== $this->connection->getDatabasePlatform()->getName()) {
+            $this->addSql(/* @lang PostgreSQL */ 'ALTER TABLE brille24_customer_option_order_item_option ALTER COLUMN optionValue TYPE TEXT ');
+        } elseif ('mysql' !== $this->connection->getDatabasePlatform()->getName()) {
+            $this->addSql(/* @lang MySQL */ 'ALTER TABLE brille24_customer_option_order_item_option CHANGE optionValue optionValue LONGTEXT CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`');
+        }
     }
 }
