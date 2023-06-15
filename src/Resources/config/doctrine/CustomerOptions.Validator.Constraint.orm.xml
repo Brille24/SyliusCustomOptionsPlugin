@@ -9,7 +9,7 @@
 
         <field name="comparator" type="string" />
 
-        <field name="value" type="json_array" nullable="true" />
+        <field name="value" type="json" nullable="true" />
 
         <many-to-one
                 target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface"

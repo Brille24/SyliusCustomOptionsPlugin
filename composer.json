@@ -39,9 +39,6 @@
         "mamazu/documentation-validator": "dev-master",
         "polishsymfonycommunity/symfony-mocker-container": "^1.0"
     },
-    "conflict": {
-        "doctrine/dbal": "^3.0"
-    },
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
