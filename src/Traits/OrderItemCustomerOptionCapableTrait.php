@@ -91,8 +91,32 @@ trait OrderItemCustomerOptionCapableTrait
             return false;
         }
 
-        $product = $item instanceof self ? $item->getProduct() : null;
+        if (!$item instanceof self) {
+            return false;
+        }
 
-        return ($product instanceof ProductInterface) ? !$product->hasCustomerOptions() : true;
+        /** @var OrderItemOptionInterface[] $itemCustomerConfiguration */
+        $itemCustomerConfiguration = $item->getCustomerOptionConfiguration(true);
+        $curItemCustomerConfiguration = $this->getCustomerOptionConfiguration(true);
+
+        // configuration array size needs to be identical
+        if (count($itemCustomerConfiguration) !== count($curItemCustomerConfiguration)) {
+            return false;
+        }
+
+        // configuration array keys need to match
+        $diff = array_diff_key($itemCustomerConfiguration, $curItemCustomerConfiguration);
+        if (count($diff) !== 0) {
+            return false;
+        }
+
+        // iterate over all options and compare their values
+        foreach ($itemCustomerConfiguration as $code => $value) {
+            if ($curItemCustomerConfiguration[$code]->getOptionValue() !== $value->getOptionValue()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

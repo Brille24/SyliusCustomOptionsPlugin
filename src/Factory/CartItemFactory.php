@@ -10,45 +10,66 @@
  */
 declare(strict_types=1);
 
-namespace Brille24\SyliusCustomerOptionsPlugin\EventListener;
+namespace Brille24\SyliusCustomerOptionsPlugin\Factory;
 
-use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
-use Brille24\SyliusCustomerOptionsPlugin\Factory\OrderItemOptionFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
+use Sylius\Component\Core\Factory\CartItemFactoryInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Order\Processor\OrderProcessorInterface;
+use Sylius\Component\Core\Model\OrderItemInterface;
+use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Product\Resolver\ProductVariantResolverInterface;
+use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Webmozart\Assert\Assert;
 
-final class AddToCartListener
+class CartItemFactory implements CartItemFactoryInterface
 {
+    private CartItemFactoryInterface $decoratedFactory;
+    private ProductVariantResolverInterface $variantResolver;
+    private RequestStack $requestStack;
+    private OrderItemOptionFactoryInterface $orderItemOptionFactory;
+    private CustomerOptionRepositoryInterface $customerOptionRepository;
+
     public function __construct(
-        private RequestStack $requestStack,
-        private EntityManagerInterface $entityManager,
-        private OrderItemOptionFactoryInterface $orderItemOptionFactory,
-        private OrderProcessorInterface $orderProcessor,
-        private CustomerOptionRepositoryInterface $customerOptionRepository,
-    )
-    {
+        FactoryInterface $decoratedFactory,
+        ProductVariantResolverInterface $variantResolver,
+        RequestStack $requestStack,
+        OrderItemOptionFactoryInterface $orderItemOptionFactory,
+        CustomerOptionRepositoryInterface $customerOptionRepository
+    ) {
+        $this->decoratedFactory = new \Sylius\Component\Core\Factory\CartItemFactory($decoratedFactory, $variantResolver);
+        $this->variantResolver = $variantResolver;
+        $this->requestStack = $requestStack;
+        $this->orderItemOptionFactory = $orderItemOptionFactory;
+        $this->customerOptionRepository = $customerOptionRepository;
     }
 
-    public function addItemToCart(ResourceControllerEvent $event): void
+    public function createForProduct(ProductInterface $product): OrderItemInterface
     {
-        /** @var OrderItemInterface $orderItem */
-        $orderItem = $event->getSubject();
+        return $this->decoratedFactory->createForProduct($product);
+    }
 
-        // If the order is null, it's an old order item with an existing reference in the database
-        if ($orderItem->getOrder() === null) {
-            return;
-        }
+    public function createForCart(OrderInterface $order): OrderItemInterface
+    {
+        return $this->decoratedFactory->createForCart($order);
+    }
+
+    public function createNew()
+    {
+        return $this->decoratedFactory->createNew();
+    }
+
+    public function createForProductWithCustomerOption(ProductInterface $product): OrderItemInterface
+    {
+       /** @var OrderItemInterface $cartItem */
+        $cartItem = $this->createNew();
+        $cartItem->setVariant($this->variantResolver->getVariant($product));
 
         $request = $this->requestStack->getCurrentRequest();
         if (!$request instanceof Request) {
-            return;
+            return $cartItem;
         }
 
         $customerOptionConfiguration = $this->getCustomerOptionsFromRequest($request);
@@ -69,28 +90,26 @@ final class AddToCartListener
             foreach ($valueArray as $value) {
                 // Creating the item
                 $salesOrderConfiguration = $this->orderItemOptionFactory->createNewFromStrings(
-                    $orderItem,
+                    $cartItem,
                     $customerOptionCode,
-                    $value,
+                    $value
                 );
-
-                $this->entityManager->persist($salesOrderConfiguration);
 
                 $salesOrderConfigurations[] = $salesOrderConfiguration;
             }
         }
 
-        $orderItem->setCustomerOptionConfiguration($salesOrderConfigurations);
-        /** @var OrderInterface $order */
-        $order = $orderItem->getOrder();
-        $this->orderProcessor->process($order);
+        $cartItem->setCustomerOptionConfiguration($salesOrderConfigurations);
 
-        $this->entityManager->persist($orderItem);
-        $this->entityManager->flush();
+        return $cartItem;
     }
 
     /**
      * Gets the customer options from the request
+     *
+     * @param Request $request
+     *
+     * @return array
      */
     public function getCustomerOptionsFromRequest(Request $request): array
     {
@@ -109,20 +128,20 @@ final class AddToCartListener
 
             switch ($customerOption->getType()) {
                 case CustomerOptionTypeEnum::DATE:
-                    $day = $value['day'];
-                    $month = $value['month'];
-                    $year = $value['year'];
+                    $day                                  = $value['day'];
+                    $month                                = $value['month'];
+                    $year                                 = $value['year'];
                     $addToCart['customer_options'][$code] = sprintf('%d-%d-%d', $year, $month, $day);
 
                     break;
                 case CustomerOptionTypeEnum::DATETIME:
-                    $date = $value['date'];
-                    $time = $value['time'];
-                    $day = $date['day'];
+                    $date  = $value['date'];
+                    $time  = $value['time'];
+                    $day   = $date['day'];
                     $month = $date['month'];
-                    $year = $date['year'];
+                    $year  = $date['year'];
 
-                    $hour = $time['hour'] ?? 0;
+                    $hour   = $time['hour'] ?? 0;
                     $minute = $time['minute'] ?? 0;
 
                     $addToCart['customer_options'][$code] = sprintf('%d-%d-%d %d:%d', $year, $month, $day, $hour, $minute);
