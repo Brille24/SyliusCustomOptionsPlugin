@@ -68,7 +68,7 @@ class CustomerOptionValuePriceDateOverlapConstraintValidator extends ConstraintV
 
             /** @var CustomerOptionInterface $customerOption */
             $customerOption = $customerOptionValue->getCustomerOption();
-            $customerOptionCode = $customerOption->getCode() ?? '';
+            $customerOptionCode = $customerOption->getCode();
 
             if (!isset($existingPrices[$channelCode][$customerOptionCode][$customerOptionValueCode])) {
                 $existingPrices[$channelCode][$customerOptionCode][$customerOptionValueCode] = [];

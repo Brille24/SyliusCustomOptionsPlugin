@@ -28,6 +28,13 @@ class ValueType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /**
+        * @var array{
+        *   'field_type': string,
+        *   'field_options': array,
+        *   'option_type': string,
+        * } $options
+        */
         $options['field_options']['label'] ??= self::DEFAULT_LABEL;
 
         $builder->add('value', $options['field_type'], $options['field_options']);
