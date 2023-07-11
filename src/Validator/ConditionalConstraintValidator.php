@@ -46,8 +46,8 @@ class ConditionalConstraintValidator extends ConstraintValidator
             $configuration = is_array($value) ? $value : [$value];
         }
 
-        $allConditionsMet   = $this->allConditionsMet($constraint->conditions ?? [], $configuration);
-        $allConstraintsMet  = $this->allConditionsMet($constraint->constraints ?? [], $configuration);
+        $allConditionsMet = $this->allConditionsMet($constraint->conditions ?? [], $configuration);
+        $allConstraintsMet = $this->allConditionsMet($constraint->constraints ?? [], $configuration);
 
         if ($allConditionsMet && !$allConstraintsMet) {
             $this->context->addViolation($constraint->message);
@@ -76,11 +76,6 @@ class ConditionalConstraintValidator extends ConstraintValidator
 
     /**
      * Checks if all of the conditions are met
-     *
-     * @param array $conditions
-     * @param array $customerOptionConfig
-     *
-     * @return bool
      */
     private function allConditionsMet(array $conditions, array $customerOptionConfig): bool
     {

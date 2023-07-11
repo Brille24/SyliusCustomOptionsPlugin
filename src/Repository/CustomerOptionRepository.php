@@ -18,7 +18,7 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 class CustomerOptionRepository extends EntityRepository implements CustomerOptionRepositoryInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function findOneByCode(string $code): ?CustomerOptionInterface
     {
@@ -27,11 +27,11 @@ class CustomerOptionRepository extends EntityRepository implements CustomerOptio
             ->setParameter('code', $code)
             ->getQuery()
             ->getOneOrNullResult()
-            ;
+        ;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
      * @return CustomerOptionInterface[]
      */
@@ -49,7 +49,7 @@ class CustomerOptionRepository extends EntityRepository implements CustomerOptio
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function findByType(string $type): array
     {
@@ -58,11 +58,11 @@ class CustomerOptionRepository extends EntityRepository implements CustomerOptio
             ->setParameter('type', $type)
             ->getQuery()
             ->getArrayResult()
-            ;
+        ;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function findByRequired(bool $required): array
     {
@@ -71,6 +71,6 @@ class CustomerOptionRepository extends EntityRepository implements CustomerOptio
             ->setParameter('required', $required)
             ->getQuery()
             ->getArrayResult()
-            ;
+        ;
     }
 }

@@ -27,35 +27,35 @@ class ConditionType extends AbstractType
 
         $builder
             ->add('customer_option', ChoiceType::class, [
-                'label'        => 'brille24.form.validators.fields.customer_option',
-                'choices'      => $customerOptionGroup->getOptions(),
+                'label' => 'brille24.form.validators.fields.customer_option',
+                'choices' => $customerOptionGroup->getOptions(),
                 'choice_label' => 'name',
-                'attr'         => ['onChange' => '$(event.target).parentsUntil("form").parent().submit();'],
+                'attr' => ['onChange' => '$(event.target).parentsUntil("form").parent().submit();'],
             ])
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event): void {
             $form = $event->getForm();
 
-            $condition      = $event->getData() ?? new Condition();
+            $condition = $event->getData() ?? new Condition();
             $customerOption = $condition->getCustomerOption();
 
-            $comparatorChoices        = ConditionComparatorEnum::getConstList();
+            $comparatorChoices = ConditionComparatorEnum::getConstList();
             [$formType, $formOptions] = ConditionComparatorEnum::getFormTypeForCustomerOptionType('text');
 
             $customerOptionType = CustomerOptionTypeEnum::TEXT;
 
             if (
-                ($condition instanceof ConditionInterface || $condition instanceof ConstraintInterface)
-                && $customerOption instanceof CustomerOption
+                ($condition instanceof ConditionInterface || $condition instanceof ConstraintInterface) &&
+                $customerOption instanceof CustomerOption
             ) {
                 $customerOptionType = $customerOption->getType();
-                $comparatorChoices  = ConditionComparatorEnum::getValuesForCustomerOptionType($customerOptionType);
+                $comparatorChoices = ConditionComparatorEnum::getValuesForCustomerOptionType($customerOptionType);
 
                 [$formType, $formOptions] = ConditionComparatorEnum::getFormTypeForCustomerOptionType($customerOptionType);
 
                 if (CustomerOptionTypeEnum::isSelect($customerOptionType)) {
-                    $formOptions['choices']      = $customerOption->getValues()->getValues();
+                    $formOptions['choices'] = $customerOption->getValues()->getValues();
                     $formOptions['choice_label'] = 'name';
                 }
 
@@ -63,17 +63,17 @@ class ConditionType extends AbstractType
             }
 
             $form->add('comparator', ChoiceType::class, [
-                'label'   => 'brille24.form.validators.fields.comparator',
+                'label' => 'brille24.form.validators.fields.comparator',
                 'choices' => array_flip(
-                    ConditionComparatorEnum::transformToTranslateArray($comparatorChoices)
+                    ConditionComparatorEnum::transformToTranslateArray($comparatorChoices),
                 ),
             ]);
 
             $form->add('value', ValueType::class, [
-                'label'         => false,
-                'field_type'    => $formType,
+                'label' => false,
+                'field_type' => $formType,
                 'field_options' => $formOptions,
-                'option_type'   => $customerOptionType,
+                'option_type' => $customerOptionType,
             ]);
         });
     }

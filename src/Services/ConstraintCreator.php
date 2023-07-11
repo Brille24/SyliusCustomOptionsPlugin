@@ -17,8 +17,6 @@ class ConstraintCreator
     /**
      * Gets the value from the Customer Option value configuration
      *
-     * @param array  $configuration
-     * @param string $key
      *
      * @return mixed
      */
@@ -33,11 +31,6 @@ class ConstraintCreator
 
     /**
      * Creates a constraint form the configuration based on the type of Custom Option
-     *
-     * @param string $type
-     * @param array  $configuration
-     *
-     * @return Constraint|null
      */
     public static function createFromConfiguration(string $type, array $configuration): ?Constraint
     {
@@ -55,7 +48,7 @@ class ConstraintCreator
                 $allowedFileTypes = explode(',', (string) $getFromConfiguration('brille24.form.config.allowed_types'));
 
                 return new File([
-                    'maxSize'   => $getFromConfiguration('brille24.form.config.max.file_size'),
+                    'maxSize' => $getFromConfiguration('brille24.form.config.max.file_size'),
                     'mimeTypes' => array_map('trim', $allowedFileTypes),
                 ]);
             case CustomerOptionTypeEnum::DATE:
@@ -81,7 +74,7 @@ class ConstraintCreator
     public static function createConditionalConstraint(array $conditions, array $constraints): Constraint
     {
         return new ConditionalConstraint([
-            'conditions'  => $conditions,
+            'conditions' => $conditions,
             'constraints' => $constraints,
         ]);
     }

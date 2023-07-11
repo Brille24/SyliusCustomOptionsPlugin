@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Context\Admin;
 
 use Behat\Behat\Context\Context;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Sylius\Behat\Page\Admin\Crud\CreatePageInterface;
 use Sylius\Behat\Page\Admin\Crud\IndexPageInterface;
@@ -33,7 +32,7 @@ class CustomerOptionsContext implements Context
         IndexPageInterface $indexPage,
         CreatePageInterface $createPage,
         UpdatePageInterface $updatePage,
-        CurrentPageResolverInterface $currentPageResolver
+        CurrentPageResolverInterface $currentPageResolver,
     ) {
         $this->indexPage = $indexPage;
         $this->createPage = $createPage;
@@ -175,7 +174,7 @@ class CustomerOptionsContext implements Context
         /** @var CreatePageInterface|UpdatePageInterface $currentPage */
         $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
 
-        if($currentPage instanceof CreatePageInterface) {
+        if ($currentPage instanceof CreatePageInterface) {
             $currentPage->create();
         } else {
             $currentPage->saveChanges();
@@ -221,7 +220,7 @@ class CustomerOptionsContext implements Context
 
         Assert::same(
             $currentPage->getValidationMessage('code'),
-            'brille24.customer_option.not_null'
+            'brille24.customer_option.not_null',
         );
     }
 
@@ -235,7 +234,7 @@ class CustomerOptionsContext implements Context
 
         Assert::same(
             $currentPage->getValidationMessage('code'),
-            'brille24.customer_options.unique'
+            'brille24.customer_options.unique',
         );
     }
 }

@@ -52,7 +52,7 @@ final class SelectAdjustmentCalculatorSubscriber implements EventSubscriberInter
             $adjustment = $this->adjustmentFactory->createWithData(
                 self::CUSTOMER_OPTION_ADJUSTMENT,
                 $orderItemOption->getCustomerOptionName(),
-                $orderItemOption->getCalculatedPrice($orderItemOption->getOrderItem()->getUnitPrice())
+                $orderItemOption->getCalculatedPrice($orderItemOption->getOrderItem()->getUnitPrice()),
             );
 
             $unit->addAdjustment($adjustment);

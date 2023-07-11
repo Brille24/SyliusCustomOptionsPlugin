@@ -11,8 +11,6 @@ use Sylius\Behat\Page\Admin\Crud\UpdatePage as BaseUpdatePage;
 class UpdatePage extends BaseUpdatePage
 {
     /**
-     * @param string $name
-     *
      * @throws ElementNotFoundException
      */
     public function setName(string $name): void
@@ -21,8 +19,6 @@ class UpdatePage extends BaseUpdatePage
     }
 
     /**
-     * @param string $code
-     *
      * @throws ElementNotFoundException
      */
     public function setCode(string $code): void
@@ -31,8 +27,6 @@ class UpdatePage extends BaseUpdatePage
     }
 
     /**
-     * @param string $type
-     *
      * @throws ElementNotFoundException
      */
     public function chooseType(string $type): void
@@ -48,11 +42,6 @@ class UpdatePage extends BaseUpdatePage
         $this->getDocument()->checkField('Required');
     }
 
-    /**
-     * @param string $config
-     *
-     * @return bool
-     */
     public function hasConfiguration(string $config): bool
     {
         $result = $this->getDocument()->hasField($config);
@@ -75,12 +64,6 @@ class UpdatePage extends BaseUpdatePage
         return $result;
     }
 
-    /**
-     * @param string $valueCode
-     * @param string $channelName
-     *
-     * @return bool
-     */
     public function hasPriceConfigurationForValue(string $valueCode, string $channelName): bool
     {
         $pricingModal = $this->getDocument()->find('css', sprintf('.pricing-modal[data-customer-option-value="%s"]', $valueCode));
@@ -88,9 +71,6 @@ class UpdatePage extends BaseUpdatePage
         return null !== $pricingModal && $pricingModal->has('css', sprintf('div[data-tab="%s"]', $channelName));
     }
 
-    /**
-     * @return array
-     */
     protected function getDefinedElements(): array
     {
         return [

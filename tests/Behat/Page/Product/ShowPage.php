@@ -16,9 +16,6 @@ use Sylius\Bundle\CoreBundle\Application\Kernel as SyliusKernel;
 class ShowPage extends BaseShowPage
 {
     /**
-     * @param $name
-     * @param $value
-     *
      * @throws DriverException
      * @throws UnsupportedDriverActionException
      */
@@ -29,11 +26,6 @@ class ShowPage extends BaseShowPage
         $driver->setCookie($name, $value);
     }
 
-    /**
-     * @param CustomerOptionInterface $customerOption
-     *
-     * @return bool
-     */
     public function hasCustomizationFor(CustomerOptionInterface $customerOption): bool
     {
         $result = $this->getDocument()->hasField($customerOption->getName());
@@ -57,17 +49,15 @@ class ShowPage extends BaseShowPage
     }
 
     /**
-     * @param CustomerOptionInterface $customerOption
-     * @param string $value
-     *
      * @throws ElementNotFoundException
      */
     public function fillCustomerOption(CustomerOptionInterface $customerOption, string $value): void
     {
         if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
             $this->getDocument()->selectFieldOption(
-                $customerOption->getName(), $value,
-                $customerOption->getType() === CustomerOptionTypeEnum::MULTI_SELECT
+                $customerOption->getName(),
+                $value,
+                $customerOption->getType() === CustomerOptionTypeEnum::MULTI_SELECT,
             );
         } elseif (CustomerOptionTypeEnum::isDate($customerOption->getType())) {
             /** @var NodeElement[] $labels */
@@ -107,16 +97,13 @@ class ShowPage extends BaseShowPage
                 $minute->selectOption($dateValue->format('i'));
             }
         } elseif ($customerOption->getType() === CustomerOptionTypeEnum::BOOLEAN) {
-            $this->checkField($customerOption->getName(), filter_var($value, FILTER_VALIDATE_BOOLEAN));
+            $this->checkField($customerOption->getName(), filter_var($value, \FILTER_VALIDATE_BOOLEAN));
         } else {
             $this->getDocument()->fillField($customerOption->getName(), $value);
         }
     }
 
     /**
-     * @param string $fieldName
-     * @param bool $state
-     *
      * @throws DriverException
      * @throws UnsupportedDriverActionException
      */
@@ -131,8 +118,6 @@ class ShowPage extends BaseShowPage
     }
 
     /**
-     * @return bool
-     *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
     public function hasRequiredCustomerOptionValidationMessage(): bool
@@ -141,8 +126,6 @@ class ShowPage extends BaseShowPage
     }
 
     /**
-     * @return bool
-     *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
     public function hasInvalidCustomerOptionValidationMessage(): bool
@@ -151,8 +134,6 @@ class ShowPage extends BaseShowPage
     }
 
     /**
-     * @return bool
-     *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
     public function hasInvalidNumberValidationMessage(): bool
@@ -165,8 +146,6 @@ class ShowPage extends BaseShowPage
     }
 
     /**
-     * @return bool
-     *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
     public function hasOptionOutOfBoundsValidationMessage(): bool
@@ -183,10 +162,6 @@ class ShowPage extends BaseShowPage
     }
 
     /**
-     * @param string $message
-     *
-     * @return bool
-     *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
     private function hasValidationMessage(string $message): bool
@@ -198,9 +173,6 @@ class ShowPage extends BaseShowPage
         return $this->getElement('validation_errors')->getText() === $message;
     }
 
-    /**
-     * @return bool
-     */
     public function hasValidationErrors(): bool
     {
         return $this->hasElement('validation_errors');

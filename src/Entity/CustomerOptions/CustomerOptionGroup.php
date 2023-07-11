@@ -44,30 +44,30 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
     public function __construct()
     {
         $this->optionAssociations = new ArrayCollection();
-        $this->products           = new ArrayCollection();
-        $this->validators         = new ArrayCollection();
+        $this->products = new ArrayCollection();
+        $this->validators = new ArrayCollection();
         $this->initializeTranslationsCollection();
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getId(): ? int
     {
         return $this->id;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getCode(): ? string
     {
         return $this->code;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function setCode(? string $code): void
     {
         $this->code = $code;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getName(): ? string
     {
         /** @var CustomerOptionGroupTranslationInterface $translations */
@@ -76,7 +76,7 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
         return $translations->getName();
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function setName(? string $name): void
     {
         /** @var CustomerOptionGroupTranslationInterface $translations */
@@ -86,27 +86,27 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
 
     //<editor-fold "Customer option association">
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getOptionAssociations(): Collection
     {
         return $this->optionAssociations;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function addOptionAssociation(CustomerOptionAssociationInterface $association): void
     {
         $this->optionAssociations->add($association);
         $association->setGroup($this);
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function removeOptionAssociation(CustomerOptionAssociationInterface $association): void
     {
         $this->optionAssociations->removeElement($association);
         $association->setGroup(null);
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function hasOptionAssociations(): bool
     {
         return !$this->optionAssociations->isEmpty();
@@ -125,13 +125,13 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
 
     //</editor-fold>
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getProducts(): array
     {
         return $this->products->getValues();
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function setProducts(array $products): void
     {
         $this->products->clear();
@@ -140,27 +140,27 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
         }
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function addProduct(ProductInterface $product): void
     {
         $this->products->add($product);
         $product->setCustomerOptionGroup($this);
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getValidators(): Collection
     {
         return $this->validators;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function addValidator(ValidatorInterface $validator): void
     {
         $this->validators->add($validator);
         $validator->setCustomerOptionGroup($this);
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function removeValidator(ValidatorInterface $validator): void
     {
         $this->validators->removeElement($validator);
@@ -169,11 +169,6 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
 
     //<editor-fold "Translations">
 
-    /**
-     * @param string|null $locale
-     *
-     * @return TranslationInterface
-     */
     public function getTranslation(? string $locale = null): TranslationInterface
     {
         /** TranslationInterface $translation */
@@ -182,9 +177,6 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface
         return $translation;
     }
 
-    /**
-     * @return CustomerOptionGroupTranslationInterface
-     */
     public function createTranslation(): CustomerOptionGroupTranslationInterface
     {
         return new CustomerOptionGroupTranslation();

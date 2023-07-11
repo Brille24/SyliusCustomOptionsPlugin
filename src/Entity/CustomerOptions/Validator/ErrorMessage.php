@@ -14,6 +14,7 @@ class ErrorMessage implements ErrorMessageInterface
     }
 
     protected int $id;
+
     protected ValidatorInterface $validator;
 
     public function __construct()

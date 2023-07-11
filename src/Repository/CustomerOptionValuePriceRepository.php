@@ -15,16 +15,12 @@ use Webmozart\Assert\Assert;
 class CustomerOptionValuePriceRepository extends EntityRepository implements CustomerOptionValuePriceRepositoryInterface
 {
     /**
-     * @param ChannelInterface $channel
-     * @param ProductInterface $product
-     * @param CustomerOptionValueInterface $customerOptionValue
-     *
      * @throws NonUniqueResultException
      */
     public function getPriceForChannel(
         ChannelInterface $channel,
         ProductInterface $product,
-        CustomerOptionValueInterface $customerOptionValue
+        CustomerOptionValueInterface $customerOptionValue,
     ): ?CustomerOptionValuePriceInterface {
         $qb = $this->createQueryBuilder('price');
         $qb->where('price.channel = :channel');

@@ -38,13 +38,13 @@ class ValueType extends AbstractType
 
                 $newConfig = ConditionComparatorEnum::getValueConfig($options['option_type']);
 
-                if ($modelData !== null
-                    && is_array($modelData)
-                    && array_key_exists('type', $modelData)
-                    && $modelData['type'] === $newConfig['type']
+                if ($modelData !== null &&
+                    is_array($modelData) &&
+                    array_key_exists('type', $modelData) &&
+                    $modelData['type'] === $newConfig['type']
                 ) {
                     $modelData = $modelData['value'];
-                    $result    = $modelData;
+                    $result = $modelData;
                 }
 
                 if ($modelData !== null) {
@@ -81,7 +81,7 @@ class ValueType extends AbstractType
                 }
 
                 return $result;
-            }
+            },
         ));
     }
 
@@ -98,9 +98,9 @@ class ValueType extends AbstractType
         $resolver->setAllowedTypes('option_type', 'string');
 
         $resolver->setDefaults([
-            'field_type'    => NumberType::class,
+            'field_type' => NumberType::class,
             'field_options' => [],
-            'option_type'   => CustomerOptionTypeEnum::TEXT,
+            'option_type' => CustomerOptionTypeEnum::TEXT,
         ]);
     }
 

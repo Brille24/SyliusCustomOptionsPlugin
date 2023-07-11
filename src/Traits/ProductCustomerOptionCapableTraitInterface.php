@@ -19,14 +19,8 @@ use Doctrine\Common\Collections\Collection;
 
 interface ProductCustomerOptionCapableTraitInterface
 {
-    /**
-     * @return CustomerOptionGroupInterface|null
-     */
     public function getCustomerOptionGroup(): ?CustomerOptionGroupInterface;
 
-    /**
-     * @param CustomerOptionGroupInterface|null $customerOptionGroup
-     */
     public function setCustomerOptionGroup(?CustomerOptionGroupInterface $customerOptionGroup): void;
 
     /**
@@ -36,9 +30,6 @@ interface ProductCustomerOptionCapableTraitInterface
      */
     public function getCustomerOptions(): array;
 
-    /**
-     * @return bool
-     */
     public function hasCustomerOptions(): bool;
 
     /**
@@ -51,13 +42,7 @@ interface ProductCustomerOptionCapableTraitInterface
      */
     public function setCustomerOptionValuePrices(?Collection $prices): void;
 
-    /**
-     * @param CustomerOptionValuePriceInterface $price
-     */
     public function addCustomerOptionValuePrice(CustomerOptionValuePriceInterface $price): void;
 
-    /**
-     * @param CustomerOptionValuePriceInterface $price
-     */
     public function removeCustomerOptionValuePrice(CustomerOptionValuePriceInterface $price): void;
 }

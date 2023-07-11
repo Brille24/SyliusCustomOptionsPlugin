@@ -23,7 +23,7 @@ class CustomerOptionValueResolverTest extends TestCase
     private function createCustomOptionValue(
         string $code,
         string $value,
-        ?CustomerOptionInterface $customerOption = null
+        ?CustomerOptionInterface $customerOption = null,
     ): CustomerOptionValueInterface {
         $customerOptionValue = self::createMock(CustomerOptionValueInterface::class);
         $customerOptionValue->method('getCode')->willReturn($code);
@@ -48,10 +48,10 @@ class CustomerOptionValueResolverTest extends TestCase
     public function dataResolveWithNonSelect(): array
     {
         return [
-            'text'     => [CustomerOptionTypeEnum::TEXT, 'some_string'],
-            'integer'  => [CustomerOptionTypeEnum::NUMBER, '4334'],
-            'boolean'  => [CustomerOptionTypeEnum::BOOLEAN, 'true'],
-            'file'     => [CustomerOptionTypeEnum::FILE, 'some_file'],
+            'text' => [CustomerOptionTypeEnum::TEXT, 'some_string'],
+            'integer' => [CustomerOptionTypeEnum::NUMBER, '4334'],
+            'boolean' => [CustomerOptionTypeEnum::BOOLEAN, 'true'],
+            'file' => [CustomerOptionTypeEnum::FILE, 'some_file'],
             'datetime' => [CustomerOptionTypeEnum::DATETIME, date('Y-m-D H:i:s', time())],
         ];
     }
@@ -62,7 +62,7 @@ class CustomerOptionValueResolverTest extends TestCase
         $customerOption->method('getType')->willReturn(CustomerOptionTypeEnum::SELECT);
 
         $selectedValue = $this->createCustomOptionValue('some_value', 'value', $customerOption);
-        $otherValue    = $this->createCustomOptionValue('some_other_value', 'meep value', $customerOption);
+        $otherValue = $this->createCustomOptionValue('some_other_value', 'meep value', $customerOption);
         $customerOption->method('getValues')->willReturn(new ArrayCollection([$selectedValue, $otherValue]));
 
         $value = $this->valueResolver->resolve($customerOption, 'some_value');

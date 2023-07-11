@@ -19,7 +19,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 final class CustomerOptionGroupTranslationType extends AbstractResourceType
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -27,7 +27,7 @@ final class CustomerOptionGroupTranslationType extends AbstractResourceType
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getBlockPrefix(): string
     {

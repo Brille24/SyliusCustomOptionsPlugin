@@ -9,15 +9,13 @@ class ConfigurationException extends \Exception
     /**
      * Checks if the array has the key, if not it throws an exception
      *
-     * @param string $key
-     * @param array  $array
      *
      * @throws ConfigurationException
      */
     public static function createFromMissingArrayKey(string $key, array $array): void
     {
         if (!array_key_exists($key, $array)) {
-            throw new self('The configuration does not contain key: "'.$key.'"');
+            throw new self('The configuration does not contain key: "' . $key . '"');
         }
     }
 
@@ -25,7 +23,6 @@ class ConfigurationException extends \Exception
      * Checks if the array contains the first value and if not it throws an exception
      *
      * @param mixed $element
-     * @param array $array
      *
      * @throws ConfigurationException
      */

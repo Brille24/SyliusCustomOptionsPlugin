@@ -23,9 +23,6 @@ class DateRangeType extends AbstractType
         $this->addModelTransformer($builder);
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     */
     private function addModelTransformer(FormBuilderInterface $builder): void
     {
         $builder->addModelTransformer(
@@ -37,7 +34,7 @@ class DateRangeType extends AbstractType
 
                     return [
                         'start' => $dateRange->getStart(),
-                        'end'   => $dateRange->getEnd(),
+                        'end' => $dateRange->getEnd(),
                     ];
                 },
                 static function (array $dateTime): ?DateRange {
@@ -46,8 +43,8 @@ class DateRangeType extends AbstractType
                     }
 
                     return new DateRange($dateTime['start'], $dateTime['end']);
-                }
-            )
+                },
+            ),
         );
     }
 

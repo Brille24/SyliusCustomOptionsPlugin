@@ -25,11 +25,17 @@ use Webmozart\Assert\Assert;
 class EditCustomerOptionsAction
 {
     private Environment $twig;
+
     private RouterInterface $router;
+
     private FormFactoryInterface $formFactory;
+
     private OrderItemRepositoryInterface $orderItemRepository;
+
     private OrderItemOptionUpdaterInterface $orderItemOptionUpdater;
+
     private EventDispatcherInterface $eventDispatcher;
+
     private bool $recalculatePrice;
 
     public function __construct(
@@ -39,22 +45,18 @@ class EditCustomerOptionsAction
         OrderItemRepositoryInterface $orderItemRepository,
         OrderItemOptionUpdaterInterface $orderItemOptionUpdater,
         EventDispatcherInterface $eventDispatcher,
-        bool $recalculatePrice
+        bool $recalculatePrice,
     ) {
-        $this->twig                   = $twig;
-        $this->router                 = $router;
-        $this->formFactory            = $formFactory;
-        $this->orderItemRepository    = $orderItemRepository;
+        $this->twig = $twig;
+        $this->router = $router;
+        $this->formFactory = $formFactory;
+        $this->orderItemRepository = $orderItemRepository;
         $this->orderItemOptionUpdater = $orderItemOptionUpdater;
-        $this->eventDispatcher        = $eventDispatcher;
-        $this->recalculatePrice       = $recalculatePrice;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->recalculatePrice = $recalculatePrice;
     }
 
     /**
-     * @param Request $request
-     *
-     * @return Response
-     *
      * @throws Exception
      */
     public function __invoke(Request $request): Response
@@ -65,7 +67,7 @@ class EditCustomerOptionsAction
 
         $this->eventDispatcher->dispatch(
             new ResourceControllerEvent($orderItem),
-            'brille24.order_item.pre_update'
+            'brille24.order_item.pre_update',
         );
 
         /** @var OrderInterface $order */
@@ -74,7 +76,7 @@ class EditCustomerOptionsAction
         $orderItemForm = $this->formFactory->create(
             ShopCustomerOptionType::class,
             $this->getCustomerOptionValues($orderItem),
-            ['product' => $orderItem->getProduct(), 'channel' => $order->getChannel(), 'mapped' => true]
+            ['product' => $orderItem->getProduct(), 'channel' => $order->getChannel(), 'mapped' => true],
         );
 
         $orderItemForm->handleRequest($request);
@@ -84,7 +86,7 @@ class EditCustomerOptionsAction
 
             $this->eventDispatcher->dispatch(
                 new ResourceControllerEvent($orderItem),
-                'brille24.order_item.post_update'
+                'brille24.order_item.post_update',
             );
 
             return new RedirectResponse($this->router->generate('sylius_admin_order_show', ['id' => $order->getId()]));
@@ -93,27 +95,23 @@ class EditCustomerOptionsAction
         return new Response(
             $this->twig->render('@Brille24SyliusCustomerOptionsPlugin/Order/editCustomerOption.html.twig', [
                 'customerOptionForm' => $orderItemForm->createView(),
-                'order'              => $order,
-            ])
+                'order' => $order,
+            ]),
         );
     }
 
     /**
-     * @param OrderItemInterface $orderItem
-     *
-     * @return array
-     *
      * @throws Exception
      */
     private function getCustomerOptionValues(OrderItemInterface $orderItem): array
     {
         $optionAsAssociativeArray = [];
-        $orderItemOptions         = $orderItem->getCustomerOptionConfiguration();
+        $orderItemOptions = $orderItem->getCustomerOptionConfiguration();
 
         foreach ($orderItemOptions as $orderItemOption) {
-            $customerOption     = $orderItemOption->getCustomerOption();
+            $customerOption = $orderItemOption->getCustomerOption();
             $customerOptionType = $customerOption->getType();
-            $code               = $orderItemOption->getCustomerOptionCode();
+            $code = $orderItemOption->getCustomerOptionCode();
 
             // Select options use CustomerOptionValues
             if ($customerOptionType === CustomerOptionTypeEnum::MULTI_SELECT) {
@@ -129,9 +127,6 @@ class EditCustomerOptionsAction
     }
 
     /**
-     * @param string $customerOptionType
-     * @param string|null $value
-     *
      * @return bool|DateTime|float|string|null
      *
      * @throws Exception

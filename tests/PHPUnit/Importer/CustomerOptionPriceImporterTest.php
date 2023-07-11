@@ -52,13 +52,13 @@ class CustomerOptionPriceImporterTest extends TestCase
 
     public function setup(): void
     {
-        $this->firstProduct   = $this->createMock(ProductInterface::class);
-        $this->secondProduct  = $this->createMock(ProductInterface::class);
+        $this->firstProduct = $this->createMock(ProductInterface::class);
+        $this->secondProduct = $this->createMock(ProductInterface::class);
         $this->customerOption = $this->createMock(CustomerOptionInterface::class);
-        $someValue            = $this->createMock(CustomerOptionValueInterface::class);
-        $otherValue           = $this->createMock(CustomerOptionValueInterface::class);
-        $someChannel          = $this->createMock(ChannelInterface::class);
-        $otherChannel         = $this->createMock(ChannelInterface::class);
+        $someValue = $this->createMock(CustomerOptionValueInterface::class);
+        $otherValue = $this->createMock(CustomerOptionValueInterface::class);
+        $someChannel = $this->createMock(ChannelInterface::class);
+        $otherChannel = $this->createMock(ChannelInterface::class);
 
         $productRepository = $this->createMock(ProductRepositoryInterface::class);
         $productRepository->method('findOneByCode')->willReturnMap([
@@ -74,13 +74,12 @@ class CustomerOptionPriceImporterTest extends TestCase
             ['other_channel', $otherChannel],
         ]);
 
-        $customerOptionRepository                 = $this->createMock(CustomerOptionRepositoryInterface::class);
-        $customerOptionValueRepository            = $this->createMock(CustomerOptionValueRepositoryInterface::class);
+        $customerOptionRepository = $this->createMock(CustomerOptionRepositoryInterface::class);
+        $customerOptionValueRepository = $this->createMock(CustomerOptionValueRepositoryInterface::class);
         $this->customerOptionValuePriceRepository = $this->createMock(CustomerOptionValuePriceRepositoryInterface::class);
-        $this->customerOptionValuePriceFactory    = $this->createMock(CustomerOptionValuePriceFactoryInterface::class);
+        $this->customerOptionValuePriceFactory = $this->createMock(CustomerOptionValuePriceFactoryInterface::class);
 
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
-
 
         $customerOptionRepository
             ->method('findOneByCode')->with('some_option')
@@ -98,7 +97,7 @@ class CustomerOptionPriceImporterTest extends TestCase
                     return $otherValue;
                 }
 
-                throw new Exception('Using this set of parameters'.var_export($array, true).' is not mocked');
+                throw new Exception('Using this set of parameters' . var_export($array, true) . ' is not mocked');
             })
         ;
 
@@ -110,7 +109,7 @@ class CustomerOptionPriceImporterTest extends TestCase
             $customerOptionValueRepository,
             $channelRepository,
             $this->customerOptionValuePriceRepository,
-            $this->customerOptionValuePriceFactory
+            $this->customerOptionValuePriceFactory,
         );
     }
 
@@ -142,7 +141,7 @@ class CustomerOptionPriceImporterTest extends TestCase
 
         self::assertEquals(
             new PriceImportResult(3, 0, []),
-            $this->customerOptionPriceImporter->import($this->getCreateData())
+            $this->customerOptionPriceImporter->import($this->getCreateData()),
         );
     }
 
@@ -175,7 +174,7 @@ class CustomerOptionPriceImporterTest extends TestCase
 
         self::assertEquals(
             new PriceImportResult(1, 0, []),
-            $this->customerOptionPriceImporter->import($this->getUpdateData())
+            $this->customerOptionPriceImporter->import($this->getUpdateData()),
         );
     }
 
@@ -201,7 +200,7 @@ class CustomerOptionPriceImporterTest extends TestCase
 
         self::assertEquals(
             new PriceImportResult(1, 0, []),
-            $this->customerOptionPriceImporter->import($this->getDeleteData())
+            $this->customerOptionPriceImporter->import($this->getDeleteData()),
         );
     }
 
@@ -246,25 +245,25 @@ class CustomerOptionPriceImporterTest extends TestCase
             'first_product' => [
                 [
                     'violations' => $violationList,
-                    'data'       => $this->getCreateData()[0],
-                    'message'    => '',
+                    'data' => $this->getCreateData()[0],
+                    'message' => '',
                 ],
                 [
                     'violations' => $violationList,
-                    'data'       => $this->getCreateData()[2],
-                    'message'    => '',
-                ]
+                    'data' => $this->getCreateData()[2],
+                    'message' => '',
+                ],
             ],
             'second_product' => [[
                 'violations' => $violationList,
-                'data'       => $this->getCreateData()[1],
-                'message'    => '',
+                'data' => $this->getCreateData()[1],
+                'message' => '',
             ]],
         ]);
 
         self::assertEquals(
             $expected,
-            $this->customerOptionPriceImporter->import($this->getCreateData())
+            $this->customerOptionPriceImporter->import($this->getCreateData()),
         );
     }
 
@@ -272,43 +271,43 @@ class CustomerOptionPriceImporterTest extends TestCase
     {
         return [
             [
-                'id'                         => null,
-                'product_code'               => 'first_product',
-                'customer_option_code'       => 'some_option',
+                'id' => null,
+                'product_code' => 'first_product',
+                'customer_option_code' => 'some_option',
                 'customer_option_value_code' => 'some_value',
-                'channel_code'               => 'some_channel',
-                'valid_from'                 => null,
-                'valid_to'                   => null,
-                'type'                       => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
-                'amount'                     => 100,
-                'percent'                    => 0.0,
-                'delete'                     => 0,
+                'channel_code' => 'some_channel',
+                'valid_from' => null,
+                'valid_to' => null,
+                'type' => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
+                'amount' => 100,
+                'percent' => 0.0,
+                'delete' => 0,
             ],
             [
-                'id'                         => null,
-                'product_code'               => 'second_product',
-                'customer_option_code'       => 'some_option',
+                'id' => null,
+                'product_code' => 'second_product',
+                'customer_option_code' => 'some_option',
                 'customer_option_value_code' => 'other_value',
-                'channel_code'               => 'some_channel',
-                'valid_from'                 => null,
-                'valid_to'                   => null,
-                'type'                       => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
-                'amount'                     => 100,
-                'percent'                    => 0.0,
-                'delete'                     => 0,
+                'channel_code' => 'some_channel',
+                'valid_from' => null,
+                'valid_to' => null,
+                'type' => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
+                'amount' => 100,
+                'percent' => 0.0,
+                'delete' => 0,
             ],
             [
-                'id'                         => null,
-                'product_code'               => 'first_product',
-                'customer_option_code'       => 'some_option',
+                'id' => null,
+                'product_code' => 'first_product',
+                'customer_option_code' => 'some_option',
                 'customer_option_value_code' => 'some_value',
-                'channel_code'               => 'other_channel',
-                'valid_from'                 => null,
-                'valid_to'                   => null,
-                'type'                       => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
-                'amount'                     => 100,
-                'percent'                    => 0.0,
-                'delete'                     => 0,
+                'channel_code' => 'other_channel',
+                'valid_from' => null,
+                'valid_to' => null,
+                'type' => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
+                'amount' => 100,
+                'percent' => 0.0,
+                'delete' => 0,
             ],
         ];
     }
@@ -317,17 +316,17 @@ class CustomerOptionPriceImporterTest extends TestCase
     {
         return [
             [
-                'id'                         => 10,
-                'product_code'               => 'first_product',
-                'customer_option_code'       => 'some_option',
+                'id' => 10,
+                'product_code' => 'first_product',
+                'customer_option_code' => 'some_option',
                 'customer_option_value_code' => 'some_value',
-                'channel_code'               => 'some_channel',
-                'valid_from'                 => null,
-                'valid_to'                   => null,
-                'type'                       => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
-                'amount'                     => 100,
-                'percent'                    => 0.0,
-                'delete'                     => 0,
+                'channel_code' => 'some_channel',
+                'valid_from' => null,
+                'valid_to' => null,
+                'type' => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
+                'amount' => 100,
+                'percent' => 0.0,
+                'delete' => 0,
             ],
         ];
     }
@@ -336,17 +335,17 @@ class CustomerOptionPriceImporterTest extends TestCase
     {
         return [
             [
-                'id'                         => 10,
-                'product_code'               => 'first_product',
-                'customer_option_code'       => null,
+                'id' => 10,
+                'product_code' => 'first_product',
+                'customer_option_code' => null,
                 'customer_option_value_code' => null,
-                'channel_code'               => null,
-                'valid_from'                 => null,
-                'valid_to'                   => null,
-                'type'                       => null,
-                'amount'                     => null,
-                'percent'                    => null,
-                'delete'                     => 1,
+                'channel_code' => null,
+                'valid_from' => null,
+                'valid_to' => null,
+                'type' => null,
+                'amount' => null,
+                'percent' => null,
+                'delete' => 1,
             ],
         ];
     }

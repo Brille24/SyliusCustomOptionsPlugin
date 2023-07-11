@@ -33,7 +33,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
 
         $this->customerOptionGroupFactory = new CustomerOptionGroupFactory(
             $this->customerOptionRepositoryMock,
-            $this->productRepositoryMock
+            $this->productRepositoryMock,
         );
     }
 
@@ -71,11 +71,11 @@ class CustomerOptionGroupFactoryTest extends TestCase
         ;
 
         $options = [
-            'code'         => 'some_group',
+            'code' => 'some_group',
             'translations' => [
                 'en_US' => 'Some Group',
             ],
-            'options'  => [],
+            'options' => [],
             'products' => [],
         ];
 
@@ -167,7 +167,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
         }
 
         $options = [
-            'code'         => 'some_group',
+            'code' => 'some_group',
             'translations' => [
                 'en_US' => 'Some Group',
             ],
@@ -207,7 +207,7 @@ class CustomerOptionGroupFactoryTest extends TestCase
         ;
 
         $options = [
-            'code'         => 'some_group',
+            'code' => 'some_group',
             'translations' => [
                 'en_US' => 'Some Group',
             ],
@@ -280,35 +280,35 @@ class CustomerOptionGroupFactoryTest extends TestCase
             ->willReturn($customerOptions[2]);
 
         $options = [
-            'code'         => 'some_group',
+            'code' => 'some_group',
             'translations' => [
                 'en_US' => 'Some Group',
             ],
-            'options'    => $optionCodes,
+            'options' => $optionCodes,
             'validators' => [
                 [
                     'conditions' => [
                         [
                             'customer_option' => 'option_1',
-                            'comparator'      => 'greater',
-                            'value'           => '4',
+                            'comparator' => 'greater',
+                            'value' => '4',
                         ],
                     ],
                     'constraints' => [
                         [
                             'customer_option' => 'option_2',
-                            'comparator'      => 'lesser',
-                            'value'           => '10',
+                            'comparator' => 'lesser',
+                            'value' => '10',
                         ],
                         [
                             'customer_option' => 'option_2',
-                            'comparator'      => 'greater',
-                            'value'           => '0',
+                            'comparator' => 'greater',
+                            'value' => '0',
                         ],
                         [
                             'customer_option' => 'option_3',
-                            'comparator'      => 'equal',
-                            'value'           => '5',
+                            'comparator' => 'equal',
+                            'value' => '5',
                         ],
                     ],
                     'error_messages' => [

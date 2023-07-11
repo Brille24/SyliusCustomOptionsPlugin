@@ -19,7 +19,7 @@ class DateRangeTest extends TestCase
         self::expectExceptionMessage('End can\'t be smaller than start');
 
         $start = new DateTime('2010-11-01 12:00:00');
-        $end   = new DateTime('2010-01-01 12:00:00');
+        $end = new DateTime('2010-01-01 12:00:00');
 
         new DateRange($start, $end);
     }
@@ -29,7 +29,7 @@ class DateRangeTest extends TestCase
         DateTimeInterface $start,
         DateTimeInterface $end,
         DateTimeInterface $current,
-        bool $contains
+        bool $contains,
     ) {
         $dateRange = new DateRange($start, $end);
 
@@ -38,15 +38,15 @@ class DateRangeTest extends TestCase
 
     public function dataContains(): array
     {
-        $date  = new DateTime('2010-01-01 12:00:00');
+        $date = new DateTime('2010-01-01 12:00:00');
         $date1 = new DateTime('2010-01-01 12:00:01');
         $date2 = new DateTime('2010-11-01 12:00:00');
 
         return [
-            'dateRange length 1 contains'     => [$date, $date1, $date, true],
+            'dateRange length 1 contains' => [$date, $date1, $date, true],
             'dateRange length 1 not contains' => [$date, $date1, $date2, false],
-            'dateRange'                       => [$date, $date2, new DateTime('2010-05-01'), true],
-            'dateRange not contains'          => [$date, $date2, new DateTime('2011-05-01'), false],
+            'dateRange' => [$date, $date2, new DateTime('2010-05-01'), true],
+            'dateRange not contains' => [$date, $date2, new DateTime('2011-05-01'), false],
         ];
     }
 
@@ -58,29 +58,29 @@ class DateRangeTest extends TestCase
 
     public function dataOverlaps(): array
     {
-        $firstDate  = new DateTimeImmutable('2010-01-01 12:00:00');
+        $firstDate = new DateTimeImmutable('2010-01-01 12:00:00');
         $secondDate = new DateTimeImmutable('2011-01-01 12:00:00');
-        $thridDate  = new DateTimeImmutable('2012-08-01 12:00:00');
+        $thridDate = new DateTimeImmutable('2012-08-01 12:00:00');
         $fourthDate = new DateTimeImmutable('2013-01-01 12:00:00');
 
         return [
             'overlaps with to determined ranges' => [
                 new DateRange($firstDate, $thridDate),
                 new DateRange($secondDate, $fourthDate),
-                true
+                true,
             ],
             'does not overlap with to determined ranges' => [
                 new DateRange($firstDate, $secondDate),
                 new DateRange($thridDate, $fourthDate),
-                false
+                false,
             ],
             'inside also overlaps' => [
                 new DateRange($firstDate, $secondDate),
                 new DateRange(
                     $firstDate->add(new DateInterval('P1D')), // One day after the first date
-                    $secondDate->sub(new DateInterval('P1D')) // One day before the second date
+                    $secondDate->sub(new DateInterval('P1D')), // One day before the second date
                 ),
-                true
+                true,
             ],
         ];
     }

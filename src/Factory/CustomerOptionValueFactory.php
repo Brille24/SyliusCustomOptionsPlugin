@@ -21,17 +21,16 @@ use Faker\Generator;
 class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
 {
     protected CustomerOptionValuePriceFactoryInterface $valuePriceFactory;
+
     protected Generator $faker;
 
     public function __construct(CustomerOptionValuePriceFactoryInterface $valuePriceFactory)
     {
         $this->valuePriceFactory = $valuePriceFactory;
-        $this->faker             = Factory::create();
+        $this->faker = Factory::create();
     }
 
     /**
-     * @param array $configuration
-     *
      * @throws ConfigurationException
      */
     public function validateConfiguration(array $configuration): void
@@ -50,7 +49,7 @@ class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
         }
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function createFromConfig(array $configuration): CustomerOptionValueInterface
     {
         $value = $this->createNew();
@@ -71,19 +70,19 @@ class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
         return $value;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function generateRandomConfiguration(int $amount): array
     {
-        $result                     = [];
+        $result = [];
         $this->faker->unique($reset = true);
 
         for ($j = 0; $j < $amount; ++$j) {
             $priceAmount = $this->faker->numberBetween(0, 2);
 
             $config = [
-                'code'         => $this->faker->uuid,
+                'code' => $this->faker->uuid,
                 'translations' => ['en_US' => sprintf('Value "%s"', $this->faker->word)],
-                'prices'       => $this->valuePriceFactory->generateRandomConfiguration($priceAmount),
+                'prices' => $this->valuePriceFactory->generateRandomConfiguration($priceAmount),
             ];
 
             $result[] = $config;

@@ -22,7 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class CustomerOptionValuePriceChannelType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -44,7 +44,7 @@ final class CustomerOptionValuePriceChannelType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -52,7 +52,7 @@ final class CustomerOptionValuePriceChannelType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getBlockPrefix(): string
     {

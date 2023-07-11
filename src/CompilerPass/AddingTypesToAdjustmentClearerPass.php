@@ -16,7 +16,7 @@ final class AddingTypesToAdjustmentClearerPass implements CompilerPassInterface
         $clearerDefinition = $container->getDefinition('sylius.order_processing.order_adjustments_clearer');
 
         // Getting the new list of adjustment types to clear
-        $listOfAdjustmentsToClear   = $clearerDefinition->getArgument(0);
+        $listOfAdjustmentsToClear = $clearerDefinition->getArgument(0);
         $listOfAdjustmentsToClear[] = CustomerOptionRecalculator::CUSTOMER_OPTION_ADJUSTMENT;
 
         // Setting the new list as the new definition

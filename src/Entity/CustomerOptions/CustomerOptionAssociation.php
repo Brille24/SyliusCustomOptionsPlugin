@@ -23,8 +23,11 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 class CustomerOptionAssociation implements CustomerOptionAssociationInterface
 {
     protected ?int $id;
+
     protected int $position;
+
     protected ?CustomerOptionGroupInterface $group;
+
     protected ?CustomerOptionInterface $option;
 
     public function __construct(int $position = 0)
@@ -33,7 +36,7 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getId(): string
     {
@@ -41,7 +44,7 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getPosition(): int
     {
@@ -49,7 +52,7 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setPosition(int $position): void
     {
@@ -57,7 +60,7 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getGroup(): ?CustomerOptionGroupInterface
     {
@@ -65,7 +68,7 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setGroup(?CustomerOptionGroupInterface $group): void
     {
@@ -73,7 +76,7 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOption(): ?CustomerOptionInterface
     {
@@ -81,7 +84,7 @@ class CustomerOptionAssociation implements CustomerOptionAssociationInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setOption(?CustomerOptionInterface $option): void
     {

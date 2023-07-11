@@ -26,15 +26,22 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
     protected const BATCH_SIZE = 100;
 
     protected EntityManagerInterface $entityManager;
+
     protected ProductRepositoryInterface $productRepository;
 
     /** @var array<ProductInterface|null> */
     protected array $products = [];
+
     protected ValidatorInterface $validator;
+
     protected CustomerOptionRepositoryInterface $customerOptionRepository;
+
     protected CustomerOptionValueRepositoryInterface $customerOptionValueRepository;
+
     protected ChannelRepositoryInterface $channelRepository;
+
     protected RepositoryInterface $customerOptionValuePriceRepository;
+
     protected CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory;
 
     public function __construct(
@@ -45,22 +52,22 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
         CustomerOptionValueRepositoryInterface $customerOptionValueRepository,
         ChannelRepositoryInterface $channelRepository,
         RepositoryInterface $customerOptionValuePriceRepository,
-        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory
+        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
     ) {
-        $this->entityManager                      = $entityManager;
-        $this->productRepository                  = $productRepository;
-        $this->validator                          = $validator;
-        $this->customerOptionRepository           = $customerOptionRepository;
-        $this->customerOptionValueRepository      = $customerOptionValueRepository;
-        $this->channelRepository                  = $channelRepository;
+        $this->entityManager = $entityManager;
+        $this->productRepository = $productRepository;
+        $this->validator = $validator;
+        $this->customerOptionRepository = $customerOptionRepository;
+        $this->customerOptionValueRepository = $customerOptionValueRepository;
+        $this->channelRepository = $channelRepository;
         $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
-        $this->customerOptionValuePriceFactory    = $customerOptionValuePriceFactory;
+        $this->customerOptionValuePriceFactory = $customerOptionValuePriceFactory;
     }
 
     public function import(array $data): PriceImportResult
     {
         // Handle update
-        $i      = 0;
+        $i = 0;
         $failed = 0;
         $errors = [];
         foreach ($data as $datum) {
@@ -76,8 +83,8 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
                 ++$failed;
                 $errors[$productCode][] = [
                     'violations' => $violationException->getViolations(),
-                    'data'       => $datum,
-                    'message'    => $violationException->getMessage(),
+                    'data' => $datum,
+                    'message' => $violationException->getMessage(),
                 ];
             } catch (\Throwable $exception) {
                 ++$failed;
@@ -92,22 +99,22 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
 
     protected function importRow(array $datum, string $productCode): void
     {
-        $id                      = $datum['id'];
-        $validFrom               = $datum['valid_from'];
-        $validTo                 = $datum['valid_to'];
-        $customerOptionCode      = $datum['customer_option_code'];
+        $id = $datum['id'];
+        $validFrom = $datum['valid_from'];
+        $validTo = $datum['valid_to'];
+        $customerOptionCode = $datum['customer_option_code'];
         $customerOptionValueCode = $datum['customer_option_value_code'];
-        $channelCode             = $datum['channel_code'];
-        $type                    = $datum['type'];
-        $amount                  = (int) $datum['amount'];
-        $percent                 = (float) $datum['percent'];
-        $delete                  = filter_var($datum['delete'], FILTER_VALIDATE_BOOL);
+        $channelCode = $datum['channel_code'];
+        $type = $datum['type'];
+        $amount = (int) $datum['amount'];
+        $percent = (float) $datum['percent'];
+        $delete = filter_var($datum['delete'], \FILTER_VALIDATE_BOOL);
 
         $product = $this->getProduct($productCode);
         Assert::isInstanceOf(
             $product,
             ProductInterface::class,
-            sprintf('Product with code "%s" not found', $productCode)
+            sprintf('Product with code "%s" not found', $productCode),
         );
 
         $price = null;
@@ -117,7 +124,7 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
             Assert::isInstanceOf(
                 $price,
                 CustomerOptionValuePriceInterface::class,
-                sprintf('Value price with id "%s" not found', $id)
+                sprintf('Value price with id "%s" not found', $id),
             );
         }
 
@@ -133,7 +140,7 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
         $dateRange = null;
         if (null !== $validFrom && null !== $validTo) {
             $validFrom = new \DateTime($validFrom);
-            $validTo   = new \DateTime($validTo);
+            $validTo = new \DateTime($validTo);
             $dateRange = new DateRange($validFrom, $validTo);
         }
 
@@ -142,7 +149,7 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
                 $customerOptionCode,
                 $customerOptionValueCode,
                 $channelCode,
-                $product
+                $product,
             );
         }
 
@@ -168,7 +175,7 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
     {
         if (!isset($this->products[$code])) {
             /** @var ProductInterface|null $product */
-            $product               =$this->productRepository->findOneByCode($code);
+            $product = $this->productRepository->findOneByCode($code);
             $this->products[$code] = $product;
         }
 
@@ -179,13 +186,13 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
         string $customerOptionCode,
         string $customerOptionValueCode,
         string $channelCode,
-        ProductInterface $product
+        ProductInterface $product,
     ): CustomerOptionValuePriceInterface {
         $customerOption = $this->customerOptionRepository->findOneByCode($customerOptionCode);
 
         /** @var CustomerOptionValueInterface|null $customerOptionValue */
         $customerOptionValue = $this->customerOptionValueRepository->findOneBy([
-            'code'           => $customerOptionValueCode,
+            'code' => $customerOptionValueCode,
             'customerOption' => $customerOption,
         ]);
 
@@ -195,12 +202,12 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
         Assert::isInstanceOf(
             $customerOptionValue,
             CustomerOptionValueInterface::class,
-            sprintf('CustomerOptionValue with code "%s" not found', $customerOptionValueCode)
+            sprintf('CustomerOptionValue with code "%s" not found', $customerOptionValueCode),
         );
         Assert::isInstanceOf(
             $channel,
             ChannelInterface::class,
-            sprintf('Channel with code "%s" not found', $channelCode)
+            sprintf('Channel with code "%s" not found', $channelCode),
         );
 
         // Create new price

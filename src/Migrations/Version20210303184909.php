@@ -52,7 +52,7 @@ final class Version20210303184909 extends AbstractMigration implements Container
     {
         foreach ($this->getOrderItemOptionsWithFileContent() as $orderItemOption) {
             $fileContent = $orderItemOption['content'];
-            $id          = $orderItemOption['id'];
+            $id = $orderItemOption['id'];
 
             $this->addSql('UPDATE brille24_customer_option_order_item_option SET optionValue = :content WHERE id = :id', ['content' => $fileContent, 'id' => $id]);
         }
@@ -67,7 +67,7 @@ final class Version20210303184909 extends AbstractMigration implements Container
     private function getOrderItemOptionsWithValues(): array
     {
         if ($this->container === null) {
-            throw new \InvalidArgumentException('This migration needs the container to be set: '.self::class);
+            throw new \InvalidArgumentException('This migration needs the container to be set: ' . self::class);
         }
 
         /** @var string $orderItemClass */
@@ -82,13 +82,13 @@ final class Version20210303184909 extends AbstractMigration implements Container
             ->setParameter('type', CustomerOptionTypeEnum::FILE)
             ->getQuery()
             ->getArrayResult()
-            ;
+        ;
     }
 
     private function getOrderItemOptionsWithFileContent(): array
     {
         if ($this->container === null) {
-            throw new \InvalidArgumentException('This migration needs the container to be set: '.self::class);
+            throw new \InvalidArgumentException('This migration needs the container to be set: ' . self::class);
         }
 
         /** @var string $orderItemClass */
@@ -104,13 +104,13 @@ final class Version20210303184909 extends AbstractMigration implements Container
             ->setParameter('type', CustomerOptionTypeEnum::FILE)
             ->getQuery()
             ->getArrayResult()
-            ;
+        ;
     }
 
     private function getEntityManager(string $class): EntityManagerInterface
     {
         if ($this->container === null) {
-            throw new \InvalidArgumentException('This migration needs the container to be set: '.self::class);
+            throw new \InvalidArgumentException('This migration needs the container to be set: ' . self::class);
         }
 
         /** @var ManagerRegistry $managerRegistry */

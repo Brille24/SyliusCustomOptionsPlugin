@@ -23,15 +23,11 @@ interface EnumInterface
 
     /**
      * Checks if a value is a valid Enum Value
-     *
-     * @param string $value
      */
     public static function isValid(string $value): bool;
 
     /**
      * Returns an associative array with the values as key and the labels as values
-     *
-     * @return array
      */
     public static function getTranslateArray(): array;
 }

@@ -11,8 +11,6 @@ use Sylius\Behat\Page\Admin\Crud\CreatePage as BaseCreatePage;
 class CreatePage extends BaseCreatePage
 {
     /**
-     * @param string $name
-     *
      * @throws ElementNotFoundException
      */
     public function setName(string $name): void
@@ -21,8 +19,6 @@ class CreatePage extends BaseCreatePage
     }
 
     /**
-     * @param string $code
-     *
      * @throws ElementNotFoundException
      */
     public function setCode(string $code): void
@@ -31,8 +27,6 @@ class CreatePage extends BaseCreatePage
     }
 
     /**
-     * @param string $type
-     *
      * @throws ElementNotFoundException
      */
     public function chooseType(string $type): void
@@ -48,11 +42,6 @@ class CreatePage extends BaseCreatePage
         $this->getDocument()->checkField('Required');
     }
 
-    /**
-     * @param string $config
-     *
-     * @return bool
-     */
     public function hasConfiguration(string $config): bool
     {
         $result = $this->getDocument()->hasField($config);
@@ -75,12 +64,6 @@ class CreatePage extends BaseCreatePage
         return $result;
     }
 
-    /**
-     * @param $valueName
-     * @param $channelName
-     *
-     * @return bool
-     */
     public function hasPriceConfiguration($valueName, $channelName): bool
     {
         $pricingTab = $this->getDocument()->find('css', 'div[data-tab="pricing"]');
@@ -91,9 +74,6 @@ class CreatePage extends BaseCreatePage
     }
 
     /**
-     * @param $field
-     * @param $value
-     *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
     public function setField(string $field, string $value): void
@@ -107,9 +87,6 @@ class CreatePage extends BaseCreatePage
     }
 
     /**
-     * @param string $code
-     * @param string $name
-     *
      * @throws ElementNotFoundException
      */
     public function addValue(string $code, string $name): void
@@ -127,9 +104,6 @@ class CreatePage extends BaseCreatePage
         $lastValueItem->fillField('Name', $name);
     }
 
-    /**
-     * @return array
-     */
     protected function getDefinedElements(): array
     {
         return [

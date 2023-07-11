@@ -27,8 +27,11 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     protected ?int $id;
+
     protected string $type = CustomerOptionTypeEnum::SELECT;
+
     protected ?string $code = '';
+
     protected bool $required = false;
 
     /** @var Collection|CustomerOptionValueInterface[] */
@@ -45,13 +48,13 @@ class CustomerOption implements CustomerOptionInterface
     {
         $this->initializeTranslationsCollection();
 
-        $this->values            = new ArrayCollection();
+        $this->values = new ArrayCollection();
         $this->groupAssociations = new ArrayCollection();
-        $this->orders            = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getId(): ?int
     {
@@ -59,7 +62,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setType(?string $type): void
     {
@@ -77,7 +80,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getType(): string
     {
@@ -86,7 +89,7 @@ class CustomerOption implements CustomerOptionInterface
 
     public function getTypeCode(): ?string
     {
-        $type         = $this->getType();
+        $type = $this->getType();
         $translations = CustomerOptionTypeEnum::getTranslateArray();
         if (array_key_exists($type, $translations)) {
             return $translations[$type];
@@ -96,7 +99,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setCode(?string $code): void
     {
@@ -104,7 +107,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCode(): string
     {
@@ -112,7 +115,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setRequired(bool $required): void
     {
@@ -120,7 +123,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isRequired(): bool
     {
@@ -130,7 +133,7 @@ class CustomerOption implements CustomerOptionInterface
     //region Getter and setter for value
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getValues(): Collection
     {
@@ -138,7 +141,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function addValue(CustomerOptionValueInterface $value): void
     {
@@ -147,7 +150,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function removeValue(CustomerOptionValueInterface $value): void
     {
@@ -156,7 +159,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setValues(array $values): void
     {
@@ -169,7 +172,7 @@ class CustomerOption implements CustomerOptionInterface
     //endregion
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getConfiguration(): array
     {
@@ -177,13 +180,13 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setConfiguration(array $configuration): void
     {
         // Setting the new values
         foreach ($configuration as $key => $value) {
-            $optionKey                                = str_replace(':', '.', $key);
+            $optionKey = str_replace(':', '.', $key);
             $this->configuration[$optionKey]['value'] = $value;
         }
 
@@ -196,7 +199,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getGroupAssociations(): Collection
     {
@@ -204,7 +207,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setGroupAssociations(ArrayCollection $assoc): void
     {
@@ -212,7 +215,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function addGroupAssociation(CustomerOptionAssociationInterface $assoc): void
     {
@@ -221,7 +224,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function removeGroupAssociation(CustomerOptionAssociationInterface $assoc): void
     {
@@ -230,7 +233,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setName(?string $name): void
     {
@@ -238,7 +241,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getName(): ?string
     {
@@ -246,7 +249,7 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getPrices(): array
     {
@@ -260,15 +263,13 @@ class CustomerOption implements CustomerOptionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setPrices(array $prices): void
     {
     }
 
     /**
-     * @param string|null $locale
-     *
      * @return CustomerOptionTranslationInterface
      */
     public function getTranslation(?string $locale = null): TranslationInterface
@@ -287,9 +288,6 @@ class CustomerOption implements CustomerOptionInterface
         return $this->orders;
     }
 
-    /**
-     * @return CustomerOptionTranslationInterface
-     */
     protected function createTranslation(): CustomerOptionTranslationInterface
     {
         return new CustomerOptionTranslation();

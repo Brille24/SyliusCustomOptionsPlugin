@@ -22,18 +22,14 @@ class UpdatePage extends BaseUpdatePage
     /**
      * CreatePage constructor.
      *
-     * @param Session $session
      * @param array|\ArrayAccess $minkParameters
-     * @param RouterInterface $router
-     * @param string $routeName
-     * @param TranslatorInterface $translator
      */
     public function __construct(
         Session $session,
         $minkParameters,
         RouterInterface $router,
         string $routeName,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
     ) {
         parent::__construct($session, $minkParameters, $router, $routeName);
 
@@ -41,9 +37,6 @@ class UpdatePage extends BaseUpdatePage
     }
 
     /**
-     * @param string $field
-     * @param string $value
-     *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
     public function fillField(string $field, string $value): void
@@ -60,9 +53,6 @@ class UpdatePage extends BaseUpdatePage
     }
 
     /**
-     * @param string $name
-     * @param int $position
-     *
      * @throws ElementNotFoundException
      */
     public function chooseOption(string $name, int $position): void
@@ -145,8 +135,6 @@ class UpdatePage extends BaseUpdatePage
     }
 
     /**
-     * @param string $name
-     *
      * @throws ElementNotFoundException
      */
     public function chooseOptionForCondition(string $name): void
@@ -157,8 +145,6 @@ class UpdatePage extends BaseUpdatePage
     }
 
     /**
-     * @param string $name
-     *
      * @throws ElementNotFoundException
      */
     public function chooseComparatorForCondition(string $name): void
@@ -168,11 +154,6 @@ class UpdatePage extends BaseUpdatePage
         $this->selectItemInContainer($lastConditionDiv, $name, $this->translator->trans('brille24.form.validators.fields.comparator'));
     }
 
-    /**
-     * @param string $optionType
-     *
-     * @return null|string
-     */
     public function getConditionValueType(string $optionType): ?string
     {
         $lastConditionDiv = $this->getLastConditionDiv();
@@ -181,8 +162,6 @@ class UpdatePage extends BaseUpdatePage
     }
 
     /**
-     * @param string $name
-     *
      * @throws ElementNotFoundException
      */
     public function chooseOptionForConstraint(string $name): void
@@ -195,8 +174,6 @@ class UpdatePage extends BaseUpdatePage
     }
 
     /**
-     * @param string $name
-     *
      * @throws ElementNotFoundException
      */
     public function chooseComparatorForConstraint(string $name): void
@@ -208,11 +185,6 @@ class UpdatePage extends BaseUpdatePage
         $this->selectItemInContainer($lastConditionDiv, $name, $this->translator->trans('brille24.form.validators.fields.comparator'));
     }
 
-    /**
-     * @param string $optionType
-     *
-     * @return null|string
-     */
     public function getConstraintValueType(string $optionType): ?string
     {
         /** @var NodeElement[] $conditionDiv */
@@ -225,10 +197,6 @@ class UpdatePage extends BaseUpdatePage
     }
 
     /**
-     * @param NodeElement $container
-     * @param string $name
-     * @param string $fieldName
-     *
      * @throws ElementNotFoundException
      */
     private function selectItemInContainer(NodeElement $container, string $name, string $fieldName): void
@@ -247,12 +215,6 @@ class UpdatePage extends BaseUpdatePage
         $lastSelectItem->selectOption($name);
     }
 
-    /**
-     * @param NodeElement $container
-     * @param string $optionType
-     *
-     * @return string
-     */
     private function getValueItemType(NodeElement $container, string $optionType): string
     {
         /** @var NodeElement[] $valueItems */
@@ -272,9 +234,6 @@ class UpdatePage extends BaseUpdatePage
         return $lastValueItem->getAttribute('type') ?? $lastValueItem->getTagName();
     }
 
-    /**
-     * @return int
-     */
     public function countValidators(): int
     {
         $validators = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"] > div > div');
@@ -282,9 +241,6 @@ class UpdatePage extends BaseUpdatePage
         return count($validators);
     }
 
-    /**
-     * @return array
-     */
     public function getAvailableConditionComparators(): array
     {
         $lastConditionDiv = $this->getLastConditionDiv();
@@ -292,9 +248,6 @@ class UpdatePage extends BaseUpdatePage
         return $this->getAvailableComparators($lastConditionDiv);
     }
 
-    /**
-     * @return array
-     */
     public function getAvailableConstraintComparators(): array
     {
         /** @var NodeElement[] $constraintDiv */
@@ -304,11 +257,6 @@ class UpdatePage extends BaseUpdatePage
         return $this->getAvailableComparators($lastConstraintDiv);
     }
 
-    /**
-     * @param NodeElement $container
-     *
-     * @return array
-     */
     private function getAvailableComparators(NodeElement $container): array
     {
         /** @var NodeElement[] $selectItems */
@@ -331,9 +279,6 @@ class UpdatePage extends BaseUpdatePage
     }
 
     /**
-     * @param $value
-     * @param string $optionType
-     *
      * @throws ElementNotFoundException
      * @throws DriverException
      * @throws UnsupportedDriverActionException
@@ -346,9 +291,6 @@ class UpdatePage extends BaseUpdatePage
     }
 
     /**
-     * @param $value
-     * @param string $optionType
-     *
      * @throws DriverException
      * @throws ElementNotFoundException
      * @throws UnsupportedDriverActionException
@@ -363,10 +305,6 @@ class UpdatePage extends BaseUpdatePage
     }
 
     /**
-     * @param NodeElement $container
-     * @param string $optionType
-     * @param $value
-     *
      * @throws ElementNotFoundException
      * @throws DriverException
      * @throws UnsupportedDriverActionException
@@ -412,9 +350,6 @@ class UpdatePage extends BaseUpdatePage
         }
     }
 
-    /**
-     * @param string $message
-     */
     public function setErrorMessage(string $message): void
     {
         $validators = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"] > div > div');
@@ -423,11 +358,6 @@ class UpdatePage extends BaseUpdatePage
         $lastValidator->fillField('Message', $message);
     }
 
-    /**
-     * @param string $optionType
-     *
-     * @return string
-     */
     private function getValueNameSuffix(string $optionType): string
     {
         $valueSuffix = '.default';
@@ -446,6 +376,7 @@ class UpdatePage extends BaseUpdatePage
         $conditionDiv = $this->getDocument()->waitFor(5, function () {
             return $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
         });
+
         return end($conditionDiv);
     }
 }

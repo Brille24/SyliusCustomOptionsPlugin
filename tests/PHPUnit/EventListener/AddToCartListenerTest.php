@@ -70,7 +70,7 @@ class AddToCartListenerTest extends TestCase
                 $orderItemOption->setOrderItem($orderItem);
 
                 return $orderItemOption;
-            }
+            },
         );
 
         $orderProcessor = self::createMock(OrderProcessorInterface::class);
@@ -82,7 +82,7 @@ class AddToCartListenerTest extends TestCase
             $entityManager,
             $orderItemOptionFactory,
             $orderProcessor,
-            $this->customerOptionRepository
+            $this->customerOptionRepository,
         );
     }
 
@@ -90,8 +90,8 @@ class AddToCartListenerTest extends TestCase
     {
         $product = self::createConfiguredMock(ProductInterface::class, []);
 
-        $channel   = self::createMock(ChannelInterface::class);
-        $order     = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $channel]);
+        $channel = self::createMock(ChannelInterface::class);
+        $order = self::createConfiguredMock(OrderInterface::class, ['getChannel' => $channel]);
         $orderItem = self::createMock(OrderItemInterface::class);
         $orderItem->method('getOrder')->willReturn($hasOrder ? $order : null);
         $orderItem->method('getProduct')->willReturn($product);
@@ -133,7 +133,7 @@ class AddToCartListenerTest extends TestCase
     public function testWithEmptyCustomerOptions(): void
     {
         // SETUP
-        $event         = $this->createEvent(true);
+        $event = $this->createEvent(true);
         $this->request = $this->createRequest([]);
 
         // EXECUTE
@@ -147,7 +147,7 @@ class AddToCartListenerTest extends TestCase
     {
         // SETUP
         $this->customerOptionRepository->method('findOneByCode')->with('customerOptionCode')->willReturn(self::createMock(CustomerOptionInterface::class));
-        $event         = $this->createEvent(true);
+        $event = $this->createEvent(true);
         $this->request = $this->createRequest(['customer_options' => ['customerOptionCode' => 'value']]);
 
         self::expectException(\Exception::class);
@@ -163,7 +163,7 @@ class AddToCartListenerTest extends TestCase
         $this->customerOptions['customerOptionCode'] = self::createMock(CustomerOptionInterface::class);
         $this->customerOptionRepository->method('findOneByCode')->with('customerOptionCode')->willReturn($this->customerOptions['customerOptionCode']);
 
-        $event         = $this->createEvent(true);
+        $event = $this->createEvent(true);
         $this->request = $this->createRequest(['customer_options' => ['customerOptionCode' => 'value']]);
 
         // EXECUTE

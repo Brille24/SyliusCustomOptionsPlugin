@@ -15,6 +15,6 @@ interface CustomerOptionValuePriceRepositoryInterface extends RepositoryInterfac
     public function getPriceForChannel(
         ChannelInterface $channel,
         ProductInterface $product,
-        CustomerOptionValueInterface $customerOptionValue
+        CustomerOptionValueInterface $customerOptionValue,
     ): ?CustomerOptionValuePriceInterface;
 }

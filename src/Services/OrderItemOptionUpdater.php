@@ -16,9 +16,13 @@ use Webmozart\Assert\Assert;
 final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
 {
     private OrderItemOptionFactoryInterface $orderItemOptionFactory;
+
     private EntityManagerInterface $entityManager;
+
     private CustomerOptionRepositoryInterface $customerOptionRepository;
+
     private OrderProcessorInterface $customerOptionRefresher;
+
     private OrderProcessorInterface $customerOptionRecalculator;
 
     public function __construct(
@@ -26,16 +30,16 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
         EntityManagerInterface $entityManager,
         CustomerOptionRepositoryInterface $customerOptionRepository,
         OrderProcessorInterface $customerOptionRefresher,
-        OrderProcessorInterface $customerOptionRecalculator
+        OrderProcessorInterface $customerOptionRecalculator,
     ) {
-        $this->orderItemOptionFactory     = $orderItemOptionFactory;
-        $this->entityManager              = $entityManager;
-        $this->customerOptionRepository   = $customerOptionRepository;
-        $this->customerOptionRefresher    = $customerOptionRefresher;
+        $this->orderItemOptionFactory = $orderItemOptionFactory;
+        $this->entityManager = $entityManager;
+        $this->customerOptionRepository = $customerOptionRepository;
+        $this->customerOptionRefresher = $customerOptionRefresher;
         $this->customerOptionRecalculator = $customerOptionRecalculator;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function updateOrderItemOptions(OrderItemInterface $orderItem, array $data, bool $updatePrice = true): void
     {
         $orderItemOptions = $orderItem->getCustomerOptionConfiguration(true);
@@ -43,7 +47,7 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
         $newConfig = [];
         foreach ($data as $customerOptionCode => $newValue) {
             $orderItemOption = $orderItemOptions[$customerOptionCode] ?? null;
-            $customerOption  = $this->customerOptionRepository->findOneByCode($customerOptionCode);
+            $customerOption = $this->customerOptionRepository->findOneByCode($customerOptionCode);
             Assert::notNull($customerOption);
 
             if (CustomerOptionTypeEnum::FILE === $customerOption->getType()) {

@@ -24,12 +24,12 @@ final class CustomerOptionValuePriceType extends AbstractType
 {
     use ProductCustomerOptionValuePriceTypeTrait;
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var ProductInterface $product */
         $product = $options['product'];
-        $values  = [];
+        $values = [];
 
         /** @var CustomerOptionInterface $customerOption */
         foreach ($product->getCustomerOptions() as $customerOption) {
@@ -41,7 +41,7 @@ final class CustomerOptionValuePriceType extends AbstractType
         $this->addValuePriceFields($builder, $values);
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
@@ -51,7 +51,7 @@ final class CustomerOptionValuePriceType extends AbstractType
         ;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getBlockPrefix(): string
     {
         return 'brille24_product_value_price';

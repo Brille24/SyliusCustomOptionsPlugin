@@ -22,12 +22,19 @@ use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
 {
     protected ?int $id;
+
     protected float $percent = 0;
+
     protected int $amount = 0;
+
     protected string $type = CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT;
+
     protected ?CustomerOptionValueInterface $customerOptionValue;
+
     protected ?ProductInterface $product = null;
+
     protected ?ChannelInterface $channel = null;
+
     protected ?DateRangeInterface $dateValid = null;
 
     public function getId(): ?int
@@ -67,7 +74,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
         if (in_array($type, $allTypes, true)) {
             $this->type = $type;
         } else {
-            throw new InvalidTypeException('Invalid type. Possible types are '.implode(', ', $allTypes));
+            throw new InvalidTypeException('Invalid type. Possible types are ' . implode(', ', $allTypes));
         }
     }
 

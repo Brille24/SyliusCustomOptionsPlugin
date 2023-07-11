@@ -23,12 +23,12 @@ use Symfony\Component\Form\FormEvents;
 final class CustomerOptionConfigurationType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event): void {
-            $form          = $event->getForm();
+            $form = $event->getForm();
             $configuration = $event->getData();
 
             foreach ($configuration as $key => $configArray) {
@@ -46,14 +46,14 @@ final class CustomerOptionConfigurationType extends AbstractType
                 $form->add(
                     str_replace('.', ':', $key),
                     $formTypeClass,
-                    array_merge(['data' => $data, 'label' => $key], $formTypeConfig)
+                    array_merge(['data' => $data, 'label' => $key], $formTypeConfig),
                 );
             }
         });
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getBlockPrefix(): string
     {

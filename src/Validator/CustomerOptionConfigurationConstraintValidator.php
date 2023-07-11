@@ -29,7 +29,6 @@ class CustomerOptionConfigurationConstraintValidator extends ConstraintValidator
     {
         Assert::isArray($value);
         Assert::isInstanceOf($constraint, CustomerOptionConfigurationConstraint::class);
-        /** @var CustomerOptionConfigurationConstraint $constraint */
 
         /**
          * The array can look like this

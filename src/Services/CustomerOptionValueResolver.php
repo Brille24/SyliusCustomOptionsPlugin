@@ -23,7 +23,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
  */
 final class CustomerOptionValueResolver implements CustomerOptionValueResolverInterface
 {
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function resolve(CustomerOptionInterface $customerOption, string $value): ?CustomerOptionValueInterface
     {
         if (!CustomerOptionTypeEnum::isSelect($customerOption->getType())) {

@@ -17,13 +17,12 @@ use Sylius\Behat\Page\Admin\Crud\CreatePageInterface;
 use Sylius\Behat\Page\Admin\Crud\IndexPageInterface;
 use Sylius\Behat\Page\Admin\Crud\UpdatePageInterface;
 use Sylius\Behat\Service\Resolver\CurrentPageResolverInterface;
-use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOptionGroup\UpdatePage;
 use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOptionGroup\CreatePage;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOptionGroup\UpdatePage;
 use Webmozart\Assert\Assert;
 
 class CustomerOptionGroupsContext implements Context
 {
-
     /** @var CreatePageInterface */
     private $createPage;
 
@@ -39,11 +38,11 @@ class CustomerOptionGroupsContext implements Context
         CreatePageInterface $createPage,
         UpdatePageInterface $updatePage,
         IndexPageInterface $indexPage,
-        CurrentPageResolverInterface $currentPageResolver
+        CurrentPageResolverInterface $currentPageResolver,
     ) {
-        $this->createPage          = $createPage;
-        $this->updatePage          = $updatePage;
-        $this->indexPage           = $indexPage;
+        $this->createPage = $createPage;
+        $this->updatePage = $updatePage;
+        $this->indexPage = $indexPage;
         $this->currentPageResolver = $currentPageResolver;
     }
 
@@ -162,7 +161,7 @@ class CustomerOptionGroupsContext implements Context
      */
     public function theCustomerOptionGroupShouldHaveOption(
         CustomerOptionGroupInterface $customerOptionGroup,
-        CustomerOptionInterface $customerOption
+        CustomerOptionInterface $customerOption,
     ) {
         $result = false;
 
@@ -363,10 +362,8 @@ class CustomerOptionGroupsContext implements Context
     /**
      * Prepares a value for comparision (resolves arrays etc.)
      *
-     * @param        $value
-     * @param string $optionType
      *
-     * @return array|mixed|null|string|string[]
+     * @return array|mixed|string|string[]|null
      */
     private function prepareValue($value, string $optionType)
     {
@@ -376,7 +373,7 @@ class CustomerOptionGroupsContext implements Context
             if (CustomerOptionTypeEnum::isSelect($optionType)) {
                 $value = explode(',', $value);
             } elseif ($optionType === CustomerOptionTypeEnum::BOOLEAN) {
-                $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                $value = filter_var($value, \FILTER_VALIDATE_BOOLEAN);
             }
         }
 
@@ -389,7 +386,7 @@ class CustomerOptionGroupsContext implements Context
     public function theCustomerOptionGroupShouldHaveAValidator(
         CustomerOptionGroupInterface $customerOptionGroup,
         string $conditionType,
-        TableNode $table
+        TableNode $table,
     ) {
         /** @var ConditionInterface|ConstraintInterface[] $conditionsToCheck */
         $conditionsToCheck = array_map(
@@ -403,7 +400,7 @@ class CustomerOptionGroupsContext implements Context
 
                 throw new InvalidArgumentException('The condition type has to be either conditions or constraints');
             },
-            $customerOptionGroup->getValidators()->toArray()
+            $customerOptionGroup->getValidators()->toArray(),
         );
 
         $flatConditionsToCheck = [];
@@ -437,8 +434,10 @@ class CustomerOptionGroupsContext implements Context
                     }
 
                     $sameComp = $condition->getComparator() == $row['comparator'];
-                    $sameVal  = $this->values_are_equal(
-                        $condition->getValue()['value'], $val, $customerOptionType
+                    $sameVal = $this->values_are_equal(
+                        $condition->getValue()['value'],
+                        $val,
+                        $customerOptionType,
                     );
 
                     if ($sameComp && $sameVal) {
@@ -460,8 +459,8 @@ class CustomerOptionGroupsContext implements Context
     {
         if (CustomerOptionTypeEnum::isSelect($optionType)) {
             $result = (
-                is_array($a) && is_array($b)
-                && array_diff($a, $b) === array_diff($b, $a)
+                is_array($a) && is_array($b) &&
+                array_diff($a, $b) === array_diff($b, $a)
             );
         } elseif (CustomerOptionTypeEnum::isDate($optionType)) {
             $a = new \DateTime($a['date']);

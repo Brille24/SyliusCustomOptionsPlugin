@@ -22,7 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class CustomerOptionValueType extends AbstractResourceType
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -33,13 +33,13 @@ final class CustomerOptionValueType extends AbstractResourceType
             ])
             ->add('prices', CollectionType::class, [
                 'entry_type' => CustomerOptionValuePriceType::class,
-                'label'      => 'brille24.form.customer_option_value.price',
+                'label' => 'brille24.form.customer_option_value.price',
             ])
         ;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -50,7 +50,7 @@ final class CustomerOptionValueType extends AbstractResourceType
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getBlockPrefix(): string
     {

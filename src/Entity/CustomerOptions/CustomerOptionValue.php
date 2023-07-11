@@ -28,10 +28,12 @@ class CustomerOptionValue implements CustomerOptionValueInterface
         getTranslation as private doGetTranslation;
     }
 
-    /** @var int|null */
     protected ?int $id;
+
     protected string $code;
+
     protected Collection $prices;
+
     protected ?CustomerOptionInterface $customerOption;
 
     /** @var OrderItemOptionInterface[] */
@@ -44,7 +46,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getId(): ?int
     {
@@ -52,7 +54,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setCode(string $code): void
     {
@@ -60,7 +62,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCode(): string
     {
@@ -68,7 +70,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getName(): ?string
     {
@@ -79,7 +81,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setName(string $name): void
     {
@@ -89,7 +91,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setPrices(?Collection $prices): void
     {
@@ -107,7 +109,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getPrices(): Collection
     {
@@ -128,11 +130,11 @@ class CustomerOptionValue implements CustomerOptionValueInterface
         return $this->prices->filter($priceIsInChannel);
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getPriceForChannel(
         ChannelInterface $channel,
         ProductInterface $product,
-        bool $ignoreActive = false
+        bool $ignoreActive = false,
     ): ?CustomerOptionValuePriceInterface {
         $prices = $this->getPricesForChannel($channel);
 
@@ -158,7 +160,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
 
                     return $accumulator;
                 },
-                reset($prices)
+                reset($prices),
             );
         }
 
@@ -178,7 +180,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCustomerOption(): ?CustomerOptionInterface
     {
@@ -186,18 +188,13 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setCustomerOption(?CustomerOptionInterface $customerOption): void
     {
         $this->customerOption = $customerOption;
     }
 
-    /**
-     * @param string|null $locale
-     *
-     * @return TranslationInterface
-     */
     public function getTranslation(?string $locale = null): TranslationInterface
     {
         return $this->doGetTranslation();
@@ -212,7 +209,7 @@ class CustomerOptionValue implements CustomerOptionValueInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function createTranslation(): TranslationInterface
     {

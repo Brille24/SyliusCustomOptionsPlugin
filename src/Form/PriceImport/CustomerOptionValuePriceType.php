@@ -32,7 +32,7 @@ final class CustomerOptionValuePriceType extends AbstractType
         $this->customerOptionRepository = $customerOptionRepository;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $values = [];
@@ -48,10 +48,9 @@ final class CustomerOptionValuePriceType extends AbstractType
         $builder->remove('customerOptionValue');
         $builder
             ->add('customerOptionValues', ChoiceType::class, [
-                'choices'      => $values,
+                'choices' => $values,
                 'choice_label' => 'name',
-                'group_by'     => static function (CustomerOptionValueInterface $customerOptionValue): ?string {
-
+                'group_by' => static function (CustomerOptionValueInterface $customerOptionValue): ?string {
                     /** @var CustomerOptionInterface $customerOption */
                     $customerOption = $customerOptionValue->getCustomerOption();
 
@@ -62,7 +61,7 @@ final class CustomerOptionValuePriceType extends AbstractType
         ;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getBlockPrefix(): string
     {
         return 'brille24_product_value_price';

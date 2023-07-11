@@ -20,9 +20,6 @@ use Sylius\Component\Resource\Model\TranslatableInterface;
 
 interface CustomerOptionValueInterface extends ResourceInterface, TranslatableInterface
 {
-    /**
-     * @param string $code
-     */
     public function setCode(string $code): void;
 
     /**
@@ -30,9 +27,6 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
      */
     public function getCode(): ?string;
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void;
 
     /**
@@ -40,14 +34,8 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
      */
     public function getName(): ?string;
 
-    /**
-     * @param Collection|null $prices
-     */
     public function setPrices(?Collection $prices): void;
 
-    /**
-     * @return Collection
-     */
     public function getPrices(): Collection;
 
     public function getPricesForChannel(ChannelInterface $channel): Collection;
@@ -55,35 +43,19 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
     /**
      * @deprecated Please use {@see CustomerOptionValuePriceRepository::getPriceForChannel()} instead.
      *
-     * @param ChannelInterface $channel
-     * @param ProductInterface $product
-     * @param bool             $ignoreActive
-     *
      * @return CustomerOptionValuePriceInterface
      */
     public function getPriceForChannel(
         ChannelInterface $channel,
         ProductInterface $product,
-        bool $ignoreActive = false
+        bool $ignoreActive = false,
     ): ?CustomerOptionValuePriceInterface;
 
-    /**
-     * @param CustomerOptionValuePriceInterface $price
-     */
     public function addPrice(CustomerOptionValuePriceInterface $price): void;
 
-    /**
-     * @param CustomerOptionValuePriceInterface $price
-     */
     public function removePrice(CustomerOptionValuePriceInterface $price): void;
 
-    /**
-     * @param CustomerOptionInterface|null $customerOption
-     */
     public function setCustomerOption(?CustomerOptionInterface $customerOption): void;
 
-    /**
-     * @return CustomerOptionInterface|null
-     */
     public function getCustomerOption(): ?CustomerOptionInterface;
 }

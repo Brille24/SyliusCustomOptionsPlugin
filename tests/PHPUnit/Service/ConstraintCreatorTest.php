@@ -45,7 +45,7 @@ class ConstraintCreatorTest extends TestCase
                 CustomerOptionTypeEnum::NUMBER,
                 sprintf(
                     'Either option "min", "minPropertyPath", "max" or "maxPropertyPath" must be given for constraint "%s"',
-                    Range::class
+                    Range::class,
                 ),
             ],
             'string' => [
@@ -76,7 +76,7 @@ class ConstraintCreatorTest extends TestCase
                 CustomerOptionTypeEnum::TEXT,
                 array_merge(
                     $this->createValue('brille24.form.config.min.length', 10),
-                    $this->createValue('brille24.form.config.max.length', 50)
+                    $this->createValue('brille24.form.config.max.length', 50),
                 ),
                 new Length(['min' => 10, 'max' => 50]),
             ],
@@ -90,7 +90,7 @@ class ConstraintCreatorTest extends TestCase
                 CustomerOptionTypeEnum::NUMBER,
                 array_merge(
                     $this->createValue('brille24.form.config.min.number', 10),
-                    $this->createValue('brille24.form.config.max.number', 25)
+                    $this->createValue('brille24.form.config.max.number', 25),
                 ),
                 new Range(['min' => 10, 'max' => 25]),
             ],
@@ -100,7 +100,7 @@ class ConstraintCreatorTest extends TestCase
                 array_merge(
                     $this->createValue('brille24.form.config.max.file_size', 10),
                     $this->createValue('brille24.form.config.min.file_size', 0),
-                    $this->createValue('brille24.form.config.allowed_types', 'text/text')
+                    $this->createValue('brille24.form.config.allowed_types', 'text/text'),
                 ),
                 new File(['maxSize' => 10, 'mimeTypes' => ['text/text']]),
             ],
@@ -114,7 +114,7 @@ class ConstraintCreatorTest extends TestCase
                 CustomerOptionTypeEnum::DATE,
                 array_merge(
                     $this->createValue('brille24.form.config.min.date', ['date' => '2000-01-17']),
-                    $this->createValue('brille24.form.config.max.date', ['date' => '2010-01-18'])
+                    $this->createValue('brille24.form.config.max.date', ['date' => '2010-01-18']),
                 ),
                 new Range(['min' => '2000-01-17', 'max' => '2010-01-18']),
             ],
@@ -128,7 +128,7 @@ class ConstraintCreatorTest extends TestCase
                 CustomerOptionTypeEnum::DATETIME,
                 array_merge(
                     $this->createValue('brille24.form.config.min.date', ['date' => '2001-17-01 17:00:21']),
-                    $this->createValue('brille24.form.config.max.date', ['date' => '2010-01-17 17:11:21'])
+                    $this->createValue('brille24.form.config.max.date', ['date' => '2010-01-17 17:11:21']),
                 ),
                 new Range(['min' => '2001-17-01 17:00:21', 'max' => '2010-01-17 17:11:21']),
             ],

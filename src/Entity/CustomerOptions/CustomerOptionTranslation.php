@@ -17,10 +17,11 @@ use Sylius\Component\Resource\Model\AbstractTranslation;
 class CustomerOptionTranslation extends AbstractTranslation implements CustomerOptionTranslationInterface
 {
     protected ?int $id;
+
     protected ?string $name;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getId(): ?int
     {
@@ -28,7 +29,7 @@ class CustomerOptionTranslation extends AbstractTranslation implements CustomerO
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getName(): ?string
     {
@@ -36,7 +37,7 @@ class CustomerOptionTranslation extends AbstractTranslation implements CustomerO
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setName(?string $name): void
     {

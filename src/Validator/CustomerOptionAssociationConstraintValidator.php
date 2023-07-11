@@ -34,7 +34,6 @@ class CustomerOptionAssociationConstraintValidator extends ConstraintValidator
         foreach ($value->toArray() as $uniqueValue) {
             Assert::isInstanceOf($uniqueValue, CustomerOptionAssociationInterface::class);
 
-            /** @var CustomerOptionAssociationInterface $uniqueValue */
             $customerOption = $uniqueValue->getOption();
             if (in_array($customerOption, $optionsSoFar, true)) {
                 $this->context->addViolation('sylius.ui.code');

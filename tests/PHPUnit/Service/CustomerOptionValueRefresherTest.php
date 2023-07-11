@@ -34,9 +34,7 @@ class CustomerOptionValueRefresherTest extends TestCase
     private $channel;
 
     //<editor-fold desc="Helper function for setup">
-    /**
-     * @var CustomerOptionValuePriceRepositoryInterface|MockObject
-     */
+    /** @var CustomerOptionValuePriceRepositoryInterface|MockObject */
     private $customerOptionValuePriceRepository;
 
     public function setUp(): void
@@ -44,7 +42,7 @@ class CustomerOptionValueRefresherTest extends TestCase
         $this->channel = self::createMock(ChannelInterface::class);
 
         $this->customerOptionValuePriceRepository = $this->createMock(
-            CustomerOptionValuePriceRepositoryInterface::class
+            CustomerOptionValuePriceRepositoryInterface::class,
         );
 
         $this->customerOptionValueRefresher = new CustomerOptionValueRefresher($this->customerOptionValuePriceRepository);
@@ -62,26 +60,26 @@ class CustomerOptionValueRefresherTest extends TestCase
     private function createOrderItemOption(
         CustomerOptionInterface $customerOption,
         CustomerOptionValueInterface $customerOptionValue,
-        bool $stillExists
+        bool $stillExists,
     ): OrderItemOptionInterface {
         $orderItemOption = self::createMock(OrderItemOptionInterface::class);
         $orderItemOption->method('getCustomerOption')->willReturn($customerOption);
         $orderItemOption->method('getCustomerOptionValue')->willReturnCallback(
-            fn () => $stillExists ? $customerOptionValue : null
+            fn () => $stillExists ? $customerOptionValue : null,
         );
 
         $orderItemOption->method('setCustomerOptionValue')->willReturnCallback(
             function (CustomerOptionValueInterface $value) {
                 $this->nameUpdate = $value->getName();
                 ++$this->updateCount;
-            }
+            },
         );
 
         $orderItemOption->method('setPrice')->willReturnCallback(
             function (CustomerOptionValuePriceInterface $price) {
                 $this->priceUpdate = $price->getAmount();
                 ++$this->updateCount;
-            }
+            },
         );
 
         return $orderItemOption;
@@ -101,7 +99,7 @@ class CustomerOptionValueRefresherTest extends TestCase
                 $customerOptionPrice->method('getAmount')->willReturn($price);
 
                 return $customerOptionPrice;
-            }
+            },
         );
 
         return $customerOptionValue;
@@ -109,13 +107,11 @@ class CustomerOptionValueRefresherTest extends TestCase
 
     /**
      * @param OrderItemOptionInterface|OrderItemOptionInterface[] $orderItemOption
-     *
-     * @return Brille24OrderItem
      */
     private function createOrderItem($orderItemOption): Brille24OrderItem
     {
         $orderItem = self::createMock(Brille24OrderItem::class);
-        $product   = self::createMock(ProductInterface::class);
+        $product = self::createMock(ProductInterface::class);
 
         if (!is_array($orderItemOption)) {
             $orderItemOption = [$orderItemOption];
@@ -141,7 +137,7 @@ class CustomerOptionValueRefresherTest extends TestCase
     public function dataItemsDontNeedProcessing(): array
     {
         return [
-            'no items'         => [[]],
+            'no items' => [[]],
             'sylius base item' => [[new OrderItem()]],
         ];
     }
@@ -151,12 +147,12 @@ class CustomerOptionValueRefresherTest extends TestCase
         $orderItemOption = $this->createOrderItemOption(
             new CustomerOption(),
             $this->createCustomerOptionValue(['code' => 'hello', 'name' => 'something', 'price' => 10]),
-            true
+            true,
         );
 
         $this->customerOptionValueRefresher->copyOverValuesForOrderItem(
             $this->createOrderItem($orderItemOption),
-            $this->channel
+            $this->channel,
         );
 
         self::assertEquals(2, $this->updateCount);
@@ -169,7 +165,7 @@ class CustomerOptionValueRefresherTest extends TestCase
         $orderItemOption = $this->createOrderItemOption(
             new CustomerOption(),
             $this->createCustomerOptionValue(['code' => 'hello', 'name' => 'something', 'price' => 10]),
-            true
+            true,
         );
 
         $order = $this->createOrder([$this->createOrderItem($orderItemOption)]);
@@ -185,7 +181,7 @@ class CustomerOptionValueRefresherTest extends TestCase
         $orderItemOption = $this->createOrderItemOption(
             new CustomerOption(),
             $this->createCustomerOptionValue(['code' => 'hello']),
-            false
+            false,
         );
 
         $order = $this->createOrder([$this->createOrderItem($orderItemOption)]);

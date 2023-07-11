@@ -1,10 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\Checkout;
 
 use Sylius\Behat\Page\Shop\Checkout\CompletePage;
-use Webmozart\Assert\Assert;
 
 class CheckoutPage extends CompletePage
 {
@@ -16,7 +16,7 @@ class CheckoutPage extends CompletePage
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
-            'customer_option_total' => '#customer-option-total'
+            'customer_option_total' => '#customer-option-total',
         ]);
     }
 }

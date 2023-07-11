@@ -9,13 +9,18 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 final class ConditionComparatorEnum implements EnumInterface
 {
-    public const GREATER          = 'greater';
-    public const GREATER_OR_EQUAL = 'greater_equal';
-    public const EQUAL            = 'equal';
-    public const LESSER_OR_EQUAL  = 'lesser_equal';
-    public const LESSER           = 'lesser';
+    public const GREATER = 'greater';
 
-    public const IN_SET     = 'in_set';
+    public const GREATER_OR_EQUAL = 'greater_equal';
+
+    public const EQUAL = 'equal';
+
+    public const LESSER_OR_EQUAL = 'lesser_equal';
+
+    public const LESSER = 'lesser';
+
+    public const IN_SET = 'in_set';
+
     public const NOT_IN_SET = 'not_in_set';
 
     public static function getConstList(): array
@@ -33,7 +38,7 @@ final class ConditionComparatorEnum implements EnumInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function isValid(string $value): bool
     {
@@ -43,13 +48,13 @@ final class ConditionComparatorEnum implements EnumInterface
     public static function getTranslateArray(): array
     {
         return [
-            self::GREATER          => 'brille24.form.validators.condition.greater',
+            self::GREATER => 'brille24.form.validators.condition.greater',
             self::GREATER_OR_EQUAL => 'brille24.form.validators.condition.greater_equal',
-            self::EQUAL            => 'brille24.form.validators.condition.equal',
-            self::LESSER_OR_EQUAL  => 'brille24.form.validators.condition.lesser_equal',
-            self::LESSER           => 'brille24.form.validators.condition.lesser',
+            self::EQUAL => 'brille24.form.validators.condition.equal',
+            self::LESSER_OR_EQUAL => 'brille24.form.validators.condition.lesser_equal',
+            self::LESSER => 'brille24.form.validators.condition.lesser',
 
-            self::IN_SET     => 'brille24.form.validators.condition.in_set',
+            self::IN_SET => 'brille24.form.validators.condition.in_set',
             self::NOT_IN_SET => 'brille24.form.validators.condition.not_in_set',
         ];
     }
@@ -97,7 +102,7 @@ final class ConditionComparatorEnum implements EnumInterface
                 ChoiceType::class,
                 [
                     'multiple' => true,
-                    'label'    => 'brille24.form.validators.fields.value.set',
+                    'label' => 'brille24.form.validators.fields.value.set',
                 ],
             ];
         }
@@ -117,25 +122,25 @@ final class ConditionComparatorEnum implements EnumInterface
     {
         if (CustomerOptionTypeEnum::isSelect($type)) {
             return [
-                'type'  => 'array',
+                'type' => 'array',
                 'value' => [],
             ];
         }
         if (CustomerOptionTypeEnum::isDate($type)) {
             return [
-                'type'  => 'date',
+                'type' => 'date',
                 'value' => new \DateTime(),
             ];
         }
         if ($type === CustomerOptionTypeEnum::BOOLEAN) {
             return [
-                'type'  => 'boolean',
+                'type' => 'boolean',
                 'value' => true,
             ];
         }
 
         return [
-                'type'  => 'integer',
+                'type' => 'integer',
                 'value' => 0,
             ];
     }

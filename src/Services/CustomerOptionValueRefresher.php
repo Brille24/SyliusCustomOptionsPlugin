@@ -29,8 +29,6 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
      */
     public function process(OrderInterface $order): void
     {
-        /** @var \Sylius\Component\Core\Model\OrderInterface $order */
-        /** @var ChannelInterface $channel */
         $channel = $order->getChannel();
         foreach ($order->getItems() as $orderItem) {
             if (!$orderItem instanceof OrderItemInterface) {
@@ -41,11 +39,11 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
         }
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function copyOverValuesForOrderItem(OrderItemInterface $orderItem, ChannelInterface $channel): void
     {
         $orderItemOptions = $orderItem->getCustomerOptionConfiguration();
-        $product          = $orderItem->getProduct();
+        $product = $orderItem->getProduct();
 
         Assert::isInstanceOf($product, ProductInterface::class);
 
@@ -63,7 +61,7 @@ final class CustomerOptionValueRefresher implements OrderProcessorInterface
             $orderItemOption->setCustomerOptionValue($customerOptionValue);
 
             $price = $this->customerOptionValuePriceRepository->getPriceForChannel($channel, $product, $customerOptionValue);
-            Assert::notNull($price, 'The customer option value "'.$customerOptionValue->getCode().'" has no price');
+            Assert::notNull($price, 'The customer option value "' . $customerOptionValue->getCode() . '" has no price');
 
             // Same here: Copy the price onto the customer option to be independent of the customer option value object.
             $orderItemOption->setPrice($price);

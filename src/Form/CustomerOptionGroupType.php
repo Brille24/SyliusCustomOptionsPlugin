@@ -22,7 +22,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 final class CustomerOptionGroupType extends AbstractResourceType
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -32,34 +32,34 @@ final class CustomerOptionGroupType extends AbstractResourceType
             ])
             ->add('translations', ResourceTranslationsType::class, [
                 'entry_type' => CustomerOptionGroupTranslationType::class,
-                'label'      => 'brille24.form.customer_option_groups.translations',
+                'label' => 'brille24.form.customer_option_groups.translations',
             ])
             ->add('option_associations', CollectionType::class, [
-                'entry_type'          => CustomerOptionAssociationType::class,
-                'allow_add'           => true,
-                'allow_delete'        => true,
-                'label'               => false,
-                'by_reference'        => false,
-                'button_add_label'    => 'brille24.form.customer_option_groups.buttons.add_option',
+                'entry_type' => CustomerOptionAssociationType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'label' => false,
+                'by_reference' => false,
+                'button_add_label' => 'brille24.form.customer_option_groups.buttons.add_option',
                 'button_delete_label' => 'brille24.form.customer_option_groups.buttons.delete_option',
             ])
             ->add('validators', CollectionType::class, [
-                'entry_type'    => ValidatorType::class,
+                'entry_type' => ValidatorType::class,
                 'entry_options' => [
                     'customerOptionGroup' => $options['data'],
                 ],
-                'allow_add'           => true,
-                'allow_delete'        => true,
-                'label'               => false,
-                'by_reference'        => false,
-                'button_add_label'    => 'brille24.form.customer_option_groups.buttons.add_validator',
+                'allow_add' => true,
+                'allow_delete' => true,
+                'label' => false,
+                'by_reference' => false,
+                'button_add_label' => 'brille24.form.customer_option_groups.buttons.add_validator',
                 'button_delete_label' => 'brille24.form.customer_option_groups.buttons.delete_validator',
             ])
         ;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getBlockPrefix(): string
     {

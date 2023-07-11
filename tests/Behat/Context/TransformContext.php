@@ -10,7 +10,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionIn
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Webmozart\Assert\Assert;
 
 class TransformContext implements Context
@@ -27,7 +26,7 @@ class TransformContext implements Context
     public function __construct(
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
     ) {
         $this->customerOptionRepository = $customerOptionRepository;
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;

@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class UpdateOrderItemOptionTypeCommand extends Command
 {
     private RepositoryInterface $orderItemOptionRepository;
+
     private EntityManagerInterface $entityManager;
 
     public function __construct(RepositoryInterface $orderItemOptionRepository, EntityManagerInterface $entityManager)
@@ -21,10 +22,10 @@ final class UpdateOrderItemOptionTypeCommand extends Command
         parent::__construct();
 
         $this->orderItemOptionRepository = $orderItemOptionRepository;
-        $this->entityManager             = $entityManager;
+        $this->entityManager = $entityManager;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     protected function configure(): void
     {
         $this
@@ -33,7 +34,7 @@ final class UpdateOrderItemOptionTypeCommand extends Command
         ;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $i = 0;

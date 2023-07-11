@@ -13,27 +13,17 @@ interface CustomerOptionValuePriceFactoryInterface extends FactoryInterface
      * @deprecated
      * This function will be removed in future versions and replaced with an OptionResolver
      *
-     * @param array $configuration
-     *
      * @throws \Exception
      */
     public function validateConfiguration(array $configuration): void;
 
     /**
      * Creates an array of items based on the configuration
-     *
-     * @param array $configuration
-     *
-     * @return CustomerOptionValuePriceInterface
      */
     public function createFromConfig(array $configuration): CustomerOptionValuePriceInterface;
 
     /**
      * Generates a configuration for random items
-     *
-     * @param int $amount
-     *
-     * @return array
      */
     public function generateRandomConfiguration(int $amount): array;
 }

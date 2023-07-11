@@ -10,7 +10,9 @@ use InvalidArgumentException;
 class DateRange implements DateRangeInterface
 {
     private ?int $id = null;
+
     private DateTimeInterface $start;
+
     private DateTimeInterface $end;
 
     public function getId(): ?int
@@ -30,14 +32,14 @@ class DateRange implements DateRangeInterface
         }
 
         $this->start = $start;
-        $this->end   = $end;
+        $this->end = $end;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function contains(DateTimeInterface $current): bool
     {
         $afterStart = $this->start <= $current;
-        $beforeEnd  = $this->end > $current;
+        $beforeEnd = $this->end > $current;
 
         return $afterStart && $beforeEnd;
     }
@@ -51,19 +53,19 @@ class DateRange implements DateRangeInterface
         return true;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getStart(): DateTimeInterface
     {
         return $this->start;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getEnd(): DateTimeInterface
     {
         return $this->end;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function equals(DateRangeInterface $other): bool
     {
         return $this->start->getTimestamp() === $other->getStart()->getTimestamp() &&
@@ -72,6 +74,6 @@ class DateRange implements DateRangeInterface
 
     public function __toString(): string
     {
-        return sprintf('%s - %s', $this->start->format(DATE_RFC1123), $this->end->format(DATE_RFC1123));
+        return sprintf('%s - %s', $this->start->format(\DATE_RFC1123), $this->end->format(\DATE_RFC1123));
     }
 }

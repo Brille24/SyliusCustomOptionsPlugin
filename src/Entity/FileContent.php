@@ -9,6 +9,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 class FileContent implements ResourceInterface
 {
     protected ?int $id;
+
     protected string $content;
 
     public function __construct(string $content)

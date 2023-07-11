@@ -25,7 +25,7 @@ final class ChannelListener
     private CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory;
 
     public function __construct(
-        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory
+        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
     ) {
         $this->customerOptionValuePriceFactory = $customerOptionValuePriceFactory;
     }

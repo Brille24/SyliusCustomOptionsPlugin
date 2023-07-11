@@ -20,18 +20,14 @@ class CreatePage extends BaseCreatePage
     /**
      * CreatePage constructor.
      *
-     * @param Session $session
      * @param array|\ArrayAccess $minkParameters
-     * @param RouterInterface $router
-     * @param string $routeName
-     * @param TranslatorInterface $translator
      */
     public function __construct(
         Session $session,
         $minkParameters,
         RouterInterface $router,
         string $routeName,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
     ) {
         parent::__construct($session, $minkParameters, $router, $routeName);
 
@@ -39,9 +35,6 @@ class CreatePage extends BaseCreatePage
     }
 
     /**
-     * @param string $field
-     * @param string $value
-     *
      * @throws \Behat\Mink\Exception\ElementNotFoundException
      */
     public function fillField(string $field, string $value): void
@@ -58,9 +51,6 @@ class CreatePage extends BaseCreatePage
     }
 
     /**
-     * @param string $name
-     * @param int $position
-     *
      * @throws ElementNotFoundException
      */
     public function chooseOption(string $name, int $position): void
@@ -111,8 +101,6 @@ class CreatePage extends BaseCreatePage
     }
 
     /**
-     * @param string $name
-     *
      * @throws ElementNotFoundException
      */
     public function chooseOptionForCondition(string $name): void
@@ -136,8 +124,6 @@ class CreatePage extends BaseCreatePage
     }
 
     /**
-     * @param string $name
-     *
      * @throws ElementNotFoundException
      */
     public function chooseComparatorForCondition(string $name): void
@@ -160,11 +146,6 @@ class CreatePage extends BaseCreatePage
         $lastSelectItem->selectOption($name);
     }
 
-    /**
-     * @param string $optionType
-     *
-     * @return null|string
-     */
     public function getConditionValueType(string $optionType): ?string
     {
         $valueSuffix = '.default';
@@ -189,9 +170,6 @@ class CreatePage extends BaseCreatePage
         return $lastValueItem->getAttribute('type') ?? $lastValueItem->getTagName();
     }
 
-    /**
-     * @return int
-     */
     public function countValidators(): int
     {
         $validators = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"] > div > div');

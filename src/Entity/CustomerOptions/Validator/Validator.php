@@ -30,24 +30,24 @@ class Validator implements ValidatorInterface
     public function __construct()
     {
         $this->constraints = new ArrayCollection();
-        $this->conditions  = new ArrayCollection();
+        $this->conditions = new ArrayCollection();
 
         $this->errorMessage = self::createDefaultErrorMessage();
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getConditions(): array
     {
         return $this->conditions->toArray();
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function setConditions(?array $conditions): void
     {
         $this->conditions->clear();
@@ -60,7 +60,7 @@ class Validator implements ValidatorInterface
         }
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function addCondition(ConditionInterface $condition): void
     {
         $condition->setValidator($this);
@@ -68,7 +68,7 @@ class Validator implements ValidatorInterface
         $this->conditions->add($condition);
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function removeCondition(ConditionInterface $condition): void
     {
         $condition->setValidator(null);
@@ -76,13 +76,13 @@ class Validator implements ValidatorInterface
         $this->conditions->removeElement($condition);
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getConstraints(): array
     {
         return $this->constraints->toArray();
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function setConstraints(?array $constraints): void
     {
         $this->constraints->clear();
@@ -96,7 +96,7 @@ class Validator implements ValidatorInterface
         }
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function addConstraint(ConstraintInterface $constraint): void
     {
         $constraint->setValidator($this);
@@ -104,7 +104,7 @@ class Validator implements ValidatorInterface
         $this->constraints->add($constraint);
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function removeConstraint(ConstraintInterface $constraint): void
     {
         $constraint->setValidator(null);
@@ -112,13 +112,13 @@ class Validator implements ValidatorInterface
         $this->constraints->removeElement($constraint);
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getCustomerOptionGroup(): ?CustomerOptionGroupInterface
     {
         return $this->customerOptionGroup;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function setCustomerOptionGroup(?CustomerOptionGroupInterface $customerOptionGroup): void
     {
         $this->customerOptionGroup = $customerOptionGroup;

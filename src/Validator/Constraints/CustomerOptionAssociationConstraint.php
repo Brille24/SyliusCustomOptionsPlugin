@@ -17,18 +17,16 @@ use Symfony\Component\Validator\Constraint;
 
 class CustomerOptionAssociationConstraint extends Constraint
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public $message = 'sylius.ui.code';
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function validatedBy(): string
     {
         return CustomerOptionAssociationConstraintValidator::class;

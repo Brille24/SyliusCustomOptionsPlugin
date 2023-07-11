@@ -11,20 +11,22 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class CsvImportErrorHandler implements ImportErrorHandlerInterface
 {
     protected SenderInterface $sender;
+
     protected TokenStorageInterface $tokenStorage;
+
     protected string $emailCode;
 
     public function __construct(
         SenderInterface $sender,
         TokenStorageInterface $tokenStorage,
-        string $emailCode
+        string $emailCode,
     ) {
-        $this->sender       = $sender;
+        $this->sender = $sender;
         $this->tokenStorage = $tokenStorage;
-        $this->emailCode   = $emailCode;
+        $this->emailCode = $emailCode;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function handleErrors(array $errors, array $extraData): void
     {
         if (0 === count($errors)) {
@@ -38,23 +40,18 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
 
         // Send mail about failed imports
         /** @var AdminUserInterface $user */
-        $user    = $token->getUser();
-        $email   = $user->getEmail();
+        $user = $token->getUser();
+        $email = $user->getEmail();
         $csvPath = $this->buildCsv($errors);
 
         $this->sender->send(
             $this->emailCode,
             [$email],
             ['errors' => $errors, 'extraData' => $extraData],
-            [$csvPath]
+            [$csvPath],
         );
     }
 
-    /**
-     * @param array $errors
-     *
-     * @return string
-     */
     protected function buildCsv(array $errors): string
     {
         // Build csv to attach to the email
@@ -74,7 +71,7 @@ class CsvImportErrorHandler implements ImportErrorHandlerInterface
 
         /** @var string $tmpPath */
         $tmpPath = tempnam(sys_get_temp_dir(), 'cop');
-        $csvPath = $tmpPath.'.csv';
+        $csvPath = $tmpPath . '.csv';
 
         rename($tmpPath, $csvPath);
         file_put_contents($csvPath, implode("\n", $csvData));

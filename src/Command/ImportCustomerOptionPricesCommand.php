@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class ImportCustomerOptionPricesCommand extends Command
 {
     private CsvReaderInterface $csvReader;
+
     protected CustomerOptionPriceImporterInterface $importer;
 
     public function __construct(CsvReaderInterface $csvReader, CustomerOptionPriceImporterInterface $importer)
@@ -21,7 +22,7 @@ final class ImportCustomerOptionPricesCommand extends Command
         parent::__construct();
 
         $this->csvReader = $csvReader;
-        $this->importer  = $importer;
+        $this->importer = $importer;
     }
 
     protected function configure(): void
@@ -35,7 +36,7 @@ final class ImportCustomerOptionPricesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $source = $input->getArgument('source');
-        $data   = $this->csvReader->readCsv($source);
+        $data = $this->csvReader->readCsv($source);
         $result = $this->importer->import($data);
 
         if (0 < $result->getImported()) {

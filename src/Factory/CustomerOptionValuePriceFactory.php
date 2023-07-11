@@ -24,15 +24,16 @@ use Sylius\Component\Core\Model\ChannelInterface;
 class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactoryInterface
 {
     protected ChannelRepositoryInterface $channelRepository;
+
     protected Generator $faker;
 
     public function __construct(ChannelRepositoryInterface $channelRepository)
     {
         $this->channelRepository = $channelRepository;
-        $this->faker             = Factory::create();
+        $this->faker = Factory::create();
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function validateConfiguration(array $configuration): void
     {
         ConfigurationException::createFromMissingArrayKey('type', $configuration);
@@ -46,7 +47,7 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
         ConfigurationException::createFromMissingArrayKey('channel', $configuration);
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function createFromConfig(array $configuration): CustomerOptionValuePriceInterface
     {
         $this->validateConfiguration($configuration);
@@ -68,7 +69,7 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
         $channel = $this->channelRepository->findOneByCode($configuration['channel']);
 
         if ($channel === null) {
-            throw new EntityNotFoundException('Could not find Channel with code: "'.$configuration['channel'].'"');
+            throw new EntityNotFoundException('Could not find Channel with code: "' . $configuration['channel'] . '"');
         }
 
         $price->setChannel($channel);
@@ -76,19 +77,19 @@ class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactory
         return $price;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function generateRandomConfiguration(int $amount): array
     {
-        $prices          = [];
+        $prices = [];
         $allChannelCodes = array_map(
             static fn (ChannelInterface $channel): ?string => $channel->getCode(),
-            $this->channelRepository->findAll()
+            $this->channelRepository->findAll(),
         );
 
         foreach (range(1, $amount) as $_) {
             $config = [
-                'type'    => $this->faker->randomElement(['fixed', 'percent']),
-                'amount'  => $this->faker->numberBetween(50, 10000),
+                'type' => $this->faker->randomElement(['fixed', 'percent']),
+                'amount' => $this->faker->numberBetween(50, 10000),
                 'percent' => $this->faker->randomFloat(4, 0.01, 0.5),
                 'channel' => $this->faker->randomElement($allChannelCodes),
             ];

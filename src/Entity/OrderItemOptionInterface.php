@@ -19,64 +19,28 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface OrderItemOptionInterface extends ResourceInterface
 {
-    /**
-     * @return int|null
-     */
     public function getId(): ?int;
 
-    /**
-     * @return OrderItemInterface
-     */
     public function getOrderItem(): OrderItemInterface;
 
-    /**
-     * @param OrderItemInterface $orderItem
-     */
     public function setOrderItem(OrderItemInterface $orderItem): void;
 
-    /**
-     * @param CustomerOptionInterface|null $customerOption
-     */
     public function setCustomerOption(?CustomerOptionInterface $customerOption): void;
 
-    /**
-     * @return CustomerOptionInterface|null
-     */
     public function getCustomerOption(): ?CustomerOptionInterface;
 
-    /**
-     * @return string
-     */
     public function getCustomerOptionType(): string;
 
-    /**
-     * @param string $type
-     */
     public function setCustomerOptionType(string $type): void;
 
-    /**
-     * @return string
-     */
     public function getCustomerOptionCode(): string;
 
-    /**
-     * @param string $code
-     */
     public function setCustomerOptionCode(string $code): void;
 
-    /**
-     * @return string
-     */
     public function getCustomerOptionName(): string;
 
-    /**
-     * @param string $name
-     */
     public function setCustomerOptionName(string $name): void;
 
-    /**
-     * @param string|null $value
-     */
     public function setOptionValue(?string $value): void;
 
     /**
@@ -89,9 +53,6 @@ interface OrderItemOptionInterface extends ResourceInterface
      */
     public function setCustomerOptionValue($customerOptionValue): void;
 
-    /**
-     * @return CustomerOptionValueInterface|null
-     */
     public function getCustomerOptionValue(): ?CustomerOptionValueInterface;
 
     /**
@@ -99,54 +60,24 @@ interface OrderItemOptionInterface extends ResourceInterface
      */
     public function getCustomerOptionValueCode(): ?string;
 
-    /**
-     * @param string|null $code
-     */
     public function setCustomerOptionValueCode(?string $code): void;
 
-    /**
-     * @return string
-     */
     public function getCustomerOptionValueName(): string;
 
-    /**
-     * @param string|null $name
-     */
     public function setCustomerOptionValueName(?string $name): void;
 
-    /**
-     * @param CustomerOptionValuePriceInterface $price
-     */
     public function setPrice(CustomerOptionValuePriceInterface $price): void;
 
-    /**
-     * @param int $price
-     */
     public function setFixedPrice(int $price): void;
 
-    /**
-     * @return int
-     */
     public function getFixedPrice(): int;
 
-    /**
-     * @param float $percent
-     */
     public function setPercent(float $percent): void;
 
-    /**
-     * @return float
-     */
     public function getPercent(): float;
 
-    /**
-     * @param string $type
-     */
     public function setPricingType(string $type): void;
 
-    /**
-     * @return string
-     */
     public function getPricingType(): string;
 
     /**
@@ -154,18 +85,8 @@ interface OrderItemOptionInterface extends ResourceInterface
      */
     public function getScalarValue();
 
-    /**
-     * @param int $basePrice
-     *
-     * @return int
-     */
     public function getCalculatedPrice(int $basePrice): int;
 
-    /**
-     * @param OrderItemOptionInterface $orderItemOption
-     *
-     * @return bool
-     */
     public function equals(self $orderItemOption): bool;
 
     public function getFileContent(): ?FileContent;

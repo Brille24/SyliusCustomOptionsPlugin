@@ -34,21 +34,20 @@ class CustomerOptionValuePriceDateOverlapConstraintValidator extends ConstraintV
         Assert::isInstanceOf(
             $valuePrices,
             Collection::class,
-            sprintf('$valuePrices is not type of %s', Collection::class)
+            sprintf('$valuePrices is not type of %s', Collection::class),
         );
         Assert::isInstanceOf(
             $constraint,
             CustomerOptionValuePriceDateOverlapConstraint::class,
-            sprintf('$constraint is not type of %s', CustomerOptionValuePriceDateOverlapConstraint::class)
+            sprintf('$constraint is not type of %s', CustomerOptionValuePriceDateOverlapConstraint::class),
         );
         Assert::allObject($valuePrices, '$valuePrices has non object');
         Assert::allImplementsInterface(
             $valuePrices,
             CustomerOptionValuePriceInterface::class,
-            sprintf('$valuePrices has object not implementing %s', CustomerOptionValuePriceInterface::class)
+            sprintf('$valuePrices has object not implementing %s', CustomerOptionValuePriceInterface::class),
         );
 
-        /** @var Collection $valuePrices */
         if ($valuePrices->isEmpty()) {
             return;
         }
@@ -64,11 +63,11 @@ class CustomerOptionValuePriceDateOverlapConstraintValidator extends ConstraintV
             $channelCode = $priceChannel->getCode();
 
             /** @var CustomerOptionValueInterface $customerOptionValue */
-            $customerOptionValue     = $currentPrice->getCustomerOptionValue();
+            $customerOptionValue = $currentPrice->getCustomerOptionValue();
             $customerOptionValueCode = $customerOptionValue->getCode() ?? '';
 
             /** @var CustomerOptionInterface $customerOption */
-            $customerOption     = $customerOptionValue->getCustomerOption();
+            $customerOption = $customerOptionValue->getCustomerOption();
             $customerOptionCode = $customerOption->getCode() ?? '';
 
             if (!isset($existingPrices[$channelCode][$customerOptionCode][$customerOptionValueCode])) {
@@ -83,7 +82,7 @@ class CustomerOptionValuePriceDateOverlapConstraintValidator extends ConstraintV
                     continue;
                 }
 
-                $currentDateRange  = $currentPrice->getDateValid();
+                $currentDateRange = $currentPrice->getDateValid();
                 $existingDateRange = $existingPrice->getDateValid();
 
                 if ($currentDateRange === $existingDateRange) {

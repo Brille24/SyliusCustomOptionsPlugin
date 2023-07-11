@@ -31,10 +31,10 @@ class ConditionalConstraintValidatorTest extends TestCase
 
     public function setUp(): void
     {
-        $this->violations       = [];
-        $this->request          = self::createMock(Request::class);
+        $this->violations = [];
+        $this->request = self::createMock(Request::class);
         $this->request->request = self::createMock(ParameterBag::class);
-        $requestStack           = self::createConfiguredMock(RequestStack::class, ['getCurrentRequest' => $this->request]);
+        $requestStack = self::createConfiguredMock(RequestStack::class, ['getCurrentRequest' => $this->request]);
 
         $this->conditionalConstraintValidator = new ConditionalConstraintValidator($requestStack);
 
@@ -59,7 +59,7 @@ class ConditionalConstraintValidatorTest extends TestCase
             ->willReturn(['customer_options' => $customerEnteredValues]);
 
         $customerOptions = $this->createMockCustomerOptions();
-        $product         = self::createMock(ProductInterface::class);
+        $product = self::createMock(ProductInterface::class);
 
         $product->method('getCustomerOptions')->willReturn($customerOptions);
 
@@ -87,7 +87,7 @@ class ConditionalConstraintValidatorTest extends TestCase
         $constraints[] = $constraint;
 
         $conditionalConstraint = new ConditionalConstraint([
-            'conditions'  => $conditions,
+            'conditions' => $conditions,
             'constraints' => $constraints,
         ]);
 
@@ -100,7 +100,7 @@ class ConditionalConstraintValidatorTest extends TestCase
     public function requestParamsProvider()
     {
         return [
-            'some other test'       => [['option_1' => 'some text', 'option_2' => '1', 'option_3' => 'val_1']],
+            'some other test' => [['option_1' => 'some text', 'option_2' => '1', 'option_3' => 'val_1']],
             'missing option values' => [['option_1' => 'abc', 'option_3' => 'val_2']],
         ];
     }

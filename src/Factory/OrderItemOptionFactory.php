@@ -30,33 +30,36 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, FactoryInterface
 {
     private FactoryInterface $factory;
+
     private CustomerOptionRepositoryInterface $customerOptionRepository;
+
     private CustomerOptionValueResolverInterface $valueResolver;
+
     private CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository;
 
     public function __construct(
         FactoryInterface $factory,
         CustomerOptionRepositoryInterface $customerOptionRepository,
         CustomerOptionValueResolverInterface $valueResolver,
-        CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository
+        CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository,
     ) {
-        $this->factory                            = $factory;
-        $this->customerOptionRepository           = $customerOptionRepository;
-        $this->valueResolver                      = $valueResolver;
+        $this->factory = $factory;
+        $this->customerOptionRepository = $customerOptionRepository;
+        $this->valueResolver = $valueResolver;
         $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function createNew(): object
     {
         return $this->factory->createNew();
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function createForOptionAndValue(
         OrderItemInterface $orderItem,
         CustomerOptionInterface $customerOption,
-        $customerOptionValue
+        $customerOptionValue,
     ): OrderItemOptionInterface {
         /** @var OrderItemOptionInterface $orderItemOption */
         $orderItemOption = $this->createNew();
@@ -75,7 +78,7 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
             $channel = $order->getChannel();
 
             /** @var CustomerOptionValuePriceInterface $price */
-            $price   = $this->customerOptionValuePriceRepository->getPriceForChannel($channel, $product, $customerOptionValue);
+            $price = $this->customerOptionValuePriceRepository->getPriceForChannel($channel, $product, $customerOptionValue);
 
             $orderItemOption->setPrice($price);
         }
@@ -85,11 +88,11 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
         return $orderItemOption;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function createNewFromStrings(
         OrderItemInterface $orderItem,
         string $customerOptionCode,
-        $customerOptionValue
+        $customerOptionValue,
     ): OrderItemOptionInterface {
         $customerOption = $this->customerOptionRepository->findOneByCode($customerOptionCode);
         if ($customerOption === null) {

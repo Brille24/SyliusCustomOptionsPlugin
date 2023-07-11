@@ -32,7 +32,7 @@ trait OrderItemCustomerOptionCapableTrait
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setCustomerOptionConfiguration(array $configuration): void
     {
@@ -40,9 +40,9 @@ trait OrderItemCustomerOptionCapableTrait
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getCustomerOptionConfiguration(bool $assoc=false): array
+    public function getCustomerOptionConfiguration(bool $assoc = false): array
     {
         /** @var OrderItemOptionInterface[] $orderItemOptionList */
         $orderItemOptionList = $this->configuration->toArray();
@@ -68,7 +68,7 @@ trait OrderItemCustomerOptionCapableTrait
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCustomerOptionConfigurationAsSimpleArray(): array
     {
@@ -82,7 +82,7 @@ trait OrderItemCustomerOptionCapableTrait
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function equals(SyliusOrderItemInterface $item): bool
     {

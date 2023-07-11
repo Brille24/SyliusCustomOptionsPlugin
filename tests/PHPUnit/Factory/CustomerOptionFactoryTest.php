@@ -27,7 +27,7 @@ class CustomerOptionFactoryTest extends TestCase
 
         $customerOptionGroupRepository = self::createMock(CustomerOptionGroupRepositoryInterface::class);
         $customerOptionGroupRepository->method('findAll')->willReturnCallback(
-            fn () => $this->customerOptionGroupRepository
+            fn () => $this->customerOptionGroupRepository,
         );
         $customerOptionGroupRepository->method('findOneBy')->willReturnCallback(function (array $config) {
             $code = $config['code'];
@@ -42,7 +42,7 @@ class CustomerOptionFactoryTest extends TestCase
 
         $this->customerOptionFactory = new CustomerOptionFactory(
             $customerOptionGroupRepository,
-            $customerOptionValueFactory
+            $customerOptionValueFactory,
         );
     }
 
@@ -93,10 +93,6 @@ class CustomerOptionFactoryTest extends TestCase
      * @dataProvider dataCreateWithSelect
      *
      * @throws \Exception
-     *
-     * @param array $config
-     * @param int $configCount
-     * @param bool $required
      */
     public function testCreateWithSelect(array $config, int $configCount, bool $required): void
     {
@@ -112,35 +108,35 @@ class CustomerOptionFactoryTest extends TestCase
         return [
             'empty object' => [
                 [
-                    'code'         => 'something',
+                    'code' => 'something',
                     'translations' => ['de_DE' => 'Etwas'],
-                    'type'         => 'select',
-                    'values'       => [],
-                    'groups'       => [],
+                    'type' => 'select',
+                    'values' => [],
+                    'groups' => [],
                 ],
                 0,
                 false,
             ],
             'empty object required' => [
                 [
-                    'code'         => 'something',
+                    'code' => 'something',
                     'translations' => ['de_DE' => 'Etwas'],
-                    'type'         => 'select',
-                    'values'       => [],
-                    'groups'       => [],
-                    'required'     => true,
+                    'type' => 'select',
+                    'values' => [],
+                    'groups' => [],
+                    'required' => true,
                 ],
                 0,
                 true,
             ],
             'values object required' => [
                 [
-                    'code'         => 'something',
+                    'code' => 'something',
                     'translations' => ['de_DE' => 'Etwas'],
-                    'type'         => 'select',
-                    'values'       => [[], []],
-                    'groups'       => [],
-                    'required'     => true,
+                    'type' => 'select',
+                    'values' => [[], []],
+                    'groups' => [],
+                    'required' => true,
                 ],
                 2,
                 true,
@@ -154,11 +150,11 @@ class CustomerOptionFactoryTest extends TestCase
     public function testCreateWithConfiguredOptions(): void
     {
         $option = [
-            'code'         => 'something',
+            'code' => 'something',
             'translations' => ['de_DE' => 'Etwas'],
-            'type'         => CustomerOptionTypeEnum::TEXT,
-            'groups'       => [],
-            'required'     => true,
+            'type' => CustomerOptionTypeEnum::TEXT,
+            'groups' => [],
+            'required' => true,
         ];
 
         $customerOption = $this->customerOptionFactory->createFromConfig($option);
@@ -169,8 +165,6 @@ class CustomerOptionFactoryTest extends TestCase
 
     /**
      * @dataProvider dataGenerateConfiguration
-     *
-     * @param int $count
      *
      * @throws \Exception
      */
@@ -201,11 +195,11 @@ class CustomerOptionFactoryTest extends TestCase
         $this->customerOptionGroupRepository = [$group];
 
         $option = [
-            'code'         => 'something',
+            'code' => 'something',
             'translations' => ['de_DE' => 'Etwas'],
-            'type'         => CustomerOptionTypeEnum::NUMBER,
-            'groups'       => ['en_US'],
-            'required'     => true,
+            'type' => CustomerOptionTypeEnum::NUMBER,
+            'groups' => ['en_US'],
+            'required' => true,
         ];
 
         $customerOption = $this->customerOptionFactory->createFromConfig($option);

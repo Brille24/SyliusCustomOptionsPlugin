@@ -35,12 +35,12 @@ class CustomerOptionValuePriceHasCustomerOptionValidator extends ConstraintValid
         Assert::isInstanceOf(
             $product,
             ProductInterface::class,
-            sprintf('$product is not type of %s', ProductInterface::class)
+            sprintf('$product is not type of %s', ProductInterface::class),
         );
         Assert::isInstanceOf(
             $constraint,
             CustomerOptionValuePriceHasCustomerOptionConstraint::class,
-            sprintf('$constraint is not type of %s', CustomerOptionValuePriceHasCustomerOptionConstraint::class)
+            sprintf('$constraint is not type of %s', CustomerOptionValuePriceHasCustomerOptionConstraint::class),
         );
 
         $customerOptions = $product->getCustomerOptions();

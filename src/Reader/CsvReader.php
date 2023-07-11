@@ -8,15 +8,15 @@ use Webmozart\Assert\Assert;
 
 class CsvReader implements CsvReaderInterface
 {
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function readCsv(string $path): array
     {
         $file = fopen($path, 'rb');
 
         Assert::resource($file);
 
-        $header            = null;
-        $csv               = [];
+        $header = null;
+        $csv = [];
         $currentLineNumber = 0;
         while ($row = fgetcsv($file)) {
             ++$currentLineNumber;

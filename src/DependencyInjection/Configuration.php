@@ -26,12 +26,12 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 final class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('brille24_customer_options');
-        $rootNode    = $treeBuilder->getRootNode();
+        $rootNode = $treeBuilder->getRootNode();
 
         // Adding new resources
         $this->addResourceSection($rootNode);
@@ -118,7 +118,7 @@ final class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('price_import_example_file_path')
-                    ->defaultValue(__DIR__.'/../Resources/example/price_import.csv')
+                    ->defaultValue(__DIR__ . '/../Resources/example/price_import.csv')
                 ->end()
             ->end()
         ;

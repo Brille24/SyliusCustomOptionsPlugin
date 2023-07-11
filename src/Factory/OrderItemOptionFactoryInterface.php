@@ -19,16 +19,12 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 interface OrderItemOptionFactoryInterface
 {
     /**
-     * @param CustomerOptionInterface $customerOption
      * @param mixed                   $customerOptionValue
-     * @param OrderItemInterface      $orderItem
-     *
-     * @return OrderItemOptionInterface
      */
     public function createForOptionAndValue(
         OrderItemInterface $orderItem,
         CustomerOptionInterface $customerOption,
-        $customerOptionValue
+        $customerOptionValue,
     ): OrderItemOptionInterface;
 
     /**
@@ -36,13 +32,10 @@ interface OrderItemOptionFactoryInterface
      *
      * @param string              $customerOptionCode The code of teh customer option
      * @param mixed               $customerOptionValue The code of the value if it is a select else just the value itself
-     * @param OrderItemInterface  $orderItem
-     *
-     * @return OrderItemOptionInterface
      */
     public function createNewFromStrings(
         OrderItemInterface $orderItem,
         string $customerOptionCode,
-        $customerOptionValue
+        $customerOptionValue,
     ): OrderItemOptionInterface;
 }

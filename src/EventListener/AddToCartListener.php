@@ -27,9 +27,13 @@ use Webmozart\Assert\Assert;
 final class AddToCartListener
 {
     private RequestStack $requestStack;
+
     private EntityManagerInterface $entityManager;
+
     private OrderItemOptionFactoryInterface $orderItemOptionFactory;
+
     private OrderProcessorInterface $orderProcessor;
+
     private CustomerOptionRepositoryInterface $customerOptionRepository;
 
     public function __construct(
@@ -37,12 +41,12 @@ final class AddToCartListener
         EntityManagerInterface $entityManager,
         OrderItemOptionFactoryInterface $itemOptionFactory,
         OrderProcessorInterface $orderProcessor,
-        CustomerOptionRepositoryInterface $customerOptionRepository
+        CustomerOptionRepositoryInterface $customerOptionRepository,
     ) {
-        $this->requestStack             = $requestStack;
-        $this->entityManager            = $entityManager;
-        $this->orderItemOptionFactory   = $itemOptionFactory;
-        $this->orderProcessor           = $orderProcessor;
+        $this->requestStack = $requestStack;
+        $this->entityManager = $entityManager;
+        $this->orderItemOptionFactory = $itemOptionFactory;
+        $this->orderProcessor = $orderProcessor;
         $this->customerOptionRepository = $customerOptionRepository;
     }
 
@@ -81,7 +85,7 @@ final class AddToCartListener
                 $salesOrderConfiguration = $this->orderItemOptionFactory->createNewFromStrings(
                     $orderItem,
                     $customerOptionCode,
-                    $value
+                    $value,
                 );
 
                 $this->entityManager->persist($salesOrderConfiguration);
@@ -92,7 +96,7 @@ final class AddToCartListener
 
         $orderItem->setCustomerOptionConfiguration($salesOrderConfigurations);
         /** @var OrderInterface $order */
-        $order= $orderItem->getOrder();
+        $order = $orderItem->getOrder();
         $this->orderProcessor->process($order);
 
         $this->entityManager->persist($orderItem);
@@ -101,10 +105,6 @@ final class AddToCartListener
 
     /**
      * Gets the customer options from the request
-     *
-     * @param Request $request
-     *
-     * @return array
      */
     public function getCustomerOptionsFromRequest(Request $request): array
     {
@@ -123,20 +123,20 @@ final class AddToCartListener
 
             switch ($customerOption->getType()) {
                 case CustomerOptionTypeEnum::DATE:
-                    $day                                  = $value['day'];
-                    $month                                = $value['month'];
-                    $year                                 = $value['year'];
+                    $day = $value['day'];
+                    $month = $value['month'];
+                    $year = $value['year'];
                     $addToCart['customer_options'][$code] = sprintf('%d-%d-%d', $year, $month, $day);
 
                     break;
                 case CustomerOptionTypeEnum::DATETIME:
-                    $date  = $value['date'];
-                    $time  = $value['time'];
-                    $day   = $date['day'];
+                    $date = $value['date'];
+                    $time = $value['time'];
+                    $day = $date['day'];
                     $month = $date['month'];
-                    $year  = $date['year'];
+                    $year = $date['year'];
 
-                    $hour   = $time['hour'] ?? 0;
+                    $hour = $time['hour'] ?? 0;
                     $minute = $time['minute'] ?? 0;
 
                     $addToCart['customer_options'][$code] = sprintf('%d-%d-%d %d:%d', $year, $month, $day, $hour, $minute);

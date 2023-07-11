@@ -16,15 +16,13 @@ class ProductContext implements Context
     private $showPage;
 
     public function __construct(
-        ShowPage $showPage
+        ShowPage $showPage,
     ) {
         $this->showPage = $showPage;
     }
 
     /**
 //     * @BeforeScenario
-     *
-     * @param $event
      */
     public function setCookie($event)
     {
@@ -92,13 +90,14 @@ class ProductContext implements Context
      */
     public function iShouldBeNotifiedThatAnOptionIsInvalid()
     {
-            Assert::true($this->showPage->hasInvalidCustomerOptionValidationMessage());
+        Assert::true($this->showPage->hasInvalidCustomerOptionValidationMessage());
     }
 
     /**
      * @Then I should be notified that a number option is invalid
      */
-    public function iShouldBeNotifiedThatANumberOptionIsInvalid() {
+    public function iShouldBeNotifiedThatANumberOptionIsInvalid()
+    {
         Assert::true($this->showPage->hasInvalidNumberValidationMessage());
     }
 

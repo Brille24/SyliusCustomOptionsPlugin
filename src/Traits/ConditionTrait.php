@@ -13,33 +13,36 @@ use Webmozart\Assert\Assert;
 trait ConditionTrait
 {
     protected ?CustomerOptionInterface $customerOption = null;
+
     protected ?string $comparator = null;
+
     protected ?array $value = null;
+
     protected ?ValidatorInterface $validator = null;
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getCustomerOption(): ?CustomerOptionInterface
     {
         return $this->customerOption;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function setCustomerOption(?CustomerOptionInterface $customerOption): void
     {
         $this->customerOption = $customerOption;
 
         $this->value = ConditionComparatorEnum::getValueConfig(
-            $customerOption !== null ? $customerOption->getType() : CustomerOptionTypeEnum::TEXT
+            $customerOption !== null ? $customerOption->getType() : CustomerOptionTypeEnum::TEXT,
         );
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getComparator(): ?string
     {
         return $this->comparator;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function setComparator(?string $comparator): void
     {
         Assert::true(in_array($comparator, ConditionComparatorEnum::getConstList(), true) || $comparator === null);
@@ -47,13 +50,13 @@ trait ConditionTrait
         $this->comparator = $comparator;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getValue(): ?array
     {
         $value = null;
-        if ($this->value !== null
-            && array_key_exists('value', $this->value)
-            && $this->value['value'] !== null
+        if ($this->value !== null &&
+            array_key_exists('value', $this->value) &&
+            $this->value['value'] !== null
         ) {
             $value = $this->value['value'];
         }
@@ -75,7 +78,7 @@ trait ConditionTrait
         $value = is_array($value) && array_key_exists('value', $value) ? $value['value'] : $value;
 
         $newValue = ConditionComparatorEnum::getValueConfig(
-            $this->customerOption !== null ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT
+            $this->customerOption !== null ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT,
         );
 
         if ($newValue['type'] === 'array') {
@@ -92,20 +95,20 @@ trait ConditionTrait
 
         if ($newValue['value'] === null) {
             $newValue = ConditionComparatorEnum::getValueConfig(
-                $this->customerOption !== null ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT
+                $this->customerOption !== null ? $this->customerOption->getType() : CustomerOptionTypeEnum::TEXT,
             );
         }
 
         $this->value = $newValue;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function getValidator(): ?ValidatorInterface
     {
         return $this->validator;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function setValidator(?ValidatorInterface $validator): void
     {
         $this->validator = $validator;
@@ -113,9 +116,6 @@ trait ConditionTrait
 
     /**
      * @param mixed       $value
-     * @param string|null $optionType
-     *
-     * @return bool
      */
     public function isMet($value, ?string $optionType = null): bool
     {
@@ -175,7 +175,6 @@ trait ConditionTrait
 
     /**
      * @param mixed  $value
-     * @param string $optionType
      *
      * @return \DateTime|int|mixed
      */
@@ -189,15 +188,15 @@ trait ConditionTrait
             if (isset($result['date']) && !is_array($result['date'])) {
                 $result = new \DateTime($result['date']);
             } elseif ($optionType === CustomerOptionTypeEnum::DATETIME) {
-                $date   = $value['date'];
-                $time   = $value['time'];
+                $date = $value['date'];
+                $time = $value['time'];
                 $result = new \DateTime(sprintf('%d-%d-%d', $date['year'], $date['month'], $date['day']));
                 $result->setTime((int) ($time['hour']), (int) ($time['minute']));
             } else {
                 $result = new \DateTime(sprintf('%d-%d-%d', $value['year'], $value['month'], $value['day']));
             }
         } elseif ($optionType === CustomerOptionTypeEnum::BOOLEAN) {
-            $result = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+            $result = filter_var($value, \FILTER_VALIDATE_BOOLEAN);
         }
 
         return $result;

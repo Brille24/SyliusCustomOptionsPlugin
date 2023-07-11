@@ -11,8 +11,6 @@ use Sylius\Behat\Page\Admin\Product\UpdateConfigurableProductPage as BaseUpdateP
 class UpdateConfigurableProductPage extends BaseUpdatePage
 {
     /**
-     * @param string $name
-     *
      * @throws ElementNotFoundException
      */
     public function selectCustomerOptionGroup(string $name): void
@@ -41,8 +39,6 @@ class UpdateConfigurableProductPage extends BaseUpdatePage
     }
 
     /**
-     * @param string $valueName
-     *
      * @throws ElementNotFoundException
      */
     public function chooseOptionValue(string $valueName): void
@@ -50,8 +46,9 @@ class UpdateConfigurableProductPage extends BaseUpdatePage
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
         /** @var NodeElement[] $valuePrices */
-        $valuePrices = $customerOptionsTab->findAll('css',
-            'div[data-form-collection="item"]'
+        $valuePrices = $customerOptionsTab->findAll(
+            'css',
+            'div[data-form-collection="item"]',
         );
 
         $lastValuePrice = end($valuePrices);
@@ -64,8 +61,6 @@ class UpdateConfigurableProductPage extends BaseUpdatePage
     }
 
     /**
-     * @param int $amount
-     *
      * @throws ElementNotFoundException
      */
     public function setValuePriceAmount(int $amount): void
@@ -73,8 +68,9 @@ class UpdateConfigurableProductPage extends BaseUpdatePage
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
         /** @var NodeElement[] $valuePrices */
-        $valuePrices = $customerOptionsTab->findAll('css',
-            'div[data-form-collection="item"]'
+        $valuePrices = $customerOptionsTab->findAll(
+            'css',
+            'div[data-form-collection="item"]',
         );
 
         $lastValuePrice = end($valuePrices);
@@ -87,8 +83,6 @@ class UpdateConfigurableProductPage extends BaseUpdatePage
     }
 
     /**
-     * @param string $type
-     *
      * @throws ElementNotFoundException
      */
     public function setValuePriceType(string $type): void
@@ -96,8 +90,9 @@ class UpdateConfigurableProductPage extends BaseUpdatePage
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
         /** @var NodeElement[] $valuePrices */
-        $valuePrices = $customerOptionsTab->findAll('css',
-            'div[data-form-collection="item"]'
+        $valuePrices = $customerOptionsTab->findAll(
+            'css',
+            'div[data-form-collection="item"]',
         );
 
         $lastValuePrice = end($valuePrices);

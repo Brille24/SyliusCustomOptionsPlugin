@@ -48,7 +48,7 @@ class ProductsContext implements Context
         CreateSimpleProductPageInterface $createPageSimple,
         CreateConfigurableProductPageInterface $createPageConfigurable,
         CurrentPageResolverInterface $currentPageResolver,
-        EntityRepository $customerOptionValuePriceRepository
+        EntityRepository $customerOptionValuePriceRepository,
     ) {
         $this->updatePageSimple = $updateSimpleProductPage;
         $this->updatePageConfigurable = $updateConfigurableProductPage;

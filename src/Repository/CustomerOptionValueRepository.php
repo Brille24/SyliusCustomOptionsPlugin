@@ -18,7 +18,7 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 class CustomerOptionValueRepository extends EntityRepository implements CustomerOptionValueRepositoryInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function findOneByCode(string $code): ?CustomerOptionValueInterface
     {
@@ -27,6 +27,6 @@ class CustomerOptionValueRepository extends EntityRepository implements Customer
             ->setParameter('code', $code)
             ->getQuery()
             ->getOneOrNullResult()
-            ;
+        ;
     }
 }

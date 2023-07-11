@@ -45,7 +45,7 @@ class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCas
         $context->method('addViolation')->willReturnCallback(
             function (?string $message): void {
                 $this->violations[] = $message;
-            }
+            },
         );
 
         $context->method('buildViolation')->willReturnCallback(
@@ -53,7 +53,7 @@ class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCas
                 $this->buildingViolation = $message;
 
                 return $violationBuilder;
-            }
+            },
         );
         $violationBuilder->method('atPath')->willReturnSelf();
         $violationBuilder->method('setCause')->willReturnSelf();
@@ -61,7 +61,7 @@ class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCas
         $violationBuilder->method('addViolation')->willReturnCallback(
             function (): void {
                 $this->violations[] = $this->buildingViolation;
-            }
+            },
         );
 
         $this->productCustomerOptionPriceValidator = new CustomerOptionValuePriceDateOverlapConstraintValidator();
@@ -72,7 +72,7 @@ class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCas
         string $channelCode,
         string $customerOptionCode,
         string $customerOptionValueCode,
-        ?DateRangeInterface $dateRange
+        ?DateRangeInterface $dateRange,
     ): CustomerOptionValuePriceInterface {
         $price = self::createMock(CustomerOptionValuePriceInterface::class);
 
@@ -184,13 +184,13 @@ class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCas
                 'de_DE',
                 'some_option',
                 'value1',
-                new DateRange(new \DateTime('2020-01-01'), new \DateTime('2020-01-31'))
+                new DateRange(new \DateTime('2020-01-01'), new \DateTime('2020-01-31')),
             ),
             $this->createPrice(
                 'en_DE',
                 'some_option',
                 'value1',
-                new DateRange(new \DateTime('2020-01-05'), new \DateTime('2020-02-15'))
+                new DateRange(new \DateTime('2020-01-05'), new \DateTime('2020-02-15')),
             ),
         ];
 
@@ -208,13 +208,13 @@ class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCas
                 'en_DE',
                 'some_option',
                 'value1',
-                new DateRange(new \DateTime('2020-01-01'), new \DateTime('2020-01-31'))
+                new DateRange(new \DateTime('2020-01-01'), new \DateTime('2020-01-31')),
             ),
             $this->createPrice(
                 'en_DE',
                 'some_option',
                 'value1',
-                new DateRange(new \DateTime('2020-01-05'), new \DateTime('2020-02-15'))
+                new DateRange(new \DateTime('2020-01-05'), new \DateTime('2020-02-15')),
             ),
         ];
 
@@ -232,13 +232,13 @@ class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCas
                 'de_DE',
                 'some_option',
                 'value1',
-                new DateRange(new \DateTime('2020-01-01'), new \DateTime('2020-01-31'))
+                new DateRange(new \DateTime('2020-01-01'), new \DateTime('2020-01-31')),
             ),
             $this->createPrice(
                 'de_DE',
                 'some_option',
                 'value2',
-                new DateRange(new \DateTime('2020-01-05'), new \DateTime('2020-02-15'))
+                new DateRange(new \DateTime('2020-01-05'), new \DateTime('2020-02-15')),
             ),
         ];
 

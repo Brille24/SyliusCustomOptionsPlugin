@@ -60,7 +60,7 @@ class SetupContext implements Context
         OrderItemRepositoryInterface $orderItemRepository,
         ChannelContextInterface $channelContext,
         ChannelRepositoryInterface $channelRepository,
-        CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository
+        CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository,
     ) {
         $this->em = $em;
         $this->customerOptionRepository = $customerOptionRepository;
@@ -153,7 +153,7 @@ class SetupContext implements Context
      */
     public function customerOptionGroupHasOption(
         CustomerOptionGroupInterface $customerOptionGroup,
-        CustomerOptionInterface $customerOption
+        CustomerOptionInterface $customerOption,
     ) {
         $assoc = new CustomerOptionAssociation();
 
@@ -166,7 +166,7 @@ class SetupContext implements Context
      */
     public function productHasTheCustomerOptionGroup(
         ProductInterface $product,
-        CustomerOptionGroupInterface $customerOptionGroup
+        CustomerOptionGroupInterface $customerOptionGroup,
     ) {
         $product->setCustomerOptionGroup($customerOptionGroup);
         $customerOptionGroup->addProduct($product);
@@ -246,7 +246,6 @@ class SetupContext implements Context
         $config = $orderItem->getCustomerOptionConfiguration();
 
         foreach ($config as $itemOption) {
-
             if ($itemOption->getCustomerOption() === $customerOption) {
                 if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
                     $customerOptionValue = $this->getCustomerOptionValueByName($customerOption, $value);
@@ -255,7 +254,7 @@ class SetupContext implements Context
 
                     $itemOption->setCustomerOptionValue($customerOptionValue);
                     $itemOption->setPrice(
-                        $this->customerOptionValuePriceRepository->getPriceForChannel($this->channelContext->getChannel(), $orderItem->getProduct(), $customerOptionValue)
+                        $this->customerOptionValuePriceRepository->getPriceForChannel($this->channelContext->getChannel(), $orderItem->getProduct(), $customerOptionValue),
                     );
                 } else {
                     $itemOption->setOptionValue($value);
@@ -269,12 +268,6 @@ class SetupContext implements Context
         $this->em->flush();
     }
 
-    /**
-     * @param CustomerOptionInterface $customerOption
-     * @param string $name
-     *
-     * @return CustomerOptionValueInterface|null
-     */
     private function getCustomerOptionValueByName(CustomerOptionInterface $customerOption, string $name): ?CustomerOptionValueInterface
     {
         /** @var CustomerOptionValueInterface[] $customerOptionValues */
@@ -355,7 +348,7 @@ class SetupContext implements Context
         if (CustomerOptionTypeEnum::isSelect($optionType)) {
             $result = explode(',', str_replace(' ', '', strtolower($value)));
         } elseif ($optionType === CustomerOptionTypeEnum::BOOLEAN) {
-            $result = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+            $result = filter_var($value, \FILTER_VALIDATE_BOOLEAN);
         } elseif (CustomerOptionTypeEnum::isDate($optionType)) {
             $result = new \DateTime($value);
         }

@@ -21,6 +21,7 @@ trait ProductCustomerOptionCapableTrait
      *     targetEntity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface",
      *     inversedBy="products"
      * )
+     *
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $customerOptionGroup;
@@ -43,7 +44,7 @@ trait ProductCustomerOptionCapableTrait
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCustomerOptionGroup(): ?CustomerOptionGroupInterface
     {
@@ -51,7 +52,7 @@ trait ProductCustomerOptionCapableTrait
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setCustomerOptionGroup(?CustomerOptionGroupInterface $customerOptionGroup): void
     {
@@ -59,7 +60,7 @@ trait ProductCustomerOptionCapableTrait
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function hasCustomerOptions(): bool
     {
@@ -67,7 +68,7 @@ trait ProductCustomerOptionCapableTrait
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCustomerOptionValuePrices(): Collection
     {
@@ -76,7 +77,7 @@ trait ProductCustomerOptionCapableTrait
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setCustomerOptionValuePrices(?Collection $prices): void
     {
@@ -94,7 +95,7 @@ trait ProductCustomerOptionCapableTrait
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function addCustomerOptionValuePrice(CustomerOptionValuePriceInterface $price): void
     {
@@ -103,7 +104,7 @@ trait ProductCustomerOptionCapableTrait
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function removeCustomerOptionValuePrice(CustomerOptionValuePriceInterface $price): void
     {
@@ -112,7 +113,7 @@ trait ProductCustomerOptionCapableTrait
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCustomerOptions(): array
     {

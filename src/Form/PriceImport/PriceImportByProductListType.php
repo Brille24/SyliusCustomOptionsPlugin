@@ -20,7 +20,7 @@ class PriceImportByProductListType extends AbstractType
         $this->dataMapper = $dataMapper;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -29,7 +29,7 @@ class PriceImportByProductListType extends AbstractType
                 'label' => false,
             ])
             ->add('submit', SubmitType::class, [
-                'attr'  => [
+                'attr' => [
                     'class' => 'ui primary button',
                 ],
             ])
@@ -43,7 +43,7 @@ class PriceImportByProductListType extends AbstractType
 
                 return implode(', ', $productArray);
             },
-            static fn (string $productsAsString): array => explode(',', preg_replace('/\s+/', '', $productsAsString) ?? '')
+            static fn (string $productsAsString): array => explode(',', preg_replace('/\s+/', '', $productsAsString) ?? ''),
         ));
 
         $builder->setDataMapper($this->dataMapper);

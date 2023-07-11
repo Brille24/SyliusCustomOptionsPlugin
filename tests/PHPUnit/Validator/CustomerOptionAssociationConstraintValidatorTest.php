@@ -85,7 +85,7 @@ class CustomerOptionAssociationConstraintValidatorTest extends TestCase
             [
                 $this->createCustomerOptionAssociation('customerOption1'),
                 $this->createCustomerOptionAssociation('customerOption1'),
-            ]
+            ],
         );
         $constraint = self::createMock(Constraint::class);
 
@@ -100,7 +100,7 @@ class CustomerOptionAssociationConstraintValidatorTest extends TestCase
             [
                 $this->createCustomerOptionAssociation('customerOption1'),
                 $this->createCustomerOptionAssociation('customerOption2'),
-            ]
+            ],
         );
         $constraint = self::createMock(Constraint::class);
 

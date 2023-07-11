@@ -31,9 +31,6 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
      * @dataProvider dataValidateConfigurationInvalid
      *
      * @throws ConfigurationException
-     *
-     * @param array $configuration
-     * @param string $exceptionMessage
      */
     public function testValidateConfigurationInvalid(array $configuration, string $exceptionMessage)
     {
@@ -75,8 +72,8 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
         self::expectExceptionMessage('Could not find Channel with code: "does_not_exist"');
 
         $configuration = [
-            'type'    => 'fixed',
-            'amount'  => 100,
+            'type' => 'fixed',
+            'amount' => 100,
             'channel' => 'does_not_exist',
         ];
 
@@ -88,8 +85,8 @@ class CustomerOptionValuePriceFactoryTest extends TestCase
         $this->channelRepository = ['en_US' => self::createMock(ChannelInterface::class)];
 
         $configuration = [
-            'type'    => 'fixed',
-            'amount'  => 100,
+            'type' => 'fixed',
+            'amount' => 100,
             'channel' => 'en_US',
         ];
 

@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 final class Brille24SyliusCustomerOptionsExtension extends Extension implements PrependExtensionInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function load(array $config, ContainerBuilder $container): void
     {
@@ -31,7 +31,7 @@ final class Brille24SyliusCustomerOptionsExtension extends Extension implements 
         $container->setParameter('brille24.sylius_customer_options.price_import_example_file_path', $config['price_import_example_file_path']);
         $container->setParameter('brille24.sylius_customer_options.order_item_edit.recalculate_price', $config['order_item_edit']['recalculate_price']);
 
-        new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/app'));
+        new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config/app'));
     }
 
     public function prepend(ContainerBuilder $container): void

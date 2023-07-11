@@ -19,7 +19,7 @@ class PriceImportByCsvType extends AbstractType
         $this->dataMapper = $dataMapper;
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -28,7 +28,7 @@ class PriceImportByCsvType extends AbstractType
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'brille24.form.customer_options.import',
-                'attr'  => [
+                'attr' => [
                     'class' => 'ui primary button',
                 ],
             ])

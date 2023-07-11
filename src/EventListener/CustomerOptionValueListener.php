@@ -22,19 +22,17 @@ use Sylius\Component\Core\Model\ChannelInterface;
 final class CustomerOptionValueListener
 {
     private EntityRepository $channelRepository;
+
     private CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory;
 
     public function __construct(
         EntityRepository $channelRepository,
-        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory
+        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
     ) {
-        $this->channelRepository               = $channelRepository;
+        $this->channelRepository = $channelRepository;
         $this->customerOptionValuePriceFactory = $customerOptionValuePriceFactory;
     }
 
-    /**
-     * @param LifecycleEventArgs $args
-     */
     public function prePersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getEntity();
@@ -46,7 +44,7 @@ final class CustomerOptionValueListener
 
     private function addChannelPricesToNewValue(CustomerOptionValueInterface $value): void
     {
-        $prices           = $value->getPrices();
+        $prices = $value->getPrices();
         $existingChannels = [];
         foreach ($prices as $price) {
             $existingChannels[] = $price->getChannel();

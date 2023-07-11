@@ -21,20 +21,21 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Exceptions\ConfigurationException;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionGroupRepositoryInterface;
 use Faker\Factory;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 class CustomerOptionFactory implements CustomerOptionFactoryInterface
 {
     protected CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository;
+
     protected \Faker\Generator $faker;
+
     protected CustomerOptionValueFactoryInterface $customerOptionValueFactory;
 
     public function __construct(
         CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
-        CustomerOptionValueFactoryInterface $customerOptionValueFactory
+        CustomerOptionValueFactoryInterface $customerOptionValueFactory,
     ) {
         $this->customerOptionGroupRepository = $customerOptionGroupRepository;
-        $this->customerOptionValueFactory    = $customerOptionValueFactory;
+        $this->customerOptionValueFactory = $customerOptionValueFactory;
 
         $this->faker = Factory::create();
     }
@@ -42,7 +43,6 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
     /**
      * Validates the option array and throws an error if it is not valid
      *
-     * @param array $configuration
      *
      * @throws \Exception
      */
@@ -66,10 +66,6 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
     }
 
     /**
-     * @param array $configuration
-     *
-     * @return CustomerOptionInterface
-     *
      * @throws \Exception
      */
     public function createFromConfig(array $configuration): CustomerOptionInterface
@@ -119,7 +115,6 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
     /**
      * Generates a random number of CustomerOptions
      *
-     * @param int $amount
      *
      * @return array<array<string, mixed>>
      */
@@ -133,21 +128,21 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
         for ($i = 0; $i < $amount; ++$i) {
             $options = [];
 
-            $options['code']                  = $this->faker->uuid;
+            $options['code'] = $this->faker->uuid;
             $options['translations']['en_US'] = sprintf('CustomerOption "%s"', $this->faker->unique()->word);
-            $options['type']                  = $this->faker->randomElement($types);
-            $options['required']              = $this->faker->boolean;
+            $options['type'] = $this->faker->randomElement($types);
+            $options['required'] = $this->faker->boolean;
 
             if (CustomerOptionTypeEnum::isSelect($options['type'])) {
-                $numValues         = $this->faker->numberBetween(2, 4);
+                $numValues = $this->faker->numberBetween(2, 4);
                 $options['values'] = $this->customerOptionValueFactory->generateRandomConfiguration($numValues);
             }
 
             /** @var CustomerOptionGroupInterface[] $groups */
-            $groups     = $this->customerOptionGroupRepository->findAll();
+            $groups = $this->customerOptionGroupRepository->findAll();
             $groupCodes = array_map(
                 static fn (CustomerOptionGroupInterface $group): ?string => $group->getCode(),
-                $groups
+                $groups,
             );
 
             $options['groups'] = [];

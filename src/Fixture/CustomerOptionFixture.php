@@ -23,12 +23,13 @@ use Throwable;
 class CustomerOptionFixture extends AbstractFixture implements FixtureInterface
 {
     private CustomerOptionFactoryInterface $factory;
+
     private EntityManagerInterface $em;
 
     public function __construct(CustomerOptionFactoryInterface $factory, EntityManagerInterface $em)
     {
         $this->factory = $factory;
-        $this->em      = $em;
+        $this->em = $em;
     }
 
     public function load(array $options): void

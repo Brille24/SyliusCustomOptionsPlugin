@@ -16,16 +16,13 @@ class ConstraintViolationException extends \Exception
         ConstraintViolationListInterface $violations,
         string $message = '',
         int $code = 0,
-        Throwable $previous = null
+        Throwable $previous = null,
     ) {
         $this->violations = $violations;
 
         parent::__construct($message, $code, $previous);
     }
 
-    /**
-     * @return ConstraintViolationListInterface
-     */
     public function getViolations(): ConstraintViolationListInterface
     {
         return $this->violations;
