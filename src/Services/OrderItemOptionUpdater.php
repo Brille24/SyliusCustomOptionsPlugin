@@ -15,28 +15,14 @@ use Webmozart\Assert\Assert;
 
 final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
 {
-    private OrderItemOptionFactoryInterface $orderItemOptionFactory;
-
-    private EntityManagerInterface $entityManager;
-
-    private CustomerOptionRepositoryInterface $customerOptionRepository;
-
-    private OrderProcessorInterface $customerOptionRefresher;
-
-    private OrderProcessorInterface $customerOptionRecalculator;
-
     public function __construct(
-        OrderItemOptionFactoryInterface $orderItemOptionFactory,
-        EntityManagerInterface $entityManager,
-        CustomerOptionRepositoryInterface $customerOptionRepository,
-        OrderProcessorInterface $customerOptionRefresher,
-        OrderProcessorInterface $customerOptionRecalculator,
-    ) {
-        $this->orderItemOptionFactory = $orderItemOptionFactory;
-        $this->entityManager = $entityManager;
-        $this->customerOptionRepository = $customerOptionRepository;
-        $this->customerOptionRefresher = $customerOptionRefresher;
-        $this->customerOptionRecalculator = $customerOptionRecalculator;
+        private OrderItemOptionFactoryInterface $orderItemOptionFactory,
+        private EntityManagerInterface $entityManager,
+        private CustomerOptionRepositoryInterface $customerOptionRepository,
+        private OrderProcessorInterface $customerOptionRefresher,
+        private OrderProcessorInterface $customerOptionRecalculator,
+    )
+    {
     }
 
     /** @inheritdoc */

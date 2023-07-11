@@ -20,13 +20,10 @@ use Faker\Generator;
 
 class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
 {
-    protected CustomerOptionValuePriceFactoryInterface $valuePriceFactory;
-
     protected Generator $faker;
 
-    public function __construct(CustomerOptionValuePriceFactoryInterface $valuePriceFactory)
+    public function __construct(protected CustomerOptionValuePriceFactoryInterface $valuePriceFactory)
     {
-        $this->valuePriceFactory = $valuePriceFactory;
         $this->faker = Factory::create();
     }
 

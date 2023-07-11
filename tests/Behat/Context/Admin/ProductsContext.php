@@ -24,38 +24,15 @@ use Webmozart\Assert\Assert;
 
 class ProductsContext implements Context
 {
-    /** @var UpdateSimpleProductPageInterface */
-    private $updatePageSimple;
-
-    /** @var UpdateConfigurableProductPageInterface */
-    private $updatePageConfigurable;
-
-    /** @var CreateSimpleProductPageInterface */
-    private $createPageSimple;
-
-    /** @var CreateConfigurableProductPageInterface */
-    private $createPageConfigurable;
-
-    /** @var CurrentPageResolverInterface */
-    private $currentPageResolver;
-
-    /** @var EntityRepository */
-    private $customerOptionValuePriceRepository;
-
     public function __construct(
-        UpdateSimpleProductPageInterface $updateSimpleProductPage,
-        UpdateConfigurableProductPageInterface $updateConfigurableProductPage,
-        CreateSimpleProductPageInterface $createPageSimple,
-        CreateConfigurableProductPageInterface $createPageConfigurable,
-        CurrentPageResolverInterface $currentPageResolver,
-        EntityRepository $customerOptionValuePriceRepository,
-    ) {
-        $this->updatePageSimple = $updateSimpleProductPage;
-        $this->updatePageConfigurable = $updateConfigurableProductPage;
-        $this->createPageSimple = $createPageSimple;
-        $this->createPageConfigurable = $createPageConfigurable;
-        $this->currentPageResolver = $currentPageResolver;
-        $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
+        private UpdateSimpleProductPageInterface $updatePageSimple,
+        private UpdateConfigurableProductPageInterface $updatePageConfigurable,
+        private CreateSimpleProductPageInterface $createPageSimple,
+        private CreateConfigurableProductPageInterface $createPageConfigurable,
+        private CurrentPageResolverInterface $currentPageResolver,
+        private EntityRepository $customerOptionValuePriceRepository,
+    )
+    {
     }
 
     /**

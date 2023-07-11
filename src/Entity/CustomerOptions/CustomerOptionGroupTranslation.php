@@ -16,9 +16,9 @@ use Sylius\Component\Resource\Model\AbstractTranslation;
 
 class CustomerOptionGroupTranslation extends AbstractTranslation implements CustomerOptionGroupTranslationInterface
 {
-    protected ?int $id;
+    protected ?int $id = null;
 
-    protected ?string $name;
+    protected ?string $name = null;
 
     public function getId(): ?int
     {

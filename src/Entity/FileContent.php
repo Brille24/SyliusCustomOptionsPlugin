@@ -6,15 +6,12 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
 
-class FileContent implements ResourceInterface
+class FileContent implements ResourceInterface, \Stringable
 {
-    protected ?int $id;
+    protected ?int $id = null;
 
-    protected string $content;
-
-    public function __construct(string $content)
+    public function __construct(protected string $content)
     {
-        $this->content = $content;
     }
 
     public function getId(): ?int

@@ -23,27 +23,13 @@ use Webmozart\Assert\Assert;
 
 class CustomerOptionGroupsContext implements Context
 {
-    /** @var CreatePageInterface */
-    private $createPage;
-
-    /** @var UpdatePageInterface */
-    private $updatePage;
-
-    /** @var IndexPageInterface */
-    private $indexPage;
-
-    private $currentPageResolver;
-
     public function __construct(
-        CreatePageInterface $createPage,
-        UpdatePageInterface $updatePage,
-        IndexPageInterface $indexPage,
-        CurrentPageResolverInterface $currentPageResolver,
-    ) {
-        $this->createPage = $createPage;
-        $this->updatePage = $updatePage;
-        $this->indexPage = $indexPage;
-        $this->currentPageResolver = $currentPageResolver;
+        private CreatePageInterface $createPage,
+        private UpdatePageInterface $updatePage,
+        private IndexPageInterface $indexPage,
+        private CurrentPageResolverInterface $currentPageResolver,
+    )
+    {
     }
 
     /**
@@ -390,15 +376,10 @@ class CustomerOptionGroupsContext implements Context
     ) {
         /** @var ConditionInterface|ConstraintInterface[] $conditionsToCheck */
         $conditionsToCheck = array_map(
-            function (ValidatorInterface $validator) use ($conditionType): array {
-                switch ($conditionType) {
-                    case 'conditions':
-                        return $validator->getConditions();
-                    case 'constraints':
-                        return $validator->getConstraints();
-                }
-
-                throw new InvalidArgumentException('The condition type has to be either conditions or constraints');
+            fn (ValidatorInterface $validator): array => match ($conditionType) {
+                'conditions' => $validator->getConditions(),
+                'constraints' => $validator->getConstraints(),
+                default => throw new InvalidArgumentException('The condition type has to be either conditions or constraints'),
             },
             $customerOptionGroup->getValidators()->toArray(),
         );

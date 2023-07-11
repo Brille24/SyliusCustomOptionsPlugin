@@ -17,11 +17,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class RemoveCustomerOptionFromOrderEvent extends Event
 {
-    private OrderInterface $order;
-
-    public function __construct(OrderInterface $order)
+    public function __construct(private OrderInterface $order)
     {
-        $this->order = $order;
     }
 
     public function getOrder(): OrderInterface

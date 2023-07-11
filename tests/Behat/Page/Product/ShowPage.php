@@ -158,7 +158,7 @@ class ShowPage extends BaseShowPage
 
         $errors = $this->getElement('validation_errors')->getText();
 
-        return strpos($errors, $message) !== false;
+        return str_contains($errors, $message);
     }
 
     /**

@@ -23,13 +23,10 @@ use Sylius\Component\Core\Model\ChannelInterface;
 
 class CustomerOptionValuePriceFactory implements CustomerOptionValuePriceFactoryInterface
 {
-    protected ChannelRepositoryInterface $channelRepository;
-
     protected Generator $faker;
 
-    public function __construct(ChannelRepositoryInterface $channelRepository)
+    public function __construct(protected ChannelRepositoryInterface $channelRepository)
     {
-        $this->channelRepository = $channelRepository;
         $this->faker = Factory::create();
     }
 

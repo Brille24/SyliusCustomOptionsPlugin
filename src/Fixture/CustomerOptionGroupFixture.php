@@ -19,14 +19,11 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 class CustomerOptionGroupFixture extends AbstractFixture
 {
-    private CustomerOptionGroupFactoryInterface $factory;
-
-    private EntityManagerInterface $em;
-
-    public function __construct(CustomerOptionGroupFactoryInterface $factory, EntityManagerInterface $em)
+    public function __construct(
+        private CustomerOptionGroupFactoryInterface $factory,
+        private EntityManagerInterface $em,
+    )
     {
-        $this->factory = $factory;
-        $this->em = $em;
     }
 
     public function load(array $options): void

@@ -14,23 +14,12 @@ use Webmozart\Assert\Assert;
 
 class TransformContext implements Context
 {
-    /** @var CustomerOptionRepositoryInterface */
-    private $customerOptionRepository;
-
-    /** @var CustomerOptionGroupRepositoryInterface */
-    private $customerOptionGroupRepository;
-
-    /** @var EntityManagerInterface */
-    private $em;
-
     public function __construct(
-        CustomerOptionRepositoryInterface $customerOptionRepository,
-        CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
-        EntityManagerInterface $em,
-    ) {
-        $this->customerOptionRepository = $customerOptionRepository;
-        $this->customerOptionGroupRepository = $customerOptionGroupRepository;
-        $this->em = $em;
+        private CustomerOptionRepositoryInterface $customerOptionRepository,
+        private CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
+        private EntityManagerInterface $em,
+    )
+    {
     }
 
     /**

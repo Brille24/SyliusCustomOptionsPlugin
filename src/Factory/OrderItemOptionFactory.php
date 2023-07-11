@@ -29,24 +29,13 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 
 class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, FactoryInterface
 {
-    private FactoryInterface $factory;
-
-    private CustomerOptionRepositoryInterface $customerOptionRepository;
-
-    private CustomerOptionValueResolverInterface $valueResolver;
-
-    private CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository;
-
     public function __construct(
-        FactoryInterface $factory,
-        CustomerOptionRepositoryInterface $customerOptionRepository,
-        CustomerOptionValueResolverInterface $valueResolver,
-        CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository,
-    ) {
-        $this->factory = $factory;
-        $this->customerOptionRepository = $customerOptionRepository;
-        $this->valueResolver = $valueResolver;
-        $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
+        private FactoryInterface $factory,
+        private CustomerOptionRepositoryInterface $customerOptionRepository,
+        private CustomerOptionValueResolverInterface $valueResolver,
+        private CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository,
+    )
+    {
     }
 
     /** @inheritdoc */

@@ -26,7 +26,7 @@ class CustomerOption implements CustomerOptionInterface
         getTranslation as private doGetTranslation;
     }
 
-    protected ?int $id;
+    protected ?int $id = null;
 
     protected string $type = CustomerOptionTypeEnum::SELECT;
 

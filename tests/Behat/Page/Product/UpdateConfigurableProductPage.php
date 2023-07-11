@@ -17,9 +17,7 @@ class UpdateConfigurableProductPage extends BaseUpdatePage
     {
         $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
 
-        $selectItems = $customerOptionsTab->waitFor(2, function () use ($customerOptionsTab) {
-            return $customerOptionsTab->findAll('css', 'select');
-        });
+        $selectItems = $customerOptionsTab->waitFor(2, fn () => $customerOptionsTab->findAll('css', 'select'));
         $lastSelectItem = end($selectItems);
 
         if (false === $lastSelectItem) {

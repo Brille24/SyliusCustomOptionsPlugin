@@ -8,9 +8,9 @@ use Sylius\Component\Resource\Model\AbstractTranslation;
 
 class ErrorMessageTranslation extends AbstractTranslation implements ErrorMessageTranslationInterface
 {
-    protected ?int $id;
+    protected ?int $id = null;
 
-    protected ?string $message;
+    protected ?string $message = null;
 
     public function getId(): ?int
     {

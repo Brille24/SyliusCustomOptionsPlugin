@@ -18,28 +18,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PriceImportController extends AbstractController
 {
-    protected CustomerOptionPriceImporterInterface $priceImporter;
-
-    protected string $exampleFilePath;
-
-    protected TranslatorInterface $translator;
-
-    protected ImportErrorHandlerInterface $csvImportErrorHandler;
-
-    protected ImportErrorHandlerInterface $productListImportErrorHandler;
-
     public function __construct(
-        CustomerOptionPriceImporterInterface $priceImporter,
-        string $csvExampleFilePath,
-        TranslatorInterface $translator,
-        ImportErrorHandlerInterface $csvImportErrorHandler,
-        ImportErrorHandlerInterface $productListImportErrorHandler,
-    ) {
-        $this->priceImporter = $priceImporter;
-        $this->exampleFilePath = $csvExampleFilePath;
-        $this->translator = $translator;
-        $this->csvImportErrorHandler = $csvImportErrorHandler;
-        $this->productListImportErrorHandler = $productListImportErrorHandler;
+        protected CustomerOptionPriceImporterInterface $priceImporter,
+        protected string $exampleFilePath,
+        protected TranslatorInterface $translator,
+        protected ImportErrorHandlerInterface $csvImportErrorHandler,
+        protected ImportErrorHandlerInterface $productListImportErrorHandler,
+    )
+    {
     }
 
     public function __invoke(Request $request): Response
@@ -53,7 +39,7 @@ class PriceImportController extends AbstractController
         try {
             $this->handleCsvForm($csvForm);
             $this->handleProductListForm($productListForm);
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             $this->addFlash('error', 'brille24.flashes.customer_option_price_import_error');
         }
 

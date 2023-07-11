@@ -22,11 +22,10 @@ class ConfigurationException extends \Exception
     /**
      * Checks if the array contains the first value and if not it throws an exception
      *
-     * @param mixed $element
      *
      * @throws ConfigurationException
      */
-    public static function createFromArrayContains($element, array $array): void
+    public static function createFromArrayContains(mixed $element, array $array): void
     {
         if (!in_array($element, $array, true)) {
             $arrayString = implode(',', $array);

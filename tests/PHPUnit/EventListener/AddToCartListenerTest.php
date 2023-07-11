@@ -23,18 +23,18 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class AddToCartListenerTest extends TestCase
 {
-    private \Brille24\SyliusCustomerOptionsPlugin\EventListener\AddToCartListener $addToCartListener;
+    private AddToCartListener $addToCartListener;
 
-    private \Symfony\Component\HttpFoundation\Request $request;
+    private Request $request;
 
     /** @var CustomerOptionInterface[] */
     private array $customerOptions = [];
 
     private array $entitiesPersisted = [];
 
-    private \Sylius\Component\Core\Model\ChannelInterface $channel;
+    private ChannelInterface $channel;
 
-    private \Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface $customerOptionRepository;
+    private CustomerOptionRepositoryInterface $customerOptionRepository;
 
     public function __construct()
     {
@@ -53,10 +53,10 @@ class AddToCartListenerTest extends TestCase
 
         $entityManager = self::createMock(EntityManagerInterface::class);
         $entityManager->method('persist')->willReturnCallback(function ($entity) use (&$entitiesPersisted) {
-            if (!array_key_exists(get_class($entity), $entitiesPersisted)) {
-                $entitiesPersisted[get_class($entity)] = 1;
+            if (!array_key_exists($entity::class, $entitiesPersisted)) {
+                $entitiesPersisted[$entity::class] = 1;
             }
-            ++$entitiesPersisted[get_class($entity)];
+            ++$entitiesPersisted[$entity::class];
         });
 
         $orderItemOptionFactory = self::createMock(OrderItemOptionFactoryInterface::class);

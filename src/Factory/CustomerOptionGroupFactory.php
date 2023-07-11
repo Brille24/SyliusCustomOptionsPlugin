@@ -31,19 +31,12 @@ use Webmozart\Assert\Assert;
 
 class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 {
-    protected CustomerOptionRepositoryInterface $customerOptionRepository;
-
-    protected ProductRepositoryInterface$productRepository;
-
     protected \Faker\Generator $faker;
 
     public function __construct(
-        CustomerOptionRepositoryInterface $customerOptionRepository,
-        ProductRepositoryInterface $productRepository,
+        protected CustomerOptionRepositoryInterface $customerOptionRepository,
+        protected ProductRepositoryInterface $productRepository,
     ) {
-        $this->customerOptionRepository = $customerOptionRepository;
-        $this->productRepository = $productRepository;
-
         $this->faker = Factory::create();
     }
 

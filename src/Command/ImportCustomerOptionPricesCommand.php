@@ -13,16 +13,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class ImportCustomerOptionPricesCommand extends Command
 {
-    private CsvReaderInterface $csvReader;
-
-    protected CustomerOptionPriceImporterInterface $importer;
-
-    public function __construct(CsvReaderInterface $csvReader, CustomerOptionPriceImporterInterface $importer)
-    {
+    public function __construct(
+        private CsvReaderInterface $csvReader,
+        protected CustomerOptionPriceImporterInterface $importer,
+    ) {
         parent::__construct();
-
-        $this->csvReader = $csvReader;
-        $this->importer = $importer;
     }
 
     protected function configure(): void

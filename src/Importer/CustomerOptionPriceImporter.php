@@ -25,43 +25,20 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
 {
     protected const BATCH_SIZE = 100;
 
-    protected EntityManagerInterface $entityManager;
-
-    protected ProductRepositoryInterface $productRepository;
-
     /** @var array<ProductInterface|null> */
     protected array $products = [];
 
-    protected ValidatorInterface $validator;
-
-    protected CustomerOptionRepositoryInterface $customerOptionRepository;
-
-    protected CustomerOptionValueRepositoryInterface $customerOptionValueRepository;
-
-    protected ChannelRepositoryInterface $channelRepository;
-
-    protected RepositoryInterface $customerOptionValuePriceRepository;
-
-    protected CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        ProductRepositoryInterface $productRepository,
-        ValidatorInterface $validator,
-        CustomerOptionRepositoryInterface $customerOptionRepository,
-        CustomerOptionValueRepositoryInterface $customerOptionValueRepository,
-        ChannelRepositoryInterface $channelRepository,
-        RepositoryInterface $customerOptionValuePriceRepository,
-        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
-    ) {
-        $this->entityManager = $entityManager;
-        $this->productRepository = $productRepository;
-        $this->validator = $validator;
-        $this->customerOptionRepository = $customerOptionRepository;
-        $this->customerOptionValueRepository = $customerOptionValueRepository;
-        $this->channelRepository = $channelRepository;
-        $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
-        $this->customerOptionValuePriceFactory = $customerOptionValuePriceFactory;
+        protected EntityManagerInterface $entityManager,
+        protected ProductRepositoryInterface $productRepository,
+        protected ValidatorInterface $validator,
+        protected CustomerOptionRepositoryInterface $customerOptionRepository,
+        protected CustomerOptionValueRepositoryInterface $customerOptionValueRepository,
+        protected ChannelRepositoryInterface $channelRepository,
+        protected RepositoryInterface $customerOptionValuePriceRepository,
+        protected CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
+    )
+    {
     }
 
     public function import(array $data): PriceImportResult

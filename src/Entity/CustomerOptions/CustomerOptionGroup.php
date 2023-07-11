@@ -19,7 +19,7 @@ use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
-class CustomerOptionGroup implements CustomerOptionGroupInterface
+class CustomerOptionGroup implements CustomerOptionGroupInterface, \Stringable
 {
     use TranslatableTrait {
         __construct as protected initializeTranslationsCollection;

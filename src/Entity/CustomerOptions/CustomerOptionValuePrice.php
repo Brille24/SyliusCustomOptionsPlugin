@@ -19,9 +19,9 @@ use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 
-class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
+class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface, \Stringable
 {
-    protected ?int $id;
+    protected ?int $id = null;
 
     protected float $percent = 0;
 
@@ -29,7 +29,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface
 
     protected string $type = CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT;
 
-    protected ?CustomerOptionValueInterface $customerOptionValue;
+    protected ?CustomerOptionValueInterface $customerOptionValue = null;
 
     protected ?ProductInterface $product = null;
 

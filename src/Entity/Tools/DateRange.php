@@ -7,7 +7,7 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity\Tools;
 use DateTimeInterface;
 use InvalidArgumentException;
 
-class DateRange implements DateRangeInterface
+class DateRange implements DateRangeInterface, \Stringable
 {
     private ?int $id = null;
 

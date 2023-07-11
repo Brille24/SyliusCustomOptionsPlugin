@@ -17,7 +17,7 @@ use Sylius\Component\Core\Model\OrderItemUnitInterface;
 
 class OrderItemTest extends TestCase
 {
-    private \Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem $orderItem;
+    private OrderItem $orderItem;
 
     public function setUp(): void
     {
@@ -39,18 +39,11 @@ class OrderItemTest extends TestCase
 
         $customerOptionValue = self::createMock(CustomerOptionValueInterface::class);
         $orderItemOption->method('getCustomerOptionValue')->willReturn($customerOptionValue);
-        switch ($type) {
-            case CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT:
-                $orderItemOption->method('getFixedPrice')->willReturn($amount);
-
-                break;
-            case CustomerOptionValuePriceInterface::TYPE_PERCENT:
-                $orderItemOption->method('getPercent')->willReturn($amount);
-
-                break;
-            default:
-                throw new Exception();
-        }
+        match ($type) {
+            CustomerOptionValuePriceInterface::TYPE_FIXED_AMOUNT => $orderItemOption->method('getFixedPrice')->willReturn($amount),
+            CustomerOptionValuePriceInterface::TYPE_PERCENT => $orderItemOption->method('getPercent')->willReturn($amount),
+            default => throw new Exception(),
+        };
 
         return $orderItemOption;
     }

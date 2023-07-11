@@ -22,12 +22,8 @@ use Sylius\Component\Core\Model\ChannelInterface;
 
 final class ChannelListener
 {
-    private CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory;
-
-    public function __construct(
-        CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
-    ) {
-        $this->customerOptionValuePriceFactory = $customerOptionValuePriceFactory;
+    public function __construct(private CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory)
+    {
     }
 
     public function prePersist(LifecycleEventArgs $args): void

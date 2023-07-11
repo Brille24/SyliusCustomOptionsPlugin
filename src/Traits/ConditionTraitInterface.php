@@ -31,10 +31,7 @@ interface ConditionTraitInterface
 
     public function getValue(): ?array;
 
-    /**
-     * @param mixed $value
-     */
-    public function setValue($value): void;
+    public function setValue(mixed $value): void;
 
     /**
      * @return ValidatorInterface
@@ -47,8 +44,7 @@ interface ConditionTraitInterface
     public function setValidator(?ValidatorInterface $validator): void;
 
     /**
-     * @param mixed $value
      * @param string $optionType
      */
-    public function isMet($value, ?string $optionType = null): bool;
+    public function isMet(mixed $value, ?string $optionType = null): bool;
 }

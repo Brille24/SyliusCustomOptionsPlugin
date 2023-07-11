@@ -12,11 +12,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class PriceImportByCsvType extends AbstractType
 {
-    private DataMapperInterface $dataMapper;
-
-    public function __construct(DataMapperInterface $dataMapper)
+    public function __construct(private DataMapperInterface $dataMapper)
     {
-        $this->dataMapper = $dataMapper;
     }
 
     /** @inheritdoc */

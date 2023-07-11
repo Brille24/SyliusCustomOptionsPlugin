@@ -15,11 +15,8 @@ use Webmozart\Assert\Assert;
 
 final class CustomerOptionValueRefresher implements OrderProcessorInterface
 {
-    private CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository;
-
-    public function __construct(CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository)
+    public function __construct(private CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository)
     {
-        $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
     }
 
     /**

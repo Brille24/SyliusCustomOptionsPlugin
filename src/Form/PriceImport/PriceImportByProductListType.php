@@ -13,11 +13,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class PriceImportByProductListType extends AbstractType
 {
-    protected DataMapperInterface  $dataMapper;
-
-    public function __construct(DataMapperInterface $dataMapper)
+    public function __construct(protected DataMapperInterface $dataMapper)
     {
-        $this->dataMapper = $dataMapper;
     }
 
     /** @inheritdoc */
