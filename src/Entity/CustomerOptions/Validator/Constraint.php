@@ -10,7 +10,7 @@ class Constraint implements ConstraintInterface
 {
     use ConditionTrait;
 
-    protected ?int $id;
+    protected ?int $id = null;
 
     public function getId(): ?int
     {

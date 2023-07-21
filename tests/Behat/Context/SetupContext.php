@@ -32,43 +32,16 @@ use Webmozart\Assert\Assert;
 
 class SetupContext implements Context
 {
-    /** @var EntityManagerInterface */
-    private $em;
-
-    /** @var CustomerOptionRepositoryInterface */
-    private $customerOptionRepository;
-
-    /** @var CustomerOptionGroupRepositoryInterface */
-    private $customerOptionGroupRepository;
-
-    /** @var OrderItemRepositoryInterface */
-    private $orderItemRepository;
-
-    /** @var ChannelContextInterface */
-    private $channelContext;
-
-    /** @var ChannelRepositoryInterface */
-    private $channelRepository;
-
-    /** CustomerOptionValuePriceRepositoryInterface */
-    private $customerOptionValuePriceRepository;
-
     public function __construct(
-        EntityManagerInterface $em,
-        CustomerOptionRepositoryInterface $customerOptionRepository,
-        CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
-        OrderItemRepositoryInterface $orderItemRepository,
-        ChannelContextInterface $channelContext,
-        ChannelRepositoryInterface $channelRepository,
-        CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository,
+        private EntityManagerInterface $em,
+        private CustomerOptionRepositoryInterface $customerOptionRepository,
+        private CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
+        private OrderItemRepositoryInterface $orderItemRepository,
+        private ChannelContextInterface $channelContext,
+        private ChannelRepositoryInterface $channelRepository,
+        /** CustomerOptionValuePriceRepositoryInterface */
+        private CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository,
     ) {
-        $this->em = $em;
-        $this->customerOptionRepository = $customerOptionRepository;
-        $this->customerOptionGroupRepository = $customerOptionGroupRepository;
-        $this->orderItemRepository = $orderItemRepository;
-        $this->channelContext = $channelContext;
-        $this->channelRepository = $channelRepository;
-        $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
     }
 
     /**
@@ -216,9 +189,9 @@ class SetupContext implements Context
 
         $config = [];
         foreach ($baseConfig as $key => $value) {
-            if (strpos($key, 'max') !== false) {
+            if (str_contains($key, 'max')) {
                 $config[$key] = $max;
-            } elseif (strpos($key, 'min') !== false) {
+            } elseif (str_contains($key, 'min')) {
                 $config[$key] = $min;
             }
         }

@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class ConditionalConstraintValidatorTest extends TestCase
 {
-    private \Brille24\SyliusCustomerOptionsPlugin\Validator\ConditionalConstraintValidator $conditionalConstraintValidator;
+    private ConditionalConstraintValidator $conditionalConstraintValidator;
 
     private array $violations;
 
@@ -48,10 +48,8 @@ class ConditionalConstraintValidatorTest extends TestCase
 
     /**
      * @dataProvider requestParamsProvider
-     *
-     * @param mixed $customerEnteredValues
      */
-    public function testValidate($customerEnteredValues)
+    public function testValidate(mixed $customerEnteredValues)
     {
         $this->request->request
             ->method('get')

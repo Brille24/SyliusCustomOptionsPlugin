@@ -19,13 +19,13 @@ use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
 class CustomerOptionMenuBuilderEvent extends MenuBuilderEvent
 {
-    private CustomerOptionInterface $customerOption;
-
-    public function __construct(FactoryInterface $factory, ItemInterface $menu, CustomerOptionInterface $customerOption)
+    public function __construct(
+        FactoryInterface $factory,
+        ItemInterface $menu,
+        private CustomerOptionInterface $customerOption,
+    )
     {
         parent::__construct($factory, $menu);
-
-        $this->customerOption = $customerOption;
     }
 
     public function getCustomerOption(): CustomerOptionInterface

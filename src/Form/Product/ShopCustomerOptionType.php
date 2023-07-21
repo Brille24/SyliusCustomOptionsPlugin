@@ -32,28 +32,14 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class ShopCustomerOptionType extends AbstractType
 {
-    private ChannelContextInterface $channelContext;
-
-    private CurrencyContextInterface $currencyContext;
-
-    private MoneyFormatterInterface $moneyFormatter;
-
-    private LocaleContextInterface $localeContext;
-
-    private CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository;
-
     public function __construct(
-        ChannelContextInterface $channelContext,
-        CurrencyContextInterface $currencyContext,
-        MoneyFormatterInterface $moneyFormatter,
-        LocaleContextInterface $localeContext,
-        CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository,
-    ) {
-        $this->channelContext = $channelContext;
-        $this->currencyContext = $currencyContext;
-        $this->moneyFormatter = $moneyFormatter;
-        $this->localeContext = $localeContext;
-        $this->customerOptionValuePriceRepository = $customerOptionValuePriceRepository;
+        private ChannelContextInterface $channelContext,
+        private CurrencyContextInterface $currencyContext,
+        private MoneyFormatterInterface $moneyFormatter,
+        private LocaleContextInterface $localeContext,
+        private CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository,
+    )
+    {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

@@ -24,36 +24,15 @@ use Webmozart\Assert\Assert;
 
 class EditCustomerOptionsAction
 {
-    private Environment $twig;
-
-    private RouterInterface $router;
-
-    private FormFactoryInterface $formFactory;
-
-    private OrderItemRepositoryInterface $orderItemRepository;
-
-    private OrderItemOptionUpdaterInterface $orderItemOptionUpdater;
-
-    private EventDispatcherInterface $eventDispatcher;
-
-    private bool $recalculatePrice;
-
     public function __construct(
-        Environment $twig,
-        RouterInterface $router,
-        FormFactoryInterface $formFactory,
-        OrderItemRepositoryInterface $orderItemRepository,
-        OrderItemOptionUpdaterInterface $orderItemOptionUpdater,
-        EventDispatcherInterface $eventDispatcher,
-        bool $recalculatePrice,
+        private Environment $twig,
+        private RouterInterface $router,
+        private FormFactoryInterface $formFactory,
+        private OrderItemRepositoryInterface $orderItemRepository,
+        private OrderItemOptionUpdaterInterface $orderItemOptionUpdater,
+        private EventDispatcherInterface $eventDispatcher,
+        private bool $recalculatePrice,
     ) {
-        $this->twig = $twig;
-        $this->router = $router;
-        $this->formFactory = $formFactory;
-        $this->orderItemRepository = $orderItemRepository;
-        $this->orderItemOptionUpdater = $orderItemOptionUpdater;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->recalculatePrice = $recalculatePrice;
     }
 
     /**
@@ -137,19 +116,12 @@ class EditCustomerOptionsAction
             return null;
         }
 
-        switch ($customerOptionType) {
-            case CustomerOptionTypeEnum::BOOLEAN:
-                return (bool) $value;
-            case CustomerOptionTypeEnum::NUMBER:
-                return (float) $value;
-            case CustomerOptionTypeEnum::DATE:
-            case CustomerOptionTypeEnum::DATETIME:
-                return new DateTime($value);
-            case CustomerOptionTypeEnum::FILE:
-                // @TODO: Find a way to handle file options
-                return null;
-            default:
-                return $value;
-        }
+        return match ($customerOptionType) {
+            CustomerOptionTypeEnum::BOOLEAN => (bool) $value,
+            CustomerOptionTypeEnum::NUMBER => (float) $value,
+            CustomerOptionTypeEnum::DATE, CustomerOptionTypeEnum::DATETIME => new DateTime($value),
+            CustomerOptionTypeEnum::FILE => null,
+            default => $value,
+        };
     }
 }

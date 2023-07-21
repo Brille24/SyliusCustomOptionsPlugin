@@ -10,7 +10,7 @@ class Condition implements ConditionInterface
 {
     use ConditionTrait;
 
-    protected ?int $id;
+    protected ?int $id = null;
 
     public function getId(): ?int
     {

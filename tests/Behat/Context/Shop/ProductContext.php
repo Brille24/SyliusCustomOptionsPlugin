@@ -12,13 +12,8 @@ use Webmozart\Assert\Assert;
 
 class ProductContext implements Context
 {
-    /** @var ShowPage */
-    private $showPage;
-
-    public function __construct(
-        ShowPage $showPage,
-    ) {
-        $this->showPage = $showPage;
+    public function __construct(private ShowPage $showPage)
+    {
     }
 
     /**
@@ -28,7 +23,7 @@ class ProductContext implements Context
     {
         try {
             $this->showPage->setCookie('XDEBUG_SESSION', 'PHPSTORM');
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
         }
     }
 

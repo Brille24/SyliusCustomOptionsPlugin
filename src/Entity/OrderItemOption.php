@@ -19,9 +19,9 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Webmozart\Assert\Assert;
 
-class OrderItemOption implements OrderItemOptionInterface
+class OrderItemOption implements OrderItemOptionInterface, \Stringable
 {
-    protected ?int $id;
+    protected ?int $id = null;
 
     protected OrderItemInterface $orderItem;
 
@@ -47,7 +47,7 @@ class OrderItemOption implements OrderItemOptionInterface
 
     protected float $percent = 0;
 
-    protected ?FileContent $fileContent;
+    protected ?FileContent $fileContent = null;
 
     /** @inheritdoc */
     public function getId(): ?int
@@ -291,7 +291,7 @@ class OrderItemOption implements OrderItemOptionInterface
         return (bool) $equals;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->customerOptionCode . ': ' . $this->getCustomerOptionValueName();
     }

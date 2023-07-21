@@ -19,15 +19,19 @@ class ValueType extends AbstractType
     /** @var string */
     public const DEFAULT_LABEL = 'brille24.form.validators.fields.value.default';
 
-    private CustomerOptionValueRepositoryInterface $customerOptionValueRepository;
-
-    public function __construct(CustomerOptionValueRepositoryInterface $customerOptionValueRepository)
+    public function __construct(private CustomerOptionValueRepositoryInterface $customerOptionValueRepository)
     {
-        $this->customerOptionValueRepository = $customerOptionValueRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /**
+         * @var array{
+         *   'field_type': string,
+         *   'field_options': array,
+         *   'option_type': string,
+         * } $options
+         */
         $options['field_options']['label'] ??= self::DEFAULT_LABEL;
 
         $builder->add('value', $options['field_type'], $options['field_options']);

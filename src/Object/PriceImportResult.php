@@ -6,17 +6,8 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Object;
 
 class PriceImportResult
 {
-    private int $imported;
-
-    private int $failed;
-
-    private array $errors;
-
-    public function __construct(int $imported, int $failed, array $errors)
+    public function __construct(private int $imported, private int $failed, private array $errors)
     {
-        $this->imported = $imported;
-        $this->failed = $failed;
-        $this->errors = $errors;
     }
 
     public function getImported(): int

@@ -24,19 +24,12 @@ use Faker\Factory;
 
 class CustomerOptionFactory implements CustomerOptionFactoryInterface
 {
-    protected CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository;
-
     protected \Faker\Generator $faker;
 
-    protected CustomerOptionValueFactoryInterface $customerOptionValueFactory;
-
     public function __construct(
-        CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
-        CustomerOptionValueFactoryInterface $customerOptionValueFactory,
+        protected CustomerOptionGroupRepositoryInterface $customerOptionGroupRepository,
+        protected CustomerOptionValueFactoryInterface $customerOptionValueFactory,
     ) {
-        $this->customerOptionGroupRepository = $customerOptionGroupRepository;
-        $this->customerOptionValueFactory = $customerOptionValueFactory;
-
         $this->faker = Factory::create();
     }
 

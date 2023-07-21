@@ -21,20 +21,20 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
-class CustomerOptionValue implements CustomerOptionValueInterface
+class CustomerOptionValue implements CustomerOptionValueInterface, \Stringable
 {
     use TranslatableTrait {
         __construct as protected initializeTranslationsCollection;
         getTranslation as private doGetTranslation;
     }
 
-    protected ?int $id;
+    protected ?int $id = null;
 
     protected string $code;
 
     protected Collection $prices;
 
-    protected ?CustomerOptionInterface $customerOption;
+    protected ?CustomerOptionInterface $customerOption = null;
 
     /** @var OrderItemOptionInterface[] */
     protected $orders;
@@ -218,6 +218,6 @@ class CustomerOptionValue implements CustomerOptionValueInterface
 
     public function __toString(): string
     {
-        return "{$this->getName()}";
+        return (string) "{$this->getName()}";
     }
 }

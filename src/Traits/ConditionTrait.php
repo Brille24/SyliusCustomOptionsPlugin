@@ -70,10 +70,8 @@ trait ConditionTrait
 
     /**
      * Sets a nex value
-     *
-     * @param mixed $value
      */
-    public function setValue($value): void
+    public function setValue(mixed $value): void
     {
         $value = is_array($value) && array_key_exists('value', $value) ? $value['value'] : $value;
 
@@ -114,10 +112,7 @@ trait ConditionTrait
         $this->validator = $validator;
     }
 
-    /**
-     * @param mixed       $value
-     */
-    public function isMet($value, ?string $optionType = null): bool
+    public function isMet(mixed $value, ?string $optionType = null): bool
     {
         $optionType = $this->customerOption === null ? 'number' : $optionType ?? $this->customerOption->getType() ?? 'number';
 
@@ -174,11 +169,9 @@ trait ConditionTrait
     }
 
     /**
-     * @param mixed  $value
-     *
      * @return \DateTime|int|mixed
      */
-    private function formatValue($value, string $optionType)
+    private function formatValue(mixed $value, string $optionType)
     {
         $result = $value;
 

@@ -28,11 +28,8 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 final class AddToCartTypeExtension extends AbstractTypeExtension
 {
-    private LocaleContextInterface $localeContext;
-
-    public function __construct(LocaleContextInterface $localeContext)
+    public function __construct(private LocaleContextInterface $localeContext)
     {
-        $this->localeContext = $localeContext;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -42,7 +39,7 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
         ]);
 
         $itemOptions = $builder->get('cartItem')->getOptions();
-        $itemType = get_class($builder->get('cartItem')->getFormConfig()->getType()->getInnerType());
+        $itemType = $builder->get('cartItem')->getFormConfig()->getType()->getInnerType()::class;
 
         $builder->add('cartItem', $itemType, array_merge($itemOptions, [
             'constraints' => $this->getConstraints($options['product']),

@@ -25,11 +25,8 @@ final class CustomerOptionValuePriceType extends AbstractType
 {
     use ProductCustomerOptionValuePriceTypeTrait;
 
-    protected CustomerOptionRepositoryInterface $customerOptionRepository;
-
-    public function __construct(CustomerOptionRepositoryInterface $customerOptionRepository)
+    public function __construct(protected CustomerOptionRepositoryInterface $customerOptionRepository)
     {
-        $this->customerOptionRepository = $customerOptionRepository;
     }
 
     /** @inheritdoc */

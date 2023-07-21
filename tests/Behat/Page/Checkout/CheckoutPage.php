@@ -10,7 +10,7 @@ class CheckoutPage extends CompletePage
 {
     public function hasCustomerOptionAdditionalPrice($price): bool
     {
-        return false !== strpos($this->getElement('customer_option_total')->getText(), $price);
+        return str_contains($this->getElement('customer_option_total')->getText(), $price);
     }
 
     protected function getDefinedElements(): array

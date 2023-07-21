@@ -10,12 +10,8 @@ use Webmozart\Assert\Assert;
 
 class CheckoutContext implements Context
 {
-    /** @var CheckoutPage */
-    private $checkoutPage;
-
-    public function __construct(CheckoutPage $checkoutPage)
+    public function __construct(private CheckoutPage $checkoutPage)
     {
-        $this->checkoutPage = $checkoutPage;
     }
 
     /**

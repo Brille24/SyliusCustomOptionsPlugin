@@ -6,6 +6,7 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Entity\Tools;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;
+use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
@@ -13,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 class ConditionTest extends TestCase
 {
-    private \Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ConditionInterface $condition;
+    private ConditionInterface $condition;
 
     public function setUp(): void
     {
@@ -75,11 +76,8 @@ class ConditionTest extends TestCase
 
     /**
      * @dataProvider valueProvider
-     *
-     * @param mixed $type
-     * @param mixed $value
      */
-    public function testSetValue($type, $value)
+    public function testSetValue(mixed $type, mixed $value)
     {
         $customerOption = self::createMock(CustomerOptionInterface::class);
         $customerOption->method('getType')->willReturn($type);
@@ -122,13 +120,8 @@ class ConditionTest extends TestCase
 
     /**
      * @dataProvider compareProvider
-     *
-     * @param mixed $type
-     * @param mixed $value
-     * @param mixed $comparators
-     * @param mixed $testValues
      */
-    public function testIsMet($type, $value, $comparators, $testValues)
+    public function testIsMet(mixed $type, mixed $value, mixed $comparators, mixed $testValues)
     {
         $customerOption = self::createMock(CustomerOptionInterface::class);
         $customerOption->method('getType')->willReturn($type);

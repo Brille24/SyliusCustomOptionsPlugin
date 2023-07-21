@@ -16,9 +16,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UpdatePage extends BaseUpdatePage
 {
-    /** @var TranslatorInterface */
-    private $translator;
-
     /**
      * CreatePage constructor.
      *
@@ -29,11 +26,9 @@ class UpdatePage extends BaseUpdatePage
         $minkParameters,
         RouterInterface $router,
         string $routeName,
-        TranslatorInterface $translator,
+        private TranslatorInterface $translator,
     ) {
         parent::__construct($session, $minkParameters, $router, $routeName);
-
-        $this->translator = $translator;
     }
 
     /**
@@ -57,9 +52,7 @@ class UpdatePage extends BaseUpdatePage
      */
     public function chooseOption(string $name, int $position): void
     {
-        $selectItems = $this->getDocument()->waitFor(2, function () {
-            return $this->getDocument()->findAll('css', 'div[data-form-type="collection"] select');
-        });
+        $selectItems = $this->getDocument()->waitFor(2, fn () => $this->getDocument()->findAll('css', 'div[data-form-type="collection"] select'));
         $lastSelectItem = end($selectItems);
 
         if (false === $lastSelectItem) {
@@ -188,9 +181,7 @@ class UpdatePage extends BaseUpdatePage
     public function getConstraintValueType(string $optionType): ?string
     {
         /** @var NodeElement[] $conditionDiv */
-        $conditionDiv = $this->getDocument()->waitFor(2, function () {
-            return $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="constraints"]');
-        });
+        $conditionDiv = $this->getDocument()->waitFor(2, fn () => $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="constraints"]'));
         $lastConditionDiv = end($conditionDiv);
 
         return $this->getValueItemType($lastConditionDiv, $optionType);
@@ -373,9 +364,7 @@ class UpdatePage extends BaseUpdatePage
     private function getLastConditionDiv(): NodeElement
     {
         /** @var NodeElement[] $conditionDiv */
-        $conditionDiv = $this->getDocument()->waitFor(5, function () {
-            return $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]');
-        });
+        $conditionDiv = $this->getDocument()->waitFor(5, fn () => $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="conditions"]'));
 
         return end($conditionDiv);
     }

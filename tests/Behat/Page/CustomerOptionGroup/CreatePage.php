@@ -14,9 +14,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreatePage extends BaseCreatePage
 {
-    /** @var TranslatorInterface */
-    private $translator;
-
     /**
      * CreatePage constructor.
      *
@@ -27,11 +24,9 @@ class CreatePage extends BaseCreatePage
         $minkParameters,
         RouterInterface $router,
         string $routeName,
-        TranslatorInterface $translator,
+        private TranslatorInterface $translator,
     ) {
         parent::__construct($session, $minkParameters, $router, $routeName);
-
-        $this->translator = $translator;
     }
 
     /**
@@ -55,9 +50,7 @@ class CreatePage extends BaseCreatePage
      */
     public function chooseOption(string $name, int $position): void
     {
-        $selectItems = $this->getDocument()->waitFor(2, function () {
-            return $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="option_associations"] select');
-        });
+        $selectItems = $this->getDocument()->waitFor(2, fn () => $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="option_associations"] select'));
         $lastSelectItem = end($selectItems);
 
         if (false === $lastSelectItem) {
