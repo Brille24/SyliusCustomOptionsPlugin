@@ -1,5 +1,5 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
-    <entity name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage"
+    <mapped-superclass name="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ErrorMessage"
             table="brille24_validator_error_message"
     >
         <id name="id" type="integer">
@@ -10,5 +10,5 @@
             <join-column on-delete="CASCADE"/>
         </one-to-one>
 
-    </entity>
+    </mapped-superclass>
 </doctrine-mapping>

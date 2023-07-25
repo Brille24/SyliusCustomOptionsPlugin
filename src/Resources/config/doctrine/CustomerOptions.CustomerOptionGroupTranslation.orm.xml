@@ -9,6 +9,8 @@
 
         <field name="name" nullable="true"/>
 
-        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface" field="translatable" inversed-by="translations"/>
+        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface" field="translatable" inversed-by="translations">
+            <join-column on-delete="CASCADE"/>
+        </many-to-one>
     </mapped-superclass>
 </doctrine-mapping>

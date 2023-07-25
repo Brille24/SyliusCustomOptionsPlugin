@@ -1,11 +1,13 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
-    <entity name="Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption"
+    <mapped-superclass name="Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption"
             table="brille24_customer_option_order_item_option">
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
 
-        <many-to-one target-entity="Sylius\Component\Order\Model\OrderItemInterface" field="orderItem" inversed-by="configuration"/>
+        <many-to-one target-entity="Sylius\Component\Order\Model\OrderItemInterface" field="orderItem" inversed-by="configuration">
+            <join-column on-delete="CASCADE"/>
+        </many-to-one>
 
         <field name="customerOptionCode"/>
         <field name="customerOptionName"/>
@@ -36,5 +38,5 @@
         <field name="fixedPrice" type="integer"/>
         <field name="percent" type="float" />
         <field name="pricingType" type="string" />
-    </entity>
+    </mapped-superclass>
 </doctrine-mapping>

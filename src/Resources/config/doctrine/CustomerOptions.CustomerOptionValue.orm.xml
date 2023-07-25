@@ -29,7 +29,9 @@
                 target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface"
                 field="customerOption"
                 inversed-by="values"
-        />
+        >
+            <join-column on-delete="CASCADE"/>
+        </many-to-one>
 
         <!-- Constraints -->
         <unique-constraints>
