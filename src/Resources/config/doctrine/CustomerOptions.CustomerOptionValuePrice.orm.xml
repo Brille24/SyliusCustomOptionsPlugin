@@ -18,6 +18,7 @@
             <cascade>
                 <cascade-persist/>
             </cascade>
+            <join-column on-delete="CASCADE"/>
         </many-to-one>
 
         <many-to-one
@@ -28,7 +29,9 @@
         </many-to-one>
 
         <many-to-one target-entity="Sylius\Component\Product\Model\ProductInterface"
-                     field="product" inversed-by="customerOptionValuePrices" />
+                     field="product" inversed-by="customerOptionValuePrices">
+            <join-column on-delete="CASCADE"/>
+        </many-to-one>
 
         <one-to-one field="dateValid" target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\Tools\DateRange">
             <cascade>
