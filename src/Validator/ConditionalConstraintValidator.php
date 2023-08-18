@@ -54,7 +54,7 @@ class ConditionalConstraintValidator extends ConstraintValidator
     private function getCustomerOptionsFromRequest(Request $request, ProductInterface $product): array
     {
         /** @var array $addToCart */
-        $addToCart = $request->request->get('sylius_add_to_cart');
+        $addToCart = $request->request->all('sylius_add_to_cart');
 
         if (!isset($addToCart['customer_options'])) {
             return [];
