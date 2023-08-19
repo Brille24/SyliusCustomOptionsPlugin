@@ -52,7 +52,7 @@ class ConditionalConstraintValidatorTest extends TestCase
     public function testValidate(mixed $customerEnteredValues)
     {
         $this->request->request
-            ->method('get')
+            ->method('all')
             ->with('sylius_add_to_cart')
             ->willReturn(['customer_options' => $customerEnteredValues]);
 
