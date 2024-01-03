@@ -57,9 +57,9 @@
 
         <service
                 class="Brille24\SyliusCustomerOptionsPlugin\Factory\CartItemFactory"
-                id="sylius.custom_factory.order_item"
-                decorates="sylius.factory.order_item"
-                decoration-priority="256"
+                id="brille24.factory.order_item"
+                decorates="sylius.custom_factory.order_item"
+                decoration-priority="255"
                 public="false"
         >
             <argument type="service" id="sylius.custom_factory.order_item.inner"/>
