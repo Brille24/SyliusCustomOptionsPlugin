@@ -27,23 +27,15 @@ use Webmozart\Assert\Assert;
 class CartItemFactory implements CartItemFactoryInterface
 {
     private CartItemFactoryInterface $decoratedFactory;
-    private ProductVariantResolverInterface $variantResolver;
-    private RequestStack $requestStack;
-    private OrderItemOptionFactoryInterface $orderItemOptionFactory;
-    private CustomerOptionRepositoryInterface $customerOptionRepository;
 
     public function __construct(
         FactoryInterface $decoratedFactory,
-        ProductVariantResolverInterface $variantResolver,
-        RequestStack $requestStack,
-        OrderItemOptionFactoryInterface $orderItemOptionFactory,
-        CustomerOptionRepositoryInterface $customerOptionRepository
+        private ProductVariantResolverInterface $variantResolver,
+        private RequestStack $requestStack,
+        private OrderItemOptionFactoryInterface $orderItemOptionFactory,
+        private CustomerOptionRepositoryInterface $customerOptionRepository
     ) {
         $this->decoratedFactory = new \Sylius\Component\Core\Factory\CartItemFactory($decoratedFactory, $variantResolver);
-        $this->variantResolver = $variantResolver;
-        $this->requestStack = $requestStack;
-        $this->orderItemOptionFactory = $orderItemOptionFactory;
-        $this->customerOptionRepository = $customerOptionRepository;
     }
 
     public function createForProduct(ProductInterface $product): OrderItemInterface
