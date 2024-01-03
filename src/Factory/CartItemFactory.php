@@ -33,7 +33,7 @@ class CartItemFactory implements CartItemFactoryInterface
         private ProductVariantResolverInterface $variantResolver,
         private RequestStack $requestStack,
         private OrderItemOptionFactoryInterface $orderItemOptionFactory,
-        private CustomerOptionRepositoryInterface $customerOptionRepository
+        private CustomerOptionRepositoryInterface $customerOptionRepository,
     ) {
         $this->decoratedFactory = new \Sylius\Component\Core\Factory\CartItemFactory($decoratedFactory, $variantResolver);
     }
@@ -55,7 +55,7 @@ class CartItemFactory implements CartItemFactoryInterface
 
     public function createForProductWithCustomerOption(ProductInterface $product): OrderItemInterface
     {
-       /** @var OrderItemInterface $cartItem */
+        /** @var OrderItemInterface $cartItem */
         $cartItem = $this->createNew();
         $cartItem->setVariant($this->variantResolver->getVariant($product));
 
@@ -84,7 +84,7 @@ class CartItemFactory implements CartItemFactoryInterface
                 $salesOrderConfiguration = $this->orderItemOptionFactory->createNewFromStrings(
                     $cartItem,
                     $customerOptionCode,
-                    $value
+                    $value,
                 );
 
                 $salesOrderConfigurations[] = $salesOrderConfiguration;
@@ -98,10 +98,6 @@ class CartItemFactory implements CartItemFactoryInterface
 
     /**
      * Gets the customer options from the request
-     *
-     * @param Request $request
-     *
-     * @return array
      */
     public function getCustomerOptionsFromRequest(Request $request): array
     {
@@ -120,20 +116,20 @@ class CartItemFactory implements CartItemFactoryInterface
 
             switch ($customerOption->getType()) {
                 case CustomerOptionTypeEnum::DATE:
-                    $day                                  = $value['day'];
-                    $month                                = $value['month'];
-                    $year                                 = $value['year'];
+                    $day = $value['day'];
+                    $month = $value['month'];
+                    $year = $value['year'];
                     $addToCart['customer_options'][$code] = sprintf('%d-%d-%d', $year, $month, $day);
 
                     break;
                 case CustomerOptionTypeEnum::DATETIME:
-                    $date  = $value['date'];
-                    $time  = $value['time'];
-                    $day   = $date['day'];
+                    $date = $value['date'];
+                    $time = $value['time'];
+                    $day = $date['day'];
                     $month = $date['month'];
-                    $year  = $date['year'];
+                    $year = $date['year'];
 
-                    $hour   = $time['hour'] ?? 0;
+                    $hour = $time['hour'] ?? 0;
                     $minute = $time['minute'] ?? 0;
 
                     $addToCart['customer_options'][$code] = sprintf('%d-%d-%d %d:%d', $year, $month, $day, $hour, $minute);
