@@ -99,7 +99,7 @@ class CartItemFactory implements CartItemFactoryInterface
     /**
      * Gets the customer options from the request
      */
-    public function getCustomerOptionsFromRequest(Request $request): array
+    private function getCustomerOptionsFromRequest(Request $request): array
     {
         /** @var array $addToCart */
         $addToCart = $request->request->all('sylius_add_to_cart');
