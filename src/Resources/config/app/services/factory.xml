@@ -54,5 +54,19 @@
             <argument type="service" id="brille24.repository.customer_option_value"/>
             <argument type="service" id="brille24.customer_options_plugin.factory.customer_option_value_price_factory" />
         </service>
+
+        <service
+                class="Brille24\SyliusCustomerOptionsPlugin\Factory\CartItemFactory"
+                id="brille24.factory.order_item"
+                decorates="sylius.custom_factory.order_item"
+                decoration-priority="255"
+                public="false"
+        >
+            <argument type="service" id="brille24.factory.order_item.inner"/>
+            <argument type="service" id="sylius.product_variant_resolver.default"/>
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="brille24.factory.order_item_option"/>
+            <argument type="service" id="brille24.repository.customer_option"/>
+        </service>
     </services>
 </container>

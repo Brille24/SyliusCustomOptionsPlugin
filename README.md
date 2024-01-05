@@ -28,6 +28,43 @@ imports:
 ```yaml
 brille24_customer_options:
     resource: "@Brille24SyliusCustomerOptionsPlugin/Resources/config/app/routing.yml"
+
+sylius_shop_ajax_cart_add_item:
+  path: ajax/cart/add
+  methods: [POST]
+  defaults:
+    _controller: sylius.controller.order_item::addAction
+    _format: json
+    _sylius:
+      factory:
+        method: createForProductWithCustomerOption
+        arguments: [expr:notFoundOnNull(service('sylius.repository.product').find($productId))]
+      form:
+        type: Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType
+        options:
+          product: expr:notFoundOnNull(service('sylius.repository.product').find($productId))
+      redirect:
+        route: sylius_shop_cart_summary
+        parameters: {}
+      flash: sylius.cart.add_item
+
+sylius_shop_partial_cart_add_item:
+  path: cart/add-item
+  methods: [GET]
+  defaults:
+    _controller: sylius.controller.order_item::addAction
+    _sylius:
+      template: $template
+      factory:
+        method: createForProductWithCustomerOption
+        arguments: [expr:notFoundOnNull(service('sylius.repository.product').find($productId))]
+      form:
+        type: Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType
+        options:
+          product: expr:notFoundOnNull(service('sylius.repository.product').find($productId))
+      redirect:
+        route: sylius_shop_cart_summary
+        parameters: {}
 ```
 
 * Copy the template overrides from the plugin directory
