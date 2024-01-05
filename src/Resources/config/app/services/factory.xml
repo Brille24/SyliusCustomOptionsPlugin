@@ -62,7 +62,7 @@
                 decoration-priority="255"
                 public="false"
         >
-            <argument type="service" id="sylius.custom_factory.order_item.inner"/>
+            <argument type="service" id="brille24.factory.order_item.inner"/>
             <argument type="service" id="sylius.product_variant_resolver.default"/>
             <argument type="service" id="request_stack"/>
             <argument type="service" id="brille24.factory.order_item_option"/>
