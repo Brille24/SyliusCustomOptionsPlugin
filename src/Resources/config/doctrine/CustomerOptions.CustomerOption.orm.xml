@@ -13,7 +13,7 @@
         </id>
 
         <field name="type" type="string" unique="false" nullable="false"/>
-        <field name="configuration" type="json_array"/>
+        <field name="configuration" type="json"/>
         <field name="code" type="string" unique="true" nullable="false"/>
         <field name="required" type="boolean"/>
 

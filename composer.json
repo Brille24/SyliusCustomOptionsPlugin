@@ -39,9 +39,6 @@
         "symfony/webpack-encore-bundle": "^1.15",
         "vimeo/psalm": "4.7.1"
     },
-    "conflict": {
-        "doctrine/dbal": "^3.0"
-    },
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
