@@ -11,6 +11,7 @@
             <argument type="service" id="brille24.repository.customer_option"/>
             <argument type="service" id="brille24.customer_options_plugin.services.customer_option_value_resolver"/>
             <argument type="service" id="brille24.repository.customer_option_value_price"/>
+            <argument type="service" id="sylius.context.channel"/>
         </service>
 
         <service

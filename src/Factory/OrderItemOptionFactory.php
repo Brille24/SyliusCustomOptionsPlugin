@@ -22,6 +22,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInte
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValuePriceRepositoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueResolverInterface;
 use Exception;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ProductInterface;
@@ -34,6 +35,7 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
         private CustomerOptionRepositoryInterface $customerOptionRepository,
         private CustomerOptionValueResolverInterface $valueResolver,
         private CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository,
+        private ChannelContextInterface $channelContext,
     )
     {
     }
@@ -63,8 +65,9 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
             /** @var ProductInterface $product */
             $product = $orderItem->getProduct();
 
+            $contextChannel = $this->channelContext->getChannel();
             /** @var ChannelInterface $channel */
-            $channel = $order->getChannel();
+            $channel = $order ? $order->getChannel() : $contextChannel;
 
             /** @var CustomerOptionValuePriceInterface $price */
             $price = $this->customerOptionValuePriceRepository->getPriceForChannel($channel, $product, $customerOptionValue);
