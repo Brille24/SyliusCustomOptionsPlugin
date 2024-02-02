@@ -14,11 +14,16 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\JsonType;
+use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
+#[ORM\Entity(repositoryClass: CustomerOptionRepository::class)]
+#[ORM\Table(name: 'brille24_customer_option')]
 class CustomerOption implements CustomerOptionInterface
 {
     use TranslatableTrait {
@@ -26,22 +31,35 @@ class CustomerOption implements CustomerOptionInterface
         getTranslation as private doGetTranslation;
     }
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
+    #[ORM\Column(type: 'string', nullable: false)]
     protected string $type = CustomerOptionTypeEnum::SELECT;
 
+    #[ORM\Column(type: 'string', unique: true, nullable: false)]
     protected ?string $code = '';
 
+    #[ORM\Column(type: 'boolean')]
     protected bool $required = false;
 
     /** @var Collection|CustomerOptionValueInterface[] */
+    #[ORM\OneToMany(targetEntity: CustomerOptionValueInterface::class, mappedBy: 'customerOption', orphanRemoval: true, cascade: ['persist', 'remove'])]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected Collection $values;
 
+    #[ORM\Column(type: 'json')]
     protected array $configuration = [];
 
+    /** @var Collection|CustomerOptionAssociationInterface[] */
+    #[ORM\OneToMany(targetEntity: CustomerOptionAssociationInterface::class, mappedBy: 'option', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     protected Collection $groupAssociations;
 
     /** @var Collection|OrderItemOptionInterface[] */
+    #[ORM\OneToMany(targetEntity: OrderItemOptionInterface::class, mappedBy: 'customerOption')]
     protected Collection $orders;
 
     public function __construct()

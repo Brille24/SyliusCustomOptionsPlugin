@@ -17,36 +17,100 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
+//<mapped-superclass name="Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOption"
+//            table="brille24_customer_option_order_item_option">
+//        <id name="id" type="integer">
+//            <generator strategy="AUTO"/>
+//        </id>
+//
+//        <many-to-one target-entity="Sylius\Component\Order\Model\OrderItemInterface" field="orderItem" inversed-by="configuration">
+//            <join-column on-delete="CASCADE"/>
+//        </many-to-one>
+//
+//        <field name="customerOptionCode"/>
+//        <field name="customerOptionName"/>
+//        <field name="customerOptionType"/>
+//
+//        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface"
+//                     field="customerOption" optional="true" inversed-by="orders"
+//    >
+//            <join-column on-delete="SET NULL" nullable="true"/>
+//        </many-to-one>
+//
+//        <field name="customerOptionValueCode" nullable="true"/>
+//        <field name="customerOptionValueName" nullable="true"/>
+//        <field name="optionValue" nullable="true" type="string"/>
+//        <one-to-one field="fileContent" target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\FileContent">
+//            <cascade>
+//                <cascade-all />
+//            </cascade>
+//            <join-column nullable="true" />
+//        </one-to-one>
+//
+//        <many-to-one target-entity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface"
+//                     field="customerOptionValue" optional="true"
+//    >
+//            <join-column on-delete="SET NULL" nullable="true"/>
+//        </many-to-one>
+//
+//        <field name="fixedPrice" type="integer"/>
+//        <field name="percent" type="float" />
+//        <field name="pricingType" type="string" />
+//    </mapped-superclass>
+
+#[ORM\Entity]
+#[ORM\Table(name: 'brille24_customer_option_order_item_option')]
 class OrderItemOption implements OrderItemOptionInterface, \Stringable
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
+    #[ORM\ManyToOne(targetEntity: OrderItemInterface::class, inversedBy: 'configuration')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     protected OrderItemInterface $orderItem;
 
+    #[ORM\ManyToOne(targetEntity: CustomerOptionInterface::class, inversedBy: 'orders')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     protected ?CustomerOptionInterface $customerOption = null;
 
+    #[ORM\Column(type: 'string')]
     protected string $customerOptionType;
 
+    #[ORM\Column(type: 'string')]
     protected string $customerOptionCode;
 
+    #[ORM\Column(type: 'string')]
     protected string $customerOptionName;
 
+    #[ORM\ManyToOne(targetEntity: CustomerOptionValueInterface::class, inversedBy: 'orders')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     protected ?CustomerOptionValueInterface $customerOptionValue = null;
 
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $customerOptionValueCode = null;
 
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $customerOptionValueName = null;
 
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $optionValue = null;
 
+    #[ORM\Column(type: 'integer')]
     protected int $fixedPrice = 0;
 
+    #[ORM\Column(type: 'string')]
     protected string $pricingType = '';
 
+    #[ORM\Column(type: 'float')]
     protected float $percent = 0;
 
+    #[ORM\OneToOne(targetEntity: FileContent::class, cascade: ['all'])]
+    #[ORM\JoinColumn(nullable: true)]
     protected ?FileContent $fileContent = null;
 
     /** @inheritdoc */

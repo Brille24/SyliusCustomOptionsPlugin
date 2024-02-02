@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-final class Brille24SyliusCustomerOptionsExtension extends Extension implements PrependExtensionInterface
+final class Brille24SyliusCustomerOptionsExtension extends Extension
 {
     /**
      * @inheritdoc
@@ -32,25 +32,6 @@ final class Brille24SyliusCustomerOptionsExtension extends Extension implements 
         $container->setParameter('brille24.sylius_customer_options.order_item_edit.recalculate_price', $config['order_item_edit']['recalculate_price']);
 
         new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config/app'));
-    }
-
-    public function prepend(ContainerBuilder $container): void
-    {
-        if (!$container->hasExtension('doctrine_migrations') || !$container->hasExtension('sylius_labs_doctrine_migrations_extra')) {
-            return;
-        }
-
-        $container->prependExtensionConfig('doctrine_migrations', [
-            'migrations_paths' => [
-                'Brille24\SyliusCustomerOptionsPlugin\Migrations' => '@Brille24SyliusCustomerOptionsPlugin/Migrations',
-            ],
-        ]);
-
-        $container->prependExtensionConfig('sylius_labs_doctrine_migrations_extra', [
-            'migrations' => [
-                'Brille24\SyliusCustomerOptionsPlugin\Migrations' => ['Sylius\Bundle\CoreBundle\Migrations'],
-            ],
-        ]);
     }
 
     public function getConfiguration(array $config, ContainerBuilder $container): ConfigurationInterface

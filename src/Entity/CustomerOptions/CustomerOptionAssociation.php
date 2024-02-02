@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Class CustomerOptionAssociation
  * This class is used as an association between the Customer Option Group and the customer option ordering them by
@@ -20,17 +22,26 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
  * @see CustomerOption
  * @see CustomerOptionGroup
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'brille24_customer_option_association')]
+#[ORM\UniqueConstraint(name: 'option_group_unique', columns: ['option_id', 'group_id'])]
 class CustomerOptionAssociation implements CustomerOptionAssociationInterface
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
+    #[ORM\ManyToOne(targetEntity: CustomerOptionGroupInterface::class, cascade: ['persist'], inversedBy: 'optionAssociations')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     protected ?CustomerOptionGroupInterface $group = null;
 
+    #[ORM\ManyToOne(targetEntity: CustomerOptionInterface::class, cascade: ['persist'], inversedBy: 'groupAssociations')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     protected ?CustomerOptionInterface $option = null;
 
-    public function __construct(protected int $position = 0)
-    {
-    }
+    #[ORM\Column(type: 'integer')]
+    protected int $position = 0;
 
     /**
      * @inheritdoc

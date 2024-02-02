@@ -14,11 +14,15 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity(repositoryClass: CustomerOptionGroupRepository::class)]
+#[ORM\Table(name: 'brille24_customer_option_group')]
 class CustomerOptionGroup implements CustomerOptionGroupInterface, \Stringable
 {
     use TranslatableTrait {
@@ -27,18 +31,26 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface, \Stringable
     }
 
     /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected $id;
 
     /** @var string|null */
+    #[ORM\Column(type: 'string', nullable: true)]
     protected $code;
 
     /** @var Collection */
+    #[ORM\OneToMany(mappedBy: 'group', targetEntity: CustomerOptionAssociationInterface::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     protected $optionAssociations;
 
     /** @var ArrayCollection */
+    #[ORM\OneToMany(mappedBy: 'customerOptionGroup', targetEntity: ProductInterface::class)]
     protected $products;
 
     /** @var ArrayCollection */
+    #[ORM\OneToMany(mappedBy: 'customerOptionGroup', targetEntity: ValidatorInterface::class, cascade: ['persist', 'remove'])]
     protected $validators;
 
     public function __construct()

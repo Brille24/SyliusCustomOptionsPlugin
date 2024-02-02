@@ -14,13 +14,18 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface as COValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
+#[ORM\Entity(repositoryClass: CustomerOptionValueRepository::class)]
+#[ORM\Table(name: 'brille24_customer_option_value')]
+#[ORM\UniqueConstraint(name: 'unique_customer_option_code', columns: ['customerOption_id', 'code'])]
 class CustomerOptionValue implements CustomerOptionValueInterface, \Stringable
 {
     use TranslatableTrait {
@@ -28,12 +33,19 @@ class CustomerOptionValue implements CustomerOptionValueInterface, \Stringable
         getTranslation as private doGetTranslation;
     }
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
+    #[ORM\Column(type: 'string')]
     protected string $code;
 
+    #[ORM\OneToMany(mappedBy: 'customerOptionValue', targetEntity: COValuePriceInterface::class, cascade: ['persist', 'remove'])]
     protected Collection $prices;
 
+    #[ORM\ManyToOne(targetEntity: CustomerOptionInterface::class, inversedBy: 'values')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     protected ?CustomerOptionInterface $customerOption = null;
 
     /** @var OrderItemOptionInterface[] */
