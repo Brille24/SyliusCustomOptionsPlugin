@@ -120,8 +120,9 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
 bin/console sylius:fixtures:load
 ```
 
-* Finally, update the database and update the translations:
+* Finally, generate migrations, update the database and update the translations:
 ```bash
+bin/console doctrine:migrations:diff
 bin/console doctrine:migrations:migrate
 bin/console translation:update
 ```
