@@ -48,13 +48,14 @@ class CustomerOptionValue implements CustomerOptionValueInterface, \Stringable
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     protected ?CustomerOptionInterface $customerOption = null;
 
-    /** @var OrderItemOptionInterface[] */
-    protected $orders;
+    #[ORM\OneToMany(mappedBy: 'customerOptionValue', targetEntity: OrderItemOptionInterface::class)]
+    protected Collection $orders;
 
     public function __construct()
     {
         $this->initializeTranslationsCollection();
         $this->prices = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     /**
