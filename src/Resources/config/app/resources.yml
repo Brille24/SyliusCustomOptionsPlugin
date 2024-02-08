@@ -1,14 +1,14 @@
-# Overriding the Sylius resources
-sylius_product:
-    resources:
-        product:
-            classes:
-                model: Brille24\SyliusCustomerOptionsPlugin\Entity\Product
-sylius_order:
-    resources:
-        order_item:
-            classes:
-                model: Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem
+## Overriding the Sylius resources
+#sylius_product:
+#    resources:
+#        product:
+#            classes:
+#                model: Brille24\SyliusCustomerOptionsPlugin\Entity\Product
+#sylius_order:
+#    resources:
+#        order_item:
+#            classes:
+#                model: Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem
 
 # Defining new resources
 sylius_resource:

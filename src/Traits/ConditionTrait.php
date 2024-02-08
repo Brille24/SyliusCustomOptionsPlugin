@@ -8,16 +8,24 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionIn
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
+
 
 trait ConditionTrait
 {
+    #[ORM\ManyToOne(targetEntity: CustomerOptionInterface::class)]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     protected ?CustomerOptionInterface $customerOption = null;
 
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $comparator = null;
 
+    #[ORM\Column(type: 'json', nullable: true)]
     protected ?array $value = null;
 
+    #[ORM\ManyToOne(targetEntity: ValidatorInterface::class, cascade: ['persist'], inversedBy: 'conditions')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     protected ?ValidatorInterface $validator = null;
 
     /** @inheritdoc */

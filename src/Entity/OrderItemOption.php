@@ -17,36 +17,59 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
+use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
+#[ORM\Entity]
+#[ORM\Table(name: 'brille24_customer_option_order_item_option')]
 class OrderItemOption implements OrderItemOptionInterface, \Stringable
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
+    #[ORM\ManyToOne(targetEntity: OrderItemInterface::class, inversedBy: 'configuration')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     protected OrderItemInterface $orderItem;
 
+    #[ORM\ManyToOne(targetEntity: CustomerOptionInterface::class, inversedBy: 'orders')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     protected ?CustomerOptionInterface $customerOption = null;
 
+    #[ORM\Column(type: 'string')]
     protected string $customerOptionType;
 
+    #[ORM\Column(type: 'string')]
     protected string $customerOptionCode;
 
+    #[ORM\Column(type: 'string')]
     protected string $customerOptionName;
 
+    #[ORM\ManyToOne(targetEntity: CustomerOptionValueInterface::class, inversedBy: 'orders')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     protected ?CustomerOptionValueInterface $customerOptionValue = null;
 
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $customerOptionValueCode = null;
 
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $customerOptionValueName = null;
 
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $optionValue = null;
 
+    #[ORM\Column(type: 'integer')]
     protected int $fixedPrice = 0;
 
+    #[ORM\Column(type: 'string')]
     protected string $pricingType = '';
 
+    #[ORM\Column(type: 'float')]
     protected float $percent = 0;
 
+    #[ORM\OneToOne(targetEntity: FileContent::class, cascade: ['all'])]
+    #[ORM\JoinColumn(nullable: true)]
     protected ?FileContent $fileContent = null;
 
     /** @inheritdoc */
