@@ -95,7 +95,7 @@ trait OrderItemCustomerOptionCapableTrait
         }
 
         /** @var OrderItemOptionInterface[] $itemCustomerConfiguration */
-        $itemCustomerConfiguration = $item->getCustomerOptionConfiguration(true);
+        $itemCustomerConfiguration    = $item->getCustomerOptionConfiguration(true);
         $curItemCustomerConfiguration = $this->getCustomerOptionConfiguration(true);
 
         // configuration array size needs to be identical
@@ -111,7 +111,15 @@ trait OrderItemCustomerOptionCapableTrait
 
         // iterate over all options and compare their values
         foreach ($itemCustomerConfiguration as $code => $value) {
-            if ($curItemCustomerConfiguration[$code]->getOptionValue() !== $value->getOptionValue()) {
+            if (is_array($curItemCustomerConfiguration[$code]) && is_array($value)) {
+                $curItemCustomerConfigurationOptionValue = current($curItemCustomerConfiguration[$code])->getOptionValue();
+                $valueOptionValue                        = current($value)->getOptionValue();
+            } else {
+                $curItemCustomerConfigurationOptionValue = $curItemCustomerConfiguration[$code]->getOptionValue();
+                $valueOptionValue                        = $value->getOptionValue();
+            }
+
+            if ($curItemCustomerConfigurationOptionValue !== $valueOptionValue) {
                 return false;
             }
         }
