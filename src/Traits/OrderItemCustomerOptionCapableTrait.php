@@ -111,13 +111,8 @@ trait OrderItemCustomerOptionCapableTrait
 
         // iterate over all options and compare their values
         foreach ($itemCustomerConfiguration as $code => $value) {
-            if (is_array($curItemCustomerConfiguration[$code]) && is_array($value)) {
-                $curItemCustomerConfigurationOptionValue = current($curItemCustomerConfiguration[$code])->getOptionValue();
-                $valueOptionValue                        = current($value)->getOptionValue();
-            } else {
-                $curItemCustomerConfigurationOptionValue = $curItemCustomerConfiguration[$code]->getOptionValue();
-                $valueOptionValue                        = $value->getOptionValue();
-            }
+            $curItemCustomerConfigurationOptionValue = (is_array($curItemCustomerConfiguration[$code]) ? current($curItemCustomerConfiguration[$code]) : $curItemCustomerConfiguration[$code])->getOptionValue();
+            $valueOptionValue                        = (is_array($value) ? current($value) : $value)->getOptionValue();
 
             if ($curItemCustomerConfigurationOptionValue !== $valueOptionValue) {
                 return false;
