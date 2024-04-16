@@ -5,11 +5,13 @@ includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
     level: max
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
     reportUnmatchedIgnoredErrors: false
+    checkMissingIterableValueType: false
+    paths:
+        - src
+        - tests/Behat
 
-    excludePaths:
+    excludes_analyse:
         # Makes PHPStan crash
         - 'src/DependencyInjection/Configuration.php'
 
@@ -18,9 +20,4 @@ parameters:
         - 'tests/Application/src/**.php'
 
     ignoreErrors:
-        - '/Symfony\\Contracts\\EventDispatcher\\EventDispatcherInterface::dispatch/'
-        - '/Parameter #1 \$configuration of method Symfony\\Component\\DependencyInjection\\Extension\\Extension::processConfiguration\(\) expects Symfony\\Component\\Config\\Definition\\ConfigurationInterface, Symfony\\Component\\Config\\Definition\\ConfigurationInterface\|null given./'
-        - '/Cannot call method arrayNode\(\) on Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\|null./'
-        - '/Method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\Validator\\Condition\:\:isMet\(\) has parameter \$value with no typehint specified\./'
-        - '/Access to an undefined property Faker\\UniqueGenerator\:\:\$word\./'
-        - '/Unreachable statement \- code above always terminates\./'
+        - '/Parameter #1 \$configuration of method Symfony\\Component\\DependencyInjection\\Extension\\Extension::processConfiguration\(\) expects Symfony\\Component\\Config\\Definition\\ConfigurationInterface, Symfony\\Component\\Config\\Definition\\ConfigurationInterface\|null given\./'
