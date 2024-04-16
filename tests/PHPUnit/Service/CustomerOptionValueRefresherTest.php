@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Service;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Service;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
@@ -22,7 +22,7 @@ use Sylius\Component\Core\Model\ProductInterface;
 
 class CustomerOptionValueRefresherTest extends TestCase
 {
-    private \Brille24\SyliusCustomerOptionsPlugin\Services\CustomerOptionValueRefresher $customerOptionValueRefresher;
+    private CustomerOptionValueRefresher $customerOptionValueRefresher;
 
     private int $updateCount = 0;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Entity\Tools;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Entity;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condition;

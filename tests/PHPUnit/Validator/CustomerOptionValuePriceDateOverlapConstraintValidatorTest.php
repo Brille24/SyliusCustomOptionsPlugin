@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Validator;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Validator;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCase
 {
-    private \Brille24\SyliusCustomerOptionsPlugin\Validator\CustomerOptionValuePriceDateOverlapConstraintValidator $productCustomerOptionPriceValidator;
+    private CustomerOptionValuePriceDateOverlapConstraintValidator $productCustomerOptionPriceValidator;
 
     private array $violations = [];
 

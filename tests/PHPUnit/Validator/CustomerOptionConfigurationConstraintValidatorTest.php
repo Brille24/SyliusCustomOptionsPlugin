@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Validator;
+namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Validator;
 
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionConfigurationConstraint;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\CustomerOptionConfigurationConstraintValidator;
@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class CustomerOptionConfigurationConstraintValidatorTest extends TestCase
 {
-    private \Brille24\SyliusCustomerOptionsPlugin\Validator\CustomerOptionConfigurationConstraintValidator $customerOptionConfigurationValidator;
+    private CustomerOptionConfigurationConstraintValidator $customerOptionConfigurationValidator;
 
     private array $violations = [];
 

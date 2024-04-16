@@ -14,29 +14,20 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait ProductCustomerOptionCapableTrait
 {
-    /**
-     * @var CustomerOptionGroupInterface|null
-     *
-     * @ORM\ManyToOne(
-     *     targetEntity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface",
-     *     inversedBy="products"
-     * )
-     *
-     * @ORM\JoinColumn(onDelete="SET NULL")
-     */
-    protected $customerOptionGroup;
+    #[ORM\ManyToOne(targetEntity: CustomerOptionGroupInterface::class, inversedBy: "products")]
+    #[ORM\JoinColumn(onDelete: "SET NULL")]
+    protected ?CustomerOptionGroupInterface $customerOptionGroup;
 
     /**
-     * @var Collection|CustomerOptionValuePriceInterface[]
-     *
-     * @ORM\OneToMany(
-     *     targetEntity="Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface",
-     *     mappedBy="product",
-     *     orphanRemoval=true,
-     *     cascade={"persist", "remove"}
-     * )
+     * @var Collection<CustomerOptionValuePriceInterface>
      */
-    protected $customerOptionValuePrices;
+    #[ORM\OneToMany(
+        targetEntity: CustomerOptionValuePriceInterface::class,
+        mappedBy: "product",
+        orphanRemoval: true,
+        cascade: ["persist", "remove"]
+    )]
+    protected Collection $customerOptionValuePrices;
 
     public function __construct()
     {

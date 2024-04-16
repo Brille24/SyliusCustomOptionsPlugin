@@ -15,15 +15,14 @@ use Sylius\Component\Order\Model\OrderItemInterface as SyliusOrderItemInterface;
 trait OrderItemCustomerOptionCapableTrait
 {
     /**
-     * @var Collection|OrderItemOptionInterface[]
-     *
-     * @ORM\OneToMany(
-     *     targetEntity="Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface",
-     *     mappedBy="orderItem",
-     *     cascade={"persist", "remove"}
-     * )
+     * @var Collection<OrderItemOptionInterface>
      */
-    protected $configuration;
+     #[ORM\OneToMany(
+        targetEntity:OrderItemOptionInterface::class,
+         mappedBy:'orderItem',
+         cascade:['persist', 'remove']
+     )]
+    protected Collection $configuration;
 
     public function __construct()
     {
