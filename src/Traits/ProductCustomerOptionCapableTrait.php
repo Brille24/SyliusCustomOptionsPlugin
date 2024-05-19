@@ -16,7 +16,7 @@ trait ProductCustomerOptionCapableTrait
 {
     #[ORM\ManyToOne(targetEntity: CustomerOptionGroupInterface::class, inversedBy: "products")]
     #[ORM\JoinColumn(onDelete: "SET NULL")]
-    protected ?CustomerOptionGroupInterface $customerOptionGroup;
+    protected ?CustomerOptionGroupInterface $customerOptionGroup = null;
 
     /**
      * @var Collection<CustomerOptionValuePriceInterface>
