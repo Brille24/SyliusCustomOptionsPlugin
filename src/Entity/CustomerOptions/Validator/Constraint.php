@@ -13,6 +13,10 @@ class Constraint implements ConstraintInterface
 {
     use ConditionTrait;
 
+    #[ORM\ManyToOne(targetEntity: ValidatorInterface::class, cascade: ['persist'], inversedBy: 'constraints')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    protected ?ValidatorInterface $validator = null;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
