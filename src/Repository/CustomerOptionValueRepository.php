@@ -14,6 +14,7 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Repository;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Sylius\Component\Core\Model\ChannelInterface;
 
 class CustomerOptionValueRepository extends EntityRepository implements CustomerOptionValueRepositoryInterface
 {
@@ -27,6 +28,31 @@ class CustomerOptionValueRepository extends EntityRepository implements Customer
             ->setParameter('code', $code)
             ->getQuery()
             ->getOneOrNullResult()
+        ;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * This creates a query to get all customerOptionValues in this channel and then selects the inverse
+     */
+    public function findValuesWithoutPricingInChannel(ChannelInterface $channel): array
+    {
+        $expr = $this->getEntityManager()->getExpressionBuilder();
+
+        return $this->createQueryBuilder('v')
+            ->where(
+                $expr->notIn(
+                    'v.id',
+                    $this->createQueryBuilder('p')
+                        ->select('p.id')
+                        ->where('p.channel = :channel')
+                        ->getDQL()
+                )
+            )
+            ->setParameter('channel', $channel)
+            ->getQuery()
+            ->getResult()
         ;
     }
 }

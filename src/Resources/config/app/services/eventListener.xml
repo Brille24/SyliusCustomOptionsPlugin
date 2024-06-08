@@ -11,10 +11,12 @@
         </service>
 
         <service
-                class="Brille24\SyliusCustomerOptionsPlugin\EventListener\ChannelListener"
+                class="Brille24\SyliusCustomerOptionsPlugin\EventListener\ChannelPersistListener"
                 id="brille24.customer_options_plugin.event_listener.channel"
         >
             <argument type="service" id="brille24.customer_options_plugin.factory.customer_option_value_price_factory" />
+            <argument type="service" id="brille24.customer_options_plugin.repository.customer_option_value" />
+
             <tag name="doctrine.event_listener" event="prePersist" />
         </service>
     </services>

@@ -5,21 +5,20 @@ declare(strict_types=1);
 namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\EventListener;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\SyliusCustomerOptionsPlugin\EventListener\ChannelListener;
+use Brille24\SyliusCustomerOptionsPlugin\EventListener\ChannelPersistListener;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
+use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionValueRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\Channel;
 
-class ChannelListenerTest extends TestCase
+class ChannelPersistListenerTest extends TestCase
 {
-    private \Brille24\SyliusCustomerOptionsPlugin\EventListener\ChannelListener $channelCreateListener;
+    private ChannelPersistListener $channelCreateListener;
 
     private array $customerOptionValue = [];
 
@@ -31,8 +30,18 @@ class ChannelListenerTest extends TestCase
         $customerOptionValueFactory = self::createMock(CustomerOptionValuePriceFactoryInterface::class);
         $customerOptionValueFactory
             ->method('createNew')
-            ->willReturn(self::createMock(CustomerOptionValuePriceInterface::class));
-        $this->channelCreateListener = new ChannelListener($customerOptionValueFactory);
+            ->willReturn(self::createMock(CustomerOptionValuePriceInterface::class))
+        ;
+
+        $customerOptionValueRepository = self::createMock(CustomerOptionValueRepositoryInterface::class);
+        $customerOptionValueRepository
+            ->method('findValuesWithoutPricingInChannel')
+            ->willReturnCallback(fn () => $this->customerOptionValue);
+
+        $this->channelCreateListener = new ChannelPersistListener(
+            $customerOptionValueFactory,
+            $customerOptionValueRepository,
+        );
     }
 
     private function createArguments($entity): LifecycleEventArgs
@@ -42,22 +51,10 @@ class ChannelListenerTest extends TestCase
             ++$this->persistCount;
         });
 
-        $customerOptionValueRepository = self::createMock(EntityRepository::class);
-        $customerOptionValueRepository->method('findAll')->willReturnCallback(fn () => $this->customerOptionValue);
-
-        $entityManger->method('getRepository')->willReturnCallback(
-            function (string $entityClass) use ($customerOptionValueRepository) {
-                self::assertEquals(CustomerOptionValue::class, $entityClass);
-
-                return $customerOptionValueRepository;
-            },
-        );
-
-        $arguments = self::createMock(LifecycleEventArgs::class);
-        $arguments->method('getEntityManager')->willReturn($entityManger);
-        $arguments->method('getEntity')->willReturn($entity);
-
-        return $arguments;
+        return self::createConfiguredMock(LifecycleEventArgs::class, [
+            'getObject'=>$entity,
+            'getObjectManager'=>$entityManger,
+        ]);
     }
 
     private function createValue(): CustomerOptionValueInterface
