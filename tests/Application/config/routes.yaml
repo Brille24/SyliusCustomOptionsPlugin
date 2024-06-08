@@ -1,3 +1,2 @@
-# Put your own routes here
 brille24:
     resource: "@Brille24SyliusCustomerOptionsPlugin/Resources/config/app/routing.yml"
