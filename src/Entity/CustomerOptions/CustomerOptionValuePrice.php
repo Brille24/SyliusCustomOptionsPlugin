@@ -43,7 +43,7 @@ class CustomerOptionValuePrice implements CustomerOptionValuePriceInterface, \St
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     protected ?CustomerOptionValueInterface $customerOptionValue = null;
 
-    #[ORM\ManyToOne(targetEntity: ChannelInterface::class)]
+    #[ORM\ManyToOne(targetEntity: ProductInterface::class, inversedBy: 'customerOptionValuePrices')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     protected ?ProductInterface $product = null;
 

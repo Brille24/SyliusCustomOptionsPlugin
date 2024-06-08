@@ -24,10 +24,6 @@ trait ConditionTrait
     #[ORM\Column(type: 'json', nullable: true)]
     protected ?array $value = null;
 
-    #[ORM\ManyToOne(targetEntity: ValidatorInterface::class, cascade: ['persist'], inversedBy: 'conditions')]
-    #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    protected ?ValidatorInterface $validator = null;
-
     /** @inheritdoc */
     public function getCustomerOption(): ?CustomerOptionInterface
     {
