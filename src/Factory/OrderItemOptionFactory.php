@@ -85,7 +85,7 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
     ): OrderItemOptionInterface {
         $customerOption = $this->customerOptionRepository->findOneByCode($customerOptionCode);
         if ($customerOption === null) {
-            throw new Exception('Could not find customer option with code');
+            throw new Exception(sprintf('Could not find customer option "%s"', $customerOptionCode));
         }
 
         if (CustomerOptionTypeEnum::isSelect($customerOption->getType())) {
