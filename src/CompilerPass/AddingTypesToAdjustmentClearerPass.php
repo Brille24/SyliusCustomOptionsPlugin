@@ -17,6 +17,9 @@ final class AddingTypesToAdjustmentClearerPass implements CompilerPassInterface
 
         // Getting the new list of adjustment types to clear
         $listOfAdjustmentsToClear = $clearerDefinition->getArgument(0);
+        if (1 === preg_match('/^%(.*)%$/', $listOfAdjustmentsToClear, $matches)) {
+            $listOfAdjustmentsToClear = $container->getParameter($matches[1]);
+        }
         $listOfAdjustmentsToClear[] = CustomerOptionRecalculator::CUSTOMER_OPTION_ADJUSTMENT;
 
         // Setting the new list as the new definition
