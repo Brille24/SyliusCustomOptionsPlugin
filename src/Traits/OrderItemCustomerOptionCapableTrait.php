@@ -110,17 +110,28 @@ trait OrderItemCustomerOptionCapableTrait
 
         // iterate over all options and compare their values
         foreach ($itemCustomerConfiguration as $code => $value) {
-            // Check that all multi select options are equal
-            if ($value->getCustomerOptionType() === CustomerOptionTypeEnum::MULTI_SELECT) {
-                if (!is_array($value) || count($value) !== count($curItemCustomerConfiguration[$code])) {
+            // If one option is multi-select and the other one isn't they're not equal
+            if (is_array($value) !== is_array($curItemCustomerConfiguration[$code])) {
+                return false;
+            }
+
+            // If it's multi-select
+            if (is_array($value)) {
+                if (count($value) !== count($curItemCustomerConfiguration[$code])) {
                     return false;
                 }
+
                 foreach ($curItemCustomerConfiguration[$code] as $optionKey => $multiSelectValue) {
                     if ($multiSelectValue->getOptionValue() !== $value[$optionKey]->getOptionValue()) {
                         return false;
                     }
                 }
-            } else if ($curItemCustomerConfiguration[$code]->getOptionValue() !== $value->getOptionValue()) {
+
+                return false;
+            }
+
+            // It's a normal value option
+            if ($curItemCustomerConfiguration[$code]->getOptionValue() !== $value->getOptionValue()) {
                 return false;
             }
         }
