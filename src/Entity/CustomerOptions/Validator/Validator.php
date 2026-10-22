@@ -152,6 +152,7 @@ class Validator implements ValidatorInterface
     {
         $errorMessage = new ErrorMessage();
         $errorMessage->setCurrentLocale('en_US');
+        $errorMessage->setFallbackLocale('en_US');
         $errorMessage->setMessage(self::DEFAULT_ERROR_MESSAGE);
 
         return $errorMessage;

@@ -85,6 +85,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
 
         foreach ($options['translations'] as $locale => $name) {
             $customerOptionGroup->setCurrentLocale($locale);
+            $customerOptionGroup->setFallbackLocale($locale);
             $customerOptionGroup->setName($name);
         }
 
@@ -124,6 +125,7 @@ class CustomerOptionGroupFactory implements CustomerOptionGroupFactoryInterface
                 $error_message = new ErrorMessage();
                 foreach ($validatorConfig['error_messages'] as $locale => $message) {
                     $error_message->setCurrentLocale($locale);
+                    $error_message->setFallbackLocale($locale);
                     $error_message->setMessage($message);
                 }
                 $validator->setErrorMessage($error_message);

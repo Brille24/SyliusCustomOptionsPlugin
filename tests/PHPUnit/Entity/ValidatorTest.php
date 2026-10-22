@@ -16,7 +16,6 @@ class ValidatorTest extends TestCase
     public function setUp(): void
     {
         $this->validator = new Validator();
-        $this->validator->getErrorMessage()->setCurrentLocale('en_US');
     }
 
     /**

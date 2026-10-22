@@ -70,6 +70,7 @@ class CustomerOptionFactory implements CustomerOptionFactoryInterface
 
         foreach ($configuration['translations'] as $locale => $name) {
             $customerOption->setCurrentLocale($locale);
+            $customerOption->setFallbackLocale($locale);
             $customerOption->setName($name);
         }
 

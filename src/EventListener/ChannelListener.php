@@ -18,6 +18,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\Persistence\ObjectManager;
 use Sylius\Component\Core\Model\ChannelInterface;
 
 final class ChannelListener
@@ -31,11 +32,11 @@ final class ChannelListener
         $entity = $args->getObject();
 
         if ($entity instanceof ChannelInterface) {
-            $this->addNewChannelToAllValues($entity, $args->getEntityManager());
+            $this->addNewChannelToAllValues($entity, $args->getObjectManager());
         }
     }
 
-    private function addNewChannelToAllValues(ChannelInterface $channel, EntityManagerInterface $em): void
+    private function addNewChannelToAllValues(ChannelInterface $channel, ObjectManager $em): void
     {
         /** @var CustomerOptionValueInterface[] $values */
         $values = $em->getRepository(CustomerOptionValue::class)->findAll();
