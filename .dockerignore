@@ -1,0 +1,10 @@
+.git
+.cursor
+.idea
+vendor
+node_modules
+var
+etc/build
+*.md
+composer.phar
+.phpunit.result.cache

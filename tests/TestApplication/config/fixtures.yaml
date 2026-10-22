@@ -61,7 +61,7 @@ sylius_fixtures:
                                           en_US: Oops!
                                 products: ~
 
-                brille24_product:
+                product:
                     options:
                         custom:
                             -   name: Some Product

@@ -6,7 +6,6 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Entity;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItemOptionInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
@@ -17,13 +16,6 @@ use Sylius\Component\Core\Model\OrderItemUnitInterface;
 
 class OrderItemTest extends TestCase
 {
-    private OrderItem $orderItem;
-
-    public function setUp(): void
-    {
-        $this->orderItem = new OrderItem();
-    }
-
     private function createOrderItemUnit(OrderItemInterface $orderItem): OrderItemUnitInterface
     {
         $orderItemUnit = self::createMock(OrderItemUnitInterface::class);

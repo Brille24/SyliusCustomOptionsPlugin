@@ -14,8 +14,7 @@ parameters:
         - 'src/DependencyInjection/Configuration.php'
 
         # Test dependencies
-        - 'tests/Application/app/**.php'
-        - 'tests/Application/src/**.php'
+        - 'tests/TestApplication/src/**.php'
 
     ignoreErrors:
         - '/Symfony\\Contracts\\EventDispatcher\\EventDispatcherInterface::dispatch/'
