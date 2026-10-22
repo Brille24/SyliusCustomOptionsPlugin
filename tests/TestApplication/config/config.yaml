@@ -1,0 +1,31 @@
+imports:
+    - { resource: "../../../src/Resources/config/app/config.yml" }
+    - { resource: "services_test.php" }
+    - { resource: "fixtures.yaml" }
+
+twig:
+    paths:
+        '%kernel.project_dir%/../../../tests/TestApplication/templates': ~
+
+sylius_product:
+    resources:
+        product:
+            classes:
+                model: Tests\Brille24\SyliusCustomerOptionsPlugin\Entity\Product
+
+sylius_order:
+    resources:
+        order_item:
+            classes:
+                model: Tests\Brille24\SyliusCustomerOptionsPlugin\Entity\OrderItem
+
+doctrine:
+    orm:
+        entity_managers:
+            default:
+                mappings:
+                    TestApplication:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../../../tests/TestApplication/src/Entity'
+                        prefix: Tests\Brille24\SyliusCustomerOptionsPlugin\Entity

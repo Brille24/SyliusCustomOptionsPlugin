@@ -4,58 +4,66 @@
     "description": "Adds product customizing to Sylius",
     "license": "MIT",
     "require": {
-        "php": ">=8.0",
+        "php": "^8.2",
         "sylius/sylius": "^2.1"
     },
     "require-dev": {
-        "behat/behat": "^3.6.1",
-        "behat/mink-selenium2-driver": "^1.4",
-        "dmore/behat-chrome-extension": "^1.3",
-        "dmore/chrome-mink-driver": "^2.7",
-        "friends-of-behat/mink": "^1.8",
-        "friends-of-behat/mink-browserkit-driver": "^1.4",
-        "friends-of-behat/mink-debug-extension": "^2.0.0",
-        "friends-of-behat/mink-extension": "^2.4",
+        "behat/behat": "^3.16",
+        "dmore/behat-chrome-extension": "^1.4",
+        "dmore/chrome-mink-driver": "^2.9",
+        "friends-of-behat/mink": "^1.11",
+        "friends-of-behat/mink-browserkit-driver": "^1.6",
+        "friends-of-behat/mink-debug-extension": "^2.1",
+        "friends-of-behat/mink-extension": "^2.7",
         "friends-of-behat/page-object-extension": "^0.3",
-        "friends-of-behat/suite-settings-extension": "^1.0",
-        "friends-of-behat/symfony-extension": "^2.1",
-        "friends-of-behat/variadic-extension": "^1.3",
-        "friendsofsymfony/oauth-server-bundle": ">2.0.0-alpha.0 ^2.0@dev",
-        "mamazu/documentation-validator": "dev-master",
-        "phpstan/phpstan": "^1.5.4",
-        "phpstan/phpstan-doctrine": "^1.3.2",
+        "friends-of-behat/suite-settings-extension": "^1.1",
+        "friends-of-behat/symfony-extension": "^2.6",
+        "friends-of-behat/variadic-extension": "^1.6",
+        "phpstan/phpstan": "^1.12",
+        "phpstan/phpstan-doctrine": "^1.3",
         "phpstan/phpstan-strict-rules": "^1.5",
         "phpstan/phpstan-symfony": "^1.3",
         "phpstan/phpstan-webmozart-assert": "^1.2",
-        "phpunit/phpunit": "^9.5",
+        "phpunit/phpunit": "^10.5",
         "polishsymfonycommunity/symfony-mocker-container": "^1.0",
-        "sensiolabs/security-checker": "^6.0",
-        "sylius-labs/coding-standard": "^4.0",
-        "symfony/browser-kit": "^5.4 || ^6.0",
-        "symfony/debug-bundle": "^5.4 || ^6.0",
-        "symfony/dotenv": "^5.4 || ^6.0",
-        "symfony/intl": "^5.4 || ^6.0",
-        "symfony/web-profiler-bundle": "^5.4 || ^6.0",
-        "symfony/webpack-encore-bundle": "^2.1",
-        "vimeo/psalm": "4.7.1"
+        "sylius-labs/coding-standard": "^4.4",
+        "sylius/test-application": "^2.1.0@alpha",
+        "symfony/browser-kit": "^6.4 || ^7.3",
+        "symfony/debug-bundle": "^6.4 || ^7.3",
+        "symfony/dotenv": "^6.4 || ^7.3",
+        "symfony/intl": "^6.4 || ^7.3",
+        "symfony/runtime": "^6.4 || ^7.3",
+        "symfony/web-profiler-bundle": "^6.4 || ^7.3",
+        "symfony/webpack-encore-bundle": "^2.2"
     },
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Brille24\\SyliusCustomerOptionsPlugin\\": "src/",
-            "Tests\\Brille24\\SyliusCustomerOptionsPlugin\\": "tests/"
+            "Brille24\\SyliusCustomerOptionsPlugin\\": "src/"
         }
     },
     "autoload-dev": {
-        "classmap": ["tests/Application/Kernel.php"]
+        "psr-4": {
+            "Tests\\Brille24\\SyliusCustomerOptionsPlugin\\": [
+                "tests/",
+                "tests/TestApplication/src/"
+            ]
+        }
     },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": true,
             "phpstan/extension-installer": true,
             "symfony/flex": true,
-            "symfony/thanks": true
+            "symfony/runtime": true
+        }
+    },
+    "extra": {
+        "public-dir": "vendor/sylius/test-application/public",
+        "symfony": {
+            "require": "^6.4 || ^7.3"
         }
     },
     "scripts": {

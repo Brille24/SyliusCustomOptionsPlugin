@@ -1,3 +1,0 @@
-security:
-  password_hashers:
-    Sylius\Component\User\Model\UserInterface: argon2i

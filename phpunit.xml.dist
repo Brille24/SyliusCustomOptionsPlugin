@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/8.5/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          colors="true"
-         bootstrap="tests/Application/config/bootstrap.php">
-    <testsuites>
-        <testsuite name="Brille24SyliusCustomerOptionsPlugin Test Suite">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
-
+         bootstrap="vendor/sylius/test-application/config/bootstrap.php"
+>
     <php>
         <ini name="error_reporting" value="-1" />
-
-        <server name="KERNEL_CLASS_PATH" value="/tests/Application/AppKernel.php" />
-        <server name="IS_DOCTRINE_ORM_SUPPORTED" value="true" />
-
+        <server name="KERNEL_CLASS" value="Sylius\TestApplication\Kernel" />
         <env name="APP_ENV" value="test"/>
         <env name="SHELL_VERBOSITY" value="-1" />
     </php>
+
+    <testsuites>
+        <testsuite name="Brille24SyliusCustomerOptionsPlugin Test Suite">
+            <directory>tests/PHPUnit</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>
