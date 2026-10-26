@@ -112,7 +112,7 @@ class OrderItemOptionFactoryTest extends TestCase
     {
         $orderItem = self::createMock(OrderItemInterface::class);
         self::expectException(\Exception::class);
-        self::expectExceptionMessage('Could not find customer option with code');
+        self::expectExceptionMessage('Could not find customer option "something"');
 
         $this->orderItemOptionFactory->createNewFromStrings($orderItem, 'something', 'value');
     }

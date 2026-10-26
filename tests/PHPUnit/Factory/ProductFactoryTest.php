@@ -11,7 +11,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGr
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\Product;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Entity\Product;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\ProductFactory;
@@ -115,18 +115,19 @@ class ProductFactoryTest extends TestCase
         ;
 
         $customerOptionValues = [];
+        $findOneByMap = [];
         for ($i = 0; $i < 2; ++$i) {
             $customerOptionValue = new CustomerOptionValue();
             $customerOptionValue->setCode('val_' . $i);
             $customerOptionValue->setCustomerOption($this->customerOption);
             $customerOptionValues[] = $customerOptionValue;
-
-            $this->customerOptionValueRepositoryMock
-                ->expects($this->at($i))
-                ->method('findOneBy')->with(['code' => $customerOptionValue->getCode()])
-                ->willReturn($customerOptionValue)
-            ;
+            $findOneByMap[] = [['code' => $customerOptionValue->getCode()], $customerOptionValue];
         }
+
+        $this->customerOptionValueRepositoryMock
+            ->method('findOneBy')
+            ->willReturnMap($findOneByMap)
+        ;
 
         $this->customerOptionValuePriceFactory
             ->expects($this->exactly(2))

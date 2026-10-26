@@ -13,7 +13,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactory
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\Channel;
 
@@ -35,7 +35,7 @@ class ChannelListenerTest extends TestCase
         $this->channelCreateListener = new ChannelListener($customerOptionValueFactory);
     }
 
-    private function createArguments($entity): LifecycleEventArgs
+    private function createArguments(object $entity): PrePersistEventArgs
     {
         $entityManger = self::createMock(EntityManagerInterface::class);
         $entityManger->method('persist')->willReturnCallback(function ($entity) {
@@ -53,11 +53,10 @@ class ChannelListenerTest extends TestCase
             },
         );
 
-        $arguments = self::createMock(LifecycleEventArgs::class);
-        $arguments->method('getEntityManager')->willReturn($entityManger);
-        $arguments->method('getEntity')->willReturn($entity);
-
-        return $arguments;
+        return new PrePersistEventArgs(
+            object: $entity,
+            objectManager: $entityManger,
+        );
     }
 
     private function createValue(): CustomerOptionValueInterface
@@ -72,24 +71,13 @@ class ChannelListenerTest extends TestCase
         return $value;
     }
 
-    //</editor-fold>
-
-    /** @dataProvider dataPrePersistWithWrongEntity */
-    public function testPrePersistWithNonEntity($entity): void
+    public function testPrePersistWithWrongEntity(): void
     {
-        $arguments = $this->createArguments($entity);
+        $arguments = $this->createArguments(new CustomerOption());
 
         $this->channelCreateListener->prePersist($arguments);
 
         self::assertEquals(0, $this->persistCount);
-    }
-
-    public function dataPrePersistWithWrongEntity(): array
-    {
-        return [
-            'non entity' => ['hello'],
-            'wrong entity' => [new CustomerOption()],
-        ];
     }
 
     public function testPrePersistWithEmptyValuesRepository(): void

@@ -12,7 +12,7 @@ use Brille24\SyliusCustomerOptionsPlugin\EventListener\CustomerOptionValueListen
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
 use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -24,7 +24,7 @@ class CustomerOptionValueListenerTest extends TestCase
 
     private int $pricesAdded = 0;
 
-    private \Brille24\SyliusCustomerOptionsPlugin\EventListener\CustomerOptionValueListener $customerOptionValueListener;
+    private CustomerOptionValueListener $customerOptionValueListener;
 
     protected function setUp(): void
     {
@@ -39,18 +39,17 @@ class CustomerOptionValueListenerTest extends TestCase
         $this->customerOptionValueListener = new CustomerOptionValueListener($channelRepository, $customerOptionValuePriceFactory);
     }
 
-    private function createArguments($entity): LifecycleEventArgs
+    private function createArguments($entity): PrePersistEventArgs
     {
         $entityManger = self::createMock(EntityManagerInterface::class);
         $entityManger->method('persist')->willReturnCallback(function ($entity) {
             ++$this->pricesAdded;
         });
 
-        $arguments = self::createMock(LifecycleEventArgs::class);
-        $arguments->method('getEntityManager')->willReturn($entityManger);
-        $arguments->method('getEntity')->willReturn($entity);
-
-        return $arguments;
+        return new PrePersistEventArgs(
+            object: $entity,
+            objectManager: $entityManger,
+        );
     }
 
     private function createEntity(array $prices): CustomerOptionValueInterface

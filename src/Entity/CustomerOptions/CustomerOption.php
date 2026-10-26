@@ -292,6 +292,7 @@ class CustomerOption implements CustomerOptionInterface
      */
     public function getTranslation(?string $locale = null): TranslationInterface
     {
+        $this->setFallbackLocale('en_US');
         /** @var CustomerOptionTranslationInterface $translation */
         $translation = $this->doGetTranslation($locale);
 
