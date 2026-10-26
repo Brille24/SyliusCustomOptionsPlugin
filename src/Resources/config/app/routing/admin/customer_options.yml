@@ -2,19 +2,14 @@ brille24_customer_options_admin:
     resource: |
         alias: brille24.customer_option
         section: admin
-        templates: '@SyliusAdmin/Crud'
+        templates: '@SyliusAdmin\shared\crud'
         except: ['show']
         redirect: update
         grid: brille24_admin_customer_option_grid
         permission: true
         vars:
             all:
-                header: brille24.ui.customer_options
-                subheader: brille24.form.customer_options.subheader
-                templates:
-                    form: '@Brille24SyliusCustomerOptionsPlugin/CustomerOption/_form.html.twig'
-            index:
-                icon: cube
+                hook_prefix: 'plugin.admin.resource'
     type: sylius.resource
 
 brille24_customer_option_price_import:

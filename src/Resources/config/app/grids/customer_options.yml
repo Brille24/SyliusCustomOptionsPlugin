@@ -20,12 +20,12 @@ sylius_grid:
                     type: twig
                     label: sylius.ui.type
                     options:
-                        template: '@SyliusUi/Grid/Field/rawLabel.html.twig'
+                        template: '@SyliusUi/grid/field/label.html.twig'
                 required:
                     type: twig
                     label: brille24.ui.required
                     options:
-                        template: '@SyliusUi/Grid/Field/enabled.html.twig'
+                        template: '@SyliusUi/grid/field/enabled.html.twig'
             filters:
                 code:
                     type: string
@@ -47,4 +47,3 @@ sylius_grid:
                         type: update
                     delete:
                         type: delete_unused_customer_option
-                        label: 'sylius.ui.delete'

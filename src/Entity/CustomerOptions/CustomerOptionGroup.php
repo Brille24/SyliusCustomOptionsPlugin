@@ -183,7 +183,9 @@ class CustomerOptionGroup implements CustomerOptionGroupInterface, \Stringable
 
     public function getTranslation(? string $locale = null): TranslationInterface
     {
-        /** TranslationInterface $translation */
+        $this->setCurrentLocale('en_US');
+        $this->setFallbackLocale('en_US');
+        /** @var CustomerOptionGroupTranslationInterface $translation */
         $translation = $this->doGetTranslation($locale);
 
         return $translation;

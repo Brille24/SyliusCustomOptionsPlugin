@@ -39,6 +39,7 @@ brille24:
                 boolean: Boolean
             import_prices: Import prices
             import: Import
+            translations: Translations
         customer_option_groups:
             subheader: Manage your Customer Option Groups
             select: Select
