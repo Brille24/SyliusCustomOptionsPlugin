@@ -37,23 +37,11 @@ interface ValidatorInterface extends ResourceInterface
 
     public function removeConstraint(ConstraintInterface $constraint): void;
 
-    /**
-     * @return CustomerOptionGroupInterface
-     */
     public function getCustomerOptionGroup(): ?CustomerOptionGroupInterface;
 
-    /**
-     * @param CustomerOptionGroupInterface $customerOptionGroup
-     */
     public function setCustomerOptionGroup(?CustomerOptionGroupInterface $customerOptionGroup): void;
 
-    /**
-     * @return ErrorMessageInterface
-     */
     public function getErrorMessage(): ?ErrorMessageInterface;
 
-    /**
-     * @param ErrorMessageInterface $message
-     */
     public function setErrorMessage(?ErrorMessageInterface $message): void;
 }

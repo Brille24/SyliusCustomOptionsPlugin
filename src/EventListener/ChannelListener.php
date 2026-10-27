@@ -16,7 +16,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionVa
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\Persistence\ObjectManager;
 use Sylius\Component\Core\Model\ChannelInterface;

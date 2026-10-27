@@ -72,9 +72,10 @@ class EditCustomerOptionsAction
         }
 
         return new Response(
-            $this->twig->render('@Brille24SyliusCustomerOptionsPlugin/Order/editCustomerOption.html.twig', [
-                'customerOptionForm' => $orderItemForm->createView(),
+            $this->twig->render('@Brille24SyliusCustomerOptionsPlugin/admin/order_item/update.html.twig', [
+                'form' => $orderItemForm->createView(),
                 'order' => $order,
+                'order_item' => $orderItem,
             ]),
         );
     }

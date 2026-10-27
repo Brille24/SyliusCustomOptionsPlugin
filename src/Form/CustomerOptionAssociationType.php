@@ -35,7 +35,7 @@ final class CustomerOptionAssociationType extends AbstractResourceType
             ])
             ->add('position', IntegerType::class, [
                 'label' => 'sylius.ui.position',
-                'empty_data' => 0,
+                'empty_data' => '0',
             ]);
     }
 

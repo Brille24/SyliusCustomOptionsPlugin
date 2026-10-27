@@ -24,8 +24,7 @@ final class CustomerOptionValueListener
     public function __construct(
         private EntityRepository $channelRepository,
         private CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
-    )
-    {
+    ) {
     }
 
     public function prePersist(PrePersistEventArgs $args): void

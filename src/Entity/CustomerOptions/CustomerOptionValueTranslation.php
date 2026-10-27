@@ -28,7 +28,7 @@ class CustomerOptionValueTranslation extends AbstractTranslation implements Cust
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $name = null;
 
-    #[ORM\ManyToOne(targetEntity: CustomerOptionValueInterface::class, inversedBy: "translations")]
+    #[ORM\ManyToOne(targetEntity: CustomerOptionValueInterface::class, inversedBy: 'translations')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     protected ?TranslatableInterface $translatable = null;
 

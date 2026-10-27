@@ -14,8 +14,7 @@ class GenericImportErrorHandler implements ImportErrorHandlerInterface
         protected SenderInterface $sender,
         protected TokenStorageInterface $tokenStorage,
         protected string $emailCode,
-    )
-    {
+    ) {
     }
 
     /** @inheritdoc */

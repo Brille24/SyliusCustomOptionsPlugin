@@ -16,7 +16,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\AbstractTranslation;
 use Sylius\Resource\Model\TranslatableInterface;
 
-
 #[ORM\Entity]
 #[ORM\Table(name: 'brille24_customer_option_group_translation')]
 class CustomerOptionGroupTranslation extends AbstractTranslation implements CustomerOptionGroupTranslationInterface
@@ -29,8 +28,8 @@ class CustomerOptionGroupTranslation extends AbstractTranslation implements Cust
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $name = null;
 
-    #[ORM\ManyToOne(targetEntity: CustomerOptionGroupInterface::class, inversedBy: "translations")]
-    #[ORM\JoinColumn(onDelete: "CASCADE")]
+    #[ORM\ManyToOne(targetEntity: CustomerOptionGroupInterface::class, inversedBy: 'translations')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     protected ?TranslatableInterface $translatable = null;
 
     public function getId(): ?int
@@ -38,17 +37,11 @@ class CustomerOptionGroupTranslation extends AbstractTranslation implements Cust
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(?string $name): void
     {
         $this->name = $name;

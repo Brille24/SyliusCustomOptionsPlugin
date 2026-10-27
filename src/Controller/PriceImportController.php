@@ -24,8 +24,7 @@ class PriceImportController extends AbstractController
         protected TranslatorInterface $translator,
         protected ImportErrorHandlerInterface $csvImportErrorHandler,
         protected ImportErrorHandlerInterface $productListImportErrorHandler,
-    )
-    {
+    ) {
     }
 
     public function __invoke(Request $request): Response
@@ -44,7 +43,7 @@ class PriceImportController extends AbstractController
         }
 
         return $this->render(
-            '@Brille24SyliusCustomerOptionsPlugin/PriceImport/import.html.twig',
+            '@Brille24SyliusCustomerOptionsPlugin/admin/customer_option/price_import.html.twig',
             [
                 'csvForm' => $csvForm->createView(),
                 'byProductListForm' => $productListForm->createView(),

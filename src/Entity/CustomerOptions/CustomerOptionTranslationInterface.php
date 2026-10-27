@@ -17,13 +17,7 @@ use Sylius\Component\Resource\Model\TranslationInterface;
 
 interface CustomerOptionTranslationInterface extends ResourceInterface, TranslationInterface
 {
-    /**
-     * @return string
-     */
     public function getName(): ?string;
 
-    /**
-     * @param string $name
-     */
     public function setName(?string $name): void;
 }

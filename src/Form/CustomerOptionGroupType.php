@@ -15,9 +15,9 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Form;
 use Brille24\SyliusCustomerOptionsPlugin\Form\Validator\ValidatorType;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\UX\LiveComponent\Form\Type\LiveCollectionType;
 
 final class CustomerOptionGroupType extends AbstractResourceType
 {
@@ -34,26 +34,35 @@ final class CustomerOptionGroupType extends AbstractResourceType
                 'entry_type' => CustomerOptionGroupTranslationType::class,
                 'label' => 'brille24.form.customer_option_groups.translations',
             ])
-            ->add('option_associations', CollectionType::class, [
+            ->add('option_associations', LiveCollectionType::class, [
                 'entry_type' => CustomerOptionAssociationType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'label' => false,
                 'by_reference' => false,
-                'button_add_label' => 'brille24.form.customer_option_groups.buttons.add_option',
-                'button_delete_label' => 'brille24.form.customer_option_groups.buttons.delete_option',
+                'button_add_options' => [
+                    'label' => 'brille24.form.customer_option_groups.buttons.add_option',
+                ],
+                'button_delete_options' => [
+                    'label' => 'brille24.form.customer_option_groups.buttons.delete_option',
+                ],
             ])
-            ->add('validators', CollectionType::class, [
+            ->add('validators', LiveCollectionType::class, [
                 'entry_type' => ValidatorType::class,
                 'entry_options' => [
+                    'label' => false,
                     'customerOptionGroup' => $options['data'],
                 ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'label' => false,
                 'by_reference' => false,
-                'button_add_label' => 'brille24.form.customer_option_groups.buttons.add_validator',
-                'button_delete_label' => 'brille24.form.customer_option_groups.buttons.delete_validator',
+                'button_add_options' => [
+                    'label' => 'brille24.form.customer_option_groups.buttons.add_validator',
+                ],
+                'button_delete_options' => [
+                    'label' => 'brille24.form.customer_option_groups.buttons.delete_validator',
+                ],
             ])
         ;
     }

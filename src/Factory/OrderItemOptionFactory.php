@@ -36,8 +36,7 @@ class OrderItemOptionFactory implements OrderItemOptionFactoryInterface, Factory
         private CustomerOptionValueResolverInterface $valueResolver,
         private CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository,
         private CartContextInterface $cartContext,
-    )
-    {
+    ) {
     }
 
     /** @inheritdoc */

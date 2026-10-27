@@ -17,7 +17,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\JsonType;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;

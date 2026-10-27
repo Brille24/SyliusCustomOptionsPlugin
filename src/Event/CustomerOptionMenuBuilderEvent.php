@@ -23,8 +23,7 @@ class CustomerOptionMenuBuilderEvent extends MenuBuilderEvent
         FactoryInterface $factory,
         ItemInterface $menu,
         private CustomerOptionInterface $customerOption,
-    )
-    {
+    ) {
         parent::__construct($factory, $menu);
     }
 

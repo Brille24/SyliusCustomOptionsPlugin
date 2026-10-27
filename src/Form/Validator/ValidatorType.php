@@ -9,40 +9,50 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Condit
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Constraint;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\Validator;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\UX\LiveComponent\Form\Type\LiveCollectionType;
 
 class ValidatorType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('conditions', CollectionType::class, [
+            ->add('conditions', LiveCollectionType::class, [
                 'entry_type' => ConditionType::class,
                 'entry_options' => [
+                    'label' => false,
                     'data_class' => Condition::class,
                     'customerOptionGroup' => $options['customerOptionGroup'],
                 ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'button_add_label' => 'brille24.form.validators.buttons.add_condition',
-                'button_delete_label' => 'brille24.form.validators.buttons.delete_condition',
-                'prototype_name' => '__condition_prot__',
+                'label' => false,
+                'button_add_options' => [
+                    'label' => 'brille24.form.validators.buttons.add_condition',
+                ],
+                'button_delete_options' => [
+                    'label' => 'brille24.form.validators.buttons.delete_condition',
+                ],
             ])
-            ->add('constraints', CollectionType::class, [
+            ->add('constraints', LiveCollectionType::class, [
                 'entry_type' => ConditionType::class,
                 'entry_options' => [
+                    'label' => false,
                     'data_class' => Constraint::class,
                     'customerOptionGroup' => $options['customerOptionGroup'],
                 ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'button_add_label' => 'brille24.form.validators.buttons.add_constraint',
-                'button_delete_label' => 'brille24.form.validators.buttons.delete_constraint',
-                'prototype_name' => '__constraint_prot__',
+                'label' => false,
+                'button_add_options' => [
+                    'label' => 'brille24.form.validators.buttons.add_constraint',
+                ],
+                'button_delete_options' => [
+                    'label' => 'brille24.form.validators.buttons.delete_constraint',
+                ],
             ])
             ->add('errorMessage', ErrorMessageType::class, [
                 'label' => 'brille24.form.validators.error_message',

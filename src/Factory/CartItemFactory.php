@@ -18,12 +18,12 @@ use Sylius\Component\Core\Factory\CartItemFactoryInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
 use Sylius\Component\Product\Resolver\ProductVariantResolverInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Webmozart\Assert\Assert;
-use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
 
 class CartItemFactory implements CartItemFactoryInterface
 {
