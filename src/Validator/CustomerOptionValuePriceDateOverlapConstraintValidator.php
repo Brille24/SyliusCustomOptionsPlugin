@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Validator;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionValuePriceDateOverlapConstraint;
 use Doctrine\Common\Collections\Collection;
@@ -56,14 +55,13 @@ class CustomerOptionValuePriceDateOverlapConstraintValidator extends ConstraintV
         foreach ($valuePrices->toArray() as $currentPrice) {
             /** @var CustomerOptionValuePriceInterface $currentPrice */
             $priceChannel = $currentPrice->getChannel();
-            if ($priceChannel === null) {
+            $customerOptionValue = $currentPrice->getCustomerOptionValue();
+            if ($priceChannel === null || $customerOptionValue === null) {
                 continue;
             }
 
             $channelCode = $priceChannel->getCode();
 
-            /** @var CustomerOptionValueInterface $customerOptionValue */
-            $customerOptionValue = $currentPrice->getCustomerOptionValue();
             $customerOptionValueCode = $customerOptionValue->getCode() ?? '';
 
             /** @var CustomerOptionInterface $customerOption */

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Brille24\SyliusCustomerOptionsPlugin\Validator;
 
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValueInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\CustomerOptionValuePriceHasCustomerOptionConstraint;
@@ -46,8 +45,10 @@ class CustomerOptionValuePriceHasCustomerOptionValidator extends ConstraintValid
         $customerOptions = $product->getCustomerOptions();
         /** @var CustomerOptionValuePriceInterface $valuePrice */
         foreach ($product->getCustomerOptionValuePrices() as $valuePrice) {
-            /** @var CustomerOptionValueInterface $customerOptionValue */
             $customerOptionValue = $valuePrice->getCustomerOptionValue();
+            if ($customerOptionValue === null) {
+                continue;
+            }
 
             /** @var CustomerOptionInterface $customerOption */
             $customerOption = $customerOptionValue->getCustomerOption();
