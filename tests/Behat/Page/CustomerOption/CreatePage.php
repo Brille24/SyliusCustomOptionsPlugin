@@ -86,6 +86,11 @@ class CreatePage extends BaseCreatePage
         return $this->getDocument()->hasLink($name);
     }
 
+    public function hasButton(string $name): bool
+    {
+        return $this->getDocument()->hasButton($name);
+    }
+
     /**
      * @throws ElementNotFoundException
      */

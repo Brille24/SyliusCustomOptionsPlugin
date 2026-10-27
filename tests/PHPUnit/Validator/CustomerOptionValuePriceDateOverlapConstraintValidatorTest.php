@@ -146,6 +146,23 @@ class CustomerOptionValuePriceDateOverlapConstraintValidatorTest extends TestCas
         self::assertCount(0, $this->violations);
     }
 
+    public function testIgnoresPricesWithoutCustomerOptionValue(): void
+    {
+        $priceWithoutValue = self::createMock(CustomerOptionValuePriceInterface::class);
+        $priceWithoutValue->method('getChannel')->willReturn(self::createMock(ChannelInterface::class));
+        $priceWithoutValue->method('getCustomerOptionValue')->willReturn(null);
+
+        $prices = [
+            $priceWithoutValue,
+            $this->createPrice('en_DE', 'some_option', 'value1', null),
+        ];
+
+        $constraint = self::createMock(CustomerOptionValuePriceDateOverlapConstraint::class);
+        $this->productCustomerOptionPriceValidator->validate(new ArrayCollection($prices), $constraint);
+
+        self::assertCount(0, $this->violations);
+    }
+
     public function testWithPricesInDifferentChannels(): void
     {
         $prices

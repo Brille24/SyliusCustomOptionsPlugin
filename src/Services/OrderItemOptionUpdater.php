@@ -21,8 +21,7 @@ final class OrderItemOptionUpdater implements OrderItemOptionUpdaterInterface
         private CustomerOptionRepositoryInterface $customerOptionRepository,
         private OrderProcessorInterface $customerOptionRefresher,
         private OrderProcessorInterface $customerOptionRecalculator,
-    )
-    {
+    ) {
     }
 
     /** @inheritdoc */

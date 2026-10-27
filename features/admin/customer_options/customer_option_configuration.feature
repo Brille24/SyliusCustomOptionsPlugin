@@ -56,7 +56,7 @@ Feature: Checking if configuration is available
     Scenario: Creating a new select option
         Given I specify its type as "Select"
         And I add it
-        Then I should see a link "Add"
+        Then I should see a button "Add"
 
     @ui
     @javascript

@@ -14,7 +14,6 @@ use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
 use Tests\Brille24\SyliusCustomerOptionsPlugin\Entity\Product;
 
-
 class CustomerOptionGroupFactoryTest extends TestCase
 {
     private CustomerOptionGroupFactory $customerOptionGroupFactory;

@@ -14,18 +14,16 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait ProductCustomerOptionCapableTrait
 {
-    #[ORM\ManyToOne(targetEntity: CustomerOptionGroupInterface::class, inversedBy: "products")]
-    #[ORM\JoinColumn(onDelete: "SET NULL")]
+    #[ORM\ManyToOne(targetEntity: CustomerOptionGroupInterface::class, inversedBy: 'products')]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     protected ?CustomerOptionGroupInterface $customerOptionGroup = null;
 
-    /**
-     * @var Collection<CustomerOptionValuePriceInterface>
-     */
+    /** @var Collection<CustomerOptionValuePriceInterface> */
     #[ORM\OneToMany(
         targetEntity: CustomerOptionValuePriceInterface::class,
-        mappedBy: "product",
+        mappedBy: 'product',
         orphanRemoval: true,
-        cascade: ["persist", "remove"]
+        cascade: ['persist', 'remove'],
     )]
     protected Collection $customerOptionValuePrices;
 

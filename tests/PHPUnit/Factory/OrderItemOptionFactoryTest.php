@@ -71,14 +71,14 @@ class OrderItemOptionFactoryTest extends TestCase
 
         $this->cart = self::createMock(OrderInterface::class);
         $this->cartContext = self::createMock(\Sylius\Component\Order\Context\CartContextInterface::class);
-        $this->cartContext->method('getCart')->willReturnCallback(fn() => $this->cart);
+        $this->cartContext->method('getCart')->willReturnCallback(fn () => $this->cart);
 
         $this->orderItemOptionFactory = new OrderItemOptionFactory(
             $baseFactory,
             $customerOptionRepo,
             $valueResolver,
             $customerOptionValuePriceRepository,
-            $this->cartContext
+            $this->cartContext,
         );
     }
 

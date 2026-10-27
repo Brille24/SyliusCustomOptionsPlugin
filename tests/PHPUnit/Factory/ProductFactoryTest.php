@@ -11,7 +11,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGr
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValue;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePrice;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
-use Tests\Brille24\SyliusCustomerOptionsPlugin\Entity\Product;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionValuePriceFactoryInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\ProductFactory;
@@ -20,6 +19,7 @@ use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\ProductExampleFactory;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Entity\Product;
 
 class ProductFactoryTest extends TestCase
 {

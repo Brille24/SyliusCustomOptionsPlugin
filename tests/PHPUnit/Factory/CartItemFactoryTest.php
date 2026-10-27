@@ -18,39 +18,32 @@ use Sylius\Component\Core\Model\OrderItem;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
 use Sylius\Component\Product\Resolver\ProductVariantResolverInterface;
-
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartItemFactoryTest extends TestCase
 {
-    /**
-     * @var MockObject&FactoryInterface
-     */
+    /** @var MockObject&FactoryInterface */
     private $cartItemFactory;
-    /**
-     * @var MockObject&RequestStack
-     */
+
+    /** @var MockObject&RequestStack */
     private $requestStack;
-    /**
-     * @var MockObject&OrderItemInterface
-     */
+
+    /** @var MockObject&OrderItemInterface */
     private $orderItem;
-    /**
-     * @var MockObject&OrderItemOptionFactoryInterface
-     */
+
+    /** @var MockObject&OrderItemOptionFactoryInterface */
     private $orderItemOptionFactory;
-    /**
-     * @var MockObject&CustomerOptionRepositoryInterface
-     */
+
+    /** @var MockObject&CustomerOptionRepositoryInterface */
     private $customerOptionRepository;
 
     private OrderItemQuantityModifierInterface $orderItemQuantityModifier;
 
     protected function setUp(): void
     {
-        $this->orderItem = new class extends OrderItem implements OrderItemInterface {
+        $this->orderItem = new class() extends OrderItem implements OrderItemInterface {
             use OrderItemCustomerOptionCapableTrait;
         };
 
@@ -69,7 +62,7 @@ class CartItemFactoryTest extends TestCase
             requestStack: $this->requestStack,
             orderItemOptionFactory: $this->orderItemOptionFactory,
             customerOptionRepository: $this->customerOptionRepository,
-            orderItemQuantityModifier: $this->orderItemQuantityModifier
+            orderItemQuantityModifier: $this->orderItemQuantityModifier,
         );
     }
 

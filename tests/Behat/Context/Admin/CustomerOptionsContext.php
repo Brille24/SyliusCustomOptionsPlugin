@@ -17,9 +17,9 @@ use Webmozart\Assert\Assert;
 class CustomerOptionsContext implements Context
 {
     public function __construct(
-        private IndexPageInterface $indexPage,
-        private CreatePageInterface $createPage,
-        private UpdatePageInterface $updatePage,
+        private IndexPageInterface           $indexPage,
+        private CreatePageInterface          $createPage,
+        private UpdatePageInterface          $updatePage,
         private CurrentPageResolverInterface $currentPageResolver,
     )
     {
@@ -138,6 +138,14 @@ class CustomerOptionsContext implements Context
     public function iShouldSeeALink($name)
     {
         Assert::true($this->createPage->hasLink($name));
+    }
+
+    /**
+     * @Then I should see a button :name
+     */
+    public function iShouldSeeAButton($name)
+    {
+        Assert::true($this->createPage->hasButton($name));
     }
 
     /**
