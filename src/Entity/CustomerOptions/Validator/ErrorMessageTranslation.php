@@ -6,7 +6,7 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator;
 
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\AbstractTranslation;
-use Sylius\Component\Resource\Model\TranslatableInterface;
+use Sylius\Resource\Model\TranslatableInterface;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'brille24_validator_error_message_translation')]
