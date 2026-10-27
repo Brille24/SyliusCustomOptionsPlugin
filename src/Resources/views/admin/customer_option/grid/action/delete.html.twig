@@ -1,0 +1,10 @@
+{% set path = options.link.url|default(path(options.link.route|default(grid.requestConfiguration.getRouteName('delete')), options.link.parameters|default({ id: data.id }))) %}
+{% set in_use = customer_option_in_use(data) %}
+
+{{ component('sylius_admin:delete_modal', {
+    id: data.id,
+    path: path,
+    label: in_use ? 'brille24.validation.delete_not_allowed' : action.label|default('sylius.ui.delete'),
+    icon: action.icon|default('tabler:trash-x'),
+    disabled: in_use,
+}) }}

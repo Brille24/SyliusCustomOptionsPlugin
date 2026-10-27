@@ -1,0 +1,9 @@
+{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
+
+{% set prefixes = ['brille24.admin.customer_option', 'sylius_admin.common'] %}
+
+{% block title %}{{ 'brille24.form.customer_options.import_prices'|trans }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% hook 'price_import' with { _prefixes: prefixes, csv_form: csvForm, product_list_form: byProductListForm } %}
+{% endblock %}

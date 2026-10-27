@@ -1,0 +1,10 @@
+{% import '@SyliusAdmin/shared/helper/translations.html.twig' as translations %}
+
+{% set error_message = hookable_metadata.context.form.errorMessage %}
+
+<div class="col-12 mb-3">
+    <h3>{{ error_message.vars.label|trans }}</h3>
+
+    {{ form_errors(error_message) }}
+    {{ translations.default(error_message.translations, null, { accordion_id: error_message.vars.id }) }}
+</div>

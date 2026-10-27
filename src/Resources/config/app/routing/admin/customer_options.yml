@@ -9,7 +9,7 @@ brille24_customer_options_admin:
         permission: true
         vars:
             all:
-                hook_prefix: 'plugin.admin.resource'
+                hook_prefix: 'brille24.admin.customer_option'
     type: sylius.resource
 
 brille24_customer_option_price_import:

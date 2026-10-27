@@ -17,12 +17,18 @@ brille24:
         customer_options: Options client
         customer_option_groups: Groupes d'options client
         customer_option_group: Groupe d'options client
+        edit_customer_options: Modifier les options client
         required: Obligatoire
         product_customization: Personnalisation produit
         file_content: Fichier
         pricing:
             fixed_amount: Montant fixe
             percent: Pourcentage
+        example_csv: Exemple de structure CSV
+        download_example: Télécharger l'exemple
+        validators: Validateurs
+        conditions: Conditions
+        constraints: Contraintes
     form:
         customer_options:
             subheader: Gérez vos options client

@@ -1,0 +1,4 @@
+<a href="{{ options.link.url|default(path(options.link.route)) }}" class="btn">
+    {{ ux_icon(action.icon|default('tabler:upload'), { class: 'icon dropdown-item-icon' }) }}
+    {{ action.label|trans }}
+</a>

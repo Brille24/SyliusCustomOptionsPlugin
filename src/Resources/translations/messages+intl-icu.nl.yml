@@ -16,12 +16,18 @@ brille24:
         customer_options: Klantopties
         customer_option_groups: Klantoptiegroepen
         customer_option_group: Klantoptiegroep
+        edit_customer_options: Klantopties bewerken
         required: Verplicht
         product_customization: Productaanpassing
         file_content: Inhoud van bestand
         pricing:
             fixed_amount: Vast bedrag
             percent: Percentage
+        example_csv: Voorbeeld van de CSV-structuur
+        download_example: Voorbeeld downloaden
+        validators: Validators
+        conditions: Voorwaarden
+        constraints: Beperkingen
     form:
         customer_options:
             subheader: Beheer uw klantopties

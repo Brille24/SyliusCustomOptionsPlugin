@@ -23,7 +23,12 @@
             <argument type="service" id="brille24.sylius_customer_options_plugin.handler.csv_import_error_handler" />
             <argument type="service" id="brille24.sylius_customer_options_plugin.handler.product_list_import_error_handler" />
 
+            <call method="setContainer">
+                <argument type="service" id="Psr\Container\ContainerInterface" />
+            </call>
+
             <tag name="controller.service_arguments" />
+            <tag name="container.service_subscriber" />
         </service>
     </services>
 </container>

@@ -1,0 +1,14 @@
+{% set item = hookable_metadata.context.item %}
+{% set product = hookable_metadata.context.product %}
+{% set order = hookable_metadata.context.resource %}
+
+{% if product.hasCustomerOptions() and order.state != constant('Sylius\\Component\\Order\\Model\\OrderInterface::STATE_CANCELLED') %}
+    <a
+        href="{{ path('edit_order_item_configuration', { orderItem: item.id }) }}"
+        class="btn btn-sm mt-2"
+        {{ sylius_test_html_attribute('edit-customer-options') }}
+    >
+        {{ ux_icon('tabler:pencil', { class: 'icon' }) }}
+        {{ 'brille24.ui.edit_customer_options'|trans }}
+    </a>
+{% endif %}

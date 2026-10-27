@@ -1,0 +1,9 @@
+<div class="col-12">
+    <div class="row">
+        {% for locale, translation_form in hookable_metadata.context.form.translations %}
+            <div class="col-12 col-md-6 col-xl-3">
+                {{ form_row(translation_form.name, { label: locale|sylius_locale_name }) }}
+            </div>
+        {% endfor %}
+    </div>
+</div>

@@ -1,0 +1,17 @@
+{% set form = hookable_metadata.context.condition_form %}
+
+<div class="row align-items-end">
+    <div class="col-12 col-md-4">
+        {{ form_row(form.customer_option) }}
+    </div>
+    <div class="col-12 col-md-3">
+        {{ form_row(form.comparator) }}
+    </div>
+    <div class="col-12 col-md-3">
+        {{ form_errors(form.value) }}
+        {{ form_row(form.value.value) }}
+    </div>
+    <div class="col-12 col-md-2 mb-3 text-end">
+        {{ form_widget(form.vars.button_delete, { attr: { class: 'btn btn-outline-danger' } }) }}
+    </div>
+</div>

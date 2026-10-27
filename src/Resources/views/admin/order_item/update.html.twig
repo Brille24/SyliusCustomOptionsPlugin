@@ -1,0 +1,19 @@
+{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
+
+{% set prefixes = ['brille24.admin.order_item', 'sylius_admin.common'] %}
+
+{% block title %}{{ 'sylius.menu.admin.main.order_item.edit'|trans }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% hook 'update' with { _prefixes: prefixes, resource: order_item, order, form } %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% hook 'update#stylesheets' with { _prefixes: prefixes } %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% hook 'update#javascripts' with { _prefixes: prefixes } %}
+{% endblock %}

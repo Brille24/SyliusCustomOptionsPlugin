@@ -1,0 +1,25 @@
+sylius_twig_hooks:
+    hooks:
+        'brille24.admin.order_item.update.content.header':
+            breadcrumbs:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/order_item/update/content/header/breadcrumbs.html.twig'
+                priority: 100
+
+        'brille24.admin.order_item.update.content.header.title_block':
+            title:
+                template: '@SyliusAdmin/shared/crud/update/content/header/title_block/title.html.twig'
+                configuration:
+                    header: 'sylius.menu.admin.main.order_item.edit'
+                priority: 100
+
+        'brille24.admin.order_item.update.content.header.title_block.actions':
+            show:
+                enabled: false
+            cancel:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/order_item/update/content/header/title_block/actions/cancel.html.twig'
+                priority: 100
+
+        'brille24.admin.order_item.update.content.form':
+            sections:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/order_item/update/content/form/sections.html.twig'
+                priority: 0
