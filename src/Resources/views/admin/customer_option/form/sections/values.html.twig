@@ -1,7 +1,7 @@
 {% set form = hookable_metadata.context.form %}
 
 {% if form.type.vars.value in ['select', 'multi_select'] %}
-    <div class="col-12">
+    <div class="col-12" id="brille24_customer_option_values">
         <div class="card mb-3">
             <div class="card-header">
                 <h2 class="card-title">
@@ -11,7 +11,7 @@
             <div class="card-body">
                 {{ form_errors(form.values) }}
 
-                <div class="row">
+                <div class="row" data-form-collection="item">
                     {% for value_form_key, value_form in form.values %}
                         {% hook 'values' with { value_form, value_form_key } %}
                     {% endfor %}

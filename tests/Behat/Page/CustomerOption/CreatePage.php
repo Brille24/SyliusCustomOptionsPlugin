@@ -96,7 +96,8 @@ class CreatePage extends BaseCreatePage
      */
     public function addValue(string $code, string $name): void
     {
-        $this->getDocument()->clickLink('Add');
+        $this->getDocument()->pressButton('Add');
+        $this->waitForFormUpdate();
 
         $valuesNode = $this->getDocument()->find('css', '#brille24_customer_option_values');
 
@@ -106,7 +107,12 @@ class CreatePage extends BaseCreatePage
         $lastValueItem = end($valueItems);
 
         $lastValueItem->fillField('Code', $code);
-        $lastValueItem->fillField('Name', $name);
+        $lastValueItem->fillField('English (United States)', $name);
+    }
+
+    public function waitForFormUpdate():void
+    {
+        parent::waitForFormUpdate();
     }
 
     protected function getDefinedElements(): array

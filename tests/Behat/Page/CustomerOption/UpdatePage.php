@@ -71,6 +71,11 @@ class UpdatePage extends BaseUpdatePage
         return null !== $pricingModal && $pricingModal->has('css', sprintf('div[data-tab="%s"]', $channelName));
     }
 
+    public function waitForFormUpdate():void
+    {
+        parent::waitForFormUpdate();
+    }
+
     protected function getDefinedElements(): array
     {
         return [

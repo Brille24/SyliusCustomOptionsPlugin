@@ -1,7 +1,7 @@
 {% set collection_name = hookable_metadata.configuration.collection %}
 {% set collection = hookable_metadata.context.form[collection_name] %}
 
-<div class="col-12 mb-3">
+<div class="col-12 mb-3" data-form-type="collection" id="{{ collection.vars.id }}">
     <h3>{{ hookable_metadata.configuration.title|trans }}</h3>
 
     {{ form_errors(collection) }}

@@ -164,7 +164,7 @@ class CustomerOptionsContext implements Context
     {
         // I combined these two methods because changing the CO type reloads redirects to the update page in javascript tests.
 
-        /** @var CreatePageInterface|UpdatePageInterface $currentPage */
+        /** @var CreatePage|UpdatePage $currentPage */
         $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
 
         if ($currentPage instanceof CreatePageInterface) {
@@ -172,6 +172,8 @@ class CustomerOptionsContext implements Context
         } else {
             $currentPage->saveChanges();
         }
+
+        $currentPage->waitForFormUpdate();
     }
 
     /**
