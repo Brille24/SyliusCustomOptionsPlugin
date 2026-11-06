@@ -36,6 +36,8 @@ Feature: Managing CustomerOption on Products
     Given I want to create a new simple product
     When I specify its code as "new_product"
     And I name it "New Product" in "en_US"
+    And I set its slug to "new-product" in "en_US"
+    And I set its price to "10.00"
     And I choose customer option group "Some Group"
     And I add it
     Then I should be notified that it has been successfully created

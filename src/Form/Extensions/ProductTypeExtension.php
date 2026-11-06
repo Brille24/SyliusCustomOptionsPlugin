@@ -57,7 +57,7 @@ final class ProductTypeExtension extends AbstractTypeExtension
             'allow_add' => true,
             'allow_delete' => true,
             'button_add_options' => [
-                'label' => 'sylius.form.collection.add',
+                'label' => 'sylius.ui.add',
             ],
             'button_delete_options' => [
                 'label' => 'sylius.ui.delete',

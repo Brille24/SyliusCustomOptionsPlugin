@@ -153,7 +153,10 @@ class CustomerOptionsContext implements Context
      */
     public function iAddAValueWithName($code, $name)
     {
-        $this->createPage->addValue($code, $name);
+        /** @var CreatePage|UpdatePage $currentPage */
+        $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
+
+        $currentPage->addValue($code, $name);
     }
 
     /**
@@ -172,8 +175,6 @@ class CustomerOptionsContext implements Context
         } else {
             $currentPage->saveChanges();
         }
-
-        $currentPage->waitForFormUpdate();
     }
 
     /**

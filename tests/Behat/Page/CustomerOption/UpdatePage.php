@@ -7,9 +7,12 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\Behat\Page\CustomerOption;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Sylius\Behat\Page\Admin\Crud\UpdatePage as BaseUpdatePage;
+use Sylius\Behat\Service\DriverHelper;
 
 class UpdatePage extends BaseUpdatePage
 {
+    use CustomerOptionValuesFormTrait;
+
     /**
      * @throws ElementNotFoundException
      */
@@ -69,6 +72,17 @@ class UpdatePage extends BaseUpdatePage
         $pricingModal = $this->getDocument()->find('css', sprintf('.pricing-modal[data-customer-option-value="%s"]', $valueCode));
 
         return null !== $pricingModal && $pricingModal->has('css', sprintf('div[data-tab="%s"]', $channelName));
+    }
+
+    public function saveChanges(): void
+    {
+        if (DriverHelper::isJavascript($this->getDriver())) {
+            $this->blur();
+            $this->waitForFormUpdate();
+        }
+
+        $this->getDocument()->find('css', '[data-test-update-changes-button]')->click();
+        DriverHelper::waitForPageToLoad($this->getSession());
     }
 
     public function waitForFormUpdate():void

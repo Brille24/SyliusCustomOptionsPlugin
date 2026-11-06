@@ -10,102 +10,66 @@ use Sylius\Behat\Page\Admin\Product\CreateSimpleProductPage as BaseCreatePage;
 
 class CreateSimpleProductPage extends BaseCreatePage
 {
+    use CustomerOptionsFormTrait;
+
     /**
      * @throws ElementNotFoundException
      */
-    public function selectCustomerOptionGroup(string $name): void
+    public function nameItIn(string $name, string $localeCode): void
     {
-        $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
+        $this->expandTranslation($localeCode);
 
-        $selectItems = $customerOptionsTab->waitFor(2, fn () => $customerOptionsTab->findAll('css', 'select'));
-        $lastSelectItem = end($selectItems);
+        $this->requireField(sprintf('[data-test-name="%s"]', $localeCode))->setValue($name);
+    }
 
-        if (false === $lastSelectItem) {
-            throw new ElementNotFoundException($this->getSession(), 'select', 'css', 'select');
+    /**
+     * @throws ElementNotFoundException
+     */
+    public function specifySlugIn(string $slug, string $localeCode): void
+    {
+        $this->expandTranslation($localeCode);
+
+        $this->requireField(sprintf('[data-test-slug="%s"]', $localeCode))->setValue($slug);
+    }
+
+    /**
+     * @throws ElementNotFoundException
+     */
+    public function specifyPrice(string $price): void
+    {
+        $this->getElement('side_navigation_tab', ['%name%' => 'channel-pricing'])->click();
+
+        $accordion = $this->getDocument()->find('css', '[data-test-product-channel-pricings-accordion]');
+        if ($accordion instanceof NodeElement && $accordion->hasClass('collapsed')) {
+            $accordion->click();
         }
 
-        $lastSelectItem->selectOption($name);
+        $this->requireField('[data-test-price-in-channel]')->setValue($price);
     }
 
     /**
      * @throws ElementNotFoundException
      */
-    public function addCustomerOptionValuePrice(): void
+    private function expandTranslation(string $localeCode): void
     {
-        $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
-        $customerOptionsTab->clickLink('Add');
+        $this->getElement('side_navigation_tab', ['%name%' => 'translations'])->click();
+
+        $accordion = $this->getElement('product_translation_accordion', ['%localeCode%' => $localeCode]);
+        if ($accordion->getAttribute('aria-expanded') !== 'true') {
+            $accordion->click();
+        }
     }
 
     /**
      * @throws ElementNotFoundException
      */
-    public function chooseOptionValue(string $valueName): void
+    private function requireField(string $selector): NodeElement
     {
-        $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
-
-        /** @var NodeElement[] $valuePrices */
-        $valuePrices = $customerOptionsTab->findAll(
-            'css',
-            'div[data-form-collection="item"]',
-        );
-
-        $lastValuePrice = end($valuePrices);
-
-        if (false === $lastValuePrice) {
-            throw new ElementNotFoundException($this->getSession(), 'div', 'css', 'div[id^="sylius_product_customer_option_value_prices"]');
+        $field = $this->getDocument()->find('css', $selector);
+        if (!$field instanceof NodeElement) {
+            throw new ElementNotFoundException($this->getSession(), 'input', 'css', $selector);
         }
 
-        $lastValuePrice->selectFieldOption('Customer option value', $valueName);
-    }
-
-    /**
-     * @throws ElementNotFoundException
-     */
-    public function setValuePriceAmount(int $amount): void
-    {
-        $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
-
-        /** @var NodeElement[] $valuePrices */
-        $valuePrices = $customerOptionsTab->findAll(
-            'css',
-            'div[data-form-collection="item"]',
-        );
-
-        $lastValuePrice = end($valuePrices);
-
-        if (false === $lastValuePrice) {
-            throw new ElementNotFoundException($this->getSession(), 'div', 'css', 'div[id^="sylius_product_customer_option_value_prices"]');
-        }
-
-        $lastValuePrice->fillField('Amount', $amount);
-    }
-
-    /**
-     * @throws ElementNotFoundException
-     */
-    public function setValuePriceType(string $type): void
-    {
-        $customerOptionsTab = $this->getDocument()->find('css', 'div[data-tab=customer_options]');
-
-        /** @var NodeElement[] $valuePrices */
-        $valuePrices = $customerOptionsTab->findAll(
-            'css',
-            'div[data-form-collection="item"]',
-        );
-
-        $lastValuePrice = end($valuePrices);
-
-        if (false === $lastValuePrice) {
-            throw new ElementNotFoundException($this->getSession(), 'div', 'css', 'div[id^="sylius_product_customer_option_value_prices"]');
-        }
-
-        $lastValuePrice->selectFieldOption('Type', $type);
-    }
-
-    public function openCustomerOptionsTab(): void
-    {
-        $customerOptionsTab = $this->getDocument()->find('css', 'a[data-tab="customer_options"]');
-
-        $customerOptionsTab->click();
+        return $field;
     }
 }

@@ -1,7 +1,7 @@
 {% set form = hookable_metadata.context.value_price_form %}
 {% set price = form.vars.value %}
 
-<div class="card mb-3">
+<div class="card mb-3" {{ sylius_test_html_attribute('customer-option-value-price') }}>
     {% if price.customerOptionValue is defined and price.customerOptionValue is not null and price.channel is not null %}
         <div class="card-header">
             <h4 class="card-title">

@@ -7,7 +7,7 @@
                 {{ 'brille24.ui.customer_options'|trans }}
             </h2>
         </div>
-        <div class="card-body">
+        <div class="card-body" data-form-type="collection" id="{{ form.option_associations.vars.id }}">
             {{ form_errors(form.option_associations) }}
 
             {% for association_form in form.option_associations %}

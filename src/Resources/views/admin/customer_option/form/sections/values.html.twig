@@ -11,7 +11,7 @@
             <div class="card-body">
                 {{ form_errors(form.values) }}
 
-                <div class="row" data-form-collection="item">
+                <div class="row">
                     {% for value_form_key, value_form in form.values %}
                         {% hook 'values' with { value_form, value_form_key } %}
                     {% endfor %}
