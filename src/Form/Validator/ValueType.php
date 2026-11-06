@@ -59,10 +59,14 @@ class ValueType extends AbstractType
                             $result[] = $this->customerOptionValueRepository->findOneByCode($data);
                         }
                     } elseif (CustomerOptionTypeEnum::isDate($options['option_type'])) {
-                        $result = new \DateTime($modelData['date'] ?? 'now');
+                        if ($modelData instanceof \DateTimeInterface) {
+                            $result = \DateTime::createFromInterface($modelData);
+                        } elseif (is_array($modelData)) {
+                            $result = new \DateTime($modelData['date'] ?? 'now');
 
-                        if (isset($modelData['timezone'])) {
-                            $result->setTimezone(new \DateTimeZone($modelData['timezone']));
+                            if (isset($modelData['timezone'])) {
+                                $result->setTimezone(new \DateTimeZone($modelData['timezone']));
+                            }
                         }
                     } else {
                         $result = $modelData;

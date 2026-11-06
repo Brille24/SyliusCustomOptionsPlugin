@@ -37,9 +37,19 @@ class ConditionType extends AbstractType
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($customerOptions): void {
+            $condition = $event->getData();
+            $rendered = $this->getRenderedCustomerOption($condition, $customerOptions);
+            $stored = null;
+            if ($condition instanceof ConditionInterface || $condition instanceof ConstraintInterface) {
+                $stored = $condition->getValue();
+            }
+            $inner = is_array($stored) ? ($stored['value'] ?? null) : $stored;
+            $optionType = $rendered?->getType() ?? CustomerOptionTypeEnum::TEXT;
+            $resetMismatchedValue = !$this->storedValueFitsField($inner, $optionType);
             $this->addComparatorAndValueFields(
                 $event->getForm(),
-                $this->getRenderedCustomerOption($event->getData(), $customerOptions),
+                $rendered,
+                $resetMismatchedValue,
             );
         });
 
@@ -121,6 +131,31 @@ class ConditionType extends AbstractType
         $expectsArray = CustomerOptionTypeEnum::isSelect($optionType) || CustomerOptionTypeEnum::isDate($optionType);
 
         return $value === null || is_array($value) === $expectsArray;
+    }
+
+    /**
+     * The choice list shows an option before that option is stored on the condition.
+     * Until then the value can still be the integer default, which a date field cannot write back.
+     */
+    private function storedValueFitsField(mixed $value, string $optionType): bool
+    {
+        if ($value === null) {
+            return true;
+        }
+
+        if (CustomerOptionTypeEnum::isDate($optionType)) {
+            return $value instanceof \DateTimeInterface || is_array($value);
+        }
+
+        if (CustomerOptionTypeEnum::isSelect($optionType)) {
+            return is_array($value);
+        }
+
+        if ($optionType === CustomerOptionTypeEnum::BOOLEAN) {
+            return is_bool($value);
+        }
+
+        return is_int($value) || is_float($value) || is_string($value);
     }
 
     private function addComparatorAndValueFields(
