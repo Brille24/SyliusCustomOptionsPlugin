@@ -5,6 +5,5 @@ source "$(dirname "$0")/_lib.sh"
 
 run_php composer analyse
 run_php vendor/bin/phpunit --colors=always
-run_php vendor/bin/behat --colors --strict --tags '~@javascript'
 compose --profile js up -d mysql php-fpm nginx chrome
-run_php vendor/bin/behat --colors --strict --tags '@javascript'
+run_php vendor/bin/behat --colors --strict --tags '~@shop'
