@@ -16,6 +16,7 @@ brille24:
         customer_options: Kundenoptionen
         customer_option_group: Kundenoptionengruppe
         customer_option_groups: Kundenoptionengruppen
+        edit_customer_options: Kundenoptionen bearbeiten
         required: Erforderlich
         product_customization: Produktanpassung
         file_content: Dateiinhalt
@@ -24,6 +25,11 @@ brille24:
             percent: Prozent
         customization_total: Anpassungspreis
         by_product_list: By product list
+        example_csv: Beispiel für die CSV-Struktur
+        download_example: Beispiel herunterladen
+        validators: Validatoren
+        conditions: Bedingungen
+        constraints: Einschränkungen
     form:
         customer_options:
             subheader: Verwalten der Kundenoptionen
@@ -38,6 +44,7 @@ brille24:
                 boolean: Wahrheitswert
             import_prices: Preise importieren
             import: Import
+            translations: Übersetzungen
 
         customer_option_groups:
             subheader: Verwalten der Kundenoptionengruppen

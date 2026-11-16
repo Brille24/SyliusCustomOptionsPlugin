@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname "$0")/_lib.sh"
+
+if [[ "$*" == *@javascript* ]]; then
+    compose --profile js up -d mysql php-fpm nginx chrome
+fi
+
+run_php vendor/bin/behat --colors --strict "$@"

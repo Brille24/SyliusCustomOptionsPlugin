@@ -22,8 +22,7 @@ class CustomerOptionGroupFixture extends AbstractFixture
     public function __construct(
         private CustomerOptionGroupFactoryInterface $factory,
         private EntityManagerInterface $em,
-    )
-    {
+    ) {
     }
 
     public function load(array $options): void

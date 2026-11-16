@@ -1,0 +1,6 @@
+{% import '@SyliusAdmin/shared/helper/button.html.twig' as button %}
+
+{{ button.default(sylius_test_form_attribute('cancel-changes-button')|merge({
+    text: 'sylius.ui.cancel'|trans,
+    url: path('sylius_admin_order_show', { id: hookable_metadata.context.order.id }),
+})) }}

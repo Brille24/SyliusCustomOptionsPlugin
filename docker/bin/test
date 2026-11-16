@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname "$0")/_lib.sh"
+
+run_php composer analyse
+run_php vendor/bin/phpunit --colors=always
+compose --profile js up -d mysql php-fpm nginx chrome
+run_php vendor/bin/behat --colors --strict --tags '~@shop'

@@ -69,7 +69,7 @@ sylius_shop_partial_cart_add_item:
 
 * Copy the template overrides from the plugin directory
 ```
-From: [shop_dir]/vendor/brille24/sylius-customer-options-plugin/test/Application/templates
+From: [shop_dir]/vendor/brille24/sylius-customer-options-plugin/tests/TestApplication/templates
 To: [shop_dir]/templates
 ```
 
@@ -132,6 +132,26 @@ bin/console translation:update
 
 ## Developing
 When developing it is recommended to use git hooks for this just copy the `docs/pre-commit` to `.git/hooks/pre-commit` and make it executable. Then you will check your codestyle before committing.
+
+## Local development with Docker
+
+PHPUnit, Behat, static analysis, and a browser-ready Test Application run in Docker. Xdebug is installed but off until you enable it.
+
+```bash
+docker/bin/start
+docker/bin/setup
+```
+
+Open http://127.0.0.1:8080 (shop) and http://127.0.0.1:8080/admin (`sylius@example.com` / `sylius`).
+
+```bash
+docker/bin/phpunit
+docker/bin/behat --tags='~@javascript'
+docker/bin/behat --tags=@javascript
+docker/bin/analyse
+```
+
+See [docs/docker.md](docs/docker.md) for the service map, Xdebug settings, and PhpStorm setup.
 
 ## Usage
 Documentation on how to use the plugin can be found [here](docs/usage.md).

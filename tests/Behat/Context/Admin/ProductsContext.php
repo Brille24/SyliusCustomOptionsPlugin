@@ -8,6 +8,7 @@ use Behat\Behat\Context\Context;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroupInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionValuePriceInterface;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\ProductInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Sylius\Behat\Page\Admin\Crud\CreatePageInterface;
 use Sylius\Behat\Page\Admin\Product\CreateConfigurableProductPageInterface;
@@ -31,6 +32,7 @@ class ProductsContext implements Context
         private CreateConfigurableProductPageInterface $createPageConfigurable,
         private CurrentPageResolverInterface $currentPageResolver,
         private EntityRepository $customerOptionValuePriceRepository,
+        private EntityManagerInterface $entityManager,
     )
     {
     }
@@ -83,6 +85,22 @@ class ProductsContext implements Context
         $currentPage = $this->resolveCurrentPage();
 
         $currentPage->nameItIn($name, $language);
+    }
+
+    /**
+     * @When I set its slug to :slug in :localeCode
+     */
+    public function iSetItsSlugToIn(string $slug, string $localeCode): void
+    {
+        $this->resolveCurrentPage()->specifySlugIn($slug, $localeCode);
+    }
+
+    /**
+     * @When I set its price to :price
+     */
+    public function iSetItsPriceTo(string $price): void
+    {
+        $this->resolveCurrentPage()->specifyPrice($price);
     }
 
     /**
@@ -147,6 +165,8 @@ class ProductsContext implements Context
      */
     public function productShouldHaveCustomerOptionGroup(ProductInterface $product, CustomerOptionGroupInterface $customerOptionGroup)
     {
+        $this->entityManager->refresh($product);
+
         Assert::same($product->getCustomerOptionGroup(), $customerOptionGroup);
     }
 

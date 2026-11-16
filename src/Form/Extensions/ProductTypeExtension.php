@@ -18,8 +18,8 @@ use Brille24\SyliusCustomerOptionsPlugin\Form\Product\CustomerOptionValuePriceTy
 use Sylius\Bundle\ProductBundle\Form\Type\ProductType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\UX\LiveComponent\Form\Type\LiveCollectionType;
 
 /**
  * Class ProductTypeExtension used for the product form in the backend to add customer option groups
@@ -45,16 +45,23 @@ final class ProductTypeExtension extends AbstractTypeExtension
 
         $builder->add(
             'customer_option_value_prices',
-            CollectionType::class,
+            LiveCollectionType::class,
             [
             'entry_type' => CustomerOptionValuePriceType::class,
             'entry_options' => [
+                'label' => false,
                 'product' => $product,
             ],
             'label' => false,
             'by_reference' => false,
             'allow_add' => true,
             'allow_delete' => true,
+            'button_add_options' => [
+                'label' => 'sylius.ui.add',
+            ],
+            'button_delete_options' => [
+                'label' => 'sylius.ui.delete',
+            ],
         ],
         );
     }

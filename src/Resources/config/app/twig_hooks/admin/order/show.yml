@@ -1,0 +1,14 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.order.show.content.sections.items.body':
+            item:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/order/show/content/sections/items/body/item.html.twig'
+                priority: 800
+
+        'sylius_admin.order.show.content.sections.items.body.item':
+            customer_options:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/order/show/content/sections/items/body/item/customer_options.html.twig'
+                priority: 100
+            edit_customer_options:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/order/show/content/sections/items/body/item/edit_customer_options.html.twig'
+                priority: 0

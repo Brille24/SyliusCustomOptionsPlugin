@@ -1,0 +1,12 @@
+<div class="tab-pane {% if hookable_metadata.configuration.active|default(false) %}show active{% endif %}" id="product-customer-options" role="tabpanel" tabindex="0">
+    <div class="card mb-3">
+        <div class="card-header">
+            <h2 class="card-title">
+                {{ 'brille24.ui.customer_options'|trans }}
+            </h2>
+        </div>
+        <div class="card-body">
+            {% hook 'customer_options' %}
+        </div>
+    </div>
+</div>

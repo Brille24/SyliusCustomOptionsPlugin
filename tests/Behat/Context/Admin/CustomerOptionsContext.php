@@ -17,9 +17,9 @@ use Webmozart\Assert\Assert;
 class CustomerOptionsContext implements Context
 {
     public function __construct(
-        private IndexPageInterface $indexPage,
-        private CreatePageInterface $createPage,
-        private UpdatePageInterface $updatePage,
+        private IndexPageInterface           $indexPage,
+        private CreatePageInterface          $createPage,
+        private UpdatePageInterface          $updatePage,
         private CurrentPageResolverInterface $currentPageResolver,
     )
     {
@@ -141,11 +141,22 @@ class CustomerOptionsContext implements Context
     }
 
     /**
+     * @Then I should see a button :name
+     */
+    public function iShouldSeeAButton($name)
+    {
+        Assert::true($this->createPage->hasButton($name));
+    }
+
+    /**
      * @When I add a value :code with name :name
      */
     public function iAddAValueWithName($code, $name)
     {
-        $this->createPage->addValue($code, $name);
+        /** @var CreatePage|UpdatePage $currentPage */
+        $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
+
+        $currentPage->addValue($code, $name);
     }
 
     /**
@@ -156,7 +167,7 @@ class CustomerOptionsContext implements Context
     {
         // I combined these two methods because changing the CO type reloads redirects to the update page in javascript tests.
 
-        /** @var CreatePageInterface|UpdatePageInterface $currentPage */
+        /** @var CreatePage|UpdatePage $currentPage */
         $currentPage = $this->currentPageResolver->getCurrentPageWithForm([$this->createPage, $this->updatePage]);
 
         if ($currentPage instanceof CreatePageInterface) {

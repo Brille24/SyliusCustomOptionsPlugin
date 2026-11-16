@@ -38,8 +38,7 @@ final class ShopCustomerOptionType extends AbstractType
         private MoneyFormatterInterface $moneyFormatter,
         private LocaleContextInterface $localeContext,
         private CustomerOptionValuePriceRepositoryInterface $customerOptionValuePriceRepository,
-    )
-    {
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

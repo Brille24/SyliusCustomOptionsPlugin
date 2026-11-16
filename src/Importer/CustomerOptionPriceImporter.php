@@ -37,8 +37,7 @@ class CustomerOptionPriceImporter implements CustomerOptionPriceImporterInterfac
         protected ChannelRepositoryInterface $channelRepository,
         protected RepositoryInterface $customerOptionValuePriceRepository,
         protected CustomerOptionValuePriceFactoryInterface $customerOptionValuePriceFactory,
-    )
-    {
+    ) {
     }
 
     public function import(array $data): PriceImportResult

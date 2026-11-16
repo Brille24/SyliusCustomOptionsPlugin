@@ -1,0 +1,38 @@
+{% set prices = hookable_metadata.context.form.prices %}
+
+{% if prices|length > 0 %}
+    <div class="col-12">
+        <div class="form-label">{{ prices.vars.label|trans }}</div>
+        <div class="table-responsive">
+            <table class="table table-vcenter">
+                <thead>
+                    <tr>
+                        <th>{{ 'sylius.ui.channel'|trans }}</th>
+                        <th>{{ 'sylius.ui.type'|trans }}</th>
+                        <th>{{ 'sylius.ui.amount'|trans }}</th>
+                        <th>{{ 'sylius.ui.percent'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for price in prices %}
+                        <tr>
+                            <td>{{ price.channel.name.vars.value }}</td>
+                            <td>
+                                {{ form_widget(price.type) }}
+                                {{ form_errors(price.type) }}
+                            </td>
+                            <td>
+                                {{ form_widget(price.amount) }}
+                                {{ form_errors(price.amount) }}
+                            </td>
+                            <td>
+                                {{ form_widget(price.percent) }}
+                                {{ form_errors(price.percent) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}

@@ -35,12 +35,16 @@ final class CustomerOptionConfigurationType extends AbstractType
                 $type = $configArray['type'];
                 $data = $configArray['value'];
 
-                // Transforming Datetime objects
-                if (CustomerOptionTypeEnum::isDate($type)) {
-                    $data = new DateTime($data['date'], new DateTimeZone($data['timezone']));
-                }
-
                 [$formTypeClass, $formTypeConfig] = CustomerOptionTypeEnum::getFormTypeArray()[$type];
+
+                if (CustomerOptionTypeEnum::isDate($type)) {
+                    // Persisted configurations contain the serialized DateTime, new ones the object itself
+                    if (is_array($data)) {
+                        $data = new DateTime($data['date'], new DateTimeZone($data['timezone']));
+                    }
+
+                    $formTypeConfig['widget'] = 'single_text';
+                }
 
                 // Adding form field for configuration option based on type
                 $form->add(

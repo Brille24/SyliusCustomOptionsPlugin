@@ -1,0 +1,20 @@
+{% set form = hookable_metadata.context.form %}
+
+<div class="col-12">
+    <div class="card mb-3">
+        <div class="card-header">
+            <h2 class="card-title">
+                {{ 'brille24.ui.customer_options'|trans }}
+            </h2>
+        </div>
+        <div class="card-body" data-form-type="collection" id="{{ form.option_associations.vars.id }}">
+            {{ form_errors(form.option_associations) }}
+
+            {% for association_form in form.option_associations %}
+                {% hook 'options' with { association_form } %}
+            {% endfor %}
+
+            {{ form_row(form.option_associations.vars.button_add) }}
+        </div>
+    </div>
+</div>

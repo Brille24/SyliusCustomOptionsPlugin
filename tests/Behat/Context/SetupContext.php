@@ -57,6 +57,7 @@ class SetupContext implements Context
         $customerOption = new CustomerOption();
         $customerOption->setCode($code);
         $customerOption->setCurrentLocale($locale);
+        $customerOption->setFallbackLocale($locale);
         $customerOption->setName($name);
         $customerOption->setType($type);
 
@@ -72,6 +73,7 @@ class SetupContext implements Context
         $value = new CustomerOptionValue();
         $value->setCode(strtolower(str_replace(' ', '_', $valueName)));
         $value->setCurrentLocale($locale);
+        $value->setFallbackLocale($locale);
         $value->setName($valueName);
 
         $customerOption->addValue($value);
@@ -86,6 +88,7 @@ class SetupContext implements Context
         $value = new CustomerOptionValue();
         $value->setCode(strtolower(str_replace(' ', '_', $valueName)));
         $value->setCurrentLocale($locale);
+        $value->setFallbackLocale($locale);
         $value->setName($valueName);
 
         $valuePrice = new CustomerOptionValuePrice();
@@ -116,6 +119,7 @@ class SetupContext implements Context
         $customerOptionGroup = new CustomerOptionGroup();
         $customerOptionGroup->setCode($code);
         $customerOptionGroup->setCurrentLocale($locale);
+        $customerOptionGroup->setFallbackLocale($locale);
         $customerOptionGroup->setName($name);
 
         $this->customerOptionGroupRepository->add($customerOptionGroup);
@@ -265,6 +269,7 @@ class SetupContext implements Context
         $errorMessageText = $validatorConfig[0]['error_message'];
         $errorMessage = new ErrorMessage();
         $errorMessage->setCurrentLocale('en_US');
+        $errorMessage->setFallbackLocale('en_US');
         $errorMessage->setMessage($errorMessageText);
 
         $validator = new Validator();

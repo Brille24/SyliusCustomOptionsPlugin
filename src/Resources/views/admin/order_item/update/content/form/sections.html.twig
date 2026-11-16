@@ -1,0 +1,18 @@
+{% set form = hookable_metadata.context.form %}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <h2 class="card-title">
+            {{ 'brille24.ui.customer_options'|trans }}
+        </h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            {% for field in form|filter(field => 'hidden' not in field.vars.block_prefixes) %}
+                <div class="col-12 col-md-6">
+                    {{ form_row(field) }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

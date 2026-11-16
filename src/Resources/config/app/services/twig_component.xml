@@ -1,0 +1,25 @@
+<container xmlns="http://symfony.com/schema/dic/services">
+    <services>
+        <service id="brille24.customer_options_plugin.twig.component.customer_option.form"
+                 class="Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent"
+        >
+            <argument type="service" id="brille24.repository.customer_option" />
+            <argument type="service" id="form.factory" />
+            <argument>%brille24.model.customer_option.class%</argument>
+            <argument>Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionType</argument>
+
+            <tag name="sylius.live_component.admin" key="brille24:admin:customer_option:form" />
+        </service>
+
+        <service id="brille24.customer_options_plugin.twig.component.customer_option_group.form"
+                 class="Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent"
+        >
+            <argument type="service" id="brille24.repository.customer_option_group" />
+            <argument type="service" id="form.factory" />
+            <argument>%brille24.model.customer_option_group.class%</argument>
+            <argument>Brille24\SyliusCustomerOptionsPlugin\Form\CustomerOptionGroupType</argument>
+
+            <tag name="sylius.live_component.admin" key="brille24:admin:customer_option_group:form" />
+        </service>
+    </services>
+</container>

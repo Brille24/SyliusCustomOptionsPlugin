@@ -1,0 +1,53 @@
+sylius_twig_hooks:
+    hooks:
+        'brille24.admin.customer_option.price_import':
+            sidebar:
+                template: '@SyliusAdmin/shared/crud/common/sidebar.html.twig'
+                priority: 200
+            navbar:
+                template: '@SyliusAdmin/shared/crud/common/navbar.html.twig'
+                priority: 100
+            content:
+                template: '@SyliusAdmin/shared/crud/common/content.html.twig'
+                priority: 0
+
+        'brille24.admin.customer_option.price_import.content':
+            flashes:
+                template: '@SyliusAdmin/shared/crud/common/content/flashes.html.twig'
+                priority: 300
+            header:
+                template: '@SyliusAdmin/shared/crud/common/content/header.html.twig'
+                priority: 200
+            sections:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/customer_option/price_import/content/sections.html.twig'
+                priority: 100
+            footer:
+                template: '@SyliusAdmin/shared/crud/common/content/footer.html.twig'
+                priority: 0
+
+        'brille24.admin.customer_option.price_import.content.header':
+            breadcrumbs:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/customer_option/price_import/content/header/breadcrumbs.html.twig'
+                priority: 100
+            title_block:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block.html.twig'
+                priority: 0
+
+        'brille24.admin.customer_option.price_import.content.header.title_block':
+            title:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
+                configuration:
+                    title: 'brille24.form.customer_options.import_prices'
+                    icon: 'tabler:upload'
+                priority: 0
+
+        'brille24.admin.customer_option.price_import.content.sections':
+            example_csv:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/customer_option/price_import/content/sections/example_csv.html.twig'
+                priority: 200
+            csv:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/customer_option/price_import/content/sections/csv.html.twig'
+                priority: 100
+            product_list:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/customer_option/price_import/content/sections/product_list.html.twig'
+                priority: 0

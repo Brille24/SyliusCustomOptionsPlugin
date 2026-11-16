@@ -3,10 +3,9 @@ includes:
     - vendor/phpstan/phpstan-symfony/extension.neon
     - vendor/phpstan/phpstan-webmozart-assert/extension.neon
     - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - phpstan-baseline.neon
 parameters:
     level: max
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
     reportUnmatchedIgnoredErrors: false
 
     excludePaths:
@@ -14,8 +13,7 @@ parameters:
         - 'src/DependencyInjection/Configuration.php'
 
         # Test dependencies
-        - 'tests/Application/app/**.php'
-        - 'tests/Application/src/**.php'
+        - 'tests/TestApplication/src/**.php'
 
     ignoreErrors:
         - '/Symfony\\Contracts\\EventDispatcher\\EventDispatcherInterface::dispatch/'
@@ -24,3 +22,7 @@ parameters:
         - '/Method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\Validator\\Condition\:\:isMet\(\) has parameter \$value with no typehint specified\./'
         - '/Access to an undefined property Faker\\UniqueGenerator\:\:\$word\./'
         - '/Unreachable statement \- code above always terminates\./'
+        -
+            identifier: missingType.iterableValue
+        -
+            identifier: missingType.generics

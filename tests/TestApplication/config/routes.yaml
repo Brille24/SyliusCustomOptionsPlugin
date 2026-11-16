@@ -1,0 +1,2 @@
+brille24_sylius_customer_options:
+    resource: "../../../src/Resources/config/app/routing.yml"

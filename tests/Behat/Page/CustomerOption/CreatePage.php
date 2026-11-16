@@ -10,6 +10,8 @@ use Sylius\Behat\Page\Admin\Crud\CreatePage as BaseCreatePage;
 
 class CreatePage extends BaseCreatePage
 {
+    use CustomerOptionValuesFormTrait;
+
     /**
      * @throws ElementNotFoundException
      */
@@ -86,22 +88,14 @@ class CreatePage extends BaseCreatePage
         return $this->getDocument()->hasLink($name);
     }
 
-    /**
-     * @throws ElementNotFoundException
-     */
-    public function addValue(string $code, string $name): void
+    public function hasButton(string $name): bool
     {
-        $this->getDocument()->clickLink('Add');
+        return $this->getDocument()->hasButton($name);
+    }
 
-        $valuesNode = $this->getDocument()->find('css', '#brille24_customer_option_values');
-
-        $valueItems = $valuesNode->findAll('css', 'div[data-form-collection="item"]');
-
-        /** @var NodeElement $lastValueItem */
-        $lastValueItem = end($valueItems);
-
-        $lastValueItem->fillField('Code', $code);
-        $lastValueItem->fillField('Name', $name);
+    public function waitForFormUpdate():void
+    {
+        parent::waitForFormUpdate();
     }
 
     protected function getDefinedElements(): array

@@ -23,15 +23,15 @@ class ValueType extends AbstractType
     {
     }
 
+    /**
+     * @param array{
+     *              'field_type': string,
+     *              'field_options': array,
+     *              'option_type': string,
+     *              } $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /**
-         * @var array{
-         *   'field_type': string,
-         *   'field_options': array,
-         *   'option_type': string,
-         * } $options
-         */
         $options['field_options']['label'] ??= self::DEFAULT_LABEL;
 
         $builder->add('value', $options['field_type'], $options['field_options']);
@@ -59,10 +59,14 @@ class ValueType extends AbstractType
                             $result[] = $this->customerOptionValueRepository->findOneByCode($data);
                         }
                     } elseif (CustomerOptionTypeEnum::isDate($options['option_type'])) {
-                        $result = new \DateTime($modelData['date'] ?? 'now');
+                        if ($modelData instanceof \DateTimeInterface) {
+                            $result = \DateTime::createFromInterface($modelData);
+                        } elseif (is_array($modelData)) {
+                            $result = new \DateTime($modelData['date'] ?? 'now');
 
-                        if (isset($modelData['timezone'])) {
-                            $result->setTimezone(new \DateTimeZone($modelData['timezone']));
+                            if (isset($modelData['timezone'])) {
+                                $result->setTimezone(new \DateTimeZone($modelData['timezone']));
+                            }
                         }
                     } else {
                         $result = $modelData;

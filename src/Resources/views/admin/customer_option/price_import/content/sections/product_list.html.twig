@@ -1,0 +1,33 @@
+{% import '@SyliusAdmin/shared/helper/button.html.twig' as button %}
+
+{% set form = hookable_metadata.context.product_list_form %}
+{% set price = form.customer_option_value_price %}
+{% form_theme form '@SyliusAdmin/shared/form_theme.html.twig' %}
+
+<div class="col-12">
+    <div class="card mb-3">
+        <div class="card-header">
+            <h2 class="card-title">{{ 'brille24.ui.by_product_list'|trans }}</h2>
+        </div>
+        <div class="card-body">
+            {{ form_start(form, { attr: { novalidate: 'novalidate' } }) }}
+                {{ form_errors(form) }}
+                <div class="row">
+                    <div class="col-12">{{ form_row(form.products) }}</div>
+                    <div class="col-12 col-md-6">{{ form_row(price.customerOptionValues) }}</div>
+                    <div class="col-12 col-md-6">{{ form_row(price.channel) }}</div>
+                    <div class="col-12 col-md-4">{{ form_row(price.type) }}</div>
+                    <div class="col-12 col-md-4">{{ form_row(price.amount) }}</div>
+                    <div class="col-12 col-md-4">{{ form_row(price.percent) }}</div>
+                    <div class="col-12">
+                        <div class="form-label">{{ price.dateValid.vars.label|trans }}</div>
+                        {{ form_errors(price.dateValid) }}
+                    </div>
+                    <div class="col-12 col-md-6">{{ form_row(price.dateValid.start, { label: 'sylius.ui.from' }) }}</div>
+                    <div class="col-12 col-md-6">{{ form_row(price.dateValid.end, { label: 'sylius.ui.to' }) }}</div>
+                </div>
+                {{ button.primary({ text: 'brille24.form.customer_options.import'|trans, type: 'submit' }) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>

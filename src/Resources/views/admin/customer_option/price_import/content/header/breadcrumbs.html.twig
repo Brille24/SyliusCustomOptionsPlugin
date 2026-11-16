@@ -1,0 +1,7 @@
+{% from '@SyliusAdmin/shared/helper/breadcrumbs.html.twig' import breadcrumbs %}
+
+{{ breadcrumbs([
+    { name: 'sylius.ui.dashboard', url: path('sylius_admin_dashboard'), active: false },
+    { name: 'brille24.ui.customer_options'|trans, url: path('brille24_admin_customer_option_index'), active: false },
+    { name: 'brille24.form.customer_options.import_prices'|trans, active: true },
+]) }}

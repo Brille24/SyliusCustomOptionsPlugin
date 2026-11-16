@@ -16,31 +16,34 @@ use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Factory\CartItemFactoryInterface;
 use Sylius\Component\Core\Model\OrderItem;
 use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
 use Sylius\Component\Product\Resolver\ProductVariantResolverInterface;
+use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartItemFactoryTest extends TestCase
 {
-    private CartItemFactory $cartItemFactory;
-    /** @var MockObject|RequestStack */
+    /** @var MockObject&FactoryInterface */
+    private $cartItemFactory;
+
+    /** @var MockObject&RequestStack */
     private $requestStack;
-    /**
-     * @var MockObject|OrderItemInterface
-     */
+
+    /** @var MockObject&OrderItemInterface */
     private $orderItem;
-    /**
-     * @var MockObject|OrderItemOptionFactoryInterface
-     */
+
+    /** @var MockObject&OrderItemOptionFactoryInterface */
     private $orderItemOptionFactory;
-    /**
-     * @var MockObject|CustomerOptionRepositoryInterface
-     */
+
+    /** @var MockObject&CustomerOptionRepositoryInterface */
     private $customerOptionRepository;
+
+    private OrderItemQuantityModifierInterface $orderItemQuantityModifier;
 
     protected function setUp(): void
     {
-        $this->orderItem = new class extends OrderItem implements OrderItemInterface {
+        $this->orderItem = new class() extends OrderItem implements OrderItemInterface {
             use OrderItemCustomerOptionCapableTrait;
         };
 
@@ -50,14 +53,16 @@ class CartItemFactoryTest extends TestCase
         $variantResolver = $this->createMock(ProductVariantResolverInterface::class);
         $this->orderItemOptionFactory = $this->createMock(OrderItemOptionFactoryInterface::class);
         $this->customerOptionRepository = $this->createMock(CustomerOptionRepositoryInterface::class);
+        $this->orderItemQuantityModifier = $this->createMock(OrderItemQuantityModifierInterface::class);
 
         $this->requestStack = $this->createMock(RequestStack::class);
         $this->cartItemFactory = new CartItemFactory(
-            $decoratedFactory,
-            $variantResolver,
-            $this->requestStack,
-            $this->orderItemOptionFactory,
-            $this->customerOptionRepository
+            decoratedFactory: $decoratedFactory,
+            variantResolver: $variantResolver,
+            requestStack: $this->requestStack,
+            orderItemOptionFactory: $this->orderItemOptionFactory,
+            customerOptionRepository: $this->customerOptionRepository,
+            orderItemQuantityModifier: $this->orderItemQuantityModifier,
         );
     }
 

@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname "$0")/_lib.sh"
+
+usage() {
+    echo "Usage: docker/bin/xdebug on [--every-request] | off | status" >&2
+    exit 1
+}
+
+write_override() {
+    printf '%s\n' "$1" > "${XDEBUG_OVERRIDE}"
+}
+
+write_env() {
+    printf '%s\n' "$1" > "${XDEBUG_ENV}"
+}
+
+recreate_fpm() {
+    compose up -d --force-recreate --no-deps php-fpm
+}
+
+print_mode() {
+    local service=$1
+    echo -n "${service} XDEBUG_MODE="
+    compose exec -T "${service}" php -r 'echo getenv("XDEBUG_MODE") ?: (ini_get("xdebug.mode") ?: "off"), PHP_EOL;'
+}
+
+cmd="${1:-}"
+shift || true
+
+case "${cmd}" in
+    on)
+        every_request=0
+        if [[ "${1:-}" == "--every-request" ]]; then
+            every_request=1
+        elif [[ -n "${1:-}" ]]; then
+            usage
+        fi
+
+        write_env 'XDEBUG_MODE=debug'
+        if [[ "${every_request}" -eq 1 ]]; then
+            write_override $'xdebug.mode=debug\nxdebug.start_with_request=yes\nxdebug.log_level=7'
+            echo "Xdebug enabled for every php-fpm request."
+        else
+            write_override $'xdebug.mode=debug\nxdebug.start_with_request=trigger\nxdebug.log_level=7'
+            echo "Xdebug enabled on trigger (browser cookie or XDEBUG_SESSION)."
+        fi
+        recreate_fpm
+        print_mode php-fpm
+        ;;
+    off)
+        write_env 'XDEBUG_MODE=off'
+        write_override '; Xdebug stays off unless docker/bin/xdebug on is used.'
+        recreate_fpm
+        echo "Xdebug disabled."
+        print_mode php-fpm
+        ;;
+    status)
+        print_mode php-fpm
+        compose run --rm --no-deps php php -r 'echo "php CLI XDEBUG_MODE=", getenv("XDEBUG_MODE") ?: (ini_get("xdebug.mode") ?: "off"), PHP_EOL;'
+        ;;
+    *)
+        usage
+        ;;
+esac

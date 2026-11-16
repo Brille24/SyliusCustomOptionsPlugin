@@ -1,0 +1,24 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.product.create.content.form.side_navigation':
+            customer_options:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/product/form/side_navigation/customer_options.html.twig'
+                priority: 150
+
+        'sylius_admin.product.create.content.form.sections':
+            customer_options:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/product/form/sections/customer_options.html.twig'
+                priority: 150
+
+        'sylius_admin.product.create.content.form.sections.customer_options':
+            customer_option_group:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/product/form/sections/customer_options/customer_option_group.html.twig'
+                priority: 100
+            value_prices:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/product/form/sections/customer_options/value_prices.html.twig'
+                priority: 0
+
+        'sylius_admin.product.create.content.form.sections.customer_options.value_prices':
+            value_price:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/product/form/sections/customer_options/value_prices/value_price.html.twig'
+                priority: 0

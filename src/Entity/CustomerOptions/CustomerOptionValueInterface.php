@@ -22,16 +22,10 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
 {
     public function setCode(string $code): void;
 
-    /**
-     * @return string
-     */
     public function getCode(): ?string;
 
     public function setName(string $name): void;
 
-    /**
-     * @return string
-     */
     public function getName(): ?string;
 
     public function setPrices(?Collection $prices): void;
@@ -42,8 +36,6 @@ interface CustomerOptionValueInterface extends ResourceInterface, TranslatableIn
 
     /**
      * @deprecated Please use {@see CustomerOptionValuePriceRepository::getPriceForChannel()} instead.
-     *
-     * @return CustomerOptionValuePriceInterface
      */
     public function getPriceForChannel(
         ChannelInterface $channel,

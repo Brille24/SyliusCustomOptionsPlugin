@@ -42,7 +42,8 @@ class CreatePage extends BaseCreatePage
      */
     public function addOption(): void
     {
-        $this->getDocument()->clickLink($this->translator->trans('brille24.form.customer_option_groups.buttons.add_option'));
+        $this->getDocument()->pressButton($this->translator->trans('brille24.form.customer_option_groups.buttons.add_option'));
+        $this->waitForFormUpdate();
     }
 
     /**
@@ -82,7 +83,8 @@ class CreatePage extends BaseCreatePage
      */
     public function addCondition(): void
     {
-        $this->getDocument()->clickLink($this->translator->trans('brille24.form.validators.buttons.add_condition'));
+        $this->getDocument()->pressButton($this->translator->trans('brille24.form.validators.buttons.add_condition'));
+        $this->waitForFormUpdate();
     }
 
     /**
@@ -90,7 +92,8 @@ class CreatePage extends BaseCreatePage
      */
     public function addConstraint(): void
     {
-        $this->getDocument()->clickLink($this->translator->trans('brille24.form.validators.buttons.add_constraint'));
+        $this->getDocument()->pressButton($this->translator->trans('brille24.form.validators.buttons.add_constraint'));
+        $this->waitForFormUpdate();
     }
 
     /**

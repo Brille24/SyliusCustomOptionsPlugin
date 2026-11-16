@@ -64,10 +64,11 @@
                 public="false"
         >
             <argument type="service" id="brille24.factory.order_item.inner"/>
-            <argument type="service" id="sylius.product_variant_resolver.default"/>
+            <argument type="service" id="sylius.resolver.product_variant"/>
             <argument type="service" id="request_stack"/>
             <argument type="service" id="brille24.factory.order_item_option"/>
             <argument type="service" id="brille24.repository.customer_option"/>
+            <argument type="service" id="sylius.modifier.order_item_quantity" />
         </service>
     </services>
 </container>

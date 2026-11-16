@@ -7,20 +7,21 @@ namespace Tests\Brille24\SyliusCustomerOptionsPlugin\PHPUnit\Factory;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOption;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\CustomerOptionGroup;
 use Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions\Validator\ValidatorInterface;
-use Brille24\SyliusCustomerOptionsPlugin\Entity\Product;
 use Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionGroupFactory;
 use Brille24\SyliusCustomerOptionsPlugin\Repository\CustomerOptionRepositoryInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
+use Tests\Brille24\SyliusCustomerOptionsPlugin\Entity\Product;
 
 class CustomerOptionGroupFactoryTest extends TestCase
 {
-    private \Brille24\SyliusCustomerOptionsPlugin\Factory\CustomerOptionGroupFactory $customerOptionGroupFactory;
+    private CustomerOptionGroupFactory $customerOptionGroupFactory;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var MockObject|CustomerOptionRepositoryInterface */
     private $customerOptionRepositoryMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var MockObject|ProductRepositoryInterface */
     private $productRepositoryMock;
 
     public function setUp(): void
@@ -154,17 +155,17 @@ class CustomerOptionGroupFactoryTest extends TestCase
             'option_3',
         ];
 
-        foreach ($optionCodes as $index => $code) {
+        $findOneByCodeMap = [];
+        foreach ($optionCodes as $code) {
             $option = new CustomerOption();
             $option->setCode($code);
-
-            $this->customerOptionRepositoryMock
-                ->expects($this->at($index))
-                ->method('findOneByCode')
-                ->with($code)
-                ->willReturn($option)
-            ;
+            $findOneByCodeMap[] = [$code, $option];
         }
+
+        $this->customerOptionRepositoryMock
+            ->method('findOneByCode')
+            ->willReturnMap($findOneByCodeMap)
+        ;
 
         $options = [
             'code' => 'some_group',
@@ -200,10 +201,10 @@ class CustomerOptionGroupFactoryTest extends TestCase
         }
 
         $this->productRepositoryMock
-            ->expects($this->at(0))
             ->method('findBy')
-            ->with(['code' => $productCodes])
-            ->willReturn($mockProducts)
+            ->willReturnMap([
+                [['code' => $productCodes], null, null, null, $mockProducts],
+            ])
         ;
 
         $options = [
@@ -239,45 +240,17 @@ class CustomerOptionGroupFactoryTest extends TestCase
             'option_3',
         ];
 
-        $customerOptions = [];
-
-        foreach ($optionCodes as $index => $code) {
+        $findOneByCodeMap = [];
+        foreach ($optionCodes as $code) {
             $option = new CustomerOption();
             $option->setCode($code);
-
-            $this->customerOptionRepositoryMock
-                ->expects($this->at($index))
-                ->method('findOneByCode')
-                ->with($code)
-                ->willReturn($option)
-            ;
-
-            $customerOptions[] = $option;
+            $findOneByCodeMap[] = [$code, $option];
         }
 
         $this->customerOptionRepositoryMock
-            ->expects($this->at(3))
             ->method('findOneByCode')
-            ->with($customerOptions[0]->getCode())
-            ->willReturn($customerOptions[0]);
-
-        $this->customerOptionRepositoryMock
-            ->expects($this->at(4))
-            ->method('findOneByCode')
-            ->with($customerOptions[1]->getCode())
-            ->willReturn($customerOptions[1]);
-
-        $this->customerOptionRepositoryMock
-            ->expects($this->at(5))
-            ->method('findOneByCode')
-            ->with($customerOptions[1]->getCode())
-            ->willReturn($customerOptions[1]);
-
-        $this->customerOptionRepositoryMock
-            ->expects($this->at(6))
-            ->method('findOneByCode')
-            ->with($customerOptions[2]->getCode())
-            ->willReturn($customerOptions[2]);
+            ->willReturnMap($findOneByCodeMap)
+        ;
 
         $options = [
             'code' => 'some_group',

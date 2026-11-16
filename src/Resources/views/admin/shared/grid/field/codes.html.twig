@@ -1,0 +1,11 @@
+{% set max_codes_to_display = 5 %}
+
+{% if data|length > 0 %}
+    {% for element in data|slice(0, max_codes_to_display) %}
+        <span class="badge">{{ element.code }}</span>
+    {% endfor %}
+
+    {{ 'brille24.grid.options_remaining'|trans({ count: max(data|length - max_codes_to_display, 0) }) }}
+{% else %}
+    {{ 'brille24.grid.options_empty'|trans }}
+{% endif %}

@@ -1,0 +1,34 @@
+{% set form = hookable_metadata.context.value_price_form %}
+{% set price = form.vars.value %}
+
+<div class="card mb-3" {{ sylius_test_html_attribute('customer-option-value-price') }}>
+    {% if price.customerOptionValue is defined and price.customerOptionValue is not null and price.channel is not null %}
+        <div class="card-header">
+            <h4 class="card-title">
+                {{ price.customerOptionValue.customerOption.name }} - {{ price.customerOptionValue.name }} - {{ price.channel.name }}
+                {% if price.dateValid is not null %} - {{ price.dateValid }}{% endif %}
+            </h4>
+        </div>
+    {% endif %}
+    <div class="card-body">
+        {{ form_errors(form) }}
+        <div class="row">
+            <div class="col-12 col-md-6">{{ form_row(form.customerOptionValue) }}</div>
+            <div class="col-12 col-md-6">{{ form_row(form.channel) }}</div>
+            <div class="col-12 col-md-4">{{ form_row(form.type) }}</div>
+            <div class="col-12 col-md-4">{{ form_row(form.amount) }}</div>
+            <div class="col-12 col-md-4">{{ form_row(form.percent) }}</div>
+            <div class="col-12">
+                <div class="form-label">{{ form.dateValid.vars.label|trans }}</div>
+                {{ form_errors(form.dateValid) }}
+                <div class="row">
+                    <div class="col-12 col-md-6">{{ form_row(form.dateValid.start, { label: 'sylius.ui.from' }) }}</div>
+                    <div class="col-12 col-md-6">{{ form_row(form.dateValid.end, { label: 'sylius.ui.to' }) }}</div>
+                </div>
+            </div>
+            <div class="col-12 text-end">
+                {{ form_widget(form.vars.button_delete, { attr: { class: 'btn btn-outline-danger' } }) }}
+            </div>
+        </div>
+    </div>
+</div>

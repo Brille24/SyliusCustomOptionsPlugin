@@ -45,7 +45,6 @@ trait ProductCustomerOptionValuePriceTypeTrait
 
                     return '';
                 },
-                'attr' => ['onChange' => 'customerOptions.changeCustomerAmountCurrencyOnChannelChange(this);'],
             ])
             ->add('percent', PercentType::class, [
                 'empty_data' => '0.00',
@@ -60,6 +59,7 @@ trait ProductCustomerOptionValuePriceTypeTrait
             ->add('type', ChoiceType::class, [
                 'choices' => CustomerOptionValuePrice::getAllTypes(),
                 'choice_label' => static fn (string $option): string => 'brille24.ui.pricing.' . strtolower($option),
+                'empty_data' => CustomerOptionValuePrice::TYPE_FIXED_AMOUNT,
             ])
             ->add('dateValid', DateRangeType::class, [
                 'required' => false,

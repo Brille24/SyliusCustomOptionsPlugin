@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname "$0")/_lib.sh"
+
+compose up -d mysql php-fpm nginx
+
+# Previous root-owned caches (or a host UID mismatch) break warmup and yarn as the bind-mounted user.
+if compose exec -T php-fpm true >/dev/null 2>&1; then
+    compose exec -T php-fpm bash -lc '
+        rm -rf /plugin/var/cache /plugin/var/log
+        mkdir -p /plugin/var/cache /plugin/var/log /plugin/var/xdebug
+        mkdir -p /plugin/vendor/sylius/test-application/var/cache/webpack
+        mkdir -p /plugin/vendor/sylius/test-application/public/build
+        mkdir -p /plugin/vendor/sylius/test-application/public/media
+        chown -R www-data:www-data \
+            /plugin/var \
+            /plugin/vendor/sylius/test-application/var \
+            /plugin/vendor/sylius/test-application/public/build \
+            /plugin/vendor/sylius/test-application/public/media
+        chmod -R ug+rwX \
+            /plugin/var \
+            /plugin/vendor/sylius/test-application/var \
+            /plugin/vendor/sylius/test-application/public/build \
+            /plugin/vendor/sylius/test-application/public/media
+    '
+fi
+
+if [[ -f composer.lock ]]; then
+    run_php composer install --no-interaction --prefer-dist
+else
+    run_php composer update --no-interaction --prefer-dist
+fi
+
+for env in test dev; do
+    run_php vendor/bin/console doctrine:database:create --if-not-exists --env="${env}" -vvv
+    run_php vendor/bin/console doctrine:migrations:migrate --no-interaction --env="${env}" -vvv
+    run_php vendor/bin/console doctrine:schema:update --force --env="${env}" -vvv
+    run_php vendor/bin/console cache:warmup --env="${env}" -vvv
+done
+
+run_php vendor/bin/console assets:install --env=dev -vvv
+run_php bash -lc 'cd vendor/sylius/test-application && yarn install && yarn build'
+run_php vendor/bin/console sylius:fixtures:load -n --env=dev
+
+echo "Shop:  http://127.0.0.1:8080"
+echo "Admin: http://127.0.0.1:8080/admin  (sylius@example.com / sylius)"

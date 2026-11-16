@@ -61,6 +61,7 @@
             <argument type="service" id="brille24.behat.page.admin.product.create_configurable" />
             <argument type="service" id="sylius.behat.current_page_resolver" />
             <argument type="service" id="brille24.repository.customer_option_value_price" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
         </service>
 
         <!-- Shop -->

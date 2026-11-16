@@ -1,0 +1,14 @@
+{% set collection_name = hookable_metadata.configuration.collection %}
+{% set collection = hookable_metadata.context.form[collection_name] %}
+
+<div class="col-12 mb-3" data-form-type="collection" id="{{ collection.vars.id }}">
+    <h3>{{ hookable_metadata.configuration.title|trans }}</h3>
+
+    {{ form_errors(collection) }}
+
+    {% for condition_form in collection %}
+        {% hook collection_name with { condition_form } %}
+    {% endfor %}
+
+    {{ form_widget(collection.vars.button_add) }}
+</div>

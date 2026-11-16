@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname "$0")/_lib.sh"
+
+status=0
+run_php vendor/bin/ecs check --ansi --no-progress-bar src/ tests/PHPUnit --config ecs.php || status=$?
+run_php vendor/bin/phpstan analyse -c phpstan.neon --no-progress -l max src/ || status=$?
+exit "${status}"

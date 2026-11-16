@@ -14,7 +14,7 @@ namespace Brille24\SyliusCustomerOptionsPlugin\Entity\CustomerOptions;
 
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\AbstractTranslation;
-use Sylius\Component\Resource\Model\TranslatableInterface;
+use Sylius\Resource\Model\TranslatableInterface;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'brille24_customer_option_value_translation')]
@@ -28,7 +28,7 @@ class CustomerOptionValueTranslation extends AbstractTranslation implements Cust
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $name = null;
 
-    #[ORM\ManyToOne(targetEntity: CustomerOptionValueInterface::class, inversedBy: "translations")]
+    #[ORM\ManyToOne(targetEntity: CustomerOptionValueInterface::class, inversedBy: 'translations')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     protected ?TranslatableInterface $translatable = null;
 

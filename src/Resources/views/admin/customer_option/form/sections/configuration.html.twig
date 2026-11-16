@@ -1,0 +1,24 @@
+{% set configuration = hookable_metadata.context.form.configuration %}
+
+{% if configuration|length > 0 %}
+    <div class="col-12">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h2 class="card-title">
+                    {{ 'sylius.ui.configuration'|trans }}
+                </h2>
+            </div>
+            <div class="card-body">
+                {{ form_errors(configuration) }}
+
+                <div class="row">
+                    {% for field in configuration %}
+                        <div class="col-12 col-md-6">
+                            {{ form_row(field, 'checkbox' in field.vars.block_prefixes ? { label_attr: { class: 'checkbox-switch' } } : {}) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

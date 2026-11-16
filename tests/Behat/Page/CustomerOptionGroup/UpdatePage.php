@@ -44,7 +44,8 @@ class UpdatePage extends BaseUpdatePage
      */
     public function addOption(): void
     {
-        $this->getDocument()->clickLink($this->translator->trans('brille24.form.customer_option_groups.buttons.add_option'));
+        $this->getDocument()->pressButton($this->translator->trans('brille24.form.customer_option_groups.buttons.add_option'));
+        $this->waitForFormUpdate();
     }
 
     /**
@@ -73,10 +74,9 @@ class UpdatePage extends BaseUpdatePage
 
     public function addValidator(): void
     {
-        $validatorDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"]');
-        $lastValidatorDiv = end($validatorDivs);
-
-        $lastValidatorDiv->clickLink($this->translator->trans('brille24.form.customer_option_groups.buttons.add_validator'));
+        $before = $this->countValidators();
+        $this->validatorsCollection()->pressButton($this->translator->trans('brille24.form.customer_option_groups.buttons.add_validator'));
+        $this->getDocument()->waitFor(5, fn () => $this->countValidators() > $before);
     }
 
     /**
@@ -84,7 +84,8 @@ class UpdatePage extends BaseUpdatePage
      */
     public function addCondition(): void
     {
-        $this->getLastConditionDiv()->clickLink($this->translator->trans('brille24.form.validators.buttons.add_condition'));
+        $this->getLastConditionDiv()->pressButton($this->translator->trans('brille24.form.validators.buttons.add_condition'));
+        $this->waitForFormUpdate();
     }
 
     /**
@@ -96,15 +97,15 @@ class UpdatePage extends BaseUpdatePage
         $constraintDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="constraints"]');
         $lastConstraintDiv = end($constraintDivs);
 
-        $lastConstraintDiv->clickLink($this->translator->trans('brille24.form.validators.buttons.add_constraint'));
+        $lastConstraintDiv->pressButton($this->translator->trans('brille24.form.validators.buttons.add_constraint'));
+        $this->waitForFormUpdate();
     }
 
     public function deleteValidator(): void
     {
-        $validatorDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"]');
-        $lastValidatorDiv = end($validatorDivs);
-
-        $lastValidatorDiv->clickLink($this->translator->trans('brille24.form.customer_option_groups.buttons.delete_validator'));
+        $before = $this->countValidators();
+        $this->validatorsCollection()->pressButton($this->translator->trans('brille24.form.customer_option_groups.buttons.delete_validator'));
+        $this->getDocument()->waitFor(5, fn () => $this->countValidators() < $before);
     }
 
     /**
@@ -216,12 +217,6 @@ class UpdatePage extends BaseUpdatePage
 
         $lastValueItem = end($valueItems);
 
-        if (CustomerOptionTypeEnum::isDate($optionType)) {
-            $valueItems = $container->findAll('css', 'select[id$="year"]');
-            $lastValueItem = end($valueItems);
-            $lastValueItem = $lastValueItem->getParent();
-        }
-
         return $lastValueItem->getAttribute('type') ?? $lastValueItem->getTagName();
     }
 
@@ -279,6 +274,7 @@ class UpdatePage extends BaseUpdatePage
         $lastConditionDiv = $this->getLastConditionDiv();
 
         $this->setValue($lastConditionDiv, $optionType, $value);
+        $this->waitForFormUpdate();
     }
 
     /**
@@ -293,6 +289,7 @@ class UpdatePage extends BaseUpdatePage
         $lastConstraintDiv = end($constraintDiv);
 
         $this->setValue($lastConstraintDiv, $optionType, $value);
+        $this->waitForFormUpdate();
     }
 
     /**
@@ -317,25 +314,6 @@ class UpdatePage extends BaseUpdatePage
             foreach ($value as $val) {
                 $lastValue->selectOption($val, true);
             }
-        } elseif (CustomerOptionTypeEnum::isDate($optionType)) {
-            $value = new \DateTime($value);
-
-            /** @var NodeElement[] $valueItems */
-            $valueItems = $container->findAll('css', 'select[id$="year"]');
-            $lastValueItem = end($valueItems);
-            $lastValueItem = $lastValueItem->getParent();
-
-            $yearItem = $lastValueItem->find('css', 'select[id$="year"]');
-            $monthItem = $lastValueItem->find('css', 'select[id$="month"]');
-            $dayItem = $lastValueItem->find('css', 'select[id$="day"]');
-
-            $yearItem->selectOption($value->format('Y'));
-            $monthItem->selectOption($value->format('m'));
-            $dayItem->selectOption($value->format('d'));
-        } elseif ($optionType === CustomerOptionTypeEnum::BOOLEAN) {
-            $script = sprintf('$("#%s").prop("checked", %s);', $lastValue->getAttribute('id'), ($value) ? 'true' : 'false');
-
-            $this->getDriver()->executeScript($script);
         } else {
             $lastValue->setValue($value);
         }
@@ -359,6 +337,18 @@ class UpdatePage extends BaseUpdatePage
         }
 
         return $valueSuffix;
+    }
+
+    private function validatorsCollection(): NodeElement
+    {
+        $validatorDivs = $this->getDocument()->findAll('css', 'div[data-form-type="collection"][id$="validators"]');
+        $validatorsCollection = end($validatorDivs);
+
+        if (!$validatorsCollection instanceof NodeElement) {
+            throw new ElementNotFoundException($this->getSession(), 'div', 'css', 'div[data-form-type="collection"][id$="validators"]');
+        }
+
+        return $validatorsCollection;
     }
 
     private function getLastConditionDiv(): NodeElement

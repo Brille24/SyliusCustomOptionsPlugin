@@ -1,0 +1,11 @@
+{% set value_prices = hookable_metadata.context.form.customer_option_value_prices %}
+
+<h3>{{ 'sylius.ui.pricing'|trans }}</h3>
+
+{{ form_errors(value_prices) }}
+
+{% for value_price_form in value_prices %}
+    {% hook 'value_prices' with { value_price_form } %}
+{% endfor %}
+
+{{ form_row(value_prices.vars.button_add) }}

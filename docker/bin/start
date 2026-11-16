@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname "$0")/_lib.sh"
+
+compose up -d mysql php-fpm nginx
+echo "Test application: http://127.0.0.1:${WEB_DEV_PORT:-8080} (dev) and http://127.0.0.1:${WEB_TEST_PORT:-8081} (test)"
+echo "Run docker/bin/setup on a fresh checkout before opening the shop."

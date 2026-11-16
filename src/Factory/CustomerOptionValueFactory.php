@@ -54,6 +54,7 @@ class CustomerOptionValueFactory implements CustomerOptionValueFactoryInterface
 
         foreach ($configuration['translations'] as $locale => $name) {
             $value->setCurrentLocale($locale);
+            $value->setFallbackLocale($locale);
             $value->setName($name);
         }
 

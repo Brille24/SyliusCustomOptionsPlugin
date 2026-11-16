@@ -1,516 +1,1651 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Brille24SyliusCustomerOptionsPlugin\\:\\:getContainerExtension\\(\\) should return Brille24\\\\SyliusCustomerOptionsPlugin\\\\DependencyInjection\\\\Brille24SyliusCustomerOptionsExtension but returns object\\.$#"
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Brille24SyliusCustomerOptionsPlugin\:\:getContainerExtension\(\) should return Brille24\\SyliusCustomerOptionsPlugin\\DependencyInjection\\Brille24SyliusCustomerOptionsExtension but returns object\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Brille24SyliusCustomerOptionsPlugin.php
 
 		-
-			message: "#^Parameter \\#1 \\$path of method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Reader\\\\CsvReaderInterface\\:\\:readCsv\\(\\) expects string, mixed given\\.$#"
+			message: '#^Parameter \#1 \$path of method Brille24\\SyliusCustomerOptionsPlugin\\Reader\\CsvReaderInterface\:\:readCsv\(\) expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Command/ImportCustomerOptionPricesCommand.php
 
 		-
-			message: "#^Cannot access an offset on mixed\\.$#"
+			message: '#^Cannot access an offset on array\|bool\|float\|int\|string\|null\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/CompilerPass/AddingTypesToAdjustmentClearerPass.php
 
 		-
-			message: "#^Parameter \\#2 \\$data of method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Services\\\\OrderItemOptionUpdaterInterface\\:\\:updateOrderItemOptions\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			message: '#^Cannot access an offset on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/CompilerPass/AddingTypesToAdjustmentClearerPass.php
+
+		-
+			message: '#^Cannot access an offset on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Controller/EditCustomerOptionsAction.php
 
 		-
-			message: "#^Parameter \\#1 \\$data of method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Importer\\\\CustomerOptionPriceImporterInterface\\:\\:import\\(\\) expects array, mixed given\\.$#"
+			message: '#^Cannot call method getCustomerOption\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/EditCustomerOptionsAction.php
+
+		-
+			message: '#^Cannot call method getCustomerOptionCode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/EditCustomerOptionsAction.php
+
+		-
+			message: '#^Cannot call method getCustomerOptionValue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Controller/EditCustomerOptionsAction.php
+
+		-
+			message: '#^Cannot call method getScalarValue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/EditCustomerOptionsAction.php
+
+		-
+			message: '#^Cannot call method getType\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/EditCustomerOptionsAction.php
+
+		-
+			message: '#^Parameter \#1 \$customerOptionType of method Brille24\\SyliusCustomerOptionsPlugin\\Controller\\EditCustomerOptionsAction\:\:transformValue\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/EditCustomerOptionsAction.php
+
+		-
+			message: '#^Parameter \#2 \$data of method Brille24\\SyliusCustomerOptionsPlugin\\Services\\OrderItemOptionUpdaterInterface\:\:updateOrderItemOptions\(\) expects array\<string, mixed\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/EditCustomerOptionsAction.php
+
+		-
+			message: '#^Parameter \#2 \$value of method Brille24\\SyliusCustomerOptionsPlugin\\Controller\\EditCustomerOptionsAction\:\:transformValue\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/EditCustomerOptionsAction.php
+
+		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 3
+			path: src/Controller/EditCustomerOptionsAction.php
+
+		-
+			message: '#^Cannot call method format\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 2
 			path: src/Controller/PriceImportController.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function implode expects array\\<string\\>, mixed given\\.$#"
+			message: '#^Cannot call method getCode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Controller/PriceImportController.php
+
+		-
+			message: '#^Cannot call method getEnd\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Controller/PriceImportController.php
+
+		-
+			message: '#^Cannot call method getStart\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Controller/PriceImportController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(mixed\)\: mixed\)\|null, Closure\(Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValueInterface\)\: \(string\|null\) given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Controller/PriceImportController.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function implode expects array\\|null, mixed given\\.$#"
+			message: '#^Parameter \#1 \$data of method Brille24\\SyliusCustomerOptionsPlugin\\Importer\\CustomerOptionPriceImporterInterface\:\:import\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/PriceImportController.php
+
+		-
+			message: '#^Parameter \#2 \$array of function array_map expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Controller/PriceImportController.php
 
 		-
-			message: "#^Cannot call method getRealPath\\(\\) on mixed\\.$#"
+			message: '#^Parameter \#2 \$array of function implode expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/PriceImportController.php
+
+		-
+			message: '#^Cannot call method getRealPath\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/DataMapper/CsvPriceImportDataMapper.php
 
 		-
-			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			message: '#^Parameter \#1 \$path of method Brille24\\SyliusCustomerOptionsPlugin\\Reader\\CsvReaderInterface\:\:readCsv\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/DataMapper/CsvPriceImportDataMapper.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 2
 			path: src/DataMapper/ProductListPriceImportDataMapper.php
 
 		-
-			message: "#^Cannot access offset 'amount' on mixed\\.$#"
+			message: '#^Cannot access offset ''amount'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/DataMapper/ProductListPriceImportDataMapper.php
 
 		-
-			message: "#^Cannot access offset 'channel' on mixed\\.$#"
+			message: '#^Cannot access offset ''channel'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/DataMapper/ProductListPriceImportDataMapper.php
 
 		-
-			message: "#^Cannot access offset 'customerOptionValues' on mixed\\.$#"
+			message: '#^Cannot access offset ''customerOptionValues'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/DataMapper/ProductListPriceImportDataMapper.php
 
 		-
-			message: "#^Cannot access offset 'dateValid' on mixed\\.$#"
+			message: '#^Cannot access offset ''dateValid'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/DataMapper/ProductListPriceImportDataMapper.php
 
 		-
-			message: "#^Cannot access offset 'percent' on mixed\\.$#"
+			message: '#^Cannot access offset ''percent'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/DataMapper/ProductListPriceImportDataMapper.php
 
 		-
-			message: "#^Cannot access offset 'type' on mixed\\.$#"
+			message: '#^Cannot access offset ''type'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/DataMapper/ProductListPriceImportDataMapper.php
 
 		-
-			message: "#^Cannot call method getCode\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method format\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 2
 			path: src/DataMapper/ProductListPriceImportDataMapper.php
 
 		-
-			message: "#^Cannot call method getCustomerOption\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getCode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: src/DataMapper/ProductListPriceImportDataMapper.php
+
+		-
+			message: '#^Cannot call method getCustomerOption\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/DataMapper/ProductListPriceImportDataMapper.php
 
 		-
-			message: "#^Cannot call method getEnd\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getEnd\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/DataMapper/ProductListPriceImportDataMapper.php
 
 		-
-			message: "#^Cannot call method getStart\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getStart\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/DataMapper/ProductListPriceImportDataMapper.php
 
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionGroup\\:\\:getOptions\\(\\) should return array\\<Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionInterface\\> but returns array\\<Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionInterface\\|null\\>\\.$#"
+			message: '#^Cannot access offset ''recalculate_price'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/DependencyInjection/Brille24SyliusCustomerOptionsExtension.php
+
+		-
+			message: '#^Parameter \#2 \$value of method Symfony\\Component\\DependencyInjection\\Container\:\:setParameter\(\) expects array\|bool\|float\|int\|string\|UnitEnum\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/DependencyInjection/Brille24SyliusCustomerOptionsExtension.php
+
+		-
+			message: '#^Cannot access offset ''type'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Entity/CustomerOptions/CustomerOption.php
+
+		-
+			message: '#^Cannot access offset ''value'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Entity/CustomerOptions/CustomerOption.php
+
+		-
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOption\:\:getTypeCode\(\) should return string\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Entity/CustomerOptions/CustomerOption.php
+
+		-
+			message: '#^Property Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOption\:\:\$configuration \(array\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Entity/CustomerOptions/CustomerOption.php
+
+		-
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionGroup\:\:getOptions\(\) should return array\<Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionInterface\> but returns array\<Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionInterface\|null\>\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Entity/CustomerOptions/CustomerOptionGroup.php
 
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionGroup\\:\\:getProducts\\(\\) should return array\\<Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\ProductInterface\\> but returns array\\<int, mixed\\>\\.$#"
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionGroup\:\:getProducts\(\) should return array\<Brille24\\SyliusCustomerOptionsPlugin\\Entity\\ProductInterface\> but returns list\<mixed\>\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Entity/CustomerOptions/CustomerOptionGroup.php
 
 		-
-			message: "#^Parameter \\#1 \\$func of method Doctrine\\\\Common\\\\Collections\\\\ReadableCollection\\<\\(int\\|string\\),mixed\\>\\:\\:map\\(\\) expects Closure\\(mixed\\)\\: \\(Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionInterface\\|null\\), Closure\\(Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionAssociationInterface\\)\\: \\(Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionInterface\\|null\\) given\\.$#"
+			message: '#^Parameter \#1 \$func of method Doctrine\\Common\\Collections\\Collection\<\(int\|string\),mixed\>\:\:map\(\) expects Closure\(mixed\)\: \(Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionInterface\|null\), Closure\(Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionAssociationInterface\)\: \(Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionInterface\|null\) given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Entity/CustomerOptions/CustomerOptionGroup.php
 
 		-
-			message: "#^Anonymous function should return Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionValuePriceInterface but returns mixed\\.$#"
+			message: '#^Parameter \#1 \$product of method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionGroup\:\:addProduct\(\) expects Brille24\\SyliusCustomerOptionsPlugin\\Entity\\ProductInterface, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Entity/CustomerOptions/CustomerOptionGroup.php
+
+		-
+			message: '#^Anonymous function should return Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValuePriceInterface but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Entity/CustomerOptions/CustomerOptionValue.php
 
 		-
-			message: "#^Cannot call method setCustomerOptionValue\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method setCustomerOptionValue\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/Entity/CustomerOptions/CustomerOptionValue.php
 
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionValue\\:\\:getPriceForChannel\\(\\) should return Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionValuePriceInterface\\|null but returns mixed\\.$#"
+			message: '#^Casting to string something that''s already string\.$#'
+			identifier: cast.useless
+			count: 1
+			path: src/Entity/CustomerOptions/CustomerOptionValue.php
+
+		-
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValue\:\:getOrders\(\) should return array\<Brille24\\SyliusCustomerOptionsPlugin\\Entity\\OrderItemOptionInterface\> but returns Doctrine\\Common\\Collections\\Collection\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Entity/CustomerOptions/CustomerOptionValue.php
+
+		-
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValue\:\:getPriceForChannel\(\) should return Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValuePriceInterface\|null but returns mixed\.$#'
+			identifier: return.type
 			count: 2
 			path: src/Entity/CustomerOptions/CustomerOptionValue.php
 
 		-
-			message: "#^Parameter \\#1 \\$p of method Doctrine\\\\Common\\\\Collections\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:filter\\(\\) expects Closure\\(mixed\\)\\: bool, Closure\\(Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionValuePriceInterface\\)\\: bool given\\.$#"
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValue\:\:getTranslation\(\) should return Sylius\\Component\\Resource\\Model\\TranslationInterface but returns Sylius\\Resource\\Model\\TranslationInterface\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Entity/CustomerOptions/CustomerOptionValue.php
+
+		-
+			message: '#^Parameter \#1 \$p of method Doctrine\\Common\\Collections\\Collection\<\(int\|string\),mixed\>\:\:filter\(\) expects Closure\(mixed, int\|string\)\: bool, Closure\(Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValuePriceInterface\)\: bool given\.$#'
+			identifier: argument.type
 			count: 3
 			path: src/Entity/CustomerOptions/CustomerOptionValue.php
 
 		-
-			message: "#^Parameter \\#2 \\$callback of function array_reduce expects callable\\(mixed, mixed\\)\\: mixed, Closure\\(mixed, Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionValuePriceInterface\\)\\: Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionValuePriceInterface given\\.$#"
+			message: '#^Parameter \#2 \$callback of function array_reduce expects callable\(mixed, mixed\)\: mixed, Closure\(mixed, Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValuePriceInterface\)\: Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValuePriceInterface given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Entity/CustomerOptions/CustomerOptionValue.php
 
 		-
-			message: "#^Cannot access offset 'date' on mixed\\.$#"
-			count: 4
-			path: src/Entity/CustomerOptions/Validator/Condition.php
+			message: '#^Parameter \#2 \$array of function implode expects array\<string\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Entity/CustomerOptions/CustomerOptionValuePrice.php
 
 		-
-			message: "#^Cannot access offset 'day' on mixed\\.$#"
+			message: '#^Cannot access offset ''date'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: src/Entity/CustomerOptions/Validator/Condition.php
 
 		-
-			message: "#^Cannot access offset 'hour' on mixed\\.$#"
+			message: '#^Cannot access offset ''day'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Entity/CustomerOptions/Validator/Condition.php
+
+		-
+			message: '#^Cannot access offset ''hour'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Entity/CustomerOptions/Validator/Condition.php
 
 		-
-			message: "#^Cannot access offset 'minute' on mixed\\.$#"
+			message: '#^Cannot access offset ''minute'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Entity/CustomerOptions/Validator/Condition.php
 
 		-
-			message: "#^Cannot access offset 'month' on mixed\\.$#"
+			message: '#^Cannot access offset ''month'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: src/Entity/CustomerOptions/Validator/Condition.php
 
 		-
-			message: "#^Cannot access offset 'time' on mixed\\.$#"
+			message: '#^Cannot access offset ''time'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Entity/CustomerOptions/Validator/Condition.php
 
 		-
-			message: "#^Cannot access offset 'year' on mixed\\.$#"
+			message: '#^Cannot access offset ''year'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: src/Entity/CustomerOptions/Validator/Condition.php
 
 		-
-			message: "#^Cannot cast mixed to int\\.$#"
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
 			count: 2
 			path: src/Entity/CustomerOptions/Validator/Condition.php
 
 		-
-			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
 			count: 1
 			path: src/Entity/CustomerOptions/Validator/Condition.php
 
 		-
-			message: "#^Parameter \\#1 \\$datetime of class DateTime constructor expects string, mixed given\\.$#"
+			message: '#^Parameter \#1 \$datetime of class DateTime constructor expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Entity/CustomerOptions/Validator/Condition.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function strlen expects string, mixed given\\.$#"
+			message: '#^Parameter \#1 \$string of function strlen expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Entity/CustomerOptions/Validator/Condition.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$haystack of function in_array expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 2
 			path: src/Entity/CustomerOptions/Validator/Condition.php
 
 		-
-			message: "#^Parameter \\#3 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 2
 			path: src/Entity/CustomerOptions/Validator/Condition.php
 
 		-
-			message: "#^Parameter \\#4 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 2
 			path: src/Entity/CustomerOptions/Validator/Condition.php
 
 		-
-			message: "#^Cannot access offset 'date' on mixed\\.$#"
-			count: 4
-			path: src/Entity/CustomerOptions/Validator/Constraint.php
+			message: '#^Parameter \#4 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Entity/CustomerOptions/Validator/Condition.php
 
 		-
-			message: "#^Cannot access offset 'day' on mixed\\.$#"
+			message: '#^Cannot access offset ''date'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: src/Entity/CustomerOptions/Validator/Constraint.php
 
 		-
-			message: "#^Cannot access offset 'hour' on mixed\\.$#"
+			message: '#^Cannot access offset ''day'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Entity/CustomerOptions/Validator/Constraint.php
+
+		-
+			message: '#^Cannot access offset ''hour'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Entity/CustomerOptions/Validator/Constraint.php
 
 		-
-			message: "#^Cannot access offset 'minute' on mixed\\.$#"
+			message: '#^Cannot access offset ''minute'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Entity/CustomerOptions/Validator/Constraint.php
 
 		-
-			message: "#^Cannot access offset 'month' on mixed\\.$#"
+			message: '#^Cannot access offset ''month'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: src/Entity/CustomerOptions/Validator/Constraint.php
 
 		-
-			message: "#^Cannot access offset 'time' on mixed\\.$#"
+			message: '#^Cannot access offset ''time'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Entity/CustomerOptions/Validator/Constraint.php
 
 		-
-			message: "#^Cannot access offset 'year' on mixed\\.$#"
+			message: '#^Cannot access offset ''year'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: src/Entity/CustomerOptions/Validator/Constraint.php
 
 		-
-			message: "#^Cannot cast mixed to int\\.$#"
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
 			count: 2
 			path: src/Entity/CustomerOptions/Validator/Constraint.php
 
 		-
-			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			message: '#^Loose comparison via "\=\=" is not allowed\.$#'
+			identifier: equal.notAllowed
 			count: 1
 			path: src/Entity/CustomerOptions/Validator/Constraint.php
 
 		-
-			message: "#^Parameter \\#1 \\$datetime of class DateTime constructor expects string, mixed given\\.$#"
+			message: '#^Parameter \#1 \$datetime of class DateTime constructor expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Entity/CustomerOptions/Validator/Constraint.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function strlen expects string, mixed given\\.$#"
+			message: '#^Parameter \#1 \$string of function strlen expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Entity/CustomerOptions/Validator/Constraint.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$haystack of function in_array expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 2
 			path: src/Entity/CustomerOptions/Validator/Constraint.php
 
 		-
-			message: "#^Parameter \\#3 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 2
 			path: src/Entity/CustomerOptions/Validator/Constraint.php
 
 		-
-			message: "#^Parameter \\#4 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 2
 			path: src/Entity/CustomerOptions/Validator/Constraint.php
 
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\Validator\\\\Validator\\:\\:getConditions\\(\\) should return array\\<Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\Validator\\\\ConditionInterface\\> but returns array\\.$#"
+			message: '#^Parameter \#4 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Entity/CustomerOptions/Validator/Constraint.php
+
+		-
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\Validator\\Validator\:\:getConditions\(\) should return array\<Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\Validator\\ConditionInterface\> but returns array\<mixed\>\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Entity/CustomerOptions/Validator/Validator.php
 
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\Validator\\\\Validator\\:\\:getConstraints\\(\\) should return array\\<Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\Validator\\\\ConstraintInterface\\> but returns array\\.$#"
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\Validator\\Validator\:\:getConstraints\(\) should return array\<Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\Validator\\ConstraintInterface\> but returns array\<mixed\>\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Entity/CustomerOptions/Validator/Validator.php
 
 		-
-			message: "#^Cannot access an offset on mixed\\.$#"
-			count: 1
-			path: src/Entity/OrderItem.php
-
-		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: src/Entity/OrderItemOption.php
 
 		-
-			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
 			count: 2
 			path: src/Entity/OrderItemOption.php
 
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\Product\\:\\:getCustomerOptions\\(\\) should return array\\<Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionInterface\\> but returns array\\<Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionInterface\\|null\\>\\.$#"
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Enumerations\\ConditionComparatorEnum\:\:getFormTypeForCustomerOptionType\(\) should return array but returns mixed\.$#'
+			identifier: return.type
 			count: 1
-			path: src/Entity/Product.php
+			path: src/Enumerations/ConditionComparatorEnum.php
 
 		-
-			message: "#^Parameter \\#1 \\$func of method Doctrine\\\\Common\\\\Collections\\\\ReadableCollection\\<\\(int\\|string\\),mixed\\>\\:\\:map\\(\\) expects Closure\\(mixed\\)\\: \\(Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionInterface\\|null\\), Closure\\(Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionAssociationInterface\\)\\: \\(Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionInterface\\|null\\) given\\.$#"
+			message: '#^Parameter \#1 \$value of static method Brille24\\SyliusCustomerOptionsPlugin\\Enumerations\\ConditionComparatorEnum\:\:isValid\(\) expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
-			path: src/Entity/Product.php
+			path: src/Enumerations/ConditionComparatorEnum.php
 
 		-
-			message: "#^Property Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\Product\\:\\:\\$customerOptionValuePrices \\(Doctrine\\\\Common\\\\Collections\\\\Collection&iterable\\<Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionValuePriceInterface\\>\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/Entity/Product.php
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 2
+			path: src/Enumerations/ConditionComparatorEnum.php
 
 		-
-			message: "#^Cannot call method getChannel\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getChannel\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/EventListener/ChannelListener.php
 
 		-
-			message: "#^Cannot call method getChannel\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getChannel\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/EventListener/CustomerOptionValueListener.php
 
 		-
-			message: "#^Part \\$element \\(mixed\\) of encapsed string cannot be cast to string\\.$#"
+			message: '#^Parameter \#2 \$array of function implode expects array\<string\>, array given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Exceptions/ConfigurationException.php
 
 		-
-			message: "#^Parameter \\#1 \\$type of static method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Enumerations\\\\CustomerOptionTypeEnum\\:\\:isSelect\\(\\) expects string, mixed given\\.$#"
+			message: '#^Part \$element \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: src/Exceptions/ConfigurationException.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#4 \$previous \(Throwable\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Exceptions/ConstraintViolationException.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Call to an undefined method Sylius\\Component\\Core\\Model\\OrderItemInterface\:\:setCustomerOptionConfiguration\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Cannot access offset ''date'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Cannot access offset ''day'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Cannot access offset ''hour'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Cannot access offset ''minute'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Cannot access offset ''month'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Cannot access offset ''time'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Cannot access offset ''year'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Cannot access offset mixed on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Factory\\CartItemFactory\:\:getCustomerOptionsFromRequest\(\) should return array but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Parameter \#1 \$code of method Brille24\\SyliusCustomerOptionsPlugin\\Repository\\CustomerOptionRepositoryInterface\:\:findOneByCode\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Parameter \#1 \$decoratedFactory of class Sylius\\Component\\Core\\Factory\\CartItemFactory constructor expects Sylius\\Resource\\Factory\\FactoryInterface\<T of Sylius\\Component\\Core\\Model\\OrderItemInterface\>, Sylius\\Component\\Resource\\Factory\\FactoryInterface given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Parameter \#1 \$orderItem of method Brille24\\SyliusCustomerOptionsPlugin\\Factory\\OrderItemOptionFactoryInterface\:\:createNewFromStrings\(\) expects Brille24\\SyliusCustomerOptionsPlugin\\Entity\\OrderItemInterface, Sylius\\Component\\Core\\Model\\OrderItemInterface given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Parameter \#1 \$variant of method Sylius\\Component\\Core\\Model\\OrderItemInterface\:\:setVariant\(\) expects Sylius\\Component\\Core\\Model\\ProductVariantInterface\|null, Sylius\\Component\\Product\\Model\\ProductVariantInterface\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Parameter \#3 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Parameter \#4 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Parameter \#5 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Parameter \#6 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CartItemFactory.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 3
+			path: src/Factory/CustomerOptionFactory.php
+
+		-
+			message: '#^Cannot access offset ''en_US'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Factory/CustomerOptionFactory.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(Sylius\\\\Component\\\\Resource\\\\Model\\\\ResourceInterface\\)\\: mixed\\)\\|null, Closure\\(Sylius\\\\Component\\\\Resource\\\\Model\\\\CodeAwareInterface\\)\\: \\(string\\|null\\) given\\.$#"
+			message: '#^Parameter \#1 \$code of method Sylius\\Resource\\Model\\CodeAwareInterface\:\:setCode\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionFactory.php
+
+		-
+			message: '#^Parameter \#1 \$configuration of method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionInterface\:\:setConfiguration\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionFactory.php
+
+		-
+			message: '#^Parameter \#1 \$configuration of method Brille24\\SyliusCustomerOptionsPlugin\\Factory\\CustomerOptionValueFactoryInterface\:\:createFromConfig\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionFactory.php
+
+		-
+			message: '#^Parameter \#1 \$locale of method Sylius\\Resource\\Model\\TranslatableInterface\:\:setCurrentLocale\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionFactory.php
+
+		-
+			message: '#^Parameter \#1 \$locale of method Sylius\\Resource\\Model\\TranslatableInterface\:\:setFallbackLocale\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionFactory.php
+
+		-
+			message: '#^Parameter \#1 \$name of method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionInterface\:\:setName\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionFactory.php
+
+		-
+			message: '#^Parameter \#1 \$type of method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionInterface\:\:setType\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionFactory.php
+
+		-
+			message: '#^Parameter \#1 \$type of static method Brille24\\SyliusCustomerOptionsPlugin\\Enumerations\\CustomerOptionTypeEnum\:\:isSelect\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Factory/CustomerOptionFactory.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 6
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Binary operation "\*" between mixed and 10 results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Cannot access offset ''conditions'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Cannot access offset ''constraints'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Cannot access offset ''en_US'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Cannot access offset ''error_messages'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#1 \$array of static method Webmozart\\Assert\\Assert\:\:minCount\(\) expects array\|Countable, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(Sylius\\Component\\Core\\Model\\ProductInterface\)\: mixed\)\|null, Closure\(Sylius\\Component\\Resource\\Model\\CodeAwareInterface\)\: \(string\|null\) given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(Sylius\\Resource\\Model\\ResourceInterface\)\: mixed\)\|null, Closure\(Sylius\\Component\\Resource\\Model\\CodeAwareInterface\)\: \(string\|null\) given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#1 \$code of method Brille24\\SyliusCustomerOptionsPlugin\\Repository\\CustomerOptionRepositoryInterface\:\:findOneByCode\(\) expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 2
 			path: src/Factory/CustomerOptionGroupFactory.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(Sylius\\\\Component\\\\Resource\\\\Model\\\\ResourceInterface\\)\\: mixed\\)\\|null, Closure\\(Sylius\\\\Component\\\\Core\\\\Model\\\\ChannelInterface\\)\\: \\(string\\|null\\) given\\.$#"
+			message: '#^Parameter \#1 \$code of method Sylius\\Resource\\Model\\CodeAwareInterface\:\:setCode\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#1 \$comparator of method Brille24\\SyliusCustomerOptionsPlugin\\Traits\\ConditionTraitInterface\:\:setComparator\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#1 \$currentLocale of method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\Validator\\ErrorMessage\:\:setCurrentLocale\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#1 \$datetime of class DateTime constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#1 \$fallbackLocale of method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\Validator\\ErrorMessage\:\:setFallbackLocale\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#1 \$locale of method Sylius\\Resource\\Model\\TranslatableInterface\:\:setCurrentLocale\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#1 \$locale of method Sylius\\Resource\\Model\\TranslatableInterface\:\:setFallbackLocale\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#1 \$message of method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\Validator\\ErrorMessage\:\:setMessage\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#1 \$name of method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionGroupInterface\:\:setName\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#1 \$value of static method Brille24\\SyliusCustomerOptionsPlugin\\Enumerations\\ConditionComparatorEnum\:\:isValid\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#2 \$config of method Brille24\\SyliusCustomerOptionsPlugin\\Factory\\CustomerOptionGroupFactory\:\:setupCondition\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Parameter \#3 \$subject of function str_replace expects array\<string\>\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionGroupFactory.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 2
+			path: src/Factory/CustomerOptionValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$code of method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValueInterface\:\:setCode\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$configuration of method Brille24\\SyliusCustomerOptionsPlugin\\Factory\\CustomerOptionValuePriceFactoryInterface\:\:createFromConfig\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$locale of method Sylius\\Resource\\Model\\TranslatableInterface\:\:setCurrentLocale\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$locale of method Sylius\\Resource\\Model\\TranslatableInterface\:\:setFallbackLocale\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionValueFactory.php
+
+		-
+			message: '#^Parameter \#1 \$name of method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValueInterface\:\:setName\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionValueFactory.php
+
+		-
+			message: '#^Binary operation "\." between ''Could not find…'' and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 1
 			path: src/Factory/CustomerOptionValuePriceFactory.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot cast mixed to float\.$#'
+			identifier: cast.double
+			count: 1
+			path: src/Factory/CustomerOptionValuePriceFactory.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
+			count: 1
+			path: src/Factory/CustomerOptionValuePriceFactory.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(Sylius\\Component\\Channel\\Model\\ChannelInterface\)\: mixed\)\|null, Closure\(Sylius\\Component\\Core\\Model\\ChannelInterface\)\: \(string\|null\) given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionValuePriceFactory.php
+
+		-
+			message: '#^Parameter \#1 \$code of method Sylius\\Component\\Channel\\Repository\\ChannelRepositoryInterface\<Sylius\\Component\\Channel\\Model\\ChannelInterface\>\:\:findOneByCode\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/CustomerOptionValuePriceFactory.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: src/Factory/OrderItemOptionFactory.php
 
 		-
-			message: "#^Doctrine\\\\Common\\\\Collections\\\\ArrayCollection\\<\\*NEVER\\*, \\*NEVER\\*\\> does not accept Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionValuePriceInterface\\.$#"
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 1
 			path: src/Factory/ProductFactory.php
 
 		-
-			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			message: '#^Cannot access offset ''value_code'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Factory/ProductFactory.php
+
+		-
+			message: '#^Doctrine\\Common\\Collections\\ArrayCollection\<\*NEVER\*, \*NEVER\*\> does not accept Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValuePriceInterface\.$#'
+			identifier: offsetAssign.valueType
+			count: 1
+			path: src/Factory/ProductFactory.php
+
+		-
+			message: '#^Parameter \#1 \$configuration of method Brille24\\SyliusCustomerOptionsPlugin\\Factory\\CustomerOptionValuePriceFactoryInterface\:\:createFromConfig\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/ProductFactory.php
+
+		-
+			message: '#^Parameter \#1 \$customerOptionGroup of method Brille24\\SyliusCustomerOptionsPlugin\\Traits\\ProductCustomerOptionCapableTraitInterface\:\:setCustomerOptionGroup\(\) expects Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionGroupInterface\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/ProductFactory.php
+
+		-
+			message: '#^Parameter \#1 \$amount of method Brille24\\SyliusCustomerOptionsPlugin\\Factory\\CustomerOptionFactoryInterface\:\:generateRandomConfiguration\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Fixture/CustomerOptionFixture.php
+
+		-
+			message: '#^Parameter \#1 \$configuration of method Brille24\\SyliusCustomerOptionsPlugin\\Factory\\CustomerOptionFactoryInterface\:\:createFromConfig\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Fixture/CustomerOptionFixture.php
+
+		-
+			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Fixture/CustomerOptionFixture.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/Fixture/CustomerOptionGroupFixture.php
+
+		-
+			message: '#^Parameter \#1 \$amount of method Brille24\\SyliusCustomerOptionsPlugin\\Factory\\CustomerOptionGroupFactoryInterface\:\:generateRandom\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Fixture/CustomerOptionGroupFixture.php
+
+		-
+			message: '#^Parameter \#1 \$configuration of method Brille24\\SyliusCustomerOptionsPlugin\\Factory\\CustomerOptionGroupFactoryInterface\:\:createFromConfig\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Fixture/CustomerOptionGroupFixture.php
+
+		-
+			message: '#^Parameter \#1 \$object of method Doctrine\\Persistence\\ObjectManager\:\:persist\(\) expects object, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Fixture/CustomerOptionGroupFixture.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 1
 			path: src/Form/CustomerOptionConfigurationType.php
 
 		-
-			message: "#^Cannot access offset 'date' on mixed\\.$#"
+			message: '#^Cannot access offset ''type'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Form/CustomerOptionConfigurationType.php
 
 		-
-			message: "#^Cannot access offset 'timezone' on mixed\\.$#"
+			message: '#^Cannot access offset ''value'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Form/CustomerOptionConfigurationType.php
 
 		-
-			message: "#^Cannot access offset 'type' on mixed\\.$#"
+			message: '#^Cannot access offset ''widget'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Form/CustomerOptionConfigurationType.php
 
 		-
-			message: "#^Cannot access offset 'value' on mixed\\.$#"
+			message: '#^Cannot use array destructuring on mixed\.$#'
+			identifier: offsetAccess.nonArray
 			count: 1
 			path: src/Form/CustomerOptionConfigurationType.php
 
 		-
-			message: "#^Parameter \\#1 \\$datetime of class DateTime constructor expects string, mixed given\\.$#"
+			message: '#^Parameter \#1 \$datetime of class DateTime constructor expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Form/CustomerOptionConfigurationType.php
 
 		-
-			message: "#^Parameter \\#1 \\$timezone of class DateTimeZone constructor expects string, mixed given\\.$#"
+			message: '#^Parameter \#1 \$timezone of class DateTimeZone constructor expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Form/CustomerOptionConfigurationType.php
 
 		-
-			message: "#^Parameter \\#1 \\$type of static method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Enumerations\\\\CustomerOptionTypeEnum\\:\\:isDate\\(\\) expects string, mixed given\\.$#"
+			message: '#^Parameter \#1 \$type of static method Brille24\\SyliusCustomerOptionsPlugin\\Enumerations\\CustomerOptionTypeEnum\:\:isDate\(\) expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Form/CustomerOptionConfigurationType.php
 
 		-
-			message: "#^Parameter \\#3 \\$subject of function str_replace expects array\\|string, mixed given\\.$#"
+			message: '#^Parameter \#2 \$type of method Symfony\\Component\\Form\\FormInterface\<mixed\>\:\:add\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Form/CustomerOptionConfigurationType.php
 
 		-
-			message: "#^Parameter \\#3 \\$options of method Symfony\\\\Component\\\\Form\\\\FormBuilderInterface\\:\\:add\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			message: '#^Parameter \#2 \.\.\.\$arrays of function array_merge expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/CustomerOptionConfigurationType.php
+
+		-
+			message: '#^Parameter \#3 \$subject of function str_replace expects array\<string\>\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/CustomerOptionConfigurationType.php
+
+		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 1
+			path: src/Form/CustomerOptionConfigurationType.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_flip expects array\<int\|string\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/CustomerOptionType.php
+
+		-
+			message: '#^Parameter \#1 \$start of class Brille24\\SyliusCustomerOptionsPlugin\\Entity\\Tools\\DateRange constructor expects DateTimeInterface, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/DateRangeType.php
+
+		-
+			message: '#^Parameter \#2 \$end of class Brille24\\SyliusCustomerOptionsPlugin\\Entity\\Tools\\DateRange constructor expects DateTimeInterface, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/DateRangeType.php
+
+		-
+			message: '#^Parameter \#3 \$options of method Symfony\\Component\\Form\\FormBuilderInterface\<mixed\>\:\:add\(\) expects array\<string, mixed\>, mixed given\.$#'
+			identifier: argument.type
 			count: 2
 			path: src/Form/DateRangeType.php
 
 		-
-			message: "#^Parameter \\#1 \\$product of method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Form\\\\Extensions\\\\AddToCartTypeExtension\\:\\:getConstraints\\(\\) expects Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\ProductInterface, mixed given\\.$#"
+			message: '#^PHPDoc tag @var with type Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\Validator\\ErrorMessageTranslationInterface\|null is not subtype of type Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\Validator\\ErrorMessageInterface\|null\.$#'
+			identifier: varTag.type
 			count: 1
 			path: src/Form/Extensions/AddToCartTypeExtension.php
 
 		-
-			message: "#^Property Brille24\\\\SyliusCustomerOptionsPlugin\\\\Form\\\\Extensions\\\\AddToCartTypeExtension\\:\\:\\$localeContext is never read, only written\\.$#"
+			message: '#^Parameter \#1 \$product of method Brille24\\SyliusCustomerOptionsPlugin\\Form\\Extensions\\AddToCartTypeExtension\:\:getConstraints\(\) expects Brille24\\SyliusCustomerOptionsPlugin\\Entity\\ProductInterface, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Form/Extensions/AddToCartTypeExtension.php
 
 		-
-			message: "#^Parameter \\#2 \\$customerOptionValues of method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Form\\\\PriceImport\\\\CustomerOptionValuePriceType\\:\\:addValuePriceFields\\(\\) expects array\\<Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionValueInterface\\>, array\\<int, mixed\\> given\\.$#"
+			message: '#^Property Brille24\\SyliusCustomerOptionsPlugin\\Form\\Extensions\\AddToCartTypeExtension\:\:\$localeContext is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Form/Extensions/AddToCartTypeExtension.php
+
+		-
+			message: '#^Parameter \#2 \$customerOptionValues of method Brille24\\SyliusCustomerOptionsPlugin\\Form\\PriceImport\\CustomerOptionValuePriceType\:\:addValuePriceFields\(\) expects array\<Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValueInterface\>, list\<mixed\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Form/PriceImport/CustomerOptionValuePriceType.php
 
 		-
-			message: "#^Parameter \\#2 \\$customerOptionValues of method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Form\\\\Product\\\\CustomerOptionValuePriceType\\:\\:addValuePriceFields\\(\\) expects array\\<Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionValueInterface\\>, array\\<int, mixed\\> given\\.$#"
+			message: '#^Parameter \#2 \$array of function implode expects array\<string\>, array\<mixed, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/PriceImport/PriceImportByProductListType.php
+
+		-
+			message: '#^Parameter \#2 \$customerOptionValues of method Brille24\\SyliusCustomerOptionsPlugin\\Form\\Product\\CustomerOptionValuePriceType\:\:addValuePriceFields\(\) expects array\<Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValueInterface\>, list\<mixed\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Form/Product/CustomerOptionValuePriceType.php
 
 		-
-			message: "#^Parameter \\#4 \\$channel of method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Form\\\\Product\\\\ShopCustomerOptionType\\:\\:getFormConfiguration\\(\\) expects Sylius\\\\Component\\\\Core\\\\Model\\\\ChannelInterface, mixed given\\.$#"
+			message: '#^Cannot access offset ''data'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Form/Product/ShopCustomerOptionType.php
 
 		-
-			message: "#^Cannot call method getCustomerOption\\(\\) on mixed\\.$#"
+			message: '#^Cannot use array destructuring on mixed\.$#'
+			identifier: offsetAccess.nonArray
+			count: 1
+			path: src/Form/Product/ShopCustomerOptionType.php
+
+		-
+			message: '#^Parameter \#1 \$formOptions of method Brille24\\SyliusCustomerOptionsPlugin\\Form\\Product\\ShopCustomerOptionType\:\:getFormConfiguration\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/Product/ShopCustomerOptionType.php
+
+		-
+			message: '#^Parameter \#2 \$type of method Symfony\\Component\\Form\\FormBuilderInterface\<mixed\>\:\:add\(\) expects class\-string\<Symfony\\Component\\Form\\FormTypeInterface\>\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/Product/ShopCustomerOptionType.php
+
+		-
+			message: '#^Parameter \#3 \$options of method Symfony\\Component\\Form\\FormBuilderInterface\<mixed\>\:\:add\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/Product/ShopCustomerOptionType.php
+
+		-
+			message: '#^Parameter \#4 \$channel of method Brille24\\SyliusCustomerOptionsPlugin\\Form\\Product\\ShopCustomerOptionType\:\:getFormConfiguration\(\) expects Sylius\\Component\\Core\\Model\\ChannelInterface, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/Product/ShopCustomerOptionType.php
+
+		-
+			message: '#^Call to function array_filter\(\) requires parameter \#2 to be passed to avoid loose comparison semantics\.$#'
+			identifier: arrayFilter.strict
 			count: 1
 			path: src/Form/Validator/ConditionType.php
 
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Repository\\\\CustomerOptionGroupRepository\\:\\:findByName\\(\\) should return array\\<Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionGroupInterface\\> but returns mixed\\.$#"
+			message: '#^Cannot access offset ''choice_label'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Form/Validator/ConditionType.php
+
+		-
+			message: '#^Cannot access offset ''choice_value'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Form/Validator/ConditionType.php
+
+		-
+			message: '#^Cannot access offset ''choices'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Form/Validator/ConditionType.php
+
+		-
+			message: '#^Cannot access offset ''required'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Form/Validator/ConditionType.php
+
+		-
+			message: '#^Cannot access offset ''value'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Form/Validator/ConditionType.php
+
+		-
+			message: '#^Parameter \#1 \$array \(array\<Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionInterface\>\) to function array_filter does not contain falsy values, the array will always stay the same\.$#'
+			identifier: arrayFilter.same
+			count: 1
+			path: src/Form/Validator/ConditionType.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_flip expects array\<int\|string\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/Validator/ConditionType.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 2
+			path: src/Form/Validator/ValueType.php
+
+		-
+			message: '#^Cannot access offset ''date'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Form/Validator/ValueType.php
+
+		-
+			message: '#^Cannot access offset ''timezone'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Form/Validator/ValueType.php
+
+		-
+			message: '#^Parameter \#1 \$code of method Brille24\\SyliusCustomerOptionsPlugin\\Repository\\CustomerOptionValueRepositoryInterface\:\:findOneByCode\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/Validator/ValueType.php
+
+		-
+			message: '#^Parameter \#1 \$datetime of class DateTime constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/Validator/ValueType.php
+
+		-
+			message: '#^Parameter \#1 \$timezone of class DateTimeZone constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/Validator/ValueType.php
+
+		-
+			message: '#^Parameter \#2 \$options \(array\{field_type\: string, field_options\: array, option_type\: string\}\) of method Brille24\\SyliusCustomerOptionsPlugin\\Form\\Validator\\ValueType\:\:buildForm\(\) should be contravariant with parameter \$options \(array\<string, mixed\>\) of method Symfony\\Component\\Form\\AbstractType\<mixed\>\:\:buildForm\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: src/Form/Validator/ValueType.php
+
+		-
+			message: '#^Parameter \#2 \$options \(array\{field_type\: string, field_options\: array, option_type\: string\}\) of method Brille24\\SyliusCustomerOptionsPlugin\\Form\\Validator\\ValueType\:\:buildForm\(\) should be contravariant with parameter \$options \(array\<string, mixed\>\) of method Symfony\\Component\\Form\\FormTypeInterface\<mixed\>\:\:buildForm\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: src/Form/Validator/ValueType.php
+
+		-
+			message: '#^Parameter \#2 \$type of method Symfony\\Component\\Form\\FormBuilderInterface\<mixed\>\:\:add\(\) expects class\-string\<Symfony\\Component\\Form\\FormTypeInterface\>\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/Validator/ValueType.php
+
+		-
+			message: '#^Parameter \#3 \$options of method Symfony\\Component\\Form\\FormBuilderInterface\<mixed\>\:\:add\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/Validator/ValueType.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/Handler/CsvImportErrorHandler.php
+
+		-
+			message: '#^Cannot access offset ''data'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Handler/CsvImportErrorHandler.php
+
+		-
+			message: '#^Cannot access offset ''message'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/CsvImportErrorHandler.php
+
+		-
+			message: '#^PHPDoc tag @var with type string is not subtype of native type \(non\-falsy\-string\|false\)\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: src/Handler/CsvImportErrorHandler.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_keys expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/CsvImportErrorHandler.php
+
+		-
+			message: '#^Parameter \#1 \$array of function current expects array\|object, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/CsvImportErrorHandler.php
+
+		-
+			message: '#^Parameter \#2 \$array of function implode expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/CsvImportErrorHandler.php
+
+		-
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/CsvImportErrorHandler.php
+
+		-
+			message: '#^Cannot access offset ''product_code'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Importer/CustomerOptionPriceImporter.php
+
+		-
+			message: '#^Cannot cast mixed to float\.$#'
+			identifier: cast.double
+			count: 1
+			path: src/Importer/CustomerOptionPriceImporter.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
+			count: 1
+			path: src/Importer/CustomerOptionPriceImporter.php
+
+		-
+			message: '#^Parameter \#1 \$customerOptionCode of method Brille24\\SyliusCustomerOptionsPlugin\\Importer\\CustomerOptionPriceImporter\:\:createNewPrice\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Importer/CustomerOptionPriceImporter.php
+
+		-
+			message: '#^Parameter \#1 \$datetime of class DateTime constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Importer/CustomerOptionPriceImporter.php
+
+		-
+			message: '#^Parameter \#1 \$datum of method Brille24\\SyliusCustomerOptionsPlugin\\Importer\\CustomerOptionPriceImporter\:\:importRow\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Importer/CustomerOptionPriceImporter.php
+
+		-
+			message: '#^Parameter \#1 \$type of method Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValuePriceInterface\:\:setType\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Importer/CustomerOptionPriceImporter.php
+
+		-
+			message: '#^Parameter \#2 \$customerOptionValueCode of method Brille24\\SyliusCustomerOptionsPlugin\\Importer\\CustomerOptionPriceImporter\:\:createNewPrice\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Importer/CustomerOptionPriceImporter.php
+
+		-
+			message: '#^Parameter \#2 \$productCode of method Brille24\\SyliusCustomerOptionsPlugin\\Importer\\CustomerOptionPriceImporter\:\:importRow\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Importer/CustomerOptionPriceImporter.php
+
+		-
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Importer/CustomerOptionPriceImporter.php
+
+		-
+			message: '#^Parameter \#3 \$channelCode of method Brille24\\SyliusCustomerOptionsPlugin\\Importer\\CustomerOptionPriceImporter\:\:createNewPrice\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Importer/CustomerOptionPriceImporter.php
+
+		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 2
+			path: src/Importer/CustomerOptionPriceImporter.php
+
+		-
+			message: '#^Parameter \#1 \$keys of function array_combine expects array\<int\|string\>, list\<string\|null\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Reader/CsvReader.php
+
+		-
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Repository\\CustomerOptionGroupRepository\:\:findByName\(\) should return array\<Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionGroupInterface\> but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Repository/CustomerOptionGroupRepository.php
 
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Repository\\\\CustomerOptionGroupRepository\\:\\:findOneByCode\\(\\) should return Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionGroupInterface\\|null but returns mixed\\.$#"
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Repository\\CustomerOptionGroupRepository\:\:findOneByCode\(\) should return Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionGroupInterface\|null but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Repository/CustomerOptionGroupRepository.php
 
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Repository\\\\CustomerOptionRepository\\:\\:findByName\\(\\) should return array\\<Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionInterface\\> but returns mixed\\.$#"
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Repository\\CustomerOptionRepository\:\:findByName\(\) should return array\<Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionInterface\> but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Repository/CustomerOptionRepository.php
 
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Repository\\\\CustomerOptionRepository\\:\\:findByRequired\\(\\) should return array\\<Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionInterface\\> but returns array\\.$#"
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Repository\\CustomerOptionRepository\:\:findByRequired\(\) should return array\<Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionInterface\> but returns array\<mixed\>\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Repository/CustomerOptionRepository.php
 
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Repository\\\\CustomerOptionRepository\\:\\:findByType\\(\\) should return array\\<Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionInterface\\> but returns array\\.$#"
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Repository\\CustomerOptionRepository\:\:findByType\(\) should return array\<Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionInterface\> but returns array\<mixed\>\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Repository/CustomerOptionRepository.php
 
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Repository\\\\CustomerOptionRepository\\:\\:findOneByCode\\(\\) should return Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionInterface\\|null but returns mixed\\.$#"
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Repository\\CustomerOptionRepository\:\:findOneByCode\(\) should return Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionInterface\|null but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Repository/CustomerOptionRepository.php
 
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Repository\\\\CustomerOptionValueRepository\\:\\:findOneByCode\\(\\) should return Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionValueInterface\\|null but returns mixed\\.$#"
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Repository\\CustomerOptionValueRepository\:\:findOneByCode\(\) should return Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValueInterface\|null but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Repository/CustomerOptionValueRepository.php
 
 		-
-			message: "#^Cannot access offset 'date' on mixed\\.$#"
+			message: '#^Cannot access offset ''date'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: src/Services/ConstraintCreator.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot access offset ''value'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Services/ConstraintCreator.php
 
 		-
-			message: "#^Call to an undefined method Sylius\\\\Component\\\\Order\\\\Model\\\\OrderInterface\\:\\:getChannel\\(\\)\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: src/Services/ConstraintCreator.php
+
+		-
+			message: '#^Parameter \#2 \$key of static method Brille24\\SyliusCustomerOptionsPlugin\\Services\\ConstraintCreator\:\:getValueFromConfiguration\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Services/ConstraintCreator.php
+
+		-
+			message: '#^Call to an undefined method Sylius\\Component\\Order\\Model\\OrderInterface\:\:getChannel\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: src/Services/CustomerOptionValueRefresher.php
 
 		-
-			message: "#^Cannot call method getCode\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getCustomerOptionValue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Services/CustomerOptionValueRefresher.php
+
+		-
+			message: '#^Cannot call method setCustomerOptionValue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Services/CustomerOptionValueRefresher.php
+
+		-
+			message: '#^Cannot call method setPrice\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Services/CustomerOptionValueRefresher.php
+
+		-
+			message: '#^Parameter \#2 \$channel of method Brille24\\SyliusCustomerOptionsPlugin\\Services\\CustomerOptionValueRefresher\:\:copyOverValuesForOrderItem\(\) expects Sylius\\Component\\Core\\Model\\ChannelInterface, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Services/CustomerOptionValueRefresher.php
+
+		-
+			message: '#^Cannot call method getCode\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/Services/CustomerOptionValueResolver.php
 
 		-
-			message: "#^Cannot call method getCustomerOption\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getCustomerOption\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/Services/CustomerOptionValueResolver.php
 
 		-
-			message: "#^Method Brille24\\\\SyliusCustomerOptionsPlugin\\\\Services\\\\CustomerOptionValueResolver\\:\\:resolve\\(\\) should return Brille24\\\\SyliusCustomerOptionsPlugin\\\\Entity\\\\CustomerOptions\\\\CustomerOptionValueInterface\\|null but returns mixed\\.$#"
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Services\\CustomerOptionValueResolver\:\:resolve\(\) should return Brille24\\SyliusCustomerOptionsPlugin\\Entity\\CustomerOptions\\CustomerOptionValueInterface\|null but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Services/CustomerOptionValueResolver.php
 
 		-
-			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 1
 			path: src/Services/OrderItemOptionUpdater.php
 
 		-
-			message: "#^Cannot call method format\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method format\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 2
 			path: src/Services/OrderItemOptionUpdater.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot call method setCustomerOptionValue\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/Services/OrderItemOptionUpdater.php
+
+		-
+			message: '#^Cannot call method setOptionValue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: src/Services/OrderItemOptionUpdater.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: src/Services/OrderItemOptionUpdater.php
+
+		-
+			message: '#^Parameter \#1 \$customerOptionConfiguration of method Brille24\\SyliusCustomerOptionsPlugin\\Traits\\OrderItemCustomerOptionCapableTraitInterface\:\:setCustomerOptionConfiguration\(\) expects array\<Brille24\\SyliusCustomerOptionsPlugin\\Entity\\OrderItemOptionInterface\>, list\<mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Services/OrderItemOptionUpdater.php
+
+		-
+			message: '#^Parameter \#1 \$object of method Doctrine\\Persistence\\ObjectManager\:\:remove\(\) expects object, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Services/OrderItemOptionUpdater.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: src/Traits/ConditionTrait.php
+
+		-
+			message: '#^Trait Brille24\\SyliusCustomerOptionsPlugin\\Traits\\OrderItemCustomerOptionCapableTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/Traits/OrderItemCustomerOptionCapableTrait.php
+
+		-
+			message: '#^Trait Brille24\\SyliusCustomerOptionsPlugin\\Traits\\ProductCustomerOptionCapableTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/Traits/ProductCustomerOptionCapableTrait.php
+
+		-
+			message: '#^Cannot access offset string on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Validator/ConditionalConstraintValidator.php
+
+		-
+			message: '#^Method Brille24\\SyliusCustomerOptionsPlugin\\Validator\\ConditionalConstraintValidator\:\:getCustomerOptionsFromRequest\(\) should return array but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Validator/ConditionalConstraintValidator.php
+
+		-
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Validator/ConditionalConstraintValidator.php
+
+		-
+			message: '#^Cannot access offset ''value'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Validator/CustomerOptionConfigurationConstraintValidator.php
+
+		-
+			message: '#^Possibly invalid array key type string\|null\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 4
+			path: src/Validator/CustomerOptionValuePriceDateOverlapConstraintValidator.php

@@ -13,9 +13,7 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\ConditionComparatorEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\ConditionalConstraintValidator;
 use Brille24\SyliusCustomerOptionsPlugin\Validator\Constraints\ConditionalConstraint;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -26,14 +24,12 @@ class ConditionalConstraintValidatorTest extends TestCase
 
     private array $violations;
 
-    /** @var MockObject|Request */
-    private $request;
+    private Request $request;
 
     public function setUp(): void
     {
         $this->violations = [];
-        $this->request = self::createMock(Request::class);
-        $this->request->request = self::createMock(ParameterBag::class);
+        $this->request = new Request();
         $requestStack = self::createConfiguredMock(RequestStack::class, ['getCurrentRequest' => $this->request]);
 
         $this->conditionalConstraintValidator = new ConditionalConstraintValidator($requestStack);
@@ -51,10 +47,7 @@ class ConditionalConstraintValidatorTest extends TestCase
      */
     public function testValidate(mixed $customerEnteredValues)
     {
-        $this->request->request
-            ->method('all')
-            ->with('sylius_add_to_cart')
-            ->willReturn(['customer_options' => $customerEnteredValues]);
+        $this->request->request->set('sylius_add_to_cart', ['customer_options' => $customerEnteredValues]);
 
         $customerOptions = $this->createMockCustomerOptions();
         $product = self::createMock(ProductInterface::class);

@@ -1,0 +1,19 @@
+{% import '@SyliusAdmin/shared/helper/button.html.twig' as button %}
+
+{% set form = hookable_metadata.context.csv_form %}
+{% form_theme form '@SyliusAdmin/shared/form_theme.html.twig' %}
+
+<div class="col-12">
+    <div class="card mb-3">
+        <div class="card-header">
+            <h2 class="card-title">CSV</h2>
+        </div>
+        <div class="card-body">
+            {{ form_start(form, { attr: { novalidate: 'novalidate' } }) }}
+                {{ form_errors(form) }}
+                {{ form_row(form.file) }}
+                {{ button.primary({ text: 'brille24.form.customer_options.import'|trans, type: 'submit' }) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>

@@ -11,7 +11,6 @@ use Brille24\SyliusCustomerOptionsPlugin\Enumerations\CustomerOptionTypeEnum;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 
-
 trait ConditionTrait
 {
     #[ORM\ManyToOne(targetEntity: CustomerOptionInterface::class)]

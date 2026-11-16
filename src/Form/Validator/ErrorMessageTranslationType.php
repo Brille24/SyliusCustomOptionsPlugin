@@ -14,6 +14,7 @@ class ErrorMessageTranslationType extends AbstractResourceType
     {
         $builder->add('message', TextType::class, [
             'label' => 'brille24.form.validators.fields.message',
+            'empty_data' => '',
         ]);
     }
 

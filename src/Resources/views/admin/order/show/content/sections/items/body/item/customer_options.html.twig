@@ -1,0 +1,37 @@
+{% import '@SyliusAdmin/shared/helper/money.html.twig' as money %}
+
+{% set item = hookable_metadata.context.item %}
+{% set order = hookable_metadata.context.resource %}
+{% set configuration = item.customerOptionConfiguration|default([]) %}
+
+{% if configuration|length > 0 %}
+    <div class="mt-2 small" {{ sylius_test_html_attribute('customer-options') }}>
+        <div class="fw-bold">{{ 'brille24.ui.customer_options'|trans }}</div>
+        <ul class="list-unstyled mb-0">
+            {% for order_item_option in configuration %}
+                <li data-sylius-option-name="{{ order_item_option.customerOptionCode }}">
+                    {{ order_item_option.customerOptionName }}:
+                    {% if order_item_option.customerOptionType == 'file' %}
+                        {% if order_item_option.fileContent is not null %}
+                            <a href="{{ order_item_option.fileContent }}" download>
+                                {% if 'image' in order_item_option.fileContent.content %}
+                                    <img alt="{{ order_item_option.customerOptionName }}" src="{{ order_item_option.fileContent }}" class="d-block mt-1" style="max-width: 200px" />
+                                {% else %}
+                                    {{ 'brille24.ui.file_content'|trans }}
+                                {% endif %}
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        {{ order_item_option.customerOptionValueName }}
+                    {% endif %}
+
+                    {% if order_item_option.pricingType == 'FIXED_AMOUNT' and order_item_option.fixedPrice != 0 %}
+                        ({{ money.format(order_item_option.fixedPrice, order.currencyCode) }})
+                    {% elseif order_item_option.pricingType == 'PERCENT' and order_item_option.percent != 0 %}
+                        ({{ order_item_option.percent * 100 }} %)
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

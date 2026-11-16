@@ -1,0 +1,63 @@
+sylius_twig_hooks:
+    hooks:
+        'brille24.admin.customer_option.create.content':
+            form:
+                component: 'brille24:admin:customer_option:form'
+                props:
+                    resource: '@=_context.resource'
+                    form: '@=_context.form'
+                    template: '@SyliusAdmin/shared/crud/common/content/form.html.twig'
+                configuration:
+                    render_rest: false
+                priority: 0
+
+        'brille24.admin.customer_option.create.content.form.sections':
+            general:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/shared/form/sections/general.html.twig'
+                priority: 300
+            translations:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/shared/form/sections/translations.html.twig'
+                priority: 200
+            values:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/customer_option/form/sections/values.html.twig'
+                priority: 100
+            configuration:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/customer_option/form/sections/configuration.html.twig'
+                priority: 0
+
+        'brille24.admin.customer_option.create.content.form.sections.general':
+            default:
+                enabled: false
+            code:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/shared/form/sections/general/code.html.twig'
+                priority: 200
+            type:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/customer_option/form/sections/general/type.html.twig'
+                priority: 100
+            required:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/customer_option/form/sections/general/required.html.twig'
+                priority: 0
+
+        'brille24.admin.customer_option.create.content.form.sections.translations':
+            name:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/shared/form/sections/translations/name.html.twig'
+                priority: 0
+
+        'brille24.admin.customer_option.create.content.form.sections.values':
+            value:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/customer_option/form/sections/values/value.html.twig'
+                priority: 0
+
+        'brille24.admin.customer_option.create.content.form.sections.values.value':
+            code:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/customer_option/form/sections/values/value/code.html.twig'
+                priority: 300
+            translations:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/customer_option/form/sections/values/value/translations.html.twig'
+                priority: 200
+            prices:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/customer_option/form/sections/values/value/prices.html.twig'
+                priority: 100
+            button_delete:
+                template: '@Brille24SyliusCustomerOptionsPlugin/admin/shared/form/button_delete.html.twig'
+                priority: 0
